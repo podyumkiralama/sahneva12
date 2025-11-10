@@ -1,0 +1,54 @@
+{
+  "name": "sahneva11",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "prebuild": "npm dedupe",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "analyze": "ANALYZE=true next build",
+    "security:check": "npx @next/security-headers-check"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^1.2.0",
+    "@vercel/speed-insights": "1.2.0",
+    "autoprefixer": "10.4.19",
+    "critters": "^0.0.23",
+    "next": "16.0.1",
+    "postcss": "8.4.38",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "tailwindcss": "3.4.8"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.38.0",
+    "@next/bundle-analyzer": "15.5.2",
+    "@tailwindcss/forms": "0.5.7",
+    "@tailwindcss/line-clamp": "0.4.4",
+    "@tailwindcss/typography": "0.5.10",
+    "eslint": "9.38.0",
+    "eslint-config-next": "16.0.1",
+    "eslint-plugin-react": "7.37.5",
+    "globals": "16.4.0"
+  },
+  "browserslist": {
+    "production": [
+      "chrome >= 115",
+      "edge >= 115",
+      "firefox >= 115",
+      "safari >= 17"
+    ],
+    "development": [
+      "chrome >= 115",
+      "edge >= 115",
+      "firefox >= 115",
+      "safari >= 17"
+    ]
+  },
+  "engines": {
+    "node": ">=20 <23"
+  }
+}

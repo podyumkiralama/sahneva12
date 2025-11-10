@@ -1,0 +1,247 @@
+/* ==========================================================================
+   Tailwind entry
+   ========================================================================== */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   Font: Lokal fallback (hashed Google font 404'larında güvenli)
+   /public/fonts/fallback.woff2 dosyasını ekleyin
+   ========================================================================== */
+@font-face{
+  font-family:"SahnevaFallback";
+  src:url("/fonts/fallback.woff2") format("woff2");
+  font-weight:100 900;
+  font-style:normal;
+  font-display:swap;
+  unicode-range:
+    U+0000-00FF,
+    U+0100-024F,
+    U+1E00-1EFF,
+    U+2010-205E, U+20A0-20CF, U+2100-214F;
+}
+
+/* ==========================================================================
+   CSS Vars
+   ========================================================================== */
+:root{
+  --brand:#6d28d9;
+  --brand-700:#5b21b6;
+  --accent:#15803d;
+  --accent-700:#166534;
+  --fs:100%;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+html{ scroll-behavior:smooth; font-size:var(--fs); }
+html,body{ height:100%; }
+
+body{
+  @apply bg-white text-slate-800 antialiased;
+  font-family: "SahnevaFallback", system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+}
+
+/* Medya elementleri */
+img, video, canvas, svg { max-width:100%; height:auto; }
+
+/* Yardımcılar */
+.object-cover{ object-fit:cover; }
+.will-change-transform{ will-change:transform; }
+
+/* ==========================================================================
+   Erişilebilirlik & Etkileşim
+   ========================================================================== */
+:focus-visible{
+  outline:3px solid #6d28d966;
+  outline-offset:2px;
+}
+
+@supports (padding:max(0px)){
+  .pb-safe{ padding-bottom:max(1rem, env(safe-area-inset-bottom)); }
+}
+
+/* Yüksek Kontrast Modu (UtilityBar ve paneller için) */
+html.hc body{ background:#000; color:#fff; }
+html.hc a{ color:#00eaff; text-decoration:underline; text-decoration-thickness:2px; }
+
+/* ==========================================================================
+   Mikro animasyon: footer burst
+   ========================================================================== */
+.burst-particle{
+  position:absolute; left:0; top:0;
+  background:radial-gradient(circle, var(--burst-c1,#6d28d9), var(--burst-c2,#22c55e));
+  border-radius:9999px;
+  transform:translate(-50%,-50%);
+  animation:burst-move var(--life,550ms) ease-out forwards, burst-fade var(--life,550ms) ease-out forwards;
+  pointer-events:none; will-change:transform,opacity;
+  box-shadow:0 0 10px rgba(0,0,0,.12);
+}
+@keyframes burst-move{
+  from{ transform:translate(-50%,-50%) rotate(0) scale(1); }
+  to{ transform:translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(var(--dr)) scale(.6); }
+}
+@keyframes burst-fade{ 0%{opacity:1;} 80%{opacity:.7;} 100%{opacity:0;} }
+@media (prefers-reduced-motion: reduce){
+  .burst-particle{ animation: burst-fade 200ms ease-out forwards; transform:translate(-50%,-50%) scale(.8); }
+}
+
+/* Basit iki satır kısaltma (plugin olmasa da çalışır) */
+.line-clamp-2 {
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+}
+
+/* ==========================================================================
+   UtilityBar yüksek kontrast halleri ve küçük animasyon yardımcıları
+   ========================================================================== */
+@layer components{
+  html.hc .utility-surface,
+  html.hc .utility-panel,
+  html.hc .utility-panel-content{
+    background:#000 !important; color:#fff !important; border:2px solid #fff !important;
+  }
+  html.hc .utility-hc-button{ background:#000 !important; color:#fff !important; border:2px solid #fff !important; }
+  html.hc .utility-hc-button:hover{ background:#333 !important; }
+
+  @keyframes utility-tooltip-fade{ from{ opacity:0; transform:translateY(-50%) translateX(-10px); } to{ opacity:1; transform:translateY(-50%) translateX(0); } }
+  @keyframes utility-overlay-fade{ from{ opacity:0; } to{ opacity:1; } }
+  @keyframes utility-modal-slide{ from{ opacity:0; transform:translateY(-20px); } to{ opacity:1; transform:translateY(0); } }
+
+  .animate-tooltip{ animation:utility-tooltip-fade .2s ease-out; }
+  .animate-overlay{ animation:utility-overlay-fade .2s ease-out; }
+  .animate-modal{ animation:utility-modal-slide .2s ease-out; }
+}
+
+/* ==========================================================================
+   SAHNEVA Ortak Stil Katmanı (Kurumsal referans)
+   ========================================================================== */
+@layer components {
+  /* Bölüm iskeleti */
+  .sv-section { @apply py-16; }
+  .sv-section-muted { @apply py-16 bg-gradient-to-b from-white to-slate-50/40; }
+
+  /* Başlıklar */
+  .sv-h1 { @apply text-4xl md:text-6xl lg:text-7xl font-black leading-tight mb-6; }
+  .sv-h2 { @apply text-3xl md:text-5xl font-black mb-4; }
+  .sv-sub { @apply text-lg text-gray-600 max-w-2xl mx-auto; }
+
+  /* Gradient metin */
+  .sv-gradient-text { @apply text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600; }
+
+  /* Kartlar */
+  .sv-card { @apply bg-white rounded-2xl border border-gray-200 shadow-lg p-6; }
+  .sv-card-hover { @apply hover:shadow-xl hover:scale-105 transition-all duration-300; }
+
+  /* CTA butonları (min 44px) */
+  .sv-cta-primary {
+    @apply inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl text-white
+           bg-gradient-to-r from-green-500 to-emerald-600
+           hover:scale-105 transition-all duration-300 focus:outline-none
+           focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-green-600;
+    min-height:44px; min-width:44px;
+  }
+  .sv-cta-secondary {
+    @apply inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl
+           border-2 border-white text-white/95 bg-white/10 backdrop-blur-sm
+           hover:bg-white/20 hover:scale-105 transition-all duration-300
+           focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80;
+    min-height:44px; min-width:44px;
+  }
+
+  /* HERO */
+  .sv-hero {
+    @apply relative flex items-center justify-center overflow-hidden bg-slate-900 pt-20 min-h-[72vh] text-white text-center;
+  }
+  .sv-hero-overlay-1 { @apply absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-800 to-blue-950 mix-blend-multiply; }
+  .sv-hero-overlay-2 { @apply absolute inset-0 bg-gradient-to-t from-blue-950/60 via-transparent to-purple-900/50; }
+
+  /* Rozet / bilgi kapsülü */
+  .sv-pill {
+    @apply inline-flex items-center gap-3 bg-white/15 backdrop-blur-md rounded-2xl px-6 py-3 border border-white/25;
+  }
+
+  /* Mavi nokta (listeler için) */
+  .sv-dot { @apply w-1.5 h-1.5 bg-blue-500 rounded-full flex-shrink-0; }
+
+  /* Kart gridleri için hızlı şablonlar */
+  .sv-grid-3 { @apply grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto; }
+  .sv-grid-4 { @apply grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto; }
+
+  /* Prose (SEO makaleleri) */
+  .sv-prose { @apply prose prose-lg max-w-none; }
+  .sv-prose header { @apply text-center; }
+}
+
+/* ==========================================================================
+   Bileşen Helper'ları (buton ve kartların vanilla hali)
+   ========================================================================== */
+.btn{
+  @apply inline-flex items-center justify-center rounded-lg px-6 py-3 font-semibold text-white shadow-md transition;
+  text-shadow:0 1px 0 rgba(0,0,0,.25);
+  min-height:44px; min-width:44px;
+}
+.btn-primary{ background:var(--brand); }
+.btn-primary:hover{ background:var(--brand-700); }
+
+.card{ @apply p-6 bg-white rounded-2xl shadow transition; }
+.card:hover{ @apply shadow-md; }
+
+/* ==========================================================================
+   Full-bleed yardımcı (hero arkaplanları için)
+   ========================================================================== */
+.full-bleed{
+  position:relative;
+  margin-left:calc(50% - 50vw);
+  margin-right:calc(50% - 50vw);
+  inline-size:100svw; width:100vw;
+  min-height:60vh;
+}
+@media (min-width:768px){ .full-bleed{ min-height:70vh; } }
+
+
+/* Utility Bar CSS Classes */
+.hc { /* high contrast styles */ }
+.ub-ul a { text-decoration: underline !important; }
+.ub-readable { /* improved readability styles */ }
+.ub-font-readable { /* readable font family */ }
+.ub-left { text-align: left !important; }
+.ub-center { text-align: center !important; }
+.ub-just { text-align: justify !important; }
+.ub-dark { /* dark theme */ }
+.ub-light { /* light theme */ }
+.ub-gray { filter: grayscale(100%) !important; }
+.ub-desat { filter: saturate(0.5) !important; }
+.ub-sat { filter: saturate(1.5) !important; }
+.ub-invert { filter: invert(1) !important; }
+.ub-headings h1, .ub-headings h2, .ub-headings h3 { /* highlight headings */ }
+.ub-focusmode { /* focus mode styles */ }
+.ub-hideimg img { display: none !important; }
+.ub-readmode { /* reading mode styles */ }
+/* Accessibility Styles */
+.accessibility-active {
+  /* Varsayılan değişkenler - JS ile override edilecek */
+  --acc-font-size: 16px;
+  --acc-line-height: 1.6;
+  --acc-letter-spacing: 0px;
+  --acc-word-spacing: 0px;
+}
+
+/* Reading Guide */
+.reading-guide {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 2px;
+  background: red;
+  z-index: 10000;
+  pointer-events: none;
+  display: none;
+}
+
+.accessibility-active .reading-guide {
+  display: block;
+}
