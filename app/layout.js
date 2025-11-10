@@ -41,25 +41,32 @@ export const metadata = {
   robots: { index: true, follow: true },
 };
 
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || "G-J5YK10YLLC";
+const DEFAULT_GA_ID = "G-J5YK10YLLC";
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID?.trim() || DEFAULT_GA_ID;
+const IS_GA_ENABLED = Boolean(GA_MEASUREMENT_ID);
 
 export default function RootLayout({ children }) {
   return (
     <html lang="tr" dir="ltr" className={inter.className}>
       <body className="min-h-screen bg-white text-neutral-900 antialiased">
         {/* Google Analytics */}
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-          strategy="lazyOnload"
-        />
-        <Script id="ga-init" strategy="lazyOnload">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GA_MEASUREMENT_ID}', { anonymize_ip: true });
-          `}
-        </Script>
+        {IS_GA_ENABLED && (
+          <>
+            <Script
+              id="gtag-lib"
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga-init" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_MEASUREMENT_ID}', { anonymize_ip: true });
+              `}
+            </Script>
+          </>
+        )}
 
         {/* Skip link: tek hedef -> #main-content */}
         <a
