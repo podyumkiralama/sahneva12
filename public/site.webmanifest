@@ -1,0 +1,9 @@
+{
+  "name": "Sahneva – Etkinlik Prodüksiyon & Organizasyon",
+  "short_name": "Sahneva",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f1115",
+  "theme_color": "#6d28d9",
+  "icons": []
+}
