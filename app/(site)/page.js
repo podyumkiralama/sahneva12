@@ -267,7 +267,9 @@ export default function HomePage() {
             src={heroImg}
             alt="Profesyonel sahne kurulumu, LED ekranlar ve ses-ışık sistemleri - Sahneva"
             fill
-            priority fetchPriority="high" fetchPriority="high"
+            priority
+            fetchPriority="high"
+            quality={70}
             sizes="100vw"
             placeholder="blur"
             loading="eager"
