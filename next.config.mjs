@@ -20,7 +20,6 @@ const securityHeaders = (() => {
     "https://www.googletagmanager.com",
     "https://www.google-analytics.com",
     "https://va.vercel-scripts.com",
-    "https://vercel.live",
   ].join(" ");
 
   // script-src-elem (JSON-LD vb. için elem seviyesinde inline serbest)
@@ -30,7 +29,6 @@ const securityHeaders = (() => {
     "https://www.googletagmanager.com",
     "https://www.google-analytics.com",
     "https://va.vercel-scripts.com",
-    "https://vercel.live",
   ].join(" ");
 
   const CONNECT_SRC = [
@@ -49,8 +47,6 @@ const securityHeaders = (() => {
     "https://www.youtube.com",
     "https://www.youtube-nocookie.com",
     "https://player.vimeo.com",
-    "https://vercel.live",
-    "https://*.vercel.live",
     "https://www.google.com/maps",
     "https://maps.google.com",
     "https://google.com/maps",
@@ -58,7 +54,7 @@ const securityHeaders = (() => {
   ].join(" ");
 
   const FRAME_ANCESTORS = isPreview
-    ? "frame-ancestors 'self' https://vercel.live https://*.vercel.live;"
+    ? "frame-ancestors 'self';"
     : "frame-ancestors 'none';";
 
   const csp = `
