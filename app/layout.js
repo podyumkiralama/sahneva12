@@ -2,10 +2,15 @@
 import "../styles/globals.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import UtilityBar from "../components/UtilityBar";
 import Script from "next/script";
+import dynamic from "next/dynamic";
 import { Inter } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+
+const UtilityBar = dynamic(() => import("../components/UtilityBar"), {
+  ssr: false,
+  loading: () => null,
+});
 
 const inter = Inter({
   subsets: ["latin"],
@@ -50,9 +55,9 @@ export default function RootLayout({ children }) {
         {/* Google Analytics */}
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="ga-init" strategy="afterInteractive">
+        <Script id="ga-init" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
