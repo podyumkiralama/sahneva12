@@ -155,7 +155,7 @@ export default function HakkimizdaPage() {
     <div className="min-h-screen bg-white overflow-hidden">
       <AboutStructuredData />
 
-      {/* HERO - LED Ekran Sayfası ile Birebir Aynı (İstatistiksiz) */}
+      {/* HERO - LED Ekran Sayfası ile Birebir Aynı (İstatistikler Hero İçinde) */}
       <section className="relative flex items-center justify-center overflow-hidden bg-slate-900 pt-20 min-h-[80vh]" aria-labelledby="hero-title">
         <div className="absolute inset-0">
           <Image 
@@ -195,7 +195,7 @@ export default function HakkimizdaPage() {
             her projede teknik mükemmellik ve yaratıcı vizyonu buluşturuyoruz
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-8">
             <Link
               href={WHATSAPP}
               target="_blank"
@@ -218,30 +218,24 @@ export default function HakkimizdaPage() {
               <span className="text-base">Tarihçemiz</span>
             </Link>
           </div>
-        </div>
-      </section>
 
-      {/* İSTATİSTİKLER - Hero'dan hemen sonra */}
-      <section className="py-20 bg-gradient-to-br from-blue-600 to-purple-600 text-white" aria-label="Başarı İstatistiklerimiz">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {[
-              { value: "700+", label: "Başarılı Proje", icon: "🎬" },
-              { value: "12+", label: "Yıl Deneyim", icon: "⭐" },
-              { value: "81", label: "İlde Hizmet", icon: "🗺️" },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center group" role="group" aria-label={`${stat.label}: ${stat.value}`}>
-                <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 group-hover:bg-white/20 transition-all duration-500 group-hover:scale-105">
-                  <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300" aria-hidden="true">
-                    {stat.icon}
-                  </div>
-                  <div className="text-4xl md:text-5xl font-black mb-2 text-white drop-shadow-lg">
-                    {stat.value}
-                  </div>
-                  <div className="text-blue-100 text-lg font-semibold">{stat.label}</div>
-                </div>
-              </div>
-            ))}
+          {/* 3'lü İstatistik Kartları - Hero İçinde */}
+          <div className="grid grid-cols-3 gap-4 max-w-xl mx-auto">
+            <div className="flex flex-col items-center text-center p-4 bg-white/10 backdrop-blur-md rounded-xl border border-white/20">
+              <span className="text-2xl mb-2" aria-hidden="true">🎬</span>
+              <div className="text-xl font-black text-white">700+</div>
+              <div className="text-white/80 text-sm">Başarılı Proje</div>
+            </div>
+            <div className="flex flex-col items-center text-center p-4 bg-white/10 backdrop-blur-md rounded-xl border border-white/20">
+              <span className="text-2xl mb-2" aria-hidden="true">⭐</span>
+              <div className="text-xl font-black text-white">12+</div>
+              <div className="text-white/80 text-sm">Yıl Deneyim</div>
+            </div>
+            <div className="flex flex-col items-center text-center p-4 bg-white/10 backdrop-blur-md rounded-xl border border-white/20">
+              <span className="text-2xl mb-2" aria-hidden="true">🗺️</span>
+              <div className="text-xl font-black text-white">81</div>
+              <div className="text-white/80 text-sm">İlde Hizmet</div>
+            </div>
           </div>
         </div>
       </section>
