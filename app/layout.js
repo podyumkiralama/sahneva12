@@ -10,9 +10,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 const inter = Inter({
   subsets: ["latin"],
   preload: false,
-  display: "optional",
-  fallback: ["system-ui", "-apple-system", "Segoe UI", "Roboto", "Arial", "sans-serif"],
-  adjustFontFallback: true,
+  display: "optional", // istersen "swap" yapabilirsin; fallback yok
+  // fallback ve adjustFontFallback KALDIRILDI
 });
 
 export const viewport = {
