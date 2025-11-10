@@ -155,7 +155,7 @@ export default function HakkimizdaPage() {
     <div className="min-h-screen bg-white overflow-hidden">
       <AboutStructuredData />
 
-      {/* HERO - LED Ekran Sayfası ile Birebir Aynı */}
+      {/* HERO - LED Ekran Sayfası ile Birebir Aynı (İstatistiksiz) */}
       <section className="relative flex items-center justify-center overflow-hidden bg-slate-900 pt-20 min-h-[80vh]" aria-labelledby="hero-title">
         <div className="absolute inset-0">
           <Image 
@@ -190,12 +190,12 @@ export default function HakkimizdaPage() {
           <p className="text-xl md:text-2xl text-white/95 max-w-3xl mx-auto leading-relaxed font-light mb-4">
             Etkinlik Teknolojilerinde • 10+ Yıl Deneyim • 700+ Proje
           </p>
-          <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed font-normal mb-6">
+          <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed font-normal mb-8">
             Türkiye'nin <span className="font-semibold text-white">1 numaralı etkinlik teknoloji partneri</span> olarak
             her projede teknik mükemmellik ve yaratıcı vizyonu buluşturuyoruz
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-8">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
             <Link
               href={WHATSAPP}
               target="_blank"
@@ -217,24 +217,6 @@ export default function HakkimizdaPage() {
               <span aria-hidden="true" className="text-xl mr-2">📖</span> 
               <span className="text-base">Tarihçemiz</span>
             </Link>
-          </div>
-
-          <div className="grid grid-cols-3 gap-4 max-w-xl mx-auto">
-            <div className="flex flex-col items-center text-center p-4 bg-white/10 backdrop-blur-md rounded-xl border border-white/20">
-              <span className="text-2xl mb-2" aria-hidden="true">⭐</span>
-              <div className="text-xl font-black text-white">4.9/5</div>
-              <div className="text-white/80 text-sm">500+ Değerlendirme</div>
-            </div>
-            <div className="flex flex-col items-center text-center p-4 bg-white/10 backdrop-blur-md rounded-xl border border-white/20">
-              <span className="text-2xl mb-2" aria-hidden="true">🏆</span>
-              <div className="text-xl font-black text-white">700+</div>
-              <div className="text-white/80 text-sm">Proje</div>
-            </div>
-            <div className="flex flex-col items-center text-center p-4 bg-white/10 backdrop-blur-md rounded-xl border border-white/20">
-              <span className="text-2xl mb-2" aria-hidden="true">🚀</span>
-              <div className="text-xl font-black text-white">81 İl</div>
-              <div className="text-white/80 text-sm">Hizmet</div>
-            </div>
           </div>
         </div>
       </section>
