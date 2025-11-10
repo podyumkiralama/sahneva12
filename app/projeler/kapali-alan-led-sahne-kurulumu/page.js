@@ -156,11 +156,46 @@ export default function CasePage() {
           Bu Projede Kullanılan Hizmetler
         </h2>
         <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <li><Link href="/podyum-kiralama" className="card block p-4 rounded-xl border hover:shadow-sm">Podyum Kiralama</Link></li>
-          <li><Link href="/led-ekran-kiralama" className="card block p-4 rounded-xl border hover:shadow-sm">LED Ekran Kiralama</Link></li>
-          <li><Link href="/ses-isik-sistemleri" className="card block p-4 rounded-xl border hover:shadow-sm">Ses & Işık Sistemleri</Link></li>
-          <li><Link href="/cadir-kiralama" className="card block p-4 rounded-xl border hover:shadow-sm">Çadır Kiralama</Link></li>
-          <li><Link href="/sahne-kiralama" className="card block p-4 rounded-xl border hover:shadow-sm">Sahne Kurulumu</Link></li>
+          <li>
+            <Link
+              href="/podyum-kiralama"
+              className="block rounded-xl border border-neutral-200 bg-white p-4 shadow transition hover:shadow-sm"
+            >
+              Podyum Kiralama
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/led-ekran-kiralama"
+              className="block rounded-xl border border-neutral-200 bg-white p-4 shadow transition hover:shadow-sm"
+            >
+              LED Ekran Kiralama
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/ses-isik-sistemleri"
+              className="block rounded-xl border border-neutral-200 bg-white p-4 shadow transition hover:shadow-sm"
+            >
+              Ses & Işık Sistemleri
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/cadir-kiralama"
+              className="block rounded-xl border border-neutral-200 bg-white p-4 shadow transition hover:shadow-sm"
+            >
+              Çadır Kiralama
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/sahne-kiralama"
+              className="block rounded-xl border border-neutral-200 bg-white p-4 shadow transition hover:shadow-sm"
+            >
+              Sahne Kurulumu
+            </Link>
+          </li>
         </ul>
       </section>
 
@@ -180,12 +215,17 @@ export default function CasePage() {
             Benzer bir kapalı alan sahne & LED kurulumuna mı ihtiyacınız var? İhtiyacınıza uygun paketi birlikte planlayalım.
           </p>
           <div className="flex gap-3">
-            <Link href="/iletisim" className="btn btn-primary">Teklif Alın</Link>
+            <Link
+              href="/iletisim"
+              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg bg-violet-600 px-6 py-3 font-semibold text-white shadow-md transition hover:bg-violet-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500/80 focus-visible:ring-offset-2"
+            >
+              Teklif Alın
+            </Link>
             <a
               href="https://wa.me/905453048671?text=Merhaba%2C+kapal%C4%B1+alan+sahne+%26+LED+kurulumu+i%C3%A7in+teklif+almak+istiyorum."
               target="_blank"
               rel="noopener noreferrer"
-              className="btn"
+              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg bg-emerald-500 px-6 py-3 font-semibold text-white shadow-md transition hover:bg-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/80 focus-visible:ring-offset-2"
             >
               WhatsApp
             </a>
