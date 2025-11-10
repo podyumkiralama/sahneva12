@@ -1,162 +1,211 @@
+// next.config.mjs - KESİN ÇÖZÜM
+
+const ONE_DAY_IN_SECONDS = 60 * 60 * 24;
+const ONE_MONTH_IN_SECONDS = ONE_DAY_IN_SECONDS * 30;
+const ONE_YEAR_IN_SECONDS = ONE_DAY_IN_SECONDS * 365;
+
+const isProd = process.env.NODE_ENV === "production";
+const isPreview =
+  process.env.VERCEL_ENV === "preview" ||
+  process.env.NEXT_PUBLIC_VERCEL_ENV === "preview";
+
+const siteUrl = process.env.SITE_URL ?? "https://www.sahneva.com";
+
+/* -------------------- Security Headers (CSP dahil) -------------------- */
+
+const securityHeaders = (() => {
+  // script-src (inline YOK)
+  const SCRIPT_SRC = [
+    "'self'",
+    "https://www.googletagmanager.com",
+    "https://www.google-analytics.com",
+    "https://va.vercel-scripts.com",
+    "https://vercel.live",
+  ].join(" ");
+
+  // script-src-elem (JSON-LD vb. için elem seviyesinde inline serbest)
+  const SCRIPT_SRC_ELEM = [
+    "'self'",
+    "'unsafe-inline'",
+    "https://www.googletagmanager.com",
+    "https://www.google-analytics.com",
+    "https://va.vercel-scripts.com",
+    "https://vercel.live",
+  ].join(" ");
+
+  const CONNECT_SRC = [
+    "'self'",
+    "https://vitals.vercel-insights.com",
+    "https://www.google-analytics.com",
+    "https://region1.google-analytics.com",
+    "https://stats.g.doubleclick.net",
+    siteUrl,
+  ].join(" ");
+
+  // ✅ Tüm gerekli frame kaynakları
+  const FRAME_SRC = [
+    "'self'",
+    "https://www.google.com",
+    "https://www.youtube.com",
+    "https://www.youtube-nocookie.com",
+    "https://player.vimeo.com",
+    "https://vercel.live",
+    "https://*.vercel.live",
+    "https://www.google.com/maps",
+    "https://maps.google.com",
+    "https://google.com/maps",
+    "https://*.google.com",
+  ].join(" ");
+
+  const FRAME_ANCESTORS = isPreview
+    ? "frame-ancestors 'self' https://vercel.live https://*.vercel.live;"
+    : "frame-ancestors 'none';";
+
+  const csp = `
+    default-src 'self';
+    ${FRAME_ANCESTORS}
+    base-uri 'self';
+    object-src 'none';
+    upgrade-insecure-requests;
+    img-src 'self' data: blob: https:;
+    font-src 'self' data: https://fonts.gstatic.com;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    script-src ${SCRIPT_SRC};
+    script-src-elem ${SCRIPT_SRC_ELEM};
+    script-src-attr 'none';
+    connect-src ${CONNECT_SRC};
+    worker-src 'self' blob:;
+    frame-src ${FRAME_SRC};
+    form-action 'self' https://formspree.io https://wa.me;
+  `
+    .replace(/\s{2,}/g, " ")
+    .trim();
+
+  // ✅ COEP'i TAMAMEN KALDIRIYORUZ - CORP gereksinimini ortadan kaldırır
+  const base = [
+    { key: "Content-Security-Policy", value: csp },
+    { key: "X-Content-Type-Options", value: "nosniff" },
+    { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+    { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+    // ❌ COEP ARTIK YOK - Bu sayede CORP gereksinimi ortadan kalkar
+    // ❌ CORP ARTIK YOK - COEP olmayınca CORP'a gerek kalmaz
+    {
+      key: "Permissions-Policy",
+      value:
+        "camera=(), microphone=(), geolocation=(), browsing-topics=(), payment=(), fullscreen=()",
+    },
+    {
+      key: "Strict-Transport-Security",
+      value: "max-age=63072000; includeSubDomains; preload",
+    },
+    { key: "Origin-Agent-Cluster", value: "?1" },
+  ];
+
+  return isPreview ? base : [...base, { key: "X-Frame-Options", value: "DENY" }];
+})();
+
+/* -------------------- Uzun süreli cache başlıkları -------------------- */
+
+const longTermCacheHeaders = [
+  { key: "Cache-Control", value: `public, max-age=${ONE_YEAR_IN_SECONDS}, immutable` },
+];
+
+/* -------------------- Next.js Config -------------------- */
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // === TEMEL AYARLAR - Next.js 16 Uyumlu ===
   reactStrictMode: true,
   poweredByHeader: false,
-  generateEtags: true,
   compress: true,
-  // ❌ swcMinify kaldırıldı - Next.js 16'da varsayılan
-  
-  // === TURBOPACK KONFİGÜRASYONU ===
-  // ✅ Turbopack için boş konfigürasyon
-  turbopack: {},
-  
-  // === GÖRÜNTÜ OPTİMİZASYONU ===
+  generateEtags: true,
+  productionBrowserSourceMaps: false,
+  trailingSlash: false,
+
   images: {
-    deviceSizes: [320, 420, 640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    deviceSizes: [320, 420, 640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    formats: ['image/avif', 'image/webp'],
-    minimumCacheTTL: 60 * 60 * 24 * 30,
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
-    ],
+    formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: ONE_MONTH_IN_SECONDS,
+    remotePatterns: [],
     dangerouslyAllowSVG: false,
   },
 
-  // === DERLEYİCİ OPTİMİZASYONLARI ===
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production' ? {
-      exclude: ['error', 'warn'],
-    } : false,
-    reactRemoveProperties: process.env.NODE_ENV === 'production' ? {
-      properties: ['^data-testid$'],
-    } : false,
+    removeConsole: isProd ? { exclude: ["error", "warn"] } : false,
+    reactRemoveProperties: isProd ? { properties: ["^data-testid$"] } : false,
   },
 
-  // === DENEYSEK ÖZELLİKLER - Next.js 16 Uyumlu ===
   experimental: {
     scrollRestoration: true,
-    optimizePackageImports: [
-      'lucide-react',
-      '@headlessui/react',
-      'framer-motion',
-      'react-icons'
-    ],
-    // ❌ optimizeCss kaldırıldı - stabil değil
+    optimizePackageImports: ["lucide-react", "@headlessui/react"],
+    esmExternals: true,
   },
 
-  // === GÜVENLİK BAŞLIKLARI - TÜM HATALAR DÜZELTİLDİ ===
-  async headers() {
-    const securityHeaders = [
-      {
-        key: 'X-XSS-Protection',
-        value: '1; mode=block'
-      },
-      {
-        key: 'X-Content-Type-Options',
-        value: 'nosniff'
-      },
-      {
-        key: 'Referrer-Policy',
-        value: 'strict-origin-when-cross-origin'
-      },
-      {
-        key: 'X-Frame-Options',
-        value: 'DENY'
-      },
-      {
-        key: 'Cross-Origin-Opener-Policy',
-        value: 'same-origin'
-      },
-      {
-        key: 'Cross-Origin-Resource-Policy',
-        value: 'same-origin'
-      },
-      {
-        key: 'Permissions-Policy',
-        value: 'camera=(), microphone=(), geolocation=(), payment=(), interest-cohort=()'
-      },
-      {
-        key: 'Strict-Transport-Security',
-        value: 'max-age=63072000; includeSubDomains; preload'
-      },
-    ];
+  modularizeImports: {
+    "lucide-react": {
+      transform: "lucide-react/icons/{{member}}",
+    },
+    "react-icons/?(((\\w*)?/?)*)": {
+      transform: "react-icons/{{ matches.[1] }}/{{member}}",
+    },
+  },
 
-    // ✅ TÜM HATALAR İÇİN GÜNCELLENMİŞ CSP
-    const contentSecurityPolicy = `
-      default-src 'self';
-      script-src 'self' 'unsafe-eval' 'unsafe-inline' https://vercel.live https://va.vercel-scripts.com https://www.googletagmanager.com https://www.google-analytics.com;
-      script-src-elem 'self' 'unsafe-inline' https://vercel.live https://va.vercel-scripts.com https://www.googletagmanager.com https://www.google-analytics.com;
-      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-      font-src 'self' https://fonts.gstatic.com;
-      img-src 'self' data: blob: https: https://www.googletagmanager.com https://www.google-analytics.com;
-      connect-src 'self' https://vitals.vercel-insights.com https://www.sahneva.com https://www.google-analytics.com https://region1.google-analytics.com;
-      frame-src 'self' https://www.google.com;
-      base-uri 'self';
-      form-action 'self' https://formspree.io https://wa.me;
-      object-src 'none';
-      upgrade-insecure-requests;
-    `.replace(/\s{2,}/g, ' ').trim();
+  env: {
+    SITE_URL: siteUrl,
+    NEXT_PUBLIC_APP_ENV: process.env.NODE_ENV ?? "development",
+  },
 
-    securityHeaders.push({
-      key: 'Content-Security-Policy',
-      value: contentSecurityPolicy
-    });
+  typescript: {
+    ignoreBuildErrors: false,
+  },
 
+  output: isProd ? "standalone" : undefined,
+  staticPageGenerationTimeout: 300,
+
+  async redirects() {
     return [
       {
-        source: '/(.*)',
-        headers: securityHeaders,
+        source: "/search",
+        has: [{ type: "query", key: "q", value: "(?<term>.*)" }],
+        destination: "/?q=:term",
+        permanent: true,
       },
-      {
-        source: '/_next/static/(.*)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
-          },
-        ],
-      },
-      {
-        source: '/(.*)\\.(ico|png|jpg|jpeg|webp|avif|svg|gif)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
-          },
-        ],
-      },
-      {
-        source: '/(.*)\\.(css|js)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
-          },
-        ],
-      },
+      { source: "/search", destination: "/", permanent: true },
+      { source: "/sahne-kurulumu", destination: "/sahne-kiralama", permanent: true },
+      { source: "/$", destination: "/", permanent: true },
+      { source: "/&", destination: "/", permanent: true },
+      { source: "/%24", destination: "/", permanent: true },
+      { source: "/%26", destination: "/", permanent: true },
     ];
   },
 
-  // === ÇEVRE DEĞİŞKENLERİ ===
-  env: {
-    SITE_URL: process.env.SITE_URL || 'https://www.sahneva.com',
-    NEXT_PUBLIC_APP_ENV: process.env.NODE_ENV || 'development',
+  async headers() {
+    return [
+      // 🌐 Global güvenlik başlıkları (ARTIK COEP ve CORP YOK)
+      { source: "/(.*)", headers: securityHeaders },
+
+      // Next statik runtime dosyaları
+      {
+        source: "/_next/static/(.*)",
+        headers: [
+          ...longTermCacheHeaders,
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+        ],
+      },
+
+      // Public asset'ler
+      {
+        source: "/(.*)\\.(ico|png|jpg|jpeg|webp|avif|svg|gif|woff2)",
+        headers: longTermCacheHeaders,
+      },
+
+      // Diğer _next yolları
+      {
+        source: "/_next/(.*)",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+    ];
   },
-
-  // === BUILD & PERFORMANS OPTİMİZASYONLARI ===
-  trailingSlash: false,
-  productionBrowserSourceMaps: false,
-  staticPageGenerationTimeout: 300,
-  
-  // ✅ Output optimizasyonu
-  output: process.env.NODE_ENV === 'production' ? 'standalone' : undefined,
-
-  // ✅ Webpack optimizasyonları KALDIRILDI - Turbopack ile uyumsuz
-  // ❌ Webpack config kaldırıldı çünkü Turbopack ile çakışıyor
 };
 
 export default nextConfig;
