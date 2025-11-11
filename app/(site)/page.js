@@ -1,13 +1,15 @@
 // app/(site)/page.js
 import Image from "next/image";
-import dynamic from "next/dynamic";
-import { Suspense } from "react";
 import heroImg from "@/public/img/hero-bg.webp";
 
 // Statik bileşenler
 import CorporateEvents from "@/components/CorporateEvents";
-import Faq from "@/components/Faq";
-import ReviewBanner from "@/components/ReviewBanner";
+import {
+  ReviewBannerDeferred,
+  ServicesTabsDeferred,
+  ProjectsGalleryDeferred,
+  FaqDeferred,
+} from "@/components/DeferredSections.client";
 
 // —————————————————————————————————————————
 // SEO METADATA (Sayfa özel)
@@ -71,55 +73,6 @@ const WHY_SAHNEVA_FEATURES = [
 const BELOW_THE_FOLD_VISIBILITY_STYLE = Object.freeze({
   contentVisibility: "auto",
   containIntrinsicSize: "960px",
-});
-
-// —————————————————————————————————————————
-// ERİŞİLEBİLİR YÜKLEME İSKELETİ
-// —————————————————————————————————————————
-function SectionSkeleton({ label = "İçerik yükleniyor" }) {
-  return (
-    <div
-      className="container py-10"
-      role="status"
-      aria-live="polite"
-      aria-busy="true"
-      aria-label={label}
-    >
-      <div className="flex flex-col items-center space-y-4">
-        <div className="h-10 w-40 rounded bg-gradient-to-r from-neutral-100 to-neutral-200 animate-pulse motion-reduce:animate-none" />
-        <div className="h-40 w-full rounded-2xl bg-gradient-to-r from-neutral-100 to-neutral-200 animate-pulse motion-reduce:animate-none" />
-        <span className="sr-only">{label}</span>
-      </div>
-    </div>
-  );
-}
-
-// —————————————————————————————————————————
-// DİNAMİK BİLEŞENLER
-// —————————————————————————————————————————
-const ServicesTabsLazy = dynamic(() => import("@/components/ServicesTabs"), {
-  loading: () => <SectionSkeleton label="Hizmetler yükleniyor" />,
-});
-
-const ProjectsGalleryLazy = dynamic(() => import("@/components/ProjectsGallery"), {
-  loading: () => (
-    <div
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-      role="status"
-      aria-live="polite"
-      aria-busy="true"
-      aria-label="Projeler yükleniyor"
-    >
-      {[1, 2, 3].map((i) => (
-        <div
-          key={i}
-          className="bg-neutral-200 rounded-2xl h-80 animate-pulse motion-reduce:animate-none"
-          aria-hidden="true"
-        />
-      ))}
-      <span className="sr-only">Projeler yükleniyor</span>
-    </div>
-  ),
 });
 
 // ISR
@@ -439,7 +392,12 @@ export default function HomePage() {
 
         <div aria-hidden="true" className="h-12 lg:h-16" />
         <div className="sticky top-0 z-40">
-          <ReviewBanner />
+          <ReviewBannerDeferred
+            idleTimeout={2000}
+            rootMargin="0px"
+            className="block"
+            aria-live="polite"
+          />
         </div>
 
         {/* Hizmetler */}
@@ -462,9 +420,7 @@ export default function HomePage() {
                 Türkiye geneli sahne, podyum, LED ekran kiralama ve ses-ışık sistemleri kurulumu
               </p>
             </div>
-            <Suspense fallback={<SectionSkeleton label="Hizmetler yükleniyor" />}>
-              <ServicesTabsLazy />
-            </Suspense>
+            <ServicesTabsDeferred idleTimeout={2800} rootMargin="320px" />
           </div>
         </section>
 
@@ -484,9 +440,7 @@ export default function HomePage() {
                 500'den fazla kurumsal etkinlik, konser, fuar ve özel organizasyonda güvenilir çözüm ortağı
               </p>
             </div>
-            <Suspense fallback={<SectionSkeleton label="Projeler yükleniyor" />}>
-              <ProjectsGalleryLazy />
-            </Suspense>
+            <ProjectsGalleryDeferred idleTimeout={3200} rootMargin="360px" />
           </div>
         </section>
 
@@ -642,7 +596,7 @@ export default function HomePage() {
                 Sahne, LED ekran, ses-ışık sistemleri ve kurulum süreçleri hakkında merak ettikleriniz
               </p>
             </div>
-            <Faq />
+            <FaqDeferred idleTimeout={3600} rootMargin="400px" />
           </div>
         </section>
       </div>
