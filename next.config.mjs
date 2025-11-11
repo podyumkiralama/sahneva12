@@ -1,4 +1,4 @@
-// next.config.mjs - KESİN ÇÖZÜM (Polyfill Optimizasyonlu)
+// next.config.mjs - Turbopack READY (CSP aynen korundu)
 
 const ONE_DAY_IN_SECONDS = 60 * 60 * 24;
 const ONE_MONTH_IN_SECONDS = ONE_DAY_IN_SECONDS * 30;
@@ -87,8 +87,7 @@ const securityHeaders = (() => {
     { key: "X-Content-Type-Options", value: "nosniff" },
     { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
     { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
-    // ❌ COEP ARTIK YOK - Bu sayede CORP gereksinimi ortadan kalkar
-    // ❌ CORP ARTIK YOK - COEP olmayınca CORP'a gerek kalmaz
+    // ❌ COEP / CORP yok
     {
       key: "Permissions-Policy",
       value:
@@ -114,6 +113,9 @@ const longTermCacheHeaders = [
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // 🔵 Turbopack'i açık seç (uyarıyı da susturur)
+  turbopack: {},
+
   reactStrictMode: true,
   poweredByHeader: false,
   compress: true,
@@ -121,39 +123,8 @@ const nextConfig = {
   productionBrowserSourceMaps: false, // ✅ Zaten kapalı - iyi
   trailingSlash: false,
 
-  // ✅ POLYFILL OPTIMIZATIONS - YENI EKLENDI
-  webpack: (config, { isServer, dev }) => {
-    // Sadece production build'te ve client tarafında
-    if (!isServer && !dev) {
-      // Gereksiz polyfill'leri devre dışı bırak
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        module: false,
-        net: false,
-        dns: false,
-        tls: false,
-        child_process: false,
-        perf_hooks: false,
-      };
-
-      // Modern ES2022 target - polyfill'leri azaltır
-      config.target = ['web', 'es2022'];
-      
-      // Output environment'i modern ES modülleri olarak ayarla
-      config.output.environment = {
-        ...config.output.environment,
-        arrowFunction: true,
-        const: true,
-        destructuring: true,
-        forOf: true,
-        dynamicImport: true,
-        module: true,
-      };
-    }
-
-    return config;
-  },
+  // ❌ Turbopack ile çakışan webpack override KALDIRILDI
+  // webpack: (config, ctx) => { ... }
 
   images: {
     deviceSizes: [320, 420, 640, 750, 828, 1080, 1200, 1920],
@@ -162,6 +133,8 @@ const nextConfig = {
     minimumCacheTTL: ONE_MONTH_IN_SECONDS,
     remotePatterns: [],
     dangerouslyAllowSVG: false,
+    // 🔕 next/image kalite uyarıları kapanır
+    qualities: [60, 65, 75, 85],
   },
 
   compiler: {
@@ -197,10 +170,10 @@ const nextConfig = {
 
   // ✅ Modern output format
   output: isProd ? "standalone" : undefined,
-  
+
   // ✅ SWC derleyici optimizasyonları
   swcMinify: true,
-  
+
   staticPageGenerationTimeout: 300,
 
   async redirects() {
