@@ -21,7 +21,7 @@
       allow_ad_personalization_signals: false,
       transport_type: "beacon",
     });
-  } catch (e) {
+  } catch {
     // Sessizce geç
   }
 })();

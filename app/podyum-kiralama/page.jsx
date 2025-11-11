@@ -1,14 +1,10 @@
 // app/podyum-kiralama/page.js
 import Image from "next/image";
-import Link from "next/link";
 import Script from "next/script";
-import { getService } from "@/lib/data";
 import PriceEstimator from "@/components/PriceEstimatorPodyum";
 
 // ⏱️ Saatlik yeniden üretim (statik + ISR)
 export const revalidate = 3600;
-
-const svc = getService("podyum");
 
 // Güncel birim fiyatlar
 const UNIT_PRICES = {
@@ -199,9 +195,6 @@ export const metadata = {
   robots: { index: true, follow: true },
 };
 export default function Page() {
-  const title = "Profesyonel Podyum Kiralama";
-  const desc =
-    "Modüler podyum sistemleri ile her türlü etkinlik için profesyonel sahne çözümleri. 1×1 ve 2×1 paneller, kaymaz kaplama, güvenlik ekipmanları ve uzman kurulum ekibi.";
   const heroSrc = "/img/hizmet-podyum.webp";
 
   const enrichedPkgs = CONTENT.packages.map((p) => {
