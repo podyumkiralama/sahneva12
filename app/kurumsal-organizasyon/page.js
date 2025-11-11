@@ -144,6 +144,7 @@ export default function Page() {
             alt={HERO.alt}
             fill
             priority
+            fetchPriority="high"
             className="object-cover"
             sizes={HERO.sizes}
           />

@@ -53,6 +53,7 @@ export default function CasePage() {
     alt="Kapalı alan sahne ve LED ekran kurulumu"
     fill
     priority
+    fetchPriority="high"
     className="object-cover"
   />
 
