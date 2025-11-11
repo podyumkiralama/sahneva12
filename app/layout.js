@@ -4,7 +4,6 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Script from "next/script";
 import { Inter } from "next/font/google";
-import localFont from "next/font/local";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import UtilityBar from "../components/UtilityBar.client";
 import CriticalAssets from "../components/CriticalAssets";
@@ -13,37 +12,7 @@ const inter = Inter({
   subsets: ["latin"],
   preload: true,
   display: "swap",
-  variable: "--font-inter",
-  fallback: [
-    "system-ui",
-    "-apple-system",
-    "BlinkMacSystemFont",
-    "Segoe UI",
-    "Roboto",
-    "Helvetica Neue",
-    "Arial",
-    "sans-serif",
-  ],
-  adjustFontFallback: "Arial",
-});
-
-const interFallback = localFont({
-  src: "../public/fonts/fallback.woff2",
-  weight: "400",
-  style: "normal",
-  preload: true,
-  display: "swap",
-  variable: "--font-inter-fallback",
-  fallback: [
-    "system-ui",
-    "-apple-system",
-    "BlinkMacSystemFont",
-    "Segoe UI",
-    "Roboto",
-    "Helvetica Neue",
-    "Arial",
-    "sans-serif",
-  ],
+  // fallback istemiyorsun, o yüzden YOK
 });
 
 export const viewport = {
@@ -60,22 +29,31 @@ export const metadata = {
     template: "%s | Sahneva",
   },
   description:
-    "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık ve çadır kiralama. Hızlı kurulum, profesyonel teknik ekip, uygun fiyat.",
-  alternates: { canonical: "https://www.sahneva.com/" },
+    "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı kurulum, profesyonel teknik ekip, uygun fiyat. Hemen teklif alın!",
+  manifest: "/site.webmanifest",
+  alternates: { canonical: "https://www.sahneva.com" },
   openGraph: {
-    title: "Sahneva – Profesyonel Sahne & Etkinlik Teknolojileri",
+    title: "Sahneva – Etkinlik Prodüksiyon & Organizasyon",
     description:
-      "Sahne, podyum, LED ekran, ses-ışık ve kurulum hizmetleri. Türkiye geneli hızlı kurulum ve profesyonel teknik destek.",
-    url: "https://www.sahneva.com/",
+      "Sahne, podyum, LED ekran, ses-ışık ve kurulum hizmetleri. Türkiye geneli.",
+    url: "https://www.sahneva.com",
     siteName: "Sahneva",
+    images: ["/img/og.jpg"],
     type: "website",
   },
   robots: { index: true, follow: true },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sahneva – Etkinlik Prodüksiyon & Organizasyon",
+    description:
+      "Sahne, podyum, LED ekran, ses-ışık ve kurulum hizmetleri. Türkiye geneli.",
+    images: ["/img/og.jpg"],
+    creator: "@sahneva",
+  },
+  verification: { google: "H9p1RO-W1U3JDTjp0mM32blFkYABaTHNFnxVKKFfo08" },
 };
 
-const DEFAULT_GA_ID = "G-J5YK10YLLC";
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID?.trim() || DEFAULT_GA_ID;
-const IS_GA_ENABLED = Boolean(GA_MEASUREMENT_ID);
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID?.trim();
 
 export default function RootLayout({ children }) {
   return (
@@ -84,8 +62,8 @@ export default function RootLayout({ children }) {
         <CriticalAssets />
       </head>
       <body className="min-h-screen bg-white text-neutral-900 antialiased">
-        {/* Google Analytics */}
-        {IS_GA_ENABLED && (
+        {/* GA sadece ID varsa yüklenir */}
+        {GA_MEASUREMENT_ID && (
           <>
             <Script
               id="gtag-lib"
@@ -103,7 +81,7 @@ export default function RootLayout({ children }) {
           </>
         )}
 
-        {/* Skip link: tek hedef -> #main-content */}
+        {/* Tek skip-link */}
         <a
           href="#main-content"
           aria-label="Ana içeriğe hızlı geçiş"
@@ -112,21 +90,126 @@ export default function RootLayout({ children }) {
           Ana içeriğe atla
         </a>
 
+        {/* Üst yardımcılar */}
         <UtilityBar />
         <Navbar />
 
-        {/* Tek landmark */}
+        {/* İçerik landmark */}
         <main
           id="main-content"
           role="main"
           tabIndex={-1}
-          className="min-h-[60vh] focus:outline-none"
+          className="pt-16 md:pt-20 mb-24 lg:mb-0 focus:outline-none"
         >
           {children}
         </main>
 
         <Footer />
         <SpeedInsights />
+
+        {/* JSON-LD: Organization */}
+        <Script
+          id="ld-org"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Sahneva",
+              url: "https://www.sahneva.com",
+              logo: "https://www.sahneva.com/img/logo.png",
+              contactPoint: [
+                {
+                  "@type": "ContactPoint",
+                  telephone: "+90 545 304 8671",
+                  contactType: "customer service",
+                  areaServed: "TR",
+                  availableLanguage: ["Turkish"],
+                },
+              ],
+              sameAs: [
+                "https://www.instagram.com/sahnevaorganizasyon",
+                "https://www.youtube.com/@sahneva",
+                "https://g.page/r/CZhkMzkNOdgnEBI",
+              ],
+            }),
+          }}
+        />
+        {/* JSON-LD: LocalBusiness */}
+        <Script
+          id="ld-local"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              name: "Sahneva",
+              image: "https://www.sahneva.com/img/logo.png",
+              url: "https://www.sahneva.com",
+              telephone: "+90 545 304 8671",
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: "İstanbul",
+                addressCountry: "TR",
+              },
+              sameAs: [
+                "https://www.instagram.com/sahnevaorganizasyon",
+                "https://www.youtube.com/@sahneva",
+                "https://g.page/r/CZhkMzkNOdgnEBI",
+              ],
+              priceRange: "$$",
+              openingHours: "Mo-Fr 09:00-19:00",
+            }),
+          }}
+        />
+        {/* JSON-LD: FAQ */}
+        <Script
+          id="ld-faq"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: [
+                {
+                  "@type": "Question",
+                  name: "Podyum kurulumu ne kadar sürer?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Podyum kurulumu, ölçülere ve zemin koşullarına göre genellikle 1–3 saat sürer.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "LED ekranlar dış mekanda kullanılabilir mi?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Evet, IP65 korumalı LED ekranlarımız açık havada güvenle kullanılabilir.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "Ses ve ışık sistemlerinde teknik ekip sağlıyor musunuz?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Evet, kurulum ve etkinlik boyunca teknik ekip desteği veriyoruz.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "Çadır kiralamada kurulum ve söküm dahil mi?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Evet, kurulum ve söküm dahildir; zemin kaplama ve aksesuarlar opsiyoneldir.",
+                  },
+                },
+              ],
+            }),
+          }}
+        />
       </body>
     </html>
   );
