@@ -1,4 +1,4 @@
-// next.config.mjs - KESİN ÇÖZÜM
+// next.config.mjs - KESİN ÇÖZÜM (Polyfill Optimizasyonlu)
 
 const ONE_DAY_IN_SECONDS = 60 * 60 * 24;
 const ONE_MONTH_IN_SECONDS = ONE_DAY_IN_SECONDS * 30;
@@ -118,8 +118,42 @@ const nextConfig = {
   poweredByHeader: false,
   compress: true,
   generateEtags: true,
-  productionBrowserSourceMaps: false,
+  productionBrowserSourceMaps: false, // ✅ Zaten kapalı - iyi
   trailingSlash: false,
+
+  // ✅ POLYFILL OPTIMIZATIONS - YENI EKLENDI
+  webpack: (config, { isServer, dev }) => {
+    // Sadece production build'te ve client tarafında
+    if (!isServer && !dev) {
+      // Gereksiz polyfill'leri devre dışı bırak
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        module: false,
+        net: false,
+        dns: false,
+        tls: false,
+        child_process: false,
+        perf_hooks: false,
+      };
+
+      // Modern ES2022 target - polyfill'leri azaltır
+      config.target = ['web', 'es2022'];
+      
+      // Output environment'i modern ES modülleri olarak ayarla
+      config.output.environment = {
+        ...config.output.environment,
+        arrowFunction: true,
+        const: true,
+        destructuring: true,
+        forOf: true,
+        dynamicImport: true,
+        module: true,
+      };
+    }
+
+    return config;
+  },
 
   images: {
     deviceSizes: [320, 420, 640, 750, 828, 1080, 1200, 1920],
@@ -161,7 +195,12 @@ const nextConfig = {
     ignoreBuildErrors: false,
   },
 
+  // ✅ Modern output format
   output: isProd ? "standalone" : undefined,
+  
+  // ✅ SWC derleyici optimizasyonları
+  swcMinify: true,
+  
   staticPageGenerationTimeout: 300,
 
   async redirects() {
