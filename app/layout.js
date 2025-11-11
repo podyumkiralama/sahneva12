@@ -4,14 +4,45 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Script from "next/script";
 import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import UtilityBar from "../components/UtilityBar.client";
 
 const inter = Inter({
   subsets: ["latin"],
-  preload: false,
-  display: "optional", // istersen "swap" yapabilirsin; fallback yok
-  // fallback ve adjustFontFallback KALDIRILDI
+  preload: true,
+  display: "swap",
+  variable: "--font-inter",
+  fallback: [
+    "system-ui",
+    "-apple-system",
+    "BlinkMacSystemFont",
+    "Segoe UI",
+    "Roboto",
+    "Helvetica Neue",
+    "Arial",
+    "sans-serif",
+  ],
+  adjustFontFallback: "Arial",
+});
+
+const interFallback = localFont({
+  src: "../public/fonts/fallback.woff2",
+  weight: "400",
+  style: "normal",
+  preload: true,
+  display: "swap",
+  variable: "--font-inter-fallback",
+  fallback: [
+    "system-ui",
+    "-apple-system",
+    "BlinkMacSystemFont",
+    "Segoe UI",
+    "Roboto",
+    "Helvetica Neue",
+    "Arial",
+    "sans-serif",
+  ],
 });
 
 export const viewport = {
@@ -47,7 +78,7 @@ const IS_GA_ENABLED = Boolean(GA_MEASUREMENT_ID);
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="tr" dir="ltr" className={inter.className}>
+    <html lang="tr" dir="ltr" className={`${inter.variable} ${interFallback.variable}`}>
       <body className="min-h-screen bg-white text-neutral-900 antialiased">
         {/* Google Analytics */}
         {IS_GA_ENABLED && (

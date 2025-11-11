@@ -9,6 +9,11 @@
 /* ==========================================================================
    Base
    ========================================================================== */
+:root {
+  --font-system-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
 html {
   scroll-behavior:smooth;
   font-size:100%;
@@ -19,8 +24,7 @@ html, body {
 
 body {
   @apply bg-white text-slate-800 antialiased;
-  /* Inter font'u layout.js → html.className üzerinden gelir */
-  font-family: inherit;
+  font-family: var(--font-inter, var(--font-inter-fallback, var(--font-system-stack)));
 }
 
 /* Medya elementleri */
