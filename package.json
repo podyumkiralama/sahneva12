@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --turbo",
-    "prebuild": "npm dedupe",
+    "dev:webpack": "NEXT_DISABLE_TURBOPACK=1 next dev",
     "build": "next build --turbopack",
+    "build:webpack": "NEXT_DISABLE_TURBOPACK=1 next build",
     "build:web": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "analyze": "ANALYZE=true next build",
     "security:check": "npx @next/security-headers-check"
   },
