@@ -3,20 +3,13 @@ import "../styles/globals.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Script from "next/script";
-import { Inter } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { inter } from "../lib/fonts";
 
 // 1) UtilityBar import: .client sürümün VARSA bu satırı kullan
 import UtilityBar from "../components/UtilityBar.client";
 // 1a) .client sürümün YOKSA alttakini aç, yukarıdakini sil/yorumla:
 // import UtilityBar from "../components/UtilityBar";
-
-const inter = Inter({
-  subsets: ["latin"],
-  preload: true,
-  display: "swap",
-  // fallback ve localFont kullanmıyoruz (sen istemiyorsun)
-});
 
 export const viewport = {
   width: "device-width",
@@ -60,7 +53,7 @@ const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID?.trim();
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="tr" dir="ltr" className={inter.className}>
+    <html lang="tr" dir="ltr" className={`${inter.className} ${inter.variable}`}>
       <head>
         {/* İstersen sonra globals.css'e taşıyabiliriz */}
         <style id="critical-css">{`

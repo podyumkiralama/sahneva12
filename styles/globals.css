@@ -12,6 +12,7 @@
 :root {
   --font-system-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
+  --font-inter-fallback: var(--font-system-stack);
 }
 
 html {
