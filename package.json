@@ -11,7 +11,7 @@
     "build:webpack": "NEXT_DISABLE_TURBOPACK=1 next build",
     "build:web": "next build",
     "start": "next start",
-    "lint": "eslint .",
+    "lint": "eslint . --max-warnings=0",
     "analyze": "ANALYZE=true next build",
     "security:check": "npx @next/security-headers-check"
   },

@@ -177,7 +177,8 @@ export default function CorporateEvents() {
               >
                 <span className="text-xl" aria-hidden="true">💬</span>
                 <span className="text-sm font-bold">WhatsApp'tan Yaz</span>
-              <span class="sr-only"> (yeni sekmede açılır)</span></a>
+                <span className="sr-only">(yeni sekmede açılır)</span>
+              </a>
             </div>
 
             <div className="flex items-center justify-center gap-4 text-blue-100 text-sm">

@@ -252,7 +252,7 @@ function Services() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {SERVICES.map((service, index) => {
+          {SERVICES.map((service) => {
             const id = `svc-${slugify(service.title)}`;
             return (
               <div key={id} className="group">
@@ -270,8 +270,8 @@ function Services() {
                     {service.description}
                   </p>
                   <ul className="space-y-3">
-                    {service.features.map((feature, i) => (
-                      <li key={i} className="flex items-center gap-3 text-gray-700">
+                    {service.features.map((feature) => (
+                      <li key={feature} className="flex items-center gap-3 text-gray-700">
                         <span className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex-shrink-0" aria-hidden="true" />
                         <span className="text-base">{feature}</span>
                       </li>

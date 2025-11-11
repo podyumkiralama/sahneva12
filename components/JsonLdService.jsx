@@ -1,7 +1,7 @@
 // components/JsonLdService.tsx  (veya .jsx)
 import { headers } from "next/headers";
 
-const absUrl = (site: string, path = "") => {
+const absUrl = (site, path = "") => {
   if (!path) return site.replace(/\/+$/,"");
   if (/^https?:\/\//i.test(path)) return path; // absolute ise dokunma
   const s = site.replace(/\/+$/,"");
@@ -9,10 +9,10 @@ const absUrl = (site: string, path = "") => {
   return `${s}/${p}`;
 };
 
-const compact = (obj: Record<string, any>) =>
+const compact = (obj) =>
   Object.fromEntries(
-    Object.entries(obj).filter(([_, v]) =>
-      Array.isArray(v) ? v.length > 0 : v != null && v !== ""
+    Object.entries(obj).filter(([, value]) =>
+      Array.isArray(value) ? value.length > 0 : value != null && value !== ""
     )
   );
 
@@ -20,10 +20,6 @@ export default function JsonLdService({
   site = "https://www.sahneva.com",
   service,
   images = [],
-}: {
-  site?: string;
-  service: any;
-  images?: string[];
 }) {
   if (!service) return null;
 
@@ -63,7 +59,7 @@ export default function JsonLdService({
         ? {
             "@type": "OfferCatalog",
             name: service.title,
-            itemListElement: service.faqs.map(({ q, a }: any) => ({
+            itemListElement: service.faqs.map(({ q, a }) => ({
               "@type": "Offer",
               itemOffered: { "@type": "Service", name: q, description: a },
             })),

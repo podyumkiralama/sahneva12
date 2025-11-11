@@ -60,7 +60,9 @@ export default function ReviewBanner({
   const dismiss = useCallback(() => {
     try {
       localStorage.setItem(LS_KEY, "1");
-    } catch {}
+    } catch {
+      // localStorage erişilemiyorsa görsel durum saklanmaz
+    }
     setHidden(true);
     clearRootOffset();
   }, [clearRootOffset]);

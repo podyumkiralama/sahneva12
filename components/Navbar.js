@@ -94,7 +94,9 @@ export default function Navbar() {
         setTimeout(() => el.parentNode && el.parentNode.removeChild(el), life + 40);
       }
       document.body.appendChild(fragment);
-    } catch {}
+    } catch {
+      // Animasyon oluşturulamazsa sessizce yoksay
+    }
   }, []);
 
   // Scroll gölge/blur
@@ -485,6 +487,7 @@ export default function Navbar() {
       </div>
 
       {/* Burst particle CSS */}
+      {/* eslint-disable-next-line react/no-unknown-property */}
       <style jsx>{`
         .burst-particle {
           position: fixed;
