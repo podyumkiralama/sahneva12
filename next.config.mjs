@@ -172,8 +172,9 @@ const nextConfig = {
   experimental: {
     scrollRestoration: true,
     optimizePackageImports: ["lucide-react", "@headlessui/react"],
-    // ✅ Polyfill optimizasyonu için loose mode
-    esmExternals: 'loose',
+    esmExternals: true,
+    legacyBrowsers: false,
+    browsersListForSwc: true,
   },
 
   modularizeImports: {
