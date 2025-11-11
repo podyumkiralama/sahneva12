@@ -32,24 +32,14 @@ export const metadata = {
   },
   description:
     "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı kurulum, profesyonel teknik ekip, uygun fiyat. Hemen teklif alın!",
-  manifest: "/site.webmanifest",
-  alternates: {
-    canonical: "https://www.sahneva.com",
-    languages: {
-      "tr-TR": "https://www.sahneva.com",
-      "x-default": "https://www.sahneva.com",
-      // çok dilliyi aktifleştirince buraya en/ar ekleyebilirsin
-      // "en-US": "https://www.sahneva.com/en",
-      // "ar": "https://www.sahneva.com/ar",
-    },
-  },
+  // ⚠️ Global canonical KALDIRILDI → her sayfa kendi canonical'ını tanımlar.
   openGraph: {
     title: "Sahneva – Etkinlik Prodüksiyon & Organizasyon",
     description:
       "Sahne, podyum, LED ekran, ses-ışık ve kurulum hizmetleri. Türkiye geneli.",
     url: "https://www.sahneva.com",
     siteName: "Sahneva",
-    images: ["/img/og.jpg"],
+    images: ["/img/og.jpg"], // metadataBase ile mutlak URL'e çevrilir
     type: "website",
     locale: "tr_TR",
   },
@@ -71,7 +61,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="tr" dir="ltr" className={inter.className}>
       <head>
-        {/* Minik kritik CSS (istersen /globals.css'e taşıyabiliriz) */}
+        {/* İstersen sonra globals.css'e taşıyabiliriz */}
         <style id="critical-css">{`
           .pt-16{padding-top:4rem}
           @media (min-width:768px){.md\\:pt-20{padding-top:5rem}}
@@ -126,11 +116,12 @@ export default function RootLayout({ children }) {
         <Footer />
         <SpeedInsights />
 
-        {/* JSON-LD: Organization (site geneli kimlik) */}
+        {/* JSON-LD: Organization (global) */}
         <Script
           id="ld-org"
           type="application/ld+json"
           strategy="afterInteractive"
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
@@ -157,11 +148,12 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/* JSON-LD: LocalBusiness (tekil yerel varlık) */}
+        {/* JSON-LD: LocalBusiness (global) */}
         <Script
           id="ld-local"
           type="application/ld+json"
           strategy="afterInteractive"
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
@@ -187,10 +179,31 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/*
-          DIKKAT: FAQPage JSON-LD layout'tan KALDIRILDI.
-          SSS içeren sayfalarda (örn. anasayfa) ilgili page component'i kendi FAQPage JSON-LD’sini basacak.
-        */}
+        {/* JSON-LD: WebSite (global, site içi arama aksiyonu) */}
+        <Script
+          id="ld-website"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "@id": "https://www.sahneva.com/#website",
+              url: "https://www.sahneva.com/",
+              name: "Sahneva",
+              inLanguage: "tr-TR",
+              publisher: { "@id": "https://www.sahneva.com/#org" },
+              potentialAction: {
+                "@type": "SearchAction",
+                target: "https://www.sahneva.com/arama?q={search_term_string}",
+                "query-input": "required name=search_term_string",
+              },
+            }),
+          }}
+        />
+
+        {/* ⚠️ Global FAQ kaldırıldı. FAQ şemasını yalnızca ilgili sayfada verin. */}
       </body>
     </html>
   );
