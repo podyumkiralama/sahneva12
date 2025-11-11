@@ -146,8 +146,6 @@ const nextConfig = {
     scrollRestoration: true,
     optimizePackageImports: ["lucide-react", "@headlessui/react"],
     esmExternals: true,
-    legacyBrowsers: false,
-    browsersListForSwc: true,
   },
 
   modularizeImports: {
@@ -170,9 +168,6 @@ const nextConfig = {
 
   // ✅ Modern output format
   output: isProd ? "standalone" : undefined,
-
-  // ✅ SWC derleyici optimizasyonları
-  swcMinify: true,
 
   staticPageGenerationTimeout: 300,
 
