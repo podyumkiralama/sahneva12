@@ -4,9 +4,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "prebuild": "npm dedupe",
-    "build": "next build",
+    "build": "next build --turbopack",
+    "build:web": "next build",
     "start": "next start",
     "lint": "next lint",
     "analyze": "ANALYZE=true next build",
@@ -35,20 +36,8 @@
     "globals": "16.4.0"
   },
   "browserslist": {
-    "production": [
-      "chrome >= 115",
-      "edge >= 115",
-      "firefox >= 115",
-      "safari >= 17"
-    ],
-    "development": [
-      "chrome >= 115",
-      "edge >= 115",
-      "firefox >= 115",
-      "safari >= 17"
-    ]
+    "production": ["chrome >= 115","edge >= 115","firefox >= 115","safari >= 17"],
+    "development": ["chrome >= 115","edge >= 115","firefox >= 115","safari >= 17"]
   },
-  "engines": {
-    "node": ">=20 <23"
-  }
+  "engines": { "node": ">=20 <23" }
 }
