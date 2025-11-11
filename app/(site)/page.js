@@ -1,4 +1,4 @@
-// app/(site)/page.js  — PART 1/3
+// app/(site)/page.js
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
@@ -8,7 +8,7 @@ import Faq from "../../components/Faq";
 import HeroCtasClient from "../../components/HeroCtasClient";
 import ReviewBanner from "../../components/ReviewBanner";
 
-// ssr:false KULLANMIYORUZ (SEO için)
+// Dinamik yükleme – ssr:false KULLANMIYORUZ
 const ServicesTabsLazy = dynamic(() => import("../../components/ServicesTabs"), {
   loading: () => <SectionSkeleton label="Hizmetler yükleniyor" />,
 });
@@ -27,7 +27,9 @@ function SectionSkeleton({ label = "İçerik yükleniyor" }) {
   );
 }
 
-/* ---------- JSON-LD (Organization/WebSite layout'ta) ---------- */
+/* ---------------- JSON-LD (Schema.org) ----------------
+   NOT: Organization/LocalBusiness/FAQPage layout.js'ta.
+   Burada sadece OfferCatalog, Service, ImageObject var. */
 function StructuredData() {
   const data = {
     "@context": "https://schema.org",
@@ -35,54 +37,47 @@ function StructuredData() {
       {
         "@type": "OfferCatalog",
         "@id": "https://www.sahneva.com/#catalog",
-        name: "Etkinlik Ekipmanları",
-        url: "https://www.sahneva.com/",
-        itemListElement: [
+        "name": "Etkinlik Ekipmanları",
+        "url": "https://www.sahneva.com/",
+        "itemListElement": [
           {
             "@type": "Offer",
-            itemOffered: { "@type": "Service", name: "Podyum Kiralama", description: "Podyum sahne kiralama" },
-            priceSpecification: { "@type": "UnitPriceSpecification", price: 250, priceCurrency: "TRY", unitText: "m²" },
-            availability: "https://schema.org/InStock",
-            areaServed: "TR"
+            "itemOffered": { "@type": "Service", "name": "Podyum Kiralama", "description": "Podyum sahne kiralama" },
+            "priceSpecification": { "@type": "UnitPriceSpecification", "price": 250, "priceCurrency": "TRY", "unitText": "m²" },
+            "availability": "https://schema.org/InStock",
+            "areaServed": "TR"
           },
-          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Sahne Kiralama" }, areaServed: "TR" },
-          { "@type": "Offer", itemOffered: { "@type": "Service", name: "LED Ekran Kiralama" }, areaServed: "TR" },
-          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Ses-Işık Sistemleri" }, areaServed: "TR" },
-          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Çadır Kiralama" }, areaServed: "TR" },
-          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Truss Sistemleri" }, areaServed: "TR" },
-          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Organizasyon Yönetimi" }, areaServed: "TR" }
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Sahne Kiralama" }, "areaServed": "TR" },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "LED Ekran Kiralama" }, "areaServed": "TR" },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ses-Işık Sistemleri" }, "areaServed": "TR" },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Çadır Kiralama" }, "areaServed": "TR" },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Truss Sistemleri" }, "areaServed": "TR" },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Organizasyon Yönetimi" }, "areaServed": "TR" }
         ]
       },
       {
         "@type": "Service",
         "@id": "https://www.sahneva.com/#service",
-        name: "Etkinlik Ekipmanları Kiralama",
-        description: "Türkiye genelinde sahne, podyum, LED ekran, ses ve ışık sistemleri kiralama; kurulum ve teknik operasyon.",
-        url: "https://www.sahneva.com/",
-        areaServed: { "@type": "Country", name: "TR" },
-        provider: { "@id": "https://www.sahneva.com/#org" },
-        serviceType: [
-          "Sahne Kiralama","Podyum Kiralama","LED Ekran Kiralama",
-          "Ses Sistemi Kiralama","Işık Sistemi Kiralama","Etkinlik Prodüksiyon"
+        "name": "Etkinlik Ekipmanları Kiralama",
+        "description": "Türkiye genelinde sahne, podyum, LED ekran, ses ve ışık sistemleri kiralama; kurulum ve teknik operasyon.",
+        "url": "https://www.sahneva.com/",
+        "areaServed": { "@type": "Country", "name": "TR" },
+        "provider": { "@id": "https://www.sahneva.com/#org" },
+        "serviceType": [
+          "Sahne Kiralama",
+          "Podyum Kiralama",
+          "LED Ekran Kiralama",
+          "Ses Sistemi Kiralama",
+          "Işık Sistemi Kiralama",
+          "Etkinlik Prodüksiyon"
         ]
       },
       {
         "@type": "ImageObject",
         "@id": "https://www.sahneva.com/#og",
-        contentUrl: "https://www.sahneva.com/og/sahneva-home.jpg",
-        width: 1200,
-        height: 630
-      },
-      {
-        "@type": "FAQPage",
-        "@id": "https://www.sahneva.com/#faq",
-        mainEntity: [
-          {
-            "@type": "Question",
-            name: "Sahne kiralama süresi ne kadar?",
-            acceptedAnswer: { "@type": "Answer", text: "Kurulum süresi genellikle 2–6 saat arasında değişir." }
-          }
-        ]
+        "contentUrl": "https://www.sahneva.com/og/sahneva-home.jpg",
+        "width": 1200,
+        "height": 630
       }
     ]
   };
@@ -101,14 +96,6 @@ export default function HomePage() {
     <div className="overflow-x-hidden">
       <StructuredData />
 
-      {/* Klavye kullanıcıları için “içeriğe atla” */}
-      <a
-        href="#main"
-        className="sr-only focus:not-sr-only focus:fixed focus:z-[9999] focus:top-3 focus:left-3 focus:bg-white focus:text-black focus:px-3 focus:py-2 focus:rounded"
-      >
-        Ana içeriğe atla
-      </a>
-
       {/* HERO */}
       <section
         className="full-bleed relative overflow-x-hidden"
@@ -124,8 +111,6 @@ export default function HomePage() {
           fetchPriority="high"
           decoding="async"
           sizes="100vw"
-          placeholder="blur"
-          blurDataURL="/img/hero-bg-low.webp"
           className="object-cover"
         />
         <div className="absolute inset-0 bg-[#0b0f1a]/85" aria-hidden="true" />
@@ -135,20 +120,24 @@ export default function HomePage() {
             Sahne, Podyum, LED Ekran &amp; Ses-Işık Sistemleri Kiralama
           </h1>
           <p id="hero-desc" className="text-white text-lg md:text-xl mb-8">
-            Türkiye genelinde sahne ve podyum kurulumları, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı teslim, profesyonel teknik ekip.
+            Türkiye genelinde sahne ve podyum kurulumları, LED ekran, ses-ışık sistemleri ve çadır kiralama.
+            Hızlı teslim, profesyonel teknik ekip.
           </p>
 
           {/* CTA'lar */}
           <HeroCtasClient />
 
-          {/* Kısa özellik rozetleri */}
+          {/* Özellik rozetleri */}
           <ul className="mt-6 grid max-w-3xl mx-auto grid-cols-1 sm:grid-cols-3 gap-3" aria-label="Hizmet özellikleri">
             {[
               ["⭐", "4.9 Müşteri Memnuniyeti"],
               ["🔧", "Aynı Gün Kurulum"],
               ["👷", "Profesyonel Teknik Ekip"],
             ].map(([icon, label], i) => (
-              <li key={i} className="badge whitespace-nowrap overflow-hidden text-ellipsis">
+              <li
+                key={i}
+                className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-2 text-white/90 text-sm whitespace-nowrap overflow-hidden text-ellipsis backdrop-blur"
+              >
                 <span aria-hidden="true">{icon}</span>
                 <span>{label}</span>
               </li>
@@ -165,27 +154,23 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-  // app/(site)/page.js  — PART 2/3  (Part 1/3'ün devamına yapıştır)
-      {/* ANA İÇERİK BAŞLANGICI */}
-      <main id="main">
+
+      {/* ANA İÇERİK — layout.js içindeki <main> ile ÇAKIŞMAMAK için <div role="region"> */}
+      <div id="main" role="region" aria-label="Ana içerik">
         {/* Google yorum banner’ı */}
         <ReviewBanner />
 
-        {/* Hizmetler sekmeleri */}
+        {/* Hizmetler */}
         <section className="container py-14 md:py-16" aria-labelledby="hizmetler-title">
-          <h2 id="hizmetler-title" className="text-2xl md:text-3xl font-bold text-center mb-8">
-            Profesyonel Hizmetlerimiz
-          </h2>
+          <h2 id="hizmetler-title" className="text-2xl md:text-3xl font-bold text-center mb-8">Profesyonel Hizmetlerimiz</h2>
           <Suspense fallback={<SectionSkeleton label="Hizmetler yükleniyor" />}>
             <ServicesTabsLazy />
           </Suspense>
         </section>
 
-        {/* Projeler galerisi */}
+        {/* Projeler */}
         <section className="container py-14 md:py-16" aria-labelledby="projeler-title">
-          <h2 id="projeler-title" className="text-2xl md:text-3xl font-bold text-center mb-8">
-            Projelerimiz
-          </h2>
+          <h2 id="projeler-title" className="text-2xl md:text-3xl font-bold text-center mb-8">Projelerimiz</h2>
           <Suspense fallback={<SectionSkeleton label="Projeler yükleniyor" />}>
             <ProjectsGalleryLazy />
           </Suspense>
@@ -193,18 +178,13 @@ export default function HomePage() {
 
         {/* Kurumsal etkinlikler */}
         <section className="container py-14 md:py-16" aria-labelledby="kurumsal-title">
-          <h2 id="kurumsal-title" className="text-2xl md:text-3xl font-bold text-center mb-8">
-            Kurumsal Etkinlikler
-          </h2>
+          <h2 id="kurumsal-title" className="text-2xl md:text-3xl font-bold text-center mb-8">Kurumsal Etkinlikler</h2>
           <CorporateEvents />
         </section>
 
         {/* Bizi Neden Tercih Etmelisiniz */}
         <section className="container py-16" aria-labelledby="neden-tercih-heading">
-          <h2 id="neden-tercih-heading" className="text-2xl md:text-3xl font-bold text-center mb-10">
-            Bizi Neden Tercih Etmelisiniz?
-          </h2>
-
+          <h2 id="neden-tercih-heading" className="text-2xl md:text-3xl font-bold text-center mb-10">Bizi Neden Tercih Etmelisiniz?</h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {[
               ["⭐","Yüksek Müşteri Memnuniyeti","Her organizasyonda ortalama %100’e yakın müşteri memnuniyeti sağlıyoruz."],
@@ -222,7 +202,7 @@ export default function HomePage() {
             ))}
           </div>
         </section>
-// app/(site)/page.js  — PART 3/3  (Part 2/3'ün devamına yapıştır)
+
         {/* SEO METİN BLOĞU */}
         <section className="container py-14 md:py-16" aria-labelledby="seo-title">
           <h2 id="seo-title" className="text-2xl md:text-3xl font-bold text-center mb-8">
@@ -230,11 +210,10 @@ export default function HomePage() {
           </h2>
 
           <div className="grid gap-6 md:grid-cols-2">
-            <article className="card" aria-labelledby="u2u-title">
+            <article className="rounded-xl border bg-white shadow-sm p-6" aria-labelledby="u2u-title">
               <h3 id="u2u-title" className="font-semibold text-lg mb-2">Uçtan Uca Teknik Hizmet</h3>
               <p className="text-neutral-700">
-                Sahneva{" "}
-                <a href="/sahne-kiralama" className="underline hover:no-underline font-medium">sahne sistemleri kiralama</a>,{" "}
+                Sahneva <a href="/sahne-kiralama" className="underline hover:no-underline font-medium">sahne sistemleri kiralama</a>,{" "}
                 <a href="/podyum-kiralama" className="underline hover:no-underline font-medium">podyum kurulumu</a>,{" "}
                 <a href="/led-ekran-kiralama" className="underline hover:no-underline font-medium">LED ekran kiralama</a> ve{" "}
                 <a href="/ses-isik-sistemleri" className="underline hover:no-underline font-medium">ses ışık sistemi kurulumu</a>{" "}
@@ -248,7 +227,7 @@ export default function HomePage() {
               </ul>
             </article>
 
-            <article className="card" aria-labelledby="hizli-title">
+            <article className="rounded-xl border bg-white shadow-sm p-6" aria-labelledby="hizli-title">
               <h3 id="hizli-title" className="font-semibold text-lg mb-2">Hızlı Kurulum, Şeffaf Fiyat</h3>
               <p className="text-neutral-700">
                 İstanbul merkezli ekibimizle Türkiye’nin her ilinde çalışıyoruz. Aynı gün hızlı kurulum, yedekli ekipman ve 7/24 teknik destek ile riskleri minimize ederiz.
@@ -285,7 +264,6 @@ export default function HomePage() {
               <a href="/ses-isik-sistemleri" className="underline font-medium"> ses-ışık</a> optimizasyonundan truss ve <em>scaff</em> üst yapılara kadar
               tüm bileşenleri tek bir teknik omurga altında birleştirir.
             </p>
-
             <h3 className="mt-6 text-lg md:text-xl font-semibold">Sahneva ile Çalışmanın Güçlü Yanları</h3>
             <ul className="mt-2 space-y-2 list-disc pl-5">
               <li>Yüksek parlaklık için optimize <strong>LED ekran</strong> konumlandırması (P2–P6)</li>
@@ -294,7 +272,6 @@ export default function HomePage() {
               <li>Hızlı kurulum, risk yönetimi ve 7/24 teknik destek</li>
               <li>Şeffaf teklif ve kurumsal raporlama</li>
             </ul>
-
             <p className="mt-4">
               <a href="/cadir-kiralama" className="underline font-medium">Çadır kurulumu</a>, zemin hazırlığı ve dekoratif uygulamalar dâhil;
               etkinliğinizin tüm teknik ihtiyaçlarını tek çatı altında yönetiriz.
@@ -307,8 +284,7 @@ export default function HomePage() {
           <h2 id="faq-title" className="text-2xl md:text-3xl font-bold text-center mb-8">Sıkça Sorulan Sorular</h2>
           <Faq />
         </section>
-      </main>
+      </div>
     </div>
   );
 }
-
