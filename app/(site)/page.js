@@ -268,11 +268,11 @@ export default function HomePage() {
             alt="Profesyonel sahne kurulumu, LED ekranlar ve ses-ışık sistemleri - Sahneva"
             fill
             priority
-            fetchPriority="high"
             quality={70}
             sizes="100vw"
             placeholder="blur"
             loading="eager"
+            unoptimized
             className="object-cover object-center"
             style={{
               /* LCP için transform kaldırıldı */
