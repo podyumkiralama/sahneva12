@@ -268,6 +268,7 @@ export default function ServicesPage() {
             alt="Sahneva Hizmetler - Profesyonel Etkinlik Ekipmanları ve Teknoloji Çözümleri"
             fill
             priority
+            fetchPriority="high"
             quality={80}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
             className="object-cover object-center"

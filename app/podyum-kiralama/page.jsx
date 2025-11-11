@@ -276,6 +276,7 @@ export default function Page() {
             alt="Profesyonel podyum kiralama hizmeti - Modüler sahne sistemleri ve kurulum çözümleri"
             fill
             priority
+            fetchPriority="high"
             quality={80}
             sizes="100vw"
             className="object-cover object-center"
