@@ -5,8 +5,8 @@ import Footer from "../components/Footer";
 import Script from "next/script";
 import { Inter } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-// UtilityBar server/client farkına göre import et:
-import UtilityBar from "../components/UtilityBar"; // .client kullanıyorsan bu satırı ona göre değiştir
+import UtilityBar from "../components/UtilityBar.client";
+import CriticalAssets from "../components/CriticalAssets";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -57,17 +57,9 @@ const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID?.trim();
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="tr" dir="ltr" className={inter.className}>
+    <html lang="tr" dir="ltr" className={`${inter.variable} ${interFallback.variable}`}>
       <head>
-        {/* İstersen ileride globals.css’e taşıyabiliriz */}
-        <style id="critical-css">{`
-          .pt-16{padding-top:4rem}
-          @media (min-width:768px){.md\\:pt-20{padding-top:5rem}}
-          .full-bleed{position:relative;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);inline-size:100svw;width:100vw;min-height:60vh;overflow-x:clip}
-          @media (min-width:768px){.full-bleed{min-height:70vh}}
-          .object-cover{object-fit:cover}
-          .container{max-width:1280px;margin-inline:auto;padding-inline:1rem}
-        `}</style>
+        <CriticalAssets />
       </head>
       <body className="min-h-screen bg-white text-neutral-900 antialiased">
         {/* GA sadece ID varsa yüklenir */}
