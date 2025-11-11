@@ -66,6 +66,13 @@ const WHY_SAHNEVA_FEATURES = [
   { icon: "🏙️", title: "Türkiye Geneli Hizmet", desc: "İstanbul, Ankara, İzmir başta 81 ilde profesyonel hizmet.", stat: "81 İl" },
 ];
 
+// Katmanlı içerik bölümlerini ilk boyamadan hariç tutarak FCP/LCP'yi iyileştirir
+// Chrome tabanlı tarayıcılarda content-visibility desteği mevcut.
+const BELOW_THE_FOLD_VISIBILITY_STYLE = Object.freeze({
+  contentVisibility: "auto",
+  containIntrinsicSize: "960px",
+});
+
 // —————————————————————————————————————————
 // ERİŞİLEBİLİR YÜKLEME İSKELETİ
 // —————————————————————————————————————————
@@ -268,11 +275,9 @@ export default function HomePage() {
             alt="Profesyonel sahne kurulumu, LED ekranlar ve ses-ışık sistemleri - Sahneva"
             fill
             priority
-            quality={70}
             sizes="100vw"
             placeholder="blur"
-            loading="eager"
-            unoptimized
+            quality={70}
             className="object-cover object-center"
             style={{
               /* LCP için transform kaldırıldı */
@@ -438,7 +443,11 @@ export default function HomePage() {
         </div>
 
         {/* Hizmetler */}
-        <section className="relative py-12 bg-gradient-to-b from-white to-neutral-50/80" aria-labelledby="hizmetler-title">
+        <section
+          className="relative py-12 bg-gradient-to-b from-white to-neutral-50/80"
+          aria-labelledby="hizmetler-title"
+          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+        >
           <div
             className="absolute inset-0 bg-[linear-gradient(#e5e7eb_1px,transparent_1px),linear-gradient(90deg,#e5e7eb_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:radial-gradient(ellipse_at_center,transparent_20%,white)]"
             aria-hidden="true"
@@ -460,7 +469,11 @@ export default function HomePage() {
         </section>
 
         {/* Projeler */}
-        <section className="py-12 bg-gradient-to-br from-neutral-900 to-blue-900/95" aria-labelledby="projeler-title">
+        <section
+          className="py-12 bg-gradient-to-br from-neutral-900 to-blue-900/95"
+          aria-labelledby="projeler-title"
+          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+        >
           <div className="container">
             <div className="text-center mb-12">
               <h2 id="projeler-title" className="text-3xl md:text-4xl font-black text-white mb-4">
@@ -478,7 +491,11 @@ export default function HomePage() {
         </section>
 
         {/* Kurumsal Organizasyon */}
-        <section className="py-12 bg-white" aria-labelledby="kurumsal-title">
+        <section
+          className="py-12 bg-white"
+          aria-labelledby="kurumsal-title"
+          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+        >
           <div className="container">
             <div className="text-center mb-12">
               <h2 id="kurumsal-title" className="text-3xl md:text-4xl font-black text-neutral-900 mb-4">
@@ -494,7 +511,11 @@ export default function HomePage() {
         </section>
 
         {/* Neden Sahneva? */}
-        <section className="py-12 bg-gradient-to-br from-blue-50/80 to-purple-50/60" aria-labelledby="neden-tercih-heading">
+        <section
+          className="py-12 bg-gradient-to-br from-blue-50/80 to-purple-50/60"
+          aria-labelledby="neden-tercih-heading"
+          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+        >
           <div className="container">
             <div className="text-center mb-12">
               <h2 id="neden-tercih-heading" className="text-3xl md:text-4xl font-black text-neutral-900 mb-6">
@@ -532,7 +553,11 @@ export default function HomePage() {
         </section>
 
         {/* SEO metinleri */}
-        <section className="py-12 bg-white" aria-labelledby="seo-title">
+        <section
+          className="py-12 bg-white"
+          aria-labelledby="seo-title"
+          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+        >
           <div className="container">
             <h2 id="seo-title" className="text-3xl md:text-4xl font-black text-center mb-12 text-neutral-900">
               Türkiye'nin{" "}
@@ -602,7 +627,11 @@ export default function HomePage() {
         </section>
 
         {/* SSS */}
-        <section className="py-12 bg-gradient-to-br from-neutral-900 to-blue-900/95" aria-labelledby="sss-title">
+        <section
+          className="py-12 bg-gradient-to-br from-neutral-900 to-blue-900/95"
+          aria-labelledby="sss-title"
+          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+        >
           <div className="container">
             <div className="text-center mb-12">
               <h2 id="sss-title" className="text-3xl md:text-4xl font-black text-white mb-4">
