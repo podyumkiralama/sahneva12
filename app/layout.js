@@ -15,7 +15,6 @@ const inter = Inter({
   subsets: ["latin"],
   preload: true,
   display: "swap",
-  // fallback ve localFont kullanmıyoruz (sen istemiyorsun)
 });
 
 export const viewport = {
@@ -34,7 +33,16 @@ export const metadata = {
   description:
     "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı kurulum, profesyonel teknik ekip, uygun fiyat. Hemen teklif alın!",
   manifest: "/site.webmanifest",
-  alternates: { canonical: "https://www.sahneva.com" },
+  alternates: {
+    canonical: "https://www.sahneva.com",
+    languages: {
+      "tr-TR": "https://www.sahneva.com",
+      "x-default": "https://www.sahneva.com",
+      // çok dilliyi aktifleştirince buraya en/ar ekleyebilirsin
+      // "en-US": "https://www.sahneva.com/en",
+      // "ar": "https://www.sahneva.com/ar",
+    },
+  },
   openGraph: {
     title: "Sahneva – Etkinlik Prodüksiyon & Organizasyon",
     description:
@@ -43,6 +51,7 @@ export const metadata = {
     siteName: "Sahneva",
     images: ["/img/og.jpg"],
     type: "website",
+    locale: "tr_TR",
   },
   robots: { index: true, follow: true },
   twitter: {
@@ -62,7 +71,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="tr" dir="ltr" className={inter.className}>
       <head>
-        {/* İstersen sonra globals.css'e taşıyabiliriz */}
+        {/* Minik kritik CSS (istersen /globals.css'e taşıyabiliriz) */}
         <style id="critical-css">{`
           .pt-16{padding-top:4rem}
           @media (min-width:768px){.md\\:pt-20{padding-top:5rem}}
@@ -117,7 +126,7 @@ export default function RootLayout({ children }) {
         <Footer />
         <SpeedInsights />
 
-        {/* JSON-LD: Organization */}
+        {/* JSON-LD: Organization (site geneli kimlik) */}
         <Script
           id="ld-org"
           type="application/ld+json"
@@ -126,6 +135,7 @@ export default function RootLayout({ children }) {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
+              "@id": "https://www.sahneva.com/#org",
               name: "Sahneva",
               url: "https://www.sahneva.com",
               logo: "https://www.sahneva.com/img/logo.png",
@@ -147,7 +157,7 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/* JSON-LD: LocalBusiness */}
+        {/* JSON-LD: LocalBusiness (tekil yerel varlık) */}
         <Script
           id="ld-local"
           type="application/ld+json"
@@ -156,6 +166,7 @@ export default function RootLayout({ children }) {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "LocalBusiness",
+              "@id": "https://www.sahneva.com/#local",
               name: "Sahneva",
               image: "https://www.sahneva.com/img/logo.png",
               url: "https://www.sahneva.com",
@@ -176,52 +187,10 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/* JSON-LD: FAQ */}
-        <Script
-          id="ld-faq"
-          type="application/ld+json"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              mainEntity: [
-                {
-                  "@type": "Question",
-                  name: "Podyum kurulumu ne kadar sürer?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Podyum kurulumu, ölçülere ve zemin koşullarına göre genellikle 1–3 saat sürer.",
-                  },
-                },
-                {
-                  "@type": "Question",
-                  name: "LED ekranlar dış mekanda kullanılabilir mi?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Evet, IP65 korumalı LED ekranlarımız açık havada güvenle kullanılabilir.",
-                  },
-                },
-                {
-                  "@type": "Question",
-                  name: "Ses ve ışık sistemlerinde teknik ekip sağlıyor musunuz?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Evet, kurulum ve etkinlik boyunca teknik ekip desteği veriyoruz.",
-                  },
-                },
-                {
-                  "@type": "Question",
-                  name: "Çadır kiralamada kurulum ve söküm dahil mi?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Evet, kurulum ve söküm dahildir; zemin kaplama ve aksesuarlar opsiyoneldir.",
-                  },
-                },
-              ],
-            }),
-          }}
-        />
+        {/*
+          DIKKAT: FAQPage JSON-LD layout'tan KALDIRILDI.
+          SSS içeren sayfalarda (örn. anasayfa) ilgili page component'i kendi FAQPage JSON-LD’sini basacak.
+        */}
       </body>
     </html>
   );
