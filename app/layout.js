@@ -7,6 +7,7 @@ import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import UtilityBar from "../components/UtilityBar.client";
+import CriticalAssets from "../components/CriticalAssets";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -79,6 +80,9 @@ const IS_GA_ENABLED = Boolean(GA_MEASUREMENT_ID);
 export default function RootLayout({ children }) {
   return (
     <html lang="tr" dir="ltr" className={`${inter.variable} ${interFallback.variable}`}>
+      <head>
+        <CriticalAssets />
+      </head>
       <body className="min-h-screen bg-white text-neutral-900 antialiased">
         {/* Google Analytics */}
         {IS_GA_ENABLED && (
