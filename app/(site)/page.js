@@ -6,8 +6,7 @@ import heroImg from "@/public/img/hero-bg.webp";
 
 // Statik bileşenler
 import CorporateEvents from "@/components/CorporateEvents";
-import Faq from "@/components/Faq";
-import ReviewBanner from "@/components/ReviewBanner";
+import DeferredHydration from "@/components/DeferredHydration.client";
 
 // —————————————————————————————————————————
 // SEO METADATA (Sayfa özel)
@@ -76,33 +75,50 @@ const BELOW_THE_FOLD_VISIBILITY_STYLE = Object.freeze({
 // —————————————————————————————————————————
 // ERİŞİLEBİLİR YÜKLEME İSKELETİ
 // —————————————————————————————————————————
-function SectionSkeleton({ label = "İçerik yükleniyor" }) {
+function ReviewBannerSkeleton() {
   return (
-    <div
-      className="container py-10"
-      role="status"
-      aria-live="polite"
-      aria-busy="true"
-      aria-label={label}
-    >
-      <div className="flex flex-col items-center space-y-4">
-        <div className="h-10 w-40 rounded bg-gradient-to-r from-neutral-100 to-neutral-200 animate-pulse motion-reduce:animate-none" />
-        <div className="h-40 w-full rounded-2xl bg-gradient-to-r from-neutral-100 to-neutral-200 animate-pulse motion-reduce:animate-none" />
-        <span className="sr-only">{label}</span>
+    <div className="pointer-events-none" aria-hidden="true">
+      <div className="mx-auto max-w-3xl rounded-2xl border border-amber-200/60 bg-white/80 p-4 shadow-lg">
+        <div className="flex items-center gap-3 animate-pulse motion-reduce:animate-none">
+          <div className="hidden sm:block h-10 w-10 rounded-full bg-amber-200/80" />
+          <div className="flex-1 space-y-2">
+            <div className="h-3 w-3/4 rounded bg-neutral-200" />
+            <div className="h-3 w-1/2 rounded bg-neutral-200" />
+          </div>
+          <div className="h-9 w-24 rounded-full bg-amber-300/80" />
+          <div className="h-9 w-9 rounded-full bg-neutral-200" />
+        </div>
       </div>
     </div>
   );
 }
 
-// —————————————————————————————————————————
-// DİNAMİK BİLEŞENLER
-// —————————————————————————————————————————
-const ServicesTabsLazy = dynamic(() => import("@/components/ServicesTabs"), {
-  loading: () => <SectionSkeleton label="Hizmetler yükleniyor" />,
-});
+function ServicesTabsSkeleton() {
+  return (
+    <div
+      className="w-full"
+      role="status"
+      aria-live="polite"
+      aria-busy="true"
+      aria-label="Hizmet sekmeleri yükleniyor"
+    >
+      <div className="flex flex-wrap gap-3 sm:flex-nowrap sm:overflow-hidden mb-8">
+        {Array.from({ length: 4 }).map((_, index) => (
+          <div
+            key={index}
+            className="h-11 flex-1 min-w-[120px] rounded-xl bg-neutral-200 animate-pulse motion-reduce:animate-none"
+            aria-hidden="true"
+          />
+        ))}
+      </div>
+      <div className="h-80 rounded-3xl border border-neutral-200 bg-neutral-100 animate-pulse motion-reduce:animate-none" aria-hidden="true" />
+      <span className="sr-only">Hizmet sekmeleri yükleniyor</span>
+    </div>
+  );
+}
 
-const ProjectsGalleryLazy = dynamic(() => import("@/components/ProjectsGallery"), {
-  loading: () => (
+function ProjectsGallerySkeleton() {
+  return (
     <div
       className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
       role="status"
@@ -110,16 +126,60 @@ const ProjectsGalleryLazy = dynamic(() => import("@/components/ProjectsGallery")
       aria-busy="true"
       aria-label="Projeler yükleniyor"
     >
-      {[1, 2, 3].map((i) => (
+      {[1, 2, 3].map((key) => (
         <div
-          key={i}
-          className="bg-neutral-200 rounded-2xl h-80 animate-pulse motion-reduce:animate-none"
+          key={key}
+          className="h-80 rounded-2xl bg-neutral-200 animate-pulse motion-reduce:animate-none"
           aria-hidden="true"
         />
       ))}
       <span className="sr-only">Projeler yükleniyor</span>
     </div>
-  ),
+  );
+}
+
+function FaqSkeleton() {
+  return (
+    <div
+      className="space-y-4"
+      role="status"
+      aria-live="polite"
+      aria-busy="true"
+      aria-label="Sık sorulan sorular yükleniyor"
+    >
+      {Array.from({ length: 5 }).map((_, index) => (
+        <div
+          key={index}
+          className="rounded-2xl border border-white/10 bg-white/10 p-4 animate-pulse motion-reduce:animate-none"
+          aria-hidden="true"
+        >
+          <div className="h-4 w-3/4 rounded bg-white/40 mb-3" />
+          <div className="h-3 w-full rounded bg-white/20 mb-2" />
+          <div className="h-3 w-2/3 rounded bg-white/20" />
+        </div>
+      ))}
+      <span className="sr-only">Sık sorulan sorular yükleniyor</span>
+    </div>
+  );
+}
+
+// —————————————————————————————————————————
+// DİNAMİK BİLEŞENLER
+// —————————————————————————————————————————
+const ReviewBannerLazy = dynamic(() => import("@/components/ReviewBanner"), {
+  ssr: false,
+});
+
+const ServicesTabsLazy = dynamic(() => import("@/components/ServicesTabs"), {
+  ssr: false,
+});
+
+const ProjectsGalleryLazy = dynamic(() => import("@/components/ProjectsGallery"), {
+  ssr: false,
+});
+
+const FaqLazy = dynamic(() => import("@/components/Faq"), {
+  ssr: false,
 });
 
 // ISR
@@ -439,7 +499,17 @@ export default function HomePage() {
 
         <div aria-hidden="true" className="h-12 lg:h-16" />
         <div className="sticky top-0 z-40">
-          <ReviewBanner />
+          <DeferredHydration
+            fallback={<ReviewBannerSkeleton />}
+            idleTimeout={2000}
+            rootMargin="0px"
+            className="block"
+            aria-live="polite"
+          >
+            <Suspense fallback={<ReviewBannerSkeleton />}>
+              <ReviewBannerLazy />
+            </Suspense>
+          </DeferredHydration>
         </div>
 
         {/* Hizmetler */}
@@ -462,9 +532,15 @@ export default function HomePage() {
                 Türkiye geneli sahne, podyum, LED ekran kiralama ve ses-ışık sistemleri kurulumu
               </p>
             </div>
-            <Suspense fallback={<SectionSkeleton label="Hizmetler yükleniyor" />}>
-              <ServicesTabsLazy />
-            </Suspense>
+            <DeferredHydration
+              fallback={<ServicesTabsSkeleton />}
+              rootMargin="320px"
+              idleTimeout={2800}
+            >
+              <Suspense fallback={<ServicesTabsSkeleton />}>
+                <ServicesTabsLazy />
+              </Suspense>
+            </DeferredHydration>
           </div>
         </section>
 
@@ -484,9 +560,15 @@ export default function HomePage() {
                 500'den fazla kurumsal etkinlik, konser, fuar ve özel organizasyonda güvenilir çözüm ortağı
               </p>
             </div>
-            <Suspense fallback={<SectionSkeleton label="Projeler yükleniyor" />}>
-              <ProjectsGalleryLazy />
-            </Suspense>
+            <DeferredHydration
+              fallback={<ProjectsGallerySkeleton />}
+              rootMargin="360px"
+              idleTimeout={3200}
+            >
+              <Suspense fallback={<ProjectsGallerySkeleton />}>
+                <ProjectsGalleryLazy />
+              </Suspense>
+            </DeferredHydration>
           </div>
         </section>
 
@@ -642,7 +724,15 @@ export default function HomePage() {
                 Sahne, LED ekran, ses-ışık sistemleri ve kurulum süreçleri hakkında merak ettikleriniz
               </p>
             </div>
-            <Faq />
+            <DeferredHydration
+              fallback={<FaqSkeleton />}
+              rootMargin="400px"
+              idleTimeout={3600}
+            >
+              <Suspense fallback={<FaqSkeleton />}>
+                <FaqLazy />
+              </Suspense>
+            </DeferredHydration>
           </div>
         </section>
       </div>
