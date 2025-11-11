@@ -1,7 +1,7 @@
 // components/ServicesTabs.jsx
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 

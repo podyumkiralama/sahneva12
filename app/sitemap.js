@@ -8,7 +8,7 @@ const NOW_ISO = new Date().toISOString();
 const REJECT_PATTERNS = [
   /^\/_next\//,     // build assetleri
   /^\/api\//,       // API route'lar
-  /^\/?[\$&]$/,     // /$ veya /& gibi hatalı path'ler
+  /^\/?[$&]$/,       // /$ veya /& gibi hatalı path'ler
   /^\/search/i,     // arama şablonları
 ];
 

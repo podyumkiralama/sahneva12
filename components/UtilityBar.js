@@ -88,14 +88,17 @@ export default function UtilityBar() {
   const setLS = (key, value) => {
     try {
       localStorage.setItem(key, JSON.stringify(value));
-    } catch (e) {}
+    } catch {
+      // localStorage kullanılamıyorsa değer saklanmaz
+    }
   };
 
   const getLS = (key, defaultValue) => {
     try {
       const item = localStorage.getItem(key);
       return item ? JSON.parse(item) : defaultValue;
-    } catch (e) {
+    } catch {
+      // depolama okuması başarısızsa varsayılan değeri döndür
       return defaultValue;
     }
   };

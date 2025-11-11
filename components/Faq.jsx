@@ -15,7 +15,9 @@ function useCspNonce() {
           .querySelector('meta[name="csp-nonce"]')
           ?.getAttribute("content") || undefined;
       setNonce(n);
-    } catch {}
+    } catch {
+      // meta etiketi bulunamazsa nonce'suz devam ederiz
+    }
   }, []);
   return nonce;
 }
@@ -110,7 +112,7 @@ const generateFaqSchema = (items) => ({
 });
 
 // ✅ TAM SÜRÜM — a11y + CSP uyumlu
-export default function Faq({ compact = false }) {
+export default function Faq() {
   const faqSchema = generateFaqSchema(FAQ_ITEMS);
   const nonce = useCspNonce(); // 👈 nonce burada
 
