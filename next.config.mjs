@@ -139,6 +139,8 @@ const nextConfig = {
     scrollRestoration: true,
     optimizePackageImports: ["lucide-react", "@headlessui/react"],
     esmExternals: true,
+    legacyBrowsers: false,
+    browsersListForSwc: true,
   },
 
   modularizeImports: {
