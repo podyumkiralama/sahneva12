@@ -5,7 +5,7 @@ import { Suspense } from "react";
 
 import CorporateEvents from "../../components/CorporateEvents";
 import Faq from "../../components/Faq";
-import HeroCtasClient from "../../components/HeroCtasClient";
+// import HeroCtasClient from "../../components/HeroCtasClient"; // YOK → kaldırıldı
 import ReviewBanner from "../../components/ReviewBanner";
 
 // Dinamik yükleme – ssr:false KULLANMIYORUZ
@@ -27,9 +27,7 @@ function SectionSkeleton({ label = "İçerik yükleniyor" }) {
   );
 }
 
-/* ---------------- JSON-LD (Schema.org) ----------------
-   NOT: Organization/LocalBusiness/FAQPage layout.js'ta.
-   Burada sadece OfferCatalog, Service, ImageObject var. */
+/* --- JSON-LD: Sadece OfferCatalog, Service, ImageObject (Organization/LocalBusiness/FAQ layout'ta) --- */
 function StructuredData() {
   const data = {
     "@context": "https://schema.org",
@@ -37,33 +35,33 @@ function StructuredData() {
       {
         "@type": "OfferCatalog",
         "@id": "https://www.sahneva.com/#catalog",
-        "name": "Etkinlik Ekipmanları",
-        "url": "https://www.sahneva.com/",
-        "itemListElement": [
+        name: "Etkinlik Ekipmanları",
+        url: "https://www.sahneva.com/",
+        itemListElement: [
           {
             "@type": "Offer",
-            "itemOffered": { "@type": "Service", "name": "Podyum Kiralama", "description": "Podyum sahne kiralama" },
-            "priceSpecification": { "@type": "UnitPriceSpecification", "price": 250, "priceCurrency": "TRY", "unitText": "m²" },
-            "availability": "https://schema.org/InStock",
-            "areaServed": "TR"
+            itemOffered: { "@type": "Service", name: "Podyum Kiralama", description: "Podyum sahne kiralama" },
+            priceSpecification: { "@type": "UnitPriceSpecification", price: 250, priceCurrency: "TRY", unitText: "m²" },
+            availability: "https://schema.org/InStock",
+            areaServed: "TR",
           },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Sahne Kiralama" }, "areaServed": "TR" },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "LED Ekran Kiralama" }, "areaServed": "TR" },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ses-Işık Sistemleri" }, "areaServed": "TR" },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Çadır Kiralama" }, "areaServed": "TR" },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Truss Sistemleri" }, "areaServed": "TR" },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Organizasyon Yönetimi" }, "areaServed": "TR" }
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Sahne Kiralama" }, areaServed: "TR" },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "LED Ekran Kiralama" }, areaServed: "TR" },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Ses-Işık Sistemleri" }, areaServed: "TR" },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Çadır Kiralama" }, areaServed: "TR" },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Truss Sistemleri" }, areaServed: "TR" },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Organizasyon Yönetimi" }, areaServed: "TR" }
         ]
       },
       {
         "@type": "Service",
         "@id": "https://www.sahneva.com/#service",
-        "name": "Etkinlik Ekipmanları Kiralama",
-        "description": "Türkiye genelinde sahne, podyum, LED ekran, ses ve ışık sistemleri kiralama; kurulum ve teknik operasyon.",
-        "url": "https://www.sahneva.com/",
-        "areaServed": { "@type": "Country", "name": "TR" },
-        "provider": { "@id": "https://www.sahneva.com/#org" },
-        "serviceType": [
+        name: "Etkinlik Ekipmanları Kiralama",
+        description: "Türkiye genelinde sahne, podyum, LED ekran, ses ve ışık sistemleri kiralama; kurulum ve teknik operasyon.",
+        url: "https://www.sahneva.com/",
+        areaServed: { "@type": "Country", name: "TR" },
+        provider: { "@id": "https://www.sahneva.com/#org" },
+        serviceType: [
           "Sahne Kiralama",
           "Podyum Kiralama",
           "LED Ekran Kiralama",
@@ -75,19 +73,48 @@ function StructuredData() {
       {
         "@type": "ImageObject",
         "@id": "https://www.sahneva.com/#og",
-        "contentUrl": "https://www.sahneva.com/og/sahneva-home.jpg",
-        "width": 1200,
-        "height": 630
+        contentUrl: "https://www.sahneva.com/og/sahneva-home.jpg",
+        width: 1200,
+        height: 630
       }
     ]
   };
-
   return (
     <script
       type="application/ld+json"
       suppressHydrationWarning
       dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
     />
+  );
+}
+
+/* --- CTA inline (HeroCtasClient yerine) --- */
+function HeroCtasInline() {
+  return (
+    <div className="flex flex-col sm:flex-row justify-center items-center gap-3 md:gap-4">
+      <a
+        href="tel:+905453048671"
+        className="w-full sm:w-auto min-w-[180px] text-center group relative bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold text-base px-6 py-3 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-white/20 backdrop-blur-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+      >
+        <span className="relative z-10 flex items-center justify-center gap-2">
+          <span aria-hidden="true">📞</span> Hemen Ara
+        </span>
+        <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true" />
+      </a>
+
+      <a
+        href="https://wa.me/905453048671?text=Merhaba%2C+web+sitenizden+ula%C5%9F%C4%B1yorum.+Sahne+kiralama+ve+LED+ekran+fiyatlar%C4%B1+hakk%C4%B1nda+detayl%C4%B1+teklif+almak+istiyorum.&utm_source=homepage&utm_medium=hero_cta&utm_campaign=whatsapp"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="w-full sm:w-auto min-w-[180px] text-center group relative bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold text-base px-6 py-3 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-white/20 backdrop-blur-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+      >
+        <span className="relative z-10 flex items-center justify-center gap-2">
+          <span aria-hidden="true">💬</span> WhatsApp Teklif
+        </span>
+        <span className="sr-only">(yeni sekmede açılır)</span>
+        <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true" />
+      </a>
+    </div>
   );
 }
 
@@ -120,12 +147,11 @@ export default function HomePage() {
             Sahne, Podyum, LED Ekran &amp; Ses-Işık Sistemleri Kiralama
           </h1>
           <p id="hero-desc" className="text-white text-lg md:text-xl mb-8">
-            Türkiye genelinde sahne ve podyum kurulumları, LED ekran, ses-ışık sistemleri ve çadır kiralama.
-            Hızlı teslim, profesyonel teknik ekip.
+            Türkiye genelinde sahne ve podyum kurulumları, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı teslim, profesyonel teknik ekip.
           </p>
 
-          {/* CTA'lar */}
-          <HeroCtasClient />
+          {/* CTA'lar (inline) */}
+          <HeroCtasInline />
 
           {/* Özellik rozetleri */}
           <ul className="mt-6 grid max-w-3xl mx-auto grid-cols-1 sm:grid-cols-3 gap-3" aria-label="Hizmet özellikleri">
@@ -155,7 +181,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ANA İÇERİK — layout.js içindeki <main> ile ÇAKIŞMAMAK için <div role="region"> */}
+      {/* ANA İÇERİK — layout.js içindeki <main> ile ÇAKIŞMAMASIN diye <div role="region"> */}
       <div id="main" role="region" aria-label="Ana içerik">
         {/* Google yorum banner’ı */}
         <ReviewBanner />
