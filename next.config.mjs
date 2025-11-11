@@ -1,4 +1,4 @@
-// next.config.mjs - KESİN ÇÖZÜM
+// next.config.mjs - Turbopack READY (CSP aynen korundu)
 
 const ONE_DAY_IN_SECONDS = 60 * 60 * 24;
 const ONE_MONTH_IN_SECONDS = ONE_DAY_IN_SECONDS * 30;
@@ -87,8 +87,7 @@ const securityHeaders = (() => {
     { key: "X-Content-Type-Options", value: "nosniff" },
     { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
     { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
-    // ❌ COEP ARTIK YOK - Bu sayede CORP gereksinimi ortadan kalkar
-    // ❌ CORP ARTIK YOK - COEP olmayınca CORP'a gerek kalmaz
+    // ❌ COEP / CORP yok
     {
       key: "Permissions-Policy",
       value:
@@ -114,12 +113,18 @@ const longTermCacheHeaders = [
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // 🔵 Turbopack'i açık seç (uyarıyı da susturur)
+  turbopack: {},
+
   reactStrictMode: true,
   poweredByHeader: false,
   compress: true,
   generateEtags: true,
-  productionBrowserSourceMaps: false,
+  productionBrowserSourceMaps: false, // ✅ Zaten kapalı - iyi
   trailingSlash: false,
+
+  // ❌ Turbopack ile çakışan webpack override KALDIRILDI
+  // webpack: (config, ctx) => { ... }
 
   images: {
     deviceSizes: [320, 420, 640, 750, 828, 1080, 1200, 1920],
@@ -128,6 +133,8 @@ const nextConfig = {
     minimumCacheTTL: ONE_MONTH_IN_SECONDS,
     remotePatterns: [],
     dangerouslyAllowSVG: false,
+    // 🔕 next/image kalite uyarıları kapanır
+    qualities: [60, 65, 75, 85],
   },
 
   compiler: {
@@ -159,7 +166,9 @@ const nextConfig = {
     ignoreBuildErrors: false,
   },
 
+  // ✅ Modern output format
   output: isProd ? "standalone" : undefined,
+
   staticPageGenerationTimeout: 300,
 
   async redirects() {
