@@ -61,7 +61,12 @@ const LS_KEYS = {
 
 /* =================== Yardımcılar =================== */
 const setLS = (key, value) => {
-  try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (error) {
+    // LocalStorage erişilemezse sessizce yoksay (ör. SSR, gizli mod)
+    void error;
+  }
 };
 const getLS = (key, defaultValue) => {
   try {
@@ -277,7 +282,6 @@ export default function UtilityBar() {
     );
     const focusables = getFocusables();
     const first = focusables?.[0];
-    const last = focusables?.[focusables.length - 1];
     const onTab = (e) => {
       if (e.key !== "Tab") return;
       const fs = getFocusables();
@@ -354,67 +358,51 @@ export default function UtilityBar() {
     setMuteSounds(v); setLS(LS_KEYS.MUTE_SOUNDS, v); applyMute(v);
   });
   const toggleVisionImpaired = createToggleHandler(
-  visionImpaired,
-  setVisionImpaired,
-  LS_KEYS.VISION_IMPAIRED,
-  (v) => {
-    if (v) {
-      setFontSize(18); setLS(LS_KEYS.FONT_SIZE, 18);
-      setHighContrast(true); setLS(LS_KEYS.HIGH_CONTRAST, true);
-      setUnderlineLinks(true); setLS(LS_KEYS.UNDERLINE_LINKS, true);
-      setBigCursor(true); setLS(LS_KEYS.BIG_CURSOR, true);
-    } else {
-      setHighContrast(false); setLS(LS_KEYS.HIGH_CONTRAST, false);
-      setUnderlineLinks(false); setLS(LS_KEYS.UNDERLINE_LINKS, false);
-      setBigCursor(false); setLS(LS_KEYS.BIG_CURSOR, false);
-      setFontSize(16); setLS(LS_KEYS.FONT_SIZE, 16);
+    visionImpaired,
+    setVisionImpaired,
+    LS_KEYS.VISION_IMPAIRED,
+    (v) => {
+      if (v) {
+        setFontSize(18); setLS(LS_KEYS.FONT_SIZE, 18);
+        setHighContrast(true); setLS(LS_KEYS.HIGH_CONTRAST, true);
+        setUnderlineLinks(true); setLS(LS_KEYS.UNDERLINE_LINKS, true);
+        setBigCursor(true); setLS(LS_KEYS.BIG_CURSOR, true);
+      } else {
+        setHighContrast(false); setLS(LS_KEYS.HIGH_CONTRAST, false);
+        setUnderlineLinks(false); setLS(LS_KEYS.UNDERLINE_LINKS, false);
+        setBigCursor(false); setLS(LS_KEYS.BIG_CURSOR, false);
+        setFontSize(16); setLS(LS_KEYS.FONT_SIZE, 16);
+      }
     }
-  }
-);
+  );
 
-const toggleAdhdFriendly = createToggleHandler(
-  adhdFriendly,
-  setAdhdFriendly,
-  LS_KEYS.ADHD_FRIENDLY,
-  (v) => {
-    setAnimationsStopped(v); setLS(LS_KEYS.STOP_ANIMATIONS, v);
-  }
-);
+  const toggleAdhdFriendly = createToggleHandler(
+    adhdFriendly,
+    setAdhdFriendly,
+    LS_KEYS.ADHD_FRIENDLY,
+    (v) => {
+      setAnimationsStopped(v); setLS(LS_KEYS.STOP_ANIMATIONS, v);
+    }
+  );
 
-const toggleCognitiveDisability = createToggleHandler(
-  cognitiveDisability,
-  setCognitiveDisability,
-  LS_KEYS.COGNITIVE_DISABILITY,
-  (v) => {
-    if (v) {
-      setFontSize(18); setLS(LS_KEYS.FONT_SIZE, 18);
-      setDyslexicFont(true); setLS(LS_KEYS.DYSLEXIC_FONT, true);
-      setHighlightHeadings(true); setLS(LS_KEYS.HIGHLIGHT_HEADINGS, true);
-      setHighlightLinks(true); setLS(LS_KEYS.HIGHLIGHT_LINKS, true);
-    } else {
-      setDyslexicFont(false); setLS(LS_KEYS.DYSLEXIC_FONT, false);
-      setHighlightHeadings(false); setLS(LS_KEYS.HIGHLIGHT_HEADINGS, false);
-      setHighlightLinks(false); setLS(LS_KEYS.HIGHLIGHT_LINKS, false);
-      setFontSize(16); setLS(LS_KEYS.FONT_SIZE, 16);
+  const toggleCognitiveDisability = createToggleHandler(
+    cognitiveDisability,
+    setCognitiveDisability,
+    LS_KEYS.COGNITIVE_DISABILITY,
+    (v) => {
+      if (v) {
+        setFontSize(18); setLS(LS_KEYS.FONT_SIZE, 18);
+        setDyslexicFont(true); setLS(LS_KEYS.DYSLEXIC_FONT, true);
+        setHighlightHeadings(true); setLS(LS_KEYS.HIGHLIGHT_HEADINGS, true);
+        setHighlightLinks(true); setLS(LS_KEYS.HIGHLIGHT_LINKS, true);
+      } else {
+        setDyslexicFont(false); setLS(LS_KEYS.DYSLEXIC_FONT, false);
+        setHighlightHeadings(false); setLS(LS_KEYS.HIGHLIGHT_HEADINGS, false);
+        setHighlightLinks(false); setLS(LS_KEYS.HIGHLIGHT_LINKS, false);
+        setFontSize(16); setLS(LS_KEYS.FONT_SIZE, 16);
+      }
     }
-  }
-); setLS(LS_KEYS.FONT_SIZE, 18);
-      setDyslexicFont(true); setLS(LS_KEYS.DYSLEXIC_FONT, true);
-      setHighlightHeadings(true); setLS(LS_KEYS.HIGHLIGHT_HEADINGS, true);
-      setHighlightLinks(true); setLS(LS_KEYS.HIGHLIGHT_LINKS, true);
-    } else {
-      setDyslexicFont(false); setLS(LS_KEYS.DYSLEXIC_FONT, false);
-      setHighlightHeadings(false); setLS(LS_KEYS.HIGHLIGHT_HEADINGS, false);
-      setHighlightLinks(false); setLS(LS_KEYS.HIGHLIGHT_LINKS, false);
-      setFontSize(16); setLS(LS_KEYS.FONT_SIZE, 16);
-    }
-  }
-); setLS(LS_KEYS.FONT_SIZE, 18);
-      setDyslexicFont(true); setLS(LS_KEYS.DYSLEXIC_FONT, true);
-      setHighlightHeadings(true); setLS(LS_KEYS.HIGHLIGHT_HEADINGS, true);
-      setHighlightLinks(true); setLS(LS_KEYS.HIGHLIGHT_LINKS, true);
-    }
-  });
+  );
   const toggleBlindUsers = createToggleHandler(blindUsers, setBlindUsers, LS_KEYS.BLIND_USERS);
   const toggleKeyboardNav = createToggleHandler(keyboardNav, setKeyboardNav, LS_KEYS.KEYBOARD_NAV);
 
@@ -668,7 +656,7 @@ function SearchModal({ query, setQuery, results, onClose }) {
     const el = modalRef.current;
     const getFocusables = () => el?.querySelectorAll('button, [href], input, [tabindex]:not([tabindex="-1"])');
     const fs = getFocusables();
-    const first = fs?.[0]; const last = fs?.[fs.length - 1];
+    const first = fs?.[0];
     const onTab = (e) => {
       if (e.key !== 'Tab') return;
       const arr = getFocusables(); if (!arr || !arr.length) return;

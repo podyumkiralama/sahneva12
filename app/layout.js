@@ -4,7 +4,10 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Script from "next/script";
 import { Inter } from "next/font/google";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+
+import DeferredAnalytics from "../components/DeferredAnalytics.client";
+import DeferredSpeedInsights from "../components/DeferredSpeedInsights.client";
+import CriticalAssets from "../components/CriticalAssets";
 
 // UtilityBar import - ihtiyaca göre seçim yapın
 import UtilityBar from "../components/UtilityBar.client";
@@ -102,7 +105,9 @@ export default function RootLayout({ children }) {
     <html lang="tr" dir="ltr" className={inter.className} suppressHydrationWarning>
       <head>
         {/* ✅ FAVICON LINK'LERİ KALDIRILDI - METADATA İÇİNDE YÖNETİLİYOR */}
-        
+
+        <CriticalAssets />
+
         {/* Kritik CSS */}
         <style id="critical-css">{`
           .pt-16{padding-top:4rem}
@@ -137,28 +142,7 @@ export default function RootLayout({ children }) {
       </head>
 
       <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth">
-        {/* Google Analytics */}
-        {GA_MEASUREMENT_ID && (
-          <>
-            <Script
-              id="gtag-lib"
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script id="ga-init" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${GA_MEASUREMENT_ID}', { 
-                  anonymize_ip: true,
-                  page_title: document.title,
-                  page_location: window.location.href
-                });
-              `}
-            </Script>
-          </>
-        )}
+        <DeferredAnalytics gaId={GA_MEASUREMENT_ID} />
 
         {/* DÜZELTİLMİŞ Skip Link - GÖZÜKMEYECEK ama TAB tuşuyla focus'landığında görünecek */}
         <a href="#main-content" className="skip-link">
@@ -179,7 +163,7 @@ export default function RootLayout({ children }) {
         </main>
 
         <Footer />
-        <SpeedInsights />
+        <DeferredSpeedInsights />
 
         {/* JSON-LD Structured Data */}
         <Script
