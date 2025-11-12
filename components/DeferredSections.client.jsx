@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import DeferredHydration from "@/components/DeferredHydration.client";
 import { useEffect, useRef } from "react";
 
-// ✅ Layout Shift Önleyen Hook (dosya içinde tanımlandı)
+// ✅ Layout Shift Önleyen Hook (optimized)
 function useLayoutShiftProtection() {
   const ref = useRef(null);
   
@@ -13,39 +13,31 @@ function useLayoutShiftProtection() {
     const element = ref.current;
     if (!element) return;
 
-    // ✅ Önceden boyut ayarla ve layout shift önle
-    const rect = element.getBoundingClientRect();
-    if (rect.height > 0) {
-      element.style.minHeight = `${rect.height}px`;
-    }
-
-    // ✅ ResizeObserver ile layout değişikliklerini izle
-    const observer = new ResizeObserver((entries) => {
-      for (let entry of entries) {
-        const { height } = entry.contentRect;
-        if (height > 0) {
-          requestAnimationFrame(() => {
-            entry.target.style.minHeight = `${height}px`;
-          });
-        }
+    // ✅ Intersection Observer ile görünürlük kontrolü
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        // Görünür olduğunda min-height kaldır
+        requestAnimationFrame(() => {
+          element.style.minHeight = '';
+        });
+        observer.disconnect();
       }
+    }, {
+      threshold: 0.1,
+      rootMargin: '50px'
     });
 
     observer.observe(element);
     
     return () => {
       observer.disconnect();
-      // ✅ Cleanup
-      if (element.style.minHeight) {
-        element.style.minHeight = '';
-      }
     };
   }, []);
 
   return ref;
 }
 
-// ✅ Layout Shift Önleyen Skeleton Bileşenleri
+// ✅ Optimized Skeleton Components
 function ReviewBannerSkeleton() {
   const ref = useLayoutShiftProtection();
   
@@ -54,17 +46,20 @@ function ReviewBannerSkeleton() {
       ref={ref}
       className="pointer-events-none layout-stable" 
       aria-hidden="true"
-      style={{ contain: 'layout style paint' }}
+      style={{ 
+        contain: 'layout style paint',
+        minHeight: '80px' // Fixed height for CLS prevention
+      }}
     >
       <div className="mx-auto max-w-3xl rounded-2xl border border-amber-200/60 bg-white/80 p-4 shadow-lg">
-        <div className="flex items-center gap-3 animate-pulse motion-reduce:animate-none">
-          <div className="hidden sm:block h-10 w-10 rounded-full bg-amber-200/80" />
+        <div className="flex items-center gap-3">
+          <div className="hidden sm:block h-10 w-10 rounded-full bg-amber-200/80 animate-pulse" />
           <div className="flex-1 space-y-2">
-            <div className="h-3 w-3/4 rounded bg-neutral-200" />
-            <div className="h-3 w-1/2 rounded bg-neutral-200" />
+            <div className="h-3 w-3/4 rounded bg-neutral-200 animate-pulse" />
+            <div className="h-3 w-1/2 rounded bg-neutral-200 animate-pulse" />
           </div>
-          <div className="h-9 w-24 rounded-full bg-amber-300/80" />
-          <div className="h-9 w-9 rounded-full bg-neutral-200" />
+          <div className="h-9 w-24 rounded-full bg-amber-300/80 animate-pulse" />
+          <div className="h-9 w-9 rounded-full bg-neutral-200 animate-pulse" />
         </div>
       </div>
     </div>
@@ -80,20 +75,21 @@ function ServicesTabsSkeleton() {
       className="w-full layout-stable"
       role="status"
       aria-live="polite"
-      aria-busy="true"
-      aria-label="Hizmet sekmeleri yükleniyor"
-      style={{ contain: 'layout style paint' }}
+      style={{ 
+        contain: 'layout style paint',
+        minHeight: '400px' // Fixed height for CLS prevention
+      }}
     >
       <div className="flex flex-wrap gap-3 sm:flex-nowrap sm:overflow-hidden mb-8">
         {Array.from({ length: 4 }).map((_, index) => (
           <div
             key={index}
-            className="h-11 flex-1 min-w-[120px] rounded-xl bg-neutral-200 animate-pulse motion-reduce:animate-none"
+            className="h-11 flex-1 min-w-[120px] rounded-xl bg-neutral-200 animate-pulse"
             aria-hidden="true"
           />
         ))}
       </div>
-      <div className="h-80 rounded-3xl border border-neutral-200 bg-neutral-100 animate-pulse motion-reduce:animate-none" aria-hidden="true" />
+      <div className="h-80 rounded-3xl border border-neutral-200 bg-neutral-100 animate-pulse" aria-hidden="true" />
       <span className="sr-only">Hizmet sekmeleri yükleniyor</span>
     </div>
   );
@@ -108,14 +104,15 @@ function ProjectsGallerySkeleton() {
       className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 layout-stable"
       role="status"
       aria-live="polite"
-      aria-busy="true"
-      aria-label="Projeler yükleniyor"
-      style={{ contain: 'layout style paint' }}
+      style={{ 
+        contain: 'layout style paint',
+        minHeight: '280px' // Fixed height for CLS prevention
+      }}
     >
       {[1, 2, 3].map((key) => (
         <div
           key={key}
-          className="h-80 rounded-2xl bg-neutral-200 animate-pulse motion-reduce:animate-none"
+          className="h-80 rounded-2xl bg-neutral-200 animate-pulse"
           aria-hidden="true"
         />
       ))}
@@ -133,14 +130,15 @@ function FaqSkeleton() {
       className="space-y-4 layout-stable"
       role="status"
       aria-live="polite"
-      aria-busy="true"
-      aria-label="Sık sorulan sorular yükleniyor"
-      style={{ contain: 'layout style paint' }}
+      style={{ 
+        contain: 'layout style paint',
+        minHeight: '320px' // Fixed height for CLS prevention
+      }}
     >
       {Array.from({ length: 5 }).map((_, index) => (
         <div
           key={index}
-          className="rounded-2xl border border-white/10 bg-white/10 p-4 animate-pulse motion-reduce:animate-none"
+          className="rounded-2xl border border-white/10 bg-white/10 p-4 animate-pulse"
           aria-hidden="true"
         >
           <div className="h-4 w-3/4 rounded bg-white/40 mb-3" />
@@ -153,7 +151,7 @@ function FaqSkeleton() {
   );
 }
 
-// ✅ Optimize Edilmiş Dynamic Import'lar
+// ✅ Optimized Dynamic Imports with better loading strategy
 const ReviewBannerLazy = dynamic(() => import("@/components/ReviewBanner"), {
   ssr: false,
   loading: ReviewBannerSkeleton,
@@ -175,11 +173,20 @@ const FaqLazy = dynamic(() => import("@/components/Faq"), {
 });
 
 // ✅ Performance Optimized Deferred Components
-export function ReviewBannerDeferred({ idleTimeout = 2000, rootMargin = "0px", ...rest }) {
+export function ReviewBannerDeferred({ 
+  idleTimeout = 2000, 
+  rootMargin = "100px", 
+  className = "",
+  ...rest 
+}) {
   const ref = useLayoutShiftProtection();
   
   return (
-    <div ref={ref} className="layout-stable">
+    <div 
+      ref={ref} 
+      className={`layout-stable ${className}`}
+      style={{ contain: 'layout style paint' }}
+    >
       <DeferredHydration
         fallback={<ReviewBannerSkeleton />}
         idleTimeout={idleTimeout}
@@ -192,11 +199,20 @@ export function ReviewBannerDeferred({ idleTimeout = 2000, rootMargin = "0px", .
   );
 }
 
-export function ServicesTabsDeferred({ idleTimeout = 2800, rootMargin = "320px", ...rest }) {
+export function ServicesTabsDeferred({ 
+  idleTimeout = 2800, 
+  rootMargin = "200px", 
+  className = "",
+  ...rest 
+}) {
   const ref = useLayoutShiftProtection();
   
   return (
-    <div ref={ref} className="layout-stable">
+    <div 
+      ref={ref} 
+      className={`layout-stable ${className}`}
+      style={{ contain: 'layout style paint' }}
+    >
       <DeferredHydration
         fallback={<ServicesTabsSkeleton />}
         idleTimeout={idleTimeout}
@@ -209,11 +225,20 @@ export function ServicesTabsDeferred({ idleTimeout = 2800, rootMargin = "320px",
   );
 }
 
-export function ProjectsGalleryDeferred({ idleTimeout = 3200, rootMargin = "360px", ...rest }) {
+export function ProjectsGalleryDeferred({ 
+  idleTimeout = 3200, 
+  rootMargin = "250px", 
+  className = "",
+  ...rest 
+}) {
   const ref = useLayoutShiftProtection();
   
   return (
-    <div ref={ref} className="layout-stable">
+    <div 
+      ref={ref} 
+      className={`layout-stable ${className}`}
+      style={{ contain: 'layout style paint' }}
+    >
       <DeferredHydration
         fallback={<ProjectsGallerySkeleton />}
         idleTimeout={idleTimeout}
@@ -226,11 +251,20 @@ export function ProjectsGalleryDeferred({ idleTimeout = 3200, rootMargin = "360p
   );
 }
 
-export function FaqDeferred({ idleTimeout = 3600, rootMargin = "400px", ...rest }) {
+export function FaqDeferred({ 
+  idleTimeout = 3600, 
+  rootMargin = "300px", 
+  className = "",
+  ...rest 
+}) {
   const ref = useLayoutShiftProtection();
   
   return (
-    <div ref={ref} className="layout-stable">
+    <div 
+      ref={ref} 
+      className={`layout-stable ${className}`}
+      style={{ contain: 'layout style paint' }}
+    >
       <DeferredHydration
         fallback={<FaqSkeleton />}
         idleTimeout={idleTimeout}
@@ -242,3 +276,11 @@ export function FaqDeferred({ idleTimeout = 3600, rootMargin = "400px", ...rest 
     </div>
   );
 }
+
+// ✅ Export for performance monitoring
+export const DeferredSectionConfigs = {
+  ReviewBanner: { timeout: 2000, rootMargin: "100px" },
+  ServicesTabs: { timeout: 2800, rootMargin: "200px" },
+  ProjectsGallery: { timeout: 3200, rootMargin: "250px" },
+  Faq: { timeout: 3600, rootMargin: "300px" }
+};
