@@ -12,50 +12,6 @@ import {
 } from "@/components/DeferredSections.client";
 
 // —————————————————————————————————————————
-// SEO METADATA (Sayfa özel) – Layout’taki şablonu override eder
-// —————————————————————————————————————————
-export const metadata = {
-  title: "Sahne Sistemleri, LED Ekran, Ses-Işık | Türkiye Geneli | Sahneva",
-  description:
-    "Sahne kiralama, podyum, LED ekran ve ses-ışık sistemleri. Türkiye geneli hızlı kurulum, 500+ referans, %98 müşteri memnuniyeti.",
-  alternates: {
-    canonical: "https://www.sahneva.com/",
-    languages: {
-      "tr-TR": "https://www.sahneva.com/",
-      "x-default": "https://www.sahneva.com/",
-    },
-  },
-  openGraph: {
-    title: "Sahne Sistemleri, LED Ekran, Ses-Işık | Sahneva",
-    description:
-      "Sahne kiralama, podyum, LED ekran ve ses-ışık sistemleri. Türkiye geneli hızlı kurulum, 500+ referans.",
-    url: "https://www.sahneva.com/",
-    siteName: "Sahneva",
-    images: [
-      {
-        url: "https://www.sahneva.com/og/sahneva-home.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Sahneva Ana Sayfa",
-      },
-    ],
-    locale: "tr_TR",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Sahne Sistemleri, LED Ekran, Ses-Işık | Sahneva",
-    description:
-      "Sahne kiralama, podyum, LED ekran ve ses-ışık sistemleri. Türkiye geneli hızlı kurulum, 500+ referans.",
-    images: ["https://www.sahneva.com/og/sahneva-home.jpg"],
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
-
-// —————————————————————————————————————————
 // SABİT VERİLER
 // —————————————————————————————————————————
 const HERO_FEATURES = [
@@ -84,7 +40,6 @@ export const revalidate = 3600;
 
 // —————————————————————————————————————————
 // JSON-LD (Schema.org) – Sadece sayfaya özgü tipler
-//  * Organization / WebSite / FAQPage layout’ta veriliyor → burada tekrarlamıyoruz.
 // —————————————————————————————————————————
 function StructuredData() {
   const data = {
@@ -96,8 +51,8 @@ function StructuredData() {
         url: "https://www.sahneva.com/",
         name: "Sahne Sistemleri, LED Ekran, Ses-Işık | Türkiye Geneli | Sahneva",
         inLanguage: "tr-TR",
-        isPartOf: { "@id": "https://www.sahneva.com/#website" }, // layout
-        about: { "@id": "https://www.sahneva.com/#org" },        // layout
+        isPartOf: { "@id": "https://www.sahneva.com/#website" },
+        about: { "@id": "https://www.sahneva.com/#org" },
       },
       {
         "@type": "OfferCatalog",
@@ -130,8 +85,7 @@ function StructuredData() {
         "@type": "Service",
         "@id": "https://www.sahneva.com/#service",
         name: "Etkinlik Ekipmanları Kiralama",
-        description:
-          "Türkiye genelinde sahne, podyum, LED ekran, ses ve ışık sistemleri kiralama; kurulum ve teknik operasyon.",
+        description: "Türkiye genelinde sahne, podyum, LED ekran, ses ve ışık sistemleri kiralama; kurulum ve teknik operasyon.",
         url: "https://www.sahneva.com/",
         areaServed: { "@type": "Country", name: "TR" },
         provider: { "@id": "https://www.sahneva.com/#org" },
