@@ -99,15 +99,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="tr" dir="ltr" className={inter.className} suppressHydrationWarning>
       <head>
-        {/* Preload critical resources */}
-        <link
-          rel="preload"
-          href="/_next/static/media/your-critical-image.webp"
-          as="image"
-          type="image/webp"
-          media="(min-width: 768px)"
-        />
-        
+              
         {/* Critical CSS - minimized */}
         <style
           id="critical-css"
