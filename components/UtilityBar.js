@@ -61,7 +61,13 @@ const LS_KEYS = {
 
 /* =================== Yardımcılar =================== */
 const setLS = (key, value) => {
-  try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (error) {
+    if (process.env.NODE_ENV !== "production") {
+      console.warn("localStorage erişilemedi", error);
+    }
+  }
 };
 const getLS = (key, defaultValue) => {
   try {
@@ -277,7 +283,6 @@ export default function UtilityBar() {
     );
     const focusables = getFocusables();
     const first = focusables?.[0];
-    const last = focusables?.[focusables.length - 1];
     const onTab = (e) => {
       if (e.key !== "Tab") return;
       const fs = getFocusables();
@@ -654,7 +659,7 @@ function SearchModal({ query, setQuery, results, onClose }) {
     const el = modalRef.current;
     const getFocusables = () => el?.querySelectorAll('button, [href], input, [tabindex]:not([tabindex="-1"])');
     const fs = getFocusables();
-    const first = fs?.[0]; const last = fs?.[fs.length - 1];
+    const first = fs?.[0];
     const onTab = (e) => {
       if (e.key !== 'Tab') return;
       const arr = getFocusables(); if (!arr || !arr.length) return;

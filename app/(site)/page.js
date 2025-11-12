@@ -129,14 +129,12 @@ export default function HomePage() {
             src={heroImg}
             alt="Profesyonel sahne kurulumu, LED ekranlar ve ses-ışık sistemleri - Sahneva"
             fill
-            priority
             fetchPriority="high"
-            loading="eager"
-            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 90vw, 1280px"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 85vw, 1280px"
             placeholder="blur"
-            quality={60}
+            quality={55}
             className="object-cover object-center"
-            style={{ filter: "brightness(0.7) contrast(1.1) saturate(1.05)" }}
+            style={{ filter: "brightness(0.7) contrast(1.08) saturate(1.05)" }}
           />
         </div>
 
@@ -146,7 +144,7 @@ export default function HomePage() {
           aria-hidden="true"
         />
         <div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse motion-reduce:animate-none"
+          className="absolute inset-0 hidden sm:block bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse motion-reduce:animate-none"
           style={{ animationDuration: "8s" }}
           aria-hidden="true"
         />
