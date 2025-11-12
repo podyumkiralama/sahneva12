@@ -9,7 +9,7 @@ import {
   ServicesTabsDeferred,
   ProjectsGalleryDeferred,
   FaqDeferred,
-} from "./DeferredSections.client";
+} from "@/components/DeferredSections.client";
 
 // —————————————————————————————————————————
 // SABİT VERİLER
