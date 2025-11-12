@@ -1,4 +1,4 @@
-// next.config.mjs - Turbopack READY (CSP aynen korundu)
+// next.config.mjs - TURBOPACK UYUMLU
 
 const ONE_DAY_IN_SECONDS = 60 * 60 * 24;
 const ONE_MONTH_IN_SECONDS = ONE_DAY_IN_SECONDS * 30;
@@ -81,13 +81,11 @@ const securityHeaders = (() => {
     .replace(/\s{2,}/g, " ")
     .trim();
 
-  // ✅ COEP'i TAMAMEN KALDIRIYORUZ - CORP gereksinimini ortadan kaldırır
   const base = [
     { key: "Content-Security-Policy", value: csp },
     { key: "X-Content-Type-Options", value: "nosniff" },
     { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
     { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
-    // ❌ COEP / CORP yok
     {
       key: "Permissions-Policy",
       value:
@@ -113,18 +111,9 @@ const longTermCacheHeaders = [
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // 🔵 Turbopack'i açık seç (uyarıyı da susturur)
-  experimental: {
-    turbo: {
-      rules: {
-        '*.css': {
-          loaders: ['postcss-loader'],
-          as: '*.css',
-        },
-      },
-    },
-  },
-
+  // ✅ Turbopack config eklendi
+  turbopack: {},
+  
   reactStrictMode: true,
   poweredByHeader: false,
   compress: true,
@@ -132,33 +121,8 @@ const nextConfig = {
   productionBrowserSourceMaps: false,
   trailingSlash: false,
 
-  // ✅ Webpack optimizasyonları (Turbopack ile uyumlu)
-  webpack: (config, { isServer }) => {
-    // ✅ CSS minimizasyonu
-    if (!isServer) {
-      config.optimization.splitChunks = {
-        chunks: 'all',
-        cacheGroups: {
-          default: false,
-          vendors: false,
-          commons: {
-            name: 'commons',
-            chunks: 'all',
-            minChunks: 2,
-            reuseExistingChunk: true,
-          },
-          react: {
-            name: 'react',
-            chunks: 'all',
-            test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
-            priority: 40,
-          },
-        },
-      };
-    }
-
-    return config;
-  },
+  // ❌ Webpack config KALDIRILDI - Turbopack ile çakışıyor
+  // webpack: (config, { isServer }) => { ... }
 
   images: {
     deviceSizes: [320, 420, 640, 750, 828, 1080, 1200, 1920],
@@ -167,29 +131,20 @@ const nextConfig = {
     minimumCacheTTL: ONE_MONTH_IN_SECONDS,
     remotePatterns: [],
     dangerouslyAllowSVG: false,
-    // ✅ Optimize edilmiş kalite ayarları
-    qualities: [60, 65, 75, 85],
   },
 
   compiler: {
     removeConsole: isProd ? { exclude: ["error", "warn"] } : false,
-    reactRemoveProperties: isProd ? { properties: ["^data-testid$"] } : false,
   },
 
-  // ✅ Deneysel özellikler
   experimental: {
     scrollRestoration: true,
     optimizePackageImports: ["lucide-react", "@headlessui/react"],
-    esmExternals: true,
-    optimizeCss: true,
   },
 
   modularizeImports: {
     "lucide-react": {
       transform: "lucide-react/icons/{{member}}",
-    },
-    "react-icons/?(((\\w*)?/?)*)": {
-      transform: "react-icons/{{ matches.[1] }}/{{member}}",
     },
   },
 
@@ -202,7 +157,6 @@ const nextConfig = {
     ignoreBuildErrors: false,
   },
 
-  // ✅ Modern output format
   output: isProd ? "standalone" : undefined,
 
   staticPageGenerationTimeout: 300,
@@ -226,7 +180,7 @@ const nextConfig = {
 
   async headers() {
     return [
-      // 🌐 Global güvenlik başlıkları (ARTIK COEP ve CORP YOK)
+      // 🌐 Global güvenlik başlıkları (CSP KORUNDU)
       { source: "/(.*)", headers: securityHeaders },
 
       // Next statik runtime dosyaları
