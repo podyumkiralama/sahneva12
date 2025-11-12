@@ -61,12 +61,7 @@ const LS_KEYS = {
 
 /* =================== Yardımcılar =================== */
 const setLS = (key, value) => {
-  try {
-    localStorage.setItem(key, JSON.stringify(value));
-  } catch (error) {
-    // LocalStorage erişilemezse sessizce yoksay (ör. SSR, gizli mod)
-    void error;
-  }
+  try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
 };
 const getLS = (key, defaultValue) => {
   try {
@@ -282,6 +277,7 @@ export default function UtilityBar() {
     );
     const focusables = getFocusables();
     const first = focusables?.[0];
+    const last = focusables?.[focusables.length - 1];
     const onTab = (e) => {
       if (e.key !== "Tab") return;
       const fs = getFocusables();
@@ -318,7 +314,7 @@ export default function UtilityBar() {
 
   /* =============== Reading mask davranışı =============== */
   useEffect(() => {
-    if (!readingMask || !isActive) return;
+    if (!readingMask) return;
     ensureReadingMask();
     const onMove = (e) => {
       if (!guideRef.current) return;
@@ -327,7 +323,7 @@ export default function UtilityBar() {
     };
     document.addEventListener("mousemove", onMove);
     return () => document.removeEventListener("mousemove", onMove);
-  }, [readingMask, isActive, ensureReadingMask]);
+  }, [readingMask, ensureReadingMask]);
 
   /* =============== Medya sessize alma + observer =============== */
   useEffect(() => { applyMute(muteSounds); }, [muteSounds, applyMute]);
@@ -357,6 +353,7 @@ export default function UtilityBar() {
     setAnimationsStopped(v); setLS(LS_KEYS.STOP_ANIMATIONS, v);
     setMuteSounds(v); setLS(LS_KEYS.MUTE_SOUNDS, v); applyMute(v);
   });
+
   const toggleVisionImpaired = createToggleHandler(
     visionImpaired,
     setVisionImpaired,
@@ -403,6 +400,7 @@ export default function UtilityBar() {
       }
     }
   );
+
   const toggleBlindUsers = createToggleHandler(blindUsers, setBlindUsers, LS_KEYS.BLIND_USERS);
   const toggleKeyboardNav = createToggleHandler(keyboardNav, setKeyboardNav, LS_KEYS.KEYBOARD_NAV);
 
@@ -656,7 +654,7 @@ function SearchModal({ query, setQuery, results, onClose }) {
     const el = modalRef.current;
     const getFocusables = () => el?.querySelectorAll('button, [href], input, [tabindex]:not([tabindex="-1"])');
     const fs = getFocusables();
-    const first = fs?.[0];
+    const first = fs?.[0]; const last = fs?.[fs.length - 1];
     const onTab = (e) => {
       if (e.key !== 'Tab') return;
       const arr = getFocusables(); if (!arr || !arr.length) return;
