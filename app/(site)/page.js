@@ -12,6 +12,50 @@ import {
 } from "@/components/DeferredSections.client";
 
 // —————————————————————————————————————————
+// SEO METADATA (Sayfa özel) – Layout’taki şablonu override eder
+// —————————————————————————————————————————
+export const metadata = {
+  title: "Sahne Sistemleri, LED Ekran, Ses-Işık | Türkiye Geneli | Sahneva",
+  description:
+    "Sahne kiralama, podyum, LED ekran ve ses-ışık sistemleri. Türkiye geneli hızlı kurulum, 500+ referans, %98 müşteri memnuniyeti.",
+  alternates: {
+    canonical: "https://www.sahneva.com/",
+    languages: {
+      "tr-TR": "https://www.sahneva.com/",
+      "x-default": "https://www.sahneva.com/",
+    },
+  },
+  openGraph: {
+    title: "Sahne Sistemleri, LED Ekran, Ses-Işık | Sahneva",
+    description:
+      "Sahne kiralama, podyum, LED ekran ve ses-ışık sistemleri. Türkiye geneli hızlı kurulum, 500+ referans.",
+    url: "https://www.sahneva.com/",
+    siteName: "Sahneva",
+    images: [
+      {
+        url: "https://www.sahneva.com/og/sahneva-home.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Sahneva Ana Sayfa",
+      },
+    ],
+    locale: "tr_TR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sahne Sistemleri, LED Ekran, Ses-Işık | Sahneva",
+    description:
+      "Sahne kiralama, podyum, LED ekran ve ses-ışık sistemleri. Türkiye geneli hızlı kurulum, 500+ referans.",
+    images: ["https://www.sahneva.com/og/sahneva-home.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
+// —————————————————————————————————————————
 // SABİT VERİLER
 // —————————————————————————————————————————
 const HERO_FEATURES = [
@@ -40,6 +84,7 @@ export const revalidate = 3600;
 
 // —————————————————————————————————————————
 // JSON-LD (Schema.org) – Sadece sayfaya özgü tipler
+//  * Organization / WebSite / FAQPage layout’ta veriliyor → burada tekrarlamıyoruz.
 // —————————————————————————————————————————
 function StructuredData() {
   const data = {
@@ -51,8 +96,8 @@ function StructuredData() {
         url: "https://www.sahneva.com/",
         name: "Sahne Sistemleri, LED Ekran, Ses-Işık | Türkiye Geneli | Sahneva",
         inLanguage: "tr-TR",
-        isPartOf: { "@id": "https://www.sahneva.com/#website" },
-        about: { "@id": "https://www.sahneva.com/#org" },
+        isPartOf: { "@id": "https://www.sahneva.com/#website" }, // layout
+        about: { "@id": "https://www.sahneva.com/#org" },        // layout
       },
       {
         "@type": "OfferCatalog",
@@ -223,7 +268,7 @@ export default function HomePage() {
               </a>
             </div>
 
-            {/* ÖNE ÇIKANLAR */}
+            {/* === ÖNE ÇIKANLAR === */}
             <h2 className="sr-only">Öne çıkan özellikler</h2>
             <ul className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12 list-none p-0 m-0">
               {HERO_FEATURES.map((item, index) => (
@@ -275,10 +320,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Ana içerik */}
-      <div className="relative">
-        {/* #teklif-al hedefi */}
-        <div id="teklif-al" className="scroll-mt-20" tabIndex={-1} />
+      {/* Ana içerik başlangıcı */}
+      <div id="main" className="relative">
+        {/* #teklif-al hedefi (Erişilebilir) */}
+        <div id="teklif-al" className="sr-only" aria-hidden="true" />
 
         <div aria-hidden="true" className="h-12 lg:h-16" />
         <div className="sticky top-0 z-40">
