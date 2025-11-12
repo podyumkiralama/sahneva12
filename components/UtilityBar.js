@@ -173,12 +173,18 @@ export default function UtilityBar() {
   /* =============== Global sınıflar / değişkenler =============== */
   const applyRootClasses = useCallback(() => {
     const html = document.documentElement;
-    const on = html.classList.add.bind(html.classList);
-    const off = html.classList.remove.bind(html.classList);
 
-    // Temel aktif/fluid font
-    html.classList.toggle("accessibility-active", isActive);
-    html.classList.toggle("fs", isActive);
+    const anyEnabled = (
+      fontSize !== 16 || highContrast || darkMode || lightMode || invertColors || grayscale || underlineLinks ||
+      dyslexicFont || keyboardNav || bigCursor || animationsStopped || hideImages || highlightHeadings ||
+      highlightLinks || readingMask || seizureSafe || visionImpaired || adhdFriendly || cognitiveDisability ||
+      blindUsers || muteSounds
+    );
+
+    const activeOrEnabled = isActive || anyEnabled;
+
+    html.classList.toggle("accessibility-active", activeOrEnabled);
+    html.classList.toggle("fs", activeOrEnabled);
     html.style.setProperty("--acc-font-size", `${fontSize}px`);
 
     // Tema sınıfları
@@ -199,7 +205,7 @@ export default function UtilityBar() {
     html.classList.toggle("hide-img", hideImages);
     html.classList.toggle("hl-head", highlightHeadings);
     html.classList.toggle("hl-link", highlightLinks);
-  }, [isActive, fontSize, highContrast, darkMode, lightMode, invertColors, grayscale, underlineLinks, dyslexicFont, keyboardNav, bigCursor, animationsStopped, hideImages, highlightHeadings, highlightLinks]);
+  }, [isActive, fontSize, highContrast, darkMode, lightMode, invertColors, grayscale, underlineLinks, dyslexicFont, keyboardNav, bigCursor, animationsStopped, hideImages, highlightHeadings, highlightLinks, readingMask, seizureSafe, visionImpaired, adhdFriendly, cognitiveDisability, blindUsers, muteSounds]);
 
   /* =============== Medya sessize alma =============== */
   const applyMute = useCallback((mute) => {
@@ -335,7 +341,10 @@ export default function UtilityBar() {
 
   /* =============== Genel toggle helper =============== */
   const createToggleHandler = useCallback((state, setState, key, after) => () => {
-    const v = !state; setState(v); setLS(key, v); setIsActive(true); after?.(v);
+    const v = !state;
+    setState(v);
+    setLS(key, v);
+    after?.(v);
   }, []);
 
   /* =============== Profiller =============== */
@@ -344,9 +353,22 @@ export default function UtilityBar() {
     setAnimationsStopped(v); setLS(LS_KEYS.STOP_ANIMATIONS, v);
     setMuteSounds(v); setLS(LS_KEYS.MUTE_SOUNDS, v); applyMute(v);
   });
-  const toggleVisionImpaired = createToggleHandler(visionImpaired, setVisionImpaired, LS_KEYS.VISION_IMPAIRED, (v) => {
+  const toggleVisionImpaired = createToggleHandler(
+  visionImpaired, setVisionImpaired, LS_KEYS.VISION_IMPAIRED,
+  (v) => {
     if (v) {
       setFontSize(18); setLS(LS_KEYS.FONT_SIZE, 18);
+      setHighContrast(true); setLS(LS_KEYS.HIGH_CONTRAST, true);
+      setUnderlineLinks(true); setLS(LS_KEYS.UNDERLINE_LINKS, true);
+      setBigCursor(true); setLS(LS_KEYS.BIG_CURSOR, true);
+    } else {
+      setHighContrast(false); setLS(LS_KEYS.HIGH_CONTRAST, false);
+      setUnderlineLinks(false); setLS(LS_KEYS.UNDERLINE_LINKS, false);
+      setBigCursor(false); setLS(LS_KEYS.BIG_CURSOR, false);
+      setFontSize(16); setLS(LS_KEYS.FONT_SIZE, 16);
+    }
+  }
+); setLS(LS_KEYS.FONT_SIZE, 18);
       setHighContrast(true); setLS(LS_KEYS.HIGH_CONTRAST, true);
       setUnderlineLinks(true); setLS(LS_KEYS.UNDERLINE_LINKS, true);
       setBigCursor(true); setLS(LS_KEYS.BIG_CURSOR, true);
@@ -355,9 +377,22 @@ export default function UtilityBar() {
   const toggleAdhdFriendly = createToggleHandler(adhdFriendly, setAdhdFriendly, LS_KEYS.ADHD_FRIENDLY, (v) => {
     setAnimationsStopped(v); setLS(LS_KEYS.STOP_ANIMATIONS, v);
   });
-  const toggleCognitiveDisability = createToggleHandler(cognitiveDisability, setCognitiveDisability, LS_KEYS.COGNITIVE_DISABILITY, (v) => {
+  const toggleCognitiveDisability = createToggleHandler(
+  cognitiveDisability, setCognitiveDisability, LS_KEYS.COGNITIVE_DISABILITY,
+  (v) => {
     if (v) {
       setFontSize(18); setLS(LS_KEYS.FONT_SIZE, 18);
+      setDyslexicFont(true); setLS(LS_KEYS.DYSLEXIC_FONT, true);
+      setHighlightHeadings(true); setLS(LS_KEYS.HIGHLIGHT_HEADINGS, true);
+      setHighlightLinks(true); setLS(LS_KEYS.HIGHLIGHT_LINKS, true);
+    } else {
+      setDyslexicFont(false); setLS(LS_KEYS.DYSLEXIC_FONT, false);
+      setHighlightHeadings(false); setLS(LS_KEYS.HIGHLIGHT_HEADINGS, false);
+      setHighlightLinks(false); setLS(LS_KEYS.HIGHLIGHT_LINKS, false);
+      setFontSize(16); setLS(LS_KEYS.FONT_SIZE, 16);
+    }
+  }
+); setLS(LS_KEYS.FONT_SIZE, 18);
       setDyslexicFont(true); setLS(LS_KEYS.DYSLEXIC_FONT, true);
       setHighlightHeadings(true); setLS(LS_KEYS.HIGHLIGHT_HEADINGS, true);
       setHighlightLinks(true); setLS(LS_KEYS.HIGHLIGHT_LINKS, true);
