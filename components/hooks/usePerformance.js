@@ -1,7 +1,7 @@
 // hooks/usePerformance.js
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from "react";
 
 // ✅ Layout Shift Önleyen Hook
 export function useLayoutShiftProtection() {
