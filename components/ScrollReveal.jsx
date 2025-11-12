@@ -1,6 +1,6 @@
 'use client';
 
-import { useScrollAnimation } from '@/compenents/hooks/useScrollAnimation';
+import { useScrollAnimation } from '@/components/hooks/useScrollAnimation';
 
 export function ScrollReveal({ 
   children, 
