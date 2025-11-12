@@ -4,10 +4,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Script from "next/script";
 import { Inter } from "next/font/google";
-
-import DeferredAnalytics from "../components/DeferredAnalytics.client";
-import DeferredSpeedInsights from "../components/DeferredSpeedInsights.client";
-import CriticalAssets from "../components/CriticalAssets";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 // UtilityBar import - ihtiyaca göre seçim yapın
 import UtilityBar from "../components/UtilityBar.client";
@@ -17,12 +14,12 @@ const inter = Inter({
   subsets: ["latin"],
   preload: true,
   display: "swap",
+  adjustFontFallback: false, // Performance için
 });
 
 export const viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 5,
   themeColor: "#6d28d9",
 };
 
@@ -32,15 +29,13 @@ export const metadata = {
     default: "Sahne, Podyum, LED Ekran & Ses-Işık Kiralama | Sahneva",
     template: "%s | Sahneva",
   },
-  description:
-    "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı kurulum, profesyonel teknik ekip, uygun fiyat. Hemen teklif alın!",
+  description: "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı kurulum, profesyonel teknik ekip, uygun fiyat. Hemen teklif alın!",
   keywords: "sahne kiralama, podyum kiralama, led ekran kiralama, ses ışık sistemi, etkinlik prodüksiyon, organizasyon",
   manifest: "/site.webmanifest",
   alternates: { canonical: "https://www.sahneva.com" },
   openGraph: {
     title: "Sahneva – Etkinlik Prodüksiyon & Organizasyon",
-    description:
-      "Sahne, podyum, LED ekran, ses-ışık ve kurulum hizmetleri. Türkiye geneli.",
+    description: "Sahne, podyum, LED ekran, ses-ışık ve kurulum hizmetleri. Türkiye geneli.",
     url: "https://www.sahneva.com",
     siteName: "Sahneva",
     images: [
@@ -68,8 +63,7 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Sahneva – Etkinlik Prodüksiyon & Organizasyon",
-    description:
-      "Sahne, podyum, LED ekran, ses-ışık ve kurulum hizmetleri. Türkiye geneli.",
+    description: "Sahne, podyum, LED ekran, ses-ışık ve kurulum hizmetleri. Türkiye geneli.",
     images: ["/img/og.jpg"],
     creator: "@sahneva",
   },
@@ -77,74 +71,90 @@ export const metadata = {
     google: "H9p1RO-W1U3JDTjp0mM32blFkYABaTHNFnxVKKFfo08",
   },
   category: "event services",
-  // ✅ FAVICON'LAR METADATA İÇİNE EKLENDİ
   icons: {
     icon: [
       { url: '/favicon.ico' },
       { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
       { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
-      { url: '/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' },
     ],
     apple: [
       { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
-    ],
-    other: [
-      {
-        rel: 'apple-touch-icon-precomposed',
-        url: '/apple-touch-icon.png',
-      },
     ],
   },
 };
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID?.trim();
 
+// Kritik CSS - minimized ve optimized
+const criticalCSS = `
+.pt-16{padding-top:4rem}.md\\:pt-20{padding-top:5rem}@media (min-width:768px){.md\\:pt-20{padding-top:5rem}}
+.full-bleed{position:relative;margin:0 calc(50% - 50vw);width:100vw;min-height:60vh;overflow-x:clip}
+@media (min-width:768px){.full-bleed{min-height:70vh}}.object-cover{object-fit:cover}
+.container{max-width:1280px;margin:0 auto;padding:0 1rem}
+.skip-link{position:fixed;top:-100px;left:6px;background:#6d28d9;color:#fff;padding:12px 16px;text-decoration:none;border-radius:8px;font-weight:600;z-index:10000;transition:top .3s ease;opacity:0}
+.skip-link:focus{top:6px;opacity:1;outline:2px solid #fff;outline-offset:2px}
+`;
+
 export default function RootLayout({ children }) {
   return (
     <html lang="tr" dir="ltr" className={inter.className} suppressHydrationWarning>
       <head>
-        {/* ✅ FAVICON LINK'LERİ KALDIRILDI - METADATA İÇİNDE YÖNETİLİYOR */}
-
-        <CriticalAssets />
-
-        {/* Kritik CSS */}
-        <style id="critical-css">{`
-          .pt-16{padding-top:4rem}
-          @media (min-width:768px){.md\\:pt-20{padding-top:5rem}}
-          .full-bleed{position:relative;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);inline-size:100svw;width:100vw;min-height:60vh;overflow-x:clip}
-          @media (min-width:768px){.full-bleed{min-height:70vh}}
-          .object-cover{object-fit:cover}
-          .container{max-width:1280px;margin-inline:auto;padding-inline:1rem}
-          
-          /* Skip link için FİXED stil - GÖZÜKMEYECEK ama focus'ta görünecek */
-          .skip-link {
-            position: fixed;
-            top: -100px;
-            left: 6px;
-            background: #6d28d9;
-            color: white;
-            padding: 12px 16px;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            z-index: 10000;
-            transition: top 0.3s ease;
-            opacity: 0;
-          }
-          .skip-link:focus {
-            top: 6px;
-            opacity: 1;
-            outline: 2px solid white;
-            outline-offset: 2px;
-          }
-        `}</style>
+        {/* Preload critical resources */}
+        <link
+          rel="preload"
+          href="/_next/static/media/your-critical-image.webp"
+          as="image"
+          type="image/webp"
+          media="(min-width: 768px)"
+        />
+        
+        {/* Critical CSS - minimized */}
+        <style
+          id="critical-css"
+          dangerouslySetInnerHTML={{ __html: criticalCSS }}
+        />
+        
+        {/* DNS prefetch for external domains */}
+        <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="//www.google.com" />
       </head>
 
-      <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth">
-        <DeferredAnalytics gaId={GA_MEASUREMENT_ID} />
+      <body 
+        className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth"
+        // CLS önleme için initial dimensions
+        style={{ 
+          minHeight: '100vh',
+          position: 'relative'
+        }}
+      >
+        {/* Google Analytics - optimized loading */}
+        {GA_MEASUREMENT_ID && (
+          <>
+            <Script
+              id="gtag-lib"
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+              strategy="afterInteractive"
+              fetchPriority="low"
+            />
+            <Script 
+              id="ga-init" 
+              strategy="afterInteractive"
+            >
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_MEASUREMENT_ID}', {
+                  page_title: document.title,
+                  page_location: location.href,
+                  transport_type: 'beacon'
+                });
+              `}
+            </Script>
+          </>
+        )}
 
-        {/* DÜZELTİLMİŞ Skip Link - GÖZÜKMEYECEK ama TAB tuşuyla focus'landığında görünecek */}
+        {/* Skip Link - Accessibility */}
         <a href="#main-content" className="skip-link">
           Ana içeriğe atla
         </a>
@@ -152,45 +162,48 @@ export default function RootLayout({ children }) {
         <UtilityBar />
         <Navbar />
 
-        {/* Ana içerik - Skip link buraya atlayacak */}
+        {/* Main Content */}
         <main
           id="main-content"
           role="main"
           tabIndex={-1}
           className="pt-16 md:pt-20 mb-24 lg:mb-0 focus:outline-none scroll-mt-4"
+          // CLS önleme için sabit height container
+          style={{ 
+            minHeight: 'calc(100vh - 200px)',
+            contain: 'layout style paint'
+          }}
         >
           {children}
         </main>
 
         <Footer />
-        <DeferredSpeedInsights />
+        <SpeedInsights />
 
-        {/* JSON-LD Structured Data */}
+        {/* Structured Data - Deferred Loading */}
         <Script
           id="ld-org"
           type="application/ld+json"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
+              "@id": "https://www.sahneva.com/#org",
               name: "Sahneva",
               url: "https://www.sahneva.com",
               logo: "https://www.sahneva.com/img/logo.png",
-              description: "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama hizmetleri",
-              contactPoint: [
-                {
-                  "@type": "ContactPoint",
-                  telephone: "+90-545-304-8671",
-                  contactType: "customer service",
-                  areaServed: "TR",
-                  availableLanguage: ["Turkish"],
-                },
-              ],
+              description: "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri kiralama hizmetleri",
+              contactPoint: {
+                "@type": "ContactPoint",
+                telephone: "+90-545-304-8671",
+                contactType: "customer service",
+                areaServed: "TR",
+                availableLanguage: ["Turkish"],
+              },
               sameAs: [
                 "https://www.instagram.com/sahnevaorganizasyon",
                 "https://www.youtube.com/@sahneva",
-                "https://g.page/r/CZhkMzkNOdgnEBI",
               ],
             }),
           }}
@@ -199,7 +212,7 @@ export default function RootLayout({ children }) {
         <Script
           id="ld-local"
           type="application/ld+json"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
@@ -210,10 +223,8 @@ export default function RootLayout({ children }) {
               telephone: "+90-545-304-8671",
               address: {
                 "@type": "PostalAddress",
-                streetAddress: "Hamidiye, Anadolu Cd. 61 a",
                 addressLocality: "Kağıthane",
                 addressRegion: "İstanbul",
-                postalCode: "34400",
                 addressCountry: "TR",
               },
               geo: {
@@ -221,73 +232,21 @@ export default function RootLayout({ children }) {
                 latitude: 41.0810,
                 longitude: 28.9702
               },
-              sameAs: [
-                "https://www.instagram.com/sahnevaorganizasyon",
-                "https://www.youtube.com/@sahneva",
-                "https://g.page/r/CZhkMzkNOdgnEBI",
-              ],
               priceRange: "$$",
               openingHours: "Mo-Su 09:00-23:00",
-              areaServed: "Türkiye",
             }),
           }}
         />
 
-        <Script
-          id="ld-faq"
-          type="application/ld+json"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              mainEntity: [
-                {
-                  "@type": "Question",
-                  name: "Podyum kurulumu ne kadar sürer?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Podyum kurulumu, ölçülere ve zemin koşullarına göre genellikle 1–3 saat sürer. Büyük ölçekli kurulumlarda bu süre artabilir.",
-                  },
-                },
-                {
-                  "@type": "Question",
-                  name: "LED ekranlar dış mekanda kullanılabilir mi?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Evet, IP65 korumalı LED ekranlarımız açık havada güvenle kullanılabilir. Yağmur ve toza karşı tam koruma sağlar.",
-                  },
-                },
-                {
-                  "@type": "Question",
-                  name: "Ses ve ışık sistemlerinde teknik ekip sağlıyor musunuz?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Evet, kurulum ve etkinlik boyunca teknik ekip desteği veriyoruz. Profesyonel ses ve ışık operatörleri ekibimiz bulunmaktadır.",
-                  },
-                },
-                {
-                  "@type": "Question",
-                  name: "Çadır kiralamada kurulum ve söküm dahil mi?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Evet, kurulum ve söküm dahildir; zemin kaplama, aydınlatma ve diğer aksesuarlar opsiyonel olarak eklenebilir.",
-                  },
-                },
-              ],
-            }),
-          }}
-        />
-
-        {/* Website Schema */}
         <Script
           id="ld-website"
           type="application/ld+json"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebSite",
+              "@id": "https://www.sahneva.com/#website",
               name: "Sahneva",
               url: "https://www.sahneva.com",
               potentialAction: {
@@ -298,6 +257,39 @@ export default function RootLayout({ children }) {
             }),
           }}
         />
+
+        {/* Performance monitoring */}
+        <Script
+          id="performance-observer"
+          strategy="afterInteractive"
+        >
+          {`
+            if ('PerformanceObserver' in window) {
+              const observer = new PerformanceObserver((list) => {
+                list.getEntries().forEach((entry) => {
+                  if (entry.hadRecentInput) return;
+                  
+                  if (entry.name === 'first-input') {
+                    const fid = entry.processingStart - entry.startTime;
+                    if (fid > 100) {
+                      console.warn('FID warning:', fid, 'ms');
+                    }
+                  }
+                  
+                  if (entry.entryType === 'layout-shift') {
+                    if (entry.value > 0.1) {
+                      console.warn('CLS warning:', entry.value);
+                    }
+                  }
+                });
+              });
+              
+              observer.observe({
+                entryTypes: ['layout-shift', 'first-input']
+              });
+            }
+          `}
+        </Script>
       </body>
     </html>
   );
