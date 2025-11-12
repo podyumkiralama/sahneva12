@@ -49,7 +49,7 @@ function StructuredData() {
         "@type": "WebPage",
         "@id": "https://www.sahneva.com/#webpage",
         url: "https://www.sahneva.com/",
-        name: "Profesyonel Sahne Sistemleri, LED Ekran, Ses-Işık | Türkiye Geneli | Sahneva",
+        name: "Sahne Sistemleri, LED Ekran, Ses-Işık | Türkiye Geneli | Sahneva",
         inLanguage: "tr-TR",
         isPartOf: { "@id": "https://www.sahneva.com/#website" },
         about: { "@id": "https://www.sahneva.com/#org" },
@@ -62,11 +62,7 @@ function StructuredData() {
         itemListElement: [
           {
             "@type": "Offer",
-            itemOffered: { 
-              "@type": "Service", 
-              name: "Podyum Kiralama", 
-              description: "Profesyonel podyum sahne kiralama hizmeti"
-            },
+            itemOffered: { "@type": "Service", name: "Podyum Kiralama", description: "Podyum Sahne kiralama" },
             priceSpecification: {
               "@type": "UnitPriceSpecification",
               price: 250,
@@ -77,46 +73,30 @@ function StructuredData() {
             areaServed: "TR",
             seller: { "@id": "https://www.sahneva.com/#org" },
           },
-          { 
-            "@type": "Offer", 
-            itemOffered: { 
-              "@type": "Service", 
-              name: "Sahne Kiralama",
-              description: "Profesyonel sahne kiralama hizmeti"
-            }, 
-            areaServed: "TR", 
-            seller: { "@id": "https://www.sahneva.com/#org" } 
-          },
-          { 
-            "@type": "Offer", 
-            itemOffered: { 
-              "@type": "Service", 
-              name: "LED Ekran Kiralama",
-              description: "Yüksek çözünürlüklü LED ekran kiralama"
-            }, 
-            areaServed: "TR", 
-            seller: { "@id": "https://www.sahneva.com/#org" } 
-          },
-          { 
-            "@type": "Offer", 
-            itemOffered: { 
-              "@type": "Service", 
-              name: "Ses-Işık Sistemleri",
-              description: "Profesyonel ses ve ışık sistemi kiralama"
-            }, 
-            areaServed: "TR", 
-            seller: { "@id": "https://www.sahneva.com/#org" } 
-          },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Sahne Kiralama" }, areaServed: "TR", seller: { "@id": "https://www.sahneva.com/#org" } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "LED Ekran Kiralama" }, areaServed: "TR", seller: { "@id": "https://www.sahneva.com/#org" } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Ses-Işık Sistemleri" }, areaServed: "TR", seller: { "@id": "https://www.sahneva.com/#org" } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Çadır Kiralama" }, areaServed: "TR", seller: { "@id": "https://www.sahneva.com/#org" } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Truss Sistemleri" }, areaServed: "TR", seller: { "@id": "https://www.sahneva.com/#org" } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Organizasyon Yönetimi" }, areaServed: "TR", seller: { "@id": "https://www.sahneva.com/#org" } },
         ],
       },
       {
         "@type": "Service",
         "@id": "https://www.sahneva.com/#service",
         name: "Etkinlik Ekipmanları Kiralama",
-        description: "Türkiye genelinde sahne, podyum, LED ekran, ses ve ışık sistemleri kiralama; kurulum ve teknik operasyon.",
+        description:
+          "Türkiye genelinde sahne, podyum, LED ekran, ses ve ışık sistemleri kiralama; kurulum ve teknik operasyon.",
         url: "https://www.sahneva.com/",
         areaServed: { "@type": "Country", name: "TR" },
         provider: { "@id": "https://www.sahneva.com/#org" },
+      },
+      {
+        "@type": "ImageObject",
+        "@id": "https://www.sahneva.com/#og",
+        contentUrl: "https://www.sahneva.com/og/sahneva-home.jpg",
+        width: 1200,
+        height: 630,
       },
     ],
   };
@@ -138,44 +118,36 @@ export default function HomePage() {
     <div className="overflow-x-hidden">
       <StructuredData />
 
-      {/* HERO SECTION - LCP Optimized */}
+      {/* HERO SECTION */}
       <section
         className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950 pt-16 lg:pt-20"
         aria-labelledby="hero-title"
-        // CLS önleme için sabit height
-        style={{ minHeight: '80vh' }}
       >
-        {/* Arka plan görseli - LCP elemanı */}
+        {/* Arka plan görseli */}
         <div className="absolute inset-0" aria-hidden="true">
           <Image
             src={heroImg}
             alt="Profesyonel sahne kurulumu, LED ekranlar ve ses-ışık sistemleri - Sahneva"
             fill
             priority
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
-            placeholder="blur"
-            quality={80}
-            className="object-cover object-center"
-            style={{ 
-              filter: "brightness(0.7) contrast(1.1) saturate(1.05)",
-              color: "transparent" // LCP warning için
-            }}
             fetchPriority="high"
-            // CLS önleme
-            onLoad={(e) => {
-              // Görsel yüklendiğinde CLS'yi önlemek için
-              e.target.style.opacity = '1';
-            }}
-            onError={(e) => {
-              // Hata durumunda fallback
-              e.target.style.display = 'none';
-            }}
+            loading="eager"
+            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 90vw, 1280px"
+            placeholder="blur"
+            quality={60}
+            className="object-cover object-center"
+            style={{ filter: "brightness(0.7) contrast(1.1) saturate(1.05)" }}
           />
         </div>
 
         {/* Overlay katmanları */}
         <div
           className="absolute inset-0 bg-gradient-to-br from-slate-900/85 via-blue-900/70 to-purple-900/75"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse motion-reduce:animate-none"
+          style={{ animationDuration: "8s" }}
           aria-hidden="true"
         />
 
@@ -192,15 +164,11 @@ export default function HomePage() {
               </span>
             </div>
 
-            {/* Başlık - LCP için kritik metin */}
+            {/* Başlık */}
             <h1
               id="hero-title"
               className="text-white text-3xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight tracking-tight"
-              style={{ 
-                // CLS önleme için sabit height
-                minHeight: '1.2em',
-                contain: 'layout style paint'
-              }}
+              aria-label="Profesyonel Sahne Sistemleri"
             >
               <span className="block">Profesyonel</span>
               <span
@@ -212,10 +180,7 @@ export default function HomePage() {
             </h1>
 
             {/* Anahtar kelimeler */}
-            <p 
-              className="text-white/90 text-lg md:text-xl lg:text-2xl mb-6 leading-relaxed font-medium max-w-4xl mx-auto"
-              style={{ contain: 'layout style paint' }}
-            >
+            <p className="text-white/90 text-lg md:text-xl lg:text-2xl mb-6 leading-relaxed font-medium max-w-4xl mx-auto">
               <span className="bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text font-bold" aria-hidden="true">
                 Sahne Kiralama
               </span>
@@ -230,22 +195,15 @@ export default function HomePage() {
               <span className="sr-only">Sahne Kiralama, LED Ekran, Ses-Işık Sistemleri</span>
             </p>
 
-            <p 
-              className="text-white/80 text-base md:text-lg mb-8 max-w-3xl mx-auto"
-              style={{ contain: 'layout style paint' }}
-            >
+            <p className="text-white/80 text-base md:text-lg mb-8 max-w-3xl mx-auto">
               500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli hızlı kurulum ile yanınızdayız
             </p>
 
             {/* CTA Butonları */}
-            <div 
-              className="flex flex-col sm:flex-row justify-center items-center gap-3 md:gap-4 mb-12"
-              style={{ contain: 'layout style paint' }}
-            >
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-3 md:gap-4 mb-12">
               <a
                 href="tel:+905453048671"
                 className="w-full sm:w-auto min-w-[180px] text-center group relative bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold text-base px-6 py-3 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-white/20 backdrop-blur-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
-                aria-label="Hemen telefonla ara: +90 545 304 86 71"
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   <span aria-hidden="true">📞</span> Hemen Ara
@@ -258,7 +216,6 @@ export default function HomePage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto min-w-[180px] text-center group relative bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold text-base px-6 py-3 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-white/20 backdrop-blur-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
-                aria-label="WhatsApp üzerinden teklif al"
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   <span aria-hidden="true">💬</span> WhatsApp Teklif
@@ -270,10 +227,7 @@ export default function HomePage() {
 
             {/* ÖNE ÇIKANLAR */}
             <h2 className="sr-only">Öne çıkan özellikler</h2>
-            <ul 
-              className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12 list-none p-0 m-0"
-              style={{ contain: 'layout style paint' }}
-            >
+            <ul className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12 list-none p-0 m-0">
               {HERO_FEATURES.map((item, index) => (
                 <li key={index} className="m-0 p-0">
                   <div className="group bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20 hover:border-white/40 transition-all duration-500 hover:scale-105 hover:bg-white/15">
@@ -288,10 +242,7 @@ export default function HomePage() {
             </ul>
 
             {/* Danışmanlık kutusu */}
-            <div 
-              className="bg-gradient-to-r from-blue-600/90 to-purple-600/90 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-white/20 shadow-xl max-w-4xl mx-auto"
-              style={{ contain: 'layout style paint' }}
-            >
+            <div className="bg-gradient-to-r from-blue-600/90 to-purple-600/90 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-white/20 shadow-xl max-w-4xl mx-auto">
               <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
                 <div className="flex-shrink-0">
                   <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center text-xl" aria-hidden="true">🎯</div>
