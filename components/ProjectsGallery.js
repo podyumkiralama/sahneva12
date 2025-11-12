@@ -192,8 +192,6 @@ export default function ProjectsGallery() {
                         decoding="async"
                         placeholder="blur"
                         blurDataURL={BLUR_DATA_URL}
-                        priority={i === 0}
-                        fetchPriority={i === 0 ? "high" : "auto"}
                         onError={() => handleImageError(cover)}
                       />
 
