@@ -354,7 +354,9 @@ export default function UtilityBar() {
     setMuteSounds(v); setLS(LS_KEYS.MUTE_SOUNDS, v); applyMute(v);
   });
   const toggleVisionImpaired = createToggleHandler(
-  visionImpaired, setVisionImpaired, LS_KEYS.VISION_IMPAIRED,
+  visionImpaired,
+  setVisionImpaired,
+  LS_KEYS.VISION_IMPAIRED,
   (v) => {
     if (v) {
       setFontSize(18); setLS(LS_KEYS.FONT_SIZE, 18);
@@ -368,20 +370,35 @@ export default function UtilityBar() {
       setFontSize(16); setLS(LS_KEYS.FONT_SIZE, 16);
     }
   }
-); setLS(LS_KEYS.FONT_SIZE, 18);
-      setHighContrast(true); setLS(LS_KEYS.HIGH_CONTRAST, true);
-      setUnderlineLinks(true); setLS(LS_KEYS.UNDERLINE_LINKS, true);
-      setBigCursor(true); setLS(LS_KEYS.BIG_CURSOR, true);
-    }
-  });
-  const toggleAdhdFriendly = createToggleHandler(adhdFriendly, setAdhdFriendly, LS_KEYS.ADHD_FRIENDLY, (v) => {
+);
+
+const toggleAdhdFriendly = createToggleHandler(
+  adhdFriendly,
+  setAdhdFriendly,
+  LS_KEYS.ADHD_FRIENDLY,
+  (v) => {
     setAnimationsStopped(v); setLS(LS_KEYS.STOP_ANIMATIONS, v);
-  });
-  const toggleCognitiveDisability = createToggleHandler(
-  cognitiveDisability, setCognitiveDisability, LS_KEYS.COGNITIVE_DISABILITY,
+  }
+);
+
+const toggleCognitiveDisability = createToggleHandler(
+  cognitiveDisability,
+  setCognitiveDisability,
+  LS_KEYS.COGNITIVE_DISABILITY,
   (v) => {
     if (v) {
       setFontSize(18); setLS(LS_KEYS.FONT_SIZE, 18);
+      setDyslexicFont(true); setLS(LS_KEYS.DYSLEXIC_FONT, true);
+      setHighlightHeadings(true); setLS(LS_KEYS.HIGHLIGHT_HEADINGS, true);
+      setHighlightLinks(true); setLS(LS_KEYS.HIGHLIGHT_LINKS, true);
+    } else {
+      setDyslexicFont(false); setLS(LS_KEYS.DYSLEXIC_FONT, false);
+      setHighlightHeadings(false); setLS(LS_KEYS.HIGHLIGHT_HEADINGS, false);
+      setHighlightLinks(false); setLS(LS_KEYS.HIGHLIGHT_LINKS, false);
+      setFontSize(16); setLS(LS_KEYS.FONT_SIZE, 16);
+    }
+  }
+); setLS(LS_KEYS.FONT_SIZE, 18);
       setDyslexicFont(true); setLS(LS_KEYS.DYSLEXIC_FONT, true);
       setHighlightHeadings(true); setLS(LS_KEYS.HIGHLIGHT_HEADINGS, true);
       setHighlightLinks(true); setLS(LS_KEYS.HIGHLIGHT_LINKS, true);
