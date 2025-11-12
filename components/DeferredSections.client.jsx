@@ -3,7 +3,7 @@
 
 import dynamic from "next/dynamic";
 import DeferredHydration from "@/components/DeferredHydration.client";
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 // ✅ Layout Shift Önleyen Hook (dosya içinde tanımlandı)
 function useLayoutShiftProtection() {
@@ -43,17 +43,6 @@ function useLayoutShiftProtection() {
   }, []);
 
   return ref;
-}
-
-// ✅ Debounce ile DOM Operasyonları (dosya içinde tanımlandı)
-function useDebouncedEffect(callback, delay, deps) {
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      callback();
-    }, delay);
-    
-    return () => clearTimeout(handler);
-  }, deps);
 }
 
 // ✅ Layout Shift Önleyen Skeleton Bileşenleri

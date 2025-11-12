@@ -130,6 +130,8 @@ export default function HomePage() {
             alt="Profesyonel sahne kurulumu, LED ekranlar ve ses-ışık sistemleri - Sahneva"
             fill
             priority
+            fetchPriority="high"
+            loading="eager"
             sizes="100vw"
             placeholder="blur"
             quality={70}
