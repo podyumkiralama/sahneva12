@@ -11,8 +11,6 @@ import {
   FaqDeferred,
 } from "@/components/DeferredSections.client";
 
-// ❌ METADATA KALDIRILDI - SADECE LAYOUT'DAKİLER KULLANILACAK
-
 // —————————————————————————————————————————
 // SABİT VERİLER
 // —————————————————————————————————————————
@@ -42,7 +40,6 @@ export const revalidate = 3600;
 
 // —————————————————————————————————————————
 // JSON-LD (Schema.org) – Sadece sayfaya özgü tipler
-//  * Organization / WebSite / FAQPage layout'ta veriliyor → burada tekrarlamıyoruz.
 // —————————————————————————————————————————
 function StructuredData() {
   const data = {
@@ -54,8 +51,8 @@ function StructuredData() {
         url: "https://www.sahneva.com/",
         name: "Sahne Sistemleri, LED Ekran, Ses-Işık | Türkiye Geneli | Sahneva",
         inLanguage: "tr-TR",
-        isPartOf: { "@id": "https://www.sahneva.com/#website" }, // layout
-        about: { "@id": "https://www.sahneva.com/#org" },        // layout
+        isPartOf: { "@id": "https://www.sahneva.com/#website" },
+        about: { "@id": "https://www.sahneva.com/#org" },
       },
       {
         "@type": "OfferCatalog",
@@ -280,8 +277,8 @@ export default function HomePage() {
 
       {/* Ana içerik */}
       <div className="relative">
-        {/* #teklif-al hedefi (Erişilebilir) */}
-        <div id="teklif-al" className="sr-only" aria-hidden="true" />
+        {/* #teklif-al hedefi */}
+        <div id="teklif-al" className="scroll-mt-20" tabIndex={-1} />
 
         <div aria-hidden="true" className="h-12 lg:h-16" />
         <div className="sticky top-0 z-40">
