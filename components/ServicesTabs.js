@@ -5,6 +5,9 @@ import { useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+const BLUR_PLACEHOLDER =
+  "data:image/webp;base64,UklGRlQAAABXRUJQVlA4WAoAAAAQAAAADwAADwAAQUxQSF0AAAABWUD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMv/AABEIAA8AFgMBIgACEQEDEQH/xAAUAAEAAAAAAAAAAAAAAAAAAAAD/8QAFhABAQEAAAAAAAAAAAAAAAAAABEB/8QAFQEBAQAAAAAAAAAAAAAAAAAAAwT/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCfAA//2Q==";
+
 const services = [
   {
     id: "sahne",
@@ -105,6 +108,8 @@ const services = [
     href: "/masa-sandalye-kiralama",
   },
 ];
+
+const FIRST_SERVICE_ID = services[0]?.id;
 
 export default function ServicesTabs() {
   const [activeTab, setActiveTab] = useState("sahne");
@@ -303,12 +308,14 @@ export default function ServicesTabs() {
                 src={getImageSrc(activeService)}
                 alt={`${activeService.title} hizmeti - Sahneva profesyonel çözümü`}
                 fill
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
-                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 560px"
-                quality={75}
-                loading="lazy"
+                className="object-cover transition-transform duration-500 motion-reduce:transition-none motion-reduce:transform-none md:group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 55vw, 560px"
+                quality={70}
+                loading={activeTab === FIRST_SERVICE_ID ? "eager" : "lazy"}
+                fetchPriority={activeTab === FIRST_SERVICE_ID ? "high" : "auto"}
                 decoding="async"
-                placeholder="empty"
+                placeholder="blur"
+                blurDataURL={BLUR_PLACEHOLDER}
                 onError={() => handleImageError(activeService.id)}
                 style={{ objectFit: "cover", width: "100%", height: "100%" }}
               />
