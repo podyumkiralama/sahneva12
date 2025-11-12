@@ -74,6 +74,23 @@ export const metadata = {
     google: "H9p1RO-W1U3JDTjp0mM32blFkYABaTHNFnxVKKFfo08",
   },
   category: "event services",
+  // ✅ FAVICON'LAR METADATA İÇİNE EKLENDİ
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+    other: [
+      {
+        rel: 'apple-touch-icon-precomposed',
+        url: '/apple-touch-icon.png',
+      },
+    ],
+  },
 };
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID?.trim();
@@ -82,7 +99,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="tr" dir="ltr" className={inter.className} suppressHydrationWarning>
       <head>
-        {/* Kritik CSS - skip link için gerekli stiller */}
+        {/* ✅ FAVICON LINK'LERİ KALDIRILDI - METADATA İÇİNDE YÖNETİLİYOR */}
+        
+        {/* Kritik CSS */}
         <style id="critical-css">{`
           .pt-16{padding-top:4rem}
           @media (min-width:768px){.md\\:pt-20{padding-top:5rem}}
@@ -91,10 +110,10 @@ export default function RootLayout({ children }) {
           .object-cover{object-fit:cover}
           .container{max-width:1280px;margin-inline:auto;padding-inline:1rem}
           
-          /* Skip link için kritik stiller */
+          /* Skip link için FİXED stil - GÖZÜKMEYECEK ama focus'ta görünecek */
           .skip-link {
-            position: absolute;
-            top: -40px;
+            position: fixed;
+            top: -100px;
             left: 6px;
             background: #6d28d9;
             color: white;
@@ -104,18 +123,15 @@ export default function RootLayout({ children }) {
             font-weight: 600;
             z-index: 10000;
             transition: top 0.3s ease;
+            opacity: 0;
           }
           .skip-link:focus {
             top: 6px;
+            opacity: 1;
             outline: 2px solid white;
             outline-offset: 2px;
           }
         `}</style>
-        
-        {/* Favicon ve app icon linkleri */}
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
       </head>
 
       <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth">
@@ -142,7 +158,7 @@ export default function RootLayout({ children }) {
           </>
         )}
 
-        {/* TEK Skip Link - Layout'ta */}
+        {/* DÜZELTİLMİŞ Skip Link - GÖZÜKMEYECEK ama TAB tuşuyla focus'landığında görünecek */}
         <a href="#main-content" className="skip-link">
           Ana içeriğe atla
         </a>
@@ -150,12 +166,12 @@ export default function RootLayout({ children }) {
         <UtilityBar />
         <Navbar />
 
-        {/* Ana içerik - UNIQUE ID */}
+        {/* Ana içerik - Skip link buraya atlayacak */}
         <main
           id="main-content"
           role="main"
           tabIndex={-1}
-          className="pt-16 md:pt-20 mb-24 lg:mb-0 focus:outline-none"
+          className="pt-16 md:pt-20 mb-24 lg:mb-0 focus:outline-none scroll-mt-4"
         >
           {children}
         </main>
