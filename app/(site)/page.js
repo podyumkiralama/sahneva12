@@ -130,6 +130,29 @@ function StructuredData() {
   );
 }
 
+// Hero Image Component - Client Component olarak ayrıldı
+function HeroImage() {
+  return (
+    <div className="absolute inset-0" aria-hidden="true">
+      <Image
+        src={heroImg}
+        alt="Profesyonel sahne kurulumu, LED ekranlar ve ses-ışık sistemleri - Sahneva"
+        fill
+        priority
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+        placeholder="blur"
+        quality={80}
+        className="object-cover object-center"
+        style={{ 
+          filter: "brightness(0.7) contrast(1.1) saturate(1.05)",
+          color: "transparent"
+        }}
+        fetchPriority="high"
+      />
+    </div>
+  );
+}
+
 // —————————————————————————————————————————
 // SAYFA
 // —————————————————————————————————————————
@@ -145,33 +168,8 @@ export default function HomePage() {
         // CLS önleme için sabit height
         style={{ minHeight: '80vh' }}
       >
-        {/* Arka plan görseli - LCP elemanı */}
-        <div className="absolute inset-0" aria-hidden="true">
-          <Image
-            src={heroImg}
-            alt="Profesyonel sahne kurulumu, LED ekranlar ve ses-ışık sistemleri - Sahneva"
-            fill
-            priority
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
-            placeholder="blur"
-            quality={80}
-            className="object-cover object-center"
-            style={{ 
-              filter: "brightness(0.7) contrast(1.1) saturate(1.05)",
-              color: "transparent" // LCP warning için
-            }}
-            fetchPriority="high"
-            // CLS önleme
-            onLoad={(e) => {
-              // Görsel yüklendiğinde CLS'yi önlemek için
-              e.target.style.opacity = '1';
-            }}
-            onError={(e) => {
-              // Hata durumunda fallback
-              e.target.style.display = 'none';
-            }}
-          />
-        </div>
+        {/* Arka plan görseli - Artık Client Component */}
+        <HeroImage />
 
         {/* Overlay katmanları */}
         <div
