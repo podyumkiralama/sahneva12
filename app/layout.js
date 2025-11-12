@@ -72,7 +72,6 @@ export const metadata = {
   },
   verification: { 
     google: "H9p1RO-W1U3JDTjp0mM32blFkYABaTHNFnxVKKFfo08",
-    yandex: "yandex-verification-code", // Yandex varsa ekleyin
   },
   category: "event services",
 };
@@ -83,7 +82,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="tr" dir="ltr" className={inter.className} suppressHydrationWarning>
       <head>
-        {/* Kritik CSS - render bloğing önler */}
+        {/* Kritik CSS - skip link için gerekli stiller */}
         <style id="critical-css">{`
           .pt-16{padding-top:4rem}
           @media (min-width:768px){.md\\:pt-20{padding-top:5rem}}
@@ -91,9 +90,26 @@ export default function RootLayout({ children }) {
           @media (min-width:768px){.full-bleed{min-height:70vh}}
           .object-cover{object-fit:cover}
           .container{max-width:1280px;margin-inline:auto;padding-inline:1rem}
-          /* Skip link için temel stil */
-          .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-          .focus\\:not-sr-only:focus{position:fixed;width:auto;height:auto;padding:0.75rem 1rem;margin:0;overflow:visible;clip:auto;white-space:normal;z-index:9999}
+          
+          /* Skip link için kritik stiller */
+          .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: #6d28d9;
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            z-index: 10000;
+            transition: top 0.3s ease;
+          }
+          .skip-link:focus {
+            top: 6px;
+            outline: 2px solid white;
+            outline-offset: 2px;
+          }
         `}</style>
         
         {/* Favicon ve app icon linkleri */}
@@ -126,18 +142,15 @@ export default function RootLayout({ children }) {
           </>
         )}
 
-        {/* Erişilebilirlik - Skip Link */}
-        <a
-          href="#main-content"
-          aria-label="Ana içeriğe hızlı geçiş"
-          className="sr-only focus:not-sr-only focus:fixed focus:z-[9999] focus:top-3 focus:left-3 focus:bg-blue-600 focus:text-white focus:px-4 focus:py-3 focus:rounded-lg focus:font-semibold focus:shadow-lg transition"
-        >
+        {/* TEK Skip Link - Layout'ta */}
+        <a href="#main-content" className="skip-link">
           Ana içeriğe atla
         </a>
 
         <UtilityBar />
         <Navbar />
 
+        {/* Ana içerik - UNIQUE ID */}
         <main
           id="main-content"
           role="main"
@@ -195,13 +208,16 @@ export default function RootLayout({ children }) {
               telephone: "+90-545-304-8671",
               address: {
                 "@type": "PostalAddress",
-                addressLocality: "İstanbul",
+                streetAddress: "Hamidiye, Anadolu Cd. 61 a",
+                addressLocality: "Kağıthane",
+                addressRegion: "İstanbul",
+                postalCode: "34400",
                 addressCountry: "TR",
               },
               geo: {
                 "@type": "GeoCoordinates",
-                latitude: 41.0082,
-                longitude: 28.9784
+                latitude: 41.0810,
+                longitude: 28.9702
               },
               sameAs: [
                 "https://www.instagram.com/sahnevaorganizasyon",
