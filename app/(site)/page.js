@@ -132,9 +132,9 @@ export default function HomePage() {
             priority
             fetchPriority="high"
             loading="eager"
-            sizes="100vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 90vw, 1280px"
             placeholder="blur"
-            quality={70}
+            quality={60}
             className="object-cover object-center"
             style={{ filter: "brightness(0.7) contrast(1.1) saturate(1.05)" }}
           />
