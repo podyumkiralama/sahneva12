@@ -51,12 +51,31 @@ const ADVANTAGES = [
 // Optimized blur data URL for better performance
 const BLUR_DATA_URL = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R";
 
+// Client Component olarak ayrı Image bileşeni
+function OptimizedImage({ src, alt, sizes, className }) {
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      fill
+      sizes={sizes}
+      className={className}
+      loading="lazy"
+      decoding="async"
+      placeholder="blur"
+      blurDataURL={BLUR_DATA_URL}
+      quality={75}
+      fetchPriority="low"
+    />
+  );
+}
+
 export default function CorporateEvents() {
   return (
     <section 
       className="relative py-20 bg-gradient-to-br from-gray-50 via-white to-blue-50/30 overflow-hidden"
       aria-labelledby="corporate-events-title"
-      style={{ contain: 'layout style paint' }} // CLS önleme
+      style={{ contain: 'layout style paint' }}
     >
       <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
         <div className="absolute -top-24 -left-24 w-96 h-96 bg-gradient-to-r from-blue-100/20 to-purple-100/20 rounded-full blur-3xl" />
@@ -71,40 +90,25 @@ export default function CorporateEvents() {
         {/* KART LİSTESİ: ul/li + article (a11y) */}
         <ul 
           className="grid gap-8 md:grid-cols-3 mb-16"
-          style={{ contain: 'layout style paint' }} // CLS önleme
+          style={{ contain: 'layout style paint' }}
         >
           {CARDS.map((card, i) => (
             <li key={card.slug}>
               <article
                 className="group relative bg-white rounded-3xl border border-gray-200/60 shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden hover:border-blue-200/80"
                 aria-labelledby={`corp-card-${i}-title`}
-                style={{ minHeight: '400px' }} // Fixed height for CLS
+                style={{ minHeight: '400px' }}
               >
                 <div
                   className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
                   aria-hidden="true"
                 />
                 <div className="relative aspect-[16/10] w-full overflow-hidden">
-                  <Image
+                  <OptimizedImage
                     src={card.img}
                     alt={card.alt}
-                    fill
                     sizes={CARD_SIZES}
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    loading="lazy"
-                    decoding="async"
-                    placeholder="blur"
-                    blurDataURL={BLUR_DATA_URL}
-                    quality={75} // Optimized for performance
-                    fetchPriority="low" // Below the fold
-                    onLoad={(e) => {
-                      // Görsel yüklendiğinde opacity ayarla
-                      e.target.style.opacity = '1';
-                    }}
-                    style={{ 
-                      opacity: 0,
-                      transition: 'opacity 0.3s ease-in-out'
-                    }}
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-500" aria-hidden="true" />
                   <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-2xl p-3 transform -translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
@@ -152,13 +156,13 @@ export default function CorporateEvents() {
           {/* AVANTAJ LİSTESİ: ul/li (role gerekmez) */}
           <ul 
             className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
-            style={{ contain: 'layout style paint' }} // CLS önleme
+            style={{ contain: 'layout style paint' }}
           >
             {ADVANTAGES.map((item, i) => (
               <li
                 key={i}
                 className={`group relative ${item.bg} ${item.border} rounded-2xl border-2 p-6 transition-all duration-300 hover:shadow-lg hover:scale-105 hover:border-blue-300/50`}
-                style={{ minHeight: '120px' }} // Fixed height for CLS
+                style={{ minHeight: '120px' }}
               >
                 <div className="flex items-center gap-4">
                   <span className="text-3xl transition-transform duration-300 group-hover:scale-110" aria-hidden="true">
@@ -176,7 +180,7 @@ export default function CorporateEvents() {
 
         <div 
           className="relative rounded-3xl bg-gradient-to-r from-blue-600 to-purple-600 p-8 md:p-12 text-center text-white overflow-hidden"
-          style={{ contain: 'layout style paint' }} // CLS önleme
+          style={{ contain: 'layout style paint' }}
         >
           <div className="absolute inset-0 opacity-10" aria-hidden="true">
             <div className="absolute -top-20 -right-20 w-40 h-40 bg-white rounded-full" />
