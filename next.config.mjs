@@ -114,17 +114,51 @@ const longTermCacheHeaders = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // 🔵 Turbopack'i açık seç (uyarıyı da susturur)
-  turbopack: {},
+  experimental: {
+    turbo: {
+      rules: {
+        '*.css': {
+          loaders: ['postcss-loader'],
+          as: '*.css',
+        },
+      },
+    },
+  },
 
   reactStrictMode: true,
   poweredByHeader: false,
   compress: true,
   generateEtags: true,
-  productionBrowserSourceMaps: false, // ✅ Zaten kapalı - iyi
+  productionBrowserSourceMaps: false,
   trailingSlash: false,
 
-  // ❌ Turbopack ile çakışan webpack override KALDIRILDI
-  // webpack: (config, ctx) => { ... }
+  // ✅ Webpack optimizasyonları (Turbopack ile uyumlu)
+  webpack: (config, { isServer }) => {
+    // ✅ CSS minimizasyonu
+    if (!isServer) {
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        cacheGroups: {
+          default: false,
+          vendors: false,
+          commons: {
+            name: 'commons',
+            chunks: 'all',
+            minChunks: 2,
+            reuseExistingChunk: true,
+          },
+          react: {
+            name: 'react',
+            chunks: 'all',
+            test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+            priority: 40,
+          },
+        },
+      };
+    }
+
+    return config;
+  },
 
   images: {
     deviceSizes: [320, 420, 640, 750, 828, 1080, 1200, 1920],
@@ -133,7 +167,7 @@ const nextConfig = {
     minimumCacheTTL: ONE_MONTH_IN_SECONDS,
     remotePatterns: [],
     dangerouslyAllowSVG: false,
-    // 🔕 next/image kalite uyarıları kapanır
+    // ✅ Optimize edilmiş kalite ayarları
     qualities: [60, 65, 75, 85],
   },
 
@@ -142,10 +176,12 @@ const nextConfig = {
     reactRemoveProperties: isProd ? { properties: ["^data-testid$"] } : false,
   },
 
+  // ✅ Deneysel özellikler
   experimental: {
     scrollRestoration: true,
     optimizePackageImports: ["lucide-react", "@headlessui/react"],
     esmExternals: true,
+    optimizeCss: true,
   },
 
   modularizeImports: {
@@ -204,7 +240,7 @@ const nextConfig = {
 
       // Public asset'ler
       {
-        source: "/(.*)\\.(ico|png|jpg|jpeg|webp|avif|svg|gif|woff2)",
+        source: "/(.*)\\.(ico|png|jpg|jpeg|webp|avif|svg|gif|woff2|css|js)",
         headers: longTermCacheHeaders,
       },
 
