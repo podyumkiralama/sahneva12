@@ -3,7 +3,58 @@
 
 import dynamic from "next/dynamic";
 import DeferredHydration from "@/components/DeferredHydration.client";
-import { useLayoutShiftProtection, useDebouncedEffect } from "@/hooks/usePerformance";
+import { useEffect, useRef } from 'react';
+
+// ✅ Layout Shift Önleyen Hook (dosya içinde tanımlandı)
+function useLayoutShiftProtection() {
+  const ref = useRef(null);
+  
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+
+    // ✅ Önceden boyut ayarla ve layout shift önle
+    const rect = element.getBoundingClientRect();
+    if (rect.height > 0) {
+      element.style.minHeight = `${rect.height}px`;
+    }
+
+    // ✅ ResizeObserver ile layout değişikliklerini izle
+    const observer = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        const { height } = entry.contentRect;
+        if (height > 0) {
+          requestAnimationFrame(() => {
+            entry.target.style.minHeight = `${height}px`;
+          });
+        }
+      }
+    });
+
+    observer.observe(element);
+    
+    return () => {
+      observer.disconnect();
+      // ✅ Cleanup
+      if (element.style.minHeight) {
+        element.style.minHeight = '';
+      }
+    };
+  }, []);
+
+  return ref;
+}
+
+// ✅ Debounce ile DOM Operasyonları (dosya içinde tanımlandı)
+function useDebouncedEffect(callback, delay, deps) {
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      callback();
+    }, delay);
+    
+    return () => clearTimeout(handler);
+  }, deps);
+}
 
 // ✅ Layout Shift Önleyen Skeleton Bileşenleri
 function ReviewBannerSkeleton() {
