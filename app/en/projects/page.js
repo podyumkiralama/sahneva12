@@ -6,7 +6,6 @@ export const metadata = {
     canonical: "https://www.sahneva.com/en/projects",
     languages: {
       "tr-TR": "https://www.sahneva.com/projeler",
-      "ar": "https://www.sahneva.com/ar/projects",
     },
   },
 };

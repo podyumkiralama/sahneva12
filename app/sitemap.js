@@ -56,10 +56,6 @@ const STATIC_PAGES = [
   "/en/services",
   "/en/projects",
   "/en/contact",
-  "/ar",
-  "/ar/services",
-  "/ar/projects",
-  "/ar/contact",
 ].map((p) => ({
   path: p,
   lastMod: NOW_ISO,
@@ -90,7 +86,6 @@ const IMAGE_MAP = {
   "/hizmetler": ["/img/hizmetler-ust.webp"],
   "/hakkimizda": ["/img/hakkimizda.webp"],
   "/en": ["/img/hero-bg.webp"],
-  "/ar": ["/img/hero-bg.webp"],
 };
 
 // ❸ services → dinamik

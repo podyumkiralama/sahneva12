@@ -11,7 +11,6 @@ export const metadata = {
     canonical: "https://www.sahneva.com/en",
     languages: {
       "tr-TR": "https://www.sahneva.com/",
-      "ar": "https://www.sahneva.com/ar",
     },
   },
 };

@@ -6,7 +6,6 @@ export const metadata = {
     canonical: "https://www.sahneva.com/en/contact",
     languages: {
       "tr-TR": "https://www.sahneva.com/iletisim",
-      "ar": "https://www.sahneva.com/ar/contact",
     },
   },
 };
