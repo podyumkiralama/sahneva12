@@ -60,6 +60,34 @@ export default function Footer() {
       itemType="https://schema.org/Organization"
     >
       <div
+        className="absolute inset-x-0 -top-24 h-24 pointer-events-none"
+        aria-hidden="true"
+      >
+        <svg
+          viewBox="0 0 1440 240"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-full h-full drop-shadow-[0_-12px_30px_rgba(59,130,246,0.25)]"
+          preserveAspectRatio="none"
+        >
+          <defs>
+            <linearGradient id="footerWave" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="rgba(59,130,246,0.55)" />
+              <stop offset="50%" stopColor="rgba(168,85,247,0.55)" />
+              <stop offset="100%" stopColor="rgba(14,165,233,0.55)" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M0,160 C180,110 320,20 520,70 C720,120 900,220 1100,170 C1260,130 1320,90 1440,130 L1440,240 L0,240 Z"
+            fill="url(#footerWave)"
+          />
+          <path
+            d="M0,180 C200,140 340,40 540,90 C740,140 920,230 1120,180 C1290,140 1350,110 1440,140 L1440,240 L0,240 Z"
+            fill="rgba(15,23,42,0.35)"
+          />
+        </svg>
+      </div>
+
+      <div
         className="absolute inset-0 overflow-hidden pointer-events-none"
         aria-hidden="true"
       >
@@ -72,7 +100,7 @@ export default function Footer() {
         Site altbilgisi
       </h2>
 
-      <div className="relative z-10 container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 py-12 px-6">
+      <div className="relative z-10 container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pt-24 pb-14 px-6">
         {/* Marka */}
         <section
           aria-labelledby="ft-brand"
