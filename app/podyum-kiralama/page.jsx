@@ -133,6 +133,7 @@ function OptimizedImage({
       placeholder="blur"
       blurDataURL="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
       priority={priority}
+      fetchPriority={priority ? "high" : undefined}
       {...props}
     />
   );
