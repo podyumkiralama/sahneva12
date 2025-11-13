@@ -5,10 +5,7 @@ import Footer from "../components/Footer";
 import Script from "next/script";
 import { Inter } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-
-// UtilityBar import
 import UtilityBar from "../components/UtilityBar.client";
-// import UtilityBar from "../components/UtilityBar";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -89,7 +86,7 @@ export const metadata = {
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID?.trim();
 
-// Kritik CSS - minimized
+// Kritik CSS
 const criticalCSS = `
 .pt-16{padding-top:4rem}.md\\:pt-20{padding-top:5rem}@media (min-width:768px){.md\\:pt-20{padding-top:5rem}}
 .full-bleed{position:relative;margin:0 calc(50% - 50vw);width:100vw;min-height:60vh;overflow-x:clip}
@@ -108,23 +105,16 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
     >
       <head>
-        {/* Critical CSS */}
         <style
           id="critical-css"
           dangerouslySetInnerHTML={{ __html: criticalCSS }}
         />
-
-        {/* DNS prefetch for external domains */}
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
         <link rel="dns-prefetch" href="//www.google.com" />
       </head>
 
-      {/* Artık flex yok, normal akış */}
-      <body
-        className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth"
-        style={{ minHeight: "100vh", position: "relative" }}
-      >
-        {/* Google Analytics */}
+      <body className="bg-white text-neutral-900 antialiased scroll-smooth">
+        {/* GA */}
         {GA_MEASUREMENT_ID && (
           <>
             <Script
@@ -147,32 +137,31 @@ export default function RootLayout({ children }) {
           </>
         )}
 
-        {/* Skip Link */}
-        <a href="#main-content" className="skip-link">
-          Ana içeriğe atla
-        </a>
+        {/* Tüm site iskeleti */}
+        <div className="min-h-screen flex flex-col">
+          {/* Skip Link */}
+          <a href="#main-content" className="skip-link">
+            Ana içeriğe atla
+          </a>
 
-        <UtilityBar />
-        <Navbar />
+          <UtilityBar />
+          <Navbar />
 
-        {/* MAIN – footer’ı daraltmaması için yeterli min yükseklik */}
-        <main
-          id="main-content"
-          role="main"
-          tabIndex={-1}
-          className="pt-16 md:pt-20 mb-24 lg:mb-0 focus:outline-none scroll-mt-4"
-          style={{
-            minHeight: "calc(100vh - 260px)", // navbar + footer yüksekliği kadar boşluk
-            contain: "layout style paint",
-          }}
-        >
-          {children}
-        </main>
+          <main
+            id="main-content"
+            role="main"
+            tabIndex={-1}
+            className="flex-1 pt-16 md:pt-20 pb-10 lg:pb-12 focus:outline-none scroll-mt-4"
+          >
+            {children}
+          </main>
 
-        <Footer />
+          <Footer />
+        </div>
+
         <SpeedInsights />
 
-        {/* Structured Data - Organization */}
+        {/* Organization */}
         <Script
           id="ld-org"
           type="application/ld+json"
@@ -202,7 +191,7 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/* Structured Data - LocalBusiness */}
+        {/* LocalBusiness */}
         <Script
           id="ld-local"
           type="application/ld+json"
@@ -232,7 +221,7 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/* Structured Data - WebSite */}
+        {/* WebSite */}
         <Script
           id="ld-website"
           type="application/ld+json"
@@ -254,7 +243,7 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/* Performance monitoring */}
+        {/* Performance monitor */}
         <Script id="performance-observer" strategy="afterInteractive">
           {`
             if ('PerformanceObserver' in window) {
