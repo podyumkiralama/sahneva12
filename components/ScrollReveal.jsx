@@ -32,10 +32,9 @@ export function ScrollReveal({
 }
 
 // Grup halinde animasyon için bileşen
-export function ScrollRevealGroup({ 
-  children, 
-  className = '',
-  staggerDelay = 2 // 0.2 saniye aralıklarla
+export function ScrollRevealGroup({
+  children,
+  className = ''
 }) {
   return (
     <div className={className}>
