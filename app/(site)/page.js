@@ -65,7 +65,7 @@ function StructuredData() {
         itemListElement: [
           {
             "@type": "Offer",
-            itemOffered: { "@type": "Service", name: "Podyum Kiralama", description: "Podyum Sahne kiralama" },
+            itemOffered: { "@type": "Service", name: "Podyum Kiralama", description: "Podyum sahne kiralama hizmeti" },
             priceSpecification: {
               "@type": "UnitPriceSpecification",
               price: 250,
@@ -88,7 +88,8 @@ function StructuredData() {
         "@type": "Service",
         "@id": "https://www.sahneva.com/#service",
         name: "Etkinlik Ekipmanları Kiralama",
-        description: "Türkiye genelinde sahne, podyum, LED ekran, ses ve ışık sistemleri kiralama; kurulum ve teknik operasyon.",
+        description:
+          "Türkiye genelinde sahne, podyum, LED ekran, ses ve ışık sistemleri kiralama; kurulum ve teknik operasyon.",
         url: "https://www.sahneva.com/",
         areaServed: { "@type": "Country", name: "TR" },
         provider: { "@id": "https://www.sahneva.com/#org" },
@@ -99,6 +100,86 @@ function StructuredData() {
         contentUrl: "https://www.sahneva.com/og/sahneva-home.jpg",
         width: 1200,
         height: 630,
+      },
+      // FAQ rich snippet
+      {
+        "@type": "FAQPage",
+        "@id": "https://www.sahneva.com/#faq",
+        url: "https://www.sahneva.com/",
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: "Sahne ve podyum kiralama fiyatları nasıl hesaplanıyor?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text:
+                "Sahne ve podyum kiralama fiyatları; kullanılacak alanın m² büyüklüğüne, yüksekliğe, kurulacağı zemine, etkinlik süresine ve şehre göre hesaplanır. Standart paketlerimiz dışında, etkinliğinize özel keşif yaparak net fiyatlandırma sunuyoruz.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "LED ekran kiralama fiyatına neler dahil?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text:
+                "LED ekran kiralama fiyatına; LED paneller, taşıyıcı konstrüksiyon, görüntü işlemci, gerekli kablolama, kurulum-söküm ve teknik operasyon desteği dahildir. Gerektiğinde jeneratör ve yayın ekipmanları opsiyonel olarak eklenebilir.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "İstanbul dışındaki şehirlere de hizmet veriyor musunuz?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text:
+                "Evet. İstanbul merkezli olmamıza rağmen Türkiye genelinde 81 ile hizmet veriyoruz. Lojistik, konaklama ve yol maliyetleri etkinlik şehrine göre tekliflendirilir.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Kurulum ne kadar sürüyor?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text:
+                "Kurulum süresi sahne/LED ekran ve ses-ışık altyapısının büyüklüğüne göre değişmekle birlikte çoğu kurulumumuz 2–6 saat arasında tamamlanır. Büyük konser ve miting sahnelerinde bu süre 1 güne kadar uzayabilir.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Tek günlük veya kısa süreli etkinlikler için kiralama yapabilir miyim?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text:
+                "Evet, tek günlük, birkaç saatlik veya çok günlü etkinlikler için esnek kiralama seçenekleri sunuyoruz. Minimum kiralama süresi ve fiyatlandırma, kurulum yapılacak ekipmana göre değişir.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Teklif süreci nasıl işliyor?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text:
+                "Web sitemiz, telefon veya WhatsApp üzerinden bize ulaştıktan sonra etkinlik detaylarınızı alıyor, gerekirse keşif yapıyor ve maksimum 2 saat içinde size net, kalem kalem açıklanmış bir teklif iletiyoruz.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Ses-ışık sistemi için keşif yapıyor musunuz?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text:
+                "Büyük ölçekli etkinlikler, açık alan konserleri ve kurumsal lansmanlarda alanın akustiğini ve seyirci kapasitesini doğru hesaplamak için ücretsiz veya düşük maliyetli keşif hizmeti sunuyoruz.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Teknik ekip etkinlik boyunca sahada kalıyor mu?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text:
+                "Evet. LED ekran operatörü, ses mühendisi, ışıkçı ve sahne teknisyenlerinden oluşan ekibimiz, etkinlik boyunca sahada kalarak tüm teknik süreci yönetir ve olası problemlere anında müdahale eder.",
+            },
+          },
+        ],
       },
     ],
   };
