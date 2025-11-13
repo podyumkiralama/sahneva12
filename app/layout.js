@@ -6,6 +6,7 @@ import Script from "next/script";
 import { Inter } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import UtilityBar from "../components/UtilityBar.client";
+import { ScrollRevealInitializer } from "../components/ScrollRevealInitializer.client";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -114,6 +115,7 @@ export default function RootLayout({ children }) {
 
       {/* Eski şık yapı: flex column + sticky footer, ama ekstra minHeight hilesi yok */}
       <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
+        <ScrollRevealInitializer />
         {/* GA */}
         {GA_MEASUREMENT_ID && (
           <>

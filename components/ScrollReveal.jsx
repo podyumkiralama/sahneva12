@@ -1,44 +1,57 @@
 'use client';
 
-import { useScrollAnimation } from '@/components/hooks/useScrollAnimation';
+import { useScrollAnimation } from "@/components/hooks/useScrollAnimation";
 
-export function ScrollReveal({ 
-  children, 
-  className = '', 
-  delay = '',
-  direction = 'up',
-  ...props 
+export function ScrollReveal({
+  children,
+  as: Component = "div",
+  className = "",
+  delay = "",
+  direction = "up",
+  ...props
 }) {
   const ref = useScrollAnimation();
-  
+
   const getAnimationClass = () => {
     switch (direction) {
-      case 'left': return 'reveal-left';
-      case 'right': return 'reveal-right';
-      case 'scale': return 'reveal-scale';
-      default: return 'reveal';
+      case "left":
+        return "reveal-left";
+      case "right":
+        return "reveal-right";
+      case "scale":
+        return "reveal-scale";
+      default:
+        return "reveal";
     }
   };
 
+  const delayClass = delay ? `delay-${delay}` : "";
+  const classes = [getAnimationClass(), delayClass, className]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <div
+    <Component
       ref={ref}
-      className={`${getAnimationClass()} ${delay ? `delay-${delay}` : ''} ${className}`}
+      className={classes}
+      data-sr-manual="true"
       {...props}
     >
       {children}
-    </div>
+    </Component>
   );
 }
 
 // Grup halinde animasyon için bileşen
 export function ScrollRevealGroup({
   children,
-  className = ''
+  as: Component = "div",
+  className = "",
+  ...props
 }) {
   return (
-    <div className={className}>
+    <Component className={className} {...props}>
       {children}
-    </div>
+    </Component>
   );
 }
