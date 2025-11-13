@@ -53,9 +53,13 @@ const STATIC_PAGES = [
   "/iletisim",
   "/sss",
   "/en",
+  "/en/about",
   "/en/services",
   "/en/projects",
   "/en/contact",
+  "/en/led-screen-rental",
+  "/en/sound-light-rental",
+  "/en/tent-rental",
 ].map((p) => ({
   path: p,
   lastMod: NOW_ISO,
@@ -86,6 +90,16 @@ const IMAGE_MAP = {
   "/hizmetler": ["/img/hizmetler-ust.webp"],
   "/hakkimizda": ["/img/hakkimizda.webp"],
   "/en": ["/img/hero-bg.webp"],
+  "/en/about": ["/img/hakkimizda.webp"],
+  "/en/led-screen-rental": [
+    "/img/hizmet-led-ekran.webp",
+    "/img/galeri/led-ekran-kiralama-1.webp",
+  ],
+  "/en/sound-light-rental": ["/img/hizmet-sesisik.webp"],
+  "/en/tent-rental": [
+    "/img/hizmet-cadir.webp",
+    "/img/galeri/cadir-kiralama-1.webp",
+  ],
 };
 
 // ❸ services → dinamik
