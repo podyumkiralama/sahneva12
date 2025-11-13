@@ -17,7 +17,8 @@ const CARDS = [
     text: "LED ekran kurgu, sahne tasarımı, ışık şovları ve canlı yayın altyapısıyla etkileyici sunumlar.",
     icon: "🚀",
     gradient: "from-purple-500/10 to-blue-500/10",
-    color: "text-purple-600",
+    // kontrast iyileştirme
+    color: "text-purple-700",
   },
   {
     slug: "konferans",
@@ -27,7 +28,8 @@ const CARDS = [
     text: "Çoklu mikrofon, simultane çeviri, sunum yönetimi ve kayıt çözümleriyle kusursuz akış.",
     icon: "🎤",
     gradient: "from-green-500/10 to-emerald-500/10",
-    color: "text-green-600",
+    // kontrast iyileştirme
+    color: "text-green-700",
   },
   {
     slug: "bayi-toplantisi",
@@ -37,19 +39,45 @@ const CARDS = [
     text: "Kurumsal kimliğe uygun sahne–dekor, çoklu ekran, video–ses yönetimi ve teknik ekip.",
     icon: "🤝",
     gradient: "from-orange-500/10 to-red-500/10",
-    color: "text-orange-600",
+    // kontrast iyileştirme
+    color: "text-orange-700",
   },
 ];
 
 const ADVANTAGES = [
-  { icon: "⚡", label: "Aynı Gün Kurulum", desc: "Hızlı ve profesyonel kurulum hizmeti", bg: "bg-blue-50", border: "border-blue-200" },
-  { icon: "🎛", label: "Güncel Ekipman Parkı", desc: "En son teknoloji ekipmanlar", bg: "bg-green-50", border: "border-green-200" },
-  { icon: "👷", label: "Deneyimli Teknik Ekip", desc: "Uzman profesyonel ekip", bg: "bg-purple-50", border: "border-purple-200" },
-  { icon: "🛡", label: "Güvenlik & Yedek Plan", desc: "Güvenlik öncelikli hizmet", bg: "bg-amber-50", border: "border-amber-200" },
+  {
+    icon: "⚡",
+    label: "Aynı Gün Kurulum",
+    desc: "Hızlı ve profesyonel kurulum hizmeti",
+    bg: "bg-blue-50",
+    border: "border-blue-200",
+  },
+  {
+    icon: "🎛",
+    label: "Güncel Ekipman Parkı",
+    desc: "En son teknoloji ekipmanlar",
+    bg: "bg-green-50",
+    border: "border-green-200",
+  },
+  {
+    icon: "👷",
+    label: "Deneyimli Teknik Ekip",
+    desc: "Uzman profesyonel ekip",
+    bg: "bg-purple-50",
+    border: "border-purple-200",
+  },
+  {
+    icon: "🛡",
+    label: "Güvenlik & Yedek Plan",
+    desc: "Güvenlik öncelikli hizmet",
+    bg: "bg-amber-50",
+    border: "border-amber-200",
+  },
 ];
 
 // Optimized blur data URL for better performance
-const BLUR_DATA_URL = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R";
+const BLUR_DATA_URL =
+  "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R";
 
 // Client Component olarak ayrı Image bileşeni
 function OptimizedImage({ src, alt, sizes, className }) {
@@ -72,10 +100,10 @@ function OptimizedImage({ src, alt, sizes, className }) {
 
 export default function CorporateEvents() {
   return (
-    <section 
+    <section
       className="relative py-20 bg-gradient-to-br from-gray-50 via-white to-blue-50/30 overflow-hidden"
       aria-labelledby="corporate-events-title"
-      style={{ contain: 'layout style paint' }}
+      style={{ contain: "layout style paint" }}
     >
       <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
         <div className="absolute -top-24 -left-24 w-96 h-96 bg-gradient-to-r from-blue-100/20 to-purple-100/20 rounded-full blur-3xl" />
@@ -88,16 +116,16 @@ export default function CorporateEvents() {
         </h2>
 
         {/* KART LİSTESİ: ul/li + article (a11y) */}
-        <ul 
+        <ul
           className="grid gap-8 md:grid-cols-3 mb-16"
-          style={{ contain: 'layout style paint' }}
+          style={{ contain: "layout style paint" }}
         >
           {CARDS.map((card, i) => (
             <li key={card.slug}>
               <article
                 className="group relative bg-white rounded-3xl border border-gray-200/60 shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden hover:border-blue-200/80"
                 aria-labelledby={`corp-card-${i}-title`}
-                style={{ minHeight: '400px' }}
+                style={{ minHeight: "400px" }}
               >
                 <div
                   className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
@@ -110,17 +138,27 @@ export default function CorporateEvents() {
                     sizes={CARD_SIZES}
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-500" aria-hidden="true" />
+                  <div
+                    className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-500"
+                    aria-hidden="true"
+                  />
                   <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-2xl p-3 transform -translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-                    <span className="text-2xl" aria-hidden="true">{card.icon}</span>
+                    <span className="text-2xl" aria-hidden="true">
+                      {card.icon}
+                    </span>
                   </div>
                 </div>
 
                 <div className="relative p-6 bg-white/80 backdrop-blur-sm">
-                  <h3 id={`corp-card-${i}-title`} className={`font-bold text-xl mb-3 ${card.color}`}>
+                  <h3
+                    id={`corp-card-${i}-title`}
+                    className={`font-bold text-xl mb-3 ${card.color}`}
+                  >
                     {card.title}
                   </h3>
-                  <p className="text-gray-600 leading-relaxed mb-4">{card.text}</p>
+                  <p className="text-gray-600 leading-relaxed mb-4">
+                    {card.text}
+                  </p>
 
                   <div className="flex items-center justify-between">
                     <Link
@@ -130,7 +168,12 @@ export default function CorporateEvents() {
                       aria-label={`${card.title} için teklif al`}
                     >
                       <span>Teklif Al</span>
-                      <span className="transform group-hover/link:translate-x-1 transition-transform duration-200" aria-hidden="true">→</span>
+                      <span
+                        className="transform group-hover/link:translate-x-1 transition-transform duration-200"
+                        aria-hidden="true"
+                      >
+                        →
+                      </span>
                     </Link>
                     <span className="text-xs font-medium text-gray-700 bg-gray-200 rounded-full px-3 py-1">
                       Profesyonel Çözüm
@@ -145,32 +188,46 @@ export default function CorporateEvents() {
         <div className="mb-16">
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-full px-6 py-3 shadow-sm mb-4">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" aria-hidden="true" />
-              <span className="text-sm font-medium text-gray-700">Neden Sahneva?</span>
+              <div
+                className="w-2 h-2 bg-green-500 rounded-full animate-pulse"
+                aria-hidden="true"
+              />
+              <span className="text-sm font-medium text-gray-700">
+                Neden Sahneva?
+              </span>
             </div>
             <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-              Kurumsal Çözümlerde <span className="text-blue-600">Farkımız</span>
+              Kurumsal Çözümlerde{" "}
+              <span className="text-blue-600">Farkımız</span>
             </h3>
           </div>
 
-          {/* AVANTAJ LİSTESİ: ul/li (role gerekmez) */}
-          <ul 
+          {/* AVANTAJ LİSTESİ */}
+          <ul
             className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
-            style={{ contain: 'layout style paint' }}
+            style={{ contain: "layout style paint" }}
+            aria-label="Avantajlarımız"
           >
             {ADVANTAGES.map((item, i) => (
               <li
                 key={i}
                 className={`group relative ${item.bg} ${item.border} rounded-2xl border-2 p-6 transition-all duration-300 hover:shadow-lg hover:scale-105 hover:border-blue-300/50`}
-                style={{ minHeight: '120px' }}
+                style={{ minHeight: "120px" }}
               >
                 <div className="flex items-center gap-4">
-                  <span className="text-3xl transition-transform duration-300 group-hover:scale-110" aria-hidden="true">
+                  <span
+                    className="text-3xl transition-transform duration-300 group-hover:scale-110"
+                    aria-hidden="true"
+                  >
                     {item.icon}
                   </span>
                   <div>
-                    <span className="block font-bold text-gray-900 text-lg mb-1">{item.label}</span>
-                    <span className="text-sm text-gray-600">{item.desc}</span>
+                    <span className="block font-bold text-gray-900 text-lg mb-1">
+                      {item.label}
+                    </span>
+                    <span className="text-sm text-gray-600">
+                      {item.desc}
+                    </span>
                   </div>
                 </div>
               </li>
@@ -178,9 +235,9 @@ export default function CorporateEvents() {
           </ul>
         </div>
 
-        <div 
+        <div
           className="relative rounded-3xl bg-gradient-to-r from-blue-600 to-purple-600 p-8 md:p-12 text-center text-white overflow-hidden"
-          style={{ contain: 'layout style paint' }}
+          style={{ contain: "layout style paint" }}
         >
           <div className="absolute inset-0 opacity-10" aria-hidden="true">
             <div className="absolute -top-20 -right-20 w-40 h-40 bg-white rounded-full" />
@@ -189,10 +246,13 @@ export default function CorporateEvents() {
 
           <div className="relative z-10">
             <h3 className="text-2xl md:text-3xl font-bold mb-4">
-              Kurumsal Etkinlikleriniz İçin <span className="text-yellow-300">Anahtar Teslim</span> Çözüm
+              Kurumsal Etkinlikleriniz İçin{" "}
+              <span className="text-yellow-300">Anahtar Teslim</span> Çözüm
             </h3>
-            <p className="text-blue-100 text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
-              Profesyonel sahne, podyum, LED ekran, ses–ışık ve yayın çözümleri için uzman ekibimizle hemen iletişime geçin.
+            {/* kontrast: text-blue-100 → text-white/90 */}
+            <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
+              Profesyonel sahne, podyum, LED ekran, ses–ışık ve yayın
+              çözümleri için uzman ekibimizle hemen iletişime geçin.
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-4 mb-6">
@@ -201,7 +261,9 @@ export default function CorporateEvents() {
                 className="inline-flex items-center justify-center gap-3 bg-white text-blue-600 font-semibold px-8 py-4 rounded-2xl hover:bg-gray-100 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1 min-h-[60px] focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600"
                 aria-label="Telefonla ücretsiz danışmanlık alın: +90 545 304 86 71"
               >
-                <span className="text-2xl" aria-hidden="true">📞</span>
+                <span className="text-2xl" aria-hidden="true">
+                  📞
+                </span>
                 <span>Telefonla Görüş</span>
               </a>
 
@@ -212,7 +274,9 @@ export default function CorporateEvents() {
                 className="inline-flex items-center justify-center gap-3 bg-green-100 hover:bg-green-200 border-2 border-green-600 text-green-900 font-bold px-5 py-4 rounded-xl shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl min-h-[60px] focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 focus:ring-offset-purple-600"
                 aria-label="WhatsApp üzerinden mesaj gönderin"
               >
-                <span className="text-xl" aria-hidden="true">💬</span>
+                <span className="text-xl" aria-hidden="true">
+                  💬
+                </span>
                 <span className="text-sm font-bold">WhatsApp'tan Yaz</span>
                 <span className="sr-only">(yeni sekmede açılır)</span>
               </a>
@@ -220,12 +284,21 @@ export default function CorporateEvents() {
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-blue-100 text-sm">
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" aria-hidden="true" />
+                <div
+                  className="w-2 h-2 bg-green-400 rounded-full animate-pulse"
+                  aria-hidden="true"
+                />
                 <span>7/24 Müşteri Desteği</span>
               </div>
-              <div className="hidden sm:block w-px h-4 bg-blue-400" aria-hidden="true" />
+              <div
+                className="hidden sm:block w-px h-4 bg-blue-400"
+                aria-hidden="true"
+              />
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" aria-hidden="true" />
+                <div
+                  className="w-2 h-2 bg-green-400 rounded-full animate-pulse"
+                  aria-hidden="true"
+                />
                 <span>15 Dakikada Yanıt</span>
               </div>
             </div>
