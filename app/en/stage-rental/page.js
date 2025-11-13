@@ -1,7 +1,8 @@
 // app/en/stage-rental/page.jsx
 import Image from "next/image";
 import Link from "next/link";
-import dynamic from "next/dynamic";
+import CaseGallery from "@/components/CaseGallery";
+
 
 /* ================== Constants ================== */
 export const revalidate = 1800;
@@ -12,24 +13,6 @@ const WHATSAPP = "https://wa.me/905453048671";
 // Simple blur placeholder (1×1 px)
 const BLUR_DATA_URL =
   "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
-
-/* ================== Dynamic gallery ================== */
-const CaseGallery = dynamic(() => import("@/components/CaseGallery"), {
-  loading: () => (
-    <div
-      className="flex justify-center items-center h-64"
-      role="status"
-      aria-label="Gallery is loading"
-    >
-      <div
-        className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"
-        aria-hidden="true"
-      />
-      <span className="sr-only">Gallery is loading…</span>
-    </div>
-  ),
-  ssr: false,
-});
 
 /* ================== SEO / Metadata ================== */
 
