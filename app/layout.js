@@ -119,9 +119,10 @@ export default function RootLayout({ children }) {
         <link rel="dns-prefetch" href="//www.google.com" />
       </head>
 
-      {/* FLEX LAYOUT: main esner, footer alta oturur */}
+      {/* Artık flex yok, normal akış */}
       <body
-        className="min-h-screen flex flex-col bg-white text-neutral-900 antialiased scroll-smooth"
+        className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth"
+        style={{ minHeight: "100vh", position: "relative" }}
       >
         {/* Google Analytics */}
         {GA_MEASUREMENT_ID && (
@@ -154,12 +155,16 @@ export default function RootLayout({ children }) {
         <UtilityBar />
         <Navbar />
 
-        {/* MAIN: flex-1 -> kalan tüm yüksekliği alır, footer daraltmaz */}
+        {/* MAIN – footer’ı daraltmaması için yeterli min yükseklik */}
         <main
           id="main-content"
           role="main"
           tabIndex={-1}
-          className="flex-1 pt-16 md:pt-20 mb-0 focus:outline-none scroll-mt-4"
+          className="pt-16 md:pt-20 mb-24 lg:mb-0 focus:outline-none scroll-mt-4"
+          style={{
+            minHeight: "calc(100vh - 260px)", // navbar + footer yüksekliği kadar boşluk
+            contain: "layout style paint",
+          }}
         >
           {children}
         </main>
@@ -167,7 +172,7 @@ export default function RootLayout({ children }) {
         <Footer />
         <SpeedInsights />
 
-        {/* Structured Data - deferred */}
+        {/* Structured Data - Organization */}
         <Script
           id="ld-org"
           type="application/ld+json"
@@ -197,6 +202,7 @@ export default function RootLayout({ children }) {
           }}
         />
 
+        {/* Structured Data - LocalBusiness */}
         <Script
           id="ld-local"
           type="application/ld+json"
@@ -226,6 +232,7 @@ export default function RootLayout({ children }) {
           }}
         />
 
+        {/* Structured Data - WebSite */}
         <Script
           id="ld-website"
           type="application/ld+json"
