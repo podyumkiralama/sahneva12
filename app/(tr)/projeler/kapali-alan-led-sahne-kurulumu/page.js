@@ -1,7 +1,7 @@
 // app/projeler/kapali-alan-led-sahne-kurulumu/page.js
 import Image from "next/image";
 import Link from "next/link";
-import CaseGallery from "../../../components/CaseGallery";
+import CaseGallery from "@/components/CaseGallery";
 
 export const metadata = {
   title:

@@ -41,9 +41,25 @@ function clean(path) {
 
 // ❶ Statik sayfalar
 const STATIC_PAGES = [
-  "/", "/hizmetler", "/podyum-kiralama", "/led-ekran-kiralama",
-  "/ses-isik-sistemleri", "/cadir-kiralama", "/masa-sandalye-kiralama",
-  "/sahne-kiralama", "/hakkimizda", "/iletisim", "/sss",
+  "/",
+  "/hizmetler",
+  "/podyum-kiralama",
+  "/led-ekran-kiralama",
+  "/ses-isik-sistemleri",
+  "/cadir-kiralama",
+  "/masa-sandalye-kiralama",
+  "/sahne-kiralama",
+  "/hakkimizda",
+  "/iletisim",
+  "/sss",
+  "/en",
+  "/en/services",
+  "/en/projects",
+  "/en/contact",
+  "/ar",
+  "/ar/services",
+  "/ar/projects",
+  "/ar/contact",
 ].map((p) => ({
   path: p,
   lastMod: NOW_ISO,
@@ -73,6 +89,8 @@ const IMAGE_MAP = {
   "/masa-sandalye-kiralama": ["/img/hizmet-masa.webp"],
   "/hizmetler": ["/img/hizmetler-ust.webp"],
   "/hakkimizda": ["/img/hakkimizda.webp"],
+  "/en": ["/img/hero-bg.webp"],
+  "/ar": ["/img/hero-bg.webp"],
 };
 
 // ❸ services → dinamik

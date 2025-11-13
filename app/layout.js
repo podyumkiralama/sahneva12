@@ -1,14 +1,10 @@
 // app/layout.js
 import "../styles/globals.css";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import Script from "next/script";
 import { Inter } from "next/font/google";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import UtilityBar from "../components/UtilityBar.client";
 
 const inter = Inter({
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext", "arabic"],
   preload: true,
   display: "swap",
   adjustFontFallback: false,
@@ -97,24 +93,13 @@ const criticalCSS = `
 
 export default function RootLayout({ children }) {
   return (
-    <html
-      lang="tr"
-      dir="ltr"
-      className={inter.className}
-      suppressHydrationWarning
-    >
+    <html lang="tr" dir="ltr" className={inter.className} suppressHydrationWarning>
       <head>
-        <style
-          id="critical-css"
-          dangerouslySetInnerHTML={{ __html: criticalCSS }}
-        />
+        <style id="critical-css" dangerouslySetInnerHTML={{ __html: criticalCSS }} />
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
         <link rel="dns-prefetch" href="//www.google.com" />
       </head>
-
-      {/* Eski şık yapı: flex column + sticky footer, ama ekstra minHeight hilesi yok */}
       <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
-        {/* GA */}
         {GA_MEASUREMENT_ID && (
           <>
             <Script
@@ -138,26 +123,11 @@ export default function RootLayout({ children }) {
         )}
 
         <a href="#main-content" className="skip-link">
-          Ana içeriğe atla
+          Skip to main content
         </a>
 
-        <UtilityBar />
-        <Navbar />
+        {children}
 
-        {/* Sayfa içerikleri */}
-        <main
-          id="main-content"
-          role="main"
-          tabIndex={-1}
-          className="flex-1 pt-16 md:pt-20 pb-10 lg:pb-12 focus:outline-none scroll-mt-4"
-        >
-          {children}
-        </main>
-
-        <Footer />
-        <SpeedInsights />
-
-        {/* Organization */}
         <Script
           id="ld-org"
           type="application/ld+json"
@@ -187,7 +157,6 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/* LocalBusiness */}
         <Script
           id="ld-local"
           type="application/ld+json"
@@ -217,7 +186,6 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/* WebSite */}
         <Script
           id="ld-website"
           type="application/ld+json"
@@ -231,15 +199,13 @@ export default function RootLayout({ children }) {
               url: "https://www.sahneva.com",
               potentialAction: {
                 "@type": "SearchAction",
-                target:
-                  "https://www.sahneva.com/search?q={search_term_string}",
+                target: "https://www.sahneva.com/search?q={search_term_string}",
                 "query-input": "required name=search_term_string",
               },
             }),
           }}
         />
 
-        {/* Performance monitor */}
         <Script id="performance-observer" strategy="afterInteractive">
           {`
             if ('PerformanceObserver' in window) {
