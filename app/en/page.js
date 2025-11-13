@@ -142,7 +142,7 @@ const SERVICES_EN = [
       "DMX programming and show control",
       "Rigging, hoists and power distribution",
     ],
-    href: "/en/sound-light-rental",
+    href: "/en/services#audio",
   },
   {
     id: "tents",
@@ -796,7 +796,7 @@ export default function EnglishHomePage() {
                       </a>
                       {' '}and{' '}
                       <a
-                        href="/en/sound-light-rental"
+                        href="/en/services#audio"
                         className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
                       >
                         sound-light systems
