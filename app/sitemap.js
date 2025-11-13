@@ -53,6 +53,7 @@ const STATIC_PAGES = [
   "/iletisim",
   "/sss",
   "/en",
+  "/en/about",
   "/en/services",
   "/en/projects",
   "/en/contact",
@@ -86,6 +87,7 @@ const IMAGE_MAP = {
   "/hizmetler": ["/img/hizmetler-ust.webp"],
   "/hakkimizda": ["/img/hakkimizda.webp"],
   "/en": ["/img/hero-bg.webp"],
+  "/en/about": ["/img/hakkimizda.webp"],
 };
 
 // ❸ services → dinamik
