@@ -2,39 +2,33 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 
-const COVER_SIZES = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw";
+const COVER_SIZES =
+  "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw";
 const LIGHTBOX_SIZES =
   "(max-width: 768px) 100vw, (max-width: 1200px) 90vw, min(1024px, 80vw)";
 
 const GALLERIES = {
   "LED Ekran Kiralama": {
-    images: Array.from(
-      { length: 36 },
-      (_, i) => `/img/galeri/led-ekran-kiralama-${i + 1}.webp`,
-    ),
+    images: Array.from({ length: 36 }, (_, i) => `/img/galeri/led-ekran-kiralama-${i + 1}.webp`),
     description:
       "Yüksek çözünürlüklü LED ekran kurulumları ve profesyonel etkinlik prodüksiyonları",
     stats: "50+ Kurumsal Etkinlik",
     icon: "🖥️",
   },
   "Çadır Kiralama": {
-    images: Array.from(
-      { length: 19 },
-      (_, i) => `/img/galeri/cadir-kiralama-${i + 1}.webp`,
-    ),
+    images: Array.from({ length: 19 }, (_, i) => `/img/galeri/cadir-kiralama-${i + 1}.webp`),
     description:
       "Açık hava etkinlikleri için premium çadır kurulumları ve profesyonel çözümler",
     stats: "100+ Açık Hava Organizasyonu",
     icon: "⛺",
   },
   "Podyum Kiralama": {
-    images: Array.from(
-      { length: 36 },
-      (_, i) => `/img/galeri/podyum-kiralama-${i + 1}.webp`,
-    ),
-    description: "Profesyonel podyum kurulumları ve modüler podyum sistemleri",
+    images: Array.from({ length: 36 }, (_, i) => `/img/galeri/podyum-kiralama-${i + 1}.webp`),
+    description:
+      "Profesyonel podyum kurulumları ve modüler podyum sistemleri",
     stats: "200+ Profesyonel Kurulum",
     icon: "👑",
   },
@@ -49,8 +43,7 @@ export default function ProjectsGallery() {
   const [title, setTitle] = useState("");
   const [items, setItems] = useState([]);
   const [index, setIndex] = useState(0);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  const [hasMounted, setHasMounted] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [imageErrors, setImageErrors] = useState({});
 
   const touchStartX = useRef(0);
@@ -59,19 +52,22 @@ export default function ProjectsGallery() {
   const closeBtnRef = useRef(null);
   const scrollYRef = useRef(0);
   const liveRef = useRef(null);
+  const portalRef = useRef(null);
 
   useEffect(() => {
-    setHasMounted(true);
+    if (typeof document === "undefined") return;
 
-    if (typeof window === "undefined") return;
+    const portalNode = document.createElement("div");
+    portalNode.setAttribute("id", "projects-gallery-lightbox");
+    portalRef.current = portalNode;
+    document.body.appendChild(portalNode);
+    setMounted(true);
 
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(media.matches);
-
-    const handleChange = (event) => setPrefersReducedMotion(event.matches);
-    media.addEventListener("change", handleChange);
-
-    return () => media.removeEventListener("change", handleChange);
+    return () => {
+      if (portalRef.current?.parentNode) {
+        portalRef.current.parentNode.removeChild(portalRef.current);
+      }
+    };
   }, []);
 
   const handleImageError = (key) => {
@@ -149,10 +145,10 @@ export default function ProjectsGallery() {
   const onTouchEnd = (e) => {
     touchEndX.current = e.changedTouches[0].clientX;
     const dx = touchEndX.current - touchStartX.current;
-    if (Math.abs(dx) > 50) dx > 0 ? prev() : next();
+    if (Math.abs(dx) > 50) (dx > 0 ? prev() : next());
   };
 
-  if (!hasMounted) {
+  if (!mounted) {
     return (
       <section className="relative pt-2 pb-8 bg-transparent">
         <div className="container">
@@ -170,11 +166,13 @@ export default function ProjectsGallery() {
       </section>
     );
   }
+
+  const prefersReducedMotion =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   return (
-    <section
-      className="relative pt-2 pb-8 bg-transparent"
-      aria-labelledby="projeler-title"
-    >
+    <section className="relative pt-2 pb-8 bg-transparent" aria-labelledby="projeler-title">
       <div className="container relative z-10">
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {Object.entries(GALLERIES).map(([groupTitle, galleryData], i) => {
@@ -210,6 +208,8 @@ export default function ProjectsGallery() {
                         decoding="async"
                         placeholder="blur"
                         blurDataURL={BLUR_DATA_URL}
+                        priority={i === 0}
+                        fetchPriority={i === 0 ? "high" : "auto"}
                         onError={() => handleImageError(cover)}
                       />
 
@@ -220,10 +220,7 @@ export default function ProjectsGallery() {
                       />
 
                       {/* Hover CTA (dekoratif) */}
-                      <div
-                        className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                        aria-hidden="true"
-                      >
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500" aria-hidden="true">
                         <div className="bg-white/90 backdrop-blur-sm rounded-full px-5 py-2.5 transform -translate-y-3 group-hover:translate-y-0 transition-transform duration-500">
                           <span className="font-semibold text-gray-900 text-sm flex items-center gap-2">
                             <span aria-hidden="true">🔍</span>
@@ -236,15 +233,10 @@ export default function ProjectsGallery() {
 
                   <div className="p-5">
                     <div className="flex items-center gap-3 mb-2.5">
-                      <span
-                        className="text-2xl text-gray-700"
-                        aria-hidden="true"
-                      >
+                      <span className="text-2xl text-gray-700" aria-hidden="true">
                         {galleryData.icon}
                       </span>
-                      <h3 className="text-lg font-bold text-gray-900">
-                        {groupTitle}
-                      </h3>
+                      <h3 className="text-lg font-bold text-gray-900">{groupTitle}</h3>
                     </div>
 
                     <p className="text-gray-600 leading-relaxed mb-3 line-clamp-2">
@@ -268,10 +260,7 @@ export default function ProjectsGallery() {
                         >
                           →
                         </span>
-                        <span className="sr-only">
-                          {" "}
-                          — {groupTitle} ({images.length} proje)
-                        </span>
+                        <span className="sr-only"> — {groupTitle} ({images.length} proje)</span>
                       </button>
                     </div>
                   </div>
@@ -284,97 +273,102 @@ export default function ProjectsGallery() {
 
       <div ref={liveRef} aria-live="polite" className="sr-only" />
 
-      {isOpen && hasMounted && (
-        <div
-          className={`fixed inset-0 z-[999] flex h-full w-full items-center justify-center bg-black/95 backdrop-blur-md p-4 sm:p-6 lg:p-8 ${
-            prefersReducedMotion ? "" : "transition-opacity duration-300"
-          } ${anim ? "opacity-100" : "opacity-0"}`}
-          role="dialog"
-          aria-modal="true"
-          aria-label={`${title} profesyonel proje galerisi`}
-          onClick={(e) => e.target === e.currentTarget && close()}
-          onTouchStart={onTouchStart}
-          onTouchEnd={onTouchEnd}
-        >
-          <button
-            ref={closeBtnRef}
-            className="absolute top-6 right-6 z-10 text-white/90 hover:text-white bg-white/10 hover:bg-white/20 rounded-2xl p-4 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50 transition-all duration-300 min-h-[52px] min-w-[52px] flex items-center justify-center backdrop-blur-sm border border-white/20"
-            onClick={close}
-          >
-            <span className="text-lg font-bold">✕</span>
-            <span className="sr-only">Galeriyi kapat</span>
-          </button>
-
-          {items.length > 1 && (
-            <>
-              <button
-                className="hidden md:flex absolute left-6 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-2xl w-14 h-14 items-center justify-center text-2xl transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50 backdrop-blur-sm border border-white/20"
-                onClick={prev}
-              >
-                ‹<span className="sr-only">Önceki proje</span>
-              </button>
-              <button
-                className="hidden md:flex absolute right-6 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-2xl w-14 h-14 items-center justify-center text-2xl transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50 backdrop-blur-sm border border-white/20"
-                onClick={next}
-              >
-                ›<span className="sr-only">Sonraki proje</span>
-              </button>
-            </>
-          )}
-
-          <div className="relative flex h-full w-full max-w-6xl items-center justify-center">
+      {isOpen && mounted && portalRef.current
+        ? createPortal(
             <div
-              className={`relative flex h-full w-full items-center justify-center rounded-xl bg-black/40 p-4 shadow-2xl ${
-                prefersReducedMotion ? "" : "transition-transform duration-300"
-              } ${anim ? "scale-100 opacity-100" : "scale-95 opacity-0"}`}
+              className={`fixed inset-0 z-[999] flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-black/95 backdrop-blur-md ${
+                prefersReducedMotion ? "" : "transition-all duration-500"
+              } ${anim ? "opacity-100" : "opacity-0"}`}
+              role="dialog"
+              aria-modal="true"
+              aria-label={`${title} profesyonel proje galerisi`}
+              onClick={(e) => e.target === e.currentTarget && close()}
+              onTouchStart={onTouchStart}
+              onTouchEnd={onTouchEnd}
             >
-              <div className="relative h-full w-full max-h-[min(88vh,900px)]">
-                <Image
-                  key={items[index]}
-                  src={getImageSrc(items[index])}
-                  alt={`${title} - ${index + 1}. profesyonel referans projemiz`}
-                  fill
-                  className="object-contain"
-                  sizes={LIGHTBOX_SIZES}
-                  quality={70}
-                  priority
-                  loading="eager"
-                  decoding="sync"
-                  onError={() => handleImageError(items[index])}
-                />
-              </div>
-            </div>
-          </div>
+              <button
+                ref={closeBtnRef}
+                className="absolute top-6 right-6 z-10 text-white/90 hover:text-white bg-white/10 hover:bg-white/20 rounded-2xl p-4 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50 transition-all duration-300 min-h-[52px] min-w-[52px] flex items-center justify-center backdrop-blur-sm border border-white/20"
+                onClick={close}
+              >
+                <span className="text-lg font-bold">✕</span>
+                <span className="sr-only">Galeriyi kapat</span>
+              </button>
 
-          {items.length > 1 && (
-            <>
-              <div className="pointer-events-none absolute bottom-6 left-1/2 hidden -translate-x-1/2 rounded-full border border-white/20 bg-black/50 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm md:block">
-                {index + 1} / {items.length}
-              </div>
-
-              <div className="fixed inset-x-0 bottom-0 z-[1000] flex items-center justify-center border-t border-white/10 bg-black/80 px-4 py-4 backdrop-blur-lg md:hidden">
-                <div className="flex w-full max-w-sm items-center gap-3">
+              {items.length > 1 && (
+                <>
                   <button
+                    className="hidden md:flex absolute left-6 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-2xl w-14 h-14 items-center justify-center text-2xl transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50 backdrop-blur-sm border border-white/20"
                     onClick={prev}
-                    className="flex-1 rounded-xl border border-white/20 bg-white/20 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-white/30 focus:outline-none focus:ring-2 focus:ring-white/50"
                   >
-                    ‹ Önceki
+                    ‹<span className="sr-only">Önceki proje</span>
                   </button>
-                  <span className="text-sm font-medium text-white">
-                    {index + 1} / {items.length}
-                  </span>
                   <button
+                    className="hidden md:flex absolute right-6 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-2xl w-14 h-14 items-center justify-center text-2xl transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50 backdrop-blur-sm border border-white/20"
                     onClick={next}
-                    className="flex-1 rounded-xl border border-white/20 bg-white/20 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-white/30 focus:outline-none focus:ring-2 focus:ring-white/50"
                   >
-                    Sonraki ›
+                    ›<span className="sr-only">Sonraki proje</span>
                   </button>
+                </>
+              )}
+
+              <div className="relative flex w-full h-full items-center justify-center">
+                <div
+                  className={`relative w-full max-w-6xl h-full max-h-[calc(100vh-220px)] sm:max-h-[calc(100vh-200px)] md:max-h-[calc(100vh-180px)] lg:max-h-[calc(100vh-160px)] ${
+                    prefersReducedMotion ? "" : "transition-all duration-500"
+                  } ${anim ? "scale-100 opacity-100" : "scale-90 opacity-0"}`}
+                >
+                  <Image
+                    key={items[index]}
+                    src={getImageSrc(items[index])}
+                    alt={`${title} - ${index + 1}. profesyonel referans projemiz`}
+                    fill
+                    className="object-contain rounded-xl"
+                    sizes={LIGHTBOX_SIZES}
+                    quality={70}
+                    priority
+                    loading="eager"
+                    decoding="sync"
+                    onError={() => handleImageError(items[index])}
+                  />
                 </div>
               </div>
-            </>
-          )}
-        </div>
-      )}
+
+              {items.length > 1 && (
+                <>
+                  <div className="md:hidden fixed inset-x-0 bottom-0 z-[1000] bg-black/80 backdrop-blur-lg border-t border-white/20 py-4">
+                    <div className="mx-auto max-w-sm flex items-center justify-between gap-3 px-4">
+                      <button
+                        onClick={prev}
+                        className="flex-1 rounded-xl bg-white/20 text-white py-4 font-semibold text-sm transition-all duration-300 hover:bg-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 min-h-[52px] backdrop-blur-sm border border-white/20"
+                      >
+                        ‹ Önceki
+                      </button>
+                      <span className="text-white text-sm font-medium px-2">
+                        {index + 1} / {items.length}
+                      </span>
+                      <button
+                        onClick={next}
+                        className="flex-1 rounded-xl bg-white/20 text-white py-4 font-semibold text-sm transition-all duration-300 hover:bg-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 min-h-[52px] backdrop-blur-sm border border-white/20"
+                      >
+                        Sonraki ›
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden md:block">
+                    <div className="bg-black/50 backdrop-blur-sm rounded-full px-4 py-2 border border-white/20">
+                      <span className="text-white text-sm font-medium">
+                        {index + 1} / {items.length}
+                      </span>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>,
+            portalRef.current
+          )
+        : null}
     </section>
   );
 }
