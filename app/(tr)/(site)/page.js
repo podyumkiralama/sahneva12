@@ -203,7 +203,7 @@ export default function HomePage() {
 
       {/* HERO SECTION */}
       <section
-        className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950 pt-16 lg:pt-20"
+        className="relative min-h-[80vh] flex items-center justifycenter overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950 pt-16 lg:pt-20"
         aria-labelledby="hero-title"
       >
         {/* Arka plan görseli */}
@@ -213,8 +213,6 @@ export default function HomePage() {
             alt="Profesyonel sahne kurulumu, LED ekranlar ve ses-ışık sistemleri - Sahneva"
             fill
             priority
-            loading="eager"
-            fetchPriority="high"
             sizes="100vw"
             placeholder="blur"
             quality={70}
