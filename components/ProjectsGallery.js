@@ -38,13 +38,13 @@ const BLUR_DATA_URL =
   "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R";
 
 const DEFAULT_DICTIONARY = {
-  exploreAria: (title, count) => `Galeriyi İncele — ${title} (${count} proje)`,
-  exploreHiddenLabel: (title, count) => `Galeriyi İncele — ${title} (${count} proje)`,
+  exploreAria: "Galeriyi İncele — {{title}} ({{count}} proje)",
+  exploreHiddenLabel: "Galeriyi İncele — {{title}} ({{count}} proje)",
   hoverCta: "Galeriyi İncele",
-  cardAlt: (title) => `${title} - Sahneva profesyonel kurulum referansı`,
+  cardAlt: "{{title}} - Sahneva profesyonel kurulum referansı",
   seeAllLabel: "Tümünü Gör",
-  seeAllSr: (title, count) => ` — ${title} (${count} proje)` ,
-  dialogAria: (title) => `${title} profesyonel proje galerisi`,
+  seeAllSr: " — {{title}} ({{count}} proje)",
+  dialogAria: "{{title}} profesyonel proje galerisi",
   closeLabel: "Galeriyi kapat",
   prevLabel: "‹ Önceki",
   prevSr: "Önceki proje",
@@ -52,10 +52,40 @@ const DEFAULT_DICTIONARY = {
   nextSr: "Sonraki proje",
   mobilePrevLabel: "‹ Önceki",
   mobileNextLabel: "Sonraki ›",
-  counterLabel: (index, total) => `${index} / ${total}`,
-  liveMessage: (title, count) => `${title} galerisi açıldı, ${count} profesyonel proje`,
-  lightboxAlt: (title, index) => `${title} - ${index}. profesyonel referans projemiz`,
+  counterLabel: "{{index}} / {{total}}",
+  liveMessage: "{{title}} galerisi açıldı, {{count}} profesyonel proje",
+  lightboxAlt: "{{title}} - {{index}}. profesyonel referans projemiz",
 };
+
+const TEMPLATE_PATTERN = /\{\{\s*(\w+)\s*\}\}/g;
+
+function formatWithParams(template, fallback, params, order = []) {
+  const source = template ?? fallback;
+
+  if (typeof source === "function") {
+    return source(...order.map((key) => params[key]));
+  }
+
+  if (typeof source === "string") {
+    return source.replace(TEMPLATE_PATTERN, (_, key) => {
+      const value = params[key];
+      return value !== undefined ? String(value) : "";
+    });
+  }
+
+  if (typeof fallback === "function") {
+    return fallback(...order.map((key) => params[key]));
+  }
+
+  if (typeof fallback === "string") {
+    return fallback.replace(TEMPLATE_PATTERN, (_, key) => {
+      const value = params[key];
+      return value !== undefined ? String(value) : "";
+    });
+  }
+
+  return "";
+}
 
 function mergeDictionary(base, override = {}) {
   const result = { ...base };
@@ -99,38 +129,14 @@ export default function ProjectsGallery({
 
   const dictionary = mergeDictionary(DEFAULT_DICTIONARY, dictionaryOverride);
 
-  const exploreAria =
-    typeof dictionary.exploreAria === "function"
-      ? dictionary.exploreAria
-      : DEFAULT_DICTIONARY.exploreAria;
-  const exploreHiddenLabel =
-    typeof dictionary.exploreHiddenLabel === "function"
-      ? dictionary.exploreHiddenLabel
-      : DEFAULT_DICTIONARY.exploreHiddenLabel;
-  const cardAlt =
-    typeof dictionary.cardAlt === "function"
-      ? dictionary.cardAlt
-      : DEFAULT_DICTIONARY.cardAlt;
-  const seeAllSr =
-    typeof dictionary.seeAllSr === "function"
-      ? dictionary.seeAllSr
-      : DEFAULT_DICTIONARY.seeAllSr;
-  const dialogAria =
-    typeof dictionary.dialogAria === "function"
-      ? dictionary.dialogAria
-      : DEFAULT_DICTIONARY.dialogAria;
-  const counterLabel =
-    typeof dictionary.counterLabel === "function"
-      ? dictionary.counterLabel
-      : DEFAULT_DICTIONARY.counterLabel;
-  const liveMessage =
-    typeof dictionary.liveMessage === "function"
-      ? dictionary.liveMessage
-      : DEFAULT_DICTIONARY.liveMessage;
-  const lightboxAlt =
-    typeof dictionary.lightboxAlt === "function"
-      ? dictionary.lightboxAlt
-      : DEFAULT_DICTIONARY.lightboxAlt;
+  const exploreAriaTemplate = dictionary.exploreAria;
+  const exploreHiddenLabelTemplate = dictionary.exploreHiddenLabel;
+  const cardAltTemplate = dictionary.cardAlt;
+  const seeAllSrTemplate = dictionary.seeAllSr;
+  const dialogAriaTemplate = dictionary.dialogAria;
+  const counterLabelTemplate = dictionary.counterLabel;
+  const liveMessageTemplate = dictionary.liveMessage;
+  const lightboxAltTemplate = dictionary.lightboxAlt;
 
   useEffect(() => {
     if (typeof document === "undefined") return;
@@ -165,14 +171,19 @@ export default function ProjectsGallery({
 
       if (liveRef.current) {
         setTimeout(() => {
-          liveRef.current.textContent = liveMessage(groupTitle, images.length);
+          liveRef.current.textContent = formatWithParams(
+            liveMessageTemplate,
+            DEFAULT_DICTIONARY.liveMessage,
+            { title: groupTitle, count: images.length },
+            ["title", "count"]
+          );
           setTimeout(() => {
             if (liveRef.current) liveRef.current.textContent = "";
           }, 2000);
         }, 80);
       }
     },
-    [liveMessage]
+    [liveMessageTemplate]
   );
 
   const close = useCallback(() => {
@@ -270,16 +281,31 @@ export default function ProjectsGallery({
                     <button
                       type="button"
                       onClick={() => open(groupTitle, images, 0)}
-                      aria-label={exploreAria(groupTitle, images.length)}
+                      aria-label={formatWithParams(
+                        exploreAriaTemplate,
+                        DEFAULT_DICTIONARY.exploreAria,
+                        { title: groupTitle, count: images.length },
+                        ["title", "count"]
+                      )}
                       className="absolute inset-0 w-full h-full focus:outline-none focus:ring-4 focus:ring-blue-500/50 rounded-t-2xl"
                     >
                       <span className="absolute opacity-0 pointer-events-none">
-                        {exploreHiddenLabel(groupTitle, images.length)}
+                        {formatWithParams(
+                          exploreHiddenLabelTemplate,
+                          DEFAULT_DICTIONARY.exploreHiddenLabel,
+                          { title: groupTitle, count: images.length },
+                          ["title", "count"]
+                        )}
                       </span>
 
                       <Image
                         src={getImageSrc(cover)}
-                        alt={cardAlt(groupTitle)}
+                        alt={formatWithParams(
+                          cardAltTemplate,
+                          DEFAULT_DICTIONARY.cardAlt,
+                          { title: groupTitle },
+                          ["title"]
+                        )}
                         fill
                         className={`object-cover transition-transform duration-700 ${
                           prefersReducedMotion ? "" : "group-hover:scale-110"
@@ -342,7 +368,14 @@ export default function ProjectsGallery({
                         >
                           →
                         </span>
-                        <span className="sr-only">{seeAllSr(groupTitle, images.length)}</span>
+                        <span className="sr-only">
+                          {formatWithParams(
+                            seeAllSrTemplate,
+                            DEFAULT_DICTIONARY.seeAllSr,
+                            { title: groupTitle, count: images.length },
+                            ["title", "count"]
+                          )}
+                        </span>
                       </button>
                     </div>
                   </div>
@@ -363,7 +396,12 @@ export default function ProjectsGallery({
               } ${anim ? "opacity-100" : "opacity-0"}`}
               role="dialog"
               aria-modal="true"
-              aria-label={dialogAria(title)}
+            aria-label={formatWithParams(
+              dialogAriaTemplate,
+              DEFAULT_DICTIONARY.dialogAria,
+              { title },
+              ["title"]
+            )}
               onClick={(e) => e.target === e.currentTarget && close()}
               onTouchStart={onTouchStart}
               onTouchEnd={onTouchEnd}
@@ -405,7 +443,12 @@ export default function ProjectsGallery({
                   <Image
                     key={items[index]}
                     src={getImageSrc(items[index])}
-                    alt={lightboxAlt(title, index + 1)}
+                    alt={formatWithParams(
+                      lightboxAltTemplate,
+                      DEFAULT_DICTIONARY.lightboxAlt,
+                      { title, index: index + 1 },
+                      ["title", "index"]
+                    )}
                     fill
                     className="object-contain rounded-xl"
                     sizes={LIGHTBOX_SIZES}
@@ -429,7 +472,12 @@ export default function ProjectsGallery({
                         {dictionary.mobilePrevLabel}
                       </button>
                       <span className="text-white text-sm font-medium px-2">
-                        {counterLabel(index + 1, items.length)}
+                        {formatWithParams(
+                          counterLabelTemplate,
+                          DEFAULT_DICTIONARY.counterLabel,
+                          { index: index + 1, total: items.length },
+                          ["index", "total"]
+                        )}
                       </span>
                       <button
                         onClick={next}
@@ -443,7 +491,12 @@ export default function ProjectsGallery({
                   <div className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden md:block">
                     <div className="bg-black/50 backdrop-blur-sm rounded-full px-4 py-2 border border-white/20">
                       <span className="text-white text-sm font-medium">
-                        {counterLabel(index + 1, items.length)}
+                        {formatWithParams(
+                          counterLabelTemplate,
+                          DEFAULT_DICTIONARY.counterLabel,
+                          { index: index + 1, total: items.length },
+                          ["index", "total"]
+                        )}
                       </span>
                     </div>
                   </div>

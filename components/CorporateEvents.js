@@ -88,7 +88,7 @@ const DEFAULT_DICTIONARY = {
   advantagesAriaLabel: "Avantajlarımız",
   cardCtaLabel: "Teklif Al",
   cardCtaHref: "/iletisim",
-  cardCtaAria: (title) => `${title} için teklif al`,
+  cardCtaAria: "{{title}} için teklif al",
   cardBadgeLabel: "Profesyonel Çözüm",
   bannerTitlePrefix: "Kurumsal Etkinlikleriniz İçin",
   bannerTitleHighlight: "Anahtar Teslim",
@@ -105,6 +105,33 @@ const DEFAULT_DICTIONARY = {
   whatsappSrHint: "(yeni sekmede açılır)",
   supportStats: ["7/24 Müşteri Desteği", "15 Dakikada Yanıt"],
 };
+
+const TITLE_TEMPLATE_TOKEN = /\{\{\s*title\s*\}\}/g;
+
+function resolveTitleTemplate(template, title) {
+  const source = template ?? DEFAULT_DICTIONARY.cardCtaAria;
+
+  if (typeof source === "function") {
+    return source(title);
+  }
+
+  if (typeof source === "string") {
+    return source.replace(TITLE_TEMPLATE_TOKEN, title);
+  }
+
+  if (typeof DEFAULT_DICTIONARY.cardCtaAria === "function") {
+    return DEFAULT_DICTIONARY.cardCtaAria(title);
+  }
+
+  if (typeof DEFAULT_DICTIONARY.cardCtaAria === "string") {
+    return DEFAULT_DICTIONARY.cardCtaAria.replace(
+      TITLE_TEMPLATE_TOKEN,
+      title
+    );
+  }
+
+  return title;
+}
 
 function mergeDictionary(base, override = {}) {
   const result = { ...base };
@@ -150,13 +177,11 @@ export default function CorporateEvents({
   dictionary: dictionaryOverride,
 } = {}) {
   const dictionary = mergeDictionary(DEFAULT_DICTIONARY, dictionaryOverride);
-  const cardCtaAria =
-    typeof dictionary.cardCtaAria === "function"
-      ? dictionary.cardCtaAria
-      : DEFAULT_DICTIONARY.cardCtaAria;
+  const cardCtaAriaTemplate = dictionary.cardCtaAria;
   const supportStats = Array.isArray(dictionary.supportStats)
     ? dictionary.supportStats
     : DEFAULT_DICTIONARY.supportStats;
+
 
   return (
     <section
@@ -224,7 +249,10 @@ export default function CorporateEvents({
                       href={dictionary.cardCtaHref}
                       prefetch={false}
                       className="inline-flex items-center gap-2 font-semibold text-gray-700 hover:text-blue-600 transition-colors duration-200 group/link"
-                      aria-label={cardCtaAria(card.title)}
+                      aria-label={resolveTitleTemplate(
+                        cardCtaAriaTemplate,
+                        card.title
+                      )}
                     >
                       <span>{dictionary.cardCtaLabel}</span>
                       <span

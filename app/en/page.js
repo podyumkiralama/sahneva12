@@ -184,9 +184,9 @@ const SERVICES_DICTIONARY_EN = {
   ctaLabel: "View details & request pricing",
   ctaTitle: "Open the detailed service scope and request a tailored quote",
   imageBadgeLabel: "Professional Solution",
-  imageAlt: (title) => `${title} service by Sahneva`,
-  overlayButtonTitle: (title) => `Open ${title} details`,
-  overlayButtonAria: (title) => `Open the ${title} service detail page`,
+  imageAlt: "{{title}} service by Sahneva",
+  overlayButtonTitle: "Open {{title}} details",
+  overlayButtonAria: "Open the {{title}} service detail page",
 };
 
 const PROJECT_GALLERIES_EN = {
@@ -211,13 +211,13 @@ const PROJECT_GALLERIES_EN = {
 };
 
 const PROJECTS_DICTIONARY_EN = {
-  exploreAria: (title, count) => `Open gallery — ${title} (${count} projects)`,
-  exploreHiddenLabel: (title, count) => `Open gallery — ${title} (${count} projects)`,
+  exploreAria: "Open gallery — {{title}} ({{count}} projects)",
+  exploreHiddenLabel: "Open gallery — {{title}} ({{count}} projects)",
   hoverCta: "View gallery",
-  cardAlt: (title) => `${title} by Sahneva`,
+  cardAlt: "{{title}} by Sahneva",
   seeAllLabel: "View all",
-  seeAllSr: (title, count) => ` — ${title} (${count} projects)`,
-  dialogAria: (title) => `${title} project gallery`,
+  seeAllSr: " — {{title}} ({{count}} projects)",
+  dialogAria: "{{title}} project gallery",
   closeLabel: "Close gallery",
   prevLabel: "‹ Previous",
   prevSr: "Previous project",
@@ -225,9 +225,9 @@ const PROJECTS_DICTIONARY_EN = {
   nextSr: "Next project",
   mobilePrevLabel: "‹ Previous",
   mobileNextLabel: "Next ›",
-  counterLabel: (index, total) => `${index} / ${total}`,
-  liveMessage: (title, count) => `${title} gallery opened with ${count} projects`,
-  lightboxAlt: (title, index) => `${title} — reference project ${index}`,
+  counterLabel: "{{index}} / {{total}}",
+  liveMessage: "{{title}} gallery opened with {{count}} projects",
+  lightboxAlt: "{{title}} — reference project {{index}}",
 };
 
 const FAQ_DICTIONARY_EN = {
@@ -355,7 +355,7 @@ const CORPORATE_EVENTS_DICTIONARY_EN = {
   advantagesAriaLabel: "Our advantages",
   cardCtaLabel: "Request quote",
   cardCtaHref: "/en/contact",
-  cardCtaAria: (title) => `Request a quote for ${title}`,
+  cardCtaAria: "Request a quote for {{title}}",
   cardBadgeLabel: "Turnkey solution",
   bannerTitlePrefix: "Your corporate events deserve",
   bannerTitleHighlight: "turnkey production",

@@ -112,10 +112,34 @@ const DEFAULT_DICTIONARY = {
   ctaLabel: "Detaylı Bilgi ve Fiyat Teklifi Al",
   ctaTitle: "Detayları gör ve fiyat teklifi al",
   imageBadgeLabel: "Profesyonel Çözüm",
-  imageAlt: (title) => `${title} hizmeti - Sahneva profesyonel çözümü`,
-  overlayButtonTitle: (title) => `${title} detay sayfasına git`,
-  overlayButtonAria: (title) => `${title} hizmet detay sayfasını aç`,
+  imageAlt: "{{title}} hizmeti - Sahneva profesyonel çözümü",
+  overlayButtonTitle: "{{title}} detay sayfasına git",
+  overlayButtonAria: "{{title}} hizmet detay sayfasını aç",
 };
+
+const TITLE_TEMPLATE_TOKEN = /\{\{\s*title\s*\}\}/g;
+
+function formatTitleTemplate(template, title, fallback) {
+  const source = template ?? fallback;
+
+  if (typeof source === "function") {
+    return source(title);
+  }
+
+  if (typeof source === "string") {
+    return source.replace(TITLE_TEMPLATE_TOKEN, title);
+  }
+
+  if (typeof fallback === "function") {
+    return fallback(title);
+  }
+
+  if (typeof fallback === "string") {
+    return fallback.replace(TITLE_TEMPLATE_TOKEN, title);
+  }
+
+  return title;
+}
 
 function mergeDictionary(base, override = {}) {
   const result = { ...base };
@@ -146,18 +170,11 @@ export default function ServicesTabs({
 
   const dictionary = mergeDictionary(DEFAULT_DICTIONARY, dictionaryOverride);
 
-  const imageAlt =
-    typeof dictionary.imageAlt === "function"
-      ? dictionary.imageAlt
-      : DEFAULT_DICTIONARY.imageAlt;
-  const overlayButtonTitle =
-    typeof dictionary.overlayButtonTitle === "function"
-      ? dictionary.overlayButtonTitle
-      : DEFAULT_DICTIONARY.overlayButtonTitle;
-  const overlayButtonAria =
-    typeof dictionary.overlayButtonAria === "function"
-      ? dictionary.overlayButtonAria
-      : DEFAULT_DICTIONARY.overlayButtonAria;
+  const imageAltTemplate = dictionary.imageAlt ?? DEFAULT_DICTIONARY.imageAlt;
+  const overlayButtonTitleTemplate =
+    dictionary.overlayButtonTitle ?? DEFAULT_DICTIONARY.overlayButtonTitle;
+  const overlayButtonAriaTemplate =
+    dictionary.overlayButtonAria ?? DEFAULT_DICTIONARY.overlayButtonAria;
 
   const [activeTab, setActiveTab] = useState(() => services[0]?.id ?? "");
   const [imageErrors, setImageErrors] = useState({});
@@ -369,7 +386,11 @@ export default function ServicesTabs({
                 <div className="relative h-64 md:h-80 lg:h-96 rounded-2xl overflow-hidden shadow-xl order-1 lg:order-2 group">
                   <Image
                     src={getImageSrc(activeService)}
-                    alt={imageAlt(activeService.title)}
+                    alt={formatTitleTemplate(
+                      imageAltTemplate,
+                      activeService.title,
+                      DEFAULT_DICTIONARY.imageAlt
+                    )}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 560px"
@@ -400,8 +421,16 @@ export default function ServicesTabs({
                     className="absolute top-4 right-4 bg-black/60 hover:bg-black/80 text-white p-3 rounded-lg
                       transition-all duration-300 hover:scale-110 focus:outline-none
                       focus-visible:ring-2 focus-visible:ring-white/70 min-w-11 min-h-11 flex items-center justify-center"
-                    title={overlayButtonTitle(activeService.title)}
-                    aria-label={overlayButtonAria(activeService.title)}
+                    title={formatTitleTemplate(
+                      overlayButtonTitleTemplate,
+                      activeService.title,
+                      DEFAULT_DICTIONARY.overlayButtonTitle
+                    )}
+                    aria-label={formatTitleTemplate(
+                      overlayButtonAriaTemplate,
+                      activeService.title,
+                      DEFAULT_DICTIONARY.overlayButtonAria
+                    )}
                   >
                     <svg
                       className="w-5 h-5"
