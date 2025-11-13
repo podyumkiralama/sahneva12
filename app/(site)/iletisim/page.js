@@ -35,7 +35,7 @@ const WHATSAPP_URL = `https://wa.me/${PHONE.replace(
 )}`;
 
 const GMB_PROFILE_URL = "https://g.page/r/CZhkMzkNOdgnEBI";
-the const GMB_REVIEW_URL = "https://g.page/r/CZhkMzkNOdgnEBI/review";
+const GMB_REVIEW_URL = "https://g.page/r/CZhkMzkNOdgnEBI/review";
 
 /* ───── STRUCTURED DATA ───── */
 function ContactStructuredData() {
