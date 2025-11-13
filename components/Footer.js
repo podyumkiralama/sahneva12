@@ -53,13 +53,44 @@ const currentYear = new Date().getFullYear();
 export default function Footer() {
   return (
     <footer
-      className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900/80 to-blue-900 border-t border-white/10"
+      className="relative w-full flex-shrink-0 bg-gradient-to-br from-slate-900 via-purple-900/80 to-blue-900 border-t border-white/10"
       role="contentinfo"
       aria-labelledby="site-footer-heading"
       itemScope
       itemType="https://schema.org/Organization"
     >
-      <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+      <div
+        className="absolute inset-x-0 -top-24 h-24 pointer-events-none"
+        aria-hidden="true"
+      >
+        <svg
+          viewBox="0 0 1440 240"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-full h-full drop-shadow-[0_-12px_30px_rgba(59,130,246,0.25)]"
+          preserveAspectRatio="none"
+        >
+          <defs>
+            <linearGradient id="footerWave" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="rgba(59,130,246,0.55)" />
+              <stop offset="50%" stopColor="rgba(168,85,247,0.55)" />
+              <stop offset="100%" stopColor="rgba(14,165,233,0.55)" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M0,160 C180,110 320,20 520,70 C720,120 900,220 1100,170 C1260,130 1320,90 1440,130 L1440,240 L0,240 Z"
+            fill="url(#footerWave)"
+          />
+          <path
+            d="M0,180 C200,140 340,40 540,90 C740,140 920,230 1120,180 C1290,140 1350,110 1440,140 L1440,240 L0,240 Z"
+            fill="rgba(15,23,42,0.35)"
+          />
+        </svg>
+      </div>
+
+      <div
+        className="absolute inset-0 overflow-hidden pointer-events-none"
+        aria-hidden="true"
+      >
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full blur-3xl" />
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-r from-purple-500/10 to-cyan-500/10 rounded-full blur-3xl" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-transparent via-black/20 to-black/60" />
@@ -69,7 +100,7 @@ export default function Footer() {
         Site altbilgisi
       </h2>
 
-      <div className="relative z-10 container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 py-12 px-6">
+      <div className="relative z-10 container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pt-24 pb-14 px-6">
         {/* Marka */}
         <section
           aria-labelledby="ft-brand"
