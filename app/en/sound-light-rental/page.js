@@ -1,4 +1,4 @@
-// app/en/led-screen-rental/page.js
+// app/en/sound-light-rental/page.js
 import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
@@ -9,11 +9,11 @@ export const revalidate = 1800;
 const ORIGIN = "https://www.sahneva.com";
 const PHONE = "+905453048671";
 const WA_TEXT =
-  "Hello%2C+I'd+like+to+request+a+quote+for+LED+screen+rental.+Event+type%3A+%5Bconcert%2Fexpo%2Flaunch%5D%2C+Date%3A+%5Bdd.mm.yyyy%5D%2C+Screen+size%3A+%5Bxxx%5D.";
+  "Hello%2C+I'd+like+to+request+a+quote+for+sound+and+lighting+rental.+Event+type%3A+%5Bconcert%2Fcorporate%5D%2C+Date%3A+%5Bdd.mm.yyyy%5D%2C+Audience+size%3A+%5Bxxx%5D.";
 const WHATSAPP = `https://wa.me/${PHONE.replace("+", "")}?text=${WA_TEXT}`;
 
 // Base64 blur placeholder
-const BLUR_DATA_URL = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAADAAQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==";
+const BLUR_DATA_URL = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAADAAQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==";
 
 /* ================== Dynamic gallery (CaseGallery) ================== */
 const CaseGallery = dynamic(() => import("@/components/CaseGallery"), {
@@ -27,48 +27,48 @@ const CaseGallery = dynamic(() => import("@/components/CaseGallery"), {
 
 /* ================== META ================== */
 export const metadata = {
-  title: "LED Screen Rental | Professional LED Wall Solutions | Sahneva",
+  title: "Sound & Lighting Rental | Concert-Grade Audio Visual Systems | Sahneva",
   description:
-    "P2–P6 pixel pitch, 4K processors and ultra-bright LED wall rentals. Indoor/outdoor, concert, expo and corporate event solutions across Turkey.",
+    "Line-array audio, digital mixing consoles, moving-head lighting and truss systems with nationwide crew support for concerts, festivals and corporate events across Türkiye.",
   keywords:
-    "led screen rental, led wall hire, p2.5 led screen, outdoor led wall, indoor led video wall, event screen rental, video wall rental",
-  alternates: { canonical: `${ORIGIN}/en/led-screen-rental` },
+    "sound system rental, lighting system rental, line array rental, concert sound system, event lighting, audio visual rental",
+  alternates: { canonical: `${ORIGIN}/en/sound-light-rental` },
   openGraph: {
-    title: "LED Screen Rental | Professional Solutions",
+    title: "Sound & Lighting Rental | Professional Audio Visual Solutions",
     description:
-      "Indoor and outdoor LED screen rental with P2–P6 pixel pitch, high brightness, IP65 protection and certified installation.",
-    url: `${ORIGIN}/en/led-screen-rental`,
+      "Turnkey sound and lighting system rental with acoustic planning, rigging, digital mixing and on-site operation for any scale event.",
+    url: `${ORIGIN}/en/sound-light-rental`,
     type: "website",
     siteName: "Sahneva",
     locale: "en_US",
     images: [{
-      url: `${ORIGIN}/img/hizmet-led-ekran.webp`,
+      url: `${ORIGIN}/img/ses-isik/hero.webp`,
       width: 1200,
       height: 630,
-      alt: "Sahneva LED screen rental - professional visual solutions"
+      alt: "Sahneva professional sound and lighting system setup"
     }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "LED Screen Rental | Professional LED Wall Solutions | Sahneva",
+    title: "Sound & Lighting Rental | Concert-Grade Audio Visual Systems | Sahneva",
     description:
-      "LED screen rental with high brightness, 4K processors and nationwide certified crews for concerts, expos and corporate events.",
-    images: [`${ORIGIN}/img/hizmet-led-ekran.webp`],
+      "Professional line-array audio, digital consoles, wireless microphones, moving-head lighting, truss and technical crew support across Türkiye.",
+    images: [`${ORIGIN}/img/ses-isik/hero.webp`],
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: { 
-      index: true, 
-      follow: true, 
-      "max-image-preview": "large", 
-      "max-snippet": -1, 
-      "max-video-preview": -1 
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1
     },
   },
 };
 
-/* ================== Helpers & data ================== */
+/* ================== Helpers & constants ================== */
 const slugify = (s) =>
   s.toLowerCase()
     .replace(/&/g, " and ")
@@ -77,80 +77,80 @@ const slugify = (s) =>
     .replace(/-+/g, "-");
 
 const HERO = {
-  src: "/img/hizmet-led-ekran.webp",
-  alt: "Professional LED screen installation – concert stage with a large LED wall and visual show",
+  src: "/img/ses-isik/hero.webp",
+  alt: "Concert stage with line-array speakers, moving-head lighting and live audience",
   sizes: "(max-width: 768px) 100vw, 100vw",
 };
 
 const SERVICES = [
   {
-    icon: "🖥️",
-    title: "Indoor LED Screens",
-    description: "High-resolution displays with P2.5–P3.9 pixel pitch for close viewing distances",
-    features: ["P2.5–P3.9 pixel pitch", "800–1500 nit brightness", "4K-ready processors", "Rapid installation"],
+    icon: "🔊",
+    title: "Line Array & PA Systems",
+    description: "High-output audio with even coverage for large audiences",
+    features: ["L/R clusters with sub arrays", "Stage monitoring (wedges/IEM)", "FOH mixing & acoustic tuning"],
   },
   {
-    icon: "🌞",
-    title: "Outdoor LED Screens",
-    description: "Weather-proof LED walls with P4–P6 pixel pitch and ultra brightness",
-    features: ["P4–P6 pixel pitch", "5000–6500+ nit", "IP65 weatherproof", "UV-resistant panels"],
+    icon: "🎛️",
+    title: "Digital Consoles & Stageboxes",
+    description: "Flexible routing and rapid setup with next-gen mixing systems",
+    features: ["32–64ch digital mixing", "Stagebox deployment", "Multitrack recording & playback"],
   },
   {
-    icon: "🎬",
-    title: "Video Wall Systems",
-    description: "Modular video wall configurations for creative layouts and scenic designs",
-    features: ["Modular design", "Flexible configurations", "High refresh rates", "Professional controllers"],
+    icon: "🎤",
+    title: "Wireless Microphone Systems",
+    description: "Reliable RF management for conferences and live performances",
+    features: ["Multi-receiver racks", "Battery & antenna management", "Conference & performance packages"],
   },
   {
-    icon: "⚡",
-    title: "Control & Broadcast Systems",
-    description: "Professional video processing, routing and live broadcast solutions",
-    features: ["Novastar processors", "4K scaling", "Media servers", "Live streaming support"],
+    icon: "💡",
+    title: "Lighting Design & Fixtures",
+    description: "Immersive visuals with moving-head, wash and beam fixtures",
+    features: ["RGBW spot, wash, beam", "DMX programming", "Haze and atmospheric effects"],
   },
   {
-    icon: "🔧",
-    title: "Installation & Rigging",
-    description: "Certified rigging teams, truss structures and full safety solutions",
-    features: ["Ground stack setups", "Truss rigging", "Safety systems", "Fast assembly"],
+    icon: "🧱",
+    title: "Truss & Rigging Systems",
+    description: "Certified aluminium structures and safe rigging solutions",
+    features: ["Aluminium truss grids", "Ground support systems", "Professional rigging hardware"],
   },
   {
-    icon: "🎮",
-    title: "Operator & Technical Support",
-    description: "Experienced LED operators and 24/7 technical response",
-    features: ["Professional operators", "Content management", "24/7 technical support", "Emergency response"],
+    icon: "🎚️",
+    title: "Live Operation & Technical Crew",
+    description: "End-to-end technical direction from rehearsal to teardown",
+    features: ["Soundcheck & rehearsals", "Rapid-response technicians", "Post-show dismantle"],
   },
 ];
 
 const USE_CASES = [
   {
-    icon: "🎵",
-    text: "Concerts, festivals and stage performances",
-    desc: "Main stage LED walls with side screens and IMAG support"
-  },
-  {
-    icon: "💼",
+    icon: "🏢",
     text: "Corporate launches and conferences",
-    desc: "Professional presentation backdrops and brand showcases"
+    desc: "Keynote audio, stage wash lighting and broadcast feeds",
   },
   {
-    icon: "🎪",
-    text: "Trade shows and exhibitions",
-    desc: "Booth integrations and interactive digital displays"
+    icon: "💍",
+    text: "Weddings and private celebrations",
+    desc: "Warm ambience lighting and crystal-clear speech",
   },
   {
-    icon: "🏟️",
-    text: "Sports events and stadiums",
-    desc: "Giant screens, scoreboards and fan engagement content"
+    icon: "🎤",
+    text: "Concerts, festivals and live shows",
+    desc: "Concert PA systems with visual show lighting",
+  },
+  {
+    icon: "🎓",
+    text: "Graduation and school ceremonies",
+    desc: "Podium audio, spotlighting and recording support",
+  },
+  {
+    icon: "🏛️",
+    text: "Municipality events and public gatherings",
+    desc: "Outdoor coverage with delay towers and side fills",
   },
   {
     icon: "🛍️",
-    text: "Retail venues and shopping malls",
-    desc: "Advertising loops and informational signage"
-  },
-  {
-    icon: "💒",
-    text: "Weddings and private celebrations",
-    desc: "Live ceremony broadcasts and photo/video displays"
+    text: "Shopping mall activations and trade fairs",
+    desc: "Brand-focused lighting and PA for retail spaces",
   },
 ];
 
@@ -159,11 +159,11 @@ function Hero() {
   return (
     <section className="relative flex items-center justify-center overflow-hidden bg-slate-900 pt-20 min-h-[80vh]" aria-labelledby="hero-title">
       <div className="absolute inset-0">
-        <Image 
-          src={HERO.src} 
-          alt={HERO.alt} 
-          fill 
-          priority 
+        <Image
+          src={HERO.src}
+          alt={HERO.alt}
+          fill
+          priority
           className="object-cover"
           sizes={HERO.sizes}
           quality={85}
@@ -185,15 +185,15 @@ function Hero() {
         </div>
 
         <h1 id="hero-title" className="text-4xl md:text-6xl lg:text-7xl font-black leading-tight mb-4 drop-shadow-2xl">
-          Premium <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">LED Screen Rental</span>
+          Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">Sound & Lighting</span>
         </h1>
 
         <p className="text-xl md:text-2xl text-white/95 max-w-3xl mx-auto leading-relaxed font-light mb-4">
-          Concerts • Trade shows • Launch events • Festivals • Corporate productions
+          Concert • Festival • Launch • Conference
         </p>
         <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed font-normal mb-6">
-          P2–P6 pixel pitch, 4K processing and ultra brightness for
-          <span className="font-semibold text-white"> immersive visual experiences</span>
+          Line-array audio, digital consoles and moving-head fixtures with
+          <span className="font-semibold text-white"> turnkey deployment</span>
         </p>
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-8">
@@ -201,21 +201,21 @@ function Hero() {
             href={WHATSAPP}
             target="_blank"
             rel="noopener noreferrer"
-            title="Request an LED screen quote on WhatsApp"
+            title="Request a WhatsApp proposal now"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-green-600 shadow-lg"
             role="button"
           >
-            <span aria-hidden="true" className="text-xl mr-2">💬</span> 
-            <span className="text-base">Get a fast quote</span>
+            <span aria-hidden="true" className="text-xl mr-2">💬</span>
+            <span className="text-base">Get a quote</span>
           </Link>
 
           <Link
             href="#services"
-            title="Explore our LED screen services"
+            title="Discover our services"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-white text-white/95 bg-white/10 backdrop-blur-lg hover:bg-white/20 hover:scale-105 transform transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 shadow-lg"
             role="button"
           >
-            <span aria-hidden="true" className="text-xl mr-2">🎯</span> 
+            <span aria-hidden="true" className="text-xl mr-2">🎯</span>
             <span className="text-base">Our services</span>
           </Link>
         </div>
@@ -224,16 +224,16 @@ function Hero() {
           <div className="flex flex-col items-center text-center p-4 bg-white/10 backdrop-blur-md rounded-xl border border-white/20">
             <span className="text-2xl mb-2" aria-hidden="true">⭐</span>
             <div className="text-xl font-black text-white">4.9/5</div>
-            <div className="text-white/80 text-sm">183+ client reviews</div>
+            <div className="text-white/80 text-sm">250+ reviews</div>
           </div>
           <div className="flex flex-col items-center text-center p-4 bg-white/10 backdrop-blur-md rounded-xl border border-white/20">
             <span className="text-2xl mb-2" aria-hidden="true">🏆</span>
-            <div className="text-xl font-black text-white">300+</div>
-            <div className="text-white/80 text-sm">Completed projects</div>
+            <div className="text-xl font-black text-white">1200+</div>
+            <div className="text-white/80 text-sm">Events delivered</div>
           </div>
           <div className="flex flex-col items-center text-center p-4 bg-white/10 backdrop-blur-md rounded-xl border border-white/20">
             <span className="text-2xl mb-2" aria-hidden="true">🚀</span>
-            <div className="text-xl font-black text-white">81 cities</div>
+            <div className="text-xl font-black text-white">81 provinces</div>
             <div className="text-white/80 text-sm">Nationwide coverage</div>
           </div>
         </div>
@@ -249,10 +249,10 @@ function Services() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="services-title" className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
-            Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">services</span>
+            Our professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">services</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            LED screen rental with technical consultancy, installation, operation and 24/7 support
+            Complete sound and lighting rental including discovery, design, installation, live operation and dismantle
           </p>
         </div>
 
@@ -261,7 +261,7 @@ function Services() {
             const id = `svc-${slugify(service.title)}`;
             return (
               <div key={id} className="group">
-                <article 
+                <article
                   className="bg-white rounded-3xl border-2 border-gray-100 shadow-xl hover:shadow-2xl p-8 group-hover:scale-105 transition-all duration-500 h-full flex flex-col"
                   aria-labelledby={id}
                 >
@@ -297,7 +297,7 @@ function Services() {
             role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">📞</span>
-            <span>Request a detailed proposal</span>
+            <span>Contact our engineers</span>
           </Link>
         </div>
       </div>
@@ -308,49 +308,49 @@ function Services() {
 /* ================== Gallery ================== */
 const GALLERY_IMAGES = [
   {
-    src: "/img/galeri/led-ekran-kiralama-1.webp",
-    alt: "Large LED wall built on a concert stage during a live performance"
+    src: "/img/ses-isik/isik-sistemi.webp",
+    alt: "Moving-head lighting rig with stage wash and beam effects",
   },
   {
-    src: "/img/galeri/led-ekran-kiralama-2.webp",
-    alt: "LED screen at a corporate event with presentation visuals and professional lighting"
+    src: "/img/ses-isik/ses-sistemi.webp",
+    alt: "Line-array speaker system with FOH mixing console",
   },
   {
-    src: "/img/galeri/led-ekran-kiralama-3.webp",
-    alt: "High-brightness LED wall at an outdoor festival delivering crisp daylight visuals"
+    src: "/img/ses-isik/3.webp",
+    alt: "Aluminium truss and rigging setup for outdoor stage",
   },
   {
-    src: "/img/galeri/led-ekran-kiralama-4.webp",
-    alt: "Video wall inside a trade show booth showcasing branded content"
+    src: "/img/ses-isik/4.webp",
+    alt: "Front of house engineer mixing live concert audio",
   },
   {
-    src: "/img/galeri/led-ekran-kiralama-5.webp",
-    alt: "Giant LED screen inside a stadium displaying live scores and footage"
+    src: "/img/ses-isik/5.webp",
+    alt: "Stage backdrop LED wall with beam lights and haze",
   },
   {
-    src: "/img/galeri/led-ekran-kiralama-6.webp",
-    alt: "LED screen at a wedding streaming live photos and videos"
+    src: "/img/ses-isik/6.webp",
+    alt: "Lighting control desk with DMX programming interface",
   },
   {
-    src: "/img/galeri/led-ekran-kiralama-7.webp",
-    alt: "Professional LED backdrop inside a TV studio prepared for live broadcast"
+    src: "/img/ses-isik/7.webp",
+    alt: "Delay tower speaker arrays for large outdoor event",
   },
   {
-    src: "/img/galeri/led-ekran-kiralama-8.webp",
-    alt: "Advertising LED screen inside a shopping mall for high-traffic promotion"
+    src: "/img/ses-isik/8.webp",
+    alt: "Wireless microphone rack with in-ear monitoring setup",
   },
 ];
 
 function Gallery() {
   return (
-    <section className="py-20 bg-white" aria-labelledby="galeri-baslik">
+    <section className="py-20 bg-white" aria-labelledby="gallery-title">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 id="galeri-baslik" className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
+          <h2 id="gallery-title" className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
             Project <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">gallery</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Highlights from LED screen installations we delivered across Turkey
+            Highlights from recent sound and lighting installations delivered by our crew
           </p>
         </div>
 
@@ -360,7 +360,7 @@ function Gallery() {
 
         <div className="text-center mt-12">
           <p className="text-gray-600 text-lg mb-6">
-            Discover more projects and creative LED wall configurations
+            Explore more turnkey productions completed for our clients
           </p>
           <Link
             href="/en/projects"
@@ -368,7 +368,7 @@ function Gallery() {
             role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">📸</span>
-            <span>View all projects</span>
+            <span>See all projects</span>
           </Link>
         </div>
       </div>
@@ -380,40 +380,40 @@ function Gallery() {
 function Technical() {
   const technicalItems = [
     {
-      category: "pixel",
-      title: "Pixel technologies",
-      description: "P2.5–P6 pixel pitch options tailored to every audience distance",
-      features: ["P2.5: Premium indoor detail", "P3.9: Hybrid use", "P4: Outdoor standard", "P6: Long-distance viewing"]
+      category: "pa",
+      title: "Sound systems",
+      description: "Line-array and top+sub configurations for clean, even coverage",
+      features: ["Line-array deployments", "Subwoofer arrays", "Acoustic measurement & tuning"]
     },
     {
-      category: "brightness",
-      title: "Brightness & visibility",
-      description: "Optimised luminance for indoor venues and open-air sunlight",
-      features: ["Indoor: 800–1500 nit", "Outdoor: 3500–6500 nit", "Auto brightness control", "Daylight clarity"]
+      category: "mixer",
+      title: "Mixing & control",
+      description: "32–64 channel digital consoles, stageboxes and playback",
+      features: ["Digital consoles", "Stagebox systems", "Multitrack recording"]
     },
     {
-      category: "protection",
-      title: "Protection systems",
-      description: "Weather-resistant cabinets with IP-rated sealing and robust build",
-      features: ["IP65 front protection", "IP54 rear sealing", "UV-resistant housing", "Dust-proof modules"]
+      category: "wireless",
+      title: "Wireless systems",
+      description: "Professional RF coordination, antenna distribution and monitoring",
+      features: ["Wireless microphones", "RF planning", "Antenna distribution"]
+    },
+    {
+      category: "lighting",
+      title: "Lighting systems",
+      description: "RGBW wash/beam fixtures, moving-head spots and atmospheric effects",
+      features: ["Moving-head fixtures", "LED lighting", "Effect machines"]
+    },
+    {
+      category: "truss",
+      title: "Truss & rigging",
+      description: "Aluminium structures, ground support towers and certified rigging",
+      features: ["Truss systems", "Rigging hardware", "Safety solutions"]
     },
     {
       category: "control",
-      title: "Control systems",
-      description: "Professional video processing, switching and redundancy",
-      features: ["Novastar processors", "4K video scaling", "Media servers", "Remote monitoring"]
-    },
-    {
-      category: "rigging",
-      title: "Rigging systems",
-      description: "Engineered structures for rapid and safe installations",
-      features: ["Ground stack platforms", "Truss rigging", "Motorised hoists", "Quick-lock mechanisms"]
-    },
-    {
-      category: "support",
-      title: "Technical support",
-      description: "Round-the-clock engineers with backup inventory and diagnostics",
-      features: ["24/7 technical hotline", "Spare module stock", "Rapid response crew", "Remote diagnostics"]
+      title: "Control & software",
+      description: "DMX control networks, show programming and calibration software",
+      features: ["Lighting consoles", "Programming software", "Measurement tools"]
     }
   ];
 
@@ -422,10 +422,10 @@ function Technical() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="technical-title" className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
-            Technical <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">infrastructure</span>
+            Our technical <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">infrastructure</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            We deploy the latest LED technology and certified infrastructure for every production
+            Cutting-edge equipment inventory operated by experienced engineers and riggers
           </p>
         </div>
 
@@ -435,21 +435,19 @@ function Technical() {
               <div className="bg-white rounded-3xl border-2 border-gray-100 p-8 shadow-lg hover:shadow-xl group-hover:scale-105 transition-all duration-500 h-full">
                 <h3 className="font-bold text-2xl text-gray-900 mb-4 group-hover:text-blue-600 transition-colors flex items-center gap-3">
                   <span className="text-3xl" aria-hidden="true">
-                    {item.category === "pixel" && "🔍"}
-                    {item.category === "brightness" && "☀️"}
-                    {item.category === "protection" && "🛡️"}
-                    {item.category === "control" && "🎮"}
-                    {item.category === "rigging" && "⚡"}
-                    {item.category === "support" && "📞"}
+                    {item.category === "pa" && "🔊"}
+                    {item.category === "mixer" && "🎛️"}
+                    {item.category === "wireless" && "🎤"}
+                    {item.category === "lighting" && "💡"}
+                    {item.category === "truss" && "🧱"}
+                    {item.category === "control" && "🖥️"}
                   </span>
                   {item.title}
                 </h3>
-                <p className="text-gray-600 mb-6 text-lg leading-relaxed">
-                  {item.description}
-                </p>
+                <p className="text-gray-600 mb-6 leading-relaxed">{item.description}</p>
                 <ul className="space-y-3">
-                  {item.features.map((feature, index) => (
-                    <li key={index} className="flex items-center gap-3 text-gray-700">
+                  {item.features.map((feature) => (
+                    <li key={feature} className="flex items-center gap-3 text-gray-700">
                       <span className="w-2 h-2 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex-shrink-0" aria-hidden="true" />
                       <span className="text-base">{feature}</span>
                     </li>
@@ -459,22 +457,35 @@ function Technical() {
             </div>
           ))}
         </div>
+
+        <div className="text-center mt-12">
+          <Link
+            href={WHATSAPP}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-white text-blue-700 hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus:outline-none focus-visible:ring-4 focus-visible:ring-white"
+            role="button"
+          >
+            <span aria-hidden="true" className="text-xl mr-3">💬</span>
+            <span>Plan a technical visit</span>
+          </Link>
+        </div>
       </div>
     </section>
   );
 }
 
-/* ================== Performance stats ================== */
+/* ================== Statistics band ================== */
 function StatsBand() {
   const stats = [
-    { value: "300+", label: "Delivered productions", icon: "🎬" },
+    { value: "1200+", label: "Events delivered", icon: "🎪" },
     { value: "50+", label: "Enterprise clients", icon: "🏢" },
-    { value: "81", label: "Cities served", icon: "🗺️" },
-    { value: "5+", label: "Years of experience", icon: "⭐" },
+    { value: "81", label: "Provinces served", icon: "🗺️" },
+    { value: "10+", label: "Years of experience", icon: "⭐" },
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-r from-blue-700 via-purple-700 to-blue-800 text-white" aria-label="Our performance statistics">
+    <section className="py-20 bg-gradient-to-r from-blue-700 via-purple-700 to-blue-800 text-white" aria-label="Performance statistics">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
           {stats.map((stat) => (
@@ -503,10 +514,10 @@ function UseCases() {
       <div className="container max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="use-cases-title" className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
-            Where our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">LED walls shine</span>
+            Where we <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">excel</span>
           </h2>
           <p className="text-xl text-white/85 max-w-3xl mx-auto leading-relaxed">
-            Key event types that benefit from our LED screen packages and specialist workflows
+            Customised sound and lighting solutions tailored to each event format and venue layout
           </p>
           <div className="w-32 h-1 bg-gradient-to-r from-blue-400 to-purple-400 mx-auto mt-8 rounded-full" aria-hidden="true" />
         </div>
@@ -544,7 +555,7 @@ function UseCases() {
             role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">💬</span>
-            <span>Request a tailored solution for your event</span>
+            <span>Request a tailored setup</span>
           </Link>
         </div>
       </div>
@@ -555,87 +566,80 @@ function UseCases() {
 /* ================== Knowledge & guides ================== */
 function Articles() {
   return (
-    <section className="py-20 bg-gradient-to-b from-white to-gray-50/50" aria-labelledby="guides-title">
+    <section className="py-20 bg-gradient-to-b from-white to-gray-50/50" aria-labelledby="knowledge-title">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
-          <h2 id="guides-title" className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
+          <h2 id="knowledge-title" className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
             Knowledge & <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">professional guidance</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Expert insight and technical tips for choosing LED walls for any production
+            Expert insights on planning, designing and operating sound and lighting systems
           </p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
-          {/* Ana Makale */}
+          {/* Main article */}
           <article className="lg:col-span-2 bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
             <header className="bg-gradient-to-r from-blue-700 via-purple-700 to-blue-800 text-white p-8 md:p-10 relative overflow-hidden">
               <div className="absolute inset-0 bg-black/10" aria-hidden="true"></div>
               <div className="relative z-10">
                 <div className="flex flex-wrap items-center gap-3 mb-4">
-                  <span className="bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-semibold">📚 Comprehensive guide</span>
+                  <span className="bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-semibold">📚 In-depth guide</span>
                   <span className="bg-green-500/20 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-semibold">⭐ Expert insight</span>
-                  <span className="bg-blue-500/20 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-semibold">🎯 Practical solutions</span>
+                  <span className="bg-blue-500/20 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-semibold">🎯 Practical tips</span>
                 </div>
                 <h3 className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tight leading-tight">
-                  LED Screen Rental: Visual excellence for standout events
+                  Professional Sound & Lighting Systems: Complete Solutions for Event Success
                 </h3>
                 <p className="text-blue-100 mt-4 text-lg md:text-xl leading-relaxed">
-                  Deliver flawless performances with the latest LED walls, certified rigging and on-site visual production
+                  Corporate-grade standards, rapid installation workflows and measurable quality assurance for flawless experiences
                 </p>
               </div>
             </header>
 
             <div className="p-8 md:p-10">
               <div className="prose prose-lg max-w-none prose-headings:font-black prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-em:text-gray-600 prose-ul:mt-6 prose-ul:mb-6 prose-li:marker:text-blue-500">
-                
+
                 <div className="grid md:grid-cols-2 gap-8 mb-8">
                   <div className="space-y-6">
                     <h4 className="text-2xl font-black text-gray-900 flex items-center gap-4">
-                      <span className="bg-blue-100 text-blue-600 rounded-2xl p-3" aria-hidden="true">🖥️</span>
-                      LED display technologies
+                      <span className="bg-blue-100 text-blue-600 rounded-2xl p-3" aria-hidden="true">🔊</span>
+                      Sound systems & technology
                     </h4>
                     <p>
-                      <strong className="text-gray-900">Sahneva</strong> delivers enterprise-grade
-                      <Link href="/en/led-screen-rental" className="font-semibold text-blue-600 hover:text-blue-700 underline underline-offset-4">
-                        LED screen rental services
-                      </Link>{" "}
-                      with nationwide crews, engineering and logistics.
+                      <strong className="text-gray-900">Sahneva</strong> delivers
+                      <Link href="/en/sound-light-rental" className="font-semibold text-blue-600 hover:text-blue-700 underline underline-offset-4">
+                        professional sound system rentals
+                      </Link>
+                      and
+                      <Link href="/en/sound-light-rental" className="font-semibold text-blue-600 hover:text-blue-700 underline underline-offset-4">
+                        lighting system rentals
+                      </Link>
+                      with corporate-level engineering across Türkiye.
                     </p>
                     <p>
-                      From indoor concerts to open-air festivals we manage technical surveys, pixel pitch optimisation,
-                      professional assembly and live operation as a
-                      <strong className="text-gray-900"> turnkey package</strong>.
+                      Whether your event is an outdoor concert or an indoor summit, our turnkey model covers acoustic discovery, technical design, certified
+                      <em className="text-gray-600">truss & rigging</em>
+                      and live operation so every workflow is managed by one expert team.
                     </p>
                   </div>
-                  
+
                   <div className="space-y-6">
                     <h4 className="text-2xl font-black text-gray-900 flex items-center gap-4">
-                      <span className="bg-purple-100 text-purple-600 rounded-2xl p-3" aria-hidden="true">🌞</span>
-                      Brightness and visibility
+                      <span className="bg-purple-100 text-purple-600 rounded-2xl p-3" aria-hidden="true">💡</span>
+                      Lighting design & programming
                     </h4>
                     <p>
-                      Indoor deployments run at 800–1500 nit while outdoor walls reach 3500–6500+ nit, ensuring crisp visuals in any lighting.
+                      Carefully tuned <em className="text-gray-600">line-array</em> systems achieve uniform SPL distribution, while digital consoles and
+                      <em className="text-gray-600">stageboxes</em> simplify patching, routing and redundancy.
                     </p>
                     <p>
-                      With P2.5–P6 pixel pitches we tune solutions to the viewing distance, preventing both close-range pixelation and long-range detail loss.
+                      RGBW spot, wash and beam fixtures are synchronised through DMX show files, delivering intelligible speech, dynamic musical performances and a visually rich audience experience.
                     </p>
                   </div>
                 </div>
 
-                {/* Highlight box */}
-                <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-l-4 border-blue-500 rounded-r-2xl p-6 mb-8">
-                  <h5 className="font-black text-blue-700 text-xl mb-4 flex items-center gap-3">
-                    <span className="text-2xl" aria-hidden="true">💡</span>
-                    Technical selection strategy
-                  </h5>
-                  <p className="text-gray-700 text-lg mb-0 leading-relaxed">
-                    Viewing distance is the defining factor. Choose P2.5–P3.9 for 3–10 m, P4 for 10–25 m and P6 for 25 m+.
-                    For outdoor stages prioritise brightness ratings and IP protection to withstand direct sun and weather.
-                  </p>
-                </div>
-
-                {/* Success factors grid */}
+                {/* Success factors */}
                 <div className="mb-8">
                   <h4 className="text-2xl font-black text-gray-900 mb-8 flex items-center gap-4">
                     <span className="bg-green-100 text-green-600 rounded-2xl p-3" aria-hidden="true">🚀</span>
@@ -645,23 +649,23 @@ function Articles() {
                     {[
                       {
                         icon: "🎯",
-                        title: "Accurate pixel selection",
-                        desc: "Pixel pitch aligned with expected viewing distance"
+                        title: "Detailed discovery",
+                        desc: "Acoustic measurements, venue analysis and needs assessment"
                       },
                       {
                         icon: "📊",
-                        title: "Brightness optimisation",
-                        desc: "Luminance tuned to venue and ambient light"
+                        title: "Line-array simulation",
+                        desc: "Predictive coverage planning with professional software"
                       },
                       {
                         icon: "🔒",
-                        title: "Safety systems",
-                        desc: "Rigging, power distribution and contingency planning"
+                        title: "Safe rigging systems",
+                        desc: "Certified equipment and experienced rigging crew"
                       },
                       {
                         icon: "🎭",
-                        title: "Content optimisation",
-                        desc: "Content authored for native resolution and aspect"
+                        title: "Show programming",
+                        desc: "Soundcheck workflows and cue-based lighting design"
                       },
                     ].map((item, index) => (
                       <div key={index} className="bg-white border-2 border-gray-100 rounded-2xl p-6 hover:shadow-lg transition-all duration-300 group hover:border-blue-200">
@@ -686,61 +690,58 @@ function Articles() {
                 <div className="bg-yellow-50 border-l-4 border-yellow-400 rounded-r-2xl p-6 mt-8">
                   <h5 className="font-black text-yellow-700 text-lg mb-3 flex items-center gap-3">
                     <span className="text-xl" aria-hidden="true">💎</span>
-                    Why partner with Sahneva?
+                    Why Sahneva?
                   </h5>
                   <p className="text-yellow-800 mb-0">
-                    <strong>5+ years of experience, 300+ successful shows and service across 81 cities</strong>
-                    position us as your trusted LED screen partner, backed by cutting-edge equipment,
-                    certified crews and 24/7 technical response.
+                    <strong>10+ years of experience, 1200+ successful events and nationwide coverage</strong>
+                    make us a trusted production partner. Premium equipment, specialised crews and 24/7 technical support are included with every project.
                   </p>
                 </div>
               </div>
             </div>
           </article>
 
-          {/* Secondary articles */}
+          {/* Secondary article */}
           <article className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-500 h-full">
             <header className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-6 md:p-8">
               <h3 className="text-xl md:text-2xl font-black tracking-tight leading-tight">
-                Technical installation & operation
+                Technical integration & execution workflows
               </h3>
               <p className="text-blue-100 mt-2 text-lg">
-                Professional deployment workflows and live-show management
+                Show-based lighting programming and professional FOH mixing solutions
               </p>
             </header>
 
             <div className="p-6 md:p-8">
               <div className="prose prose-lg max-w-none prose-p:text-gray-600 prose-p:leading-relaxed">
                 <p>
-                  Every LED wall build starts with a detailed site survey. We review structural conditions,
-                  power distribution, audience sight-lines and available rigging points.
+                  We plan the optimum placement of audio and lighting based on acoustic coverage, delay and reflection parameters, ensuring every seat experiences the intended mix.
                 </p>
                 <p>
-                  Our certified crew assembles the wall within 2–6 hours, manages cabling and power systems,
-                  and completes full testing plus colour calibration before handover.
+                  Outdoor events benefit from strategically placed <em className="text-gray-600">delay towers</em>, while indoor venues receive configurations that minimise echo and focus light angles precisely on stage action.
                 </p>
 
                 <div className="bg-gray-50 rounded-2xl p-5 mt-6 border border-gray-200">
                   <h4 className="font-bold text-gray-900 text-lg mb-3 flex items-center gap-3">
                     <span className="bg-purple-100 text-purple-600 rounded-xl p-2" aria-hidden="true">📋</span>
-                    Installation standards
+                    Technical standards & highlights
                   </h4>
                   <ul className="text-gray-700 space-y-2 text-base">
                     <li className="flex items-center gap-3">
                       <span className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0" aria-hidden="true" />
-                      Ground stack platforms or flown truss rigging
+                      Robust DMX topology and secure cabling
                     </li>
                     <li className="flex items-center gap-3">
                       <span className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0" aria-hidden="true" />
-                      Professional power distribution and UPS systems
+                      FOH and monitor mix synchronisation
                     </li>
                     <li className="flex items-center gap-3">
                       <span className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0" aria-hidden="true" />
-                      Colour calibration and visual optimisation
+                      RF coordination for maximum reliability
                     </li>
                     <li className="flex items-center gap-3">
                       <span className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0" aria-hidden="true" />
-                      Spare module strategy and rapid response plan
+                      Haze, smoke and effect cue planning
                     </li>
                   </ul>
                 </div>
@@ -751,45 +752,43 @@ function Articles() {
           <article className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-500 h-full">
             <header className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 md:p-8">
               <h3 className="text-xl md:text-2xl font-black tracking-tight leading-tight">
-                Tailored solutions by event type
+                Event-specific solutions
               </h3>
               <p className="text-blue-100 mt-2 text-lg">
-                LED wall strategies tuned for every show format
+                Tailored equipment packages for every audience profile and venue layout
               </p>
             </header>
 
             <div className="p-6 md:p-8">
-              <div className="prose prose-lg max-w-none prose-p:text-gray-600 prose-p:leading-relaxed">
-                <div className="space-y-6">
-                  <div className="bg-blue-50 rounded-2xl p-5 border border-blue-200">
-                    <h4 className="font-bold text-gray-900 text-lg flex items-center gap-3 mb-2">
-                      <span className="bg-blue-100 text-blue-600 rounded-xl p-2" aria-hidden="true">🎵</span>
-                      Concert & festival staging
-                    </h4>
-                    <p className="text-gray-700 text-base mb-0">
-                      High brightness, wide viewing angles, live camera integration and multi-screen layouts
-                    </p>
-                  </div>
+              <div className="space-y-6">
+                <div className="bg-blue-50 rounded-2xl p-5 border border-blue-200">
+                  <h4 className="font-bold text-gray-900 text-lg flex items-center gap-3 mb-2">
+                    <span className="bg-blue-100 text-blue-600 rounded-xl p-2" aria-hidden="true">🏟️</span>
+                    Stadium & festival productions
+                  </h4>
+                  <p className="text-gray-700 text-base mb-0">
+                    High SPL coverage, delay towers, IMAG screens and time-aligned audio for vast crowds
+                  </p>
+                </div>
 
-                  <div className="bg-purple-50 rounded-2xl p-5 border border-purple-200">
-                    <h4 className="font-bold text-gray-900 text-lg flex items-center gap-3 mb-2">
-                      <span className="bg-purple-100 text-purple-600 rounded-xl p-2" aria-hidden="true">💼</span>
-                      Corporate experiences
-                    </h4>
-                    <p className="text-gray-700 text-base mb-0">
-                      Ultra-sharp resolution, clear text readability, presentation switching and accurate brand colours
-                    </p>
-                  </div>
+                <div className="bg-purple-50 rounded-2xl p-5 border border-purple-200">
+                  <h4 className="font-bold text-gray-900 text-lg flex items-center gap-3 mb-2">
+                    <span className="bg-purple-100 text-purple-600 rounded-xl p-2" aria-hidden="true">🏢</span>
+                    Corporate & conference setups
+                  </h4>
+                  <p className="text-gray-700 text-base mb-0">
+                    Premium speech intelligibility, discreet rigging and broadcast-ready audio routing
+                  </p>
+                </div>
 
-                  <div className="bg-green-50 rounded-2xl p-5 border border-green-200">
-                    <h4 className="font-bold text-gray-900 text-lg flex items-center gap-3 mb-2">
-                      <span className="bg-green-100 text-green-600 rounded-xl p-2" aria-hidden="true">🎪</span>
-                      Trade shows & exhibits
-                    </h4>
-                    <p className="text-gray-700 text-base mb-0">
-                      Compact footprints, fast deployment, interactive content and durability for heavy footfall
-                    </p>
-                  </div>
+                <div className="bg-green-50 rounded-2xl p-5 border border-green-200">
+                  <h4 className="font-bold text-gray-900 text-lg flex items-center gap-3 mb-2">
+                    <span className="bg-green-100 text-green-600 rounded-xl p-2" aria-hidden="true">💍</span>
+                    Private events & celebrations
+                  </h4>
+                  <p className="text-gray-700 text-base mb-0">
+                    Intimate ambience, soft lighting, high-quality audio and curated special effects
+                  </p>
                 </div>
               </div>
             </div>
@@ -804,20 +803,20 @@ function Articles() {
 function FAQ() {
   const faqs = [
     {
-      q: "How much does LED screen rental cost?",
-      a: "Pricing depends on pixel pitch and total surface area. Indoor P2.5 LED walls start from ₺2,800 per m² and outdoor P4 LED walls from ₺1,800 per m², including certified installation and operator support."
+      q: "Which sound and lighting package suits my event?",
+      a: "We assess your venue size, audience capacity, event format and budget to recommend the optimal package. Our complimentary site survey allows us to analyse the space and tailor the configuration precisely.",
     },
     {
-      q: "How long does installation take?",
-      a: "Standard LED wall builds take 2–6 hours. Up to 20 m² typically completes within 2–3 hours, 20–50 m² within 3–4 hours and large-format 50 m²+ installs within 4–6 hours. Complex rigging or custom structures may extend to 24 hours."
+      q: "How long do installation and dismantle take?",
+      a: "Indoor setups are typically completed within 4–6 hours, while outdoor productions take around 6–8 hours. Complex rigging projects begin the day before. Dismantle averages 2–4 hours depending on scope.",
     },
     {
-      q: "Can LED screens operate in rain?",
-      a: "Yes. Our outdoor cabinets feature IP65 front protection and can operate safely in rain. The rating ensures full dust protection and resistance to water jets. In extreme storms or high winds we recommend pausing operation for safety."
+      q: "Do you provide live operation and technical staff?",
+      a: "Absolutely. Every project includes FOH sound engineers, monitor engineers and lighting operators who manage the show end-to-end. Our emergency technical response line is available 24/7.",
     },
     {
-      q: "Which pixel pitch should I choose?",
-      a: "Match the pixel pitch to viewing distance. Pick P2.5–P3.9 for 3–10 m audiences, P4 for 10–25 m and P6 for 25 m+. Indoor events usually select P2.5–P3.9 while outdoor concerts and rallies use P4–P6 for optimal clarity."
+      q: "How is power distribution handled?",
+      a: "Transport, installation and operation are on us. We gather generator or venue power details from you, then coordinate electrical requirements with our certified electricians and professional distribution systems.",
     },
   ];
 
@@ -829,25 +828,25 @@ function FAQ() {
             Frequently asked <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">questions</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            Answers to the most common LED screen rental questions
+            Answers to the most common questions about sound and lighting rentals
           </p>
         </div>
 
-        <div className="space-y-6" role="list" aria-label="Frequently asked questions">
+        <div className="space-y-6" aria-label="Frequently asked questions list">
           {faqs.map((faq, index) => (
-            <details 
-              key={index} 
+            <details
+              key={index}
               className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border"
             >
-              <summary 
+              <summary
                 className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900"
                 role="button"
                 aria-expanded="false"
                 tabIndex={0}
               >
                 <span className="pr-4">{faq.q}</span>
-                <span 
-                  aria-hidden="true" 
+                <span
+                  aria-hidden="true"
                   className="ml-4 transition-transform duration-500 group-open:rotate-180 text-blue-600 bg-blue-100 rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0"
                 >
                   ⌄
@@ -862,16 +861,15 @@ function FAQ() {
 
         <div className="text-center mt-12">
           <p className="text-gray-600 text-lg mb-6">
-            Need more details? Our engineers can call you back with tailored advice.
+            Still have questions? Our specialists can call you back with detailed guidance.
           </p>
           <Link
-            href="/en/services#led"
+            href="/en/contact"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-500"
-            title="Explore all LED service FAQs"
-            role="button"
+            title="See all answers on the English contact page"
           >
             <span aria-hidden="true" className="text-xl mr-3">📚</span>
-            <span className="text-lg">View LED service FAQs</span>
+            <span className="text-lg">Talk to our team</span>
           </Link>
         </div>
       </div>
@@ -883,53 +881,53 @@ function FAQ() {
 function RelatedServices() {
   const services = [
     {
-      href: "/en/sound-light-rental",
-      title: "Sound & lighting systems",
-      icon: "🎵",
-      desc: "Concert-grade audio, lighting design and truss solutions"
+      href: "/en/led-screen-rental",
+      title: "LED screen rental",
+      icon: "🖥️",
+      desc: "High-resolution LED walls and creative video backdrops",
     },
     {
       href: "/en/services#stage",
       title: "Stage rental",
       icon: "🛠️",
-      desc: "Modular and portable stages engineered for any venue"
+      desc: "Modular stage platforms, truss roofs and scenic builds",
     },
     {
       href: "/en/services#stage",
-      title: "Podium structures",
+      title: "Podium & risers",
       icon: "📐",
-      desc: "Catwalks, risers and custom scenic platforms"
+      desc: "Catwalks, presentation risers and custom scenic platforms",
     },
     {
       href: "/en/services#tents",
       title: "Event tents",
       icon: "🎪",
-      desc: "Aluminium structure tents and weatherproof covered areas"
+      desc: "Aluminium structure tents and weather-ready enclosures",
     },
   ];
 
   return (
     <section
       className="py-20 bg-gradient-to-br from-gray-50 to-blue-100/30"
-      aria-labelledby="complementary-services-title"
+      aria-labelledby="related-services-title"
     >
       <div className="container max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
           <h2
-            id="complementary-services-title"
+            id="related-services-title"
             className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6"
           >
-            Complementary{" "}
+            Complementary
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
               services
             </span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Additional event technology that completes your LED wall experience
+            Additional event technology that enhances your sound and lighting experience
           </p>
-          <div 
-            className="w-32 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mt-8 rounded-full" 
-            aria-hidden="true" 
+          <div
+            className="w-32 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mt-8 rounded-full"
+            aria-hidden="true"
           />
         </div>
 
@@ -942,8 +940,8 @@ function RelatedServices() {
                 className="group bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl border-2 border-gray-100 hover:border-blue-200 transition-all duration-500 hover:scale-105 text-center focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-600 focus-visible:ring-offset-2 focus-visible:ring-offset-white h-full flex flex-col"
                 aria-label={`${service.title} - ${service.desc}`}
               >
-                <div 
-                  className="text-4xl mb-6 group-hover:scale-110 transition-transform duration-300" 
+                <div
+                  className="text-4xl mb-6 group-hover:scale-110 transition-transform duration-300"
                   aria-hidden="true"
                 >
                   {service.icon}
@@ -961,8 +959,8 @@ function RelatedServices() {
 
         <div className="sr-only">
           <p>
-            This section lists complementary services that enhance your LED installation.
-            Activate any service card to open the relevant English service detail page.
+            This section contains complementary services that complete your sound and lighting setup.
+            Activate any card to open the related English service detail page.
           </p>
         </div>
       </div>
@@ -979,11 +977,10 @@ function CTA() {
           <div className="absolute inset-0 bg-black/10" aria-hidden="true"></div>
           <div className="relative z-10">
             <h2 id="cta-title" className="text-3xl md:text-4xl lg:text-5xl font-black mb-6">
-              Ready for immersive LED screen solutions?
+              Ready for professional sound & lighting?
             </h2>
             <p className="text-blue-100 text-xl mb-8 max-w-3xl mx-auto leading-relaxed">
-              Share your event plan and we will recommend the ideal LED configuration with free site survey,
-              professional consultancy and transparent pricing guarantees.
+              Share your event details and we will design the ideal sound and lighting configuration. Enjoy free discovery, expert consultancy and competitive pricing.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
@@ -1002,11 +999,11 @@ function CTA() {
                 role="button"
               >
                 <span aria-hidden="true" className="text-xl mr-3">💬</span>
-                <span className="text-lg">Message us on WhatsApp</span>
+                <span className="text-lg">Chat on WhatsApp</span>
               </a>
             </div>
             <div className="mt-8 text-blue-200 text-lg" role="contentinfo">
-              📍 Service in 81 cities • ⏰ 24/7 technical support • ⭐ 5+ years of experience
+              📍 Service across 81 provinces • ⏰ 24/7 technical support • ⭐ 10+ years of expertise
             </div>
           </div>
         </div>
@@ -1032,15 +1029,15 @@ function JsonLd() {
           {
             "@type": "ListItem",
             position: 2,
-            name: "LED Screen Rental",
-            item: `${ORIGIN}/en/led-screen-rental`
+            name: "Sound & Lighting Rental",
+            item: `${ORIGIN}/en/sound-light-rental`
           },
         ],
       },
       {
         "@type": "Service",
-        name: "LED Screen Rental Service",
-        description: "Professional LED screen rental with P2–P6 pixel pitch, indoor/outdoor LED walls, video wall processors and nationwide certified installation teams.",
+        name: "Sound & Lighting System Rental",
+        description: "Professional sound and lighting rental services with line-array speakers, digital consoles, wireless microphones, moving-head lights, truss systems and live operation across Türkiye.",
         provider: {
           "@type": "Organization",
           name: "Sahneva",
@@ -1057,24 +1054,24 @@ function JsonLd() {
         serviceType: "EventProduction",
         offers: {
           "@type": "Offer",
-          description: "Comprehensive LED wall rental with installation and operators"
+          description: "Professional sound and lighting system rental service"
         },
-        url: `${ORIGIN}/en/led-screen-rental`,
+        url: `${ORIGIN}/en/sound-light-rental`,
         aggregateRating: {
           "@type": "AggregateRating",
           ratingValue: "4.9",
-          reviewCount: "183",
+          reviewCount: "250",
           bestRating: "5"
         },
       },
       {
         "@type": "WebPage",
-        name: "LED Screen Rental | Professional LED Wall Solutions | Sahneva",
-        description: "P2–P6 pixel pitch, 4K processing and high-brightness LED wall rentals for indoor/outdoor concerts, trade shows and corporate events across Turkey.",
-        url: `${ORIGIN}/en/led-screen-rental`,
+        name: "Sound & Lighting Rental | Concert-Grade Audio Visual Systems | Sahneva",
+        description: "Line-array audio, digital mixing consoles, moving-head lighting and truss systems with nationwide crew support for concerts, festivals and corporate events across Türkiye.",
+        url: `${ORIGIN}/en/sound-light-rental`,
         mainEntity: {
           "@type": "Service",
-          name: "LED Screen Rental"
+          name: "Sound & Lighting Rental"
         }
       }
     ],
@@ -1082,7 +1079,7 @@ function JsonLd() {
 
   return (
     <Script
-      id="ld-json-led-ekran"
+      id="ld-json-sound-light"
       type="application/ld+json"
       strategy="afterInteractive"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
