@@ -86,7 +86,6 @@ export const metadata = {
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID?.trim();
 
-// Kritik CSS
 const criticalCSS = `
 .pt-16{padding-top:4rem}.md\\:pt-20{padding-top:5rem}@media (min-width:768px){.md\\:pt-20{padding-top:5rem}}
 .full-bleed{position:relative;margin:0 calc(50% - 50vw);width:100vw;min-height:60vh;overflow-x:clip}
@@ -113,7 +112,8 @@ export default function RootLayout({ children }) {
         <link rel="dns-prefetch" href="//www.google.com" />
       </head>
 
-      <body className="bg-white text-neutral-900 antialiased scroll-smooth">
+      {/* Eski şık yapı: flex column + sticky footer, ama ekstra minHeight hilesi yok */}
+      <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
         {/* GA */}
         {GA_MEASUREMENT_ID && (
           <>
@@ -137,28 +137,24 @@ export default function RootLayout({ children }) {
           </>
         )}
 
-        {/* Tüm site iskeleti */}
-        <div className="min-h-screen flex flex-col">
-          {/* Skip Link */}
-          <a href="#main-content" className="skip-link">
-            Ana içeriğe atla
-          </a>
+        <a href="#main-content" className="skip-link">
+          Ana içeriğe atla
+        </a>
 
-          <UtilityBar />
-          <Navbar />
+        <UtilityBar />
+        <Navbar />
 
-          <main
-            id="main-content"
-            role="main"
-            tabIndex={-1}
-            className="flex-1 pt-16 md:pt-20 pb-10 lg:pb-12 focus:outline-none scroll-mt-4"
-          >
-            {children}
-          </main>
+        {/* Sayfa içerikleri */}
+        <main
+          id="main-content"
+          role="main"
+          tabIndex={-1}
+          className="flex-1 pt-16 md:pt-20 pb-10 lg:pb-12 focus:outline-none scroll-mt-4"
+        >
+          {children}
+        </main>
 
-          <Footer />
-        </div>
-
+        <Footer />
         <SpeedInsights />
 
         {/* Organization */}
