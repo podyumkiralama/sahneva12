@@ -1,6 +1,3 @@
-Aynen, şimdi bu galeriye de anasayfadakiyle aynı ScrollReveal animasyonlarını ekleyelim.
-Aşağıda ScrollReveal + ScrollRevealGroup entegre edilmiş TAM SÜRÜM ProjectsGallery.js var.
-Sadece mevcut dosyanın tamamını bununla değiştirmen yeterli. 👇
 // components/ProjectsGallery.js
 "use client";
 
@@ -401,11 +398,3 @@ export default function ProjectsGallery() {
     </section>
   );
 }
-
-Bu hâliyle:
-
-Kartlar ScrollRevealGroup + ScrollReveal ile anasayfadaki “projeler” bölümü gibi içeri giriyor.
-Lightbox mantığına hiç dokunmadık, sadece liste kısmına animasyon ekledik.
-Performans / a11y bozulmuyor.
-
-Sırada scroll animasyonu istediğin başka bir component varsa onu da aynı şekilde sararız. 🎬✨
