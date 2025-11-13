@@ -70,7 +70,7 @@ function ContactStructuredData() {
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-white overflow-hidden">
+    <div className="min-h-screen bg-white overflow-x-hidden">
       <ContactStructuredData />
 
       {/* Skip to Main Content */}
@@ -150,7 +150,11 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <main id="main" className="relative">
+      <main
+  id="main"
+  className="relative pb-24 md:pb-0"
+>
+
         {/* Hızlı İletişim Kartları */}
         <section className="py-20 bg-gradient-to-br from-white to-blue-50/50">
           <div className="container max-w-6xl mx-auto px-4">
@@ -291,16 +295,16 @@ export default function ContactPage() {
                         </a>
                       </InfoRow>
                       <InfoRow label="WhatsApp" icon="💬">
-                        {/* Dokunma hedefi genişletildi */}
-                        <a
-                          href={WHATSAPP_URL}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center px-3 py-2 rounded-lg text-green-700 bg-green-50 border border-green-100 font-medium text-sm md:text-base"
-                        >
-                          Hızlı Mesaj Gönder
-                        </a>
-                      </InfoRow>
+  <a
+    href={WHATSAPP_URL}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-green-700 hover:text-green-800 font-medium"
+  >
+    Hızlı Mesaj Gönder
+  </a>
+</InfoRow>
+
                       <InfoRow label="E-posta" icon="✉️">
                         <a
                           href={`mailto:${MAIL}`}
