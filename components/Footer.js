@@ -53,23 +53,67 @@ const currentYear = new Date().getFullYear();
 export default function Footer() {
   return (
     <footer
-      className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900/80 to-blue-900 border-t border-white/10"
+      className="relative w-full flex-shrink-0 bg-gradient-to-br from-[#0b1120] via-[#1a1038] to-[#1b1f4a] border-t border-white/10"
       role="contentinfo"
       aria-labelledby="site-footer-heading"
       itemScope
       itemType="https://schema.org/Organization"
     >
-      <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-r from-purple-500/10 to-cyan-500/10 rounded-full blur-3xl" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-transparent via-black/20 to-black/60" />
+      <div
+        className="absolute inset-x-0 -top-24 h-24 pointer-events-none"
+        aria-hidden="true"
+      >
+        <svg
+          viewBox="0 0 1440 240"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-full h-full drop-shadow-[0_-20px_50px_rgba(24,24,72,0.32)]"
+          preserveAspectRatio="none"
+        >
+          <defs>
+            <linearGradient id="footerWave" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="rgba(12,16,32,0.98)" />
+              <stop offset="45%" stopColor="rgba(35,21,76,0.94)" />
+              <stop offset="100%" stopColor="rgba(36,33,90,0.92)" />
+            </linearGradient>
+            <linearGradient id="footerWaveHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="rgba(132,148,245,0.35)" />
+              <stop offset="55%" stopColor="rgba(98,104,219,0.16)" />
+              <stop offset="100%" stopColor="rgba(64,82,186,0.05)" />
+            </linearGradient>
+            <linearGradient id="footerWaveShadow" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="rgba(10,12,28,0.6)" />
+              <stop offset="100%" stopColor="rgba(30,40,110,0.3)" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M0,160 C180,110 320,20 520,70 C720,120 900,220 1100,170 C1260,130 1320,90 1440,130 L1440,240 L0,240 Z"
+            fill="url(#footerWave)"
+          />
+          <path
+            d="M0,170 C220,120 360,30 560,80 C760,130 940,220 1140,170 C1300,130 1355,100 1440,130 L1440,240 L0,240 Z"
+            fill="url(#footerWaveHighlight)"
+          />
+          <path
+            d="M0,190 C210,150 360,70 560,110 C760,150 940,230 1140,190 C1300,150 1355,120 1440,150 L1440,240 L0,240 Z"
+            fill="url(#footerWaveShadow)"
+          />
+        </svg>
+      </div>
+
+      <div
+        className="absolute inset-0 overflow-hidden pointer-events-none"
+        aria-hidden="true"
+      >
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-r from-[#2d2b68]/25 via-[#5a3fa2]/20 to-[#3b6ad6]/15 rounded-full blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-r from-[#1e2858]/20 via-[#4a3a95]/20 to-[#2f5fbf]/15 rounded-full blur-3xl" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-transparent via-[#121633]/55 to-[#0b1024]/85" />
       </div>
 
       <h2 id="site-footer-heading" className="sr-only">
         Site altbilgisi
       </h2>
 
-      <div className="relative z-10 container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 py-12 px-6">
+      <div className="relative z-10 container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pt-24 pb-14 px-6">
         {/* Marka */}
         <section
           aria-labelledby="ft-brand"
