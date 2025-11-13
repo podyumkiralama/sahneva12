@@ -1,5 +1,4 @@
 // app/sss/page.js
-import Script from "next/script";
 import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
 
 /* ——— META ——— */
@@ -7,7 +6,7 @@ export const metadata = {
   title: "Sık Sorulan Sorular | Sahneva",
   description:
     "Podyum, LED ekran, ses-ışık ve çadır kiralama; kurulum, elektrik, izinler ve fiyatlandırma hakkında detaylı SSS.",
-  alternates: { canonical: "https://www.sahneva.com/sss" }, // mutlak URL
+  alternates: { canonical: "https://www.sahneva.com/sss" },
 };
 
 /* ——— VERİ ——— */
@@ -239,7 +238,6 @@ function escapeRegex(s) {
 function stripTags(s = "") {
   return s.replace(/<[^>]+>/g, "");
 }
-
 function injectLinks(text) {
   const pairs = [
     { key: "podyum", href: "/podyum-kiralama" },
@@ -266,11 +264,7 @@ function CategoryChips() {
   return (
     <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3 mb-8">
       {FAQ_CATEGORIES.map((c) => (
-        <a
-          key={c.id}
-          href={`#${c.id}`}
-          className="faq-chip px-3 py-2 rounded-full text-sm"
-        >
+        <a key={c.id} href={`#${c.id}`} className="faq-chip px-3 py-2 rounded-full text-sm">
           <span className="mr-1">{c.icon}</span>
           {c.title}
         </a>
@@ -282,51 +276,51 @@ function CategoryChips() {
 function FaqSection({ id, icon, title, items }) {
   return (
     <section id={id} className="scroll-mt-28 mb-8 rounded-2xl faq-glass p-5 md:p-7">
-      <h2 className="flex items-center gap-2 text-xl md:text-2xl font-bold mb-5">
-        <span className="text-lg md:text-xl">{icon}</span>
-        {title}
-      </h2>
-      <div className="space-y-3">
-        {items.map((it, i) => (
-          <details
-            key={`${id}-${i}`}
-            className="faq-card group rounded-xl bg-white p-4"
-          >
-            <summary className="cursor-pointer select-none list-none font-semibold leading-7 flex items-center justify-between">
-              <span className="pr-3">{it.q}</span>
-              <svg
-                className="ml-2 h-5 w-5 text-slate-500 transition-transform group-open:rotate-90"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path d="M8 4l8 8-8 8" />
-              </svg>
-            </summary>
-            <div className="faq-anim mt-3 text-neutral/90 leading-relaxed">
-              {injectLinks(it.a)}
-            </div>
-          </details>
-        ))}
-      </div>
+      <ScrollReveal>
+        <h2 className="flex items-center gap-2 text-xl md:text-2xl font-bold mb-5">
+          <span className="text-lg md:text-xl">{icon}</span>
+          {title}
+        </h2>
+      </ScrollReveal>
+
+      <ScrollRevealGroup>
+        <div className="space-y-3">
+          {items.map((it, i) => (
+            <ScrollReveal key={`${id}-${i}`} delay={String(i % 3)} direction="up">
+              <details className="faq-card group rounded-xl bg-white p-4">
+                <summary className="cursor-pointer select-none list-none font-semibold leading-7 flex items-center justify-between">
+                  <span className="pr-3">{it.q}</span>
+                  <svg
+                    className="ml-2 h-5 w-5 text-slate-500 transition-transform group-open:rotate-90"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path d="M8 4l8 8-8 8" />
+                  </svg>
+                </summary>
+                <div className="faq-anim mt-3 text-neutral/90 leading-relaxed">
+                  {injectLinks(it.a)}
+                </div>
+              </details>
+            </ScrollReveal>
+          ))}
+        </div>
+      </ScrollRevealGroup>
     </section>
   );
 }
 
 /* ——— SAYFA ——— */
 export default function FaqPage() {
-  // Tekil ve stabil JSON-LD (id ile)
   const mainEntity = [];
   for (const category of FAQ_CATEGORIES) {
     for (const item of category.items) {
       mainEntity.push({
         "@type": "Question",
         name: item.q,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: stripTags(item.a),
-        },
+        acceptedAnswer: { "@type": "Answer", text: stripTags(item.a) },
       });
     }
   }
@@ -341,11 +335,9 @@ export default function FaqPage() {
 
   return (
     <>
-      {/* JSON-LD sadece bir kez enjekte edilir */}
-      <Script
-        id="ld-faq"
+      {/* JSON-LD – SSR ile direkt HTML içinde */}
+      <script
         type="application/ld+json"
-        strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
@@ -356,21 +348,17 @@ export default function FaqPage() {
           </h1>
         </ScrollReveal>
 
-        <ScrollReveal delay="1">
+        <ScrollReveal>
           <CategoryChips />
         </ScrollReveal>
 
-        <ScrollRevealGroup>
-          <div className="space-y-6">
-            {FAQ_CATEGORIES.map((c, idx) => (
-              <ScrollReveal key={c.id} delay={String(idx % 3)} direction="up">
-                <FaqSection {...c} />
-              </ScrollReveal>
-            ))}
-          </div>
-        </ScrollRevealGroup>
+        <div className="space-y-6">
+          {FAQ_CATEGORIES.map((c) => (
+            <FaqSection key={c.id} {...c} />
+          ))}
+        </div>
 
-        <ScrollReveal delay="2">
+        <ScrollReveal delay="1">
           <div className="mt-10 md:mt-12 flex flex-col sm:flex-row items-center justify-center gap-3">
             <a
               href="tel:+905453048671"
