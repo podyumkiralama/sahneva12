@@ -5,6 +5,78 @@ import { useState, useRef, useEffect } from "react";
 import { FAQ_ITEMS } from "../lib/faqData";
 import Script from "next/script";
 
+const DEFAULT_DICTIONARY = {
+  sectionTitle: "Sıkça Sorulan Sorular",
+  cta: {
+    title: "🌟 Cevabını Bulamadığınız Soru mu Var?",
+    description: "Uzman ekibimiz size en doğru çözümü sunmaktan mutluluk duyacaktır.",
+    primary: {
+      label: "Tüm Soruları Gör",
+      href: "/sss",
+      srLabel: "SSS sayfası",
+    },
+    secondary: {
+      label: "Canlı Destek",
+      href: "/iletisim",
+      srLabel: "İletişim sayfası",
+    },
+  },
+  quickContact: {
+    title: "Hızlı İletişim Kanalları",
+    navLabel: "Hızlı iletişim seçenekleri",
+    items: [
+      {
+        href: "tel:+905453048671",
+        icon: "📞",
+        label: "Telefon",
+        description: "+90 545 304 8671",
+        className:
+          "inline-flex items-center gap-3 bg-blue-100 hover:bg-blue-200 border border-blue-300 text-blue-900 font-bold px-5 py-3 rounded-xl transition-all duration-200 hover:shadow-md hover:scale-105 min-h-[48px] text-sm",
+      },
+      {
+        href: "https://wa.me/905453048671",
+        icon: "💬",
+        label: "WhatsApp",
+        description: "Hızlı Mesaj",
+        target: "_blank",
+        rel: "noopener noreferrer",
+        srHint: " (yeni sekmede açılır)",
+        className:
+          "inline-flex items-center gap-3 bg-green-100 hover:bg-green-200 border border-green-300 text-green-900 font-bold px-5 py-3 rounded-xl transition-all duration-200 hover:shadow-md hover:scale-105 min-h-[48px] text-sm",
+      },
+      {
+        href: "mailto:info@sahneva.com",
+        icon: "✉️",
+        label: "E-posta",
+        description: "info@sahneva.com",
+        className:
+          "inline-flex items-center gap-3 bg-purple-100 hover:bg-purple-200 border border-purple-300 text-purple-900 font-bold px-5 py-3 rounded-xl transition-all duration-200 hover:shadow-md hover:scale-105 min-h-[48px] text-sm",
+      },
+    ],
+    stats: ["7/24 Destek", "5 Dakikada Yanıt"],
+  },
+  newTabHint: " (yeni sekmede açılır)",
+};
+
+function mergeDictionary(base, override = {}) {
+  const result = { ...base };
+
+  for (const [key, value] of Object.entries(override || {})) {
+    if (
+      value &&
+      typeof value === "object" &&
+      !Array.isArray(value) &&
+      typeof base[key] === "object"
+    ) {
+      result[key] = mergeDictionary(base[key], value);
+    } else if (value !== undefined) {
+      result[key] = value;
+    }
+  }
+
+  return result;
+}
+
 /* Nonce'ı meta'dan okuyan küçük yardımcı */
 function useCspNonce() {
   const [nonce, setNonce] = useState(undefined);
@@ -112,9 +184,20 @@ const generateFaqSchema = (items) => ({
 });
 
 // ✅ TAM SÜRÜM — a11y + CSP uyumlu
-export default function Faq() {
-  const faqSchema = generateFaqSchema(FAQ_ITEMS);
+export default function Faq({ items = FAQ_ITEMS, dictionary: dictionaryOverride } = {}) {
+  const dictionary = mergeDictionary(DEFAULT_DICTIONARY, dictionaryOverride);
+  const faqSchema = generateFaqSchema(items);
   const nonce = useCspNonce(); // 👈 nonce burada
+
+  const primaryLink = dictionary.cta?.primary ?? DEFAULT_DICTIONARY.cta.primary;
+  const secondaryLink = dictionary.cta?.secondary ?? DEFAULT_DICTIONARY.cta.secondary;
+  const quickContact = dictionary.quickContact ?? DEFAULT_DICTIONARY.quickContact;
+  const quickContactItems = Array.isArray(quickContact.items)
+    ? quickContact.items
+    : DEFAULT_DICTIONARY.quickContact.items;
+  const quickContactStats = Array.isArray(quickContact.stats)
+    ? quickContact.stats
+    : DEFAULT_DICTIONARY.quickContact.stats;
 
   return (
     <section
@@ -132,13 +215,13 @@ export default function Faq() {
 
       <div className="container relative z-10 pb-0">
         <h2 id="faq-heading" className="sr-only">
-          Sıkça Sorulan Sorular
+          {dictionary.sectionTitle}
         </h2>
 
         {/* Liste */}
         <div className="mx-auto max-w-3xl mt-0 pt-0">
           <ul className="grid gap-2">
-            {FAQ_ITEMS.map((item) => (
+            {items.map((item) => (
               <li key={item.slug}>
                 <FaqRow {...item} />
               </li>
@@ -156,33 +239,33 @@ export default function Faq() {
 
             <div className="relative z-10">
               <h3 className="text-xl md:text-2xl font-bold text-white mb-3">
-                🌟 Cevabını Bulamadığınız Soru mu Var?
+                {dictionary.cta?.title ?? DEFAULT_DICTIONARY.cta.title}
               </h3>
               <p className="text-blue-100 text-base mb-5 max-w-2xl mx-auto leading-relaxed">
-                Uzman ekibimiz size en doğru çözümü sunmaktan mutluluk duyacaktır.
+                {dictionary.cta?.description ?? DEFAULT_DICTIONARY.cta.description}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
                 <a
-                  href="/sss"
+                  href={primaryLink.href}
                   className="inline-flex items-center justify-center gap-2 bg-white text-blue-700 font-bold px-6 py-3 rounded-xl hover:bg-gray-100 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 min-h-[48px] text-sm"
                 >
                   <span className="text-lg" aria-hidden="true">
                     📋
                   </span>
-                  <span>Tüm Soruları Gör</span>
-                  <span className="sr-only"> – SSS sayfası</span>
+                  <span>{primaryLink.label}</span>
+                  <span className="sr-only"> – {primaryLink.srLabel}</span>
                 </a>
 
                 <a
-                  href="/iletisim"
+                  href={secondaryLink.href}
                   className="inline-flex items-center justify-center gap-2 bg-green-800 hover:bg-green-900 text-white font-bold px-6 py-3 rounded-xl transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 min-h-[48px] text-sm"
                 >
                   <span className="text-lg" aria-hidden="true">
                     💬
                   </span>
-                  <span>Canlı Destek</span>
-                  <span className="sr-only"> – İletişim sayfası</span>
+                  <span>{secondaryLink.label}</span>
+                  <span className="sr-only"> – {secondaryLink.srLabel}</span>
                 </a>
               </div>
             </div>
@@ -192,79 +275,55 @@ export default function Faq() {
         {/* İletişim kutusu */}
         <div className="mt-8 text-center last:mb-0">
           <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/60 p-6 max-w-2xl mx-auto">
-            <h4 className="text-lg font-bold text-gray-900 mb-3">Hızlı İletişim Kanalları</h4>
-            <nav aria-label="Hızlı iletişim seçenekleri">
+            <h4 className="text-lg font-bold text-gray-900 mb-3">{quickContact.title}</h4>
+            <nav aria-label={quickContact.navLabel}>
               <ul className="flex flex-wrap gap-3 justify-center items-center">
-                <li>
-                  <a
-                    href="tel:+905453048671"
-                    className="inline-flex items-center gap-3 bg-blue-100 hover:bg-blue-200 border border-blue-300 text-blue-900 font-bold px-5 py-3 rounded-xl transition-all duration-200 hover:shadow-md hover:scale-105 min-h-[48px] text-sm"
-                  >
-                    <span className="text-xl" aria-hidden="true">
-                      📞
-                    </span>
-                    <div className="text-left">
-                      <div className="font-bold">Telefon</div>
-                      <div className="text-xs text-blue-800 font-semibold">
-                        +90 545 304 8671
+                {quickContactItems.map((item) => (
+                  <li key={item.label}>
+                    <a
+                      href={item.href}
+                      target={item.target}
+                      rel={item.rel}
+                      className={
+                        item.className ||
+                        "inline-flex items-center gap-3 bg-neutral-100 border border-neutral-200 text-neutral-900 font-bold px-5 py-3 rounded-xl transition-all duration-200 hover:shadow-md hover:scale-105 min-h-[48px] text-sm"
+                      }
+                    >
+                      <span className="text-xl" aria-hidden="true">
+                        {item.icon}
+                      </span>
+                      <div className="text-left">
+                        <div className="font-bold">{item.label}</div>
+                        {item.description ? (
+                          <div className="text-xs text-neutral-700 font-semibold">
+                            {item.description}
+                          </div>
+                        ) : null}
                       </div>
-                    </div>
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="https://wa.me/905453048671"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 bg-green-100 hover:bg-green-200 border border-green-300 text-green-900 font-bold px-5 py-3 rounded-xl transition-all duration-200 hover:shadow-md hover:scale-105 min-h-[48px] text-sm"
-                  >
-                    <span className="text-xl" aria-hidden="true">
-                      💬
-                    </span>
-                    <div className="text-left">
-                      <div className="font-bold">WhatsApp</div>
-                      <div className="text-xs text-green-800 font-semibold">Hızlı Mesaj</div>
-                    </div>
-                    <span className="sr-only"> (yeni sekmede açılır)</span>
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="mailto:info@sahneva.com"
-                    className="inline-flex items-center gap-3 bg-purple-100 hover:bg-purple-200 border border-purple-300 text-purple-900 font-bold px-5 py-3 rounded-xl transition-all duration-200 hover:shadow-md hover:scale-105 min-h-[48px] text-sm"
-                  >
-                    <span className="text-xl" aria-hidden="true">
-                      ✉️
-                    </span>
-                    <div className="text-left">
-                      <div className="font-bold">E-posta</div>
-                      <div className="text-xs text-purple-800 font-semibold">
-                        info@sahneva.com
-                      </div>
-                    </div>
-                  </a>
-                </li>
+                      {item.target === "_blank" ? (
+                        <span className="sr-only">
+                          {item.srHint ?? dictionary.newTabHint}
+                        </span>
+                      ) : null}
+                    </a>
+                  </li>
+                ))}
               </ul>
             </nav>
 
             <div className="mt-3 flex items-center justify-center gap-4 text-sm text-gray-800">
-              <div className="flex items-center gap-2">
-                <span
-                  className="w-2 h-2 bg-green-600 rounded-full animate-pulse inline-block"
-                  aria-hidden="true"
-                />
-                <span className="font-semibold">7/24 Destek</span>
-              </div>
-              <span className="w-px h-4 bg-gray-500 inline-block" aria-hidden="true" />
-              <div className="flex items-center gap-2">
-                <span
-                  className="w-2 h-2 bg-green-600 rounded-full animate-pulse inline-block"
-                  aria-hidden="true"
-                />
-                <span className="font-semibold">5 Dakikada Yanıt</span>
-              </div>
+              {quickContactStats.map((stat, index) => (
+                <span key={stat} className="flex items-center gap-2">
+                  <span
+                    className="w-2 h-2 bg-green-600 rounded-full animate-pulse inline-block"
+                    aria-hidden="true"
+                  />
+                  <span className="font-semibold">{stat}</span>
+                  {index < quickContactStats.length - 1 ? (
+                    <span className="w-px h-4 bg-gray-500 inline-block" aria-hidden="true" />
+                  ) : null}
+                </span>
+              ))}
             </div>
           </div>
         </div>

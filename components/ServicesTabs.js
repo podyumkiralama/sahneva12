@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
 
-const services = [
+const DEFAULT_SERVICES = [
   {
     id: "sahne",
     title: "Sahne Kiralama",
@@ -106,12 +106,81 @@ const services = [
   },
 ];
 
-export default function ServicesTabs() {
-  const [activeTab, setActiveTab] = useState("sahne");
+const DEFAULT_DICTIONARY = {
+  tablistLabel: "Hizmet sekmeleri",
+  featuresHeading: "Hizmet Özellikleri",
+  ctaLabel: "Detaylı Bilgi ve Fiyat Teklifi Al",
+  ctaTitle: "Detayları gör ve fiyat teklifi al",
+  imageBadgeLabel: "Profesyonel Çözüm",
+  imageAlt: "{{title}} hizmeti - Sahneva profesyonel çözümü",
+  overlayButtonTitle: "{{title}} detay sayfasına git",
+  overlayButtonAria: "{{title}} hizmet detay sayfasını aç",
+};
+
+const TITLE_TEMPLATE_TOKEN = /\{\{\s*title\s*\}\}/g;
+
+function formatTitleTemplate(template, title, fallback) {
+  const source = template ?? fallback;
+
+  if (typeof source === "function") {
+    return source(title);
+  }
+
+  if (typeof source === "string") {
+    return source.replace(TITLE_TEMPLATE_TOKEN, title);
+  }
+
+  if (typeof fallback === "function") {
+    return fallback(title);
+  }
+
+  if (typeof fallback === "string") {
+    return fallback.replace(TITLE_TEMPLATE_TOKEN, title);
+  }
+
+  return title;
+}
+
+function mergeDictionary(base, override = {}) {
+  const result = { ...base };
+
+  for (const [key, value] of Object.entries(override || {})) {
+    if (
+      value &&
+      typeof value === "object" &&
+      !Array.isArray(value) &&
+      typeof base[key] === "object"
+    ) {
+      result[key] = mergeDictionary(base[key], value);
+    } else if (value !== undefined) {
+      result[key] = value;
+    }
+  }
+
+  return result;
+}
+
+export default function ServicesTabs({
+  servicesData = DEFAULT_SERVICES,
+  dictionary: dictionaryOverride,
+}) {
+  const services = Array.isArray(servicesData) && servicesData.length
+    ? servicesData
+    : DEFAULT_SERVICES;
+
+  const dictionary = mergeDictionary(DEFAULT_DICTIONARY, dictionaryOverride);
+
+  const imageAltTemplate = dictionary.imageAlt ?? DEFAULT_DICTIONARY.imageAlt;
+  const overlayButtonTitleTemplate =
+    dictionary.overlayButtonTitle ?? DEFAULT_DICTIONARY.overlayButtonTitle;
+  const overlayButtonAriaTemplate =
+    dictionary.overlayButtonAria ?? DEFAULT_DICTIONARY.overlayButtonAria;
+
+  const [activeTab, setActiveTab] = useState(() => services[0]?.id ?? "");
   const [imageErrors, setImageErrors] = useState({});
   const listRef = useRef(null);
 
-  const activeService = services.find((s) => s.id === activeTab);
+  const activeService = services.find((s) => s.id === activeTab) ?? services[0];
 
   const handleImageError = (serviceId) => {
     setImageErrors((prev) => ({ ...prev, [serviceId]: true }));
@@ -155,7 +224,7 @@ export default function ServicesTabs() {
             ref={listRef}
             className="flex overflow-x-auto pb-4 gap-2 scrollbar-hide -mx-4 px-4"
             role="tablist"
-            aria-label="Hizmet sekmeleri"
+            aria-label={dictionary.tablistLabel}
             onKeyDown={onKeyDownTabs}
           >
             {services.map((service, index) => (
@@ -240,7 +309,7 @@ export default function ServicesTabs() {
                           d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                         />
                       </svg>
-                      Hizmet Özellikleri
+                      {dictionary.featuresHeading}
                     </h4>
 
                     {/* UL/LI semantik + ScrollRevealGroup ile kademeli animasyon */}
@@ -289,9 +358,9 @@ export default function ServicesTabs() {
                           text-white font-bold text-lg px-8 py-4 min-h-11 rounded-xl transition-all duration-300
                           hover:scale-105 shadow-lg w-full md:w-auto focus:outline-none
                           focus-visible:ring-2 focus-visible:ring-purple-500/70"
-                        title="Detayları gör ve fiyat teklifi al"
+                        title={dictionary.ctaTitle}
                       >
-                        <span>Detaylı Bilgi ve Fiyat Teklifi Al</span>
+                        <span>{dictionary.ctaLabel}</span>
                         <svg
                           className="w-5 h-5 group-hover:scale-110 transition-transform"
                           fill="none"
@@ -317,7 +386,11 @@ export default function ServicesTabs() {
                 <div className="relative h-64 md:h-80 lg:h-96 rounded-2xl overflow-hidden shadow-xl order-1 lg:order-2 group">
                   <Image
                     src={getImageSrc(activeService)}
-                    alt={`${activeService.title} hizmeti - Sahneva profesyonel çözümü`}
+                    alt={formatTitleTemplate(
+                      imageAltTemplate,
+                      activeService.title,
+                      DEFAULT_DICTIONARY.imageAlt
+                    )}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 560px"
@@ -339,7 +412,7 @@ export default function ServicesTabs() {
                       <h4 className="font-bold text-gray-900 text-lg">
                         {activeService.title}
                       </h4>
-                      <p className="text-gray-600 text-sm">Profesyonel Çözüm</p>
+                      <p className="text-gray-600 text-sm">{dictionary.imageBadgeLabel}</p>
                     </div>
                   </div>
 
@@ -348,8 +421,16 @@ export default function ServicesTabs() {
                     className="absolute top-4 right-4 bg-black/60 hover:bg-black/80 text-white p-3 rounded-lg
                       transition-all duration-300 hover:scale-110 focus:outline-none
                       focus-visible:ring-2 focus-visible:ring-white/70 min-w-11 min-h-11 flex items-center justify-center"
-                    title={`${activeService.title} detay sayfasına git`}
-                    aria-label={`${activeService.title} hizmet detay sayfasını aç`}
+                    title={formatTitleTemplate(
+                      overlayButtonTitleTemplate,
+                      activeService.title,
+                      DEFAULT_DICTIONARY.overlayButtonTitle
+                    )}
+                    aria-label={formatTitleTemplate(
+                      overlayButtonAriaTemplate,
+                      activeService.title,
+                      DEFAULT_DICTIONARY.overlayButtonAria
+                    )}
                   >
                     <svg
                       className="w-5 h-5"

@@ -10,7 +10,7 @@ const COVER_SIZES =
 const LIGHTBOX_SIZES =
   "(max-width: 768px) 100vw, (max-width: 1200px) 90vw, min(1024px, 80vw)";
 
-const GALLERIES = {
+const DEFAULT_GALLERIES = {
   "LED Ekran Kiralama": {
     images: Array.from({ length: 36 }, (_, i) => `/img/galeri/led-ekran-kiralama-${i + 1}.webp`),
     description:
@@ -37,7 +37,80 @@ const GALLERIES = {
 const BLUR_DATA_URL =
   "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R";
 
-export default function ProjectsGallery() {
+const DEFAULT_DICTIONARY = {
+  exploreAria: "Galeriyi İncele — {{title}} ({{count}} proje)",
+  exploreHiddenLabel: "Galeriyi İncele — {{title}} ({{count}} proje)",
+  hoverCta: "Galeriyi İncele",
+  cardAlt: "{{title}} - Sahneva profesyonel kurulum referansı",
+  seeAllLabel: "Tümünü Gör",
+  seeAllSr: " — {{title}} ({{count}} proje)",
+  dialogAria: "{{title}} profesyonel proje galerisi",
+  closeLabel: "Galeriyi kapat",
+  prevLabel: "‹ Önceki",
+  prevSr: "Önceki proje",
+  nextLabel: "Sonraki ›",
+  nextSr: "Sonraki proje",
+  mobilePrevLabel: "‹ Önceki",
+  mobileNextLabel: "Sonraki ›",
+  counterLabel: "{{index}} / {{total}}",
+  liveMessage: "{{title}} galerisi açıldı, {{count}} profesyonel proje",
+  lightboxAlt: "{{title}} - {{index}}. profesyonel referans projemiz",
+};
+
+const TEMPLATE_PATTERN = /\{\{\s*(\w+)\s*\}\}/g;
+
+function formatWithParams(template, fallback, params, order = []) {
+  const source = template ?? fallback;
+
+  if (typeof source === "function") {
+    return source(...order.map((key) => params[key]));
+  }
+
+  if (typeof source === "string") {
+    return source.replace(TEMPLATE_PATTERN, (_, key) => {
+      const value = params[key];
+      return value !== undefined ? String(value) : "";
+    });
+  }
+
+  if (typeof fallback === "function") {
+    return fallback(...order.map((key) => params[key]));
+  }
+
+  if (typeof fallback === "string") {
+    return fallback.replace(TEMPLATE_PATTERN, (_, key) => {
+      const value = params[key];
+      return value !== undefined ? String(value) : "";
+    });
+  }
+
+  return "";
+}
+
+function mergeDictionary(base, override = {}) {
+  const result = { ...base };
+
+  for (const [key, value] of Object.entries(override || {})) {
+    if (
+      value &&
+      typeof value === "object" &&
+      !Array.isArray(value) &&
+      typeof base[key] === "object"
+    ) {
+      result[key] = mergeDictionary(base[key], value);
+    } else if (value !== undefined) {
+      result[key] = value;
+    }
+  }
+
+  return result;
+}
+
+export default function ProjectsGallery({
+  galleries = DEFAULT_GALLERIES,
+  dictionary: dictionaryOverride,
+  ariaLabelledBy = "projeler-title",
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [anim, setAnim] = useState(false);
   const [title, setTitle] = useState("");
@@ -53,6 +126,17 @@ export default function ProjectsGallery() {
   const scrollYRef = useRef(0);
   const liveRef = useRef(null);
   const portalRef = useRef(null);
+
+  const dictionary = mergeDictionary(DEFAULT_DICTIONARY, dictionaryOverride);
+
+  const exploreAriaTemplate = dictionary.exploreAria;
+  const exploreHiddenLabelTemplate = dictionary.exploreHiddenLabel;
+  const cardAltTemplate = dictionary.cardAlt;
+  const seeAllSrTemplate = dictionary.seeAllSr;
+  const dialogAriaTemplate = dictionary.dialogAria;
+  const counterLabelTemplate = dictionary.counterLabel;
+  const liveMessageTemplate = dictionary.liveMessage;
+  const lightboxAltTemplate = dictionary.lightboxAlt;
 
   useEffect(() => {
     if (typeof document === "undefined") return;
@@ -76,23 +160,31 @@ export default function ProjectsGallery() {
   const getImageSrc = (key) =>
     imageErrors[key] ? "/img/placeholder-service.webp" : key;
 
-  const open = useCallback((groupTitle, images, startIndex = 0) => {
-    lastFocus.current = document.activeElement;
-    setTitle(groupTitle);
-    setItems(images);
-    setIndex(startIndex);
-    setIsOpen(true);
-    setTimeout(() => setAnim(true), 10);
+  const open = useCallback(
+    (groupTitle, images, startIndex = 0) => {
+      lastFocus.current = document.activeElement;
+      setTitle(groupTitle);
+      setItems(images);
+      setIndex(startIndex);
+      setIsOpen(true);
+      setTimeout(() => setAnim(true), 10);
 
-    if (liveRef.current) {
-      setTimeout(() => {
-        liveRef.current.textContent = `${groupTitle} galerisi açıldı, ${images.length} profesyonel proje`;
+      if (liveRef.current) {
         setTimeout(() => {
-          if (liveRef.current) liveRef.current.textContent = "";
-        }, 2000);
-      }, 80);
-    }
-  }, []);
+          liveRef.current.textContent = formatWithParams(
+            liveMessageTemplate,
+            DEFAULT_DICTIONARY.liveMessage,
+            { title: groupTitle, count: images.length },
+            ["title", "count"]
+          );
+          setTimeout(() => {
+            if (liveRef.current) liveRef.current.textContent = "";
+          }, 2000);
+        }, 80);
+      }
+    },
+    [liveMessageTemplate]
+  );
 
   const close = useCallback(() => {
     setAnim(false);
@@ -172,10 +264,13 @@ export default function ProjectsGallery() {
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   return (
-    <section className="relative pt-2 pb-8 bg-transparent" aria-labelledby="projeler-title">
+    <section
+      className="relative pt-2 pb-8 bg-transparent"
+      aria-labelledby={ariaLabelledBy}
+    >
       <div className="container relative z-10">
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {Object.entries(GALLERIES).map(([groupTitle, galleryData], i) => {
+          {Object.entries(galleries).map(([groupTitle, galleryData], i) => {
             const images = galleryData.images;
             const cover = images[0];
 
@@ -183,21 +278,34 @@ export default function ProjectsGallery() {
               <li key={groupTitle}>
                 <article className="group relative bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-200/60 hover:border-blue-200/80 overflow-hidden">
                   <div className="relative h-80 overflow-hidden">
-                    {/* ACCESSIBLE COVER BUTTON */}
                     <button
                       type="button"
                       onClick={() => open(groupTitle, images, 0)}
-                      aria-label={`Galeriyi İncele — ${groupTitle} (${images.length} proje)`}
+                      aria-label={formatWithParams(
+                        exploreAriaTemplate,
+                        DEFAULT_DICTIONARY.exploreAria,
+                        { title: groupTitle, count: images.length },
+                        ["title", "count"]
+                      )}
                       className="absolute inset-0 w-full h-full focus:outline-none focus:ring-4 focus:ring-blue-500/50 rounded-t-2xl"
                     >
-                      {/* Görünür isim: opacity-0 (visible kabul edilir, PASS) */}
                       <span className="absolute opacity-0 pointer-events-none">
-                        Galeriyi İncele — {groupTitle} ({images.length} proje)
+                        {formatWithParams(
+                          exploreHiddenLabelTemplate,
+                          DEFAULT_DICTIONARY.exploreHiddenLabel,
+                          { title: groupTitle, count: images.length },
+                          ["title", "count"]
+                        )}
                       </span>
 
                       <Image
                         src={getImageSrc(cover)}
-                        alt={`${groupTitle} - Sahneva profesyonel kurulum referansı`}
+                        alt={formatWithParams(
+                          cardAltTemplate,
+                          DEFAULT_DICTIONARY.cardAlt,
+                          { title: groupTitle },
+                          ["title"]
+                        )}
                         fill
                         className={`object-cover transition-transform duration-700 ${
                           prefersReducedMotion ? "" : "group-hover:scale-110"
@@ -213,18 +321,19 @@ export default function ProjectsGallery() {
                         onError={() => handleImageError(cover)}
                       />
 
-                      {/* Dekoratif overlay */}
                       <div
                         className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                         aria-hidden="true"
                       />
 
-                      {/* Hover CTA (dekoratif) */}
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500" aria-hidden="true">
+                      <div
+                        className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                        aria-hidden="true"
+                      >
                         <div className="bg-white/90 backdrop-blur-sm rounded-full px-5 py-2.5 transform -translate-y-3 group-hover:translate-y-0 transition-transform duration-500">
                           <span className="font-semibold text-gray-900 text-sm flex items-center gap-2">
                             <span aria-hidden="true">🔍</span>
-                            Galeriyi İncele
+                            {dictionary.hoverCta}
                           </span>
                         </div>
                       </div>
@@ -248,19 +357,25 @@ export default function ProjectsGallery() {
                         {galleryData.stats}
                       </span>
 
-                      {/* İkincil eylem: görünür metin + sr-only ek */}
                       <button
                         onClick={() => open(groupTitle, images, 0)}
                         className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 flex items-center gap-1 group/btn focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/70"
                       >
-                        Tümünü Gör
+                        {dictionary.seeAllLabel}
                         <span
                           className="transform group-hover/btn:translate-x-1 transition-transform duration-200"
                           aria-hidden="true"
                         >
                           →
                         </span>
-                        <span className="sr-only"> — {groupTitle} ({images.length} proje)</span>
+                        <span className="sr-only">
+                          {formatWithParams(
+                            seeAllSrTemplate,
+                            DEFAULT_DICTIONARY.seeAllSr,
+                            { title: groupTitle, count: images.length },
+                            ["title", "count"]
+                          )}
+                        </span>
                       </button>
                     </div>
                   </div>
@@ -276,12 +391,17 @@ export default function ProjectsGallery() {
       {isOpen && mounted && portalRef.current
         ? createPortal(
             <div
-              className={`fixed inset-0 z-[999] flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-black/95 backdrop-blur-md ${
-                prefersReducedMotion ? "" : "transition-all duration-500"
+              className={`fixed inset-0 z-[999] flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-black/95 backdrop-blur-md${
+                prefersReducedMotion ? "" : " transition-all duration-500"
               } ${anim ? "opacity-100" : "opacity-0"}`}
               role="dialog"
               aria-modal="true"
-              aria-label={`${title} profesyonel proje galerisi`}
+            aria-label={formatWithParams(
+              dialogAriaTemplate,
+              DEFAULT_DICTIONARY.dialogAria,
+              { title },
+              ["title"]
+            )}
               onClick={(e) => e.target === e.currentTarget && close()}
               onTouchStart={onTouchStart}
               onTouchEnd={onTouchEnd}
@@ -292,7 +412,7 @@ export default function ProjectsGallery() {
                 onClick={close}
               >
                 <span className="text-lg font-bold">✕</span>
-                <span className="sr-only">Galeriyi kapat</span>
+                <span className="sr-only">{dictionary.closeLabel}</span>
               </button>
 
               {items.length > 1 && (
@@ -301,13 +421,15 @@ export default function ProjectsGallery() {
                     className="hidden md:flex absolute left-6 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-2xl w-14 h-14 items-center justify-center text-2xl transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50 backdrop-blur-sm border border-white/20"
                     onClick={prev}
                   >
-                    ‹<span className="sr-only">Önceki proje</span>
+                    {dictionary.prevLabel}
+                    <span className="sr-only">{dictionary.prevSr}</span>
                   </button>
                   <button
                     className="hidden md:flex absolute right-6 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-2xl w-14 h-14 items-center justify-center text-2xl transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50 backdrop-blur-sm border border-white/20"
                     onClick={next}
                   >
-                    ›<span className="sr-only">Sonraki proje</span>
+                    {dictionary.nextLabel}
+                    <span className="sr-only">{dictionary.nextSr}</span>
                   </button>
                 </>
               )}
@@ -315,13 +437,18 @@ export default function ProjectsGallery() {
               <div className="relative flex w-full h-full items-center justify-center">
                 <div
                   className={`relative w-full max-w-6xl h-full max-h-[calc(100vh-220px)] sm:max-h-[calc(100vh-200px)] md:max-h-[calc(100vh-180px)] lg:max-h-[calc(100vh-160px)] ${
-                    prefersReducedMotion ? "" : "transition-all duration-500"
+                    prefersReducedMotion ? "" : " transition-all duration-500"
                   } ${anim ? "scale-100 opacity-100" : "scale-90 opacity-0"}`}
                 >
                   <Image
                     key={items[index]}
                     src={getImageSrc(items[index])}
-                    alt={`${title} - ${index + 1}. profesyonel referans projemiz`}
+                    alt={formatWithParams(
+                      lightboxAltTemplate,
+                      DEFAULT_DICTIONARY.lightboxAlt,
+                      { title, index: index + 1 },
+                      ["title", "index"]
+                    )}
                     fill
                     className="object-contain rounded-xl"
                     sizes={LIGHTBOX_SIZES}
@@ -342,16 +469,21 @@ export default function ProjectsGallery() {
                         onClick={prev}
                         className="flex-1 rounded-xl bg-white/20 text-white py-4 font-semibold text-sm transition-all duration-300 hover:bg-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 min-h-[52px] backdrop-blur-sm border border-white/20"
                       >
-                        ‹ Önceki
+                        {dictionary.mobilePrevLabel}
                       </button>
                       <span className="text-white text-sm font-medium px-2">
-                        {index + 1} / {items.length}
+                        {formatWithParams(
+                          counterLabelTemplate,
+                          DEFAULT_DICTIONARY.counterLabel,
+                          { index: index + 1, total: items.length },
+                          ["index", "total"]
+                        )}
                       </span>
                       <button
                         onClick={next}
                         className="flex-1 rounded-xl bg-white/20 text-white py-4 font-semibold text-sm transition-all duration-300 hover:bg-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 min-h-[52px] backdrop-blur-sm border border-white/20"
                       >
-                        Sonraki ›
+                        {dictionary.mobileNextLabel}
                       </button>
                     </div>
                   </div>
@@ -359,7 +491,12 @@ export default function ProjectsGallery() {
                   <div className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden md:block">
                     <div className="bg-black/50 backdrop-blur-sm rounded-full px-4 py-2 border border-white/20">
                       <span className="text-white text-sm font-medium">
-                        {index + 1} / {items.length}
+                        {formatWithParams(
+                          counterLabelTemplate,
+                          DEFAULT_DICTIONARY.counterLabel,
+                          { index: index + 1, total: items.length },
+                          ["index", "total"]
+                        )}
                       </span>
                     </div>
                   </div>
