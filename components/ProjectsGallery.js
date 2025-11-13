@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 
 const COVER_SIZES =
@@ -51,8 +52,23 @@ export default function ProjectsGallery() {
   const closeBtnRef = useRef(null);
   const scrollYRef = useRef(0);
   const liveRef = useRef(null);
+  const portalRef = useRef(null);
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+
+    const portalNode = document.createElement("div");
+    portalNode.setAttribute("id", "projects-gallery-lightbox");
+    portalRef.current = portalNode;
+    document.body.appendChild(portalNode);
+    setMounted(true);
+
+    return () => {
+      if (portalRef.current?.parentNode) {
+        portalRef.current.parentNode.removeChild(portalRef.current);
+      }
+    };
+  }, []);
 
   const handleImageError = (key) => {
     setImageErrors((prev) => ({ ...prev, [key]: true }));
@@ -192,6 +208,8 @@ export default function ProjectsGallery() {
                         decoding="async"
                         placeholder="blur"
                         blurDataURL={BLUR_DATA_URL}
+                        priority={i === 0}
+                        fetchPriority={i === 0 ? "high" : "auto"}
                         onError={() => handleImageError(cover)}
                       />
 
@@ -255,97 +273,102 @@ export default function ProjectsGallery() {
 
       <div ref={liveRef} aria-live="polite" className="sr-only" />
 
-      {isOpen && (
-        <div
-          className={`fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/95 backdrop-blur-md ${
-            prefersReducedMotion ? "" : "transition-all duration-500"
-          } ${anim ? "opacity-100" : "opacity-0"}`}
-          role="dialog"
-          aria-modal="true"
-          aria-label={`${title} profesyonel proje galerisi`}
-          onClick={(e) => e.target === e.currentTarget && close()}
-          onTouchStart={onTouchStart}
-          onTouchEnd={onTouchEnd}
-        >
-          <button
-            ref={closeBtnRef}
-            className="absolute top-6 right-6 z-10 text-white/90 hover:text-white bg-white/10 hover:bg-white/20 rounded-2xl p-4 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50 transition-all duration-300 min-h-[52px] min-w-[52px] flex items-center justify-center backdrop-blur-sm border border-white/20"
-            onClick={close}
-          >
-            <span className="text-lg font-bold">✕</span>
-            <span className="sr-only">Galeriyi kapat</span>
-          </button>
-
-          {items.length > 1 && (
-            <>
+      {isOpen && mounted && portalRef.current
+        ? createPortal(
+            <div
+              className={`fixed inset-0 z-[999] flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-black/95 backdrop-blur-md ${
+                prefersReducedMotion ? "" : "transition-all duration-500"
+              } ${anim ? "opacity-100" : "opacity-0"}`}
+              role="dialog"
+              aria-modal="true"
+              aria-label={`${title} profesyonel proje galerisi`}
+              onClick={(e) => e.target === e.currentTarget && close()}
+              onTouchStart={onTouchStart}
+              onTouchEnd={onTouchEnd}
+            >
               <button
-                className="hidden md:flex absolute left-6 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-2xl w-14 h-14 items-center justify-center text-2xl transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50 backdrop-blur-sm border border-white/20"
-                onClick={prev}
+                ref={closeBtnRef}
+                className="absolute top-6 right-6 z-10 text-white/90 hover:text-white bg-white/10 hover:bg-white/20 rounded-2xl p-4 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50 transition-all duration-300 min-h-[52px] min-w-[52px] flex items-center justify-center backdrop-blur-sm border border-white/20"
+                onClick={close}
               >
-                ‹<span className="sr-only">Önceki proje</span>
+                <span className="text-lg font-bold">✕</span>
+                <span className="sr-only">Galeriyi kapat</span>
               </button>
-              <button
-                className="hidden md:flex absolute right-6 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-2xl w-14 h-14 items-center justify-center text-2xl transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50 backdrop-blur-sm border border-white/20"
-                onClick={next}
-              >
-                ›<span className="sr-only">Sonraki proje</span>
-              </button>
-            </>
-          )}
 
-          <div
-            className={`relative w-full max-w-6xl aspect-[16/10] ${
-              prefersReducedMotion ? "" : "transition-all duration-500"
-            } ${anim ? "scale-100 opacity-100" : "scale-90 opacity-0"}`}
-          >
-            <Image
-              key={items[index]}
-              src={getImageSrc(items[index])}
-              alt={`${title} - ${index + 1}. profesyonel referans projemiz`}
-              fill
-              className="object-contain rounded-xl"
-              sizes={LIGHTBOX_SIZES}
-              quality={70}
-              priority
-              loading="eager"
-              decoding="sync"
-              onError={() => handleImageError(items[index])}
-            />
-          </div>
-
-          {items.length > 1 && (
-            <>
-              <div className="md:hidden fixed inset-x-0 bottom-0 z-50 bg-black/80 backdrop-blur-lg border-t border-white/20 py-4">
-                <div className="mx-auto max-w-sm flex items-center justify-between gap-3 px-4">
+              {items.length > 1 && (
+                <>
                   <button
+                    className="hidden md:flex absolute left-6 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-2xl w-14 h-14 items-center justify-center text-2xl transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50 backdrop-blur-sm border border-white/20"
                     onClick={prev}
-                    className="flex-1 rounded-xl bg-white/20 text-white py-4 font-semibold text-sm transition-all duration-300 hover:bg-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 min-h-[52px] backdrop-blur-sm border border-white/20"
                   >
-                    ‹ Önceki
+                    ‹<span className="sr-only">Önceki proje</span>
                   </button>
-                  <span className="text-white text-sm font-medium px-2">
-                    {index + 1} / {items.length}
-                  </span>
                   <button
+                    className="hidden md:flex absolute right-6 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-2xl w-14 h-14 items-center justify-center text-2xl transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50 backdrop-blur-sm border border-white/20"
                     onClick={next}
-                    className="flex-1 rounded-xl bg-white/20 text-white py-4 font-semibold text-sm transition-all duration-300 hover:bg-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 min-h-[52px] backdrop-blur-sm border border-white/20"
                   >
-                    Sonraki ›
+                    ›<span className="sr-only">Sonraki proje</span>
                   </button>
+                </>
+              )}
+
+              <div className="relative flex w-full h-full items-center justify-center">
+                <div
+                  className={`relative w-full max-w-6xl h-full max-h-[calc(100vh-220px)] sm:max-h-[calc(100vh-200px)] md:max-h-[calc(100vh-180px)] lg:max-h-[calc(100vh-160px)] ${
+                    prefersReducedMotion ? "" : "transition-all duration-500"
+                  } ${anim ? "scale-100 opacity-100" : "scale-90 opacity-0"}`}
+                >
+                  <Image
+                    key={items[index]}
+                    src={getImageSrc(items[index])}
+                    alt={`${title} - ${index + 1}. profesyonel referans projemiz`}
+                    fill
+                    className="object-contain rounded-xl"
+                    sizes={LIGHTBOX_SIZES}
+                    quality={70}
+                    priority
+                    loading="eager"
+                    decoding="sync"
+                    onError={() => handleImageError(items[index])}
+                  />
                 </div>
               </div>
 
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden md:block">
-                <div className="bg-black/50 backdrop-blur-sm rounded-full px-4 py-2 border border-white/20">
-                  <span className="text-white text-sm font-medium">
-                    {index + 1} / {items.length}
-                  </span>
-                </div>
-              </div>
-            </>
-          )}
-        </div>
-      )}
+              {items.length > 1 && (
+                <>
+                  <div className="md:hidden fixed inset-x-0 bottom-0 z-[1000] bg-black/80 backdrop-blur-lg border-t border-white/20 py-4">
+                    <div className="mx-auto max-w-sm flex items-center justify-between gap-3 px-4">
+                      <button
+                        onClick={prev}
+                        className="flex-1 rounded-xl bg-white/20 text-white py-4 font-semibold text-sm transition-all duration-300 hover:bg-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 min-h-[52px] backdrop-blur-sm border border-white/20"
+                      >
+                        ‹ Önceki
+                      </button>
+                      <span className="text-white text-sm font-medium px-2">
+                        {index + 1} / {items.length}
+                      </span>
+                      <button
+                        onClick={next}
+                        className="flex-1 rounded-xl bg-white/20 text-white py-4 font-semibold text-sm transition-all duration-300 hover:bg-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 min-h-[52px] backdrop-blur-sm border border-white/20"
+                      >
+                        Sonraki ›
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden md:block">
+                    <div className="bg-black/50 backdrop-blur-sm rounded-full px-4 py-2 border border-white/20">
+                      <span className="text-white text-sm font-medium">
+                        {index + 1} / {items.length}
+                      </span>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>,
+            portalRef.current
+          )
+        : null}
     </section>
   );
 }
