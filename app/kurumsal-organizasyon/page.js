@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
 import dynamic from "next/dynamic";
+import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
 
 /* ================== Sabitler ================== */
 export const revalidate = 1800;
@@ -152,7 +153,12 @@ const USE_CASES = [
 /* ================== HERO ================== */
 function Hero() {
   return (
-    <section className="relative flex items-center justify-center overflow-hidden bg-slate-900 pt-20 min-h-[80vh]" aria-labelledby="hero-title">
+    <ScrollReveal
+      as="section"
+      className="relative flex items-center justify-center overflow-hidden bg-slate-900 pt-20 min-h-[80vh]"
+      aria-labelledby="hero-title"
+      direction="scale"
+    >
       <div className="absolute inset-0">
         <Image 
           src={HERO.src} 
@@ -233,14 +239,19 @@ function Hero() {
           </div>
         </div>
       </div>
-    </section>
+    </ScrollReveal>
   );
 }
 
 /* ================== Hizmetler ================== */
 function Services() {
   return (
-    <section id="hizmetler" className="py-20 bg-gradient-to-b from-white to-blue-50/50" aria-labelledby="hizmetler-baslik">
+    <ScrollReveal
+      as="section"
+      id="hizmetler"
+      className="py-20 bg-gradient-to-b from-white to-blue-50/50"
+      aria-labelledby="hizmetler-baslik"
+    >
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="hizmetler-baslik" className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
@@ -251,12 +262,12 @@ function Services() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {SERVICES.map((service) => {
+        <ScrollRevealGroup className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          {SERVICES.map((service, index) => {
             const id = `svc-${slugify(service.title)}`;
             return (
-              <div key={id} className="group">
-                <article 
+              <ScrollReveal key={id} as="div" className="group" delay={String(index % 3)}>
+                <article
                   className="bg-white rounded-3xl border-2 border-gray-100 shadow-xl hover:shadow-2xl p-8 group-hover:scale-105 transition-all duration-500 h-full flex flex-col"
                   aria-labelledby={id}
                 >
@@ -278,10 +289,10 @@ function Services() {
                     ))}
                   </ul>
                 </article>
-              </div>
+              </ScrollReveal>
             );
           })}
-        </div>
+        </ScrollRevealGroup>
 
         <div className="text-center mt-12">
           <Link
@@ -296,7 +307,7 @@ function Services() {
           </Link>
         </div>
       </div>
-    </section>
+    </ScrollReveal>
   );
 }
 
@@ -346,7 +357,7 @@ const GALLERY_IMAGES = [
 
 function Gallery() {
   return (
-    <section className="py-20 bg-white" aria-labelledby="galeri-baslik">
+    <ScrollReveal as="section" className="py-20 bg-white" aria-labelledby="galeri-baslik">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="galeri-baslik" className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
@@ -358,7 +369,9 @@ function Gallery() {
         </div>
 
         <div className="max-w-7xl mx-auto">
-          <CaseGallery images={GALLERY_IMAGES} visibleCount={8} priorityCount={2} />
+          <ScrollReveal as="div" direction="scale">
+            <CaseGallery images={GALLERY_IMAGES} visibleCount={8} priorityCount={2} />
+          </ScrollReveal>
         </div>
 
         <div className="text-center mt-12">
@@ -375,7 +388,7 @@ function Gallery() {
           </Link>
         </div>
       </div>
-    </section>
+    </ScrollReveal>
   );
 }
 
