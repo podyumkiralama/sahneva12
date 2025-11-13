@@ -53,13 +53,16 @@ const currentYear = new Date().getFullYear();
 export default function Footer() {
   return (
     <footer
-      className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900/80 to-blue-900 border-t border-white/10"
+      className="relative w-full flex-shrink-0 bg-gradient-to-br from-slate-900 via-purple-900/80 to-blue-900 border-t border-white/10"
       role="contentinfo"
       aria-labelledby="site-footer-heading"
       itemScope
       itemType="https://schema.org/Organization"
     >
-      <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+      <div
+        className="absolute inset-0 overflow-hidden pointer-events-none"
+        aria-hidden="true"
+      >
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full blur-3xl" />
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-r from-purple-500/10 to-cyan-500/10 rounded-full blur-3xl" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-transparent via-black/20 to-black/60" />
