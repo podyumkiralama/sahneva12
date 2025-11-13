@@ -57,6 +57,7 @@ const STATIC_PAGES = [
   "/en/services",
   "/en/projects",
   "/en/contact",
+  "/en/led-screen-rental",
 ].map((p) => ({
   path: p,
   lastMod: NOW_ISO,
@@ -88,6 +89,10 @@ const IMAGE_MAP = {
   "/hakkimizda": ["/img/hakkimizda.webp"],
   "/en": ["/img/hero-bg.webp"],
   "/en/about": ["/img/hakkimizda.webp"],
+  "/en/led-screen-rental": [
+    "/img/hizmet-led-ekran.webp",
+    "/img/galeri/led-ekran-kiralama-1.webp",
+  ],
 };
 
 // ❸ services → dinamik
