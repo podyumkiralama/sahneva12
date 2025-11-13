@@ -66,9 +66,9 @@ function ReviewBannerSkeleton() {
   );
 }
 
-function ServicesTabsSkeleton() {
+function ServicesTabsSkeleton({ srLabel = "Hizmet sekmeleri yükleniyor" } = {}) {
   const ref = useLayoutShiftProtection();
-  
+
   return (
     <div
       ref={ref}
@@ -90,14 +90,14 @@ function ServicesTabsSkeleton() {
         ))}
       </div>
       <div className="h-80 rounded-3xl border border-neutral-200 bg-neutral-100 animate-pulse" aria-hidden="true" />
-      <span className="sr-only">Hizmet sekmeleri yükleniyor</span>
+      <span className="sr-only">{srLabel}</span>
     </div>
   );
 }
 
-function ProjectsGallerySkeleton() {
+function ProjectsGallerySkeleton({ srLabel = "Projeler yükleniyor" } = {}) {
   const ref = useLayoutShiftProtection();
-  
+
   return (
     <div
       ref={ref}
@@ -116,14 +116,14 @@ function ProjectsGallerySkeleton() {
           aria-hidden="true"
         />
       ))}
-      <span className="sr-only">Projeler yükleniyor</span>
+      <span className="sr-only">{srLabel}</span>
     </div>
   );
 }
 
-function FaqSkeleton() {
+function FaqSkeleton({ srLabel = "Sık sorulan sorular yükleniyor" } = {}) {
   const ref = useLayoutShiftProtection();
-  
+
   return (
     <div
       ref={ref}
@@ -146,7 +146,7 @@ function FaqSkeleton() {
           <div className="h-3 w-2/3 rounded bg-white/20" />
         </div>
       ))}
-      <span className="sr-only">Sık sorulan sorular yükleniyor</span>
+      <span className="sr-only">{srLabel}</span>
     </div>
   );
 }
@@ -173,17 +173,28 @@ const FaqLazy = dynamic(() => import("@/components/Faq"), {
 });
 
 // ✅ Performance Optimized Deferred Components
-export function ReviewBannerDeferred({ 
-  idleTimeout = 2000, 
-  rootMargin = "100px", 
+export function ReviewBannerDeferred({
+  idleTimeout = 2000,
+  rootMargin = "100px",
   className = "",
-  ...rest 
+  containerProps = {},
+  ...restProps
 }) {
   const ref = useLayoutShiftProtection();
-  
+  const {
+    ["aria-live"]: ariaLive,
+    ["aria-busy"]: ariaBusy,
+    ...bannerProps
+  } = restProps;
+  const hydrationProps = {
+    ...containerProps,
+    ...(ariaLive !== undefined ? { "aria-live": ariaLive } : {}),
+    ...(ariaBusy !== undefined ? { "aria-busy": ariaBusy } : {}),
+  };
+
   return (
-    <div 
-      ref={ref} 
+    <div
+      ref={ref}
       className={`layout-stable ${className}`}
       style={{ contain: 'layout style paint' }}
     >
@@ -191,87 +202,123 @@ export function ReviewBannerDeferred({
         fallback={<ReviewBannerSkeleton />}
         idleTimeout={idleTimeout}
         rootMargin={rootMargin}
-        {...rest}
+        {...hydrationProps}
       >
-        <ReviewBannerLazy />
+        <ReviewBannerLazy {...bannerProps} />
       </DeferredHydration>
     </div>
   );
 }
 
-export function ServicesTabsDeferred({ 
-  idleTimeout = 2800, 
-  rootMargin = "200px", 
+export function ServicesTabsDeferred({
+  idleTimeout = 2800,
+  rootMargin = "200px",
   className = "",
-  ...rest 
+  loadingSrLabel = "Hizmet sekmeleri yükleniyor",
+  containerProps = {},
+  ...restProps
 }) {
   const ref = useLayoutShiftProtection();
-  
+  const {
+    ["aria-live"]: ariaLive,
+    ["aria-busy"]: ariaBusy,
+    ...componentProps
+  } = restProps;
+  const hydrationProps = {
+    ...containerProps,
+    ...(ariaLive !== undefined ? { "aria-live": ariaLive } : {}),
+    ...(ariaBusy !== undefined ? { "aria-busy": ariaBusy } : {}),
+  };
+
   return (
-    <div 
-      ref={ref} 
+    <div
+      ref={ref}
       className={`layout-stable ${className}`}
       style={{ contain: 'layout style paint' }}
     >
       <DeferredHydration
-        fallback={<ServicesTabsSkeleton />}
+        fallback={<ServicesTabsSkeleton srLabel={loadingSrLabel} />}
         idleTimeout={idleTimeout}
         rootMargin={rootMargin}
-        {...rest}
+        {...hydrationProps}
       >
-        <ServicesTabsLazy />
+        <ServicesTabsLazy {...componentProps} />
       </DeferredHydration>
     </div>
   );
 }
 
-export function ProjectsGalleryDeferred({ 
-  idleTimeout = 3200, 
-  rootMargin = "250px", 
+export function ProjectsGalleryDeferred({
+  idleTimeout = 3200,
+  rootMargin = "250px",
   className = "",
-  ...rest 
+  loadingSrLabel = "Projeler yükleniyor",
+  containerProps = {},
+  ...restProps
 }) {
   const ref = useLayoutShiftProtection();
-  
+  const {
+    ["aria-live"]: ariaLive,
+    ["aria-busy"]: ariaBusy,
+    ...componentProps
+  } = restProps;
+  const hydrationProps = {
+    ...containerProps,
+    ...(ariaLive !== undefined ? { "aria-live": ariaLive } : {}),
+    ...(ariaBusy !== undefined ? { "aria-busy": ariaBusy } : {}),
+  };
+
   return (
-    <div 
-      ref={ref} 
+    <div
+      ref={ref}
       className={`layout-stable ${className}`}
       style={{ contain: 'layout style paint' }}
     >
       <DeferredHydration
-        fallback={<ProjectsGallerySkeleton />}
+        fallback={<ProjectsGallerySkeleton srLabel={loadingSrLabel} />}
         idleTimeout={idleTimeout}
         rootMargin={rootMargin}
-        {...rest}
+        {...hydrationProps}
       >
-        <ProjectsGalleryLazy />
+        <ProjectsGalleryLazy {...componentProps} />
       </DeferredHydration>
     </div>
   );
 }
 
-export function FaqDeferred({ 
-  idleTimeout = 3600, 
-  rootMargin = "300px", 
+export function FaqDeferred({
+  idleTimeout = 3600,
+  rootMargin = "300px",
   className = "",
-  ...rest 
+  loadingSrLabel = "Sık sorulan sorular yükleniyor",
+  containerProps = {},
+  ...restProps
 }) {
   const ref = useLayoutShiftProtection();
-  
+  const {
+    ["aria-live"]: ariaLive,
+    ["aria-busy"]: ariaBusy,
+    ...componentProps
+  } = restProps;
+  const hydrationProps = {
+    ...containerProps,
+    ...(ariaLive !== undefined ? { "aria-live": ariaLive } : {}),
+    ...(ariaBusy !== undefined ? { "aria-busy": ariaBusy } : {}),
+  };
+
   return (
-    <div 
-      ref={ref} 
+    <div
+      ref={ref}
       className={`layout-stable ${className}`}
       style={{ contain: 'layout style paint' }}
     >
       <DeferredHydration
-        fallback={<FaqSkeleton />}
+        fallback={<FaqSkeleton srLabel={loadingSrLabel} />}
         idleTimeout={idleTimeout}
         rootMargin={rootMargin}
-        {...rest}
+        {...hydrationProps}
       >
-        <FaqLazy />
+        <FaqLazy {...componentProps} />
       </DeferredHydration>
     </div>
   );
