@@ -29,13 +29,16 @@ export const metadata = {
     default: "Sahne, Podyum, LED Ekran & Ses-Işık Kiralama | Sahneva",
     template: "%s | Sahneva",
   },
-  description: "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı kurulum, profesyonel teknik ekip, uygun fiyat. Hemen teklif alın!",
-  keywords: "sahne kiralama, podyum kiralama, led ekran kiralama, ses ışık sistemi, etkinlik prodüksiyon, organizasyon",
+  description:
+    "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı kurulum, profesyonel teknik ekip, uygun fiyat. Hemen teklif alın!",
+  keywords:
+    "sahne kiralama, podyum kiralama, led ekran kiralama, ses ışık sistemi, etkinlik prodüksiyon, organizasyon",
   manifest: "/site.webmanifest",
   alternates: { canonical: "https://www.sahneva.com" },
   openGraph: {
     title: "Sahneva – Etkinlik Prodüksiyon & Organizasyon",
-    description: "Sahne, podyum, LED ekran, ses-ışık ve kurulum hizmetleri. Türkiye geneli.",
+    description:
+      "Sahne, podyum, LED ekran, ses-ışık ve kurulum hizmetleri. Türkiye geneli.",
     url: "https://www.sahneva.com",
     siteName: "Sahneva",
     images: [
@@ -49,36 +52,37 @@ export const metadata = {
     type: "website",
     locale: "tr_TR",
   },
-  robots: { 
-    index: true, 
+  robots: {
+    index: true,
     follow: true,
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    }
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
   twitter: {
     card: "summary_large_image",
     title: "Sahneva – Etkinlik Prodüksiyon & Organizasyon",
-    description: "Sahne, podyum, LED ekran, ses-ışık ve kurulum hizmetleri. Türkiye geneli.",
+    description:
+      "Sahne, podyum, LED ekran, ses-ışık ve kurulum hizmetleri. Türkiye geneli.",
     images: ["/img/og.jpg"],
     creator: "@sahneva",
   },
-  verification: { 
+  verification: {
     google: "H9p1RO-W1U3JDTjp0mM32blFkYABaTHNFnxVKKFfo08",
   },
   category: "event services",
   icons: {
     icon: [
-      { url: '/favicon.ico' },
-      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: "/favicon.ico" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
     ],
     apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],
   },
 };
@@ -95,28 +99,106 @@ const criticalCSS = `
 .skip-link:focus{top:6px;opacity:1;outline:2px solid #fff;outline-offset:2px}
 `;
 
+// JSON-LD payload'larını dışarıda tanımlayalım (daha okunabilir)
+const ORG_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://www.sahneva.com/#org",
+  name: "Sahneva",
+  url: "https://www.sahneva.com",
+  logo: "https://www.sahneva.com/img/logo.png",
+  description:
+    "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri kiralama hizmetleri",
+  contactPoint: {
+    "@type": "ContactPoint",
+    telephone: "+90-545-304-8671",
+    contactType: "customer service",
+    areaServed: "TR",
+    availableLanguage: ["Turkish"],
+  },
+  sameAs: [
+    "https://www.instagram.com/sahnevaorganizasyon",
+    "https://www.youtube.com/@sahneva",
+  ],
+};
+
+const LOCAL_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": ["LocalBusiness", "ProfessionalService"],
+  name: "Sahneva",
+  image: "https://www.sahneva.com/img/logo.png",
+  url: "https://www.sahneva.com",
+  telephone: "+90-545-304-8671",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Kağıthane",
+    addressRegion: "İstanbul",
+    addressCountry: "TR",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 41.0810,
+    longitude: 28.9702,
+  },
+  priceRange: "$$",
+  openingHours: "Mo-Su 09:00-23:00",
+};
+
+const WEBSITE_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://www.sahneva.com/#website",
+  name: "Sahneva",
+  url: "https://www.sahneva.com",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: "https://www.sahneva.com/search?q={search_term_string}",
+    "query-input": "required name=search_term_string",
+  },
+};
+
 export default function RootLayout({ children }) {
   return (
-    <html lang="tr" dir="ltr" className={inter.className} suppressHydrationWarning>
+    <html
+      lang="tr"
+      dir="ltr"
+      className={inter.className}
+      suppressHydrationWarning
+    >
       <head>
-              
         {/* Critical CSS - minimized */}
         <style
           id="critical-css"
           dangerouslySetInnerHTML={{ __html: criticalCSS }}
         />
-        
+
         {/* DNS prefetch for external domains */}
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
         <link rel="dns-prefetch" href="//www.google.com" />
+
+        {/* JSON-LD: Organization / LocalBusiness / WebSite - SSR olarak head içinde */}
+        <script
+          id="ld-org"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ORG_SCHEMA) }}
+        />
+        <script
+          id="ld-local"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(LOCAL_SCHEMA) }}
+        />
+        <script
+          id="ld-website"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_SCHEMA) }}
+        />
       </head>
 
-      <body 
+      <body
         className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth"
-        // CLS önleme için initial dimensions
-        style={{ 
-          minHeight: '100vh',
-          position: 'relative'
+        style={{
+          minHeight: "100vh",
+          position: "relative",
         }}
       >
         {/* Google Analytics - optimized loading */}
@@ -128,10 +210,7 @@ export default function RootLayout({ children }) {
               strategy="afterInteractive"
               fetchPriority="low"
             />
-            <Script 
-              id="ga-init" 
-              strategy="afterInteractive"
-            >
+            <Script id="ga-init" strategy="afterInteractive">
               {`
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
@@ -160,10 +239,9 @@ export default function RootLayout({ children }) {
           role="main"
           tabIndex={-1}
           className="pt-16 md:pt-20 mb-24 lg:mb-0 focus:outline-none scroll-mt-4"
-          // CLS önleme için sabit height container
-          style={{ 
-            minHeight: 'calc(100vh - 200px)',
-            contain: 'layout style paint'
+          style={{
+            minHeight: "calc(100vh - 200px)",
+            contain: "layout style paint",
           }}
         >
           {children}
@@ -172,89 +250,8 @@ export default function RootLayout({ children }) {
         <Footer />
         <SpeedInsights />
 
-        {/* Structured Data - Deferred Loading */}
-        <Script
-          id="ld-org"
-          type="application/ld+json"
-          strategy="lazyOnload"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              "@id": "https://www.sahneva.com/#org",
-              name: "Sahneva",
-              url: "https://www.sahneva.com",
-              logo: "https://www.sahneva.com/img/logo.png",
-              description: "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri kiralama hizmetleri",
-              contactPoint: {
-                "@type": "ContactPoint",
-                telephone: "+90-545-304-8671",
-                contactType: "customer service",
-                areaServed: "TR",
-                availableLanguage: ["Turkish"],
-              },
-              sameAs: [
-                "https://www.instagram.com/sahnevaorganizasyon",
-                "https://www.youtube.com/@sahneva",
-              ],
-            }),
-          }}
-        />
-
-        <Script
-          id="ld-local"
-          type="application/ld+json"
-          strategy="lazyOnload"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "LocalBusiness",
-              name: "Sahneva",
-              image: "https://www.sahneva.com/img/logo.png",
-              url: "https://www.sahneva.com",
-              telephone: "+90-545-304-8671",
-              address: {
-                "@type": "PostalAddress",
-                addressLocality: "Kağıthane",
-                addressRegion: "İstanbul",
-                addressCountry: "TR",
-              },
-              geo: {
-                "@type": "GeoCoordinates",
-                latitude: 41.0810,
-                longitude: 28.9702
-              },
-              priceRange: "$$",
-              openingHours: "Mo-Su 09:00-23:00",
-            }),
-          }}
-        />
-
-        <Script
-          id="ld-website"
-          type="application/ld+json"
-          strategy="lazyOnload"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              "@id": "https://www.sahneva.com/#website",
-              name: "Sahneva",
-              url: "https://www.sahneva.com",
-              potentialAction: {
-                "@type": "SearchAction",
-                target: "https://www.sahneva.com/search?q={search_term_string}",
-                "query-input": "required name=search_term_string"
-              }
-            }),
-          }}
-        />
-
         {/* Performance monitoring */}
-        <Script
-          id="performance-observer"
-          strategy="afterInteractive"
-        >
+        <Script id="performance-observer" strategy="afterInteractive">
           {`
             if ('PerformanceObserver' in window) {
               const observer = new PerformanceObserver((list) => {
