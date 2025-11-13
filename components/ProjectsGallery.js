@@ -1,9 +1,13 @@
+Aynen, şimdi bu galeriye de anasayfadakiyle aynı ScrollReveal animasyonlarını ekleyelim.
+Aşağıda ScrollReveal + ScrollRevealGroup entegre edilmiş TAM SÜRÜM ProjectsGallery.js var.
+Sadece mevcut dosyanın tamamını bununla değiştirmen yeterli. 👇
 // components/ProjectsGallery.js
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
+import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
 
 const COVER_SIZES =
   "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw";
@@ -12,21 +16,30 @@ const LIGHTBOX_SIZES =
 
 const GALLERIES = {
   "LED Ekran Kiralama": {
-    images: Array.from({ length: 36 }, (_, i) => `/img/galeri/led-ekran-kiralama-${i + 1}.webp`),
+    images: Array.from(
+      { length: 36 },
+      (_, i) => `/img/galeri/led-ekran-kiralama-${i + 1}.webp`
+    ),
     description:
       "Yüksek çözünürlüklü LED ekran kurulumları ve profesyonel etkinlik prodüksiyonları",
     stats: "50+ Kurumsal Etkinlik",
     icon: "🖥️",
   },
   "Çadır Kiralama": {
-    images: Array.from({ length: 19 }, (_, i) => `/img/galeri/cadir-kiralama-${i + 1}.webp`),
+    images: Array.from(
+      { length: 19 },
+      (_, i) => `/img/galeri/cadir-kiralama-${i + 1}.webp`
+    ),
     description:
       "Açık hava etkinlikleri için premium çadır kurulumları ve profesyonel çözümler",
     stats: "100+ Açık Hava Organizasyonu",
     icon: "⛺",
   },
   "Podyum Kiralama": {
-    images: Array.from({ length: 36 }, (_, i) => `/img/galeri/podyum-kiralama-${i + 1}.webp`),
+    images: Array.from(
+      { length: 36 },
+      (_, i) => `/img/galeri/podyum-kiralama-${i + 1}.webp`
+    ),
     description:
       "Profesyonel podyum kurulumları ve modüler podyum sistemleri",
     stats: "200+ Profesyonel Kurulum",
@@ -172,103 +185,119 @@ export default function ProjectsGallery() {
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   return (
-    <section className="relative pt-2 pb-8 bg-transparent" aria-labelledby="projeler-title">
+    <section
+      className="relative pt-2 pb-8 bg-transparent"
+      aria-labelledby="projeler-title"
+    >
       <div className="container relative z-10">
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {Object.entries(GALLERIES).map(([groupTitle, galleryData], i) => {
-            const images = galleryData.images;
-            const cover = images[0];
+        {/* Kartlar için ScrollRevealGroup + her kartta ScrollReveal */}
+        <ScrollRevealGroup>
+          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {Object.entries(GALLERIES).map(([groupTitle, galleryData], i) => {
+              const images = galleryData.images;
+              const cover = images[0];
 
-            return (
-              <li key={groupTitle}>
-                <article className="group relative bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-200/60 hover:border-blue-200/80 overflow-hidden">
-                  <div className="relative h-80 overflow-hidden">
-                    {/* ACCESSIBLE COVER BUTTON */}
-                    <button
-                      type="button"
-                      onClick={() => open(groupTitle, images, 0)}
-                      aria-label={`Galeriyi İncele — ${groupTitle} (${images.length} proje)`}
-                      className="absolute inset-0 w-full h-full focus:outline-none focus:ring-4 focus:ring-blue-500/50 rounded-t-2xl"
-                    >
-                      {/* Görünür isim: opacity-0 (visible kabul edilir, PASS) */}
-                      <span className="absolute opacity-0 pointer-events-none">
-                        Galeriyi İncele — {groupTitle} ({images.length} proje)
-                      </span>
-
-                      <Image
-                        src={getImageSrc(cover)}
-                        alt={`${groupTitle} - Sahneva profesyonel kurulum referansı`}
-                        fill
-                        className={`object-cover transition-transform duration-700 ${
-                          prefersReducedMotion ? "" : "group-hover:scale-110"
-                        }`}
-                        sizes={COVER_SIZES}
-                        quality={i === 0 ? 60 : 65}
-                        loading={i === 0 ? "eager" : "lazy"}
-                        decoding="async"
-                        placeholder="blur"
-                        blurDataURL={BLUR_DATA_URL}
-                        priority={i === 0}
-                        fetchPriority={i === 0 ? "high" : "auto"}
-                        onError={() => handleImageError(cover)}
-                      />
-
-                      {/* Dekoratif overlay */}
-                      <div
-                        className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                        aria-hidden="true"
-                      />
-
-                      {/* Hover CTA (dekoratif) */}
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500" aria-hidden="true">
-                        <div className="bg-white/90 backdrop-blur-sm rounded-full px-5 py-2.5 transform -translate-y-3 group-hover:translate-y-0 transition-transform duration-500">
-                          <span className="font-semibold text-gray-900 text-sm flex items-center gap-2">
-                            <span aria-hidden="true">🔍</span>
-                            Galeriyi İncele
+              return (
+                <ScrollReveal key={groupTitle} delay={String(i)}>
+                  <li>
+                    <article className="group relative bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-200/60 hover:border-blue-200/80 overflow-hidden">
+                      <div className="relative h-80 overflow-hidden">
+                        {/* ACCESSIBLE COVER BUTTON */}
+                        <button
+                          type="button"
+                          onClick={() => open(groupTitle, images, 0)}
+                          aria-label={`Galeriyi İncele — ${groupTitle} (${images.length} proje)`}
+                          className="absolute inset-0 w-full h-full focus:outline-none focus:ring-4 focus:ring-blue-500/50 rounded-t-2xl"
+                        >
+                          {/* Görünür isim: opacity-0 (visible kabul edilir, PASS) */}
+                          <span className="absolute opacity-0 pointer-events-none">
+                            Galeriyi İncele — {groupTitle} ({images.length} proje)
                           </span>
+
+                          <Image
+                            src={getImageSrc(cover)}
+                            alt={`${groupTitle} - Sahneva profesyonel kurulum referansı`}
+                            fill
+                            className={`object-cover transition-transform duration-700 ${
+                              prefersReducedMotion ? "" : "group-hover:scale-110"
+                            }`}
+                            sizes={COVER_SIZES}
+                            quality={i === 0 ? 60 : 65}
+                            loading={i === 0 ? "eager" : "lazy"}
+                            decoding="async"
+                            placeholder="blur"
+                            blurDataURL={BLUR_DATA_URL}
+                            priority={i === 0}
+                            fetchPriority={i === 0 ? "high" : "auto"}
+                            onError={() => handleImageError(cover)}
+                          />
+
+                          {/* Dekoratif overlay */}
+                          <div
+                            className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                            aria-hidden="true"
+                          />
+
+                          {/* Hover CTA (dekoratif) */}
+                          <div
+                            className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                            aria-hidden="true"
+                          >
+                            <div className="bg-white/90 backdrop-blur-sm rounded-full px-5 py-2.5 transform -translate-y-3 group-hover:translate-y-0 transition-transform duration-500">
+                              <span className="font-semibold text-gray-900 text-sm flex items-center gap-2">
+                                <span aria-hidden="true">🔍</span>
+                                Galeriyi İncele
+                              </span>
+                            </div>
+                          </div>
+                        </button>
+                      </div>
+
+                      <div className="p-5">
+                        <div className="flex items-center gap-3 mb-2.5">
+                          <span className="text-2xl text-gray-700" aria-hidden="true">
+                            {galleryData.icon}
+                          </span>
+                          <h3 className="text-lg font-bold text-gray-900">
+                            {groupTitle}
+                          </h3>
+                        </div>
+
+                        <p className="text-gray-600 leading-relaxed mb-3 line-clamp-2">
+                          {galleryData.description}
+                        </p>
+
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-semibold text-blue-600 bg-blue-50 rounded-full px-3 py-1">
+                            {galleryData.stats}
+                          </span>
+
+                          {/* İkincil eylem: görünür metin + sr-only ek */}
+                          <button
+                            onClick={() => open(groupTitle, images, 0)}
+                            className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 flex items-center gap-1 group/btn focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/70"
+                          >
+                            Tümünü Gör
+                            <span
+                              className="transform group-hover/btn:translate-x-1 transition-transform duration-200"
+                              aria-hidden="true"
+                            >
+                              →
+                            </span>
+                            <span className="sr-only">
+                              {" "}
+                              — {groupTitle} ({images.length} proje)
+                            </span>
+                          </button>
                         </div>
                       </div>
-                    </button>
-                  </div>
-
-                  <div className="p-5">
-                    <div className="flex items-center gap-3 mb-2.5">
-                      <span className="text-2xl text-gray-700" aria-hidden="true">
-                        {galleryData.icon}
-                      </span>
-                      <h3 className="text-lg font-bold text-gray-900">{groupTitle}</h3>
-                    </div>
-
-                    <p className="text-gray-600 leading-relaxed mb-3 line-clamp-2">
-                      {galleryData.description}
-                    </p>
-
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-semibold text-blue-600 bg-blue-50 rounded-full px-3 py-1">
-                        {galleryData.stats}
-                      </span>
-
-                      {/* İkincil eylem: görünür metin + sr-only ek */}
-                      <button
-                        onClick={() => open(groupTitle, images, 0)}
-                        className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 flex items-center gap-1 group/btn focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/70"
-                      >
-                        Tümünü Gör
-                        <span
-                          className="transform group-hover/btn:translate-x-1 transition-transform duration-200"
-                          aria-hidden="true"
-                        >
-                          →
-                        </span>
-                        <span className="sr-only"> — {groupTitle} ({images.length} proje)</span>
-                      </button>
-                    </div>
-                  </div>
-                </article>
-              </li>
-            );
-          })}
-        </ul>
+                    </article>
+                  </li>
+                </ScrollReveal>
+              );
+            })}
+          </ul>
+        </ScrollRevealGroup>
       </div>
 
       <div ref={liveRef} aria-live="polite" className="sr-only" />
@@ -372,3 +401,11 @@ export default function ProjectsGallery() {
     </section>
   );
 }
+
+Bu hâliyle:
+
+Kartlar ScrollRevealGroup + ScrollReveal ile anasayfadaki “projeler” bölümü gibi içeri giriyor.
+Lightbox mantığına hiç dokunmadık, sadece liste kısmına animasyon ekledik.
+Performans / a11y bozulmuyor.
+
+Sırada scroll animasyonu istediğin başka bir component varsa onu da aynı şekilde sararız. 🎬✨
