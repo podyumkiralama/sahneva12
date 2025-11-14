@@ -1196,7 +1196,7 @@ function CTA() {
                 <span className="text-lg">WhatsApp'tan Yaz</span>
               </a>
             </div>
-            <div className="mt-8 text-blue-200 text-lg" role="contentinfo">
+            <div className="mt-8 text-blue-200 text-lg">
               📍 İstanbul geneli hizmet • ⏰ 2-6 saat kurulum • ⭐ 8+ yıl deneyim
             </div>
           </div>

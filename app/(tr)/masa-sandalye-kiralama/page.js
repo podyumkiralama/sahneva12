@@ -1176,7 +1176,7 @@ function CTA() {
                 <span className="text-lg">WhatsApp'tan Yaz</span>
               </a>
             </div>
-            <div className="mt-8 text-blue-200 text-lg" role="contentinfo">
+            <div className="mt-8 text-blue-200 text-lg">
               📍 81 ilde hizmet • ⏰ 7/24 teknik destek • ⭐ 5+ yıl deneyim
             </div>
           </div>
