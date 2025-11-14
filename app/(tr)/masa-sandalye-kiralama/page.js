@@ -28,7 +28,6 @@ const CaseGallery = dynamic(() => import("@/components/CaseGallery"), {
 export const metadata = {
   title: "Masa Sandalye Kiralama | Profesyonel Çözümler | Sahneva",
   description: "Napolyon ve konferans sandalyeleri, banket ve bistro masalar, örtü-kılıf; numaralandırma ve profesyonel yerleşim. İstanbul genelinde hızlı teslim.",
-  keywords: "masa sandalye kiralama, napolyon sandalye, banket masa, bistro masa kiralama, konferans sandalyesi kiralama, masa örtüsü kiralama, istanbul masa kiralama",
   alternates: { canonical: `${ORIGIN}/masa-sandalye-kiralama` },
   openGraph: {
     title: "Masa Sandalye Kiralama | Profesyonel Çözümler",

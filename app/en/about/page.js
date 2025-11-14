@@ -25,8 +25,6 @@ export const metadata = {
     locale: "en_US",
   },
   robots: { index: true, follow: true },
-  keywords:
-    "stage rental, led wall rental, sound and lighting systems, event production, about Sahneva",
 };
 
 export const revalidate = 3600;

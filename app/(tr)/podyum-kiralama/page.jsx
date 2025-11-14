@@ -38,7 +38,6 @@ const PriceEstimatorPodyum = dynamic(() => import("@/components/PriceEstimatorPo
 export const metadata = {
   title: "Podyum Kiralama | Profesyonel Sahne Çözümleri | Sahneva",
   description: "Modüler podyum kiralama: 1×1 ve 2×1 paneller, kaymaz kaplama, halı ve skört opsiyonları. İstanbul geneli profesyonel kurulum.",
-  keywords: "podyum kiralama, sahne podyumu, modüler podyum, podyum kurulumu, etkinlik podyumu, konser podyumu, düğün podyumu",
   alternates: { canonical: `${ORIGIN}/podyum-kiralama` },
   openGraph: {
     title: "Podyum Kiralama | Profesyonel Sahne Çözümleri | Sahneva",
