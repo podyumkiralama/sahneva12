@@ -1,5 +1,9 @@
 // components/Footer.js
 import Link from "next/link";
+import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
+
+const focusRingClass =
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950";
 
 const SOCIAL_LINKS = [
   {
@@ -49,10 +53,14 @@ const BUSINESS_LINKS = [
 ];
 
 const currentYear = new Date().getFullYear();
+const footerStrings = LOCALE_CONTENT.tr.footer;
 
 export default function Footer() {
   return (
     <footer
+      id="main-footer"
+      role="contentinfo"
+      aria-label={footerStrings?.ariaLabel ?? "Site altbilgisi"}
       className="relative w-full flex-shrink-0 bg-gradient-to-br from-[#0b1120] via-[#1a1038] to-[#1b1f4a] border-t border-white/10"
       aria-labelledby="site-footer-heading"
       itemScope
@@ -155,7 +163,7 @@ export default function Footer() {
                   rel="noopener noreferrer me"
                   aria-label={label}
                   title={title}
-                  className="group relative inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300 hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 min-h-[44px] min-w-[44px]"
+                  className={`group relative inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300 hover:scale-110 min-h-[44px] min-w-[44px] ${focusRingClass}`}
                   itemProp="sameAs"
                 >
                   <span
@@ -184,7 +192,7 @@ export default function Footer() {
               <li key={href}>
                 <Link
                   href={href}
-                  className="group text-gray-300 hover:text-white focus-visible:text-white transition-all duration-200 block py-1 pl-2 border-l-2 border-transparent hover:border-blue-400 hover:pl-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/60 rounded-sm"
+                  className={`group text-gray-200 hover:text-white transition-all duration-200 block py-1 pl-2 border-l-2 border-transparent hover:border-blue-400 hover:pl-3 rounded-sm ${focusRingClass}`}
                 >
                   <span className="group-hover:text-blue-300 transition-colors">{label}</span>
                 </Link>
@@ -206,7 +214,7 @@ export default function Footer() {
               <li key={href}>
                 <Link
                   href={href}
-                  className="group text-gray-300 hover:text-white focus-visible:text-white transition-all duration-200 block py-1 pl-2 border-l-2 border-transparent hover:border-purple-400 hover:pl-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400/60 rounded-sm"
+                  className={`group text-gray-200 hover:text-white transition-all duration-200 block py-1 pl-2 border-l-2 border-transparent hover:border-purple-400 hover:pl-3 rounded-sm ${focusRingClass}`}
                 >
                   <span className="group-hover:text-purple-300 transition-colors">{label}</span>
                 </Link>
@@ -249,7 +257,7 @@ export default function Footer() {
               </div>
               <a
                 href="tel:+905453048671"
-                className="text-gray-300 hover:text-white font-semibold transition-all duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60 rounded-sm"
+                className={`text-gray-200 hover:text-white font-semibold transition-all duration-300 hover:scale-105 rounded-sm ${focusRingClass}`}
                 itemProp="telephone"
               >
                 +90 545 304 8671
@@ -265,7 +273,7 @@ export default function Footer() {
               </div>
               <a
                 href="mailto:info@sahneva.com"
-                className="text-gray-300 hover:text-white transition-all duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400/60 rounded-sm"
+                className={`text-gray-200 hover:text-white transition-all duration-300 hover:scale-105 rounded-sm ${focusRingClass}`}
                 itemProp="email"
               >
                 info@sahneva.com
@@ -278,7 +286,7 @@ export default function Footer() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer nofollow"
-                  className="group inline-flex items-center gap-2 text-xs text-gray-300 hover:text-white transition-all duration-300 hover:gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/60 rounded-sm"
+                  className={`group inline-flex items-center gap-2 text-xs text-gray-200 hover:text-white transition-all duration-300 hover:gap-3 rounded-sm ${focusRingClass}`}
                   title={title}
                 >
                   <span className="group-hover:scale-110 transition-transform duration-300" aria-hidden="true">
@@ -313,7 +321,7 @@ export default function Footer() {
             </span>
             <Link
               href="/kvkk"
-              className="text-gray-300 hover:text-white underline-offset-4 hover:underline focus-visible:underline transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/60 rounded-sm"
+              className={`text-gray-200 hover:text-white underline-offset-4 hover:underline focus-visible:underline transition-colors duration-200 rounded-sm ${focusRingClass}`}
             >
               KVKK Aydınlatma Metni
             </Link>
@@ -322,7 +330,7 @@ export default function Footer() {
             </span>
             <a
               href="#main-content"
-              className="text-gray-300 hover:text-white underline-offset-4 hover:underline focus-visible:underline transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60 rounded-sm"
+              className={`text-gray-200 hover:text-white underline-offset-4 hover:underline focus-visible:underline transition-colors duration-200 rounded-sm ${focusRingClass}`}
             >
               Başa dön
             </a>
