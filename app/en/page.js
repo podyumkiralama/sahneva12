@@ -628,6 +628,8 @@ export default function EnglishHomePage() {
             title="Review Sahneva on Google"
             subtitle="Your feedback helps us deliver better experiences. Could you spare a minute?"
             ctaLabel="Write a review"
+            ctaAriaLabel="Write a Google review for Sahneva (opens in a new tab)"
+            closeAriaLabel="Dismiss this notification"
           />
         </div>
 
@@ -651,7 +653,13 @@ export default function EnglishHomePage() {
                 </p>
               </div>
             </ScrollReveal>
-            <ServicesTabsDeferred servicesData={SERVICES_EN} dictionary={SERVICES_DICTIONARY_EN} idleTimeout={2800} rootMargin="320px" />
+            <ServicesTabsDeferred
+              servicesData={SERVICES_EN}
+              dictionary={SERVICES_DICTIONARY_EN}
+              idleTimeout={2800}
+              rootMargin="320px"
+              loadingSrLabel="Loading service tabs"
+            />
           </div>
         </section>
 
@@ -677,6 +685,7 @@ export default function EnglishHomePage() {
               ariaLabelledBy="projects-title"
               idleTimeout={3200}
               rootMargin="250px"
+              loadingSrLabel="Loading project galleries"
             />
           </div>
         </section>
@@ -862,6 +871,7 @@ export default function EnglishHomePage() {
               dictionary={FAQ_DICTIONARY_EN}
               idleTimeout={3600}
               rootMargin="400px"
+              loadingSrLabel="Loading frequently asked questions"
             />
           </div>
         </section>
