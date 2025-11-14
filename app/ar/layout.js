@@ -11,9 +11,15 @@ export default function ArabicLayout({ children }) {
     <div className="flex min-h-screen flex-col bg-white text-neutral-900">
       <DocumentDirection lang="ar" dir={content.direction} />
       <SiteHeader locale="ar" strings={content.header} />
-      <main id="main-content" role="main" tabIndex={-1} className="flex-1 pb-16 pt-12" dir={content.direction}>
-        {children}
-      </main>
+     <main
+  id="main-content"
+  role="main"
+  tabIndex={-1}
+  className="flex-1 pb-16 pt-0"
+>
+  {children}
+</main>
+
       <SiteFooter strings={content.footer} />
       <SpeedInsights />
     </div>
