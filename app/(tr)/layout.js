@@ -9,13 +9,12 @@ export default function TurkishLayout({ children }) {
       <UtilityBar />
       <Navbar />
       <main
-  id="main-content"
-  role="main"
-  tabIndex={-1}
-  className="flex-1 pt-6 pb-10 lg:pb-12 focus:outline-none scroll-mt-4"
->
-  {children}
-</main>
+        id="main-content"
+        tabIndex={-1}
+        className="flex-1 pt-6 pb-10 lg:pb-12 focus:outline-none scroll-mt-4"
+      >
+        {children}
+      </main>
 
       <Footer />
       <SpeedInsights />

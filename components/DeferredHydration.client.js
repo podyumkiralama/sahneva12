@@ -80,12 +80,22 @@ export default function DeferredHydration({
     };
   }, [idleTimeout, rootMargin, shouldRender]);
 
+  const normalizedAriaBusy = (() => {
+    if (typeof ariaBusy === "boolean") return ariaBusy;
+    if (typeof ariaBusy === "string") {
+      const value = ariaBusy.toLowerCase();
+      if (value === "true") return true;
+      if (value === "false") return false;
+    }
+    return undefined;
+  })();
+
   return (
     <Component
       ref={containerRef}
       className={className}
       aria-live={ariaLive}
-      aria-busy={shouldRender ? undefined : ariaBusy ?? "polite"}
+      aria-busy={shouldRender ? undefined : normalizedAriaBusy ?? true}
       {...rest}
     >
       {shouldRender ? children : fallback}

@@ -54,7 +54,6 @@ export default function Footer() {
   return (
     <footer
       className="relative w-full flex-shrink-0 bg-gradient-to-br from-[#0b1120] via-[#1a1038] to-[#1b1f4a] border-t border-white/10"
-      role="contentinfo"
       aria-labelledby="site-footer-heading"
       itemScope
       itemType="https://schema.org/Organization"
