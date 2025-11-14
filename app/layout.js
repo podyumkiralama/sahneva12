@@ -2,6 +2,7 @@
 import "../styles/globals.css";
 import Script from "next/script";
 import { Inter } from "next/font/google";
+import SkipLinks from "@/components/SkipLinks";
 
 const inter = Inter({
   subsets: ["latin", "latin-ext", "arabic"],
@@ -87,8 +88,6 @@ const criticalCSS = `
 .full-bleed{position:relative;margin:0 calc(50% - 50vw);width:100vw;min-height:60vh;overflow-x:clip}
 @media (min-width:768px){.full-bleed{min-height:70vh}}.object-cover{object-fit:cover}
 .container{max-width:1280px;margin:0 auto;padding:0 1rem}
-.skip-link{position:fixed;top:-100px;left:6px;background:#6d28d9;color:#fff;padding:12px 16px;text-decoration:none;border-radius:8px;font-weight:600;z-index:10000;transition:top .3s ease;opacity:0}
-.skip-link:focus{top:6px;opacity:1;outline:2px solid #fff;outline-offset:2px}
 `;
 
 export default function RootLayout({ children }) {
@@ -100,6 +99,7 @@ export default function RootLayout({ children }) {
         <link rel="dns-prefetch" href="//www.google.com" />
       </head>
       <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
+        <SkipLinks />
         {GA_MEASUREMENT_ID && (
           <>
             <Script
@@ -121,11 +121,6 @@ export default function RootLayout({ children }) {
             </Script>
           </>
         )}
-
-        <a href="#main-content" className="skip-link">
-          Skip to main content
-        </a>
-
         {children}
 
         <Script
