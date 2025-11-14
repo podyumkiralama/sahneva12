@@ -1,5 +1,5 @@
 // app/(site)/page.js
-import Image from "next/image";
+import { getImageProps } from "next/image";
 import heroImg from "@/public/img/hero-bg.webp";
 
 // Statik bileşenler
@@ -195,6 +195,28 @@ function StructuredData() {
 // —————————————————————————————————————————
 // SAYFA
 // —————————————————————————————————————————
+function HeroBackgroundImage({ alt }) {
+  const { props } = getImageProps({
+    alt,
+    src: heroImg,
+    sizes: "100vw",
+    priority: true,
+    fetchPriority: "high",
+    loading: "eager",
+    placeholder: "blur",
+    quality: 70,
+    className: "absolute inset-0 h-full w-full object-cover object-center",
+    style: {
+      filter: "brightness(0.7) contrast(1.1) saturate(1.05)",
+    },
+  });
+
+  const { fetchPriority, ...rest } = props;
+
+  // eslint-disable-next-line react/no-unknown-property -- force lowercase attribute for HTML validators
+  return <img {...rest} fetchpriority={fetchPriority} />;
+}
+
 export default function HomePage() {
   return (
     <div className="overflow-x-hidden">
@@ -207,19 +229,7 @@ export default function HomePage() {
       >
         {/* Arka plan görseli */}
         <div className="absolute inset-0" aria-hidden="true">
-          <Image
-            src={heroImg}
-            alt="Profesyonel sahne kurulumu, LED ekranlar ve ses-ışık sistemleri - Sahneva"
-            fill
-            priority
-            loading="eager"
-            fetchPriority="high"
-            sizes="100vw"
-            placeholder="blur"
-            quality={70}
-            className="object-cover object-center"
-            style={{ filter: "brightness(0.7) contrast(1.1) saturate(1.05)" }}
-          />
+          <HeroBackgroundImage alt="Profesyonel sahne kurulumu, LED ekranlar ve ses-ışık sistemleri - Sahneva" />
         </div>
 
         {/* Overlay katmanları */}

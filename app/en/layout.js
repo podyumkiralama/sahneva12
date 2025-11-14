@@ -13,9 +13,8 @@ export default function EnglishLayout({ children }) {
       <SiteHeader locale="en" strings={{ ...content.header, direction: content.direction }} />
       <main
         id="main-content"
-        role="main"
         tabIndex={-1}
-        className="flex-1 pb-16 pt-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 scroll-mt-4"
+        className="flex-1 pb-16 pt-0"
       >
         {children}
       </main>
