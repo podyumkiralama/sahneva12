@@ -28,7 +28,6 @@ const CaseGallery = dynamic(() => import("@/components/CaseGallery"), {
 export const metadata = {
   title: "Çadır Kiralama | Profesyonel Etkinlik Çözümleri | Sahneva",
   description: "Pagoda, şeffaf dome, endüstriyel çadır kiralama. Zemin kaplama, aydınlatma ve profesyonel kurulum. Türkiye geneli hızlı hizmet.",
-  keywords: "çadır kiralama, pagoda çadır, şeffaf çadır, dome çadır, fuar çadırı, endüstriyel çadır, çadır kurulumu, etkinlik çadırı",
   alternates: { canonical: `${ORIGIN}/cadir-kiralama` },
   openGraph: {
     title: "Çadır Kiralama | Profesyonel Etkinlik Çözümleri | Sahneva",

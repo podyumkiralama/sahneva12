@@ -25,8 +25,6 @@ export const metadata = {
     locale: "tr_TR",
   },
   robots: { index: true, follow: true },
-  keywords:
-    "sahne kiralama, led ekran kiralama, ses ışık sistemi, etkinlik prodüksiyonu, sahneva hakkında",
 };
 
 export const revalidate = 3600;

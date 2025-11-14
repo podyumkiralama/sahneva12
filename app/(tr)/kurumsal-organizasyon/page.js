@@ -28,7 +28,6 @@ const CaseGallery = dynamic(() => import("@/components/CaseGallery"), {
 export const metadata = {
   title: "Kurumsal Organizasyon | Profesyonel Etkinlik Yönetimi | Sahneva",
   description: "Konferans, lansman, gala, miting ve roadshow organizasyonları. Sahne, ses, ışık, LED ekran ve profesyonel etkinlik yönetimi. Türkiye geneli hızlı hizmet.",
-  keywords: "kurumsal organizasyon, etkinlik yönetimi, konferans organizasyonu, lansman, gala organizasyonu, fuar organizasyonu, toplantı organizasyonu",
   alternates: { canonical: `${ORIGIN}/kurumsal-organizasyon` },
   openGraph: {
     title: "Kurumsal Organizasyon | Profesyonel Etkinlik Yönetimi | Sahneva",

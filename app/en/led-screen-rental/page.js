@@ -30,8 +30,6 @@ export const metadata = {
   title: "LED Screen Rental | Professional LED Wall Solutions | Sahneva",
   description:
     "P2–P6 pixel pitch, 4K processors and ultra-bright LED wall rentals. Indoor/outdoor, concert, expo and corporate event solutions across Turkey.",
-  keywords:
-    "led screen rental, led wall hire, p2.5 led screen, outdoor led wall, indoor led video wall, event screen rental, video wall rental",
   alternates: { canonical: `${ORIGIN}/en/led-screen-rental` },
   openGraph: {
     title: "LED Screen Rental | Professional Solutions",

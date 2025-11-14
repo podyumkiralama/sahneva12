@@ -23,7 +23,6 @@ export const metadata = {
     locale: "tr_TR",
   },
   robots: { index: true, follow: true },
-  keywords: "sahne kiralama, led ekran kiralama, ses ışık sistemi, podyum kiralama, çadır kiralama, etkinlik ekipmanları",
 };
 
 export const revalidate = 3600;
