@@ -4,7 +4,6 @@ import Script from "next/script";
 import { Inter } from "next/font/google";
 import SkipLinks from "@/components/SkipLinks";
 
-import { serviceProducts } from "@/lib/structuredData/serviceProducts";
 
 const inter = Inter({
   subsets: ["latin", "latin-ext", "arabic"],
@@ -69,73 +68,6 @@ const websiteJsonLd = {
     "query-input": "required name=search_term_string",
   },
 };
-
-const SERVICE_PRODUCTS_JSON = (() => {
-  const siteUrl = "https://www.sahneva.com";
-  const orgId = `${siteUrl}#org`;
-
-  const graph = serviceProducts.flatMap((service) => {
-    const pageUrl = `${siteUrl}${service.slug}`;
-    const serviceId = `${pageUrl}#service`;
-
-    const productNodes = service.products.map((product) => ({
-      "@type": "Product",
-      "@id": `${pageUrl}#${product.sku}`,
-      name: product.name,
-      description: product.description,
-      sku: product.sku,
-      category: service.productCategory,
-      url: pageUrl,
-      brand: { "@type": "Organization", "@id": orgId, name: "Sahneva" },
-      additionalProperty: (product.highlights || []).map((item) => ({
-        "@type": "PropertyValue",
-        name: "Öne Çıkan Özellik",
-        value: item,
-      })),
-      offers: {
-        "@type": "Offer",
-        url: `${pageUrl}#teklif`,
-        availability: "https://schema.org/InStock",
-        priceCurrency: "TRY",
-        priceSpecification: {
-          "@type": "PriceSpecification",
-          price: "Teklif üzerine",
-          priceCurrency: "TRY",
-        },
-        description: product.description,
-      },
-      isRelatedTo: { "@id": serviceId },
-    }));
-
-    return [
-      {
-        "@type": "Service",
-        "@id": serviceId,
-        name: service.serviceName,
-        description: service.serviceDescription,
-        url: pageUrl,
-        areaServed: { "@type": "Country", name: "Türkiye" },
-        serviceType: service.productCategory,
-        provider: { "@id": orgId },
-        hasOfferCatalog: {
-          "@type": "OfferCatalog",
-          name: service.serviceName,
-          itemListElement: service.products.map((product, index) => ({
-            "@type": "Offer",
-            position: index + 1,
-            itemOffered: { "@id": `${pageUrl}#${product.sku}` },
-          })),
-        },
-      },
-      ...productNodes,
-    ];
-  });
-
-  return {
-    "@context": "https://schema.org",
-    "@graph": graph,
-  };
-})();
 
 export const viewport = {
   width: "device-width",
