@@ -3,8 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 
-const focusRingClass =
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950";
+const focusRingClass = "focus-ring";
 
 export default function SiteHeader({ locale, strings }) {
   const [open, setOpen] = useState(false);
@@ -119,11 +118,11 @@ export default function SiteHeader({ locale, strings }) {
             type="button"
             ref={toggleButtonRef}
             onClick={() => setOpen((v) => !v)}
-            className={`lg:hidden inline-flex items-center justify-center rounded-xl border border-neutral-200 bg-white p-3 text-neutral-700 shadow-sm ${focusRingClass}`}
-            aria-expanded={open}
-            aria-controls="primary-navigation-mobile"
-            aria-label={ariaStrings.mobileToggle}
-          >
+          className={`lg:hidden inline-flex items-center justify-center rounded-xl border border-neutral-200 bg-white p-3 text-neutral-700 shadow-sm ${focusRingClass}`}
+          aria-expanded={open}
+          aria-controls="mobile-menu"
+          aria-label={ariaStrings.mobileToggle}
+        >
             <span className="sr-only">{ariaStrings.mobileToggle}</span>
             <span className="relative h-5 w-5" aria-hidden="true">
               <span
@@ -140,35 +139,39 @@ export default function SiteHeader({ locale, strings }) {
         </div>
       </div>
 
-      <nav
-        id="primary-navigation-mobile"
+      <div
+        id="mobile-menu"
         ref={mobileMenuRef}
+        role="dialog"
+        aria-modal={open ? "true" : undefined}
         hidden={!open}
         aria-label={ariaStrings.nav}
         className="lg:hidden border-t border-neutral-200 bg-white shadow-xl"
       >
-        <div className="container mx-auto px-4 py-4 space-y-2">
-          {strings.links.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`block rounded-lg px-4 py-3 text-sm font-semibold text-neutral-700 hover:bg-neutral-100 ${focusRingClass}`}
-              onClick={() => setOpen(false)}
+        <nav id="primary-navigation-mobile" aria-label={ariaStrings.nav}>
+          <div className="container mx-auto px-4 py-4 space-y-2">
+            {strings.links.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`block rounded-lg px-4 py-3 text-sm font-semibold text-neutral-700 hover:bg-neutral-100 ${focusRingClass}`}
+                onClick={() => setOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
+            <a
+              href={strings.whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-4 py-3 text-sm font-bold text-white ${focusRingClass}`}
             >
-              {item.label}
-            </Link>
-          ))}
-          <a
-            href={strings.whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-4 py-3 text-sm font-bold text-white ${focusRingClass}`}
-          >
-            <span aria-hidden="true">💬</span>
-            {strings.whatsappLabel}
-          </a>
-        </div>
-      </nav>
+              <span aria-hidden="true">💬</span>
+              {strings.whatsappLabel}
+            </a>
+          </div>
+        </nav>
+      </div>
     </header>
   );
 }

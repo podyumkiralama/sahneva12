@@ -10,11 +10,12 @@ export default function ArabicLayout({ children }) {
   return (
     <div className="flex min-h-screen flex-col bg-white text-neutral-900">
       <DocumentDirection lang="ar" dir={content.direction} />
-      <SiteHeader locale="ar" strings={content.header} />
+      <SiteHeader locale="ar" strings={{ ...content.header, direction: content.direction }} />
       <main
         id="main-content"
+        role="main"
         tabIndex={-1}
-        className="flex-1 pb-16 pt-0"
+        className="flex-1 pb-16 pt-0 focus-ring scroll-mt-4"
       >
         {children}
       </main>

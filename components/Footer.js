@@ -2,8 +2,7 @@
 import Link from "next/link";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 
-const focusRingClass =
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950";
+const focusRingClass = "focus-ring";
 
 const SOCIAL_LINKS = [
   {
@@ -58,6 +57,9 @@ const footerStrings = LOCALE_CONTENT.tr.footer;
 export default function Footer() {
   return (
     <footer
+      id="main-footer"
+      role="contentinfo"
+      aria-label={footerStrings?.ariaLabel ?? "Site altbilgisi"}
       className="relative w-full flex-shrink-0 bg-gradient-to-br from-[#0b1120] via-[#1a1038] to-[#1b1f4a] border-t border-white/10"
       aria-labelledby="site-footer-heading"
       itemScope

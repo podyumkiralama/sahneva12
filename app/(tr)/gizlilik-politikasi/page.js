@@ -65,7 +65,7 @@ export default function PrivacyPolicyPage() {
                 <li>
                   <Link
                     href="/"
-                    className="transition-colors hover:text-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/70 rounded-md px-1 -mx-1"
+                    className="transition-colors hover:text-slate-100 focus-ring rounded-md px-1 -mx-1"
                   >
                     Ana Sayfa
                   </Link>

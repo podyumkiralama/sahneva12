@@ -7,8 +7,7 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 
-const focusRingClass =
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950";
+const focusRingClass = "focus-ring";
 
 const serviceLinks = [
   { 
@@ -67,6 +66,8 @@ export default function Navbar() {
   const hoverTimer = useRef(null);
   const mobileMenuRef = useRef(null);
   const toggleButtonRef = useRef(null);
+  const servicesButtonRef = useRef(null);
+  const serviceItemRefs = useRef([]);
   const previouslyFocusedElement = useRef(null);
   const previousOverflow = useRef("");
   const servicesBtnId = "nav-services-button";
@@ -75,16 +76,24 @@ export default function Navbar() {
   // ESC kapatma
   useEffect(() => {
     const onKey = (e) => {
-      if (e.key === "Escape") {
-        setMobileOpen(false);
-        setServicesOpen(false);
-        setMobileServicesOpen(false);
+      if (e.key !== "Escape") return;
+
+      const wasMobileOpen = mobileOpen;
+      const wasServicesOpen = servicesOpen;
+
+      setMobileOpen(false);
+      setServicesOpen(false);
+      setMobileServicesOpen(false);
+
+      if (wasMobileOpen) {
         toggleButtonRef.current?.focus();
+      } else if (wasServicesOpen) {
+        servicesButtonRef.current?.focus();
       }
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, []);
+  }, [mobileOpen, servicesOpen]);
 
   // Rota değişince menüleri kapat
   useEffect(() => {
@@ -160,6 +169,98 @@ export default function Navbar() {
 
   useEffect(() => () => hoverTimer.current && clearTimeout(hoverTimer.current), []);
 
+  const focusServiceItem = useCallback((index) => {
+    const items = serviceItemRefs.current.filter(Boolean);
+    if (!items.length) return;
+    const normalizedIndex = ((index % items.length) + items.length) % items.length;
+    items[normalizedIndex]?.focus();
+  }, []);
+
+  const openServicesMenuAndFocus = useCallback(
+    (index = 0) => {
+      setServicesOpen(true);
+      setTimeout(() => focusServiceItem(index), 0);
+    },
+    [focusServiceItem]
+  );
+
+  const handleServicesButtonKeyDown = useCallback(
+    (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        setServicesOpen((prev) => {
+          const next = !prev;
+          if (!prev && next) {
+            setTimeout(() => focusServiceItem(0), 0);
+          }
+          return next;
+        });
+        return;
+      }
+
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        if (servicesOpen) {
+          focusServiceItem(0);
+        } else {
+          openServicesMenuAndFocus(0);
+        }
+        return;
+      }
+
+      if (event.key === "ArrowUp") {
+        event.preventDefault();
+        if (servicesOpen) {
+          focusServiceItem(serviceLinks.length - 1);
+        } else {
+          openServicesMenuAndFocus(serviceLinks.length - 1);
+        }
+      }
+    },
+    [focusServiceItem, openServicesMenuAndFocus, servicesOpen]
+  );
+
+  const handleServiceItemKeyDown = useCallback(
+    (event, index) => {
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        focusServiceItem(index + 1);
+        return;
+      }
+
+      if (event.key === "ArrowUp") {
+        event.preventDefault();
+        focusServiceItem(index - 1);
+        return;
+      }
+
+      if (event.key === "Home") {
+        event.preventDefault();
+        focusServiceItem(0);
+        return;
+      }
+
+      if (event.key === "End") {
+        event.preventDefault();
+        focusServiceItem(serviceLinks.length - 1);
+        return;
+      }
+
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setServicesOpen(false);
+        servicesButtonRef.current?.focus();
+      }
+    },
+    [focusServiceItem]
+  );
+
+  useEffect(() => {
+    if (servicesOpen && document.activeElement === servicesButtonRef.current) {
+      setTimeout(() => focusServiceItem(0), 0);
+    }
+  }, [focusServiceItem, servicesOpen]);
+
   const active = useCallback(
     (href) => pathname === href || (href !== "/" && pathname?.startsWith(href)),
     [pathname]
@@ -191,6 +292,8 @@ export default function Navbar() {
 
   const mobileWhatsappBtnClass =
     `block text-center mt-4 rounded-xl px-5 py-3 text-white text-sm font-bold bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 min-h-[44px] flex items-center justify-center gap-2 border border-green-600/20 ${focusRingClass}`;
+
+  serviceItemRefs.current.length = serviceLinks.length;
 
   return (
     <>
@@ -266,6 +369,8 @@ export default function Navbar() {
                   aria-expanded={servicesOpen}
                   aria-controls={servicesMenuId}
                   onClick={() => setServicesOpen((s) => !s)}
+                  onKeyDown={handleServicesButtonKeyDown}
+                  ref={servicesButtonRef}
                   title="Sahneva Hizmetler - Tüm ekipman kiralama hizmetlerimiz"
                   onMouseEnter={handleHover}
                   onMouseLeave={handleHoverEnd}
@@ -299,13 +404,17 @@ export default function Navbar() {
                   onMouseLeave={closeWithDelay}
                 >
                   <div className="flex flex-col p-2">
-                    {serviceLinks.map(({ href, label, title, icon, description }) => (
+                    {serviceLinks.map(({ href, label, title, icon, description }, index) => (
                       <Link
                         key={href}
                         role="menuitem"
                         href={href}
+                        ref={(node) => {
+                          serviceItemRefs.current[index] = node;
+                        }}
                         className={`group flex items-start gap-3 px-3 py-2 text-sm text-neutral-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all duration-200 w-full transform hover:scale-[1.02] ${focusRingClass}`}
                         onClick={() => setServicesOpen(false)}
+                        onKeyDown={(event) => handleServiceItemKeyDown(event, index)}
                         aria-current={active(href) ? "page" : undefined}
                         title={title}
                       >
@@ -398,21 +507,24 @@ export default function Navbar() {
       )}
 
       {/* Mobil menü */}
-      <nav
-        id="primary-navigation-mobile"
+      <div
+        id="mobile-menu"
         ref={mobileMenuRef}
+        role="dialog"
+        aria-modal={mobileOpen ? "true" : undefined}
         aria-label={headerStrings?.navLabel ?? "Ana gezinme"}
         className={`lg:hidden fixed z-50 left-0 right-0 top-16 bg-white border-t border-neutral-200 shadow-2xl transition-all duration-300 overflow-hidden ${
           mobileOpen ? "max-h-[80vh] opacity-100" : "max-h-0 opacity-0"
         }`}
         aria-hidden={!mobileOpen}
       >
-        <div className="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
-          <Link
-            href="/hakkimizda"
-            onClick={() => setMobileOpen(false)}
-            className={`flex items-center gap-3 py-3.5 px-4 text-neutral-800 font-bold text-[15px] rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 transform hover:scale-[1.02] ${focusRingClass}`}
-            aria-current={active("/hakkimizda") ? "page" : undefined}
+        <nav id="primary-navigation-mobile" aria-label={headerStrings?.navLabel ?? "Ana gezinme"}>
+          <div className="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
+            <Link
+              href="/hakkimizda"
+              onClick={() => setMobileOpen(false)}
+              className={`flex items-center gap-3 py-3.5 px-4 text-neutral-800 font-bold text-[15px] rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 transform hover:scale-[1.02] ${focusRingClass}`}
+              aria-current={active("/hakkimizda") ? "page" : undefined}
             title="Sahneva Hakkında"
           >
             <span className="text-lg" aria-hidden="true">👥</span>
@@ -498,8 +610,9 @@ export default function Navbar() {
             <span>WhatsApp Teklif</span>
             <span className="sr-only"> — yeni sekmede açılır</span>
           </a>
-        </div>
-      </nav>
+          </div>
+        </nav>
+      </div>
     </>
   );
 }
