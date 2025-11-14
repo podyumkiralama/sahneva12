@@ -217,7 +217,7 @@ export default function CasePage() {
           <div className="flex gap-3">
             <Link
               href="/iletisim"
-              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg bg-violet-600 px-6 py-3 font-semibold text-white shadow-md transition hover:bg-violet-700 focus-ring"
+              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg bg-violet-600 px-6 py-3 font-semibold text-white shadow-md transition hover:bg-violet-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500/80 focus-visible:ring-offset-2"
             >
               Teklif Alın
             </Link>
@@ -225,7 +225,7 @@ export default function CasePage() {
               href="https://wa.me/905453048671?text=Merhaba%2C+kapal%C4%B1+alan+sahne+%26+LED+kurulumu+i%C3%A7in+teklif+almak+istiyorum."
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg bg-emerald-500 px-6 py-3 font-semibold text-white shadow-md transition hover:bg-emerald-600 focus-ring"
+              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg bg-emerald-500 px-6 py-3 font-semibold text-white shadow-md transition hover:bg-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/80 focus-visible:ring-offset-2"
             >
               WhatsApp
             </a>

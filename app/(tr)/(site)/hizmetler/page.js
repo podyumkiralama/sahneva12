@@ -284,10 +284,10 @@ export default function ServicesPage() {
         />
 
         {/* ✅ BÜYÜK ARKA PLAN YAZISI */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-5" aria-hidden="true">
-          <span className="text-[120px] lg:text-[180px] font-black text-white tracking-wider select-none">
+        <div className="absolute inset-0 flex items-center justify-center opacity-5">
+          <h1 className="text-[120px] lg:text-[180px] font-black text-white tracking-wider select-none">
             HİZMETLER
-          </span>
+          </h1>
         </div>
         
         <div className="relative z-10 container text-center text-white">

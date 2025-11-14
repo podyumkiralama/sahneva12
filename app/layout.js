@@ -28,15 +28,7 @@ export const metadata = {
   keywords:
     "sahne kiralama, podyum kiralama, led ekran kiralama, ses ışık sistemi, etkinlik prodüksiyon, organizasyon",
   manifest: "/site.webmanifest",
-  alternates: {
-    canonical: "https://www.sahneva.com",
-    languages: {
-      "tr-TR": "https://www.sahneva.com",
-      en: "https://www.sahneva.com/en",
-      ar: "https://www.sahneva.com/ar",
-      "x-default": "https://www.sahneva.com",
-    },
-  },
+  alternates: { canonical: "https://www.sahneva.com" },
   openGraph: {
     title: "Sahneva – Etkinlik Prodüksiyon & Organizasyon",
     description:

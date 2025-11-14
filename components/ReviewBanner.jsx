@@ -96,7 +96,7 @@ export default function ReviewBanner({
         href={REVIEW_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="shrink-0 inline-flex items-center gap-2 rounded-full bg-[#b45309] hover:bg-[#92400e] text-white text-sm font-semibold px-4 py-2 transition-colors focus-ring"
+        className="shrink-0 inline-flex items-center gap-2 rounded-full bg-[#b45309] hover:bg-[#92400e] text-white text-sm font-semibold px-4 py-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#b45309]/40"
         aria-label={ctaAriaLabel}
       >
         ⭐ {ctaLabel}
@@ -105,7 +105,7 @@ export default function ReviewBanner({
       <button
         type="button"
         onClick={dismiss}
-        className="ml-2 -mr-1 inline-flex h-9 w-9 items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 focus-ring"
+        className="ml-2 -mr-1 inline-flex h-9 w-9 items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300"
         aria-label={closeAriaLabel}
       >
         ✕

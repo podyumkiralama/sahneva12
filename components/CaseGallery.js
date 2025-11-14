@@ -140,7 +140,7 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
           <button
             key={`${img.src}-${index}`}
             type="button"
-            className="relative aspect-[16/9] overflow-hidden rounded-xl border-2 border-gray-200 bg-white hover:border-blue-500 hover:shadow-lg transition-all duration-300 group focus-ring"
+            className="relative aspect-[16/9] overflow-hidden rounded-xl border-2 border-gray-200 bg-white hover:border-blue-500 hover:shadow-lg transition-all duration-300 group focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
             onClick={() => openLightbox(index)}
             aria-label={`${img.alt} - Görseli büyüt`}
           >
@@ -201,7 +201,7 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
           <button
             ref={closeBtnRef}
             type="button"
-            className="absolute top-4 right-4 z-10 bg-white/10 hover:bg-white/20 text-white rounded-full w-10 h-10 flex items-center justify-center transition-all duration-200 focus-ring backdrop-blur-sm"
+            className="absolute top-4 right-4 z-10 bg-white/10 hover:bg-white/20 text-white rounded-full w-10 h-10 flex items-center justify-center transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white backdrop-blur-sm"
             onClick={closeLightbox}
             aria-label="Galeriyi kapat"
           >
@@ -221,7 +221,7 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
           {images.length > 1 && (
             <button
               type="button"
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/10 hover:bg-white/20 text-white rounded-full w-12 h-12 flex items-center justify-center transition-all duration-200 focus-ring backdrop-blur-sm md:left-6"
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/10 hover:bg-white/20 text-white rounded-full w-12 h-12 flex items-center justify-center transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white backdrop-blur-sm md:left-6"
               onClick={() => navigate('prev')}
               aria-label="Önceki görsel"
             >
@@ -248,7 +248,7 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
           {images.length > 1 && (
             <button
               type="button"
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/10 hover:bg-white/20 text-white rounded-full w-12 h-12 flex items-center justify-center transition-all duration-200 focus-ring backdrop-blur-sm md:right-6"
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/10 hover:bg-white/20 text-white rounded-full w-12 h-12 flex items-center justify-center transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white backdrop-blur-sm md:right-6"
               onClick={() => navigate('next')}
               aria-label="Sonraki görsel"
             >
@@ -268,7 +268,7 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
             <div className="md:hidden absolute bottom-4 inset-x-4 flex justify-between">
               <button
                 type="button"
-                className="flex-1 max-w-[120px] bg-white/10 hover:bg-white/20 text-white py-3 rounded-l-lg transition-colors duration-200 focus-ring"
+                className="flex-1 max-w-[120px] bg-white/10 hover:bg-white/20 text-white py-3 rounded-l-lg transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
                 onClick={() => navigate('prev')}
                 aria-label="Önceki görsel"
               >
@@ -276,7 +276,7 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
               </button>
               <button
                 type="button"
-                className="flex-1 max-w-[120px] bg-white/10 hover:bg-white/20 text-white py-3 rounded-r-lg transition-colors duration-200 focus-ring"
+                className="flex-1 max-w-[120px] bg-white/10 hover:bg-white/20 text-white py-3 rounded-r-lg transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
                 onClick={() => navigate('next')}
                 aria-label="Sonraki görsel"
               >
@@ -292,7 +292,7 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
                 <button
                   key={`thumb-${index}`}
                   type="button"
-                  className={`flex-shrink-0 w-16 h-12 relative rounded border-2 transition-all duration-200 focus-ring ${
+                  className={`flex-shrink-0 w-16 h-12 relative rounded border-2 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white ${
                     index === currentIndex 
                       ? 'border-white scale-110' 
                       : 'border-white/30 hover:border-white/60'

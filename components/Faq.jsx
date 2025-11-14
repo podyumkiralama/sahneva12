@@ -7,7 +7,6 @@ import Script from "next/script";
 
 const DEFAULT_DICTIONARY = {
   sectionTitle: "Sıkça Sorulan Sorular",
-  regionTitleSr: "Sıkça sorulan sorular bölümü içeriği",
   cta: {
     title: "🌟 Cevabını Bulamadığınız Soru mu Var?",
     description: "Uzman ekibimiz size en doğru çözümü sunmaktan mutluluk duyacaktır.",
@@ -216,7 +215,7 @@ export default function Faq({ items = FAQ_ITEMS, dictionary: dictionaryOverride 
 
       <div className="container relative z-10 pb-0">
         <h2 id="faq-heading" className="sr-only">
-          {dictionary.regionTitleSr ?? DEFAULT_DICTIONARY.regionTitleSr}
+          {dictionary.sectionTitle}
         </h2>
 
         {/* Liste */}

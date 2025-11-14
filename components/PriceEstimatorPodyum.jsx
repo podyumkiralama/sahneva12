@@ -164,8 +164,8 @@ function Field({ label, value, onChange, inputProps = {} }) {
         onChange={(e) => onChange(e.target.value)}
         className="
           mt-1 w-full rounded-xl border border-neutral-200 bg-white
-          px-3 py-2 text-sm transition-colors duration-200 focus-ring
-          focus-visible:border-primary/40
+          px-3 py-2 text-sm outline-none ring-2 ring-transparent
+          focus:border-primary/30 focus:ring-primary/30
         "
         {...inputProps}
       />
@@ -182,8 +182,8 @@ function SelectField({ label, value, onChange, options }) {
         onChange={(e) => onChange(e.target.value)}
         className="
           mt-1 w-full rounded-xl border border-neutral-200 bg-white
-          px-3 py-2 text-sm transition-colors duration-200 focus-ring
-          focus-visible:border-primary/40
+          px-3 py-2 text-sm outline-none ring-2 ring-transparent
+          focus:border-primary/30 focus:ring-primary/30
         "
         aria-label={label}
       >

@@ -55,7 +55,6 @@ const DEFAULT_DICTIONARY = {
   counterLabel: "{{index}} / {{total}}",
   liveMessage: "{{title}} galerisi açıldı, {{count}} profesyonel proje",
   lightboxAlt: "{{title}} - {{index}}. profesyonel referans projemiz",
-  regionTitleSr: "Profesyonel projeler galeri içeriği",
 };
 
 const TEMPLATE_PATTERN = /\{\{\s*(\w+)\s*\}\}/g;
@@ -110,8 +109,7 @@ function mergeDictionary(base, override = {}) {
 export default function ProjectsGallery({
   galleries = DEFAULT_GALLERIES,
   dictionary: dictionaryOverride,
-  ariaLabelledBy,
-  regionLabelId = "projects-gallery-region-title",
+  ariaLabelledBy = "projeler-title",
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [anim, setAnim] = useState(false);
@@ -242,21 +240,9 @@ export default function ProjectsGallery({
     if (Math.abs(dx) > 50) (dx > 0 ? prev() : next());
   };
 
-  const regionHeadingId = ariaLabelledBy ?? regionLabelId;
-  const regionHeading =
-    dictionary.regionTitleSr ?? DEFAULT_DICTIONARY.regionTitleSr;
-
   if (!mounted) {
     return (
-      <section
-        className="relative pt-2 pb-8 bg-transparent"
-        aria-labelledby={regionHeadingId}
-      >
-        {!ariaLabelledBy && (
-          <h2 id={regionHeadingId} className="sr-only">
-            {regionHeading}
-          </h2>
-        )}
+      <section className="relative pt-2 pb-8 bg-transparent">
         <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3].map((k) => (
@@ -280,13 +266,8 @@ export default function ProjectsGallery({
   return (
     <section
       className="relative pt-2 pb-8 bg-transparent"
-      aria-labelledby={regionHeadingId}
+      aria-labelledby={ariaLabelledBy}
     >
-      {!ariaLabelledBy && (
-        <h2 id={regionHeadingId} className="sr-only">
-          {regionHeading}
-        </h2>
-      )}
       <div className="container relative z-10">
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {Object.entries(galleries).map(([groupTitle, galleryData], i) => {
@@ -306,7 +287,7 @@ export default function ProjectsGallery({
                         { title: groupTitle, count: images.length },
                         ["title", "count"]
                       )}
-                      className="absolute inset-0 w-full h-full focus-ring rounded-t-2xl"
+                      className="absolute inset-0 w-full h-full focus:outline-none focus:ring-4 focus:ring-blue-500/50 rounded-t-2xl"
                     >
                       <span className="absolute opacity-0 pointer-events-none">
                         {formatWithParams(
@@ -378,7 +359,7 @@ export default function ProjectsGallery({
 
                       <button
                         onClick={() => open(groupTitle, images, 0)}
-                        className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 flex items-center gap-1 group/btn focus-ring"
+                        className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 flex items-center gap-1 group/btn focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/70"
                       >
                         {dictionary.seeAllLabel}
                         <span
@@ -427,7 +408,7 @@ export default function ProjectsGallery({
             >
               <button
                 ref={closeBtnRef}
-                className="absolute top-6 right-6 z-10 text-white/90 hover:text-white bg-white/10 hover:bg-white/20 rounded-2xl p-4 focus-ring transition-all duration-300 min-h-[52px] min-w-[52px] flex items-center justify-center backdrop-blur-sm border border-white/20"
+                className="absolute top-6 right-6 z-10 text-white/90 hover:text-white bg-white/10 hover:bg-white/20 rounded-2xl p-4 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50 transition-all duration-300 min-h-[52px] min-w-[52px] flex items-center justify-center backdrop-blur-sm border border-white/20"
                 onClick={close}
               >
                 <span className="text-lg font-bold">✕</span>
@@ -437,14 +418,14 @@ export default function ProjectsGallery({
               {items.length > 1 && (
                 <>
                   <button
-                    className="hidden md:flex absolute left-6 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-2xl w-14 h-14 items-center justify-center text-2xl transition-all duration-300 focus-ring backdrop-blur-sm border border-white/20"
+                    className="hidden md:flex absolute left-6 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-2xl w-14 h-14 items-center justify-center text-2xl transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50 backdrop-blur-sm border border-white/20"
                     onClick={prev}
                   >
                     {dictionary.prevLabel}
                     <span className="sr-only">{dictionary.prevSr}</span>
                   </button>
                   <button
-                    className="hidden md:flex absolute right-6 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-2xl w-14 h-14 items-center justify-center text-2xl transition-all duration-300 focus-ring backdrop-blur-sm border border-white/20"
+                    className="hidden md:flex absolute right-6 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-2xl w-14 h-14 items-center justify-center text-2xl transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50 backdrop-blur-sm border border-white/20"
                     onClick={next}
                   >
                     {dictionary.nextLabel}
@@ -486,7 +467,7 @@ export default function ProjectsGallery({
                     <div className="mx-auto max-w-sm flex items-center justify-between gap-3 px-4">
                       <button
                         onClick={prev}
-                        className="flex-1 rounded-xl bg-white/20 text-white py-4 font-semibold text-sm transition-all duration-300 hover:bg-white/30 focus-ring min-h-[52px] backdrop-blur-sm border border-white/20"
+                        className="flex-1 rounded-xl bg-white/20 text-white py-4 font-semibold text-sm transition-all duration-300 hover:bg-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 min-h-[52px] backdrop-blur-sm border border-white/20"
                       >
                         {dictionary.mobilePrevLabel}
                       </button>
@@ -500,7 +481,7 @@ export default function ProjectsGallery({
                       </span>
                       <button
                         onClick={next}
-                        className="flex-1 rounded-xl bg-white/20 text-white py-4 font-semibold text-sm transition-all duration-300 hover:bg-white/30 focus-ring min-h-[52px] backdrop-blur-sm border border-white/20"
+                        className="flex-1 rounded-xl bg-white/20 text-white py-4 font-semibold text-sm transition-all duration-300 hover:bg-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 min-h-[52px] backdrop-blur-sm border border-white/20"
                       >
                         {dictionary.mobileNextLabel}
                       </button>

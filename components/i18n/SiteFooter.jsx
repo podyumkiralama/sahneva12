@@ -1,6 +1,7 @@
 import Link from "next/link";
 
-const focusRingClass = "focus-ring";
+const focusRingClass =
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950";
 
 export default function SiteFooter({ strings }) {
   const year = new Date().getFullYear();

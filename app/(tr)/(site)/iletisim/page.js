@@ -91,9 +91,9 @@ export default function ContactPage() {
           className="absolute inset-0 flex items-center justify-center opacity-5 select-none"
           aria-hidden="true"
         >
-          <span className="text-[100px] lg:text-[160px] font-black text-white tracking-wider">
+          <h1 className="text-[100px] lg:text-[160px] font-black text-white tracking-wider">
             İLETİŞİM
-          </span>
+          </h1>
         </div>
 
         <div className="relative z-10 container text-center text-white">
@@ -342,7 +342,7 @@ export default function ContactPage() {
                           id="name"
                           name="name"
                           placeholder="Adınız ve soyadınız"
-                          className="w-full border border-neutral-300 rounded-xl p-4 transition-all duration-200 focus-ring focus-visible:border-blue-500/60"
+                          className="w-full border border-neutral-300 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                           required
                           autoComplete="name"
                           inputMode="text"
@@ -360,7 +360,7 @@ export default function ContactPage() {
                           id="phone"
                           name="phone"
                           placeholder="+90 ___ ___ __ __"
-                          className="w-full border border-neutral-300 rounded-xl p-4 transition-all duration-200 focus-ring focus-visible:border-blue-500/60"
+                          className="w-full border border-neutral-300 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                           required
                           autoComplete="tel"
                           inputMode="tel"
@@ -380,7 +380,7 @@ export default function ContactPage() {
                         id="email"
                         name="email"
                         placeholder="email@example.com"
-                        className="w-full border border-neutral-300 rounded-xl p-4 transition-all duration-200 focus-ring focus-visible:border-blue-500/60"
+                        className="w-full border border-neutral-300 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                         required
                         autoComplete="email"
                         inputMode="email"
@@ -397,7 +397,7 @@ export default function ContactPage() {
                       <select
                         id="eventType"
                         name="eventType"
-                        className="w-full border border-neutral-300 rounded-xl p-4 transition-all duration-200 focus-ring focus-visible:border-blue-500/60"
+                        className="w-full border border-neutral-300 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                         required
                         autoComplete="off"
                       >
@@ -426,7 +426,7 @@ export default function ContactPage() {
                         name="message"
                         placeholder="Etkinlik tarihi, konumu, tahmini katılımcı sayısı ve ihtiyaç duyduğunuz ekipmanlar..."
                         rows={5}
-                        className="w-full border border-neutral-300 rounded-xl p-4 transition-all duration-200 focus-ring focus-visible:border-blue-500/60 resize-none"
+                        className="w-full border border-neutral-300 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none"
                         required
                         autoComplete="off"
                       />
