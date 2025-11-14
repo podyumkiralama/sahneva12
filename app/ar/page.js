@@ -1,125 +1,917 @@
-import Link from "next/link";
-import { LOCALE_CONTENT } from "../../lib/i18n/localeContent";
+import Image from "next/image";
+
+import heroImg from "@/public/img/hero-bg.webp";
+import CorporateEvents from "@/components/CorporateEvents";
+import {
+  ReviewBannerDeferred,
+  ServicesTabsDeferred,
+  ProjectsGalleryDeferred,
+  FaqDeferred,
+} from "@/components/DeferredSections.client";
+import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
+import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
+import { FAQ_ITEMS_AR } from "@/lib/faqData";
 
 const { home } = LOCALE_CONTENT.ar;
 
+const HERO_FEATURES_AR = [
+  {
+    icon: "⭐",
+    title: "تقييم 4.9/5",
+    description: "أكثر من 500 عميل راضٍ",
+    color: "from-yellow-400 to-orange-400",
+  },
+  {
+    icon: "⚡",
+    title: "تركيب في نفس اليوم",
+    description: "نشر سريع في جميع المدن",
+    color: "from-blue-400 to-cyan-400",
+  },
+  {
+    icon: "👑",
+    title: "معدات متميزة",
+    description: "جودة موثوقة في كل فعالية",
+    color: "from-purple-400 to-pink-400",
+  },
+];
+
+const WHY_SAHNEVA_FEATURES_AR = [
+  {
+    icon: "⭐",
+    title: "رضا عملاء استثنائي",
+    desc: "نحافظ على معدل رضا يتجاوز 98% بفضل التخطيط الشفاف والفرق التقنية المتواجدة في الموقع طوال الفعالية.",
+    stat: "%98 رضا",
+  },
+  {
+    icon: "⚡",
+    title: "تنفيذ سريع على مستوى تركيا",
+    desc: "تركيب منصات، شاشات LED وأنظمة صوت وإضاءة في نفس اليوم أينما كانت الفعالية داخل تركيا.",
+    stat: "تركيب خلال 2–6 ساعات",
+  },
+  {
+    icon: "🖥️",
+    title: "تقنيات LED بمعايير البث",
+    desc: "ألواح داخلية وخارجية بدقة P2–P6 مع معالجة HDR وهياكل ميدانية قوية للمهرجانات والمؤتمرات.",
+    stat: "P2–P6",
+  },
+  {
+    icon: "👷",
+    title: "فريق تقني متخصص",
+    desc: "مهندسون ذوو خبرة في المنصات، الصوت، الإضاءة، التعليق وأنظمة الفيديو لضمان تدفق الحدث بسلاسة.",
+    stat: "+15 متخصصًا",
+  },
+  {
+    icon: "💰",
+    title: "ميزانيات محسّنة",
+    desc: "تسعير تنافسي مع حزم مرنة، ونطاقات واضحة، وخطط تفصيلية حسب احتياجاتكم.",
+    stat: "توفير حتى 30%",
+  },
+  {
+    icon: "🏙️",
+    title: "تغطية وطنية",
+    desc: "لوجستيات كاملة وقدرة تركيب في 81 مدينة بما في ذلك إسطنبول، أنقرة، إزمير والمناطق الساحلية.",
+    stat: "81 مدينة",
+  },
+];
+
+const BELOW_THE_FOLD_VISIBILITY_STYLE = Object.freeze({
+  contentVisibility: "auto",
+  containIntrinsicSize: "960px",
+});
+
+const SERVICES_AR = [
+  {
+    id: "stage",
+    title: "هندسة المنصات",
+    icon: "🎪",
+    description:
+      "منصات معيارية، ممشى عرض ومنصات مرتفعة مصممة حسب الأحمال والجمهور وخصائص المكان.",
+    image: "/img/hizmet-sahne.webp",
+    features: [
+      "سطوح معيارية (1×1م، 1×2م، 2×2م) بارتفاعات قابلة للتعديل",
+      "هياكل تراس من الألومنيوم، أبراج ودعامات أمان",
+      "حواجز حماية، منحدرات وحلول مقاومة للعوامل الجوية",
+      "فريق تركيب وفك احترافي",
+      "منصات عالية التحمل للحفلات والإطلاقات",
+    ],
+    href: "/ar/services#stage",
+  },
+  {
+    id: "podium",
+    title: "البوديوم وممرات العرض",
+    icon: "👑",
+    description:
+      "بوديومات أنيقة، ممرات عرض ومنصات تقديم للفعاليات المؤسسية، حفلات الجوائز وحملات العلامات التجارية.",
+    image: "/img/hizmet-podyum.webp",
+    features: [
+      "ارتفاعات وأشكال مخصصة للبوديوم",
+      "مكاتب بروتوكول، مناضد محاضرات وخلفيات للعلامة",
+      "تشطيبات بالسجاد أو الفينيل أو الخشب",
+      "تركيب سريع ونقل مدمج",
+      "مجموعة ألوان وملحقات واسعة",
+    ],
+    href: "/ar/services#stage",
+  },
+  {
+    id: "led",
+    title: "تأجير شاشات LED",
+    icon: "🖥️",
+    description:
+      "جدران LED داخلية وخارجية عالية الدقة مع تشغيل محتوى، معالجات وأنظمة تعليق كاملة.",
+    image: "/img/galeri/led-ekran-kiralama-1.webp",
+    features: [
+      "خيارات Pixel Pitch من P2 حتى P6",
+      "خزائن خارجية مقاومة للعوامل الجوية بمعيار IP65",
+      "سطوع يفوق 4500 نت للرؤية النهارية",
+      "معالجة Novastar أو Brompton مع خطط احتياطية",
+      "تركيب كامل ودعم تشغيل من المشغلين",
+    ],
+    href: "/ar/services#led",
+  },
+  {
+    id: "av",
+    title: "أنظمة الصوت والإضاءة",
+    icon: "🎭",
+    description:
+      "أنظمة صوت بمستوى الحفلات، إضاءة مسرحية وهياكل تراس يديرها مهندسون معتمدون.",
+    image: "/img/ses-isik/ses-sistemi.webp",
+    features: [
+      "أنظمة Line-array مع طاولات مزج رقمية",
+      "حزم ميكروفونات لاسلكية ومراقبة مسرحية",
+      "رؤوس متحركة، وحدات إضاءة غامرة ومؤثرات",
+      "برمجة DMX وتحكم كامل في العرض",
+      "حلول تعليق، رافعات وتوزيع طاقة",
+    ],
+    href: "/ar/services#audio",
+  },
+  {
+    id: "tents",
+    title: "خيام الفعاليات",
+    icon: "⛺",
+    description:
+      "خيام احترافية وباجودا مع أرضيات، تكييف وخيارات ديكور للمناسبات الخارجية.",
+    image: "/img/galeri/cadir-kiralama-1.webp",
+    features: [
+      "هياكل 3×3م، 3×6م، 6×6م",
+      "أقمشة مقاومة للماء والأشعة فوق البنفسجية",
+      "جدران جانبية، ألواح زجاجية وأرضيات",
+      "إضاءة محيطية وعناصر العلامة التجارية",
+      "لوجستيات كاملة وتركيب وفك",
+    ],
+    href: "/ar/services#tents",
+  },
+  {
+    id: "seating",
+    title: "تجهيزات الجلوس والضيافة",
+    icon: "🪑",
+    description:
+      "طاولات ولوازم جلوس للمؤتمرات والاحتفالات مع التوصيل، التنسيق والجمع بعد الفعالية.",
+    image: "/img/hizmet-masa.webp",
+    features: [
+      "طاولات دائرية، مستطيلة وكوكتيل",
+      "كراسٍ مريحة، مقاعد VIP وأثاث صالات",
+      "حزم ديكور للأعراس والحفلات",
+      "أغطية طاولات، مفارش وإكسسوارات",
+      "لوجستيات شاملة وتنسيق في الموقع",
+    ],
+    href: "/ar/services#tents",
+  },
+];
+
+const SERVICES_DICTIONARY_AR = {
+  tablistLabel: "تبويبات الخدمات",
+  featuresHeading: "مميزات الخدمة",
+  ctaLabel: "عرض التفاصيل وطلب عرض سعر",
+  ctaTitle: "افتح تفاصيل الخدمة واطلب عرض سعر مخصص",
+  imageBadgeLabel: "حل احترافي",
+  imageAlt: "خدمة {{title}} من سحنيفا",
+  overlayButtonTitle: "افتح تفاصيل {{title}}",
+  overlayButtonAria: "فتح صفحة تفاصيل خدمة {{title}}",
+};
+
+const PROJECT_GALLERIES_AR = {
+  "تركيبات شاشات LED": {
+    images: Array.from({ length: 36 }, (_, i) => `/img/galeri/led-ekran-kiralama-${i + 1}.webp`),
+    description: "شاشات غامرة للمؤتمرات، الملاعب وتجارب العلامات التجارية في الهواء الطلق.",
+    stats: "+50 عرضًا مؤسسيًا",
+    icon: "🖥️",
+  },
+  "حلول خيام الفعاليات": {
+    images: Array.from({ length: 19 }, (_, i) => `/img/galeri/cadir-kiralama-${i + 1}.webp`),
+    description: "خيام مقاومة للطقس مع مساحات ضيافة وتجهيزات استقبال متكاملة.",
+    stats: "+100 فعالية خارجية",
+    icon: "⛺",
+  },
+  "منصات وبوديوم": {
+    images: Array.from({ length: 36 }, (_, i) => `/img/galeri/podyum-kiralama-${i + 1}.webp`),
+    description: "منصات مخصصة، ممشى عرض وحلول بوديوم لدعم الإطلاقات والحفلات.",
+    stats: "+200 تركيب",
+    icon: "👑",
+  },
+};
+
+const PROJECTS_DICTIONARY_AR = {
+  exploreAria: "استعرض المعرض — {{title}} ({{count}} مشروع)",
+  exploreHiddenLabel: "استعرض المعرض — {{title}} ({{count}} مشروع)",
+  hoverCta: "استعرض المعرض",
+  cardAlt: "{{title}} من تنفيذ سحنيفا",
+  seeAllLabel: "عرض الكل",
+  seeAllSr: " — {{title}} ({{count}} مشروع)",
+  dialogAria: "معرض مشاريع {{title}}",
+  closeLabel: "إغلاق المعرض",
+  prevLabel: "‹ السابق",
+  prevSr: "المشروع السابق",
+  nextLabel: "التالي ›",
+  nextSr: "المشروع التالي",
+  mobilePrevLabel: "‹ السابق",
+  mobileNextLabel: "التالي ›",
+  counterLabel: "{{index}} / {{total}}",
+  liveMessage: "تم فتح معرض {{title}} ويضم {{count}} مشروعًا",
+  lightboxAlt: "{{title}} — مرجع المشروع رقم {{index}}",
+};
+
+const FAQ_DICTIONARY_AR = {
+  sectionTitle: "الأسئلة الشائعة",
+  cta: {
+    title: "🌟 هل تحتاجون إلى إجابة مخصصة؟",
+    description: "فريق الإنتاج التقني لدينا جاهز لمساعدتكم في تصميم الحل المثالي لفعاليتكم.",
+    primary: {
+      label: "استعرض جميع الخدمات",
+      href: "/ar/services",
+      srLabel: "صفحة الخدمات",
+    },
+    secondary: {
+      label: "تواصلوا معنا",
+      href: "/ar/contact",
+      srLabel: "صفحة الاتصال",
+    },
+  },
+  quickContact: {
+    title: "قنوات تواصل سريعة",
+    navLabel: "خيارات التواصل السريع",
+    items: [
+      {
+        href: "tel:+905453048671",
+        icon: "📞",
+        label: "هاتف",
+        description: "+90 545 304 8671",
+        className:
+          "inline-flex items-center gap-3 bg-blue-100 hover:bg-blue-200 border border-blue-300 text-blue-900 font-bold px-5 py-3 rounded-xl transition-all duration-200 hover:shadow-md hover:scale-105 min-h-[48px] text-sm",
+      },
+      {
+        href: "https://wa.me/905453048671?text=%D8%A3%D8%B1%D9%8A%D8%AF+%D8%A7%D9%84%D8%AA%D9%88%D8%A7%D8%B5%D9%84+%D9%85%D8%B9+%D9%81%D8%B1%D9%8A%D9%82+%D8%B3%D8%AD%D9%86%D9%8A%D9%81%D8%A7+%D9%84%D9%84%D8%AD%D8%B5%D9%88%D9%84+%D8%B9%D9%84%D9%89+%D8%B9%D8%B1%D8%B6+%D8%B3%D8%B9%D8%B1",
+        icon: "💬",
+        label: "واتساب",
+        description: "رسالة فورية",
+        target: "_blank",
+        rel: "noopener noreferrer",
+        srHint: " (يفتح في علامة تبويب جديدة)",
+        className:
+          "inline-flex items-center gap-3 bg-green-100 hover:bg-green-200 border border-green-300 text-green-900 font-bold px-5 py-3 rounded-xl transition-all duration-200 hover:shadow-md hover:scale-105 min-h-[48px] text-sm",
+      },
+      {
+        href: "mailto:info@sahneva.com",
+        icon: "✉️",
+        label: "بريد إلكتروني",
+        description: "info@sahneva.com",
+        className:
+          "inline-flex items-center gap-3 bg-purple-100 hover:bg-purple-200 border border-purple-300 text-purple-900 font-bold px-5 py-3 rounded-xl transition-all duration-200 hover:shadow-md hover:scale-105 min-h-[48px] text-sm",
+      },
+    ],
+    stats: ["دعم على مدار الساعة", "رد خلال 5 دقائق"],
+  },
+  newTabHint: " (يفتح في علامة تبويب جديدة)",
+};
+
+const CORPORATE_EVENTS_CARDS_AR = [
+  {
+    slug: "launch",
+    title: "إطلاق المنتجات",
+    img: "/img/kurumsal/lansman.webp",
+    alt: "منصة وشاشة LED وإضاءة احترافية لإطلاق منتج تنفذه سحنيفا",
+    text: "سرد بصري عبر شاشات LED، تصميم منصة، عروض إضاءة وبث مباشر لإطلاقات لا تُنسى.",
+    icon: "🚀",
+    gradient: "from-purple-500/10 to-blue-500/10",
+    color: "text-purple-700",
+  },
+  {
+    slug: "conference",
+    title: "المؤتمرات والقمم",
+    img: "/img/kurumsal/konferans.webp",
+    alt: "منصة مؤتمر مع عرض وإضاءة وصوت من تنفيذ سحنيفا",
+    text: "ترتيبات ميكروفونات متعددة، كبائن ترجمة، إدارة عروض وتسجيل احترافي لبرامج بلا أخطاء.",
+    icon: "🎤",
+    gradient: "from-green-500/10 to-emerald-500/10",
+    color: "text-green-700",
+  },
+  {
+    slug: "dealer",
+    title: "اجتماعات الوكلاء والفعاليات الداخلية",
+    img: "/img/kurumsal/bayi-toplantisi.webp",
+    alt: "فعالية وكلاء مع ديكور منصة وشاشات LED ودعم صوتي من سحنيفا",
+    text: "ديكور متوافق مع الهوية البصرية، تشغيل متعدد الشاشات، تحكم صوتي/مرئي وفرق تقنية متخصصة.",
+    icon: "🤝",
+    gradient: "from-orange-500/10 to-red-500/10",
+    color: "text-orange-700",
+  },
+];
+
+const CORPORATE_EVENTS_ADVANTAGES_AR = [
+  {
+    icon: "⚡",
+    label: "تركيب فائق السرعة",
+    desc: "فِرق خبيرة تنجز العمل في نفس اليوم",
+    bg: "bg-blue-50",
+    border: "border-blue-200",
+  },
+  {
+    icon: "🎛",
+    label: "معدات حديثة",
+    desc: "أحدث تجهيزات الصوت، الإضاءة وLED",
+    bg: "bg-green-50",
+    border: "border-green-200",
+  },
+  {
+    icon: "👷",
+    label: "طاقم ذو خبرة",
+    desc: "مهندسون معتمدون يشرفون على كل التفاصيل",
+    bg: "bg-purple-50",
+    border: "border-purple-200",
+  },
+  {
+    icon: "🛡",
+    label: "أمان وخطط احتياطية",
+    desc: "طاقة احتياطية وإجراءات سلامة شاملة",
+    bg: "bg-amber-50",
+    border: "border-amber-200",
+  },
+];
+
+const CORPORATE_EVENTS_DICTIONARY_AR = {
+  sectionTitleSr: "حلول الفعاليات المؤسسية",
+  highlightPill: "لماذا سحنيفا؟",
+  highlightTitlePrefix: "تميزنا في",
+  highlightTitleAccent: "الحلول المؤسسية",
+  advantagesAriaLabel: "مزايا خدماتنا",
+  cardCtaLabel: "اطلب عرض سعر",
+  cardCtaHref: "/ar/contact",
+  cardCtaAria: "اطلب عرض سعر لخدمة {{title}}",
+  cardBadgeLabel: "حل متكامل",
+  bannerTitlePrefix: "فعالياتكم المؤسسية تستحق",
+  bannerTitleHighlight: "تنفيذًا متكاملًا",
+  bannerTitleSuffix: "بدعم تقني",
+  bannerDescription:
+    "أخبرونا بأهدافكم لنقدّم لكم المنصة، شاشات LED، الصوت، الإضاءة والبث الجاهز للتجارب خلال نفس اليوم.",
+  phoneCtaLabel: "اتصلوا بفريقنا",
+  phoneCtaHref: "tel:+905453048671",
+  phoneCtaAria: "اتصل بسحنيفا للحصول على استشارة تقنية فورية: +90 545 304 86 71",
+  whatsappCtaLabel: "دردشة واتساب",
+  whatsappCtaHref:
+    "https://wa.me/905453048671?text=%D8%A3%D8%B1%D9%8A%D8%AF+%D8%AA%D9%86%D8%B8%D9%8A%D9%85+%D9%81%D8%B9%D8%A7%D9%84%D9%8A%D8%A9+%D9%85%D8%A4%D8%B3%D8%B3%D9%8A%D8%A9.+%D9%87%D9%84+%D9%86%D8%AA%D8%AD%D8%AF%D8%AB+%D8%B9%D9%86+%D8%A7%D9%84%D9%85%D9%86%D8%B5%D8%A9+%D9%88%D8%A7%D9%84%D8%AF%D8%B9%D9%85+%D8%A7%D9%84%D8%AA%D9%82%D9%86%D9%8A%D8%9F",
+  whatsappCtaAria: "أرسل رسالة عبر واتساب",
+  whatsappSrHint: "(يفتح في علامة تبويب جديدة)",
+  supportStats: ["جاهزية تقنية 24/7", "رد خلال 15 دقيقة"],
+};
+
 export const metadata = {
-  title: "تجهيز وتأجير منصات وشاشات LED في تركيا",
+  title: "تأجير منصات وشاشات LED وأنظمة صوت وإضاءة في تركيا",
   description:
     "سحنيفا توفر منصات، شاشات LED، أنظمة صوت وإضاءة مع تركيب وتشغيل كامل في جميع المدن التركية.",
   alternates: {
     canonical: "https://www.sahneva.com/ar",
     languages: {
       "tr-TR": "https://www.sahneva.com/",
-      "en": "https://www.sahneva.com/en",
+      en: "https://www.sahneva.com/en",
     },
   },
 };
 
+function StructuredData() {
+  const data = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://www.sahneva.com/ar#webpage",
+        url: "https://www.sahneva.com/ar",
+        name: "تأجير منصات وشاشات LED وأنظمة صوت وإضاءة | سحنيفا",
+        inLanguage: "ar",
+        isPartOf: { "@id": "https://www.sahneva.com/#website" },
+        about: { "@id": "https://www.sahneva.com/#org" },
+      },
+      {
+        "@type": "OfferCatalog",
+        "@id": "https://www.sahneva.com/ar#catalog",
+        name: "خدمات تقنيات الفعاليات",
+        url: "https://www.sahneva.com/ar",
+        itemListElement: [
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "تأجير المنصات",
+              description: "خدمات هندسة المنصات والبوديوم",
+            },
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: 250,
+              priceCurrency: "EUR",
+              unitText: "m²",
+            },
+            availability: "https://schema.org/InStock",
+            areaServed: "TR",
+            seller: { "@id": "https://www.sahneva.com/#org" },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: { "@type": "Service", name: "تأجير شاشات LED" },
+            areaServed: "TR",
+            seller: { "@id": "https://www.sahneva.com/#org" },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: { "@type": "Service", name: "أنظمة الصوت والإضاءة" },
+            areaServed: "TR",
+            seller: { "@id": "https://www.sahneva.com/#org" },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: { "@type": "Service", name: "خيام الفعاليات" },
+            areaServed: "TR",
+            seller: { "@id": "https://www.sahneva.com/#org" },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: { "@type": "Service", name: "إنتاج الفعاليات المؤسسية" },
+            areaServed: "TR",
+            seller: { "@id": "https://www.sahneva.com/#org" },
+          },
+        ],
+      },
+      {
+        "@type": "Service",
+        "@id": "https://www.sahneva.com/ar#service",
+        name: "حلول تقنيات الفعاليات",
+        description:
+          "حلول متكاملة للمنصات، شاشات LED، الصوت، الإضاءة والخيام مع فرق تشغيل محترفة في كل تركيا.",
+        url: "https://www.sahneva.com/ar",
+        areaServed: { "@type": "Country", name: "TR" },
+        provider: { "@id": "https://www.sahneva.com/#org" },
+      },
+      {
+        "@type": "ImageObject",
+        "@id": "https://www.sahneva.com/ar#og",
+        contentUrl: "https://www.sahneva.com/og/sahneva-home.jpg",
+        width: 1200,
+        height: 630,
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://www.sahneva.com/ar#faq",
+        url: "https://www.sahneva.com/ar",
+        mainEntity: FAQ_ITEMS_AR.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: item.answer,
+          },
+        })),
+      },
+    ],
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      suppressHydrationWarning
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
 export default function ArabicHomePage() {
   return (
-    <div className="space-y-16" dir="rtl">
-      <section className="bg-gradient-to-br from-indigo-700 via-purple-700 to-blue-700 text-white">
-        <div className="container mx-auto px-4 py-20 sm:py-24">
-          <div className="grid gap-12 lg:grid-cols-[1.1fr,0.9fr]">
-            <div className="space-y-6 text-right">
-              <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1 text-sm font-semibold">
-                <span aria-hidden="true">⚡</span>حلول تقنية متكاملة للفعاليات
-              </span>
-              <h1 className="text-3xl font-black leading-tight sm:text-4xl lg:text-5xl">
-                {home.hero.title}
-              </h1>
-              <p className="max-w-xl text-lg text-white/90">{home.hero.subtitle}</p>
-              <div className="flex flex-wrap justify-end gap-4">
-                <a
-                  href="https://wa.me/905453048671?text=%D8%A3%D8%B1%D9%8A%D8%AF+%D8%B9%D8%B1%D8%B6+%D8%B3%D8%B9%D8%B1+%D9%84%D8%AA%D8%AC%D9%87%D9%8A%D8%B2+%D9%81%D8%B9%D8%A7%D9%84%D9%8A%D8%A9."
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-bold text-indigo-700 shadow-lg hover:shadow-xl"
-                >
-                  <span aria-hidden="true">💬</span>
-                  {home.hero.ctaPrimary}
-                </a>
-                <Link
-                  href="/ar/projects"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/60 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10"
-                >
-                  {home.hero.ctaSecondary}
-                </Link>
+    <div className="overflow-x-hidden" dir="rtl">
+      <StructuredData />
+
+      <section
+        className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950 pt-16 lg:pt-20"
+        aria-labelledby="hero-title"
+      >
+        <div className="absolute inset-0" aria-hidden="true">
+          <Image
+            src={heroImg}
+            alt="تركيب منصة، شاشة LED وإضاءة احترافية من سحنيفا"
+            fill
+            priority
+            loading="eager"
+            fetchPriority="high"
+            sizes="100vw"
+            placeholder="blur"
+            quality={70}
+            className="object-cover object-center"
+            style={{ filter: "brightness(0.7) contrast(1.1) saturate(1.05)" }}
+          />
+        </div>
+
+        <div
+          className="absolute inset-0 bg-gradient-to-br from-slate-900/85 via-blue-900/70 to-purple-900/75"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse motion-reduce:animate-none"
+          style={{ animationDuration: "8s" }}
+          aria-hidden="true"
+        />
+
+        <div className="relative z-10 container py-12 md:py-16">
+          <div className="max-w-6xl mx-auto text-center mb-10">
+            <ScrollReveal>
+              <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20 mb-6">
+                <span
+                  className="w-2 h-2 bg-green-400 rounded-full animate-pulse motion-reduce:animate-none"
+                  aria-hidden="true"
+                />
+                <span className="text-white/90 text-sm font-medium">شريك الإنتاج التقني في عموم تركيا</span>
               </div>
-            </div>
-            <div className="grid content-end gap-4 sm:grid-cols-3">
-              {home.hero.stats.map((item) => (
-                <div key={item.label} className="rounded-2xl bg-white/10 p-4 text-center">
-                  <div className="text-2xl font-black">{item.value}</div>
-                  <div className="text-xs font-semibold uppercase tracking-wide text-white/70">
-                    {item.label}
+            </ScrollReveal>
+
+            <ScrollReveal delay="1">
+              <h1
+                id="hero-title"
+                className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight mb-6"
+              >
+                <span className="block">حلول تقنية متكاملة للفعاليات</span>
+                <span
+                  className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-purple-300 to-cyan-300 bg-[length:300%_100%] animate-[gradient_8s_ease_infinite] motion-reduce:animate-none"
+                  aria-hidden="true"
+                >
+                  في جميع أنحاء تركيا
+                </span>
+              </h1>
+            </ScrollReveal>
+
+            <ScrollReveal delay="2">
+              <p className="text-white/80 text-base md:text-lg mb-8 max-w-3xl mx-auto">
+                {home.hero.subtitle}
+              </p>
+            </ScrollReveal>
+
+            <ScrollReveal delay="3">
+              <div className="flex flex-col sm:flex-row justify-center items-center gap-3 md:gap-4 mb-12">
+                <a
+                  href="tel:+905453048671"
+                  className="w-full sm:w-auto min-w-[180px] text-center group relative bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold text-base px-6 py-3 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-white/20 backdrop-blur-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+                >
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    <span aria-hidden="true">📞</span> اتصل بفريقنا
+                  </span>
+                  <div
+                    className="absolute inset-0 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    aria-hidden="true"
+                  />
+                </a>
+
+                <a
+                  href="https://wa.me/905453048671?text=%D8%A3%D8%B1%D9%8A%D8%AF+%D8%B9%D8%B1%D8%B6+%D8%B3%D8%B9%D8%B1+%D9%84%D8%AA%D8%AC%D9%87%D9%8A%D8%B2+%D9%81%D8%B9%D8%A7%D9%84%D9%8A%D8%A9"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto min-w-[180px] text-center group relative bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold text-base px-6 py-3 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-white/20 backdrop-blur-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+                >
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    <span aria-hidden="true">💬</span> عرض واتساب
+                  </span>
+                  <span className="sr-only">(يفتح في علامة تبويب جديدة)</span>
+                  <div
+                    className="absolute inset-0 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    aria-hidden="true"
+                  />
+                </a>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay="4">
+              <h2 className="sr-only">أبرز الميزات</h2>
+              <ul className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12 list-none p-0 m-0">
+                {HERO_FEATURES_AR.map((item, index) => (
+                  <li key={item.title} className="m-0 p-0">
+                    <ScrollReveal delay={String(index + 1)} direction="scale">
+                      <div className="group bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20 hover:border-white/40 transition-all duration-500 hover:scale-105 hover:bg-white/15">
+                        <div className={`text-2xl mb-2 bg-gradient-to-r ${item.color} text-transparent bg-clip-text`} aria-hidden="true">
+                          {item.icon}
+                        </div>
+                        <div className="text-white font-bold text-base mb-1">{item.title}</div>
+                        <div className="text-white/70 text-xs">{item.description}</div>
+                      </div>
+                    </ScrollReveal>
+                  </li>
+                ))}
+              </ul>
+            </ScrollReveal>
+
+            <ScrollReveal delay="5">
+              <div className="bg-gradient-to-r from-blue-600/90 to-purple-600/90 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-white/20 shadow-xl max-w-4xl mx-auto">
+                <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
+                  <div className="flex-shrink-0">
+                    <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center text-xl" aria-hidden="true">
+                      🎯
+                    </div>
+                  </div>
+                  <div className="flex-1 text-center md:text-right">
+                    <h2 className="text-white text-xl md:text-2xl font-bold mb-2">استشارة تقنية مجانية</h2>
+                    <p className="text-white/90 text-base leading-relaxed">
+                      لنخطط معًا الحزمة المثالية من المنصات، شاشات LED وأنظمة الصوت والإضاءة مع مخططات تفصيلية وقوائم معدات ولوجستيات.
+                      <strong className="text-yellow-300"> عروض سعر في نفس اليوم.</strong>
+                    </p>
+                  </div>
+                  <div className="flex-shrink-0">
+                    <a
+                      href="#get-a-quote"
+                      className="bg-white text-blue-600 hover:bg-gray-100 font-bold px-5 py-2 rounded-lg transition-all duration-300 hover:scale-105 shadow-lg text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600/60"
+                    >
+                      احصل على عرض سعر
+                    </a>
                   </div>
                 </div>
-              ))}
+              </div>
+            </ScrollReveal>
+          </div>
+        </div>
+
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2" aria-hidden="true">
+          <div className="animate-bounce motion-reduce:animate-none">
+            <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
+              <div className="w-1 h-3 bg-white/70 rounded-full mt-2" />
             </div>
           </div>
         </div>
       </section>
 
-      <section className="container mx-auto px-4">
-        <div className="rounded-3xl border border-neutral-200 bg-white/80 p-8 shadow-lg backdrop-blur">
-          <h2 className="text-2xl font-bold text-neutral-900">{home.intro.title}</h2>
-          <p className="mt-4 text-base leading-7 text-neutral-700">{home.intro.body}</p>
-        </div>
-      </section>
+      <div id="main" className="relative">
+        <div id="get-a-quote" className="sr-only" aria-hidden="true" />
 
-      <section className="bg-neutral-50 py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-bold text-neutral-900">{home.services.title}</h2>
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
-            {home.services.items.map((service) => (
-              <div key={service.title} className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm text-right">
-                <h3 className="text-lg font-semibold text-neutral-900">{service.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-neutral-600">{service.description}</p>
+        <div aria-hidden="true" className="h-12 lg:h-16" />
+        <div className="sticky top-0 z-40">
+          <ReviewBannerDeferred
+            idleTimeout={2000}
+            rootMargin="0px"
+            className="block"
+            title="قيّم سحنيفا على Google"
+            subtitle="ملاحظاتكم تساعدنا على تحسين تجربتكم. هل يمكنكم تخصيص دقيقة؟"
+            ctaLabel="اكتب تقييماً"
+            ctaAriaLabel="اكتب تقييماً على Google لسحنيفا (يفتح في علامة تبويب جديدة)"
+            closeAriaLabel="إغلاق هذا الإشعار"
+            containerProps={{ dir: "rtl" }}
+          />
+        </div>
+
+        <section
+          className="relative py-12 bg-gradient-to-b from-white to-neutral-50/80"
+          aria-labelledby="services-title"
+          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+        >
+          <div
+            className="absolute inset-0 bg-[linear-gradient(#e5e7eb_1px,transparent_1px),linear-gradient(90deg,#e5e7eb_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:radial-gradient(ellipse_at_center,transparent_20%,white)]"
+            aria-hidden="true"
+          />
+          <div className="container relative z-10">
+            <ScrollReveal>
+              <div className="text-center mb-12">
+                <h2 id="services-title" className="text-3xl md:text-4xl font-black text-neutral-900 mb-4">
+                  خدمات فعاليات <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">احترافية</span>
+                </h2>
+                <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
+                  حلول متكاملة للمنصات، شاشات LED، الصوت، الإضاءة والخيام في جميع أنحاء تركيا
+                </p>
               </div>
-            ))}
+            </ScrollReveal>
+            <ServicesTabsDeferred
+              servicesData={SERVICES_AR}
+              dictionary={SERVICES_DICTIONARY_AR}
+              idleTimeout={2800}
+              rootMargin="320px"
+              loadingSrLabel="جارٍ تحميل تبويبات الخدمات"
+              containerProps={{ dir: "rtl" }}
+            />
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="container mx-auto px-4">
-        <div className="rounded-3xl bg-gradient-to-br from-indigo-50 via-white to-blue-50 p-10">
-          <h2 className="text-2xl font-bold text-neutral-900">{home.process.title}</h2>
-          <div className="mt-8 grid gap-6 md:grid-cols-2">
-            {home.process.steps.map((step, index) => (
-              <div key={step.title} className="rounded-2xl border border-indigo-100 bg-white/70 p-6 shadow-sm text-right">
-                <div className="text-sm font-semibold uppercase tracking-wide text-indigo-500">الخطوة {index + 1}</div>
-                <h3 className="mt-2 text-lg font-semibold text-neutral-900">{step.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-neutral-600">{step.description}</p>
+        <section
+          className="py-12 bg-gradient-to-br from-neutral-900 to-blue-900/95"
+          aria-labelledby="projects-title"
+          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+        >
+          <div className="container">
+            <ScrollReveal>
+              <div className="text-center mb-12">
+                <h2 id="projects-title" className="text-3xl md:text-4xl font-black text-white mb-4">
+                  أحدث <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">المشاريع</span>
+                </h2>
+                <p className="text-lg text-white/80 max-w-3xl mx-auto">
+                  إطلاقات مؤسسية، حفلات في الهواء الطلق، فعاليات حكومية وتجارب علامات تجارية نفذتها سحنيفا بشكل متكامل
+                </p>
               </div>
-            ))}
+            </ScrollReveal>
+            <ProjectsGalleryDeferred
+              galleries={PROJECT_GALLERIES_AR}
+              dictionary={PROJECTS_DICTIONARY_AR}
+              ariaLabelledBy="projects-title"
+              idleTimeout={3200}
+              rootMargin="250px"
+              loadingSrLabel="جارٍ تحميل معارض المشاريع"
+              containerProps={{ dir: "rtl" }}
+            />
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="bg-indigo-900 py-20 text-white">
-        <div className="container mx-auto px-4">
-          <div className="ms-auto max-w-3xl space-y-6 text-right">
-            <h2 className="text-3xl font-black leading-tight">{home.cta.title}</h2>
-            <p className="text-lg text-white/80">{home.cta.body}</p>
-            <div className="flex flex-wrap justify-end gap-4">
-              <a
-                href="https://wa.me/905453048671?text=%D8%A3%D8%B1%D9%8A%D8%AF+%D8%B9%D8%B1%D8%B6+%D8%B3%D8%B9%D8%B1+%D9%84%D8%AA%D8%AC%D9%87%D9%8A%D8%B2+%D9%81%D8%B9%D8%A7%D9%84%D9%8A%D8%A9."
-                className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-bold text-indigo-700 shadow-lg hover:shadow-xl"
-              >
-                <span aria-hidden="true">📝</span>
-                {home.cta.primary}
-              </a>
-              <a
-                href="tel:+905453048671"
-                className="inline-flex items-center gap-2 rounded-xl border border-white/80 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10"
-              >
-                <span aria-hidden="true">📞</span>
-                {home.cta.secondary}
-              </a>
+        <section
+          className="py-12 bg-white"
+          aria-labelledby="corporate-title"
+          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+        >
+          <div className="container">
+            <ScrollReveal>
+              <div className="text-center mb-12">
+                <h2 id="corporate-title" className="text-3xl md:text-4xl font-black text-neutral-900 mb-4">
+                  حلول <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">الفعاليات المؤسسية</span>
+                </h2>
+                <p className="text-lg text-neutral-600 max-w-3xl mx-auto">
+                  من القمم التنفيذية إلى لقاءات الوكلاء، ندير تصميم المنصات والإنتاج المرئي والدعم التقني من الألف إلى الياء
+                </p>
+              </div>
+            </ScrollReveal>
+            <CorporateEvents
+              cards={CORPORATE_EVENTS_CARDS_AR}
+              advantages={CORPORATE_EVENTS_ADVANTAGES_AR}
+              dictionary={CORPORATE_EVENTS_DICTIONARY_AR}
+            />
+          </div>
+        </section>
+
+        <section
+          className="py-12 bg-gradient-to-br from-blue-50/80 to-purple-50/60"
+          aria-labelledby="why-heading"
+          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+        >
+          <div className="container">
+            <ScrollReveal>
+              <div className="text-center mb-12">
+                <h2 id="why-heading" className="text-3xl md:text-4xl font-black text-neutral-900 mb-6">
+                  لماذا تختار <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">سحنيفا</span>
+                </h2>
+                <p className="text-lg text-neutral-600 max-w-3xl mx-auto">
+                  أكثر من عقد من الخبرة، معدات متميزة وفرق تقنية دقيقة التفاصيل في خدمتك
+                </p>
+              </div>
+            </ScrollReveal>
+
+            <ScrollRevealGroup>
+              <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 list-none p-0 m-0">
+                {WHY_SAHNEVA_FEATURES_AR.map(({ icon, title, desc, stat }, i) => (
+                  <li key={title} className="m-0 p-0">
+                    <ScrollReveal delay={String(i % 3)} direction="scale">
+                      <article
+                        className="group relative bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 p-6 border border-neutral-100 hover:border-blue-200/70 hover:scale-105"
+                        aria-labelledby={`why-card-${i}-title`}
+                      >
+                        <div className="absolute top-3 right-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                          {stat}
+                        </div>
+                        <div className="text-3xl mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text" aria-hidden="true">
+                          {icon}
+                        </div>
+                        <h3 id={`why-card-${i}-title`} className="font-black text-lg mb-3 text-neutral-900 group-hover:text-blue-600 transition-colors">
+                          {title}
+                        </h3>
+                        <p className="text-neutral-700 leading-relaxed text-sm">{desc}</p>
+                      </article>
+                    </ScrollReveal>
+                  </li>
+                ))}
+              </ul>
+            </ScrollRevealGroup>
+          </div>
+        </section>
+
+        <section
+          className="py-12 bg-white"
+          aria-labelledby="seo-title"
+          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+        >
+          <div className="container">
+            <ScrollReveal>
+              <h2 id="seo-title" className="text-3xl md:text-4xl font-black text-center mb-12 text-neutral-900">
+                شريككم <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">الرائد</span> لتقنيات الفعاليات في تركيا
+              </h2>
+            </ScrollReveal>
+
+            <div className="grid gap-6 lg:gap-8 lg:grid-cols-2">
+              <ScrollReveal direction="left">
+                <article className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 shadow-lg border border-blue-100">
+                  <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
+                    <span className="bg-blue-500 text-white p-2 rounded-lg" aria-hidden="true">🚀</span>
+                    إنتاج تقني ولوجستي متكامل
+                  </h3>
+                  <div className="prose max-w-none text-neutral-700">
+                    <p className="text-base leading-relaxed">
+                      <strong>سحنيفا</strong> تصمم، تنقل وتشغّل{" "}
+                      <a
+                        href="/ar/services#stage"
+                        className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
+                      >
+                        منصات معيارية
+                      </a>
+                      {" "}و{" "}
+                      <a
+                        href="/ar/services#led"
+                        className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
+                      >
+                        شاشات LED
+                      </a>
+                      {" "}و{" "}
+                      <a
+                        href="/ar/services#audio"
+                        className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
+                      >
+                        أنظمة الصوت والإضاءة
+                      </a>{" "}
+                      للإطلاقات، المهرجانات، القمم والفعاليات الحكومية.
+                    </p>
+                    <ul className="mt-4 space-y-2 text-neutral-700">
+                      {[
+                        "خزائن LED خارجية بمعيار IP65 وسطوع يتجاوز 4500 نت",
+                        "أنظمة صوت Line-array، طاولات مزج رقمية ومراقبة كاملة",
+                        "هياكل تراس قوية، أبراج وسلالم ومنصات إكسسوارات",
+                        "إضاءة يتم التحكم بها عبر DMX، تجهيزات أجواء ومؤثرات خاصة",
+                      ].map((item) => (
+                        <li key={item} className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0" aria-hidden="true" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              </ScrollReveal>
+
+              <ScrollReveal direction="right">
+                <article className="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-6 shadow-lg border border-purple-100">
+                  <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
+                    <span className="bg-purple-500 text-white p-2 rounded-lg" aria-hidden="true">🎤</span>
+                    بنية تحتية للجماهير الكبيرة
+                  </h3>
+                  <div className="prose max-w-none text-neutral-700">
+                    <p className="text-base leading-relaxed">
+                      تستفيد المهرجانات، المهرجانات السياسية، الفعاليات الرياضية والاحتفالات الوطنية من مخزون معداتنا عالي السعة وخطط الطوارئ الدقيقة.
+                    </p>
+                    <ul className="mt-4 space-y-2 text-neutral-700">
+                      {[
+                        "جدران LED تتجاوز 100 م² بخزائن خارجية P3.9",
+                        "أنظمة صوت Line-array من JBL وRCF وdB Technologies",
+                        "أبراج تراس، أسقف وحلول ديكور مخصصة",
+                        "مولدات احتياطية، وحدات UPS وتوزيع طاقة آمن",
+                      ].map((item) => (
+                        <li key={item} className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0" aria-hidden="true" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              </ScrollReveal>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        <section
+          className="py-12 bg-gradient-to-br from-neutral-900 to-blue-900/95"
+          aria-labelledby="faq-title"
+          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+        >
+          <div className="container">
+            <ScrollReveal>
+              <div className="text-center mb-12">
+                <h2 id="faq-title" className="text-3xl md:text-4xl font-black text-white mb-4">
+                  الأسئلة <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">الشائعة</span>
+                </h2>
+                <p className="text-lg text-white/80 max-w-3xl mx-auto">
+                  إجابات حول الأسعار، اللوجستيات، أوقات التركيب ودعم الطاقم لخدمات المنصات، شاشات LED وأنظمة AV
+                </p>
+              </div>
+            </ScrollReveal>
+            <FaqDeferred
+              items={FAQ_ITEMS_AR}
+              dictionary={FAQ_DICTIONARY_AR}
+              idleTimeout={3600}
+              rootMargin="400px"
+              loadingSrLabel="جارٍ تحميل الأسئلة الشائعة"
+              containerProps={{ dir: "rtl" }}
+            />
+          </div>
+        </section>
+      </div>
     </div>
   );
 }

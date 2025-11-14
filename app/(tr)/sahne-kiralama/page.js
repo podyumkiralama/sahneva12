@@ -483,28 +483,36 @@ function Packages() {
 /* ================== Galeri ================== */
 const GALLERY_IMAGES = [
   { 
-    src: "/img/sahne/galeri-1.webp", 
+    src: "/img/sahne/1.webp", 
     alt: "Konser sahnesi ve profesyonel truss kurulumu - Büyük LED ekran ve ışık sistemi" 
   },
   { 
-    src: "/img/sahne/galeri-2.webp", 
+    src: "/img/sahne/2.webp", 
     alt: "Konferans sahnesi ve LED ekran entegrasyonu - Modern tasarım ve profesyonel aydınlatma" 
   },
   { 
-    src: "/img/sahne/galeri-3.webp",
+    src: "/img/sahne/3.webp",
     alt: "Açık hava festival sahnesi ve ışık sistemi - Geniş alan kurulumu" 
   },
   { 
-    src: "/img/sahne/galeri-4.webp",
+    src: "/img/sahne/4.webp",
     alt: "Kurumsal lansman sahnesi ve özel tasarım - Marka entegrasyonlu sahne" 
   },
   { 
-    src: "/img/sahne/galeri-5.webp", 
+    src: "/img/sahne/5.webp", 
     alt: "Düğün sahnesi ve dekoratif kurulum - Şık ve romantik tasarım" 
   },
   { 
-    src: "/img/sahne/galeri-6.webp", 
+    src: "/img/sahne/6.webp", 
     alt: "Ödül töreni sahnesi ve protokol düzeni - Profesyonel ışıklandırma" 
+  },
+  { 
+    src: "/img/sahne/7.webp", 
+    alt: "sahne kiralama öncü firma" 
+  },
+  { 
+    src: "/img/sahne/8.webp", 
+    alt: "Kaliteli sahne ekipmanları" 
   },
 ];
 
@@ -522,7 +530,7 @@ function Gallery() {
         </div>
 
         <div className="max-w-7xl mx-auto">
-          <CaseGallery images={GALLERY_IMAGES} visibleCount={6} priorityCount={2} />
+          <CaseGallery images={GALLERY_IMAGES} visibleCount={8} priorityCount={2} />
         </div>
 
         <div className="text-center mt-12">
