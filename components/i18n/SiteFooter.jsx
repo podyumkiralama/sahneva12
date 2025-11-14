@@ -7,7 +7,6 @@ export default function SiteFooter({ strings }) {
   return (
     <footer
       id="main-footer"
-      role="contentinfo"
       aria-label={strings?.ariaLabel ?? "Site footer"}
       className="bg-slate-950 text-slate-200"
       dir={strings.direction}

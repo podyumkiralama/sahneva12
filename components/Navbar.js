@@ -300,7 +300,6 @@ export default function Navbar() {
       {/* Header - SAYDAM DEĞİL, SOLID BEYAZ */}
       <header
         id="main-header"
-        role="banner"
         aria-label={headerStrings?.ariaLabel ?? "Site header"}
         className="fixed top-0 inset-x-0 z-50 bg-white border-b border-neutral-200/80 shadow-lg"
         itemScope

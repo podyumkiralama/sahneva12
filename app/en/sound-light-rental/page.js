@@ -1002,7 +1002,7 @@ function CTA() {
                 <span className="text-lg">Chat on WhatsApp</span>
               </a>
             </div>
-            <div className="mt-8 text-blue-200 text-lg" role="contentinfo">
+            <div className="mt-8 text-blue-200 text-lg">
               📍 Service across 81 provinces • ⏰ 24/7 technical support • ⭐ 10+ years of expertise
             </div>
           </div>
