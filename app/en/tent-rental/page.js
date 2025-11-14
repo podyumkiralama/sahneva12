@@ -880,7 +880,7 @@ function FAQ() {
 function RelatedServices() {
   const services = [
     {
-      href: "/en/services#stage-services",
+      href: "/en/stage-rental",
       title: "Stage & Podium Rentals",
       icon: "📐",
       desc: "Modular stage platforms, risers and catwalk configurations",
@@ -898,8 +898,8 @@ function RelatedServices() {
       desc: "Concert-grade sound, lighting and truss solutions",
     },
     {
-      href: "/en/services#seating-services",
-      title: "Seating & Furniture",
+      href: "/en/table-chair-rental",
+      title: "Table & Chair Rentals",
       icon: "🪑",
       desc: "Banquet seating, tables and decorative event furniture",
     },

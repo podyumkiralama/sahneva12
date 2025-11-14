@@ -887,16 +887,16 @@ function RelatedServices() {
       desc: "High-resolution LED walls and creative video backdrops",
     },
     {
-      href: "/en/services#stage",
+      href: "/en/stage-rental",
       title: "Stage rental",
       icon: "🛠️",
       desc: "Modular stage platforms, truss roofs and scenic builds",
     },
     {
-      href: "/en/services#stage",
-      title: "Podium & risers",
-      icon: "📐",
-      desc: "Catwalks, presentation risers and custom scenic platforms",
+      href: "/en/table-chair-rental",
+      title: "Table & chair rentals",
+      icon: "🪑",
+      desc: "Banquet seating, conference setups and styling",
     },
     {
       href: "/en/tent-rental",

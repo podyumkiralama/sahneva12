@@ -889,16 +889,16 @@ function RelatedServices() {
       desc: "Concert-grade audio, lighting design and truss solutions"
     },
     {
-      href: "/en/services#stage",
+      href: "/en/stage-rental",
       title: "Stage rental",
       icon: "🛠️",
       desc: "Modular and portable stages engineered for any venue"
     },
     {
-      href: "/en/services#stage",
-      title: "Podium structures",
-      icon: "📐",
-      desc: "Catwalks, risers and custom scenic platforms"
+      href: "/en/table-chair-rental",
+      title: "Table & chair rentals",
+      icon: "🪑",
+      desc: "Banquet seating, cocktail furniture and layout planning"
     },
     {
       href: "/en/tent-rental",
