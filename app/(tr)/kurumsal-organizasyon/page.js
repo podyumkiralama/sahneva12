@@ -4,6 +4,7 @@ import Link from "next/link";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 
+import { buildFaqSchema } from "@/lib/structuredData/faq";
 import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
 
 /* ================== Sabitler ================== */
@@ -808,8 +809,7 @@ function Articles() {
 }
 
 /* ================== SSS ================== */
-function FAQ() {
-  const faqs = [
+const FAQ_ITEMS = [
     { 
       q: "Kurumsal organizasyon fiyatları ne kadar?", 
       a: "Kurumsal organizasyon fiyatları etkinlik türüne, katılımcı sayısına, teknik ihtiyaçlara ve süreye göre değişiklik gösterir. Temel bir konferans organizasyonu 15.000 TL'den başlarken, kapsamlı lansman organizasyonları 50.000 TL ve üzerine çıkabilir. Detaylı teklif için iletişime geçebilirsiniz." 
@@ -827,6 +827,8 @@ function FAQ() {
       a: "Evet, tüm kritik teknik ekipmanlarımız yedeklidir. Ses sistemleri, mikserler, mikrofonlar, LED ekran modülleri, jeneratörler ve aydınlatma sistemleri yedekli olarak kurulur. Ayrıca teknik ekip üyelerimiz de yedekli olarak görev yapar." 
     },
   ];
+
+function FAQ() {
   
   return (
     <section className="py-20 bg-white" aria-labelledby="sss-baslik">
@@ -841,7 +843,7 @@ function FAQ() {
         </div>
 
         <div className="space-y-6" role="list" aria-label="Sık sorulan sorular listesi">
-          {faqs.map((faq, index) => (
+          {FAQ_ITEMS.map((faq, index) => (
             <details 
               key={index} 
               className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border"
@@ -1059,6 +1061,7 @@ function JsonLd() {
   }
 
   const productNodes = products ?? [];
+  const faqSchema = buildFaqSchema(FAQ_ITEMS);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -1092,6 +1095,7 @@ function JsonLd() {
         }
       },
       ...productNodes,
+      ...(faqSchema ? [faqSchema] : []),
     ],
   };
 
