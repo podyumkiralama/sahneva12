@@ -172,9 +172,11 @@ const CONTENT = {
     "/img/podyum/1.webp", 
     "/img/podyum/2.webp", 
     "/img/podyum/3.webp",
-    "/img/podyum/4.webp",
-    "/img/podyum/5.webp",
-    "/img/podyum/6.webp"
+    "/img/galeri/podyum-kiralama-4.webp",
+    "/img/galeri/podyum-kiralama-5.webp",
+    "/img/galeri/podyum-kiralama-6.webp",
+    "/img/galeri/podyum-kiralama-7.webp",
+    "/img/galeri/podyum-kiralama-8.webp",
   ],
   packages: [
     {
@@ -540,7 +542,7 @@ function Gallery() {
         </div>
 
         <div className="max-w-7xl mx-auto">
-          <CaseGallery images={CONTENT.gallery.map(src => ({ src, alt: "Profesyonel podyum kurulum projesi - Sahneva" }))} visibleCount={6} priorityCount={3} />
+          <CaseGallery images={CONTENT.gallery.map(src => ({ src, alt: "Profesyonel podyum kurulum projesi - Sahneva" }))} visibleCount={8} priorityCount={3} />
         </div>
 
         <div className="text-center mt-12">
