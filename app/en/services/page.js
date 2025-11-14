@@ -30,8 +30,6 @@ export const metadata = {
     locale: "en_US",
   },
   robots: { index: true, follow: true },
-  keywords:
-    "stage rental, led wall rental, sound and lighting systems, podium rental, tent rental, event equipment",
 };
 
 export const revalidate = 3600;

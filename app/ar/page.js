@@ -493,7 +493,7 @@ function StructuredData() {
   );
 }
 
-function HeroBackgroundImage({ alt }) {
+function HeroBackgroundImage({ alt = "", ariaHidden = true }) {
   const { props } = getImageProps({
     alt,
     src: heroImg,
@@ -512,7 +512,7 @@ function HeroBackgroundImage({ alt }) {
   const { fetchPriority, ...rest } = props;
 
   // eslint-disable-next-line react/no-unknown-property -- force lowercase attribute for HTML validators
-  return <img {...rest} fetchpriority={fetchPriority} />;
+  return <img {...rest} fetchpriority={fetchPriority} aria-hidden={ariaHidden} />;
 }
 
 export default function ArabicHomePage() {
@@ -525,7 +525,7 @@ export default function ArabicHomePage() {
         aria-labelledby="hero-title"
       >
         <div className="absolute inset-0" aria-hidden="true">
-          <HeroBackgroundImage alt="تركيب منصة، شاشة LED وإضاءة احترافية من سحنيفا" />
+          <HeroBackgroundImage />
         </div>
 
         <div
