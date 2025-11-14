@@ -471,7 +471,7 @@ export default function Navbar() {
               className={`lg:hidden inline-flex items-center justify-center p-3 rounded-xl bg-white border border-neutral-200 hover:bg-neutral-50 transition-all duration-200 min-h-[44px] min-w-[44px] transform hover:scale-105 ${focusRingClass}`}
               aria-label={headerStrings?.mobileToggleLabel ?? "Mobil menüyü aç/kapat"}
               aria-expanded={mobileOpen}
-              aria-controls="mobile-menu"
+              aria-controls="primary-navigation-mobile"
               title="Mobil menü"
             >
               <span className="relative w-6 h-6" aria-hidden="true">
