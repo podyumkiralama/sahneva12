@@ -237,8 +237,8 @@ const FAQ_DICTIONARY_EN = {
     description: "Our technical producers are ready to help you design the perfect event solution.",
     primary: {
       label: "Browse all FAQs",
-      href: "/en/services",
-      srLabel: "Services overview",
+      href: "/en/faq",
+      srLabel: "FAQ page",
     },
     secondary: {
       label: "Contact our team",

@@ -62,12 +62,13 @@ const STATIC_PAGES = [
   "/en/sound-light-rental",
   "/en/table-chair-rental",
   "/en/tent-rental",
+  "/en/faq",
 ].map((p) => ({
   path: p,
   lastMod: NOW_ISO,
   change: ["hakkimizda","iletisim"].includes(p.replace("/",""))
     ? "yearly"
-    : (p === "/sss" ? "monthly" : "weekly"),
+    : (["/sss", "/en/faq"].includes(p) ? "monthly" : "weekly"),
   pr: p === "/" ? 1.0 : 0.9,
 }));
 
@@ -104,6 +105,7 @@ const IMAGE_MAP = {
     "/img/hizmet-cadir.webp",
     "/img/galeri/cadir-kiralama-1.webp",
   ],
+  "/en/faq": ["/img/hizmetler-ust.webp"],
 };
 
 // ❸ services → dinamik

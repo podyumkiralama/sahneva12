@@ -865,13 +865,13 @@ function FAQ() {
             Need more details? Our engineers can call you back with tailored advice.
           </p>
           <Link
-            href="/en/services#led"
+            href="/en/faq#led"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-500"
-            title="Explore all LED service FAQs"
+            title="Explore all LED screen FAQs"
             role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">📚</span>
-            <span className="text-lg">View LED service FAQs</span>
+            <span className="text-lg">View LED screen FAQs</span>
           </Link>
         </div>
       </div>
