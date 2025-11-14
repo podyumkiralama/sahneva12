@@ -171,6 +171,8 @@ const nextConfig = {
       },
       { source: "/search", destination: "/", permanent: true },
       { source: "/sahne-kurulumu", destination: "/sahne-kiralama", permanent: true },
+      { source: "/faq", destination: "/en/faq", permanent: true },
+      { source: "/faq/", destination: "/en/faq", permanent: true },
       { source: "/$", destination: "/", permanent: true },
       { source: "/&", destination: "/", permanent: true },
       { source: "/%24", destination: "/", permanent: true },
