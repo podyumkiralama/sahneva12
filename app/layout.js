@@ -146,11 +146,11 @@ export const viewport = {
 export const metadata = {
   metadataBase: new URL("https://www.sahneva.com"),
   title: {
-    default: "Sahne, Podyum, LED Ekran & Ses-Işık Kiralama | Sahneva",
+    default: "Sahneva | Sahne, LED Ekran & Ses-Işık Kiralama Hizmetleri",
     template: "%s | Sahneva",
   },
   description:
-    "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı kurulum, profesyonel teknik ekip, uygun fiyat. Hemen teklif alın!",
+    "Türkiye genelinde sahne, podyum, LED ekran ile ses ve ışık sistemleri kiralama hizmetleri. Uzman teknik ekip, hızlı kurulum ve aynı gün teklif için Sahneva ile iletişime geçin.",
   manifest: "/site.webmanifest",
   alternates: {
     canonical: "https://www.sahneva.com",
@@ -248,13 +248,6 @@ export default function RootLayout({ children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(websiteJsonLd),
-          }}
-        />
-        <script
-          id="ld-service-products"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(SERVICE_PRODUCTS_JSON),
           }}
         />
       </head>

@@ -4,6 +4,8 @@ import Link from "next/link";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 
+import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
+
 /* ================== Sabitler ================== */
 export const revalidate = 1800;
 const ORIGIN = "https://www.sahneva.com";
@@ -1019,56 +1021,63 @@ function CTA() {
 
 /* ================== JSON-LD ================== */
 function JsonLd() {
+  const { service: serviceSchema, products } = buildServiceProductSchema({
+    slug: "/ses-isik-sistemleri",
+    locale: "tr-TR",
+  });
+
+  const serviceNode = {
+    "@type": "Service",
+    name: "Ses ve Işık Sistemleri Kiralama",
+    description:
+      "Profesyonel ses ve ışık sistemleri kiralama hizmeti. Line array, dijital mikser, kablosuz mikrofon, hareketli ışık, truss sistemleri ve canlı operasyon ile Türkiye genelinde hizmet.",
+    provider: {
+      "@type": "Organization",
+      name: "Sahneva",
+      telephone: "+905453048671",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "İstanbul",
+        addressCountry: "TR"
+      },
+      url: ORIGIN,
+      logo: `${ORIGIN}/logo.png`,
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      reviewCount: "250",
+      bestRating: "5"
+    },
+  };
+
+  if (serviceSchema) {
+    Object.assign(serviceNode, serviceSchema);
+  }
+
+  const productNodes = products ?? [];
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { 
-            "@type": "ListItem", 
-            position: 1, 
-            name: "Anasayfa", 
-            item: `${ORIGIN}/` 
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Anasayfa",
+            item: `${ORIGIN}/`
           },
-          { 
-            "@type": "ListItem", 
-            position: 2, 
-            name: "Ses ve Işık Sistemleri", 
-            item: `${ORIGIN}/ses-isik-sistemleri` 
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Ses ve Işık Sistemleri",
+            item: `${ORIGIN}/ses-isik-sistemleri`
           },
         ],
       },
-      {
-        "@type": "Service",
-        name: "Ses ve Işık Sistemleri Kiralama",
-        description: "Profesyonel ses ve ışık sistemleri kiralama hizmeti. Line array, dijital mikser, kablosuz mikrofon, hareketli ışık, truss sistemleri ve canlı operasyon ile Türkiye genelinde hizmet.",
-        provider: {
-          "@type": "Organization",
-          name: "Sahneva",
-          telephone: "+905453048671",
-          address: { 
-            "@type": "PostalAddress", 
-            addressLocality: "İstanbul", 
-            addressCountry: "TR" 
-          },
-          url: ORIGIN,
-          logo: `${ORIGIN}/logo.png`,
-        },
-        areaServed: "TR",
-        serviceType: "EventProduction",
-        offers: {
-          "@type": "Offer",
-          description: "Profesyonel ses ve ışık sistemi kiralama hizmeti"
-        },
-        url: `${ORIGIN}/ses-isik-sistemleri`,
-        aggregateRating: { 
-          "@type": "AggregateRating", 
-          ratingValue: "4.9", 
-          reviewCount: "250", 
-          bestRating: "5" 
-        },
-      },
+      serviceNode,
       {
         "@type": "WebPage",
         name: "Ses ve Işık Sistemleri Kiralama | Profesyonel Çözümler | Sahneva",
@@ -1078,7 +1087,8 @@ function JsonLd() {
           "@type": "Service",
           name: "Ses ve Işık Sistemleri Kiralama"
         }
-      }
+      },
+      ...productNodes,
     ],
   };
 

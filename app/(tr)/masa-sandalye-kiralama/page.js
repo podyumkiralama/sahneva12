@@ -4,6 +4,8 @@ import Link from "next/link";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 
+import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
+
 /* ================== Sabitler ================== */
 export const revalidate = 1800;
 const ORIGIN = "https://www.sahneva.com";
@@ -1186,56 +1188,63 @@ function CTA() {
 
 /* ================== JSON-LD ================== */
 function JsonLd() {
+  const { service: serviceSchema, products } = buildServiceProductSchema({
+    slug: "/masa-sandalye-kiralama",
+    locale: "tr-TR",
+  });
+
+  const serviceNode = {
+    "@type": "Service",
+    name: "Masa Sandalye Kiralama Hizmeti",
+    description:
+      "Profesyonel masa sandalye kiralama hizmeti. Napolyon ve konferans sandalyeleri, banket ve bistro masalar, örtü-kılıf sistemleri ve profesyonel yerleşim hizmetleri ile Türkiye genelinde hizmet.",
+    provider: {
+      "@type": "Organization",
+      name: "Sahneva",
+      telephone: "+905453048671",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "İstanbul",
+        addressCountry: "TR"
+      },
+      url: ORIGIN,
+      logo: `${ORIGIN}/logo.png`,
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      reviewCount: "183",
+      bestRating: "5"
+    },
+  };
+
+  if (serviceSchema) {
+    Object.assign(serviceNode, serviceSchema);
+  }
+
+  const productNodes = products ?? [];
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { 
-            "@type": "ListItem", 
-            position: 1, 
-            name: "Anasayfa", 
-            item: `${ORIGIN}/` 
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Anasayfa",
+            item: `${ORIGIN}/`
           },
-          { 
-            "@type": "ListItem", 
-            position: 2, 
-            name: "Masa Sandalye Kiralama", 
-            item: `${ORIGIN}/masa-sandalye-kiralama` 
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Masa Sandalye Kiralama",
+            item: `${ORIGIN}/masa-sandalye-kiralama`
           },
         ],
       },
-      {
-        "@type": "Service",
-        name: "Masa Sandalye Kiralama Hizmeti",
-        description: "Profesyonel masa sandalye kiralama hizmeti. Napolyon ve konferans sandalyeleri, banket ve bistro masalar, örtü-kılıf sistemleri ve profesyonel yerleşim hizmetleri ile Türkiye genelinde hizmet.",
-        provider: {
-          "@type": "Organization",
-          name: "Sahneva",
-          telephone: "+905453048671",
-          address: { 
-            "@type": "PostalAddress", 
-            addressLocality: "İstanbul", 
-            addressCountry: "TR" 
-          },
-          url: ORIGIN,
-          logo: `${ORIGIN}/logo.png`,
-        },
-        areaServed: "TR",
-        serviceType: "EventProduction",
-        offers: {
-          "@type": "Offer",
-          description: "Profesyonel masa sandalye kiralama hizmeti"
-        },
-        url: `${ORIGIN}/masa-sandalye-kiralama`,
-        aggregateRating: { 
-          "@type": "AggregateRating", 
-          ratingValue: "4.9", 
-          reviewCount: "183", 
-          bestRating: "5" 
-        },
-      },
+      serviceNode,
       {
         "@type": "WebPage",
         name: "Masa Sandalye Kiralama | Profesyonel Çözümler | Sahneva",
@@ -1245,7 +1254,8 @@ function JsonLd() {
           "@type": "Service",
           name: "Masa Sandalye Kiralama"
         }
-      }
+      },
+      ...productNodes,
     ],
   };
 

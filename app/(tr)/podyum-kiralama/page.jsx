@@ -4,6 +4,8 @@ import Link from "next/link";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 
+import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
+
 /* ================== Sabitler ================== */
 export const revalidate = 1800;
 const ORIGIN = "https://www.sahneva.com";
@@ -1206,56 +1208,63 @@ function CTA() {
 
 /* ================== JSON-LD ================== */
 function JsonLd() {
+  const { service: serviceSchema, products } = buildServiceProductSchema({
+    slug: "/podyum-kiralama",
+    locale: "tr-TR",
+  });
+
+  const serviceNode = {
+    "@type": "Service",
+    name: "Podyum Kiralama Hizmeti",
+    description:
+      "Profesyonel podyum kiralama hizmeti. Modüler podyum sistemleri, kaymaz kaplama ve kurulum hizmetleri ile İstanbul genelinde hizmet.",
+    provider: {
+      "@type": "Organization",
+      name: "Sahneva",
+      telephone: "+905453048671",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "İstanbul",
+        addressCountry: "TR"
+      },
+      url: ORIGIN,
+      logo: `${ORIGIN}/logo.png`,
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.8",
+      reviewCount: "200",
+      bestRating: "5"
+    },
+  };
+
+  if (serviceSchema) {
+    Object.assign(serviceNode, serviceSchema);
+  }
+
+  const productNodes = products ?? [];
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { 
-            "@type": "ListItem", 
-            position: 1, 
-            name: "Anasayfa", 
-            item: `${ORIGIN}/` 
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Anasayfa",
+            item: `${ORIGIN}/`
           },
-          { 
-            "@type": "ListItem", 
-            position: 2, 
-            name: "Podyum Kiralama", 
-            item: `${ORIGIN}/podyum-kiralama` 
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Podyum Kiralama",
+            item: `${ORIGIN}/podyum-kiralama`
           },
         ],
       },
-      {
-        "@type": "Service",
-        name: "Podyum Kiralama Hizmeti",
-        description: "Profesyonel podyum kiralama hizmeti. Modüler podyum sistemleri, kaymaz kaplama ve kurulum hizmetleri ile İstanbul genelinde hizmet.",
-        provider: {
-          "@type": "Organization",
-          name: "Sahneva",
-          telephone: "+905453048671",
-          address: { 
-            "@type": "PostalAddress", 
-            addressLocality: "İstanbul", 
-            addressCountry: "TR" 
-          },
-          url: ORIGIN,
-          logo: `${ORIGIN}/logo.png`,
-        },
-        areaServed: "TR",
-        serviceType: "EventProduction",
-        offers: {
-          "@type": "Offer",
-          description: "Profesyonel podyum kiralama hizmeti"
-        },
-        url: `${ORIGIN}/podyum-kiralama`,
-        aggregateRating: { 
-          "@type": "AggregateRating", 
-          ratingValue: "4.8", 
-          reviewCount: "200", 
-          bestRating: "5" 
-        },
-      },
+      serviceNode,
       {
         "@type": "WebPage",
         name: "Podyum Kiralama | Profesyonel Sahne Çözümleri | Sahneva",
@@ -1265,7 +1274,8 @@ function JsonLd() {
           "@type": "Service",
           name: "Podyum Kiralama"
         }
-      }
+      },
+      ...productNodes,
     ],
   };
 

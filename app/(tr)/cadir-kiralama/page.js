@@ -4,6 +4,8 @@ import Link from "next/link";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 
+import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
+
 /* ================== Sabitler ================== */
 export const revalidate = 1800;
 const ORIGIN = "https://www.sahneva.com";
@@ -1030,56 +1032,63 @@ function CTA() {
 
 /* ================== JSON-LD ================== */
 function JsonLd() {
+  const { service: serviceSchema, products } = buildServiceProductSchema({
+    slug: "/cadir-kiralama",
+    locale: "tr-TR",
+  });
+
+  const serviceNode = {
+    "@type": "Service",
+    name: "Çadır Kiralama Hizmeti",
+    description:
+      "Profesyonel çadır kiralama hizmeti. Pagoda, şeffaf dome, endüstriyel çadır sistemleri ve kurulum hizmetleri ile Türkiye genelinde hizmet.",
+    provider: {
+      "@type": "Organization",
+      name: "Sahneva",
+      telephone: "+905453048671",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "İstanbul",
+        addressCountry: "TR"
+      },
+      url: ORIGIN,
+      logo: `${ORIGIN}/logo.png`,
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.8",
+      reviewCount: "180",
+      bestRating: "5"
+    },
+  };
+
+  if (serviceSchema) {
+    Object.assign(serviceNode, serviceSchema);
+  }
+
+  const productNodes = products ?? [];
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { 
-            "@type": "ListItem", 
-            position: 1, 
-            name: "Anasayfa", 
-            item: `${ORIGIN}/` 
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Anasayfa",
+            item: `${ORIGIN}/`
           },
-          { 
-            "@type": "ListItem", 
-            position: 2, 
-            name: "Çadır Kiralama", 
-            item: `${ORIGIN}/cadir-kiralama` 
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Çadır Kiralama",
+            item: `${ORIGIN}/cadir-kiralama`
           },
         ],
       },
-      {
-        "@type": "Service",
-        name: "Çadır Kiralama Hizmeti",
-        description: "Profesyonel çadır kiralama hizmeti. Pagoda, şeffaf dome, endüstriyel çadır sistemleri ve kurulum hizmetleri ile Türkiye genelinde hizmet.",
-        provider: {
-          "@type": "Organization",
-          name: "Sahneva",
-          telephone: "+905453048671",
-          address: { 
-            "@type": "PostalAddress", 
-            addressLocality: "İstanbul", 
-            addressCountry: "TR" 
-          },
-          url: ORIGIN,
-          logo: `${ORIGIN}/logo.png`,
-        },
-        areaServed: "TR",
-        serviceType: "EventProduction",
-        offers: {
-          "@type": "Offer",
-          description: "Profesyonel çadır kiralama hizmeti"
-        },
-        url: `${ORIGIN}/cadir-kiralama`,
-        aggregateRating: { 
-          "@type": "AggregateRating", 
-          ratingValue: "4.8", 
-          reviewCount: "180", 
-          bestRating: "5" 
-        },
-      },
+      serviceNode,
       {
         "@type": "WebPage",
         name: "Çadır Kiralama | Profesyonel Etkinlik Çözümleri | Sahneva",
@@ -1089,7 +1098,8 @@ function JsonLd() {
           "@type": "Service",
           name: "Çadır Kiralama"
         }
-      }
+      },
+      ...productNodes,
     ],
   };
 
