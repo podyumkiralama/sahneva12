@@ -35,7 +35,6 @@ const WHY_SAHNEVA_FEATURES = [
 // Katmanlı içerik bölümlerini ilk boyamadan hariç tutarak FCP/LCP'yi iyileştirir
 const BELOW_THE_FOLD_VISIBILITY_STYLE = Object.freeze({
   contentVisibility: "auto",
-  containIntrinsicSize: "960px",
 });
 
 // ISR
