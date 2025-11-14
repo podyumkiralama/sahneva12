@@ -4,6 +4,8 @@ import Link from "next/link";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 
+import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
+
 /* ================== Sabitler ================== */
 export const revalidate = 1800;
 const ORIGIN = "https://www.sahneva.com";
@@ -28,7 +30,6 @@ const CaseGallery = dynamic(() => import("@/components/CaseGallery"), {
 export const metadata = {
   title: "LED Ekran Kiralama | Profesyonel Çözümler | Sahneva",
   description: "P2-P6 piksel aralığı, 4K çözünürlük, yüksek parlaklık LED ekran kiralama. İç/dış mekan, konser, fuar ve kurumsal etkinlikler için profesyonel çözümler.",
-  keywords: "led ekran kiralama, p2.5 led ekran, p4 led ekran, dış mekan led ekran, led wall kiralama, video wall kiralama, konser led ekran",
   alternates: { canonical: `${ORIGIN}/led-ekran-kiralama` },
   openGraph: {
     title: "LED Ekran Kiralama | Profesyonel Çözümler",
@@ -1015,56 +1016,63 @@ function CTA() {
 
 /* ================== JSON-LD ================== */
 function JsonLd() {
+  const { service: serviceSchema, products } = buildServiceProductSchema({
+    slug: "/led-ekran-kiralama",
+    locale: "tr-TR",
+  });
+
+  const serviceNode = {
+    "@type": "Service",
+    name: "LED Ekran Kiralama Hizmeti",
+    description:
+      "Profesyonel LED ekran kiralama hizmeti. P2-P6 piksel aralığı, iç/dış mekan LED ekranlar, video wall sistemleri ve profesyonel kurulum hizmetleri ile Türkiye genelinde hizmet.",
+    provider: {
+      "@type": "Organization",
+      name: "Sahneva",
+      telephone: "+905453048671",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "İstanbul",
+        addressCountry: "TR"
+      },
+      url: ORIGIN,
+      logo: `${ORIGIN}/logo.png`,
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      reviewCount: "183",
+      bestRating: "5"
+    },
+  };
+
+  if (serviceSchema) {
+    Object.assign(serviceNode, serviceSchema);
+  }
+
+  const productNodes = products ?? [];
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { 
-            "@type": "ListItem", 
-            position: 1, 
-            name: "Anasayfa", 
-            item: `${ORIGIN}/` 
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Anasayfa",
+            item: `${ORIGIN}/`
           },
-          { 
-            "@type": "ListItem", 
-            position: 2, 
-            name: "LED Ekran Kiralama", 
-            item: `${ORIGIN}/led-ekran-kiralama` 
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "LED Ekran Kiralama",
+            item: `${ORIGIN}/led-ekran-kiralama`
           },
         ],
       },
-      {
-        "@type": "Service",
-        name: "LED Ekran Kiralama Hizmeti",
-        description: "Profesyonel LED ekran kiralama hizmeti. P2-P6 piksel aralığı, iç/dış mekan LED ekranlar, video wall sistemleri ve profesyonel kurulum hizmetleri ile Türkiye genelinde hizmet.",
-        provider: {
-          "@type": "Organization",
-          name: "Sahneva",
-          telephone: "+905453048671",
-          address: { 
-            "@type": "PostalAddress", 
-            addressLocality: "İstanbul", 
-            addressCountry: "TR" 
-          },
-          url: ORIGIN,
-          logo: `${ORIGIN}/logo.png`,
-        },
-        areaServed: "TR",
-        serviceType: "EventProduction",
-        offers: {
-          "@type": "Offer",
-          description: "Profesyonel LED ekran kiralama hizmeti"
-        },
-        url: `${ORIGIN}/led-ekran-kiralama`,
-        aggregateRating: { 
-          "@type": "AggregateRating", 
-          ratingValue: "4.9", 
-          reviewCount: "183", 
-          bestRating: "5" 
-        },
-      },
+      serviceNode,
       {
         "@type": "WebPage",
         name: "LED Ekran Kiralama | Profesyonel Çözümler | Sahneva",
@@ -1074,7 +1082,8 @@ function JsonLd() {
           "@type": "Service",
           name: "LED Ekran Kiralama"
         }
-      }
+      },
+      ...productNodes,
     ],
   };
 

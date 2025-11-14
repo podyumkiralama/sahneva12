@@ -4,6 +4,8 @@ import Link from "next/link";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 
+import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
+
 /* ================== Sabitler ================== */
 export const revalidate = 1800;
 const ORIGIN = "https://www.sahneva.com";
@@ -28,7 +30,6 @@ const CaseGallery = dynamic(() => import("@/components/CaseGallery"), {
 export const metadata = {
   title: "Kurumsal Organizasyon | Profesyonel Etkinlik Yönetimi | Sahneva",
   description: "Konferans, lansman, gala, miting ve roadshow organizasyonları. Sahne, ses, ışık, LED ekran ve profesyonel etkinlik yönetimi. Türkiye geneli hızlı hizmet.",
-  keywords: "kurumsal organizasyon, etkinlik yönetimi, konferans organizasyonu, lansman, gala organizasyonu, fuar organizasyonu, toplantı organizasyonu",
   alternates: { canonical: `${ORIGIN}/kurumsal-organizasyon` },
   openGraph: {
     title: "Kurumsal Organizasyon | Profesyonel Etkinlik Yönetimi | Sahneva",
@@ -1023,56 +1024,63 @@ function CTA() {
 
 /* ================== JSON-LD ================== */
 function JsonLd() {
+  const { service: serviceSchema, products } = buildServiceProductSchema({
+    slug: "/kurumsal-organizasyon",
+    locale: "tr-TR",
+  });
+
+  const serviceNode = {
+    "@type": "Service",
+    name: "Kurumsal Organizasyon Hizmeti",
+    description:
+      "Profesyonel kurumsal organizasyon hizmeti. Konferans, lansman, gala, miting organizasyonları ve teknik altyapı hizmetleri ile Türkiye genelinde hizmet.",
+    provider: {
+      "@type": "Organization",
+      name: "Sahneva",
+      telephone: "+905453048671",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "İstanbul",
+        addressCountry: "TR"
+      },
+      url: ORIGIN,
+      logo: `${ORIGIN}/logo.png`,
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      reviewCount: "250",
+      bestRating: "5"
+    },
+  };
+
+  if (serviceSchema) {
+    Object.assign(serviceNode, serviceSchema);
+  }
+
+  const productNodes = products ?? [];
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { 
-            "@type": "ListItem", 
-            position: 1, 
-            name: "Anasayfa", 
-            item: `${ORIGIN}/` 
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Anasayfa",
+            item: `${ORIGIN}/`
           },
-          { 
-            "@type": "ListItem", 
-            position: 2, 
-            name: "Kurumsal Organizasyon", 
-            item: `${ORIGIN}/kurumsal-organizasyon` 
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Kurumsal Organizasyon",
+            item: `${ORIGIN}/kurumsal-organizasyon`
           },
         ],
       },
-      {
-        "@type": "Service",
-        name: "Kurumsal Organizasyon Hizmeti",
-        description: "Profesyonel kurumsal organizasyon hizmeti. Konferans, lansman, gala, miting organizasyonları ve teknik altyapı hizmetleri ile Türkiye genelinde hizmet.",
-        provider: {
-          "@type": "Organization",
-          name: "Sahneva",
-          telephone: "+905453048671",
-          address: { 
-            "@type": "PostalAddress", 
-            addressLocality: "İstanbul", 
-            addressCountry: "TR" 
-          },
-          url: ORIGIN,
-          logo: `${ORIGIN}/logo.png`,
-        },
-        areaServed: "TR",
-        serviceType: "EventProduction",
-        offers: {
-          "@type": "Offer",
-          description: "Profesyonel kurumsal organizasyon hizmeti"
-        },
-        url: `${ORIGIN}/kurumsal-organizasyon`,
-        aggregateRating: { 
-          "@type": "AggregateRating", 
-          ratingValue: "4.9", 
-          reviewCount: "250", 
-          bestRating: "5" 
-        },
-      },
+      serviceNode,
       {
         "@type": "WebPage",
         name: "Kurumsal Organizasyon | Profesyonel Etkinlik Yönetimi | Sahneva",
@@ -1082,7 +1090,8 @@ function JsonLd() {
           "@type": "Service",
           name: "Kurumsal Organizasyon"
         }
-      }
+      },
+      ...productNodes,
     ],
   };
 

@@ -4,6 +4,8 @@ import Link from "next/link";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 
+import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
+
 /* ================== Sabitler ================== */
 export const revalidate = 1800;
 const ORIGIN = "https://www.sahneva.com";
@@ -28,7 +30,6 @@ const CaseGallery = dynamic(() => import("@/components/CaseGallery"), {
 export const metadata = {
   title: "Sahne Kiralama | Profesyonel Sahne Çözümleri | Sahneva",
   description: "Konser, konferans, lansman, miting ve festival etkinlikleri için anahtar teslim sahne kiralama. Truss, podyum, LED ekran, ses ve ışık sistemleri. 81 ilde profesyonel hizmet.",
-  keywords: "sahne kiralama, konser sahnesi, konferans sahnesi, truss sistemleri, sahne kurulumu, profesyonel sahne, etkinlik sahnesi, sahne podyum kiralama",
   alternates: { canonical: `${ORIGIN}/sahne-kiralama` },
   openGraph: {
     title: "Sahne Kiralama | Profesyonel Sahne Çözümleri",
@@ -1196,56 +1197,63 @@ function CTA() {
 
 /* ================== JSON-LD ================== */
 function JsonLd() {
+  const { service: serviceSchema, products } = buildServiceProductSchema({
+    slug: "/sahne-kiralama",
+    locale: "tr-TR",
+  });
+
+  const serviceNode = {
+    "@type": "Service",
+    name: "Sahne Kiralama Hizmeti",
+    description:
+      "Profesyonel sahne kiralama hizmeti. Konser, konferans, lansman, miting ve festival etkinlikleri için truss, podyum, LED ekran, ses ve ışık sistemleri ile anahtar teslim sahne çözümleri.",
+    provider: {
+      "@type": "Organization",
+      name: "Sahneva",
+      telephone: "+905453048671",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "İstanbul",
+        addressCountry: "TR"
+      },
+      url: ORIGIN,
+      logo: `${ORIGIN}/logo.png`,
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      reviewCount: "183",
+      bestRating: "5"
+    },
+  };
+
+  if (serviceSchema) {
+    Object.assign(serviceNode, serviceSchema);
+  }
+
+  const productNodes = products ?? [];
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { 
-            "@type": "ListItem", 
-            position: 1, 
-            name: "Anasayfa", 
-            item: `${ORIGIN}/` 
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Anasayfa",
+            item: `${ORIGIN}/`
           },
-          { 
-            "@type": "ListItem", 
-            position: 2, 
-            name: "Sahne Kiralama", 
-            item: `${ORIGIN}/sahne-kiralama` 
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Sahne Kiralama",
+            item: `${ORIGIN}/sahne-kiralama`
           },
         ],
       },
-      {
-        "@type": "Service",
-        name: "Sahne Kiralama Hizmeti",
-        description: "Profesyonel sahne kiralama hizmeti. Konser, konferans, lansman, miting ve festival etkinlikleri için truss, podyum, LED ekran, ses ve ışık sistemleri ile anahtar teslim sahne çözümleri.",
-        provider: {
-          "@type": "Organization",
-          name: "Sahneva",
-          telephone: "+905453048671",
-          address: { 
-            "@type": "PostalAddress", 
-            addressLocality: "İstanbul", 
-            addressCountry: "TR" 
-          },
-          url: ORIGIN,
-          logo: `${ORIGIN}/logo.png`,
-        },
-        areaServed: "TR",
-        serviceType: "EventProduction",
-        offers: {
-          "@type": "Offer",
-          description: "Profesyonel sahne kiralama hizmeti"
-        },
-        url: `${ORIGIN}/sahne-kiralama`,
-        aggregateRating: { 
-          "@type": "AggregateRating", 
-          ratingValue: "4.9", 
-          reviewCount: "183", 
-          bestRating: "5" 
-        },
-      },
+      serviceNode,
       {
         "@type": "WebPage",
         name: "Sahne Kiralama | Profesyonel Sahne Çözümleri | Sahneva",
@@ -1255,7 +1263,8 @@ function JsonLd() {
           "@type": "Service",
           name: "Sahne Kiralama"
         }
-      }
+      },
+      ...productNodes,
     ],
   };
 
