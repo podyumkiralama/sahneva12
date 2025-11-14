@@ -27,10 +27,10 @@ export default function Accordion({ items = [], variant = "light" }) {
       cardBase: `rounded-xl border transition-all duration-300 shadow-sm ${
         isDark ? "bg-white/5 border-white/15" : "bg-white border-neutral-200"
       }`,
-      btnBase: `w-full px-5 py-4 text-left flex items-center justify-between gap-4 focus:outline-none min-h-[60px] ${
+      btnBase: `w-full px-5 py-4 text-left flex items-center justify-between gap-4 min-h-[60px] focus-ring ${
         isDark
-          ? "text-white hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900"
-          : "text-neutral-800 hover:bg-neutral-50 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+          ? "text-white hover:bg-white/10"
+          : "text-neutral-800 hover:bg-neutral-50"
       }`,
       questionClass: `font-semibold text-base md:text-lg ${
         isDark ? "text-white" : "text-gray-900"

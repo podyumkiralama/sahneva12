@@ -1,34 +1,104 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+
+const focusRingClass = "focus-ring";
 
 export default function SiteHeader({ locale, strings }) {
   const [open, setOpen] = useState(false);
-  const direction = strings.direction ?? (locale === "ar" ? "rtl" : "ltr");
+  const mobileMenuRef = useRef(null);
+  const toggleButtonRef = useRef(null);
+  const previouslyFocusedElement = useRef(null);
+  const previousOverflow = useRef("");
 
+  const direction = strings.direction ?? (locale === "ar" ? "rtl" : "ltr");
   const homeHref = locale === "tr" ? "/" : `/${locale}`;
+
+  const ariaStrings = useMemo(
+    () => ({
+      header: strings?.ariaLabel ?? "Site header",
+      nav: strings?.navLabel ?? strings?.navigationLabel ?? "Main navigation",
+      mobileToggle: strings?.mobileToggleLabel ?? strings?.mobileToggle ?? "Toggle navigation",
+    }),
+    [strings]
+  );
+
+  useEffect(() => {
+    if (!open) return undefined;
+
+    const node = mobileMenuRef.current;
+    previouslyFocusedElement.current = document.activeElement;
+    previousOverflow.current = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.body.classList.add("overflow-hidden");
+
+    const focusableSelectors =
+      'a[href]:not([tabindex="-1"]), button:not([disabled]), [tabindex="0"]';
+    const focusable = node?.querySelectorAll(focusableSelectors) ?? [];
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (first instanceof HTMLElement) {
+      first.focus();
+    }
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        toggleButtonRef.current?.focus();
+      }
+      if (event.key === "Tab" && focusable.length > 0) {
+        if (event.shiftKey) {
+          if (document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+          }
+        } else if (document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow.current || "";
+      document.body.classList.remove("overflow-hidden");
+      if (previouslyFocusedElement.current instanceof HTMLElement) {
+        previouslyFocusedElement.current.focus();
+      }
+    };
+  }, [open]);
 
   return (
     <header
+      id="main-header"
+      role="banner"
+      aria-label={ariaStrings.header}
       className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-200/70"
       dir={direction}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          <Link href={homeHref} className="flex items-center gap-3">
+          <Link href={homeHref} className={`flex items-center gap-3 ${focusRingClass}`}>
             <span className="text-2xl font-black text-indigo-600">Sahneva</span>
             <span className="hidden sm:block text-sm text-neutral-500 font-medium">
               {strings.tagline}
             </span>
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-6" aria-label={strings.navigationLabel}>
+          <nav
+            id="primary-navigation"
+            className="hidden lg:flex items-center gap-6"
+            aria-label={ariaStrings.nav}
+          >
             {strings.links.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-sm font-semibold text-neutral-700 hover:text-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-500 px-2 py-1 rounded-lg"
+                className={`text-sm font-semibold text-neutral-700 hover:text-indigo-600 px-2 py-1 rounded-lg ${focusRingClass}`}
               >
                 {item.label}
               </Link>
@@ -37,7 +107,7 @@ export default function SiteHeader({ locale, strings }) {
               href={strings.whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-4 py-2.5 text-sm font-bold text-white shadow-lg hover:shadow-xl transition-all duration-200"
+              className={`inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-4 py-2.5 text-sm font-bold text-white shadow-lg hover:shadow-xl transition-all duration-200 ${focusRingClass}`}
             >
               <span aria-hidden="true">💬</span>
               {strings.whatsappLabel}
@@ -46,12 +116,14 @@ export default function SiteHeader({ locale, strings }) {
 
           <button
             type="button"
+            ref={toggleButtonRef}
             onClick={() => setOpen((v) => !v)}
-            className="lg:hidden inline-flex items-center justify-center rounded-xl border border-neutral-200 bg-white p-3 text-neutral-700 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-500"
-            aria-expanded={open}
-            aria-controls="mobile-menu"
-          >
-            <span className="sr-only">{strings.mobileToggle}</span>
+          className={`lg:hidden inline-flex items-center justify-center rounded-xl border border-neutral-200 bg-white p-3 text-neutral-700 shadow-sm ${focusRingClass}`}
+          aria-expanded={open}
+          aria-controls="mobile-menu"
+          aria-label={ariaStrings.mobileToggle}
+        >
+            <span className="sr-only">{ariaStrings.mobileToggle}</span>
             <span className="relative h-5 w-5" aria-hidden="true">
               <span
                 className={`absolute inset-x-0 top-1 h-0.5 bg-current transition-transform duration-200 ${open ? "translate-y-2 rotate-45" : ""}`}
@@ -69,30 +141,36 @@ export default function SiteHeader({ locale, strings }) {
 
       <div
         id="mobile-menu"
+        ref={mobileMenuRef}
+        role="dialog"
+        aria-modal={open ? "true" : undefined}
         hidden={!open}
+        aria-label={ariaStrings.nav}
         className="lg:hidden border-t border-neutral-200 bg-white shadow-xl"
       >
-        <div className="container mx-auto px-4 py-4 space-y-2">
-          {strings.links.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="block rounded-lg px-4 py-3 text-sm font-semibold text-neutral-700 hover:bg-neutral-100"
-              onClick={() => setOpen(false)}
+        <nav id="primary-navigation-mobile" aria-label={ariaStrings.nav}>
+          <div className="container mx-auto px-4 py-4 space-y-2">
+            {strings.links.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`block rounded-lg px-4 py-3 text-sm font-semibold text-neutral-700 hover:bg-neutral-100 ${focusRingClass}`}
+                onClick={() => setOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
+            <a
+              href={strings.whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-4 py-3 text-sm font-bold text-white ${focusRingClass}`}
             >
-              {item.label}
-            </Link>
-          ))}
-          <a
-            href={strings.whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-4 py-3 text-sm font-bold text-white"
-          >
-            <span aria-hidden="true">💬</span>
-            {strings.whatsappLabel}
-          </a>
-        </div>
+              <span aria-hidden="true">💬</span>
+              {strings.whatsappLabel}
+            </a>
+          </div>
+        </nav>
       </div>
     </header>
   );

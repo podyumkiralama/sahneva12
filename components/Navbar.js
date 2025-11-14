@@ -5,6 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef, useCallback } from "react";
+import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
+
+const focusRingClass = "focus-ring";
 
 const serviceLinks = [
   { 
@@ -53,6 +56,7 @@ const serviceLinks = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const headerStrings = LOCALE_CONTENT.tr.header;
 
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -60,21 +64,36 @@ export default function Navbar() {
 
   const dropdownRef = useRef(null);
   const hoverTimer = useRef(null);
+  const mobileMenuRef = useRef(null);
+  const toggleButtonRef = useRef(null);
+  const servicesButtonRef = useRef(null);
+  const serviceItemRefs = useRef([]);
+  const previouslyFocusedElement = useRef(null);
+  const previousOverflow = useRef("");
   const servicesBtnId = "nav-services-button";
   const servicesMenuId = "nav-services-menu";
 
   // ESC kapatma
   useEffect(() => {
     const onKey = (e) => {
-      if (e.key === "Escape") {
-        setMobileOpen(false);
-        setServicesOpen(false);
-        setMobileServicesOpen(false);
+      if (e.key !== "Escape") return;
+
+      const wasMobileOpen = mobileOpen;
+      const wasServicesOpen = servicesOpen;
+
+      setMobileOpen(false);
+      setServicesOpen(false);
+      setMobileServicesOpen(false);
+
+      if (wasMobileOpen) {
+        toggleButtonRef.current?.focus();
+      } else if (wasServicesOpen) {
+        servicesButtonRef.current?.focus();
       }
     };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [mobileOpen, servicesOpen]);
 
   // Rota değişince menüleri kapat
   useEffect(() => {
@@ -85,10 +104,21 @@ export default function Navbar() {
 
   // Mobil açıkken body scroll kilidi
   useEffect(() => {
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = mobileOpen ? "hidden" : prev || "";
+    if (mobileOpen) {
+      previousOverflow.current = document.body.style.overflow;
+      previouslyFocusedElement.current = document.activeElement;
+      document.body.style.overflow = "hidden";
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.style.overflow = previousOverflow.current || "";
+      document.body.classList.remove("overflow-hidden");
+      if (previouslyFocusedElement.current instanceof HTMLElement) {
+        previouslyFocusedElement.current.focus();
+      }
+    }
     return () => {
-      document.body.style.overflow = prev || "";
+      document.body.style.overflow = previousOverflow.current || "";
+      document.body.classList.remove("overflow-hidden");
     };
   }, [mobileOpen]);
 
@@ -103,7 +133,133 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", onClickOutside);
   }, [servicesOpen]);
 
+  useEffect(() => {
+    if (!mobileOpen) return undefined;
+
+    const menuNode = mobileMenuRef.current;
+    if (!menuNode) return undefined;
+
+    const focusableSelectors =
+      'a[href]:not([tabindex="-1"]), button:not([disabled]), [tabindex="0"]';
+    const focusable = menuNode.querySelectorAll(focusableSelectors);
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (first instanceof HTMLElement) {
+      first.focus();
+    }
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Tab" && focusable.length > 0) {
+        if (event.shiftKey) {
+          if (document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+          }
+        } else if (document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [mobileOpen]);
+
   useEffect(() => () => hoverTimer.current && clearTimeout(hoverTimer.current), []);
+
+  const focusServiceItem = useCallback((index) => {
+    const items = serviceItemRefs.current.filter(Boolean);
+    if (!items.length) return;
+    const normalizedIndex = ((index % items.length) + items.length) % items.length;
+    items[normalizedIndex]?.focus();
+  }, []);
+
+  const openServicesMenuAndFocus = useCallback(
+    (index = 0) => {
+      setServicesOpen(true);
+      setTimeout(() => focusServiceItem(index), 0);
+    },
+    [focusServiceItem]
+  );
+
+  const handleServicesButtonKeyDown = useCallback(
+    (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        setServicesOpen((prev) => {
+          const next = !prev;
+          if (!prev && next) {
+            setTimeout(() => focusServiceItem(0), 0);
+          }
+          return next;
+        });
+        return;
+      }
+
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        if (servicesOpen) {
+          focusServiceItem(0);
+        } else {
+          openServicesMenuAndFocus(0);
+        }
+        return;
+      }
+
+      if (event.key === "ArrowUp") {
+        event.preventDefault();
+        if (servicesOpen) {
+          focusServiceItem(serviceLinks.length - 1);
+        } else {
+          openServicesMenuAndFocus(serviceLinks.length - 1);
+        }
+      }
+    },
+    [focusServiceItem, openServicesMenuAndFocus, servicesOpen]
+  );
+
+  const handleServiceItemKeyDown = useCallback(
+    (event, index) => {
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        focusServiceItem(index + 1);
+        return;
+      }
+
+      if (event.key === "ArrowUp") {
+        event.preventDefault();
+        focusServiceItem(index - 1);
+        return;
+      }
+
+      if (event.key === "Home") {
+        event.preventDefault();
+        focusServiceItem(0);
+        return;
+      }
+
+      if (event.key === "End") {
+        event.preventDefault();
+        focusServiceItem(serviceLinks.length - 1);
+        return;
+      }
+
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setServicesOpen(false);
+        servicesButtonRef.current?.focus();
+      }
+    },
+    [focusServiceItem]
+  );
+
+  useEffect(() => {
+    if (servicesOpen && document.activeElement === servicesButtonRef.current) {
+      setTimeout(() => focusServiceItem(0), 0);
+    }
+  }, [focusServiceItem, servicesOpen]);
 
   const active = useCallback(
     (href) => pathname === href || (href !== "/" && pathname?.startsWith(href)),
@@ -132,15 +288,20 @@ export default function Navbar() {
   };
 
   const whatsappBtnClass =
-    "ml-2 inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-white text-sm font-bold bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white min-h-[44px] border border-green-600/20";
+    `ml-2 inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-white text-sm font-bold bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 min-h-[44px] border border-green-600/20 ${focusRingClass}`;
 
   const mobileWhatsappBtnClass =
-    "block text-center mt-4 rounded-xl px-5 py-3 text-white text-sm font-bold bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white min-h-[44px] flex items-center justify-center gap-2 border border-green-600/20";
+    `block text-center mt-4 rounded-xl px-5 py-3 text-white text-sm font-bold bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 min-h-[44px] flex items-center justify-center gap-2 border border-green-600/20 ${focusRingClass}`;
+
+  serviceItemRefs.current.length = serviceLinks.length;
 
   return (
     <>
       {/* Header - SAYDAM DEĞİL, SOLID BEYAZ */}
       <header
+        id="main-header"
+        role="banner"
+        aria-label={headerStrings?.ariaLabel ?? "Site header"}
         className="fixed top-0 inset-x-0 z-50 bg-white border-b border-neutral-200/80 shadow-lg"
         itemScope
         itemType="https://schema.org/Organization"
@@ -150,7 +311,7 @@ export default function Navbar() {
             {/* Logo */}
             <Link
               href="/"
-              className="flex items-center gap-3 group"
+              className={`flex items-center gap-3 group ${focusRingClass}`}
               aria-label="Sahneva - Profesyonel sahne ve etkinlik ekipmanları kiralama"
               title="Sahneva Ana Sayfa - Etkinlik ekipmanları kiralama"
               itemProp="url"
@@ -168,14 +329,17 @@ export default function Navbar() {
             </Link>
 
             {/* Masaüstü menü */}
-            <nav className="hidden lg:flex items-center gap-4" aria-label="Ana menü">
+            <nav
+              className="hidden lg:flex items-center gap-4"
+              aria-label={headerStrings?.navLabel ?? "Ana gezinme"}
+            >
               <Link
                 href="/hakkimizda"
                 className={
                   active("/hakkimizda")
-                    ? "relative text-[15px] font-bold transition-all duration-200 px-4 py-2.5 rounded-xl text-blue-700 bg-blue-50 border border-blue-200"
-                    : "relative text-[15px] font-bold transition-all duration-200 px-4 py-2.5 rounded-xl text-neutral-800 hover:text-blue-700 hover:bg-neutral-50 hover:border hover:border-neutral-200"
-                }
+                    ? `relative text-[15px] font-bold transition-all duration-200 px-4 py-2.5 rounded-xl text-blue-700 bg-blue-50 border border-blue-200 ${focusRingClass}`
+                    : `relative text-[15px] font-bold transition-all duration-200 px-4 py-2.5 rounded-xl text-neutral-800 hover:text-blue-700 hover:bg-neutral-50 hover:border hover:border-neutral-200 ${focusRingClass}`
+              }
                 aria-current={active("/hakkimizda") ? "page" : undefined}
                 title="Sahneva Hakkında - Şirket bilgileri ve referanslar"
                 onMouseEnter={handleHover}
@@ -198,13 +362,15 @@ export default function Navbar() {
                   type="button"
                   className={
                     active("/hizmetler") || servicesOpen
-                      ? "relative text-[15px] font-bold px-4 py-2.5 rounded-xl transition-all duration-200 group border text-blue-700 bg-blue-50 border-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50"
-                      : "relative text-[15px] font-bold px-4 py-2.5 rounded-xl transition-all duration-200 group border text-neutral-800 hover:text-blue-700 hover:bg-neutral-50 border-transparent hover:border-neutral-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50"
+                      ? `relative text-[15px] font-bold px-4 py-2.5 rounded-xl transition-all duration-200 group border text-blue-700 bg-blue-50 border-blue-200 ${focusRingClass}`
+                      : `relative text-[15px] font-bold px-4 py-2.5 rounded-xl transition-all duration-200 group border text-neutral-800 hover:text-blue-700 hover:bg-neutral-50 border-transparent hover:border-neutral-200 ${focusRingClass}`
                   }
                   aria-haspopup="true"
                   aria-expanded={servicesOpen}
                   aria-controls={servicesMenuId}
                   onClick={() => setServicesOpen((s) => !s)}
+                  onKeyDown={handleServicesButtonKeyDown}
+                  ref={servicesButtonRef}
                   title="Sahneva Hizmetler - Tüm ekipman kiralama hizmetlerimiz"
                   onMouseEnter={handleHover}
                   onMouseLeave={handleHoverEnd}
@@ -238,13 +404,17 @@ export default function Navbar() {
                   onMouseLeave={closeWithDelay}
                 >
                   <div className="flex flex-col p-2">
-                    {serviceLinks.map(({ href, label, title, icon, description }) => (
+                    {serviceLinks.map(({ href, label, title, icon, description }, index) => (
                       <Link
                         key={href}
                         role="menuitem"
                         href={href}
-                        className="group flex items-start gap-3 px-3 py-2 text-sm text-neutral-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all duration-200 w-full transform hover:scale-[1.02]"
+                        ref={(node) => {
+                          serviceItemRefs.current[index] = node;
+                        }}
+                        className={`group flex items-start gap-3 px-3 py-2 text-sm text-neutral-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all duration-200 w-full transform hover:scale-[1.02] ${focusRingClass}`}
                         onClick={() => setServicesOpen(false)}
+                        onKeyDown={(event) => handleServiceItemKeyDown(event, index)}
                         aria-current={active(href) ? "page" : undefined}
                         title={title}
                       >
@@ -265,8 +435,8 @@ export default function Navbar() {
                 href="/iletisim"
                 className={
                   active("/iletisim")
-                    ? "relative text-[15px] font-bold transition-all duration-200 px-4 py-2.5 rounded-xl text-blue-700 bg-blue-50 border border-blue-200"
-                    : "relative text-[15px] font-bold transition-all duration-200 px-4 py-2.5 rounded-xl text-neutral-800 hover:text-blue-700 hover:bg-neutral-50 hover:border hover:border-neutral-200"
+                    ? `relative text-[15px] font-bold transition-all duration-200 px-4 py-2.5 rounded-xl text-blue-700 bg-blue-50 border border-blue-200 ${focusRingClass}`
+                    : `relative text-[15px] font-bold transition-all duration-200 px-4 py-2.5 rounded-xl text-neutral-800 hover:text-blue-700 hover:bg-neutral-50 hover:border hover:border-neutral-200 ${focusRingClass}`
                 }
                 aria-current={active("/iletisim") ? "page" : undefined}
                 title="Sahneva İletişim - Bize ulaşın ve teklif alın"
@@ -295,9 +465,11 @@ export default function Navbar() {
 
             {/* Mobil menü butonu */}
             <button
+              type="button"
+              ref={toggleButtonRef}
               onClick={() => setMobileOpen((s) => !s)}
-              className="lg:hidden inline-flex items-center justify-center p-3 rounded-xl bg-white border border-neutral-200 hover:bg-neutral-50 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 min-h-[44px] min-w-[44px] transform hover:scale-105"
-              aria-label="Menüyü aç veya kapat"
+              className={`lg:hidden inline-flex items-center justify-center p-3 rounded-xl bg-white border border-neutral-200 hover:bg-neutral-50 transition-all duration-200 min-h-[44px] min-w-[44px] transform hover:scale-105 ${focusRingClass}`}
+              aria-label={headerStrings?.mobileToggleLabel ?? "Mobil menüyü aç/kapat"}
               aria-expanded={mobileOpen}
               aria-controls="mobile-menu"
               title="Mobil menü"
@@ -330,26 +502,29 @@ export default function Navbar() {
           type="button"
           aria-label="Menüyü kapat"
           onClick={() => setMobileOpen(false)}
-          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden"
+          className={`fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden ${focusRingClass}`}
         />
       )}
 
       {/* Mobil menü */}
       <div
         id="mobile-menu"
+        ref={mobileMenuRef}
         role="dialog"
-        aria-modal="true"
-        aria-label="Mobil menü"
+        aria-modal={mobileOpen ? "true" : undefined}
+        aria-label={headerStrings?.navLabel ?? "Ana gezinme"}
         className={`lg:hidden fixed z-50 left-0 right-0 top-16 bg-white border-t border-neutral-200 shadow-2xl transition-all duration-300 overflow-hidden ${
           mobileOpen ? "max-h-[80vh] opacity-100" : "max-h-0 opacity-0"
         }`}
+        aria-hidden={!mobileOpen}
       >
-        <div className="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
-          <Link
-            href="/hakkimizda"
-            onClick={() => setMobileOpen(false)}
-            className="flex items-center gap-3 py-3.5 px-4 text-neutral-800 font-bold text-[15px] rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 transform hover:scale-[1.02]"
-            aria-current={active("/hakkimizda") ? "page" : undefined}
+        <nav id="primary-navigation-mobile" aria-label={headerStrings?.navLabel ?? "Ana gezinme"}>
+          <div className="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
+            <Link
+              href="/hakkimizda"
+              onClick={() => setMobileOpen(false)}
+              className={`flex items-center gap-3 py-3.5 px-4 text-neutral-800 font-bold text-[15px] rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 transform hover:scale-[1.02] ${focusRingClass}`}
+              aria-current={active("/hakkimizda") ? "page" : undefined}
             title="Sahneva Hakkında"
           >
             <span className="text-lg" aria-hidden="true">👥</span>
@@ -362,7 +537,7 @@ export default function Navbar() {
               onClick={() => setMobileServicesOpen((s) => !s)}
               aria-expanded={mobileServicesOpen}
               aria-controls="mobile-services-list"
-              className="w-full flex items-center justify-between gap-3 py-3.5 px-4 text-[15px] font-bold text-neutral-900 rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 min-h-[44px] transform hover:scale-[1.02]"
+              className={`w-full flex items-center justify-between gap-3 py-3.5 px-4 text-[15px] font-bold text-neutral-900 rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 min-h-[44px] transform hover:scale-[1.02] ${focusRingClass}`}
               title="Sahneva Hizmetler Menüsü"
             >
               <span className="flex items-center gap-3">
@@ -395,7 +570,7 @@ export default function Navbar() {
                     key={href}
                     href={href}
                     onClick={() => setMobileOpen(false)}
-                    className="flex items-start gap-3 px-3 py-2 text-sm text-neutral-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition-all duration-200 w-full transform hover:scale-[1.01]"
+                    className={`flex items-start gap-3 px-3 py-2 text-sm text-neutral-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition-all duration-200 w-full transform hover:scale-[1.01] ${focusRingClass}`}
                     aria-current={active(href) ? "page" : undefined}
                     title={title}
                   >
@@ -413,7 +588,7 @@ export default function Navbar() {
           <Link
             href="/iletisim"
             onClick={() => setMobileOpen(false)}
-            className="flex items-center gap-3 py-3.5 px-4 text-neutral-800 font-bold text-[15px] rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 transform hover:scale-[1.02]"
+            className={`flex items-center gap-3 py-3.5 px-4 text-neutral-800 font-bold text-[15px] rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 transform hover:scale-[1.02] ${focusRingClass}`}
             aria-current={active("/iletisim") ? "page" : undefined}
             title="Sahneva İletişim"
           >
@@ -435,7 +610,8 @@ export default function Navbar() {
             <span>WhatsApp Teklif</span>
             <span className="sr-only"> — yeni sekmede açılır</span>
           </a>
-        </div>
+          </div>
+        </nav>
       </div>
     </>
   );

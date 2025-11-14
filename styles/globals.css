@@ -18,6 +18,16 @@ html {
   scroll-behavior:smooth;
   font-size:100%;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  .scroll-smooth {
+    scroll-behavior: auto !important;
+  }
+}
 html, body {
   height:100%;
 }
@@ -37,7 +47,7 @@ img, video, canvas, svg {
    Erişilebilirlik & Etkileşim
    ========================================================================== */
 :focus-visible {
-  outline:3px solid #6d28d966;
+  outline:2px solid transparent;
   outline-offset:2px;
 }
 
@@ -106,10 +116,16 @@ img, video, canvas, svg {
   .reveal {
     transition: none;
   }
-  
+
   .reveal.active {
     opacity: 1;
     transform: none;
+  }
+}
+
+@layer utilities {
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white;
   }
 }
 

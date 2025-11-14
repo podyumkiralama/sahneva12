@@ -236,8 +236,7 @@ export default function ServicesTabs({
                   id={`tab-${service.id}`}
                   onClick={() => setActiveTab(service.id)}
                   className={`inline-flex items-center gap-2 px-4 py-3 min-h-11 rounded-xl font-semibold text-sm
-                    transition-all duration-300 border-2 whitespace-nowrap flex-shrink-0
-                    focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/70
+                    transition-all duration-300 border-2 whitespace-nowrap flex-shrink-0 focus-ring
                     ${
                       activeTab === service.id
                         ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white border-transparent shadow-lg scale-105"
@@ -356,8 +355,7 @@ export default function ServicesTabs({
                         className="group inline-flex items-center justify-center gap-3
                           bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700
                           text-white font-bold text-lg px-8 py-4 min-h-11 rounded-xl transition-all duration-300
-                          hover:scale-105 shadow-lg w-full md:w-auto focus:outline-none
-                          focus-visible:ring-2 focus-visible:ring-purple-500/70"
+                          hover:scale-105 shadow-lg w-full md:w-auto focus-ring"
                         title={dictionary.ctaTitle}
                       >
                         <span>{dictionary.ctaLabel}</span>
@@ -419,8 +417,7 @@ export default function ServicesTabs({
                   <Link
                     href={activeService.href}
                     className="absolute top-4 right-4 bg-black/60 hover:bg-black/80 text-white p-3 rounded-lg
-                      transition-all duration-300 hover:scale-110 focus:outline-none
-                      focus-visible:ring-2 focus-visible:ring-white/70 min-w-11 min-h-11 flex items-center justify-center"
+                      transition-all duration-300 hover:scale-110 focus-ring min-w-11 min-h-11 flex items-center justify-center"
                     title={formatTitleTemplate(
                       overlayButtonTitleTemplate,
                       activeService.title,
