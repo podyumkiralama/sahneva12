@@ -4,6 +4,8 @@ import Script from "next/script";
 import { Inter } from "next/font/google";
 import SkipLinks from "@/components/SkipLinks";
 
+import { serviceProducts } from "@/lib/structuredData/serviceProducts";
+
 const inter = Inter({
   subsets: ["latin", "latin-ext", "arabic"],
   preload: true,
@@ -68,6 +70,73 @@ const websiteJsonLd = {
   },
 };
 
+const SERVICE_PRODUCTS_JSON = (() => {
+  const siteUrl = "https://www.sahneva.com";
+  const orgId = `${siteUrl}#org`;
+
+  const graph = serviceProducts.flatMap((service) => {
+    const pageUrl = `${siteUrl}${service.slug}`;
+    const serviceId = `${pageUrl}#service`;
+
+    const productNodes = service.products.map((product) => ({
+      "@type": "Product",
+      "@id": `${pageUrl}#${product.sku}`,
+      name: product.name,
+      description: product.description,
+      sku: product.sku,
+      category: service.productCategory,
+      url: pageUrl,
+      brand: { "@type": "Organization", "@id": orgId, name: "Sahneva" },
+      additionalProperty: (product.highlights || []).map((item) => ({
+        "@type": "PropertyValue",
+        name: "Öne Çıkan Özellik",
+        value: item,
+      })),
+      offers: {
+        "@type": "Offer",
+        url: `${pageUrl}#teklif`,
+        availability: "https://schema.org/InStock",
+        priceCurrency: "TRY",
+        priceSpecification: {
+          "@type": "PriceSpecification",
+          price: "Teklif üzerine",
+          priceCurrency: "TRY",
+        },
+        description: product.description,
+      },
+      isRelatedTo: { "@id": serviceId },
+    }));
+
+    return [
+      {
+        "@type": "Service",
+        "@id": serviceId,
+        name: service.serviceName,
+        description: service.serviceDescription,
+        url: pageUrl,
+        areaServed: { "@type": "Country", name: "Türkiye" },
+        serviceType: service.productCategory,
+        provider: { "@id": orgId },
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name: service.serviceName,
+          itemListElement: service.products.map((product, index) => ({
+            "@type": "Offer",
+            position: index + 1,
+            itemOffered: { "@id": `${pageUrl}#${product.sku}` },
+          })),
+        },
+      },
+      ...productNodes,
+    ];
+  });
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": graph,
+  };
+})();
+
 export const viewport = {
   width: "device-width",
   initialScale: 1,
@@ -77,11 +146,11 @@ export const viewport = {
 export const metadata = {
   metadataBase: new URL("https://www.sahneva.com"),
   title: {
-    default: "Sahne, Podyum, LED Ekran & Ses-Işık Kiralama | Sahneva",
+    default: "Sahneva | Sahne, LED Ekran & Ses-Işık Kiralama Hizmetleri",
     template: "%s | Sahneva",
   },
   description:
-    "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı kurulum, profesyonel teknik ekip, uygun fiyat. Hemen teklif alın!",
+    "Türkiye genelinde sahne, podyum, LED ekran ile ses ve ışık sistemleri kiralama hizmetleri. Uzman teknik ekip, hızlı kurulum ve aynı gün teklif için Sahneva ile iletişime geçin.",
   manifest: "/site.webmanifest",
   alternates: {
     canonical: "https://www.sahneva.com",
@@ -179,6 +248,13 @@ export default function RootLayout({ children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(websiteJsonLd),
+          }}
+        />
+        <script
+          id="ld-service-products"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(SERVICE_PRODUCTS_JSON),
           }}
         />
       </head>
