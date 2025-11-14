@@ -172,11 +172,11 @@ const CONTENT = {
     "/img/podyum/1.webp", 
     "/img/podyum/2.webp", 
     "/img/podyum/3.webp",
-    "/img/led-ekran-kiralama-4.webp",
-    "/img/led-ekran-kiralama-5.webp",
-    "/img/led-ekran-kiralama-6.webp"
-    "/img/led-ekran-kiralama-7.webp"
-    "/img/led-ekran-kiralama-8.webp"
+    "/img/podyum-kiralama-4.webp",
+    "/img/podyum-kiralama-5.webp",
+    "/img/podyum-kiralama-6.webp"
+    "/img/podyum-kiralama-7.webp"
+    "/img/podyum-kiralama-8.webp"
   ],
   packages: [
     {
