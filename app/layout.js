@@ -250,6 +250,13 @@ export default function RootLayout({ children }) {
             __html: JSON.stringify(websiteJsonLd),
           }}
         />
+        <script
+          id="ld-service-products"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(SERVICE_PRODUCTS_JSON),
+          }}
+        />
       </head>
       <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
         <SkipLinks />
