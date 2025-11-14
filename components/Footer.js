@@ -146,7 +146,7 @@ export default function Footer() {
             </span>
           </div>
 
-          <p className="text-sm leading-6 text-gray-300 mb-6" itemProp="description">
+          <p className="text-sm leading-6 text-gray-200 mb-6" itemProp="description">
             <span className="block">Profesyonel etkinlik prodüksiyon & ekipman kiralama.</span>
             <span className="block">
               <span className="text-blue-300 font-medium">Türkiye geneli</span> sahne, podyum, LED ekran ve ses-ışık sistemleri.
@@ -191,7 +191,7 @@ export default function Footer() {
               <li key={href}>
                 <Link
                   href={href}
-                  className={`group text-gray-200 hover:text-white transition-all duration-200 block py-1 pl-2 border-l-2 border-transparent hover:border-blue-400 hover:pl-3 rounded-sm ${focusRingClass}`}
+                  className={`group text-slate-100 hover:text-white transition-all duration-200 block py-1 pl-2 border-l-2 border-transparent hover:border-blue-400 hover:pl-3 rounded-sm ${focusRingClass}`}
                 >
                   <span className="group-hover:text-blue-300 transition-colors">{label}</span>
                 </Link>
@@ -213,7 +213,7 @@ export default function Footer() {
               <li key={href}>
                 <Link
                   href={href}
-                  className={`group text-gray-200 hover:text-white transition-all duration-200 block py-1 pl-2 border-l-2 border-transparent hover:border-purple-400 hover:pl-3 rounded-sm ${focusRingClass}`}
+                  className={`group text-slate-100 hover:text-white transition-all duration-200 block py-1 pl-2 border-l-2 border-transparent hover:border-purple-400 hover:pl-3 rounded-sm ${focusRingClass}`}
                 >
                   <span className="group-hover:text-purple-300 transition-colors">{label}</span>
                 </Link>
@@ -243,7 +243,7 @@ export default function Footer() {
                 <span className="block text-white font-semibold" itemProp="addressLocality">
                   İstanbul
                 </span>
-                <span className="text-gray-300">Türkiye geneli hizmet</span>
+                <span className="text-gray-200">Türkiye geneli hizmet</span>
               </div>
             </div>
 
@@ -256,7 +256,7 @@ export default function Footer() {
               </div>
               <a
                 href="tel:+905453048671"
-                className={`text-gray-200 hover:text-white font-semibold transition-all duration-300 hover:scale-105 rounded-sm ${focusRingClass}`}
+                className={`text-slate-100 hover:text-white font-semibold transition-all duration-300 hover:scale-105 rounded-sm ${focusRingClass}`}
                 itemProp="telephone"
               >
                 +90 545 304 8671
@@ -272,7 +272,7 @@ export default function Footer() {
               </div>
               <a
                 href="mailto:info@sahneva.com"
-                className={`text-gray-200 hover:text-white transition-all duration-300 hover:scale-105 rounded-sm ${focusRingClass}`}
+                className={`text-slate-100 hover:text-white transition-all duration-300 hover:scale-105 rounded-sm ${focusRingClass}`}
                 itemProp="email"
               >
                 info@sahneva.com
@@ -285,7 +285,7 @@ export default function Footer() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer nofollow"
-                  className={`group inline-flex items-center gap-2 text-xs text-gray-200 hover:text-white transition-all duration-300 hover:gap-3 rounded-sm ${focusRingClass}`}
+                  className={`group inline-flex items-center gap-2 text-xs text-slate-100 hover:text-white transition-all duration-300 hover:gap-3 rounded-sm ${focusRingClass}`}
                   title={title}
                 >
                   <span className="group-hover:scale-110 transition-transform duration-300" aria-hidden="true">
@@ -299,17 +299,17 @@ export default function Footer() {
         </section>
       </div>
 
-      <div className="relative border-t border-white/10 text-center text-sm text-gray-300 py-6 bg-gradient-to-r from-slate-900/50 via-purple-900/30 to-blue-900/50 backdrop-blur-sm">
+      <div className="relative border-t border-white/10 text-center text-sm text-gray-200 py-6 bg-gradient-to-r from-slate-900/50 via-purple-900/30 to-blue-900/50 backdrop-blur-sm">
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" aria-hidden="true" />
         <div className="container mx-auto px-6 relative z-10">
-          <p className="mb-3 text-gray-400">
+          <p className="mb-3 text-gray-200">
             <span className="block">
               Türkiye genelinde profesyonel sahne, podyum, LED ekran, ses-ışık sistemleri ve kurulum hizmetleri.
             </span>
           </p>
 
           <meta itemProp="copyrightYear" content={String(currentYear)} />
-          <p className="text-gray-400">
+          <p className="text-gray-200">
             © {currentYear}{" "}
             <span itemProp="name" className="text-white font-semibold">
               Sahneva
@@ -320,7 +320,7 @@ export default function Footer() {
             </span>
             <Link
               href="/kvkk"
-              className={`text-gray-200 hover:text-white underline-offset-4 hover:underline focus-visible:underline transition-colors duration-200 rounded-sm ${focusRingClass}`}
+              className={`text-slate-100 hover:text-white underline-offset-4 hover:underline focus-visible:underline transition-colors duration-200 rounded-sm ${focusRingClass}`}
             >
               KVKK Aydınlatma Metni
             </Link>
@@ -329,7 +329,7 @@ export default function Footer() {
             </span>
             <a
               href="#main-content"
-              className={`text-gray-200 hover:text-white underline-offset-4 hover:underline focus-visible:underline transition-colors duration-200 rounded-sm ${focusRingClass}`}
+              className={`text-slate-100 hover:text-white underline-offset-4 hover:underline focus-visible:underline transition-colors duration-200 rounded-sm ${focusRingClass}`}
             >
               Başa dön
             </a>
