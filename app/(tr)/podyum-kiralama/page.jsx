@@ -174,9 +174,9 @@ const CONTENT = {
     "/img/podyum/3.webp",
     "/img/galeri/podyum-kiralama-4.webp",
     "/img/galeri/podyum-kiralama-5.webp",
-    "/img/galeri/podyum-kiralama-6.webp"
-    "/img/galeri/podyum-kiralama-7.webp"
-    "/img/galeri/podyum-kiralama-8.webp"
+    "/img/galeri/podyum-kiralama-6.webp",
+    "/img/galeri/podyum-kiralama-7.webp",
+    "/img/galeri/podyum-kiralama-8.webp",
   ],
   packages: [
     {
