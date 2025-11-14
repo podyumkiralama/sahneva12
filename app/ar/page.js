@@ -76,7 +76,6 @@ const WHY_SAHNEVA_FEATURES_AR = [
 
 const BELOW_THE_FOLD_VISIBILITY_STYLE = Object.freeze({
   contentVisibility: "auto",
-  containIntrinsicSize: "960px",
 });
 
 const SERVICES_AR = [

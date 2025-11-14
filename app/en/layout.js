@@ -12,13 +12,12 @@ export default function EnglishLayout({ children }) {
       <DocumentDirection lang="en" dir={content.direction} />
       <SiteHeader locale="en" strings={{ ...content.header, direction: content.direction }} />
       <main
-  id="main-content"
-  role="main"
-  tabIndex={-1}
-  className="flex-1 pb-16 pt-0"
->
-  {children}
-</main>
+        id="main-content"
+        tabIndex={-1}
+        className="flex-1 pb-16 pt-0"
+      >
+        {children}
+      </main>
 
       <SiteFooter strings={content.footer} />
       <SpeedInsights />
