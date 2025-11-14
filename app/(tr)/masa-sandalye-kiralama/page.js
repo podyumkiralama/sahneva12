@@ -481,16 +481,24 @@ const GALLERY_IMAGES = [
     alt: "Bistro masalarla kokteyl alanı - strech kılıf ve şal ile dekoratif detaylar" 
   },
   { 
-    src: "/img/sandalye/4.webp",
+    src: "/img/sandalye/sandalye-masa.webp",
     alt: "Düğün organizasyonunda şık masa düzeni ve dekorasyon" 
   },
   { 
-    src: "/img/sandalye/5.webp", 
+    src: "/img/sandalye/beyaz-deri-sandalye.webp", 
     alt: "Kurumsal toplantıda konferans sandalyeleri ve masa düzeni" 
   },
   { 
-    src: "/img/sandalye/6.webp", 
+    src: "/img/sandalye/hilton-sandalye.webp", 
     alt: "Açık hava etkinliğinde dayanıklı masa sandalye kurulumu" 
+  },
+   { 
+    src: "/img/sandalye/sandalye.webp", 
+    alt: "kurumsal etkinliğinde şahane sandalye" 
+  },
+   { 
+    src: "/img/sandalye/sandalye-masa-kiralama-sahneva.webp", 
+    alt: "düğün etkinlik bayi toplantısı fuar sandalye" 
   },
 ];
 
