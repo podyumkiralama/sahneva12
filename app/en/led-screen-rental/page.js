@@ -901,7 +901,7 @@ function RelatedServices() {
       desc: "Catwalks, risers and custom scenic platforms"
     },
     {
-      href: "/en/services#tents",
+      href: "/en/tent-rental",
       title: "Event tents",
       icon: "🎪",
       desc: "Aluminium structure tents and weatherproof covered areas"

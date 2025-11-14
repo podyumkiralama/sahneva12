@@ -1,4 +1,4 @@
-// app/en/sound-light-rental/page.js
+// app/en/tent-rental/page.js
 import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
@@ -9,11 +9,11 @@ export const revalidate = 1800;
 const ORIGIN = "https://www.sahneva.com";
 const PHONE = "+905453048671";
 const WA_TEXT =
-  "Hello%2C+I'd+like+to+request+a+quote+for+sound+and+lighting+rental.+Event+type%3A+%5Bconcert%2Fcorporate%5D%2C+Date%3A+%5Bdd.mm.yyyy%5D%2C+Audience+size%3A+%5Bxxx%5D.";
+  "Hello%2C+I'd+like+to+request+a+quote+for+tent+rental.+Event+type%3A+%5Bwedding%2Ffair%2Fconcert%5D%2C+Date%3A+%5Bdd.mm.yyyy%5D%2C+Guest+count%3A+%5Bxxx%5D.";
 const WHATSAPP = `https://wa.me/${PHONE.replace("+", "")}?text=${WA_TEXT}`;
 
 // Base64 blur placeholder
-const BLUR_DATA_URL = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAADAAQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==";
+const BLUR_DATA_URL = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAADAAQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==";
 
 /* ================== Dynamic gallery (CaseGallery) ================== */
 const CaseGallery = dynamic(() => import("@/components/CaseGallery"), {
@@ -27,33 +27,38 @@ const CaseGallery = dynamic(() => import("@/components/CaseGallery"), {
 
 /* ================== META ================== */
 export const metadata = {
-  title: "Sound & Lighting Rental | Concert-Grade Audio Visual Systems | Sahneva",
+  title: "Tent Rental | Pagoda, Clear Span & Dome Structures | Sahneva",
   description:
-    "Line-array audio, digital mixing consoles, moving-head lighting and truss systems with nationwide crew support for concerts, festivals and corporate events across Türkiye.",
+    "Pagoda, clear-span and dome tent rentals with flooring, climate control, lighting and nationwide installation for events across Türkiye.",
   keywords:
-    "sound system rental, lighting system rental, line array rental, concert sound system, event lighting, audio visual rental",
-  alternates: { canonical: `${ORIGIN}/en/sound-light-rental` },
+    "tent rental, pagoda tent rental, clear span tent, dome tent, fair tent, industrial tent, event tent installation",
+  alternates: {
+    canonical: `${ORIGIN}/en/tent-rental`,
+    languages: {
+      "tr-TR": `${ORIGIN}/cadir-kiralama`,
+    },
+  },
   openGraph: {
-    title: "Sound & Lighting Rental | Professional Audio Visual Solutions",
+    title: "Tent Rental | Professional Event Structures | Sahneva",
     description:
-      "Turnkey sound and lighting system rental with acoustic planning, rigging, digital mixing and on-site operation for any scale event.",
-    url: `${ORIGIN}/en/sound-light-rental`,
+      "Pagoda, transparent dome and industrial tent solutions with nationwide installation, flooring, lighting and support.",
+    url: `${ORIGIN}/en/tent-rental`,
     type: "website",
     siteName: "Sahneva",
     locale: "en_US",
     images: [{
-      url: `${ORIGIN}/img/ses-isik/hero.webp`,
+      url: `${ORIGIN}/img/cadir/hero.webp`,
       width: 1200,
       height: 630,
-      alt: "Sahneva professional sound and lighting system setup"
+      alt: "Sahneva tent rental - professional event structures"
     }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sound & Lighting Rental | Concert-Grade Audio Visual Systems | Sahneva",
+    title: "Tent Rental | Pagoda, Clear Span & Dome Structures | Sahneva",
     description:
-      "Professional line-array audio, digital consoles, wireless microphones, moving-head lighting, truss and technical crew support across Türkiye.",
-    images: [`${ORIGIN}/img/ses-isik/hero.webp`],
+      "Pagoda, transparent dome and industrial tent rentals with turnkey installation, flooring, lighting and climate control.",
+    images: [`${ORIGIN}/img/cadir/hero.webp`],
   },
   robots: {
     index: true,
@@ -77,80 +82,80 @@ const slugify = (s) =>
     .replace(/-+/g, "-");
 
 const HERO = {
-  src: "/img/ses-isik/hero.webp",
-  alt: "Concert stage with line-array speakers, moving-head lighting and live audience",
+  src: "/img/cadir/hero.webp",
+  alt: "Professional tent installation with pagoda structure and event setup",
   sizes: "(max-width: 768px) 100vw, 100vw",
 };
 
 const SERVICES = [
   {
-    icon: "🔊",
-    title: "Line Array & PA Systems",
-    description: "High-output audio with even coverage for large audiences",
-    features: ["L/R clusters with sub arrays", "Stage monitoring (wedges/IEM)", "FOH mixing & acoustic tuning"],
+    icon: "🏕️",
+    title: "Pagoda Tent Systems",
+    description: "Elegant 5×5m and 6×6m modular pagoda tents for premium events",
+    features: ["High peak silhouette", "Modular connection options", "Sidewall and window panels", "Rapid installation"],
   },
   {
-    icon: "🎛️",
-    title: "Digital Consoles & Stageboxes",
-    description: "Flexible routing and rapid setup with next-gen mixing systems",
-    features: ["32–64ch digital mixing", "Stagebox deployment", "Multitrack recording & playback"],
+    icon: "🔮",
+    title: "Transparent Dome Tents",
+    description: "Immersive clear dome structures designed for night lighting",
+    features: ["Weather-resistant frame", "Integrated LED lighting", "Ideal for gala dinners", "Memorable experiential events"],
   },
   {
-    icon: "🎤",
-    title: "Wireless Microphone Systems",
-    description: "Reliable RF management for conferences and live performances",
-    features: ["Multi-receiver racks", "Battery & antenna management", "Conference & performance packages"],
+    icon: "🏭",
+    title: "Industrial Tents",
+    description: "Large-span storage and production tents with reinforced frames",
+    features: ["Forklift friendly access", "Wide clear-span layout", "Long-term deployment", "Durable PVC membrane"],
+  },
+  {
+    icon: "🎪",
+    title: "Fair & Exhibition Tents",
+    description: "Optimised tent solutions for fairs, exhibitions and showrooms",
+    features: ["Fast build-out", "Compatible with booth layouts", "Professional look & branding", "Custom fascia and signage"],
   },
   {
     icon: "💡",
-    title: "Lighting Design & Fixtures",
-    description: "Immersive visuals with moving-head, wash and beam fixtures",
-    features: ["RGBW spot, wash, beam", "DMX programming", "Haze and atmospheric effects"],
+    title: "Lighting & Power",
+    description: "Professional lighting fixtures and electrical infrastructure",
+    features: ["LED ambiance lighting", "Power distribution panels", "Emergency lighting circuits", "Energy management solutions"],
   },
   {
-    icon: "🧱",
-    title: "Truss & Rigging Systems",
-    description: "Certified aluminium structures and safe rigging solutions",
-    features: ["Aluminium truss grids", "Ground support systems", "Professional rigging hardware"],
-  },
-  {
-    icon: "🎚️",
-    title: "Live Operation & Technical Crew",
-    description: "End-to-end technical direction from rehearsal to teardown",
-    features: ["Soundcheck & rehearsals", "Rapid-response technicians", "Post-show dismantle"],
+    icon: "🔧",
+    title: "Installation & Technical Support",
+    description: "Expert crew for installation, dismantling and 24/7 assistance",
+    features: ["Certified installation", "Dismantle service", "24/7 technical support", "Emergency response team"],
   },
 ];
 
 const USE_CASES = [
   {
-    icon: "🏢",
-    text: "Corporate launches and conferences",
-    desc: "Keynote audio, stage wash lighting and broadcast feeds",
+    icon: "💍",
+    text: "Weddings, engagement and private galas",
+    desc: "Elegant tent setups with décor and climate control",
   },
   {
-    icon: "💍",
-    text: "Weddings and private celebrations",
-    desc: "Warm ambience lighting and crystal-clear speech",
+    icon: "🎪",
+    text: "Fairs, exhibitions and product launches",
+    desc: "Custom-branded spaces for trade and marketing events",
   },
   {
     icon: "🎤",
-    text: "Concerts, festivals and live shows",
-    desc: "Concert PA systems with visual show lighting",
-  },
-  {
-    icon: "🎓",
-    text: "Graduation and school ceremonies",
-    desc: "Podium audio, spotlighting and recording support",
+    text: "Concerts, festivals and outdoor shows",
+    desc: "Weather-safe audience and backstage tents",
   },
   {
     icon: "🏛️",
-    text: "Municipality events and public gatherings",
-    desc: "Outdoor coverage with delay towers and side fills",
+    text: "Municipal and corporate events",
+    desc: "Reliable infrastructure for public and corporate gatherings",
   },
   {
-    icon: "🛍️",
-    text: "Shopping mall activations and trade fairs",
-    desc: "Brand-focused lighting and PA for retail spaces",
+    icon: "🏭",
+    text: "Industrial storage and logistics",
+    desc: "Temporary warehousing with secure access and lighting",
+  },
+  {
+    icon: "🏫",
+    text: "Schools and educational events",
+    desc: "Graduations, sports days and campus activations",
   },
 ];
 
@@ -161,9 +166,9 @@ function Hero() {
       <div className="absolute inset-0">
         <Image
           src={HERO.src}
-          alt={HERO.alt}
-          fill
-          priority
+          alt={HERO.alt} 
+          fill 
+          priority 
           className="object-cover"
           sizes={HERO.sizes}
           quality={85}
@@ -185,15 +190,15 @@ function Hero() {
         </div>
 
         <h1 id="hero-title" className="text-4xl md:text-6xl lg:text-7xl font-black leading-tight mb-4 drop-shadow-2xl">
-          Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">Sound & Lighting</span>
+          Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">Tent Rental</span>
         </h1>
 
         <p className="text-xl md:text-2xl text-white/95 max-w-3xl mx-auto leading-relaxed font-light mb-4">
-          Concert • Festival • Launch • Conference
+          Weddings • Fairs • Festivals • Launches • Special Events
         </p>
         <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed font-normal mb-6">
-          Line-array audio, digital consoles and moving-head fixtures with
-          <span className="font-semibold text-white"> turnkey deployment</span>
+          Pagoda tents, transparent domes and industrial structures with
+          <span className="font-semibold text-white"> turnkey delivery</span>
         </p>
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-8">
@@ -201,17 +206,17 @@ function Hero() {
             href={WHATSAPP}
             target="_blank"
             rel="noopener noreferrer"
-            title="Request a WhatsApp proposal now"
+            title="Request a quote instantly over WhatsApp"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-green-600 shadow-lg"
             role="button"
           >
             <span aria-hidden="true" className="text-xl mr-2">💬</span>
-            <span className="text-base">Get a quote</span>
+            <span className="text-base">Get a quote now</span>
           </Link>
 
           <Link
             href="#services"
-            title="Discover our services"
+            title="Discover our tent rental services"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-white text-white/95 bg-white/10 backdrop-blur-lg hover:bg-white/20 hover:scale-105 transform transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 shadow-lg"
             role="button"
           >
@@ -223,17 +228,17 @@ function Hero() {
         <div className="grid grid-cols-3 gap-4 max-w-xl mx-auto">
           <div className="flex flex-col items-center text-center p-4 bg-white/10 backdrop-blur-md rounded-xl border border-white/20">
             <span className="text-2xl mb-2" aria-hidden="true">⭐</span>
-            <div className="text-xl font-black text-white">4.9/5</div>
-            <div className="text-white/80 text-sm">250+ reviews</div>
+            <div className="text-xl font-black text-white">4.8/5</div>
+            <div className="text-white/80 text-sm">180+ client reviews</div>
           </div>
           <div className="flex flex-col items-center text-center p-4 bg-white/10 backdrop-blur-md rounded-xl border border-white/20">
             <span className="text-2xl mb-2" aria-hidden="true">🏆</span>
-            <div className="text-xl font-black text-white">1200+</div>
-            <div className="text-white/80 text-sm">Events delivered</div>
+            <div className="text-xl font-black text-white">850+</div>
+            <div className="text-white/80 text-sm">Completed events</div>
           </div>
           <div className="flex flex-col items-center text-center p-4 bg-white/10 backdrop-blur-md rounded-xl border border-white/20">
             <span className="text-2xl mb-2" aria-hidden="true">🚀</span>
-            <div className="text-xl font-black text-white">81 provinces</div>
+            <div className="text-xl font-black text-white">81 cities</div>
             <div className="text-white/80 text-sm">Nationwide coverage</div>
           </div>
         </div>
@@ -249,10 +254,10 @@ function Services() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="services-title" className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
-            Our professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">services</span>
+            Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Services</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Complete sound and lighting rental including discovery, design, installation, live operation and dismantle
+            Tent rental lifecycle covering site survey, structural design, installation, on-site support and dismantle
           </p>
         </div>
 
@@ -261,7 +266,7 @@ function Services() {
             const id = `svc-${slugify(service.title)}`;
             return (
               <div key={id} className="group">
-                <article
+                <article 
                   className="bg-white rounded-3xl border-2 border-gray-100 shadow-xl hover:shadow-2xl p-8 group-hover:scale-105 transition-all duration-500 h-full flex flex-col"
                   aria-labelledby={id}
                 >
@@ -297,7 +302,7 @@ function Services() {
             role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">📞</span>
-            <span>Contact our engineers</span>
+            <span>Request a detailed proposal</span>
           </Link>
         </div>
       </div>
@@ -308,36 +313,52 @@ function Services() {
 /* ================== Gallery ================== */
 const GALLERY_IMAGES = [
   {
-    src: "/img/ses-isik/isik-sistemi.webp",
-    alt: "Moving-head lighting rig with stage wash and beam effects",
+    src: "/img/cadir/1.webp",
+    alt: "Pagoda tent installation for a wedding reception",
   },
   {
-    src: "/img/ses-isik/ses-sistemi.webp",
-    alt: "Line-array speaker system with FOH mixing console",
+    src: "/img/cadir/2.webp",
+    alt: "Transparent dome tent creating an immersive atmosphere",
   },
   {
-    src: "/img/ses-isik/3.webp",
-    alt: "Aluminium truss and rigging setup for outdoor stage",
+    src: "/img/cadir/3.webp",
+    alt: "Industrial tent setup providing storage and production space",
   },
   {
-    src: "/img/ses-isik/4.webp",
-    alt: "Front of house engineer mixing live concert audio",
+    src: "/img/cadir/4.webp",
+    alt: "Exhibition tent prepared for professional fair presentations",
   },
   {
-    src: "/img/ses-isik/5.webp",
-    alt: "Stage backdrop LED wall with beam lights and haze",
+    src: "/img/cadir/5.webp",
+    alt: "LED-lit tent ambience for evening events",
   },
   {
-    src: "/img/ses-isik/6.webp",
-    alt: "Lighting control desk with DMX programming interface",
+    src: "/img/cadir/6.webp",
+    alt: "Concert tent solution for outdoor events",
   },
   {
-    src: "/img/ses-isik/7.webp",
-    alt: "Delay tower speaker arrays for large outdoor event",
+    src: "/img/cadir/7.webp",
+    alt: "Installation crew assembling a tent structure",
   },
   {
-    src: "/img/ses-isik/8.webp",
-    alt: "Wireless microphone rack with in-ear monitoring setup",
+    src: "/img/cadir/8.webp",
+    alt: "Branded tent design for corporate events",
+  },
+  {
+    src: "/img/cadir/9.webp",
+    alt: "Corporate tent exterior with custom graphics",
+  },
+  {
+    src: "/img/cadir/10.webp",
+    alt: "Interior decor created inside a pagoda tent",
+  },
+  {
+    src: "/img/cadir/11.webp",
+    alt: "Event guests enjoying a climate-controlled tent",
+  },
+  {
+    src: "/img/cadir/12.webp",
+    alt: "Exterior facade of a large-scale event tent",
   },
 ];
 
@@ -347,10 +368,10 @@ function Gallery() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="gallery-title" className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
-            Project <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">gallery</span>
+            Project <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">Gallery</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Highlights from recent sound and lighting installations delivered by our crew
+            Highlights from recent tent structures we delivered across Türkiye
           </p>
         </div>
 
@@ -360,7 +381,7 @@ function Gallery() {
 
         <div className="text-center mt-12">
           <p className="text-gray-600 text-lg mb-6">
-            Explore more turnkey productions completed for our clients
+            Discover more tent transformations inside our projects archive
           </p>
           <Link
             href="/en/projects"
@@ -368,7 +389,7 @@ function Gallery() {
             role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">📸</span>
-            <span>See all projects</span>
+            <span>View all projects</span>
           </Link>
         </div>
       </div>
@@ -380,52 +401,52 @@ function Gallery() {
 function Technical() {
   const technicalItems = [
     {
-      category: "pa",
-      title: "Sound systems",
-      description: "Line-array and top+sub configurations for clean, even coverage",
-      features: ["Line-array deployments", "Subwoofer arrays", "Acoustic measurement & tuning"]
+      category: "materials",
+      title: "Material Quality",
+      description: "Aluminium frames, steel connections and UV-resistant PVC membranes",
+      features: ["Aluminium frame system", "650 gr/m² PVC membranes", "Flame-retardant material", "Galvanised steel joints"],
     },
     {
-      category: "mixer",
-      title: "Mixing & control",
-      description: "32–64 channel digital consoles, stageboxes and playback",
-      features: ["Digital consoles", "Stagebox systems", "Multitrack recording"]
+      category: "safety",
+      title: "Safety Systems",
+      description: "Stability engineering that complies with TS EN wind and load standards",
+      features: ["90 km/h wind resistance", "Professional anchoring", "Ballast weighting", "Integrated rain gutters"],
     },
     {
-      category: "wireless",
-      title: "Wireless systems",
-      description: "Professional RF coordination, antenna distribution and monitoring",
-      features: ["Wireless microphones", "RF planning", "Antenna distribution"]
+      category: "dimensions",
+      title: "Sizes & Combinations",
+      description: "Modular structures with flexible dimensions and connection layouts",
+      features: ["5×5m / 6×6m pagoda options", "Project-specific sizing", "10–20m clear-span halls", "Side-by-side expansion"],
     },
     {
-      category: "lighting",
-      title: "Lighting systems",
-      description: "RGBW wash/beam fixtures, moving-head spots and atmospheric effects",
-      features: ["Moving-head fixtures", "LED lighting", "Effect machines"]
+      category: "complements",
+      title: "Complementary Services",
+      description: "Supporting services that complete the tent experience",
+      features: ["Flooring and decking systems", "Lighting design", "Heating and cooling units", "Branding & decoration"],
     },
     {
-      category: "truss",
-      title: "Truss & rigging",
-      description: "Aluminium structures, ground support towers and certified rigging",
-      features: ["Truss systems", "Rigging hardware", "Safety solutions"]
+      category: "installation",
+      title: "Installation Process",
+      description: "Rapid mobilisation with experienced crew, logistics and dismantle",
+      features: ["2–6 hour setup", "Certified crew", "Dedicated logistics", "Post-event dismantle"],
     },
     {
-      category: "control",
-      title: "Control & software",
-      description: "DMX control networks, show programming and calibration software",
-      features: ["Lighting consoles", "Programming software", "Measurement tools"]
-    }
+      category: "support",
+      title: "Technical Support",
+      description: "24/7 service desk, emergency response and preventive maintenance",
+      features: ["24/7 technical hotline", "Emergency response team", "Spare part inventory", "Scheduled maintenance"],
+    },
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-b from-gray-50 to-white" aria-labelledby="technical-title">
+    <section className="py-20 bg-gradient-to-b from-gray-50 to-white" aria-labelledby="altyapi-baslik">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 id="technical-title" className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
-            Our technical <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">infrastructure</span>
+          <h2 id="altyapi-baslik" className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
+            Technical <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Infrastructure</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Cutting-edge equipment inventory operated by experienced engineers and riggers
+            Delivered with premium-grade equipment, safety engineering and experienced supervisors
           </p>
         </div>
 
@@ -435,19 +456,21 @@ function Technical() {
               <div className="bg-white rounded-3xl border-2 border-gray-100 p-8 shadow-lg hover:shadow-xl group-hover:scale-105 transition-all duration-500 h-full">
                 <h3 className="font-bold text-2xl text-gray-900 mb-4 group-hover:text-blue-600 transition-colors flex items-center gap-3">
                   <span className="text-3xl" aria-hidden="true">
-                    {item.category === "pa" && "🔊"}
-                    {item.category === "mixer" && "🎛️"}
-                    {item.category === "wireless" && "🎤"}
-                    {item.category === "lighting" && "💡"}
-                    {item.category === "truss" && "🧱"}
-                    {item.category === "control" && "🖥️"}
+                    {item.category === "materials" && "🏗️"}
+                    {item.category === "safety" && "🛡️"}
+                    {item.category === "dimensions" && "📐"}
+                    {item.category === "complements" && "🔧"}
+                    {item.category === "installation" && "⚡"}
+                    {item.category === "support" && "📞"}
                   </span>
                   {item.title}
                 </h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">{item.description}</p>
+                <p className="text-gray-600 mb-6 text-lg leading-relaxed">
+                  {item.description}
+                </p>
                 <ul className="space-y-3">
-                  {item.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-3 text-gray-700">
+                  {item.features.map((feature, index) => (
+                    <li key={index} className="flex items-center gap-3 text-gray-700">
                       <span className="w-2 h-2 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex-shrink-0" aria-hidden="true" />
                       <span className="text-base">{feature}</span>
                     </li>
@@ -457,35 +480,22 @@ function Technical() {
             </div>
           ))}
         </div>
-
-        <div className="text-center mt-12">
-          <Link
-            href={WHATSAPP}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-white text-blue-700 hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus:outline-none focus-visible:ring-4 focus-visible:ring-white"
-            role="button"
-          >
-            <span aria-hidden="true" className="text-xl mr-3">💬</span>
-            <span>Plan a technical visit</span>
-          </Link>
-        </div>
       </div>
     </section>
   );
 }
 
-/* ================== Statistics band ================== */
+/* ================== Stats band ================== */
 function StatsBand() {
   const stats = [
-    { value: "1200+", label: "Events delivered", icon: "🎪" },
-    { value: "50+", label: "Enterprise clients", icon: "🏢" },
-    { value: "81", label: "Provinces served", icon: "🗺️" },
-    { value: "10+", label: "Years of experience", icon: "⭐" },
+    { value: "850+", label: "Successful events", icon: "🎪" },
+    { value: "40+", label: "Enterprise clients", icon: "🏢" },
+    { value: "81", label: "Cities served", icon: "🗺️" },
+    { value: "8+", label: "Years of expertise", icon: "⭐" },
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-r from-blue-700 via-purple-700 to-blue-800 text-white" aria-label="Performance statistics">
+    <section className="py-20 bg-gradient-to-r from-blue-700 via-purple-700 to-blue-800 text-white" aria-label="Key performance statistics">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
           {stats.map((stat) => (
@@ -514,10 +524,10 @@ function UseCases() {
       <div className="container max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="use-cases-title" className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
-            Where we <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">excel</span>
+            Where our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">tents shine</span>
           </h2>
           <p className="text-xl text-white/85 max-w-3xl mx-auto leading-relaxed">
-            Customised sound and lighting solutions tailored to each event format and venue layout
+            Primary event scenarios and bespoke solutions we deliver with tent infrastructure
           </p>
           <div className="w-32 h-1 bg-gradient-to-r from-blue-400 to-purple-400 mx-auto mt-8 rounded-full" aria-hidden="true" />
         </div>
@@ -555,7 +565,7 @@ function UseCases() {
             role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">💬</span>
-            <span>Request a tailored setup</span>
+            <span>Get a tailored event solution</span>
           </Link>
         </div>
       </div>
@@ -563,7 +573,7 @@ function UseCases() {
   );
 }
 
-/* ================== Knowledge & guides ================== */
+/* ================== Bilgi & Rehber ================== */
 function Articles() {
   return (
     <section className="py-20 bg-gradient-to-b from-white to-gray-50/50" aria-labelledby="knowledge-title">
@@ -573,7 +583,7 @@ function Articles() {
             Knowledge & <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">professional guidance</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Expert insights on planning, designing and operating sound and lighting systems
+            Expert insights on planning, designing and operating event tents and temporary structures
           </p>
         </div>
 
@@ -589,10 +599,10 @@ function Articles() {
                   <span className="bg-blue-500/20 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-semibold">🎯 Practical tips</span>
                 </div>
                 <h3 className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tight leading-tight">
-                  Professional Sound & Lighting Systems: Complete Solutions for Event Success
+                  Professional Tent Rental: Comprehensive Solutions for Event Success
                 </h3>
                 <p className="text-blue-100 mt-4 text-lg md:text-xl leading-relaxed">
-                  Corporate-grade standards, rapid installation workflows and measurable quality assurance for flawless experiences
+                  Corporate-grade standards, rapid installation workflows and measurable quality assurance for flawless guest experiences
                 </p>
               </div>
             </header>
@@ -603,43 +613,46 @@ function Articles() {
                 <div className="grid md:grid-cols-2 gap-8 mb-8">
                   <div className="space-y-6">
                     <h4 className="text-2xl font-black text-gray-900 flex items-center gap-4">
-                      <span className="bg-blue-100 text-blue-600 rounded-2xl p-3" aria-hidden="true">🔊</span>
-                      Sound systems & technology
+                      <span className="bg-blue-100 text-blue-600 rounded-2xl p-3" aria-hidden="true">🏕️</span>
+                      Tent systems & technologies
                     </h4>
                     <p>
                       <strong className="text-gray-900">Sahneva</strong> delivers
-                      <Link href="/en/sound-light-rental" className="font-semibold text-blue-600 hover:text-blue-700 underline underline-offset-4">
-                        professional sound system rentals
+                      <Link href="/en/tent-rental" className="font-semibold text-blue-600 hover:text-blue-700 underline underline-offset-4">
+                        professional tent rental
                       </Link>
-                      and
-                      <Link href="/en/sound-light-rental" className="font-semibold text-blue-600 hover:text-blue-700 underline underline-offset-4">
-                        lighting system rentals
-                      </Link>
-                      with corporate-level engineering across Türkiye.
+                      solutions with corporate-level engineering across Türkiye.
                     </p>
                     <p>
-                      Whether your event is an outdoor concert or an indoor summit, our turnkey model covers acoustic discovery, technical design, certified
-                      <em className="text-gray-600">truss & rigging</em>
-                      and live operation so every workflow is managed by one expert team.
+                      Whether your event is an outdoor wedding or a corporate fair, our turnkey model covers detailed site surveys,
+                      structural calculations, safe installation and dismantle so every stage is coordinated by one expert team.
                     </p>
                   </div>
 
                   <div className="space-y-6">
                     <h4 className="text-2xl font-black text-gray-900 flex items-center gap-4">
-                      <span className="bg-purple-100 text-purple-600 rounded-2xl p-3" aria-hidden="true">💡</span>
-                      Lighting design & programming
+                      <span className="bg-purple-100 text-purple-600 rounded-2xl p-3" aria-hidden="true">🔮</span>
+                      Specialised tent models
                     </h4>
                     <p>
-                      Carefully tuned <em className="text-gray-600">line-array</em> systems achieve uniform SPL distribution, while digital consoles and
-                      <em className="text-gray-600">stageboxes</em> simplify patching, routing and redundancy.
+                      Pagoda tents in 5×5m and 6×6m footprints create elegant reception spaces, while transparent domes deliver immersive atmospheres that benefit from creative lighting.
                     </p>
                     <p>
-                      RGBW spot, wash and beam fixtures are synchronised through DMX show files, delivering intelligible speech, dynamic musical performances and a visually rich audience experience.
+                      Industrial clear-span tents provide 10–20m widths for logistics and warehousing, and exhibition tents integrate branding panels and modular booth layouts.
                     </p>
                   </div>
                 </div>
 
-                {/* Success factors */}
+                <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-l-4 border-blue-500 rounded-r-2xl p-6 mb-8">
+                  <h5 className="font-black text-blue-700 text-xl mb-4 flex items-center gap-3">
+                    <span className="text-2xl" aria-hidden="true">💡</span>
+                    Professional deployment strategy
+                  </h5>
+                  <p className="text-gray-700 text-lg mb-0 leading-relaxed">
+                    Our deployment strategy adapts to venue topography, guest density and compliance requirements. Weddings prioritise aesthetics and comfort, while fairs and industrial projects focus on durability, logistics access and weather resilience.
+                  </p>
+                </div>
+
                 <div className="mb-8">
                   <h4 className="text-2xl font-black text-gray-900 mb-8 flex items-center gap-4">
                     <span className="bg-green-100 text-green-600 rounded-2xl p-3" aria-hidden="true">🚀</span>
@@ -647,26 +660,10 @@ function Articles() {
                   </h4>
                   <div className="grid md:grid-cols-2 gap-6">
                     {[
-                      {
-                        icon: "🎯",
-                        title: "Detailed discovery",
-                        desc: "Acoustic measurements, venue analysis and needs assessment"
-                      },
-                      {
-                        icon: "📊",
-                        title: "Line-array simulation",
-                        desc: "Predictive coverage planning with professional software"
-                      },
-                      {
-                        icon: "🔒",
-                        title: "Safe rigging systems",
-                        desc: "Certified equipment and experienced rigging crew"
-                      },
-                      {
-                        icon: "🎭",
-                        title: "Show programming",
-                        desc: "Soundcheck workflows and cue-based lighting design"
-                      },
+                      { icon: "🎯", title: "Detailed survey & analysis", desc: "Topography reviews, guest flow planning and risk assessment" },
+                      { icon: "📊", title: "Engineering & load design", desc: "Wind load calculations, ballast planning and structural compliance" },
+                      { icon: "🔒", title: "Safety systems", desc: "Certified anchoring, emergency plans and monitored access" },
+                      { icon: "🎭", title: "Aesthetic integration", desc: "Decor, lighting concepts and branding coordination" },
                     ].map((item, index) => (
                       <div key={index} className="bg-white border-2 border-gray-100 rounded-2xl p-6 hover:shadow-lg transition-all duration-300 group hover:border-blue-200">
                         <div className="flex items-start gap-4">
@@ -693,8 +690,7 @@ function Articles() {
                     Why Sahneva?
                   </h5>
                   <p className="text-yellow-800 mb-0">
-                    <strong>10+ years of experience, 1200+ successful events and nationwide coverage</strong>
-                    make us a trusted production partner. Premium equipment, specialised crews and 24/7 technical support are included with every project.
+                    <strong>8+ years of experience, 850+ successful events and nationwide coverage</strong> make us a trusted production partner. Premium materials, specialist crews and 24/7 technical support come standard with every project.
                   </p>
                 </div>
               </div>
@@ -705,20 +701,20 @@ function Articles() {
           <article className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-500 h-full">
             <header className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-6 md:p-8">
               <h3 className="text-xl md:text-2xl font-black tracking-tight leading-tight">
-                Technical integration & execution workflows
+                Technical integration & installation workflows
               </h3>
               <p className="text-blue-100 mt-2 text-lg">
-                Show-based lighting programming and professional FOH mixing solutions
+                Professional rigging, safety procedures and complementary services
               </p>
             </header>
 
             <div className="p-6 md:p-8">
               <div className="prose prose-lg max-w-none prose-p:text-gray-600 prose-p:leading-relaxed">
                 <p>
-                  We plan the optimum placement of audio and lighting based on acoustic coverage, delay and reflection parameters, ensuring every seat experiences the intended mix.
+                  Our installation journey starts with site inspections and engineering drawings. Terrain conditions, prevailing winds and emergency access routes are reviewed in detail.
                 </p>
                 <p>
-                  Outdoor events benefit from strategically placed <em className="text-gray-600">delay towers</em>, while indoor venues receive configurations that minimise echo and focus light angles precisely on stage action.
+                  The experienced crew assembles each tent within 2–6 hours, deploys ballast or anchoring, integrates flooring, lighting, HVAC and ensures final inspections before handover.
                 </p>
 
                 <div className="bg-gray-50 rounded-2xl p-5 mt-6 border border-gray-200">
@@ -729,19 +725,19 @@ function Articles() {
                   <ul className="text-gray-700 space-y-2 text-base">
                     <li className="flex items-center gap-3">
                       <span className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0" aria-hidden="true" />
-                      Robust DMX topology and secure cabling
+                      Aluminium frames with galvanised steel connectors
                     </li>
                     <li className="flex items-center gap-3">
                       <span className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0" aria-hidden="true" />
-                      FOH and monitor mix synchronisation
+                      650 gr/m² UV-resistant PVC membranes
                     </li>
                     <li className="flex items-center gap-3">
                       <span className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0" aria-hidden="true" />
-                      RF coordination for maximum reliability
+                      90 km/h wind resistance with certified anchoring
                     </li>
                     <li className="flex items-center gap-3">
                       <span className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0" aria-hidden="true" />
-                      Haze, smoke and effect cue planning
+                      Integrated rain gutters and drainage planning
                     </li>
                   </ul>
                 </div>
@@ -755,40 +751,42 @@ function Articles() {
                 Event-specific solutions
               </h3>
               <p className="text-blue-100 mt-2 text-lg">
-                Tailored equipment packages for every audience profile and venue layout
+                Tailored tent strategies for every audience profile and venue layout
               </p>
             </header>
 
             <div className="p-6 md:p-8">
-              <div className="space-y-6">
-                <div className="bg-blue-50 rounded-2xl p-5 border border-blue-200">
-                  <h4 className="font-bold text-gray-900 text-lg flex items-center gap-3 mb-2">
-                    <span className="bg-blue-100 text-blue-600 rounded-xl p-2" aria-hidden="true">🏟️</span>
-                    Stadium & festival productions
-                  </h4>
-                  <p className="text-gray-700 text-base mb-0">
-                    High SPL coverage, delay towers, IMAG screens and time-aligned audio for vast crowds
-                  </p>
-                </div>
+              <div className="prose prose-lg max-w-none prose-p:text-gray-600 prose-p:leading-relaxed">
+                <div className="space-y-6">
+                  <div className="bg-blue-50 rounded-2xl p-5 border border-blue-200">
+                    <h4 className="font-bold text-gray-900 text-lg flex items-center gap-3 mb-2">
+                      <span className="bg-blue-100 text-blue-600 rounded-xl p-2" aria-hidden="true">💍</span>
+                      Weddings & private celebrations
+                    </h4>
+                    <p className="text-gray-700 text-base mb-0">
+                      Elegant décor, romantic lighting, climate-controlled comfort and seamless guest circulation
+                    </p>
+                  </div>
 
-                <div className="bg-purple-50 rounded-2xl p-5 border border-purple-200">
-                  <h4 className="font-bold text-gray-900 text-lg flex items-center gap-3 mb-2">
-                    <span className="bg-purple-100 text-purple-600 rounded-xl p-2" aria-hidden="true">🏢</span>
-                    Corporate & conference setups
-                  </h4>
-                  <p className="text-gray-700 text-base mb-0">
-                    Premium speech intelligibility, discreet rigging and broadcast-ready audio routing
-                  </p>
-                </div>
+                  <div className="bg-purple-50 rounded-2xl p-5 border border-purple-200">
+                    <h4 className="font-bold text-gray-900 text-lg flex items-center gap-3 mb-2">
+                      <span className="bg-purple-100 text-purple-600 rounded-xl p-2" aria-hidden="true">🎪</span>
+                      Fairs & exhibitions
+                    </h4>
+                    <p className="text-gray-700 text-base mb-0">
+                      Professional appearance, modular booth integration, branding surfaces and service corridors
+                    </p>
+                  </div>
 
-                <div className="bg-green-50 rounded-2xl p-5 border border-green-200">
-                  <h4 className="font-bold text-gray-900 text-lg flex items-center gap-3 mb-2">
-                    <span className="bg-green-100 text-green-600 rounded-xl p-2" aria-hidden="true">💍</span>
-                    Private events & celebrations
-                  </h4>
-                  <p className="text-gray-700 text-base mb-0">
-                    Intimate ambience, soft lighting, high-quality audio and curated special effects
-                  </p>
+                  <div className="bg-green-50 rounded-2xl p-5 border border-green-200">
+                    <h4 className="font-bold text-gray-900 text-lg flex items-center gap-3 mb-2">
+                      <span className="bg-green-100 text-green-600 rounded-xl p-2" aria-hidden="true">🏭</span>
+                      Industrial & logistics
+                    </h4>
+                    <p className="text-gray-700 text-base mb-0">
+                      Durable structures, wide clear-span layouts, forklift access and long-term resilience
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -799,24 +797,24 @@ function Articles() {
   );
 }
 
-/* ================== FAQ ================== */
+  /* ================== FAQ ================== */
 function FAQ() {
   const faqs = [
     {
-      q: "Which sound and lighting package suits my event?",
-      a: "We assess your venue size, audience capacity, event format and budget to recommend the optimal package. Our complimentary site survey allows us to analyse the space and tailor the configuration precisely.",
+      q: "How much does tent rental cost?",
+      a: "Our 5×5 metre pagoda tent rental is ₺7,000 including Istanbul transport, professional installation, dismantle and essential technical support. Standard tents are priced at ₺300 per square metre. Bespoke designs and premium models are quoted after a project briefing.",
     },
     {
-      q: "How long do installation and dismantle take?",
-      a: "Indoor setups are typically completed within 4–6 hours, while outdoor productions take around 6–8 hours. Complex rigging projects begin the day before. Dismantle averages 2–4 hours depending on scope.",
+      q: "How long does tent installation take?",
+      a: "A 5×5 metre pagoda installs in roughly 2–3 hours, while a 6×6 metre unit takes 3–4 hours. Large-scale projects are assembled one day in advance. Express installation is available for time-critical events.",
     },
     {
-      q: "Do you provide live operation and technical staff?",
-      a: "Absolutely. Every project includes FOH sound engineers, monitor engineers and lighting operators who manage the show end-to-end. Our emergency technical response line is available 24/7.",
+      q: "Are the tents resistant to bad weather?",
+      a: "Yes. All tents are engineered for 90 km/h wind loads with TS EN 13782 compliant aluminium frames and 650 gr/m² UV-resistant PVC membranes. Integrated rain gutters ensure safe water drainage during heavy showers.",
     },
     {
-      q: "How is power distribution handled?",
-      a: "Transport, installation and operation are on us. We gather generator or venue power details from you, then coordinate electrical requirements with our certified electricians and professional distribution systems.",
+      q: "Which cities do you serve?",
+      a: "We provide professional tent rentals across all 81 Turkish provinces. Metropolitan cities such as Istanbul, Ankara and Izmir benefit from even faster logistics, while our quality and documentation remain consistent nationwide.",
     },
   ];
 
@@ -825,28 +823,28 @@ function FAQ() {
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="text-center mb-16">
           <h2 id="faq-title" className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
-            Frequently asked <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">questions</span>
+            Frequently Asked <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Questions</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            Answers to the most common questions about sound and lighting rentals
+            Answers to the most common questions about tent rentals and logistics
           </p>
         </div>
 
-        <div className="space-y-6" aria-label="Frequently asked questions list">
+        <div className="space-y-6" role="list" aria-label="Frequently asked questions list">
           {faqs.map((faq, index) => (
             <details
               key={index}
               className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border"
             >
-              <summary
+              <summary 
                 className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900"
                 role="button"
                 aria-expanded="false"
                 tabIndex={0}
               >
                 <span className="pr-4">{faq.q}</span>
-                <span
-                  aria-hidden="true"
+                <span 
+                  aria-hidden="true" 
                   className="ml-4 transition-transform duration-500 group-open:rotate-180 text-blue-600 bg-blue-100 rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0"
                 >
                   ⌄
@@ -861,15 +859,16 @@ function FAQ() {
 
         <div className="text-center mt-12">
           <p className="text-gray-600 text-lg mb-6">
-            Still have questions? Our specialists can call you back with detailed guidance.
+            Still have questions? Share your requirements and our consultants will respond within the hour.
           </p>
           <Link
             href="/en/contact"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-500"
-            title="See all answers on the English contact page"
+            title="Contact Sahneva for tent rental support"
+            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">📚</span>
-            <span className="text-lg">Talk to our team</span>
+            <span className="text-lg">Contact our team</span>
           </Link>
         </div>
       </div>
@@ -877,32 +876,32 @@ function FAQ() {
   );
 }
 
-/* ================== Complementary services ================== */
+/* ================== Related services ================== */
 function RelatedServices() {
   const services = [
     {
-      href: "/en/led-screen-rental",
-      title: "LED screen rental",
-      icon: "🖥️",
-      desc: "High-resolution LED walls and creative video backdrops",
-    },
-    {
-      href: "/en/services#stage",
-      title: "Stage rental",
-      icon: "🛠️",
-      desc: "Modular stage platforms, truss roofs and scenic builds",
-    },
-    {
-      href: "/en/services#stage",
-      title: "Podium & risers",
+      href: "/en/services#stage-services",
+      title: "Stage & Podium Rentals",
       icon: "📐",
-      desc: "Catwalks, presentation risers and custom scenic platforms",
+      desc: "Modular stage platforms, risers and catwalk configurations",
     },
     {
-      href: "/en/tent-rental",
-      title: "Event tents",
-      icon: "🎪",
-      desc: "Aluminium structure tents and weather-ready enclosures",
+      href: "/en/led-screen-rental",
+      title: "LED Screen Rental",
+      icon: "🖥️",
+      desc: "High-resolution LED walls with processors and rigging",
+    },
+    {
+      href: "/en/sound-light-rental",
+      title: "Sound & Lighting",
+      icon: "🎵",
+      desc: "Concert-grade sound, lighting and truss solutions",
+    },
+    {
+      href: "/en/services#seating-services",
+      title: "Seating & Furniture",
+      icon: "🪑",
+      desc: "Banquet seating, tables and decorative event furniture",
     },
   ];
 
@@ -917,13 +916,13 @@ function RelatedServices() {
             id="related-services-title"
             className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6"
           >
-            Complementary
+            Complementary{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
               services
             </span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Additional event technology that enhances your sound and lighting experience
+            Extend your tent installation with additional event production services
           </p>
           <div
             className="w-32 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mt-8 rounded-full"
@@ -959,8 +958,8 @@ function RelatedServices() {
 
         <div className="sr-only">
           <p>
-            This section contains complementary services that complete your sound and lighting setup.
-            Activate any card to open the related English service detail page.
+            This section lists additional services that complement your tent installation.
+            Activate any service card to visit the relevant English detail page.
           </p>
         </div>
       </div>
@@ -977,10 +976,10 @@ function CTA() {
           <div className="absolute inset-0 bg-black/10" aria-hidden="true"></div>
           <div className="relative z-10">
             <h2 id="cta-title" className="text-3xl md:text-4xl lg:text-5xl font-black mb-6">
-              Ready for professional sound & lighting?
+              Ready for professional tent solutions?
             </h2>
             <p className="text-blue-100 text-xl mb-8 max-w-3xl mx-auto leading-relaxed">
-              Share your event details and we will design the ideal sound and lighting configuration. Enjoy free discovery, expert consultancy and competitive pricing.
+              Tell us about your event and we will prepare the ideal tent system with free site survey, professional consulting and competitive pricing guarantees.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
@@ -1003,7 +1002,7 @@ function CTA() {
               </a>
             </div>
             <div className="mt-8 text-blue-200 text-lg" role="contentinfo">
-              📍 Service across 81 provinces • ⏰ 24/7 technical support • ⭐ 10+ years of expertise
+              📍 Service across 81 cities • ⏰ 24/7 technical support • ⭐ 8+ years of experience
             </div>
           </div>
         </div>
@@ -1029,15 +1028,15 @@ function JsonLd() {
           {
             "@type": "ListItem",
             position: 2,
-            name: "Sound & Lighting Rental",
-            item: `${ORIGIN}/en/sound-light-rental`
+            name: "Tent Rental",
+            item: `${ORIGIN}/en/tent-rental`
           },
         ],
       },
       {
         "@type": "Service",
-        name: "Sound & Lighting System Rental",
-        description: "Professional sound and lighting rental services with line-array speakers, digital consoles, wireless microphones, moving-head lights, truss systems and live operation across Türkiye.",
+        name: "Tent Rental Service",
+        description: "Professional tent rental covering pagoda, transparent dome and industrial structures with nationwide installation and support.",
         provider: {
           "@type": "Organization",
           name: "Sahneva",
@@ -1054,24 +1053,24 @@ function JsonLd() {
         serviceType: "EventProduction",
         offers: {
           "@type": "Offer",
-          description: "Professional sound and lighting system rental service"
+          description: "Professional tent rental packages"
         },
-        url: `${ORIGIN}/en/sound-light-rental`,
+        url: `${ORIGIN}/en/tent-rental`,
         aggregateRating: {
           "@type": "AggregateRating",
-          ratingValue: "4.9",
-          reviewCount: "250",
+          ratingValue: "4.8",
+          reviewCount: "180",
           bestRating: "5"
         },
       },
       {
         "@type": "WebPage",
-        name: "Sound & Lighting Rental | Concert-Grade Audio Visual Systems | Sahneva",
-        description: "Line-array audio, digital mixing consoles, moving-head lighting and truss systems with nationwide crew support for concerts, festivals and corporate events across Türkiye.",
-        url: `${ORIGIN}/en/sound-light-rental`,
+        name: "Tent Rental | Professional Event Structures | Sahneva",
+        description: "Pagoda, transparent dome and industrial tent rental with flooring, lighting, climate control and nationwide installation.",
+        url: `${ORIGIN}/en/tent-rental`,
         mainEntity: {
           "@type": "Service",
-          name: "Sound & Lighting Rental"
+          name: "Tent Rental"
         }
       }
     ],
@@ -1079,7 +1078,7 @@ function JsonLd() {
 
   return (
     <Script
-      id="ld-json-sound-light"
+      id="ld-json-tent"
       type="application/ld+json"
       strategy="afterInteractive"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
