@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { getImageProps } from "next/image";
 
 import heroImg from "@/public/img/hero-bg.webp";
 import CorporateEvents from "@/components/CorporateEvents";
@@ -76,7 +76,6 @@ const WHY_SAHNEVA_FEATURES_AR = [
 
 const BELOW_THE_FOLD_VISIBILITY_STYLE = Object.freeze({
   contentVisibility: "auto",
-  containIntrinsicSize: "960px",
 });
 
 const SERVICES_AR = [
@@ -490,6 +489,28 @@ function StructuredData() {
   );
 }
 
+function HeroBackgroundImage({ alt }) {
+  const { props } = getImageProps({
+    alt,
+    src: heroImg,
+    sizes: "100vw",
+    priority: true,
+    fetchPriority: "high",
+    loading: "eager",
+    placeholder: "blur",
+    quality: 70,
+    className: "absolute inset-0 h-full w-full object-cover object-center",
+    style: {
+      filter: "brightness(0.7) contrast(1.1) saturate(1.05)",
+    },
+  });
+
+  const { fetchPriority, ...rest } = props;
+
+  // eslint-disable-next-line react/no-unknown-property -- force lowercase attribute for HTML validators
+  return <img {...rest} fetchpriority={fetchPriority} />;
+}
+
 export default function ArabicHomePage() {
   return (
     <div className="overflow-x-hidden" dir="rtl">
@@ -500,19 +521,7 @@ export default function ArabicHomePage() {
         aria-labelledby="hero-title"
       >
         <div className="absolute inset-0" aria-hidden="true">
-          <Image
-            src={heroImg}
-            alt="تركيب منصة، شاشة LED وإضاءة احترافية من سحنيفا"
-            fill
-            priority
-            loading="eager"
-            fetchPriority="high"
-            sizes="100vw"
-            placeholder="blur"
-            quality={70}
-            className="object-cover object-center"
-            style={{ filter: "brightness(0.7) contrast(1.1) saturate(1.05)" }}
-          />
+          <HeroBackgroundImage alt="تركيب منصة، شاشة LED وإضاءة احترافية من سحنيفا" />
         </div>
 
         <div
