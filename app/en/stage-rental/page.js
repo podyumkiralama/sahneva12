@@ -30,8 +30,6 @@ export const metadata = {
   title: "Stage Rental | Professional Stage Solutions | Sahneva",
   description:
     "Turnkey stage rental for concerts, conferences, launches, rallies and festivals. Truss systems, modular decks, LED screens, sound and lighting with nationwide service across Türkiye.",
-  keywords:
-    "stage rental, concert stage rental, conference stage, truss systems, stage installation, professional stage, stage podium rental, event stage rental",
   alternates: {
     canonical: `${ORIGIN}/en/stage-rental`,
     languages: {

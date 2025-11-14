@@ -28,7 +28,6 @@ const CaseGallery = dynamic(() => import("@/components/CaseGallery"), {
 export const metadata = {
   title: "LED Ekran Kiralama | Profesyonel Çözümler | Sahneva",
   description: "P2-P6 piksel aralığı, 4K çözünürlük, yüksek parlaklık LED ekran kiralama. İç/dış mekan, konser, fuar ve kurumsal etkinlikler için profesyonel çözümler.",
-  keywords: "led ekran kiralama, p2.5 led ekran, p4 led ekran, dış mekan led ekran, led wall kiralama, video wall kiralama, konser led ekran",
   alternates: { canonical: `${ORIGIN}/led-ekran-kiralama` },
   openGraph: {
     title: "LED Ekran Kiralama | Profesyonel Çözümler",

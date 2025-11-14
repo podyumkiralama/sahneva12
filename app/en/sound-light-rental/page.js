@@ -30,8 +30,6 @@ export const metadata = {
   title: "Sound & Lighting Rental | Concert-Grade Audio Visual Systems | Sahneva",
   description:
     "Line-array audio, digital mixing consoles, moving-head lighting and truss systems with nationwide crew support for concerts, festivals and corporate events across Türkiye.",
-  keywords:
-    "sound system rental, lighting system rental, line array rental, concert sound system, event lighting, audio visual rental",
   alternates: { canonical: `${ORIGIN}/en/sound-light-rental` },
   openGraph: {
     title: "Sound & Lighting Rental | Professional Audio Visual Solutions",

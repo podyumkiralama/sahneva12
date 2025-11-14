@@ -30,8 +30,6 @@ export const metadata = {
   title: "Table & Chair Rental | Banquet, Conference & Cocktail Setups | Sahneva",
   description:
     "Napoleon and conference chairs, banquet and cocktail tables, linen & cover styling with professional layout and rapid delivery across Türkiye.",
-  keywords:
-    "table chair rental, napoleon chair rental, banquet table hire, cocktail table rental, conference chair rental, table linen rental, seating hire Istanbul",
   alternates: {
     canonical: `${ORIGIN}/en/table-chair-rental`,
     languages: {

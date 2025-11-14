@@ -30,8 +30,6 @@ export const metadata = {
   title: "Tent Rental | Pagoda, Clear Span & Dome Structures | Sahneva",
   description:
     "Pagoda, clear-span and dome tent rentals with flooring, climate control, lighting and nationwide installation for events across Türkiye.",
-  keywords:
-    "tent rental, pagoda tent rental, clear span tent, dome tent, fair tent, industrial tent, event tent installation",
   alternates: {
     canonical: `${ORIGIN}/en/tent-rental`,
     languages: {
