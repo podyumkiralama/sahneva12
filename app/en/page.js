@@ -94,7 +94,7 @@ const SERVICES_EN = [
       "Professional crew for installation and dismantling",
       "Heavy-duty platforms for concerts and launches",
     ],
-    href: "/en/services#stage",
+    href: "/en/stage-rental",
   },
   {
     id: "podium",
@@ -110,7 +110,7 @@ const SERVICES_EN = [
       "Fast assembly with compact transport",
       "Wide range of colours and accessories",
     ],
-    href: "/en/services#stage",
+    href: "/en/stage-rental",
   },
   {
     id: "led",
@@ -142,7 +142,7 @@ const SERVICES_EN = [
       "DMX programming and show control",
       "Rigging, hoists and power distribution",
     ],
-    href: "/en/services#audio",
+    href: "/en/sound-light-rental",
   },
   {
     id: "tents",
@@ -158,7 +158,7 @@ const SERVICES_EN = [
       "Ambient lighting and branding elements",
       "Full logistics, installation and dismantle",
     ],
-    href: "/en/services#tents",
+    href: "/en/tent-rental",
   },
   {
     id: "seating",
@@ -174,7 +174,7 @@ const SERVICES_EN = [
       "Table linens, covers and accessories",
       "End-to-end logistics and on-site styling",
     ],
-    href: "/en/services#tents",
+    href: "/en/table-chair-rental",
   },
 ];
 
@@ -773,7 +773,7 @@ export default function EnglishHomePage() {
                     <p className="text-base leading-relaxed">
                       <strong>Sahneva</strong> designs, delivers and operates{' '}
                       <a
-                        href="/en/services#stage"
+                        href="/en/stage-rental"
                         className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
                       >
                         modular stages
@@ -787,7 +787,7 @@ export default function EnglishHomePage() {
                       </a>
                       {' '}and{' '}
                       <a
-                        href="/en/services#audio"
+                        href="/en/sound-light-rental"
                         className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
                       >
                         sound-light systems
