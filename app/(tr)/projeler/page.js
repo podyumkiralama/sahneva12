@@ -21,7 +21,7 @@ export default async function ProjectsIndexPage() {
   const projects = getProjects();
 
   return (
-    <main id="main" className="min-h-screen bg-gradient-to-br from-slate-900 via-[#0b0f1a] to-purple-900/20 text-white">
+    <div id="main" className="min-h-screen bg-gradient-to-br from-slate-900 via-[#0b0f1a] to-purple-900/20 text-white">
       {/* Background Effects */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl"></div>
@@ -186,6 +186,6 @@ export default async function ProjectsIndexPage() {
           </div>
         )}
       </section>
-    </main>
+    </div>
   );
 }

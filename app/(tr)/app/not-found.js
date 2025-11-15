@@ -25,7 +25,7 @@ export const metadata = {
 
 export default function NotFound() {
   return (
-    <main className="min-h-[60vh] flex items-center justify-center bg-white">
+    <div className="min-h-[60vh] flex items-center justify-center bg-white">
       <>
         <script
           id="ld-json-not-found"
@@ -53,6 +53,6 @@ export default function NotFound() {
           </div>
         </section>
       </>
-    </main>
+    </div>
   );
 }
