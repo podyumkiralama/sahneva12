@@ -3,6 +3,10 @@ import "../styles/globals.css";
 import Script from "next/script";
 import { Inter } from "next/font/google";
 import SkipLinks from "@/components/SkipLinks";
+import {
+  buildServiceProductSchema,
+  serviceProducts,
+} from "@/lib/structuredData/serviceProducts";
 
 
 const inter = Inter({
@@ -146,6 +150,25 @@ export const metadata = {
 };
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID?.trim();
+
+const SERVICE_PRODUCTS_JSON = (() => {
+  const graphNodes = serviceProducts.flatMap((entry) => {
+    const { service, products } = buildServiceProductSchema({
+      slug: entry.slug,
+      locale: entry.locale,
+    });
+
+    return [
+      ...(service ? [service] : []),
+      ...((products && products.length > 0) ? products : []),
+    ];
+  }).filter(Boolean);
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": graphNodes,
+  };
+})();
 
 const criticalCSS = `
 .pt-16{padding-top:4rem}.md\\:pt-20{padding-top:5rem}@media (min-width:768px){.md\\:pt-20{padding-top:5rem}}
