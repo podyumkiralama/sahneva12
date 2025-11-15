@@ -1,6 +1,7 @@
 // app/masa-sandalye-kiralama/page.jsx
 import Image from "next/image";
 import Link from "next/link";
+import Script from "next/script";
 import dynamic from "next/dynamic";
 
 import { buildFaqSchema } from "@/lib/structuredData/faq";
@@ -1585,6 +1586,7 @@ function JsonLd() {
   const pageName = metadata.title;
   const pageDescription = metadata.description;
 
+  // Marka / Organizasyon
   const orgNode = {
     "@type": "Organization",
     "@id": `${ORIGIN}#org`,
@@ -1594,32 +1596,38 @@ function JsonLd() {
     logo: `${ORIGIN}/img/logo.png`,
   };
 
-  const { service: serviceSchema, products } = buildServiceProductSchema({
+  // buildServiceProductSchema sadece temel servis bilgisi için kullanılacak
+  const { service: serviceSchema } = buildServiceProductSchema({
     slug: "/masa-sandalye-kiralama",
     locale: "tr-TR",
   });
 
+  // Hizmet (review snippet için değil, genel Service datası)
   const baseService = {
     "@type": "Service",
     name: "Masa Sandalye Kiralama",
     description: pageDescription,
     provider: { "@id": `${ORIGIN}#org` },
     areaServed: { "@type": "Country", name: "Türkiye" },
+    url: pageUrl,
   };
 
   const serviceNode = serviceSchema
-    ? { ...serviceSchema, ...baseService, url: pageUrl }
-    : { ...baseService, "@id": `${pageUrl}#service`, url: pageUrl };
+    ? { ...serviceSchema, ...baseService }
+    : { ...baseService, "@id": `${pageUrl}#service` };
 
   const serviceId = serviceNode["@id"] ?? `${pageUrl}#service`;
   serviceNode["@id"] = serviceId;
 
+  // 🔹 REVIEW SNIPPET İÇİN ASIL NODE (Google'ın istediği)
+  // Desteklenen türlerden biri: Product
   const reviewProductNode = {
     "@type": "Product",
     "@id": `${pageUrl}#product`,
     name: "Masa Sandalye Kiralama Hizmeti",
     description: pageDescription,
     brand: { "@id": `${ORIGIN}#org` },
+    // Buradaki aggregateRating, itemReviewed almaz; zaten Product'ın kendi rating'i
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.9",
@@ -1629,7 +1637,7 @@ function JsonLd() {
     },
   };
 
-  const productNodes = products ?? [];
+  // SSS
   const faqSchema = buildFaqSchema(FAQ_ITEMS);
 
   const jsonLd = {
@@ -1663,7 +1671,6 @@ function JsonLd() {
         mainEntity: { "@id": serviceId },
       },
       reviewProductNode,
-      ...productNodes,
       ...(faqSchema ? [faqSchema] : []),
     ],
   };
