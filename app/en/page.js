@@ -399,7 +399,6 @@ function StructuredData() {
         url: "https://www.sahneva.com/en",
         name: "Stage, LED Wall, Sound & Lighting Rentals | Nationwide Türkiye | Sahneva",
         inLanguage: "en-US",
-        isPartOf: { "@id": "https://www.sahneva.com/#website" },
         about: { "@id": "https://www.sahneva.com/#org" },
       },
       {
