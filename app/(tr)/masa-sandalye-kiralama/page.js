@@ -1598,18 +1598,13 @@ function JsonLd() {
     locale: "tr-TR",
   });
 
+  // ❗ Burada sadece aggregateRating'i çıkardık, diğer her şey aynı.
   const baseService = {
     "@type": "Service",
     name: "Masa Sandalye Kiralama",
     description: pageDescription,
     provider,
     areaServed: { "@type": "Country", name: "Türkiye" },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.9",
-      reviewCount: "183",
-      bestRating: "5",
-    },
   };
 
   const serviceNode = serviceSchema
@@ -1666,6 +1661,7 @@ function JsonLd() {
     />
   );
 }
+
 
 /* ================== Sayfa Bileşeni ================== */
 export default function Page() {
