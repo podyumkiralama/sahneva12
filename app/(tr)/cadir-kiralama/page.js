@@ -1,5 +1,4 @@
 // app/(tr)/cadir-kiralama/page.jsx
-import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
@@ -204,17 +203,20 @@ function Hero() {
       aria-labelledby="hero-title"
     >
       <div className="absolute inset-0">
-        <Image
+        <img
           src={HERO.src}
           alt={HERO.alt}
-          fill
-          priority
-          fetchPriority="high"
-          className="object-cover"
+          className="absolute inset-0 h-full w-full object-cover"
+          loading="eager"
+          decoding="async"
           sizes={HERO.sizes}
-          quality={85}
-          placeholder="blur"
-          blurDataURL={BLUR_DATA_URL}
+          style={{
+            backgroundImage: `url(${BLUR_DATA_URL})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+          // eslint-disable-next-line react/no-unknown-property -- lowercase attribute per spec
+          fetchpriority="high"
         />
         <div
           className="absolute inset-0 bg-gradient-to-br from-blue-900/80 via-purple-800/70 to-blue-950/90"
