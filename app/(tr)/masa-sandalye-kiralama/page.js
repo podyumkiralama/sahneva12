@@ -267,9 +267,11 @@ function Hero() {
           alt={HERO.alt}
           fill
           priority
+          fetchPriority="high"
           className="object-cover"
           sizes={HERO.sizes}
-          quality={85}
+          // quality={85}  // <-- KALDIRILDI
+          quality={70}    // Daha agresif sıkıştırma, LCP uyarısını yumuşatır
           placeholder="blur"
           blurDataURL={BLUR_DATA_URL}
           loading="eager"
@@ -290,9 +292,7 @@ function Hero() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
             <span className="relative inline-flex rounded-full w-2 h-2 bg-green-500" />
           </span>
-          <span className="text-sm font-bold text-white">
-            İstanbul Geneli Hızlı Teslim
-          </span>
+          <span className="text-sm font-bold text-white">İstanbul Geneli Hızlı Teslim</span>
         </div>
 
         <h1
@@ -309,12 +309,8 @@ function Hero() {
           Düğün • Konferans • Kokteyl • Kurumsal Etkinlikler
         </p>
         <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed font-normal mb-6">
-          Napolyon ve konferans sandalyeleri, banket masalar, örtü-kılıf
-          sistemleri ile
-          <span className="font-semibold text-white">
-            {" "}
-            profesyonel çözümler
-          </span>
+          Napolyon ve konferans sandalyeleri, banket masalar, örtü-kılıf sistemleri ile
+          <span className="font-semibold text-white"> profesyonel çözümler</span>
         </p>
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-8">
@@ -324,6 +320,7 @@ function Hero() {
             rel="noopener noreferrer"
             title="WhatsApp üzerinden hemen teklif alın"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring shadow-lg"
+            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-2">
               💬
@@ -335,6 +332,7 @@ function Hero() {
             href="#paketler"
             title="Paketlerimiz hakkında daha fazla bilgi edinin"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-white text-white/95 bg-white/10 backdrop-blur-lg hover:bg-white/20 hover:scale-105 transform transition-all duration-300 focus-ring shadow-lg"
+            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-2">
               🎯
@@ -458,7 +456,30 @@ function Services() {
   );
 }
 
-/* ================== Paketler ================== */
+// Paket verileri
+const PACKAGES = [
+  {
+    id: "davet-100",
+    name: "Davet Seti — 100 Kişi",
+    badge: "Popüler",
+    // ...
+  },
+  {
+    id: "konferans-60",
+    name: "Konferans Seti — 60 Kişi",
+    badge: "Kurumsal",
+    // ...
+  },
+  {
+    id: "kokteyl-15",
+    name: "Kokteyl Seti — 15 Ünite",
+    badge: "Hafif Kurulum",
+    // ...
+  },
+];
+
+// ...
+
 function Packages() {
   const formatTRY = (n) =>
     new Intl.NumberFormat("tr-TR", {
@@ -467,7 +488,6 @@ function Packages() {
       maximumFractionDigits: 0,
     }).format(n);
 
-  // Basit fiyatlandırma (gerçek projede API'den gelecek)
   const packagePrices = {
     "davet-100": 12500,
     "konferans-60": 9800,
@@ -481,7 +501,6 @@ function Packages() {
       aria-labelledby="paketler-baslik"
     >
       <div className="container mx-auto px-4">
-        {/* Başlık Bloğu */}
         <div className="text-center mb-16">
           <h2
             id="paketler-baslik"
@@ -493,171 +512,104 @@ function Packages() {
             </span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Farklı etkinlik türleri için{" "}
-            <strong className="text-gray-900">
-              anahtar teslim masa sandalye çözümleri
-            </strong>
-            . Paketler ihtiyaçlarınıza göre özelleştirilebilir.
+            İhtiyacınıza uygun, anahtar teslim masa sandalye çözümleri
           </p>
         </div>
 
-        {/* Paket Kartları */}
         <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {PACKAGES.map((pkg) => {
-            const isPopular = pkg.badge === "Popüler";
-            const isCorporate = pkg.badge === "Kurumsal";
-
-            const headingId = `pkg-${pkg.id}-title`;
-
-            return (
-              <article
-                key={pkg.id}
-                className={`group h-full`}
-                aria-labelledby={headingId}
+          {PACKAGES.map((pkg) => (
+            <div key={pkg.id} className="group">
+              <div
+                className={`bg-white rounded-3xl border-2 shadow-xl hover:shadow-2xl overflow-hidden transition-all duration-500 h-full flex flex-col ${
+                  pkg.badge === "Popüler"
+                    ? "border-blue-500 ring-4 ring-blue-500/20 transform scale-105 group-hover:scale-110"
+                    : "border-gray-100 group-hover:scale-105"
+                }`}
               >
-                <div
-                  className={`rounded-3xl border-2 shadow-xl overflow-hidden transition-all duration-500 flex flex-col bg-white ${
-                    isPopular
-                      ? "border-blue-600 ring-4 ring-blue-500/20 transform scale-[1.03] group-hover:scale-[1.06]"
-                      : "border-gray-100 group-hover:scale-105"
-                  }`}
-                >
-                  {/* HEADER */}
-                  <header className="relative p-8 text-white bg-gradient-to-r from-blue-900 via-purple-900 to-blue-900 overflow-hidden">
-                    {/* Hafif pattern / overlay */}
+                {/* Header */}
+                <div className="bg-gradient-to-r from-blue-700 to-purple-700 p-8 text-white relative overflow-hidden">
+                  {pkg.badge && (
                     <div
-                      className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.6),_transparent_55%),radial-gradient(circle_at_bottom,_rgba(147,51,234,0.6),_transparent_55%)]"
-                      aria-hidden="true"
-                    />
-                    <div className="relative z-10">
-                      {/* Badge */}
-                      {pkg.badge && (
-                        <div className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold tracking-wide bg-white text-slate-900 shadow-sm">
-                          <span aria-hidden="true">
-                            {isPopular && "⭐"}
-                            {isCorporate && "🏢"}
-                            {!isPopular && !isCorporate && "✅"}
-                          </span>
-                          <span>{pkg.badge}</span>
-                        </div>
-                      )}
+                      className={`absolute top-4 right-4 px-4 py-2 rounded-full text-sm font-bold text-white ${
+                        pkg.badge === "Popüler"
+                          ? "bg-orange-700"
+                          : pkg.badge === "Kurumsal"
+                          ? "bg-blue-700"
+                          : "bg-green-700"
+                      }`}
+                    >
+                      {pkg.badge}
+                    </div>
+                  )}
+                  <div className="text-4xl mb-4" aria-hidden="true">
+                    {pkg.id === "davet-100" && "💒"}
+                    {pkg.id === "konferans-60" && "🏢"}
+                    {pkg.id === "kokteyl-15" && "🥂"}
+                  </div>
+                  <h3 className="text-2xl font-black mb-2">{pkg.name}</h3>
+                  <p className="text-blue-100 text-lg">{pkg.note}</p>
+                </div>
 
-                      {/* İkon */}
-                      <div
-                        className="text-4xl mb-4"
+                {/* Content */}
+                <div className="p-8 flex-grow">
+                  <div className="mb-6">
+                    <h4 className="font-bold text-gray-900 mb-4 text-lg flex items-center gap-2">
+                      <span
+                        className="w-2 h-2 bg-blue-600 rounded-full"
                         aria-hidden="true"
-                      >
-                        {pkg.id === "davet-100" && "💒"}
-                        {pkg.id === "konferans-60" && "🏢"}
-                        {pkg.id === "kokteyl-15" && "🥂"}
-                      </div>
-
-                      {/* Başlık ve alt metin */}
-                      <h3
-                        id={headingId}
-                        className="text-2xl font-black mb-2 leading-tight"
-                      >
-                        {pkg.name}
-                      </h3>
-                      <p className="text-blue-100 text-base md:text-lg leading-relaxed">
-                        {pkg.note}
-                      </p>
-                    </div>
-                  </header>
-
-                  {/* İçerik */}
-                  <div className="p-8 flex-grow">
-                    {/* Özet Bilgi Satırı */}
-                    <div className="flex flex-wrap gap-3 mb-6 text-sm text-gray-700">
-                      {pkg.specs?.people && (
-                        <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-blue-700 border border-blue-100">
-                          <span aria-hidden="true">👥</span>
-                          <span>{pkg.specs.people} kişilik düzen</span>
-                        </div>
-                      )}
-                      {pkg.specs?.tables && (
-                        <div className="inline-flex items-center gap-2 rounded-full bg-purple-50 px-3 py-1 text-purple-700 border border-purple-100">
-                          <span aria-hidden="true">🪑</span>
-                          <span>
-                            {pkg.specs.tables.count}× {pkg.specs.tables.type}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Paket İçeriği */}
-                    <div className="mb-6">
-                      <h4 className="font-bold text-gray-900 mb-4 text-lg flex items-center gap-2">
-                        <span
-                          className="w-2 h-2 bg-blue-600 rounded-full"
-                          aria-hidden="true"
-                        />
-                        Paket İçeriği
-                      </h4>
-                      <ul className="space-y-3">
-                        {pkg.includes.map((item, i) => (
-                          <li
-                            key={i}
-                            className="flex items-start gap-3 text-gray-700"
-                          >
-                            <span
-                              className="mt-2 w-2 h-2 bg-green-500 rounded-full flex-shrink-0"
-                              aria-hidden="true"
-                            />
-                            <span className="text-base leading-relaxed">
-                              {item}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    {/* Fiyat Bloğu */}
-                    <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-200">
-                      <div className="text-center mb-3">
-                        <div className="text-xs font-semibold tracking-wide uppercase text-gray-500">
-                          Günlük Kira (İstanbul)
-                        </div>
-                        <div className="mt-2 text-3xl font-black text-gray-900">
-                          {formatTRY(packagePrices[pkg.id])}
-                          <span className="text-sm text-gray-500 font-normal ml-1">
-                            + KDV
-                          </span>
-                        </div>
-                      </div>
-                      <p className="text-xs text-gray-500 text-center">
-                        Fiyatlara teslimat, profesyonel yerleşim ve toplama
-                        dahildir. İstanbul dışı organizasyonlar için özel teklif
-                        isteyin.
-                      </p>
-                    </div>
+                      />
+                      Paket İçeriği
+                    </h4>
+                    <ul className="space-y-3">
+                      {pkg.includes.map((item, i) => (
+                        <li
+                          key={i}
+                          className="flex items-start gap-3 text-gray-700"
+                        >
+                          <span
+                            className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"
+                            aria-hidden="true"
+                          />
+                          <span className="text-base">{item}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
 
-                  {/* CTA */}
-                  <div className="p-8 pt-0">
-                    <Link
-                      href={`${WHATSAPP}&package=${encodeURIComponent(
-                        pkg.name
-                      )}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full inline-flex items-center justify-center font-bold px-6 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring"
-                      role="button"
-                      aria-label={`${pkg.name} paketi için WhatsApp üzerinden teklif al`}
-                    >
-                      <span
-                        aria-hidden="true"
-                        className="text-xl mr-2"
-                      >
-                        💬
-                      </span>
-                      <span>Bu Paket için Teklif Al</span>
-                    </Link>
+                  <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-200">
+                    <div className="text-center mb-4">
+                      <div className="text-sm text-gray-500 uppercase tracking-wider font-semibold">
+                        Günlük Kira (İstanbul)
+                      </div>
+                      <div className="text-3xl font-black text-gray-900 mt-2">
+                        {formatTRY(packagePrices[pkg.id])}
+                        <span className="text-sm text-gray-500 font-normal ml-2">
+                          + KDV
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </article>
-            );
-          })}
+
+                <div className="p-8 pt-0">
+                  <Link
+                    href={`${WHATSAPP}&package=${encodeURIComponent(
+                      pkg.name
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full inline-flex items-center justify-center font-bold px-6 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring"
+                    role="button"
+                  >
+                    <span aria-hidden="true" className="text-xl mr-2">
+                      💬
+                    </span>
+                    <span>Bu Paket için Teklif Al</span>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
