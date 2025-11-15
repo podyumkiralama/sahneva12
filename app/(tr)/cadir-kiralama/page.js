@@ -1,7 +1,11 @@
-// app/(tr)/cadir-kiralama/page.jsx
+// app/cadir-kiralama/page.jsx
 import Image from "next/image";
 import Link from "next/link";
+import Script from "next/script";
 import dynamic from "next/dynamic";
+
+import { buildFaqSchema } from "@/lib/structuredData/faq";
+import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
 
 /* ================== Sabitler ================== */
 export const revalidate = 1800;
@@ -11,7 +15,7 @@ const WA_TEXT =
   "Merhaba%2C+çadır+kiralama+icin+teklif+istiyorum.+Etkinlik+turu%3A+%5Bdüğün%2Ffuar%2Fkonser%5D%2C+Tarih%3A+%5Bgg.aa.yyyy%5D%2C+Kisi+sayisi%3A+%5Bxxx%5D.";
 const WHATSAPP = `https://wa.me/${PHONE.replace("+", "")}?text=${WA_TEXT}`;
 
-// Base64 blur placeholder
+// Base64 blur placeholder (dikkat: normal string, backtick YOK)
 const BLUR_DATA_URL =
   "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAADAAQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==";
 
@@ -209,12 +213,12 @@ function Hero() {
           alt={HERO.alt}
           fill
           priority
+          fetchPriority="high"
           className="object-cover"
           sizes={HERO.sizes}
           quality={85}
           placeholder="blur"
           blurDataURL={BLUR_DATA_URL}
-          loading="eager"
         />
         <div
           className="absolute inset-0 bg-gradient-to-br from-blue-900/80 via-purple-800/70 to-blue-950/90"
@@ -252,7 +256,10 @@ function Hero() {
         </p>
         <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed font-normal mb-6">
           Pagoda çadırlar, şeffaf dome sistemleri ve endüstriyel çadırlar ile
-          <span className="font-semibold text-white"> anahtar teslim çözümler</span>
+          <span className="font-semibold text-white">
+            {" "}
+            anahtar teslim çözümler
+          </span>
         </p>
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-8">
@@ -431,23 +438,23 @@ const GALLERY_IMAGES = [
   },
   {
     src: "/img/cadir/8.webp",
-    alt: "Markalı çadır - Kurumsal etkinlikler için özel tasarım",
+    alt: "Markalı çadır - Kurumsal etkinlik alanı için özel tasarım",
   },
   {
     src: "/img/cadir/9.webp",
-    alt: "Markalı çadır - Kurumsal etkinlikler için özel tasarım",
+    alt: "Markalı çadır - Fuar alanı için kurumsal tasarım",
   },
   {
     src: "/img/cadir/10.webp",
-    alt: "Markalı çadır - Kurumsal etkinlikler için özel tasarım",
+    alt: "Markalı çadır - Açık hava lansman alanı",
   },
   {
     src: "/img/cadir/11.webp",
-    alt: "Markalı çadır - Kurumsal etkinlikler için özel tasarım",
+    alt: "Markalı çadır - Festival ve etkinlik alanı",
   },
   {
     src: "/img/cadir/12.webp",
-    alt: "Markalı çadır - Kurumsal etkinlikler için özel tasarım",
+    alt: "Markalı çadır - Kurumsal tanıtım etkinliği",
   },
 ];
 
@@ -471,7 +478,11 @@ function Gallery() {
         </div>
 
         <div className="max-w-7xl mx-auto">
-          <CaseGallery images={GALLERY_IMAGES} visibleCount={8} priorityCount={2} />
+          <CaseGallery
+            images={GALLERY_IMAGES}
+            visibleCount={8}
+            priorityCount={2}
+          />
         </div>
 
         <div className="text-center mt-12">
@@ -947,7 +958,7 @@ function Articles() {
                     <span className="text-xl" aria-hidden="true">
                       💎
                     </span>
-                  Neden Sahneva?
+                    Neden Sahneva?
                   </h5>
                   <p className="text-yellow-800 mb-0">
                     <strong>
@@ -1107,11 +1118,11 @@ function Articles() {
 const FAQ_ITEMS = [
   {
     q: "Çadır kiralama fiyatları ne kadar?",
-    a: "5×5 metre pagoda çadır kiralama fiyatımız yaklaşık 7.000 TL'dir. Bu fiyata İstanbul içi nakliye, profesyonel kurulum, söküm işlemleri ve temel teknik destek dahildir. Metrekare başına standart çadırlar için fiyat 300 TL'den başlamaktadır. Özel tasarım ve premium çadırlarda fiyat değişiklik gösterebilir.",
+    a: "5×5 metre pagoda çadır kiralama fiyatımız 7.000 TL'dir. Bu fiyata İstanbul içi nakliye, profesyonel kurulum, söküm işlemleri ve temel teknik destek dahildir. Metrekare başına standart çadırlar için fiyat 300 TL'dir. Özel tasarım ve premium çadırlarda fiyat değişiklik gösterebilir.",
   },
   {
     q: "Çadır kurulumu ne kadar sürer?",
-    a: "5×5 metre çadır kurulumu genellikle 2-3 saat, 6×6 metre çadır kurulumu ise 3-4 saat sürmektedir. Büyük ölçekli projelerde kurulum 1 gün önceden tamamlanır. Acil durumlarda express kurulum hizmeti sunuyoruz.",
+    a: "5×5 metre çadır kurulumu 2-3 saat, 6×6 metre çadır kurulumu 3-4 saat sürmektedir. Büyük ölçekli projelerde kurulum 1 gün önceden tamamlanır. Acil durumlarda express kurulum hizmeti sunuyoruz.",
   },
   {
     q: "Çadırlar kötü hava koşullarına dayanıklı mı?",
@@ -1119,7 +1130,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Hangi şehirlerde hizmet veriyorsunuz?",
-    a: "Türkiye'nin 81 ilinde profesyonel çadır kiralama hizmeti sunuyoruz. İstanbul, Ankara, İzmir gibi büyükşehirlerde daha hızlı kurulum süreleri sağlarken, tüm illerde standart hizmet kalitemizi koruyoruz.",
+    a: "Türkiye'nin 81 ilinde profesyonel çadır kiralama hizmeti sunuyoruz. İstanbul, Ankara, İzmir gibi büyükşehirlerde daha hızlı kurulum süreleri sunarken, tüm illerde standart hizmet kalitemizi koruyoruz.",
   },
 ];
 
@@ -1142,7 +1153,7 @@ function FAQ() {
           </p>
         </div>
 
-        <div className="space-y-6" role="list" aria-label="Sık sorulan sorular listesi">
+        <div className="space-y-6">
           {FAQ_ITEMS.map((faq, index) => (
             <details
               key={index}
@@ -1335,60 +1346,100 @@ function CTA() {
   );
 }
 
-/* ================== JSON-LD (Product + FAQ) ================== */
+/* ================== JSON-LD (Rich Snippets – LED sayfası ile uyumlu) ================== */
 function JsonLd() {
   const pageUrl = `${ORIGIN}/cadir-kiralama`;
+  const pageDescription = metadata.description;
+
+  const provider = {
+    "@type": "Organization",
+    "@id": `${ORIGIN}#org`,
+    name: "Sahneva",
+    url: ORIGIN,
+    telephone: "+905453048671",
+    logo: `${ORIGIN}/img/logo.png`,
+  };
+
+  // Ortak service/product şeması (LED ekran ve Kurumsal sayfadaki gibi)
+  const { service: serviceSchema, products } = buildServiceProductSchema({
+    slug: "/cadir-kiralama",
+    locale: "tr-TR",
+  });
+
+  const baseService = {
+    "@type": "Service",
+    name: "Çadır Kiralama",
+    description: pageDescription,
+    provider,
+    areaServed: { "@type": "Country", name: "Türkiye" },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.8",
+      reviewCount: "180",
+      bestRating: "5",
+    },
+  };
+
+  const serviceNode = serviceSchema
+    ? {
+        ...serviceSchema,
+        ...baseService,
+        provider,
+        url: pageUrl,
+      }
+    : {
+        ...baseService,
+        "@id": `${pageUrl}#service`,
+        url: pageUrl,
+      };
+
+  const serviceId = serviceNode["@id"] ?? `${pageUrl}#service`;
+  serviceNode["@id"] = serviceId;
+
+  const productNodes = products ?? [];
+  const faqSchema = buildFaqSchema(FAQ_ITEMS);
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "Product",
-        "@id": `${pageUrl}#product`,
-        name: "Çadır Kiralama",
-        description:
-          "Pagoda, şeffaf dome, endüstriyel çadır kiralama. Zemin kaplama, aydınlatma ve profesyonel kurulum. Türkiye geneli hızlı hizmet.",
-        image: `${ORIGIN}/img/cadir/hero.webp`,
-        brand: {
-          "@type": "Organization",
-          "@id": `${ORIGIN}#org`,
-        },
-        aggregateRating: {
-          "@type": "AggregateRating",
-          ratingValue: "4.8",
-          reviewCount: "180",
-          bestRating: "5",
-          worstRating: "1",
-        },
-        offers: {
-          "@type": "AggregateOffer",
-          priceCurrency: "TRY",
-          lowPrice: "300",
-          highPrice: "7000",
-          availability: "https://schema.org/InStock",
-          url: pageUrl,
-        },
-      },
-      {
-        "@type": "FAQPage",
-        "@id": `${pageUrl}#faq`,
-        mainEntity: FAQ_ITEMS.map((item) => ({
-          "@type": "Question",
-          name: item.q,
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: item.a,
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Anasayfa",
+            item: `${ORIGIN}/`,
           },
-        })),
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Çadır Kiralama",
+            item: pageUrl,
+          },
+        ],
       },
+      serviceNode,
+      {
+        "@type": "WebPage",
+        name: "Çadır Kiralama | Profesyonel Etkinlik Çözümleri | Sahneva",
+        description: pageDescription,
+        url: pageUrl,
+        mainEntity: {
+          "@type": "Service",
+          name: "Çadır Kiralama",
+        },
+      },
+      ...productNodes,
+      ...(faqSchema ? [faqSchema] : []),
     ],
   };
 
   return (
-    <script
+    <Script
       id="ld-json-cadir"
       type="application/ld+json"
-      // LED ekran sayfasındaki gibi: direkt script, next/script yok
+      strategy="afterInteractive"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
     />
   );
@@ -1399,6 +1450,8 @@ export default function Page() {
   return (
     <>
       <JsonLd />
+      {/* SkipLinks bu sayfada #main-content e atlayacaksa, layout tarafında <main id="main-content"> kullanacağız.
+          Şimdilik bu sayfada sadece içerik komponentleri geliyor. */}
       <Hero />
       <Services />
       <Gallery />
