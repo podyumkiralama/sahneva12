@@ -1,5 +1,3 @@
-import { getImageProps } from "next/image";
-
 import heroImg from "@/public/img/hero-bg.webp";
 import CorporateEvents from "@/components/CorporateEvents";
 import {

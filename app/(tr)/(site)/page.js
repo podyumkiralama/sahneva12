@@ -1,5 +1,4 @@
 // app/(site)/page.js
-import { getImageProps } from "next/image";
 import heroImg from "@/public/img/hero-bg.webp";
 
 // Statik bileşenler
