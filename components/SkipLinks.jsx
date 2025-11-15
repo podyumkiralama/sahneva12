@@ -60,7 +60,7 @@ export default function SkipLinks() {
       <a href="#main-header" className={LINK_CLASSNAME}>
         {strings?.toHeader ?? FALLBACK_STRINGS.toHeader}
       </a>
-      <a href="#main-footer" className={LINK_CLASSNAME}>
+      <a href="#site-footer" className={LINK_CLASSNAME}>
         {strings?.toFooter ?? FALLBACK_STRINGS.toFooter}
       </a>
     </div>

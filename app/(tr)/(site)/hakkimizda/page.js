@@ -238,7 +238,7 @@ export default function HakkimizdaPage() {
         </div>
       </section>
 
-      <main className="relative">
+      <div className="relative">
         {/* BİZ KİMİZ */}
         <section className="py-20 bg-gradient-to-b from-white to-blue-50/50" aria-labelledby="biz-kimiz-title">
           <div className="container max-w-6xl mx-auto px-4">
@@ -547,7 +547,7 @@ export default function HakkimizdaPage() {
             </div>
           </div>
         </section>
-      </main>
+      </div>
     </div>
   );
 }

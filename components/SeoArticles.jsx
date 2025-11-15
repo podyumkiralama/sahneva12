@@ -77,7 +77,7 @@ export default function SeoArticles({
           </p>
         </div>
 
-        {/* role=list + role=listitem semantik olarak doğru */}
+          {/* role=list semantiği kartların liste olarak algılanmasını sağlar */}
         <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3" role="list">
           {items.slice(0, 6).map((a, idx) => {
             const url = abs(a.href || a.slug || "");
@@ -86,7 +86,7 @@ export default function SeoArticles({
               <article
                 key={a.slug || a.href || idx}
                 className="group bg-white rounded-2xl border border-neutral-200 hover:border-blue-200 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden"
-                role="listitem"
+               
                 aria-labelledby={titleId}
               >
                 {/* Kapak */}

@@ -513,7 +513,7 @@ function UseCases() {
             <div
               key={uc.text}
               className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/30 hover:border-white/50 transition-all duration-500 group hover:scale-105"
-              role="listitem"
+             
             >
               <div className="flex flex-col items-start gap-4">
                 <div className="text-3xl bg-white/20 rounded-2xl p-4 group-hover:scale-110 transition-transform duration-300" aria-hidden="true">
@@ -847,7 +847,7 @@ function FAQ() {
             >
               <summary 
                 className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900"
-                role="button"
+               
                 aria-expanded="false"
                 tabIndex={0}
               >

@@ -536,138 +536,138 @@ export default function Navbar() {
         />
       )}
 
-      {/* Mobil menü – SADECE açıkken render, aria-hidden yok */}
-      {mobileOpen && (
-        <div
-          id="mobile-menu"
-          ref={mobileMenuRef}
-          role="dialog"
-          aria-modal="true"
+      {/* Mobil menü – her zaman DOM'da, kapalıyken gizli */}
+      <div
+        id="mobile-menu"
+        ref={mobileMenuRef}
+        role={mobileOpen ? "dialog" : undefined}
+        aria-modal={mobileOpen ? "true" : undefined}
+        aria-hidden={!mobileOpen}
+        aria-label={headerStrings?.navLabel ?? "Ana gezinme"}
+        hidden={!mobileOpen}
+        className="lg:hidden fixed z-50 left-0 right-0 top-16 bg-white border-t border-neutral-200 shadow-2xl max-h-[80vh] opacity-100 transition-all duration-300 overflow-hidden"
+      >
+        <nav
+          id="primary-navigation-mobile"
           aria-label={headerStrings?.navLabel ?? "Ana gezinme"}
-          className="lg:hidden fixed z-50 left-0 right-0 top-16 bg-white border-t border-neutral-200 shadow-2xl max-h-[80vh] opacity-100 transition-all duration-300 overflow-hidden"
         >
-          <nav
-            id="primary-navigation-mobile"
-            aria-label={headerStrings?.navLabel ?? "Ana gezinme"}
-          >
-            <div className="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
-              <Link
-                href="/hakkimizda"
-                onClick={() => setMobileOpen(false)}
-                className={`flex items-center gap-3 py-3.5 px-4 text-neutral-800 font-bold text-[15px] rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 transform hover:scale-[1.02] ${focusRingClass}`}
-                aria-current={active("/hakkimizda") ? "page" : undefined}
-                title="Sahneva Hakkında"
+          <div className="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
+            <Link
+              href="/hakkimizda"
+              onClick={() => setMobileOpen(false)}
+              className={`flex items-center gap-3 py-3.5 px-4 text-neutral-800 font-bold text-[15px] rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 transform hover:scale-[1.02] ${focusRingClass}`}
+              aria-current={active("/hakkimizda") ? "page" : undefined}
+              title="Sahneva Hakkında"
+            >
+              <span className="text-lg" aria-hidden="true">
+                👥
+              </span>
+              Hakkımızda
+            </Link>
+
+            <div className="py-1">
+              <button
+                type="button"
+                onClick={() => setMobileServicesOpen((s) => !s)}
+                aria-expanded={mobileServicesOpen}
+                aria-controls="mobile-services-list"
+                className={`w-full flex items-center justify-between gap-3 py-3.5 px-4 text-[15px] font-bold text-neutral-900 rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 min-h-[44px] transform hover:scale-[1.02] ${focusRingClass}`}
+                title="Sahneva Hizmetler Menüsü"
               >
-                <span className="text-lg" aria-hidden="true">
-                  👥
-                </span>
-                Hakkımızda
-              </Link>
-
-              <div className="py-1">
-                <button
-                  type="button"
-                  onClick={() => setMobileServicesOpen((s) => !s)}
-                  aria-expanded={mobileServicesOpen}
-                  aria-controls="mobile-services-list"
-                  className={`w-full flex items-center justify-between gap-3 py-3.5 px-4 text-[15px] font-bold text-neutral-900 rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 min-h-[44px] transform hover:scale-[1.02] ${focusRingClass}`}
-                  title="Sahneva Hizmetler Menüsü"
-                >
-                  <span className="flex items-center gap-3">
-                    <span className="text-lg" aria-hidden="true">
-                      🎯
-                    </span>
-                    <span>Hizmetler</span>
+                <span className="flex items-center gap-3">
+                  <span className="text-lg" aria-hidden="true">
+                    🎯
                   </span>
-                  <svg
-                    className={`w-5 h-5 shrink-0 text-neutral-700 transition-transform duration-200 ${
-                      mobileServicesOpen ? "rotate-180" : ""
-                    }`}
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M6 9l6 6 6-6" />
-                  </svg>
-                </button>
-
-                <div
-                  id="mobile-services-list"
-                  className={`overflow-hidden transition-all duration-200 ${
-                    mobileServicesOpen
-                      ? "max-h-80 opacity-100 mt-2"
-                      : "max-h-0 opacity-0"
+                  <span>Hizmetler</span>
+                </span>
+                <svg
+                  className={`w-5 h-5 shrink-0 text-neutral-700 transition-transform duration-200 ${
+                    mobileServicesOpen ? "rotate-180" : ""
                   }`}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
                 >
-                  <div className="ml-4 rounded-lg border border-neutral-200 bg-white p-2 space-y-1">
-                    {serviceLinks.map(
-                      ({ href, label, title, icon, description }) => (
-                        <Link
-                          key={href}
-                          href={href}
-                          onClick={() => setMobileOpen(false)}
-                          className={`flex items-start gap-3 px-3 py-2 text-sm text-neutral-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition-all duration-200 w-full transform hover:scale-[1.01] ${focusRingClass}`}
-                          aria-current={active(href) ? "page" : undefined}
-                          title={title}
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </button>
+
+              <div
+                id="mobile-services-list"
+                className={`overflow-hidden transition-all duration-200 ${
+                  mobileServicesOpen
+                    ? "max-h-80 opacity-100 mt-2"
+                    : "max-h-0 opacity-0"
+                }`}
+              >
+                <div className="ml-4 rounded-lg border border-neutral-200 bg-white p-2 space-y-1">
+                  {serviceLinks.map(
+                    ({ href, label, title, icon, description }) => (
+                      <Link
+                        key={href}
+                        href={href}
+                        onClick={() => setMobileOpen(false)}
+                        className={`flex items-start gap-3 px-3 py-2 text-sm text-neutral-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition-all duration-200 w-full transform hover:scale-[1.01] ${focusRingClass}`}
+                        aria-current={active(href) ? "page" : undefined}
+                        title={title}
+                      >
+                        <span
+                          className="text-base opacity-70 mt-0.5 flex-shrink-0"
+                          aria-hidden="true"
                         >
-                          <span
-                            className="text-base opacity-70 mt-0.5 flex-shrink-0"
-                            aria-hidden="true"
-                          >
-                            {icon}
-                          </span>
-                          <div className="flex-1 min-w-0">
-                            <div className="font-medium text-neutral-800">
-                              {label}
-                            </div>
-                            <div className="text-xs text-neutral-500 mt-0.5">
-                              {description}
-                            </div>
+                          {icon}
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium text-neutral-800">
+                            {label}
                           </div>
-                        </Link>
-                      )
-                    )}
-                  </div>
+                          <div className="text-xs text-neutral-500 mt-0.5">
+                            {description}
+                          </div>
+                        </div>
+                      </Link>
+                    )
+                  )}
                 </div>
               </div>
-
-              <Link
-                href="/iletisim"
-                onClick={() => setMobileOpen(false)}
-                className={`flex items-center gap-3 py-3.5 px-4 text-neutral-800 font-bold text-[15px] rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 transform hover:scale-[1.02] ${focusRingClass}`}
-                aria-current={active("/iletisim") ? "page" : undefined}
-                title="Sahneva İletişim"
-              >
-                <span className="text-lg" aria-hidden="true">
-                  📞
-                </span>
-                İletişim
-              </Link>
-
-              {/* Mobil WhatsApp CTA */}
-              <a
-                href="https://wa.me/905453048671?text=Merhaba%2C+sahne+ve+etkinlik+ekipmanları+için+teklif+almak+istiyorum."
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="WhatsApp Teklif — yeni sekmede açılır"
-                className={mobileWhatsappBtnClass}
-                onClick={() => setMobileOpen(false)}
-                title="WhatsApp'tan teklif alın"
-              >
-                <span aria-hidden="true" className="text-base">
-                  💬
-                </span>
-                <span>WhatsApp Teklif</span>
-                <span className="sr-only"> — yeni sekmede açılır</span>
-              </a>
             </div>
-          </nav>
-        </div>
-      )}
+
+            <Link
+              href="/iletisim"
+              onClick={() => setMobileOpen(false)}
+              className={`flex items-center gap-3 py-3.5 px-4 text-neutral-800 font-bold text-[15px] rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 transform hover:scale-[1.02] ${focusRingClass}`}
+              aria-current={active("/iletisim") ? "page" : undefined}
+              title="Sahneva İletişim"
+            >
+              <span className="text-lg" aria-hidden="true">
+                📞
+              </span>
+              İletişim
+            </Link>
+
+            {/* Mobil WhatsApp CTA */}
+            <a
+              href="https://wa.me/905453048671?text=Merhaba%2C+sahne+ve+etkinlik+ekipmanları+için+teklif+almak+istiyorum."
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="WhatsApp Teklif — yeni sekmede açılır"
+              className={mobileWhatsappBtnClass}
+              onClick={() => setMobileOpen(false)}
+              title="WhatsApp'tan teklif alın"
+            >
+              <span aria-hidden="true" className="text-base">
+                💬
+              </span>
+              <span>WhatsApp Teklif</span>
+              <span className="sr-only"> — yeni sekmede açılır</span>
+            </a>
+          </div>
+        </nav>
+      </div>
     </>
   );
 }
