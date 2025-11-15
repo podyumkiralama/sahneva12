@@ -1024,7 +1024,7 @@ function JsonLd() {
 
   const provider = {
     "@type": "Organization",
-    "@id": `${ORIGIN}#org`,
+    "@id": `${ORIGIN}/#org`, // layout'taki Organization ile aynı ID
     name: "Sahneva",
     url: ORIGIN,
     telephone: "+905453048671",
@@ -1032,7 +1032,7 @@ function JsonLd() {
   };
 
   const { service: serviceSchema, products } = buildServiceProductSchema({
-    slug: "/led-ekran-kiralama",
+    slug: "led-ekran-kiralama", // başında / yok
     locale: "tr-TR",
   });
 
@@ -1057,43 +1057,47 @@ function JsonLd() {
   const serviceId = serviceNode["@id"] ?? `${pageUrl}#service`;
   serviceNode["@id"] = serviceId;
 
-  const productNodes = products ?? [];
+  const productNodes = (products ?? []).map((node) => ({ ...node }));
+
   const faqSchema = buildFaqSchema(FAQ_ITEMS);
+  const faqNode = faqSchema
+    ? { "@id": `${pageUrl}#faq`, url: pageUrl, ...faqSchema }
+    : null;
+
+  const graph = [
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${pageUrl}#breadcrumbs`,
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Anasayfa",
+          item: `${ORIGIN}/`,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "LED Ekran Kiralama",
+          item: pageUrl,
+        },
+      ],
+    },
+    serviceNode,
+    {
+      "@type": "WebPage",
+      "@id": `${pageUrl}#webpage`,
+      name: pageName,
+      description: pageDescription,
+      url: pageUrl,
+    },
+    ...productNodes,
+    ...(faqNode ? [faqNode] : []),
+  ];
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Anasayfa",
-            item: `${ORIGIN}/`
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "LED Ekran Kiralama",
-            item: `${ORIGIN}/led-ekran-kiralama`
-          },
-        ],
-      },
-      serviceNode,
-      {
-        "@type": "WebPage",
-        name: "LED Ekran Kiralama | Profesyonel Çözümler | Sahneva",
-        description: "P2-P6 piksel aralığı, 4K çözünürlük, yüksek parlaklık LED ekran kiralama. İç/dış mekan, konser, fuar ve kurumsal etkinlikler için profesyonel çözümler.",
-        url: `${ORIGIN}/led-ekran-kiralama`,
-        mainEntity: {
-          "@type": "Service",
-          name: "LED Ekran Kiralama"
-        }
-      },
-      ...productNodes,
-      ...(faqSchema ? [faqSchema] : []),
-    ],
+    "@graph": graph,
   };
 
   return (
@@ -1105,6 +1109,7 @@ function JsonLd() {
     />
   );
 }
+
 
 /* ================== Sayfa Bileşeni ================== */
 export default function Page() {
