@@ -1371,13 +1371,10 @@ function JsonLd() {
     logo: `${ORIGIN}/img/logo.png`,
   };
 
-  const { service: serviceSchema, products } = buildServiceProductSchema({
-    slug: "/cadir-kiralama",
-    locale: "tr-TR",
-  });
-
-  const baseService = {
+  // Hizmet (Service) şeması
+  const serviceNode = {
     "@type": "Service",
+    "@id": `${pageUrl}#service`,
     name: "Çadır Kiralama",
     description: pageDescription,
     provider,
@@ -1390,15 +1387,19 @@ function JsonLd() {
     },
   };
 
-  const serviceNode = serviceSchema
-    ? { ...serviceSchema, ...baseService, provider, url: pageUrl }
-    : { ...baseService, "@id": `${pageUrl}#service`, url: pageUrl };
-
-  const serviceId = serviceNode["@id"] ?? `${pageUrl}#service`;
-  serviceNode["@id"] = serviceId;
-
-  const productNodes = products ?? [];
-  const faqSchema = buildFaqSchema(FAQ_ITEMS);
+  // FAQ şeması – helper kullanmadan direkt
+  const faqSchema = {
+    "@type": "FAQPage",
+    "@id": `${pageUrl}#faq`,
+    mainEntity: FAQ_ITEMS.map((item, index) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.a,
+      },
+    })),
+  };
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -1416,24 +1417,20 @@ function JsonLd() {
             "@type": "ListItem",
             position: 2,
             name: "Çadır Kiralama",
-            item: `${ORIGIN}/cadir-kiralama`,
+            item: pageUrl,
           },
         ],
       },
       serviceNode,
       {
         "@type": "WebPage",
+        "@id": `${pageUrl}#webpage`,
         name: "Çadır Kiralama | Profesyonel Etkinlik Çözümleri | Sahneva",
-        description:
-          "Pagoda, şeffaf dome, endüstriyel çadır kiralama. Zemin kaplama, aydınlatma ve profesyonel kurulum. Türkiye geneli hızlı hizmet.",
-        url: `${ORIGIN}/cadir-kiralama`,
-        mainEntity: {
-          "@type": "Service",
-          name: "Çadır Kiralama",
-        },
+        description: pageDescription,
+        url: pageUrl,
+        mainEntity: { "@id": `${pageUrl}#service` },
       },
-      ...productNodes,
-      ...(faqSchema ? [faqSchema] : []),
+      faqSchema,
     ],
   };
 
@@ -1446,6 +1443,7 @@ function JsonLd() {
     />
   );
 }
+
 
 /* ================== Sayfa Bileşeni ================== */
 export default function Page() {
