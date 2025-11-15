@@ -4,6 +4,7 @@ import Link from "next/link";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 
+import { buildFaqSchema } from "@/lib/structuredData/faq";
 import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
 
 /* ================== Sabitler ================== */
@@ -816,8 +817,7 @@ function Articles() {
 }
 
 /* ================== SSS ================== */
-function FAQ() {
-  const faqs = [
+const FAQ_ITEMS = [
     { 
       q: "Çadır kiralama fiyatları ne kadar?", 
       a: "5×5 metre pagoda çadır kiralama fiyatımız 7.000 TL'dir. Bu fiyata İstanbul içi nakliye, profesyonel kurulum, söküm işlemleri ve temel teknik destek dahildir. Metrekare başına standart çadırlar için fiyat 300 TL'dir. Özel tasarım ve premium çadırlarda fiyat değişiklik gösterebilir." 
@@ -835,6 +835,8 @@ function FAQ() {
       a: "Türkiye'nin 81 ilinde profesyonel çadır kiralama hizmeti sunuyoruz. İstanbul, Ankara, İzmir gibi büyükşehirlerde daha hızlı kurulum süreleri sunarken, tüm illerde standart hizmet kalitemizi koruyoruz." 
     },
   ];
+
+function FAQ() {
   
   return (
     <section className="py-20 bg-white" aria-labelledby="sss-baslik">
@@ -849,7 +851,7 @@ function FAQ() {
         </div>
 
         <div className="space-y-6" role="list" aria-label="Sık sorulan sorular listesi">
-          {faqs.map((faq, index) => (
+          {FAQ_ITEMS.map((faq, index) => (
             <details 
               key={index} 
               className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border"
@@ -1067,6 +1069,7 @@ function JsonLd() {
   }
 
   const productNodes = products ?? [];
+  const faqSchema = buildFaqSchema(FAQ_ITEMS);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -1100,6 +1103,7 @@ function JsonLd() {
         }
       },
       ...productNodes,
+      ...(faqSchema ? [faqSchema] : []),
     ],
   };
 
