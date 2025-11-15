@@ -1,7 +1,7 @@
 // components/PriceEstimatorPodyum.jsx
 "use client";
 
-import { useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 
 export default function PriceEstimatorPodyum({ unitPrices, className = "" }) {
   const [w, setW] = useState(4);
@@ -82,6 +82,7 @@ export default function PriceEstimatorPodyum({ unitPrices, className = "" }) {
             label="Konum"
             value={loc}
             onChange={setLoc}
+            name="konum"
             options={[
               { value: "istanbul", label: "İstanbul içi" },
               { value: "sehir-disi", label: "Şehir dışı" },
@@ -91,12 +92,14 @@ export default function PriceEstimatorPodyum({ unitPrices, className = "" }) {
             label="Genişlik (m)"
             value={w}
             onChange={(v) => setW(sanitizeNum(v))}
+            name="genislik"
             inputProps={{ min: 1, step: 0.5, "aria-label": "Podyum genişlik (metre)" }}
           />
           <Field
             label="Derinlik (m)"
             value={d}
             onChange={(v) => setD(sanitizeNum(v))}
+            name="derinlik"
             inputProps={{ min: 1, step: 0.5, "aria-label": "Podyum derinlik (metre)" }}
           />
         </div>
@@ -154,11 +157,15 @@ export default function PriceEstimatorPodyum({ unitPrices, className = "" }) {
 
 /* ---- Küçük yardımcı bileşenler ---- */
 
-function Field({ label, value, onChange, inputProps = {} }) {
+function Field({ label, value, onChange, name, inputProps = {} }) {
+  const reactId = useId();
+  const inputId = name ?? reactId;
   return (
-    <label className="text-xs">
+    <label className="text-xs" htmlFor={inputId}>
       <span className="block text-neutral-600">{label}</span>
       <input
+        id={inputId}
+        name={name ?? inputId}
         type="number"
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -173,11 +180,15 @@ function Field({ label, value, onChange, inputProps = {} }) {
   );
 }
 
-function SelectField({ label, value, onChange, options }) {
+function SelectField({ label, value, onChange, options, name }) {
+  const reactId = useId();
+  const selectId = name ?? reactId;
   return (
-    <label className="text-xs">
+    <label className="text-xs" htmlFor={selectId}>
       <span className="block text-neutral-600">{label}</span>
       <select
+        id={selectId}
+        name={name ?? selectId}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className="
