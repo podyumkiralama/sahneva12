@@ -4,7 +4,6 @@ import Script from "next/script";
 import { Inter } from "next/font/google";
 import SkipLinks from "@/components/SkipLinks";
 
-import { serviceProducts } from "@/lib/structuredData/serviceProducts";
 
 const inter = Inter({
   subsets: ["latin", "latin-ext", "arabic"],
@@ -13,31 +12,10 @@ const inter = Inter({
   adjustFontFallback: false,
 });
 
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "@id": "https://www.sahneva.com/#org",
-  name: "Sahneva",
-  url: "https://www.sahneva.com",
-  logo: "https://www.sahneva.com/img/logo.png",
-  description:
-    "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri kiralama hizmetleri",
-  contactPoint: {
-    "@type": "ContactPoint",
-    telephone: "+90-545-304-8671",
-    contactType: "customer service",
-    areaServed: "TR",
-    availableLanguage: ["Turkish"],
-  },
-  sameAs: [
-    "https://www.instagram.com/sahnevaorganizasyon",
-    "https://www.youtube.com/@sahneva",
-  ],
-};
-
 const localBusinessJsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
+  "@id": "https://www.sahneva.com/#org",
   name: "Sahneva",
   image: "https://www.sahneva.com/img/logo.png",
   url: "https://www.sahneva.com",
@@ -55,87 +33,18 @@ const localBusinessJsonLd = {
   },
   priceRange: "$$",
   openingHours: "Mo-Su 09:00-23:00",
-};
-
-const websiteJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "@id": "https://www.sahneva.com/#website",
-  name: "Sahneva",
-  url: "https://www.sahneva.com",
-  potentialAction: {
-    "@type": "SearchAction",
-    target: "https://www.sahneva.com/search?q={search_term_string}",
-    "query-input": "required name=search_term_string",
+  sameAs: [
+    "https://www.instagram.com/sahnevaorganizasyon",
+    "https://www.youtube.com/@sahneva",
+  ],
+  contactPoint: {
+    "@type": "ContactPoint",
+    telephone: "+90-545-304-8671",
+    contactType: "customer service",
+    areaServed: "TR",
+    availableLanguage: ["Turkish"],
   },
 };
-
-const SERVICE_PRODUCTS_JSON = (() => {
-  const siteUrl = "https://www.sahneva.com";
-  const orgId = `${siteUrl}#org`;
-
-  const graph = serviceProducts.flatMap((service) => {
-    const pageUrl = `${siteUrl}${service.slug}`;
-    const serviceId = `${pageUrl}#service`;
-
-    const productNodes = service.products.map((product) => ({
-      "@type": "Product",
-      "@id": `${pageUrl}#${product.sku}`,
-      name: product.name,
-      description: product.description,
-      sku: product.sku,
-      category: service.productCategory,
-      url: pageUrl,
-      brand: { "@type": "Organization", "@id": orgId, name: "Sahneva" },
-      additionalProperty: (product.highlights || []).map((item) => ({
-        "@type": "PropertyValue",
-        name: "Öne Çıkan Özellik",
-        value: item,
-      })),
-      offers: {
-        "@type": "Offer",
-        url: `${pageUrl}#teklif`,
-        availability: "https://schema.org/InStock",
-        priceCurrency: "TRY",
-        priceSpecification: {
-          "@type": "PriceSpecification",
-          price: "Teklif üzerine",
-          priceCurrency: "TRY",
-        },
-        description: product.description,
-      },
-      isRelatedTo: { "@id": serviceId },
-    }));
-
-    return [
-      {
-        "@type": "Service",
-        "@id": serviceId,
-        name: service.serviceName,
-        description: service.serviceDescription,
-        url: pageUrl,
-        areaServed: { "@type": "Country", name: "Türkiye" },
-        serviceType: service.productCategory,
-        provider: { "@id": orgId },
-        hasOfferCatalog: {
-          "@type": "OfferCatalog",
-          name: service.serviceName,
-          itemListElement: service.products.map((product, index) => ({
-            "@type": "Offer",
-            position: index + 1,
-            itemOffered: { "@id": `${pageUrl}#${product.sku}` },
-          })),
-        },
-      },
-      ...productNodes,
-    ];
-  });
-
-  return {
-    "@context": "https://schema.org",
-    "@graph": graph,
-  };
-})();
 
 export const viewport = {
   width: "device-width",
@@ -230,24 +139,10 @@ export default function RootLayout({ children }) {
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
         <link rel="dns-prefetch" href="//www.google.com" />
         <script
-          id="ld-org"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationJsonLd),
-          }}
-        />
-        <script
           id="ld-local"
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(localBusinessJsonLd),
-          }}
-        />
-        <script
-          id="ld-website"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(websiteJsonLd),
           }}
         />
       </head>

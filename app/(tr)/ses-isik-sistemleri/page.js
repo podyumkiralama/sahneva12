@@ -4,6 +4,7 @@ import Link from "next/link";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 
+import { buildFaqSchema } from "@/lib/structuredData/faq";
 import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
 
 /* ================== Sabitler ================== */
@@ -805,8 +806,7 @@ function Articles() {
 }
 
 /* ================== SSS ================== */
-function FAQ() {
-  const faqs = [
+const FAQ_ITEMS = [
     { 
       q: "Hangi ses ve ışık sistemi benim etkinliğime uygun?", 
       a: "Etkinlik alanınızın büyüklüğü, seyirci sayısı, etkinlik türü ve bütçenize göre en uygun ses ve ışık sistemini belirliyoruz. Ücretsiz keşif hizmetimizle mekanınızı analiz edip en verimli yapılandırmayı öneriyoruz." 
@@ -824,6 +824,8 @@ function FAQ() {
       a: "Nakliye, kurulum ve operasyon bizden. Güç altyapısı (jeneratör/tesisat) bilgilerini sizden alıyor, gerekli yönlendirme ve koordinasyonu ekibimiz sağlıyor. Profesyonel güç dağıtım üniteleri ve elektrik mühendisleri ile güvenli çözümler sunuyoruz." 
     },
   ];
+
+function FAQ() {
   
   return (
     <section className="py-20 bg-white" aria-labelledby="sss-baslik">
@@ -838,7 +840,7 @@ function FAQ() {
         </div>
 
         <div className="space-y-6"  aria-label="Sık sorulan sorular listesi">
-          {faqs.map((faq, index) => (
+          {FAQ_ITEMS.map((faq, index) => (
             <details 
               key={index} 
               className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border"
@@ -1021,75 +1023,92 @@ function CTA() {
 
 /* ================== JSON-LD ================== */
 function JsonLd() {
+  const pageUrl = `${ORIGIN}/ses-isik-sistemleri`;
+  const pageName = metadata.title;
+  const pageDescription = metadata.description;
+
+  const provider = {
+    "@type": "Organization",
+    "@id": `${ORIGIN}#org`,
+    name: "Sahneva",
+    url: ORIGIN,
+    telephone: "+905453048671",
+    logo: `${ORIGIN}/img/logo.png`,
+  };
+
   const { service: serviceSchema, products } = buildServiceProductSchema({
     slug: "/ses-isik-sistemleri",
     locale: "tr-TR",
   });
 
-  const serviceNode = {
+  const baseService = {
     "@type": "Service",
     name: "Ses ve Işık Sistemleri Kiralama",
-    description:
-      "Profesyonel ses ve ışık sistemleri kiralama hizmeti. Line array, dijital mikser, kablosuz mikrofon, hareketli ışık, truss sistemleri ve canlı operasyon ile Türkiye genelinde hizmet.",
-    provider: {
-      "@type": "Organization",
-      name: "Sahneva",
-      telephone: "+905453048671",
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: "İstanbul",
-        addressCountry: "TR"
-      },
-      url: ORIGIN,
-      logo: `${ORIGIN}/logo.png`,
-    },
+    description: pageDescription,
+    provider,
+    areaServed: { "@type": "Country", name: "Türkiye" },
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.9",
       reviewCount: "250",
-      bestRating: "5"
+      bestRating: "5",
     },
   };
 
-  if (serviceSchema) {
-    Object.assign(serviceNode, serviceSchema);
-  }
+  const serviceNode = serviceSchema
+    ? { ...serviceSchema, ...baseService, provider, url: pageUrl }
+    : { ...baseService, "@id": `${pageUrl}#service`, url: pageUrl };
 
-  const productNodes = products ?? [];
+  const serviceId = serviceNode["@id"] ?? `${pageUrl}#service`;
+  serviceNode["@id"] = serviceId;
+
+  const productNodes = (products ?? []).map((node) => ({ ...node }));
+
+  const faqSchema = buildFaqSchema(FAQ_ITEMS);
+  const faqNode = faqSchema
+    ? { "@id": `${pageUrl}#faq`, url: pageUrl, ...faqSchema }
+    : null;
+
+  const graph = [
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${pageUrl}#breadcrumbs`,
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Anasayfa",
+          item: `${ORIGIN}/`,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Ses ve Işık Sistemleri",
+          item: pageUrl,
+        },
+      ],
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${pageUrl}#webpage`,
+      url: pageUrl,
+      name: pageName,
+      description: pageDescription,
+      inLanguage: "tr-TR",
+      breadcrumb: { "@id": `${pageUrl}#breadcrumbs` },
+      mainEntity: { "@id": serviceId },
+    },
+    serviceNode,
+    ...productNodes,
+  ];
+
+  if (faqNode) {
+    graph.push(faqNode);
+  }
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Anasayfa",
-            item: `${ORIGIN}/`
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Ses ve Işık Sistemleri",
-            item: `${ORIGIN}/ses-isik-sistemleri`
-          },
-        ],
-      },
-      serviceNode,
-      {
-        "@type": "WebPage",
-        name: "Ses ve Işık Sistemleri Kiralama | Profesyonel Çözümler | Sahneva",
-        description: "Konser, festival ve kurumsal etkinlikler için profesyonel ses & ışık sistemleri kiralama. Line array, dijital mikser, hareketli ışık, truss ve canlı operasyon. 81 ilde hizmet.",
-        url: `${ORIGIN}/ses-isik-sistemleri`,
-        mainEntity: {
-          "@type": "Service",
-          name: "Ses ve Işık Sistemleri Kiralama"
-        }
-      },
-      ...productNodes,
-    ],
+    "@graph": graph,
   };
 
   return (

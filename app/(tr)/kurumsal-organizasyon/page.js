@@ -4,6 +4,7 @@ import Link from "next/link";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 
+import { buildFaqSchema } from "@/lib/structuredData/faq";
 import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
 
 /* ================== Sabitler ================== */
@@ -808,8 +809,7 @@ function Articles() {
 }
 
 /* ================== SSS ================== */
-function FAQ() {
-  const faqs = [
+const FAQ_ITEMS = [
     { 
       q: "Kurumsal organizasyon fiyatları ne kadar?", 
       a: "Kurumsal organizasyon fiyatları etkinlik türüne, katılımcı sayısına, teknik ihtiyaçlara ve süreye göre değişiklik gösterir. Temel bir konferans organizasyonu 15.000 TL'den başlarken, kapsamlı lansman organizasyonları 50.000 TL ve üzerine çıkabilir. Detaylı teklif için iletişime geçebilirsiniz." 
@@ -827,6 +827,8 @@ function FAQ() {
       a: "Evet, tüm kritik teknik ekipmanlarımız yedeklidir. Ses sistemleri, mikserler, mikrofonlar, LED ekran modülleri, jeneratörler ve aydınlatma sistemleri yedekli olarak kurulur. Ayrıca teknik ekip üyelerimiz de yedekli olarak görev yapar." 
     },
   ];
+
+function FAQ() {
   
   return (
     <section className="py-20 bg-white" aria-labelledby="sss-baslik">
@@ -841,7 +843,7 @@ function FAQ() {
         </div>
 
         <div className="space-y-6" role="list" aria-label="Sık sorulan sorular listesi">
-          {faqs.map((faq, index) => (
+          {FAQ_ITEMS.map((faq, index) => (
             <details 
               key={index} 
               className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border"
@@ -1024,75 +1026,92 @@ function CTA() {
 
 /* ================== JSON-LD ================== */
 function JsonLd() {
+  const pageUrl = `${ORIGIN}/kurumsal-organizasyon`;
+  const pageName = metadata.title;
+  const pageDescription = metadata.description;
+
+  const provider = {
+    "@type": "Organization",
+    "@id": `${ORIGIN}#org`,
+    name: "Sahneva",
+    url: ORIGIN,
+    telephone: "+905453048671",
+    logo: `${ORIGIN}/img/logo.png`,
+  };
+
   const { service: serviceSchema, products } = buildServiceProductSchema({
     slug: "/kurumsal-organizasyon",
     locale: "tr-TR",
   });
 
-  const serviceNode = {
+  const baseService = {
     "@type": "Service",
-    name: "Kurumsal Organizasyon Hizmeti",
-    description:
-      "Profesyonel kurumsal organizasyon hizmeti. Konferans, lansman, gala, miting organizasyonları ve teknik altyapı hizmetleri ile Türkiye genelinde hizmet.",
-    provider: {
-      "@type": "Organization",
-      name: "Sahneva",
-      telephone: "+905453048671",
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: "İstanbul",
-        addressCountry: "TR"
-      },
-      url: ORIGIN,
-      logo: `${ORIGIN}/logo.png`,
-    },
+    name: "Kurumsal Organizasyon",
+    description: pageDescription,
+    provider,
+    areaServed: { "@type": "Country", name: "Türkiye" },
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.9",
       reviewCount: "250",
-      bestRating: "5"
+      bestRating: "5",
     },
   };
 
-  if (serviceSchema) {
-    Object.assign(serviceNode, serviceSchema);
-  }
+  const serviceNode = serviceSchema
+    ? { ...serviceSchema, ...baseService, provider, url: pageUrl }
+    : { ...baseService, "@id": `${pageUrl}#service`, url: pageUrl };
 
-  const productNodes = products ?? [];
+  const serviceId = serviceNode["@id"] ?? `${pageUrl}#service`;
+  serviceNode["@id"] = serviceId;
+
+  const productNodes = (products ?? []).map((node) => ({ ...node }));
+
+  const faqSchema = buildFaqSchema(FAQ_ITEMS);
+  const faqNode = faqSchema
+    ? { "@id": `${pageUrl}#faq`, url: pageUrl, ...faqSchema }
+    : null;
+
+  const graph = [
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${pageUrl}#breadcrumbs`,
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Anasayfa",
+          item: `${ORIGIN}/`,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Kurumsal Organizasyon",
+          item: pageUrl,
+        },
+      ],
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${pageUrl}#webpage`,
+      url: pageUrl,
+      name: pageName,
+      description: pageDescription,
+      inLanguage: "tr-TR",
+      breadcrumb: { "@id": `${pageUrl}#breadcrumbs` },
+      mainEntity: { "@id": serviceId },
+    },
+    serviceNode,
+    ...productNodes,
+  ];
+
+  if (faqNode) {
+    graph.push(faqNode);
+  }
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Anasayfa",
-            item: `${ORIGIN}/`
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Kurumsal Organizasyon",
-            item: `${ORIGIN}/kurumsal-organizasyon`
-          },
-        ],
-      },
-      serviceNode,
-      {
-        "@type": "WebPage",
-        name: "Kurumsal Organizasyon | Profesyonel Etkinlik Yönetimi | Sahneva",
-        description: "Konferans, lansman, gala, miting organizasyonları. Sahne, ses, ışık, LED ekran ve profesyonel etkinlik yönetimi. Türkiye geneli hızlı hizmet.",
-        url: `${ORIGIN}/kurumsal-organizasyon`,
-        mainEntity: {
-          "@type": "Service",
-          name: "Kurumsal Organizasyon"
-        }
-      },
-      ...productNodes,
-    ],
+    "@graph": graph,
   };
 
   return (

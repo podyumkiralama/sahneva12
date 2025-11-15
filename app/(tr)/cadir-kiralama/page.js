@@ -4,6 +4,7 @@ import Link from "next/link";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 
+import { buildFaqSchema } from "@/lib/structuredData/faq";
 import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
 
 /* ================== Sabitler ================== */
@@ -816,8 +817,7 @@ function Articles() {
 }
 
 /* ================== SSS ================== */
-function FAQ() {
-  const faqs = [
+const FAQ_ITEMS = [
     { 
       q: "Çadır kiralama fiyatları ne kadar?", 
       a: "5×5 metre pagoda çadır kiralama fiyatımız 7.000 TL'dir. Bu fiyata İstanbul içi nakliye, profesyonel kurulum, söküm işlemleri ve temel teknik destek dahildir. Metrekare başına standart çadırlar için fiyat 300 TL'dir. Özel tasarım ve premium çadırlarda fiyat değişiklik gösterebilir." 
@@ -835,6 +835,8 @@ function FAQ() {
       a: "Türkiye'nin 81 ilinde profesyonel çadır kiralama hizmeti sunuyoruz. İstanbul, Ankara, İzmir gibi büyükşehirlerde daha hızlı kurulum süreleri sunarken, tüm illerde standart hizmet kalitemizi koruyoruz." 
     },
   ];
+
+function FAQ() {
   
   return (
     <section className="py-20 bg-white" aria-labelledby="sss-baslik">
@@ -849,7 +851,7 @@ function FAQ() {
         </div>
 
         <div className="space-y-6" role="list" aria-label="Sık sorulan sorular listesi">
-          {faqs.map((faq, index) => (
+          {FAQ_ITEMS.map((faq, index) => (
             <details 
               key={index} 
               className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border"
@@ -1032,75 +1034,92 @@ function CTA() {
 
 /* ================== JSON-LD ================== */
 function JsonLd() {
+  const pageUrl = `${ORIGIN}/cadir-kiralama`;
+  const pageName = metadata.title;
+  const pageDescription = metadata.description;
+
+  const provider = {
+    "@type": "Organization",
+    "@id": `${ORIGIN}#org`,
+    name: "Sahneva",
+    url: ORIGIN,
+    telephone: "+905453048671",
+    logo: `${ORIGIN}/img/logo.png`,
+  };
+
   const { service: serviceSchema, products } = buildServiceProductSchema({
     slug: "/cadir-kiralama",
     locale: "tr-TR",
   });
 
-  const serviceNode = {
+  const baseService = {
     "@type": "Service",
-    name: "Çadır Kiralama Hizmeti",
-    description:
-      "Profesyonel çadır kiralama hizmeti. Pagoda, şeffaf dome, endüstriyel çadır sistemleri ve kurulum hizmetleri ile Türkiye genelinde hizmet.",
-    provider: {
-      "@type": "Organization",
-      name: "Sahneva",
-      telephone: "+905453048671",
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: "İstanbul",
-        addressCountry: "TR"
-      },
-      url: ORIGIN,
-      logo: `${ORIGIN}/logo.png`,
-    },
+    name: "Çadır Kiralama",
+    description: pageDescription,
+    provider,
+    areaServed: { "@type": "Country", name: "Türkiye" },
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.8",
       reviewCount: "180",
-      bestRating: "5"
+      bestRating: "5",
     },
   };
 
-  if (serviceSchema) {
-    Object.assign(serviceNode, serviceSchema);
-  }
+  const serviceNode = serviceSchema
+    ? { ...serviceSchema, ...baseService, provider, url: pageUrl }
+    : { ...baseService, "@id": `${pageUrl}#service`, url: pageUrl };
 
-  const productNodes = products ?? [];
+  const serviceId = serviceNode["@id"] ?? `${pageUrl}#service`;
+  serviceNode["@id"] = serviceId;
+
+  const productNodes = (products ?? []).map((node) => ({ ...node }));
+
+  const faqSchema = buildFaqSchema(FAQ_ITEMS);
+  const faqNode = faqSchema
+    ? { "@id": `${pageUrl}#faq`, url: pageUrl, ...faqSchema }
+    : null;
+
+  const graph = [
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${pageUrl}#breadcrumbs`,
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Anasayfa",
+          item: `${ORIGIN}/`,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Çadır Kiralama",
+          item: pageUrl,
+        },
+      ],
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${pageUrl}#webpage`,
+      url: pageUrl,
+      name: pageName,
+      description: pageDescription,
+      inLanguage: "tr-TR",
+      breadcrumb: { "@id": `${pageUrl}#breadcrumbs` },
+      mainEntity: { "@id": serviceId },
+    },
+    serviceNode,
+    ...productNodes,
+  ];
+
+  if (faqNode) {
+    graph.push(faqNode);
+  }
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Anasayfa",
-            item: `${ORIGIN}/`
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Çadır Kiralama",
-            item: `${ORIGIN}/cadir-kiralama`
-          },
-        ],
-      },
-      serviceNode,
-      {
-        "@type": "WebPage",
-        name: "Çadır Kiralama | Profesyonel Etkinlik Çözümleri | Sahneva",
-        description: "Pagoda, şeffaf dome, endüstriyel çadır kiralama. Zemin kaplama, aydınlatma ve profesyonel kurulum. Türkiye geneli hızlı hizmet.",
-        url: `${ORIGIN}/cadir-kiralama`,
-        mainEntity: {
-          "@type": "Service",
-          name: "Çadır Kiralama"
-        }
-      },
-      ...productNodes,
-    ],
+    "@graph": graph,
   };
 
   return (
