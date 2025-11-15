@@ -20,7 +20,7 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
 
   const openLightbox = (index) => {
     if (!isMounted) return;
-    
+
     lastFocus.current = document.activeElement;
     setCurrentIndex(index);
     setOpen(true);
@@ -32,7 +32,9 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
 
   const navigate = (direction) => {
     setCurrentIndex((prev) => {
-      if (direction === 'prev') {
+      if (!images.length) return prev;
+
+      if (direction === "prev") {
         return prev === 0 ? images.length - 1 : prev - 1;
       } else {
         return prev === images.length - 1 ? 0 : prev + 1;
@@ -46,7 +48,7 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
 
     const body = document.body;
     scrollYRef.current = window.scrollY;
-    
+
     // Scroll kilidi
     const previousStyles = {
       position: body.style.position,
@@ -55,53 +57,56 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
       width: body.style.width,
     };
 
-    body.style.position = 'fixed';
+    body.style.position = "fixed";
     body.style.top = `-${scrollYRef.current}px`;
-    body.style.overflow = 'hidden';
-    body.style.width = '100%';
+    body.style.overflow = "hidden";
+    body.style.width = "100%";
 
     // Odak yönetimi
     const focusElement = closeBtnRef.current || dialogRef.current;
     if (focusElement) {
-      setTimeout(() => focusElement.focus(), 100);
+      setTimeout(() => focusElement.focus(), 50);
     }
 
     // Klavye olayları
     const handleKeyDown = (e) => {
       switch (e.key) {
-        case 'Escape':
+        case "Escape":
+          e.preventDefault();
           closeLightbox();
           break;
-        case 'ArrowLeft':
-          navigate('prev');
+        case "ArrowLeft":
+          e.preventDefault();
+          navigate("prev");
           break;
-        case 'ArrowRight':
-          navigate('next');
+        case "ArrowRight":
+          e.preventDefault();
+          navigate("next");
           break;
         default:
           break;
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
 
     // Temizleme
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      
+      window.removeEventListener("keydown", handleKeyDown);
+
       // Scroll kilidini kaldır
       body.style.position = previousStyles.position;
       body.style.top = previousStyles.top;
       body.style.overflow = previousStyles.overflow;
       body.style.width = previousStyles.width;
-      
+
       if (scrollYRef.current !== undefined) {
         window.scrollTo(0, scrollYRef.current);
       }
-      
+
       // Önceki odağa dön
       if (lastFocus.current?.focus) {
-        setTimeout(() => lastFocus.current.focus(), 100);
+        setTimeout(() => lastFocus.current.focus(), 50);
       }
     };
   }, [open, isMounted, images.length]);
@@ -125,16 +130,17 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
   return (
     <div className="w-full">
       {/* Thumbnail Grid */}
-      <div 
+      <div
         className={`grid gap-3 ${
-          displayImages.length === 1 
-            ? 'grid-cols-1 max-w-md mx-auto'
+          displayImages.length === 1
+            ? "grid-cols-1 max-w-md mx-auto"
             : displayImages.length === 2
-            ? 'grid-cols-2 max-w-2xl mx-auto'
+            ? "grid-cols-2 max-w-2xl mx-auto"
             : displayImages.length === 3
-            ? 'grid-cols-3 max-w-3xl mx-auto'
-            : 'grid-cols-2 md:grid-cols-4'
+            ? "grid-cols-3 max-w-3xl mx-auto"
+            : "grid-cols-2 md:grid-cols-4"
         }`}
+        aria-label="Proje galerisi"
       >
         {displayImages.map((img, index) => (
           <button
@@ -150,12 +156,17 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover transition-transform duration-300 group-hover:scale-105"
-              loading={index < 4 ? "eager" : "lazy"}
+              // Performans: sadece ilk görsel eager, diğerleri lazy
+              loading={index === 0 ? "eager" : "lazy"}
+              decoding="async"
               quality={75}
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <span className="bg-black/50 text-white rounded-full p-2 transform scale-75 group-hover:scale-100 transition-transform duration-300">
+              <span
+                className="bg-black/50 text-white rounded-full p-2 transform scale-75 group-hover:scale-100 transition-transform duration-300"
+                aria-hidden="true"
+              >
                 🔍
               </span>
             </div>
@@ -166,7 +177,7 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
       {/* Gizli görseller için bilgi (screen reader için) */}
       {visibleCount && images.length > visibleCount && (
         <p className="sr-only">
-          Galeride {images.length - visibleCount} adet daha görsel bulunmaktadır. 
+          Galeride {images.length - visibleCount} adet daha görsel bulunmaktadır.
           Lightbox açıldığında tüm görselleri görebilirsiniz.
         </p>
       )}
@@ -181,10 +192,10 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
           aria-describedby="lightbox-description"
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm p-4"
           onClick={(e) => e.target === e.currentTarget && closeLightbox()}
-          style={{ 
-            overscrollBehavior: 'contain',
-            paddingBottom: 'env(safe-area-inset-bottom)',
-            paddingTop: 'env(safe-area-inset-top)'
+          style={{
+            overscrollBehavior: "contain",
+            paddingBottom: "env(safe-area-inset-bottom)",
+            paddingTop: "env(safe-area-inset-top)",
           }}
         >
           {/* Erişilebilir başlık ve açıklama */}
@@ -192,8 +203,10 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
             Görsel Galerisi
           </h2>
           <p id="lightbox-description" className="sr-only">
-            {images[currentIndex]?.alt || 'Görsel'}. 
-            {images.length > 1 ? ` ${currentIndex + 1} / ${images.length}. ` : ' '}
+            {images[currentIndex]?.alt || "Görsel"}.
+            {images.length > 1
+              ? ` ${currentIndex + 1} / ${images.length}. `
+              : " "}
             Esc tuşuyla kapatabilir, sol ve sağ ok tuşlarıyla gezinebilirsiniz.
           </p>
 
@@ -222,10 +235,12 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
             <button
               type="button"
               className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/10 hover:bg-white/20 text-white rounded-full w-12 h-12 flex items-center justify-center transition-all duration-200 focus-ring backdrop-blur-sm md:left-6"
-              onClick={() => navigate('prev')}
+              onClick={() => navigate("prev")}
               aria-label="Önceki görsel"
             >
-              <span aria-hidden="true" className="text-2xl">‹</span>
+              <span aria-hidden="true" className="text-2xl">
+                ‹
+              </span>
             </button>
           )}
 
@@ -234,12 +249,14 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
             <div className="relative w-full h-full max-h-[80vh] flex items-center justify-center">
               <Image
                 key={images[currentIndex]?.src}
-                src={images[currentIndex]?.src || ''}
-                alt={images[currentIndex]?.alt || ''}
+                src={images[currentIndex]?.src || ""}
+                alt={images[currentIndex]?.alt || ""}
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 80vw"
                 className="object-contain"
                 quality={90}
+                loading="eager"
+                decoding="async"
               />
             </div>
           </div>
@@ -249,17 +266,21 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
             <button
               type="button"
               className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/10 hover:bg-white/20 text-white rounded-full w-12 h-12 flex items-center justify-center transition-all duration-200 focus-ring backdrop-blur-sm md:right-6"
-              onClick={() => navigate('next')}
+              onClick={() => navigate("next")}
               aria-label="Sonraki görsel"
             >
-              <span aria-hidden="true" className="text-2xl">›</span>
+              <span aria-hidden="true" className="text-2xl">
+                ›
+              </span>
             </button>
           )}
 
           {/* Görsel açıklaması */}
           {images[currentIndex]?.alt && (
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 bg-black/70 text-white px-4 py-2 rounded-lg max-w-2xl text-center backdrop-blur-sm">
-              <p className="text-sm font-medium">{images[currentIndex].alt}</p>
+              <p className="text-sm font-medium">
+                {images[currentIndex].alt}
+              </p>
             </div>
           )}
 
@@ -269,7 +290,7 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
               <button
                 type="button"
                 className="flex-1 max-w-[120px] bg-white/10 hover:bg-white/20 text-white py-3 rounded-l-lg transition-colors duration-200 focus-ring"
-                onClick={() => navigate('prev')}
+                onClick={() => navigate("prev")}
                 aria-label="Önceki görsel"
               >
                 Önceki
@@ -277,7 +298,7 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
               <button
                 type="button"
                 className="flex-1 max-w-[120px] bg-white/10 hover:bg-white/20 text-white py-3 rounded-r-lg transition-colors duration-200 focus-ring"
-                onClick={() => navigate('next')}
+                onClick={() => navigate("next")}
                 aria-label="Sonraki görsel"
               >
                 Sonraki
@@ -293,9 +314,9 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
                   key={`thumb-${index}`}
                   type="button"
                   className={`flex-shrink-0 w-16 h-12 relative rounded border-2 transition-all duration-200 focus-ring ${
-                    index === currentIndex 
-                      ? 'border-white scale-110' 
-                      : 'border-white/30 hover:border-white/60'
+                    index === currentIndex
+                      ? "border-white scale-110"
+                      : "border-white/30 hover:border-white/60"
                   }`}
                   onClick={() => setCurrentIndex(index)}
                   aria-label={`${index + 1}. görsele git: ${img.alt}`}
@@ -307,6 +328,8 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
                     sizes="64px"
                     className="object-cover rounded"
                     quality={50}
+                    loading="lazy"
+                    decoding="async"
                   />
                 </button>
               ))}

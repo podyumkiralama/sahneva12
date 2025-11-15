@@ -206,13 +206,14 @@ function Hero() {
         <img
           src={HERO.src}
           alt={HERO.alt}
-          className="absolute inset-0 h-full w-full object-cover"
-          decoding="async"
-          style={{
-            backgroundImage: `url(${BLUR_DATA_URL})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
+          fill
+          loading="eager"
+          fetchPriority="high"
+          className="object-cover"
+          sizes={HERO.sizes}
+          quality={85}
+          placeholder="blur"
+          blurDataURL={BLUR_DATA_URL}
         />
         <div
           className="absolute inset-0 bg-gradient-to-br from-blue-900/80 via-purple-800/70 to-blue-950/90"

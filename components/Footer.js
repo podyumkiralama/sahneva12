@@ -58,12 +58,12 @@ export default function Footer() {
   return (
     <footer
       id="main-footer"
-      aria-label={footerStrings?.ariaLabel ?? "Site altbilgisi"}
       className="relative w-full flex-shrink-0 bg-gradient-to-br from-[#0b1120] via-[#1a1038] to-[#1b1f4a] border-t border-white/10"
       aria-labelledby="site-footer-heading"
       itemScope
       itemType="https://schema.org/Organization"
     >
+      {/* Üst dalga geçişi */}
       <div
         className="absolute inset-x-0 -top-24 h-24 pointer-events-none"
         aria-hidden="true"
@@ -75,17 +75,35 @@ export default function Footer() {
           preserveAspectRatio="none"
         >
           <defs>
-            <linearGradient id="footerWave" x1="0%" y1="0%" x2="100%" y2="100%">
+            <linearGradient
+              id="footerWave"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="100%"
+            >
               <stop offset="0%" stopColor="rgba(12,16,32,0.98)" />
               <stop offset="45%" stopColor="rgba(35,21,76,0.94)" />
               <stop offset="100%" stopColor="rgba(36,33,90,0.92)" />
             </linearGradient>
-            <linearGradient id="footerWaveHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
+            <linearGradient
+              id="footerWaveHighlight"
+              x1="0%"
+              y1="0%"
+              x2="0%"
+              y2="100%"
+            >
               <stop offset="0%" stopColor="rgba(132,148,245,0.35)" />
               <stop offset="55%" stopColor="rgba(98,104,219,0.16)" />
               <stop offset="100%" stopColor="rgba(64,82,186,0.05)" />
             </linearGradient>
-            <linearGradient id="footerWaveShadow" x1="0%" y1="0%" x2="100%" y2="100%">
+            <linearGradient
+              id="footerWaveShadow"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="100%"
+            >
               <stop offset="0%" stopColor="rgba(10,12,28,0.6)" />
               <stop offset="100%" stopColor="rgba(30,40,110,0.3)" />
             </linearGradient>
@@ -105,6 +123,7 @@ export default function Footer() {
         </svg>
       </div>
 
+      {/* Arka plan glow */}
       <div
         className="absolute inset-0 overflow-hidden pointer-events-none"
         aria-hidden="true"
@@ -114,8 +133,9 @@ export default function Footer() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-transparent via-[#121633]/55 to-[#0b1024]/85" />
       </div>
 
+      {/* Footer başlığı (screen reader için) */}
       <h2 id="site-footer-heading" className="sr-only">
-        Site altbilgisi
+        {footerStrings?.ariaLabel ?? "Site altbilgisi"}
       </h2>
 
       <div className="relative z-10 container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pt-24 pb-14 px-6">
@@ -133,7 +153,10 @@ export default function Footer() {
           <div className="flex items-center gap-3 text-white font-bold text-2xl mb-6">
             <div className="relative" aria-hidden="true">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg blur-sm opacity-75" />
-              <span className="relative bg-gradient-to-r from-blue-500 to-purple-500 text-white p-2 rounded-lg" aria-hidden="true">
+              <span
+                className="relative bg-gradient-to-r from-blue-500 to-purple-500 text-white p-2 rounded-lg"
+                aria-hidden="true"
+              >
                 ⭐
               </span>
             </div>
@@ -145,35 +168,43 @@ export default function Footer() {
             </span>
           </div>
 
-          <p className="text-sm leading-6 text-gray-200 mb-6" itemProp="description">
-            <span className="block">Profesyonel etkinlik prodüksiyon & ekipman kiralama.</span>
+          <p
+            className="text-sm leading-6 text-gray-200 mb-6"
+            itemProp="description"
+          >
             <span className="block">
-              <span className="text-blue-300 font-medium">Türkiye geneli</span> sahne, podyum, LED ekran ve ses-ışık sistemleri.
+              Profesyonel etkinlik prodüksiyon & ekipman kiralama.
+            </span>
+            <span className="block">
+              <span className="text-blue-300 font-medium">Türkiye geneli</span>{" "}
+              sahne, podyum, LED ekran ve ses-ışık sistemleri.
             </span>
           </p>
 
           <ul className="flex gap-3" aria-label="Sahneva sosyal bağlantılar">
-            {SOCIAL_LINKS.map(({ href, label, title, icon, gradient }) => (
-              <li key={href}>
-                <a
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer me"
-                  aria-label={label}
-                  title={title}
-                  className={`group relative inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300 hover:scale-110 min-h-[44px] min-w-[44px] ${focusRingClass}`}
-                  itemProp="sameAs"
-                >
-                  <span
-                    className={`absolute inset-0 rounded-xl bg-gradient-to-r ${gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
-                    aria-hidden="true"
-                  />
-                  <span aria-hidden="true" className="text-lg relative z-10">
-                    {icon}
-                  </span>
-                </a>
-              </li>
-            ))}
+            {SOCIAL_LINKS.map(
+              ({ href, label, title, icon, gradient }) => (
+                <li key={href}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer me"
+                    aria-label={label}
+                    title={title}
+                    className={`group relative inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300 hover:scale-110 min-h-[44px] min-w-[44px] ${focusRingClass}`}
+                    itemProp="sameAs"
+                  >
+                    <span
+                      className={`absolute inset-0 rounded-xl bg-gradient-to-r ${gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+                      aria-hidden="true"
+                    />
+                    <span aria-hidden="true" className="text-lg relative z-10">
+                      {icon}
+                    </span>
+                  </a>
+                </li>
+              )
+            )}
           </ul>
         </section>
 
@@ -192,7 +223,9 @@ export default function Footer() {
                   href={href}
                   className={`group text-slate-100 hover:text-white transition-all duration-200 block py-1 pl-2 border-l-2 border-transparent hover:border-blue-400 hover:pl-3 rounded-sm ${focusRingClass}`}
                 >
-                  <span className="group-hover:text-blue-300 transition-colors">{label}</span>
+                  <span className="group-hover:text-blue-300 transition-colors">
+                    {label}
+                  </span>
                 </Link>
               </li>
             ))}
@@ -214,7 +247,9 @@ export default function Footer() {
                   href={href}
                   className={`group text-slate-100 hover:text-white transition-all duration-200 block py-1 pl-2 border-l-2 border-transparent hover:border-purple-400 hover:pl-3 rounded-sm ${focusRingClass}`}
                 >
-                  <span className="group-hover:text-purple-300 transition-colors">{label}</span>
+                  <span className="group-hover:text-purple-300 transition-colors">
+                    {label}
+                  </span>
                 </Link>
               </li>
             ))}
@@ -230,26 +265,42 @@ export default function Footer() {
             İletişim Bilgileri
           </h3>
 
-          <address className="not-italic space-y-4 text-sm" itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
+          <address
+            className="not-italic space-y-4 text-sm"
+            itemProp="address"
+            itemScope
+            itemType="https://schema.org/PostalAddress"
+          >
             <div className="flex items-start gap-3">
               <div className="relative" aria-hidden="true">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg blur-sm opacity-50" />
-                <span className="relative text-white text-base p-2 rounded-lg bg-slate-800/50 backdrop-blur-sm" aria-hidden="true">
+                <span
+                  className="relative text-white text-base p-2 rounded-lg bg-slate-800/50 backdrop-blur-sm"
+                  aria-hidden="true"
+                >
                   📍
                 </span>
               </div>
               <div>
-                <span className="block text-white font-semibold" itemProp="addressLocality">
+                <span
+                  className="block text-white font-semibold"
+                  itemProp="addressLocality"
+                >
                   İstanbul
                 </span>
-                <span className="text-gray-200">Türkiye geneli hizmet</span>
+                <span className="text-gray-200">
+                  Türkiye geneli hizmet
+                </span>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
               <div className="relative" aria-hidden="true">
                 <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg blur-sm opacity-50" />
-                <span className="relative text-white text-base p-2 rounded-lg bg-slate-800/50 backdrop-blur-sm" aria-hidden="true">
+                <span
+                  className="relative text-white text-base p-2 rounded-lg bg-slate-800/50 backdrop-blur-sm"
+                  aria-hidden="true"
+                >
                   📞
                 </span>
               </div>
@@ -265,7 +316,10 @@ export default function Footer() {
             <div className="flex items-center gap-3">
               <div className="relative" aria-hidden="true">
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg blur-sm opacity-50" />
-                <span className="relative text-white text-base p-2 rounded-lg bg-slate-800/50 backdrop-blur-sm" aria-hidden="true">
+                <span
+                  className="relative text-white text-base p-2 rounded-lg bg-slate-800/50 backdrop-blur-sm"
+                  aria-hidden="true"
+                >
                   ✉️
                 </span>
               </div>
@@ -287,7 +341,10 @@ export default function Footer() {
                   className={`group inline-flex items-center gap-2 text-xs text-slate-100 hover:text-white transition-all duration-300 hover:gap-3 rounded-sm ${focusRingClass}`}
                   title={title}
                 >
-                  <span className="group-hover:scale-110 transition-transform duration-300" aria-hidden="true">
+                  <span
+                    className="group-hover:scale-110 transition-transform duration-300"
+                    aria-hidden="true"
+                  >
                     {icon}
                   </span>
                   {label}
@@ -298,18 +355,25 @@ export default function Footer() {
         </section>
       </div>
 
+      {/* Alt satır */}
       <div className="relative border-t border-white/10 text-center text-sm text-gray-200 py-6 bg-gradient-to-r from-slate-900/50 via-purple-900/30 to-blue-900/50 backdrop-blur-sm">
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" aria-hidden="true" />
+        <div
+          className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"
+          aria-hidden="true"
+        />
         <div className="container mx-auto px-6 relative z-10">
           <p className="mb-3 text-gray-200">
             <span className="block">
-              Türkiye genelinde profesyonel sahne, podyum, LED ekran, ses-ışık sistemleri ve kurulum hizmetleri.
+              Türkiye genelinde profesyonel sahne, podyum, LED ekran,
+              ses-ışık sistemleri ve kurulum hizmetleri.
             </span>
           </p>
 
-          <meta itemProp="copyrightYear" content={String(currentYear)} />
           <p className="text-gray-200">
-            © {currentYear}{" "}
+            ©{" "}
+            <span itemProp="copyrightYear">
+              {currentYear}
+            </span>{" "}
             <span itemProp="name" className="text-white font-semibold">
               Sahneva
             </span>{" "}

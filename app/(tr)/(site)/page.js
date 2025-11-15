@@ -318,25 +318,25 @@ function StructuredData() {
 // SAYFA
 // —————————————————————————————————————————
 function HeroBackgroundImage({ alt = "", ariaHidden = true }) {
-  const layeredBackground = HERO_BACKGROUND.blur
-    ? `url(${HERO_BACKGROUND.src}), url(${HERO_BACKGROUND.blur})`
-    : `url(${HERO_BACKGROUND.src})`;
+  const { props } = getImageProps({
+    alt,
+    src: heroImg,
+    sizes: "100vw",
+    priority: true,
+    fetchPriority: "high",
+    loading: "eager",
+    placeholder: "blur",
+    quality: 70,
+    className: "absolute inset-0 h-full w-full object-cover object-center",
+    style: {
+      filter: "brightness(0.7) contrast(1.1) saturate(1.05)",
+    },
+  });
 
-  return (
-    <div
-      className="absolute inset-0 h-full w-full"
-      style={{
-        backgroundImage: layeredBackground,
-        backgroundSize: HERO_BACKGROUND.blur ? "cover, cover" : "cover",
-        backgroundPosition: HERO_BACKGROUND.blur ? "center, center" : "center",
-        backgroundRepeat: "no-repeat",
-        filter: "brightness(0.7) contrast(1.1) saturate(1.05)",
-      }}
-      role={ariaHidden ? undefined : "img"}
-      aria-label={ariaHidden ? undefined : alt}
-      aria-hidden={ariaHidden}
-    />
-  );
+  const { fetchPriority, ...rest } = props;
+
+  // eslint-disable-next-line react/no-unknown-property -- force lowercase attribute for HTML validators
+  return <img {...rest} fetchpriority={fetchPriority} aria-hidden={ariaHidden} />;
 }
 
 export default function HomePage() {
@@ -346,7 +346,7 @@ export default function HomePage() {
 
       {/* HERO SECTION */}
       <section
-        className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950 pt-16 lg:pt-20"
+        className="relative min-h-[80vh] flex items-center justifycenter overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950 pt-16 lg:pt-20"
         aria-labelledby="hero-title"
       >
         {/* Arka plan görseli */}
