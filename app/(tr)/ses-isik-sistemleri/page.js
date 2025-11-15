@@ -1023,39 +1023,44 @@ function CTA() {
 
 /* ================== JSON-LD ================== */
 function JsonLd() {
+  const pageUrl = `${ORIGIN}/ses-isik-sistemleri`;
+  const pageName = metadata.title;
+  const pageDescription = metadata.description;
+
+  const provider = {
+    "@type": "Organization",
+    "@id": `${ORIGIN}#org`,
+    name: "Sahneva",
+    url: ORIGIN,
+    telephone: "+905453048671",
+    logo: `${ORIGIN}/img/logo.png`,
+  };
+
   const { service: serviceSchema, products } = buildServiceProductSchema({
     slug: "/ses-isik-sistemleri",
     locale: "tr-TR",
   });
 
-  const serviceNode = {
+  const baseService = {
     "@type": "Service",
     name: "Ses ve Işık Sistemleri Kiralama",
-    description:
-      "Profesyonel ses ve ışık sistemleri kiralama hizmeti. Line array, dijital mikser, kablosuz mikrofon, hareketli ışık, truss sistemleri ve canlı operasyon ile Türkiye genelinde hizmet.",
-    provider: {
-      "@type": "Organization",
-      name: "Sahneva",
-      telephone: "+905453048671",
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: "İstanbul",
-        addressCountry: "TR"
-      },
-      url: ORIGIN,
-      logo: `${ORIGIN}/logo.png`,
-    },
+    description: pageDescription,
+    provider,
+    areaServed: { "@type": "Country", name: "Türkiye" },
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.9",
       reviewCount: "250",
-      bestRating: "5"
+      bestRating: "5",
     },
   };
 
-  if (serviceSchema) {
-    Object.assign(serviceNode, serviceSchema);
-  }
+  const serviceNode = serviceSchema
+    ? { ...serviceSchema, ...baseService, provider, url: pageUrl }
+    : { ...baseService, "@id": `${pageUrl}#service`, url: pageUrl };
+
+  const serviceId = serviceNode["@id"] ?? `${pageUrl}#service`;
+  serviceNode["@id"] = serviceId;
 
   const productNodes = products ?? [];
   const faqSchema = buildFaqSchema(FAQ_ITEMS);

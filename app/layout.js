@@ -16,31 +16,10 @@ const inter = Inter({
   adjustFontFallback: false,
 });
 
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "@id": "https://www.sahneva.com/#org",
-  name: "Sahneva",
-  url: "https://www.sahneva.com",
-  logo: "https://www.sahneva.com/img/logo.png",
-  description:
-    "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri kiralama hizmetleri",
-  contactPoint: {
-    "@type": "ContactPoint",
-    telephone: "+90-545-304-8671",
-    contactType: "customer service",
-    areaServed: "TR",
-    availableLanguage: ["Turkish"],
-  },
-  sameAs: [
-    "https://www.instagram.com/sahnevaorganizasyon",
-    "https://www.youtube.com/@sahneva",
-  ],
-};
-
 const localBusinessJsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
+  "@id": "https://www.sahneva.com/#org",
   name: "Sahneva",
   image: "https://www.sahneva.com/img/logo.png",
   url: "https://www.sahneva.com",
@@ -58,18 +37,16 @@ const localBusinessJsonLd = {
   },
   priceRange: "$$",
   openingHours: "Mo-Su 09:00-23:00",
-};
-
-const websiteJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "@id": "https://www.sahneva.com/#website",
-  name: "Sahneva",
-  url: "https://www.sahneva.com",
-  potentialAction: {
-    "@type": "SearchAction",
-    target: "https://www.sahneva.com/search?q={search_term_string}",
-    "query-input": "required name=search_term_string",
+  sameAs: [
+    "https://www.instagram.com/sahnevaorganizasyon",
+    "https://www.youtube.com/@sahneva",
+  ],
+  contactPoint: {
+    "@type": "ContactPoint",
+    telephone: "+90-545-304-8671",
+    contactType: "customer service",
+    areaServed: "TR",
+    availableLanguage: ["Turkish"],
   },
 };
 
@@ -184,13 +161,6 @@ export default function RootLayout({ children }) {
         <style id="critical-css" dangerouslySetInnerHTML={{ __html: criticalCSS }} />
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
         <link rel="dns-prefetch" href="//www.google.com" />
-        <script
-          id="ld-org"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationJsonLd),
-          }}
-        />
         <script
           id="ld-local"
           type="application/ld+json"
