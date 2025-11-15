@@ -4,6 +4,7 @@ import Link from "next/link";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 
+import { buildFaqSchema } from "@/lib/structuredData/faq";
 import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
 
 /* ================== Sabitler ================== */
@@ -972,8 +973,7 @@ function Articles() {
 }
 
 /* ================== SSS ================== */
-function FAQ() {
-  const faqs = [
+const FAQ_ITEMS = [
     { 
       q: "Masa sandalye kiralama fiyatları ne kadar?", 
       a: "Masa sandalye kiralama fiyatları ürün tipine ve adetine göre değişmektedir. Napolyon sandalye günlük 55₺, konferans sandalyesi 45₺, yuvarlak banket masa 120₺'den başlayan fiyatlarla. Profesyonel kurulum ve teslimat hizmetleri paket fiyatlarına dahildir." 
@@ -991,6 +991,8 @@ function FAQ() {
       a: "Evet, tüm paketlerimizde teslimat, profesyonel kurulum, yerleşim ve etkinlik sonrası toplama hizmetleri anahtar teslim olarak sunulmaktadır. Deneyimli ekibimiz etkinlik öncesi planlama ile en uygun yerleşimi sağlar." 
     },
   ];
+
+function FAQ() {
   
   return (
     <section className="py-20 bg-white" aria-labelledby="sss-baslik">
@@ -1005,7 +1007,7 @@ function FAQ() {
         </div>
 
         <div className="space-y-6" role="list" aria-label="Sık sorulan sorular listesi">
-          {faqs.map((faq, index) => (
+          {FAQ_ITEMS.map((faq, index) => (
             <details 
               key={index} 
               className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border"
@@ -1223,6 +1225,7 @@ function JsonLd() {
   }
 
   const productNodes = products ?? [];
+  const faqSchema = buildFaqSchema(FAQ_ITEMS);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -1256,6 +1259,7 @@ function JsonLd() {
         }
       },
       ...productNodes,
+      ...(faqSchema ? [faqSchema] : []),
     ],
   };
 

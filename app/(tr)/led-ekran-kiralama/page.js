@@ -4,6 +4,7 @@ import Link from "next/link";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 
+import { buildFaqSchema } from "@/lib/structuredData/faq";
 import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
 
 /* ================== Sabitler ================== */
@@ -800,8 +801,7 @@ function Articles() {
 }
 
 /* ================== SSS ================== */
-function FAQ() {
-  const faqs = [
+const FAQ_ITEMS = [
     { 
       q: "LED ekran kiralama fiyatları ne kadar?", 
       a: "LED ekran kiralama fiyatları piksel aralığına ve ekran boyutuna göre değişmektedir. P2.5 iç mekan LED ekran için m² fiyatı 2.800 TL, P4 dış mekan LED ekran için m² fiyatı 1.800 TL'dir. Profesyonel kurulum ve operatör hizmetleri paket fiyatlarına dahildir." 
@@ -819,6 +819,8 @@ function FAQ() {
       a: "Piksel aralığı seçimi izleyici mesafesine göre belirlenmelidir. 3-10m mesafe için P2.5-P3.9, 10-25m mesafe için P4, 25m+ mesafe için P6 piksel aralığı öneriyoruz. İç mekan etkinliklerinde P2.5-P3.9, dış mekan etkinliklerinde ise P4-P6 aralığı tercih edilmektedir." 
     },
   ];
+
+function FAQ() {
   
   return (
     <section className="py-20 bg-white" aria-labelledby="sss-baslik">
@@ -833,7 +835,7 @@ function FAQ() {
         </div>
 
         <div className="space-y-6" role="list" aria-label="Sık sorulan sorular listesi">
-          {faqs.map((faq, index) => (
+          {FAQ_ITEMS.map((faq, index) => (
             <details 
               key={index} 
               className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border"
@@ -1051,6 +1053,7 @@ function JsonLd() {
   }
 
   const productNodes = products ?? [];
+  const faqSchema = buildFaqSchema(FAQ_ITEMS);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -1084,6 +1087,7 @@ function JsonLd() {
         }
       },
       ...productNodes,
+      ...(faqSchema ? [faqSchema] : []),
     ],
   };
 
