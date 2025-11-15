@@ -1342,86 +1342,61 @@ function CTA() {
 /* ================== JSON-LD ================== */
 function JsonLd() {
   const pageUrl = `${ORIGIN}/cadir-kiralama`;
-  const pageDescription = metadata.description;
 
-  const organization = {
-    "@type": "Organization",
-    "@id": `${ORIGIN}#org`,
-    name: "Sahneva",
-    url: ORIGIN,
-    telephone: PHONE,
-    logo: `${ORIGIN}/img/logo.png`,
-  };
-
-  const serviceNode = {
-    "@type": "Service",
-    "@id": `${pageUrl}#service`,
-    name: "Çadır Kiralama",
-    description: pageDescription,
-    provider: { "@id": organization["@id"] },
-    areaServed: { "@type": "Country", name: "Türkiye" },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.8",
-      reviewCount: "180",
-      bestRating: "5",
-    },
-  };
-
-  const faqSchema = {
+  // Sadece FAQ için minimum, tertemiz şema
+  const faqJsonLd = {
+    "@context": "https://schema.org",
     "@type": "FAQPage",
-    "@id": `${pageUrl}#faq`,
-    mainEntity: FAQ_ITEMS.map((item) => ({
+    "mainEntity": FAQ_ITEMS.map((item) => ({
       "@type": "Question",
-      name: item.q,
-      acceptedAnswer: {
+      "name": item.q,
+      "acceptedAnswer": {
         "@type": "Answer",
-        text: item.a,
+        "text": item.a,
       },
     })),
   };
 
-  const jsonLd = {
+  // İstersen hizmet şemasını da ekleyelim (rich result zorunlu değil ama faydalı)
+  const serviceJsonLd = {
     "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Anasayfa",
-            item: `${ORIGIN}/`,
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Çadır Kiralama",
-            item: pageUrl,
-          },
-        ],
-      },
-      organization,
-      serviceNode,
-      {
-        "@type": "WebPage",
-        "@id": `${pageUrl}#webpage`,
-        name: "Çadır Kiralama | Profesyonel Etkinlik Çözümleri | Sahneva",
-        description: pageDescription,
-        url: pageUrl,
-        mainEntity: { "@id": `${pageUrl}#service` },
-      },
-      faqSchema,
-    ],
+    "@type": "Service",
+    "@id": `${pageUrl}#service`,
+    "name": "Çadır Kiralama",
+    "description":
+      "Pagoda, şeffaf dome, endüstriyel çadır kiralama. Zemin kaplama, aydınlatma ve profesyonel kurulum. Türkiye geneli hızlı hizmet.",
+    "provider": {
+      "@type": "Organization",
+      "@id": `${ORIGIN}#org`,
+      "name": "Sahneva",
+      "url": ORIGIN,
+      "telephone": "+905453048671",
+      "logo": `${ORIGIN}/img/logo.png`,
+    },
+    "areaServed": { "@type": "Country", "name": "Türkiye" },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "180",
+      "bestRating": "5",
+    },
   };
 
   return (
-    <Script
-      id="ld-json-cadir"
-      type="application/ld+json"
-      strategy="afterInteractive"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
+    <>
+      <Script
+        id="ld-faq-cadir"
+        type="application/ld+json"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <Script
+        id="ld-service-cadir"
+        type="application/ld+json"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+      />
+    </>
   );
 }
 
