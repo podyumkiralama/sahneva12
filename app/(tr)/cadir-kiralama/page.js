@@ -1,4 +1,4 @@
-// app/(tr)/cadir-kiralama/page.jsx 
+// app/(tr)/cadir-kiralama/page.jsx
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -11,9 +11,9 @@ const WA_TEXT =
   "Merhaba%2C+çadır+kiralama+icin+teklif+istiyorum.+Etkinlik+turu%3A+%5Bdüğün%2Ffuar%2Fkonser%5D%2C+Tarih%3A+%5Bgg.aa.yyyy%5D%2C+Kisi+sayisi%3A+%5Bxxx%5D.";
 const WHATSAPP = `https://wa.me/${PHONE.replace("+", "")}?text=${WA_TEXT}`;
 
-// Base64 blur placeholder
+// Base64 blur placeholder (LCP hero için)
 const BLUR_DATA_URL =
-  "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAADAAQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==`";
+  "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAADAAQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==`;
 
 /* ================== Dinamik galeri (CaseGallery) ================== */
 const CaseGallery = dynamic(() => import("@/components/CaseGallery"), {
@@ -215,7 +215,6 @@ function Hero() {
           quality={85}
           placeholder="blur"
           blurDataURL={BLUR_DATA_URL}
-          loading="eager"
         />
         <div
           className="absolute inset-0 bg-gradient-to-br from-blue-900/80 via-purple-800/70 to-blue-950/90"
@@ -263,7 +262,6 @@ function Hero() {
             rel="noopener noreferrer"
             title="WhatsApp üzerinden hemen teklif alın"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring shadow-lg"
-            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-2">
               💬
@@ -275,7 +273,6 @@ function Hero() {
             href="#hizmetler"
             title="Hizmetlerimiz hakkında daha fazla bilgi edinin"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-white text-white/95 bg-white/10 backdrop-blur-lg hover:bg-white/20 hover:scale-105 transform transition-all duration-300 focus-ring shadow-lg"
-            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-2">
               🎯
@@ -319,6 +316,7 @@ function Services() {
       id="hizmetler"
       className="py-20 bg-gradient-to-b from-white to-blue-50/50"
       aria-labelledby="hizmetler-baslik"
+      style={{ contentVisibility: "auto" }}
     >
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
@@ -387,7 +385,6 @@ function Services() {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring"
-            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">
               📞
@@ -454,7 +451,11 @@ const GALLERY_IMAGES = [
 
 function Gallery() {
   return (
-    <section className="py-20 bg-white" aria-labelledby="galeri-baslik">
+    <section
+      className="py-20 bg-white"
+      aria-labelledby="galeri-baslik"
+      style={{ contentVisibility: "auto" }}
+    >
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2
@@ -486,7 +487,6 @@ function Gallery() {
           <Link
             href="/projeler"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white transform transition-all duration-300 focus-ring"
-            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">
               📸
@@ -576,6 +576,7 @@ function Technical() {
     <section
       className="py-20 bg-gradient-to-b from-gray-50 to-white"
       aria-labelledby="altyapi-baslik"
+      style={{ contentVisibility: "auto" }}
     >
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
@@ -648,16 +649,12 @@ function StatsBand() {
     <section
       className="py-20 bg-gradient-to-r from-blue-700 via-purple-700 to-blue-800 text-white"
       aria-label="Başarı İstatistiklerimiz"
+      style={{ contentVisibility: "auto" }}
     >
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
           {stats.map((stat) => (
-            <div
-              key={stat.label}
-              className="text-center group"
-              role="group"
-              aria-label={`${stat.label}: ${stat.value}`}
-            >
+            <div key={stat.label} className="text-center group">
               <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 group-hover:bg-white/20 transition-all duration-500 group-hover:scale-105">
                 <div
                   className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300"
@@ -686,6 +683,7 @@ function UseCases() {
     <section
       className="py-20 bg-gradient-to-br from-gray-900 to-blue-900/95"
       aria-labelledby="kullanim-alanlari-baslik"
+      style={{ contentVisibility: "auto" }}
     >
       <div className="container max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
@@ -708,15 +706,11 @@ function UseCases() {
           />
         </div>
 
-        <div
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto"
-          role="list"
-        >
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {USE_CASES.map((uc) => (
             <div
               key={uc.text}
               className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/30 hover:border-white/50 transition-all duration-500 group hover:scale-105"
-              role="listitem"
             >
               <div className="flex flex-col items-start gap-4">
                 <div
@@ -744,7 +738,6 @@ function UseCases() {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-white text-blue-700 hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring"
-            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">
               💬
@@ -763,6 +756,7 @@ function Articles() {
     <section
       className="py-20 bg-gradient-to-b from-white to-gray-50/50"
       aria-labelledby="bilgi-rehber-baslik"
+      style={{ contentVisibility: "auto" }}
     >
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
@@ -1129,7 +1123,11 @@ const FAQ_ITEMS = [
 
 function FAQ() {
   return (
-    <section className="py-20 bg-white" aria-labelledby="sss-baslik">
+    <section
+      className="py-20 bg-white"
+      aria-labelledby="sss-baslik"
+      style={{ contentVisibility: "auto" }}
+    >
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="text-center mb-16">
           <h2
@@ -1146,11 +1144,8 @@ function FAQ() {
           </p>
         </div>
 
-        {/* ARIA uyarısı için: gerçek ul/li listesi */}
-        <ul
-          className="space-y-6"
-          aria-label="Sık sorulan sorular listesi"
-        >
+        {/* WCAG uyumlu: gerçek ul/li listesi */}
+        <ul className="space-y-6" aria-label="Sık sorulan sorular listesi">
           {FAQ_ITEMS.map((faq, index) => (
             <li key={index} className="list-none">
               <details className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border">
@@ -1180,7 +1175,6 @@ function FAQ() {
             href="/sss"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring"
             title="Sık Sorulan Sorular sayfasındaki tüm soruları görüntüle"
-            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">
               📚
@@ -1226,6 +1220,7 @@ function RelatedServices() {
     <section
       className="py-20 bg-gradient-to-br from-gray-50 to-blue-100/30"
       aria-labelledby="tamamlayici-hizmetler-baslik"
+      style={{ contentVisibility: "auto" }}
     >
       <div className="container max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
@@ -1289,7 +1284,11 @@ function RelatedServices() {
 /* ================== CTA ================== */
 function CTA() {
   return (
-    <section className="py-20 bg-white" aria-labelledby="cta-baslik">
+    <section
+      className="py-20 bg-white"
+      aria-labelledby="cta-baslik"
+      style={{ contentVisibility: "auto" }}
+    >
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="bg-gradient-to-r from-blue-700 to-purple-700 rounded-3xl p-8 md:p-12 text-center text-white relative overflow-hidden">
           <div
@@ -1312,7 +1311,6 @@ function CTA() {
               <Link
                 href="/iletisim"
                 className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-white text-blue-700 hover:scale-105 transform transition-all duration-300 hover:shadow-2xl focus-ring shadow-lg"
-                role="button"
               >
                 <span aria-hidden="true" className="text-xl mr-3">
                   📞
@@ -1324,7 +1322,6 @@ function CTA() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-white text-white bg-transparent hover:bg-white/20 hover:scale-105 transform transition-all duration-300 focus-ring shadow-lg"
-                role="button"
               >
                 <span aria-hidden="true" className="text-xl mr-3">
                   💬
