@@ -139,7 +139,6 @@ export const metadata = {
 /* ===================== CRITICAL CSS ===================== */
 const criticalCSS = `
 .pt-16{padding-top:4rem}
-.md\\:pt-20{padding-top:5rem}
 @media (min-width:768px){.md\\:pt-20{padding-top:5rem}}
 .full-bleed{position:relative;margin:0 calc(50% - 50vw);width:100vw;min-height:60vh;overflow-x:clip}
 @media (min-width:768px){.full-bleed{min-height:70vh}}
@@ -147,11 +146,8 @@ const criticalCSS = `
 .container{max-width:1280px;margin:0 auto;padding:0 1rem}
 `;
 
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID?.trim();
-
-/* ============================================================
-   ===============  DÜZELTİLMİŞ ROOTLAYOUT  ====================
-   ============================================================ */
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID?.trim() || null;
+const isProd = process.env.NODE_ENV === "production";
 
 export default function RootLayout({ children }) {
   return (
@@ -162,16 +158,18 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
     >
       <head>
+        {/* Critical CSS – sadece en gerekli yardımcı sınıflar */}
         <style
           id="critical-css"
           dangerouslySetInnerHTML={{ __html: criticalCSS }}
         />
 
-        {/* DNS PREFETCH */}
+        {/* DNS Prefetch + Preconnect (yalnızca gerekli domainler) */}
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
-        <link rel="dns-prefetch" href="//www.google.com" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
 
-        {/* JSON-LD */}
+        {/* JSON-LD – bloklayıcı olmayan inline scriptler */}
         <script
           id="ld-org"
           type="application/ld+json"
@@ -189,27 +187,28 @@ export default function RootLayout({ children }) {
       </head>
 
       <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
-
-        {/* === ACCESSIBILITY: SKIP LINKS === */}
+        {/* SKIP LINKS – erişebilirlik */}
         <SkipLinks />
 
-        {/* === HEADER === */}
+        {/* LANDMARKLAR */}
         <header id="main-header">
-          {/* Navbar burada zaten import ediliyor olabilir */}
+          {/* Navbar burada render ediliyor (Server/Client component fark etmez) */}
         </header>
 
-        {/* === MAIN === */}
-        <main id="main-content" tabIndex={-1} className="flex-1 pt-16 md:pt-20">
+        <main
+          id="main-content"
+          tabIndex={-1}
+          className="flex-1 pt-16 md:pt-20"
+        >
           {children}
         </main>
 
-        {/* === FOOTER === */}
         <footer id="main-footer">
-          {/* Footer burada import ediliyorsa otomatik gelecektir */}
+          {/* Footer burada render ediliyor */}
         </footer>
 
-        {/* === ANALYTICS === */}
-        {GA_MEASUREMENT_ID && (
+        {/* ANALYTICS – sadece prod + ID varsa yükle, gereksiz JS yok */}
+        {isProd && GA_MEASUREMENT_ID && (
           <>
             <Script
               id="gtag-lib"
@@ -231,20 +230,22 @@ export default function RootLayout({ children }) {
           </>
         )}
 
-        {/* PERFORMANCE OBSERVER */}
-        <Script id="performance-observer" strategy="afterInteractive">
-          {`
-            if ('PerformanceObserver' in window) {
-              const observer = new PerformanceObserver((list) => {
-                list.getEntries().forEach((entry) => {
-                  if (entry.hadRecentInput) return;
+        {/* PERFORMANCE OBSERVER – hafif, sadece prod'da çalışsın */}
+        {isProd && (
+          <Script id="performance-observer" strategy="afterInteractive">
+            {`
+              if ('PerformanceObserver' in window) {
+                const observer = new PerformanceObserver((list) => {
+                  list.getEntries().forEach((entry) => {
+                    if (entry.hadRecentInput) return;
+                    // CLS / FID loglamak istersen buraya ekleyebilirsin
+                  });
                 });
-              });
-              observer.observe({ entryTypes: ['layout-shift', 'first-input'] });
-            }
-          `}
-        </Script>
-
+                observer.observe({ entryTypes: ['layout-shift', 'first-input'] });
+              }
+            `}
+          </Script>
+        )}
       </body>
     </html>
   );
