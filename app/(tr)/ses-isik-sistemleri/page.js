@@ -1062,53 +1062,43 @@ function JsonLd() {
   const serviceId = serviceNode["@id"] ?? `${pageUrl}#service`;
   serviceNode["@id"] = serviceId;
 
-  const productNodes = (products ?? []).map((node) => ({ ...node }));
-
+  const productNodes = products ?? [];
   const faqSchema = buildFaqSchema(FAQ_ITEMS);
-  const faqNode = faqSchema
-    ? { "@id": `${pageUrl}#faq`, url: pageUrl, ...faqSchema }
-    : null;
-
-  const graph = [
-    {
-      "@type": "BreadcrumbList",
-      "@id": `${pageUrl}#breadcrumbs`,
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Anasayfa",
-          item: `${ORIGIN}/`,
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Ses ve Işık Sistemleri",
-          item: pageUrl,
-        },
-      ],
-    },
-    {
-      "@type": "WebPage",
-      "@id": `${pageUrl}#webpage`,
-      url: pageUrl,
-      name: pageName,
-      description: pageDescription,
-      inLanguage: "tr-TR",
-      breadcrumb: { "@id": `${pageUrl}#breadcrumbs` },
-      mainEntity: { "@id": serviceId },
-    },
-    serviceNode,
-    ...productNodes,
-  ];
-
-  if (faqNode) {
-    graph.push(faqNode);
-  }
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@graph": graph,
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Anasayfa",
+            item: `${ORIGIN}/`
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Ses ve Işık Sistemleri",
+            item: `${ORIGIN}/ses-isik-sistemleri`
+          },
+        ],
+      },
+      serviceNode,
+      {
+        "@type": "WebPage",
+        name: "Ses ve Işık Sistemleri Kiralama | Profesyonel Çözümler | Sahneva",
+        description: "Konser, festival ve kurumsal etkinlikler için profesyonel ses & ışık sistemleri kiralama. Line array, dijital mikser, hareketli ışık, truss ve canlı operasyon. 81 ilde hizmet.",
+        url: `${ORIGIN}/ses-isik-sistemleri`,
+        mainEntity: {
+          "@type": "Service",
+          name: "Ses ve Işık Sistemleri Kiralama"
+        }
+      },
+      ...productNodes,
+      ...(faqSchema ? [faqSchema] : []),
+    ],
   };
 
   return (

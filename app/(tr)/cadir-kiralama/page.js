@@ -1073,53 +1073,43 @@ function JsonLd() {
   const serviceId = serviceNode["@id"] ?? `${pageUrl}#service`;
   serviceNode["@id"] = serviceId;
 
-  const productNodes = (products ?? []).map((node) => ({ ...node }));
-
+  const productNodes = products ?? [];
   const faqSchema = buildFaqSchema(FAQ_ITEMS);
-  const faqNode = faqSchema
-    ? { "@id": `${pageUrl}#faq`, url: pageUrl, ...faqSchema }
-    : null;
-
-  const graph = [
-    {
-      "@type": "BreadcrumbList",
-      "@id": `${pageUrl}#breadcrumbs`,
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Anasayfa",
-          item: `${ORIGIN}/`,
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Çadır Kiralama",
-          item: pageUrl,
-        },
-      ],
-    },
-    {
-      "@type": "WebPage",
-      "@id": `${pageUrl}#webpage`,
-      url: pageUrl,
-      name: pageName,
-      description: pageDescription,
-      inLanguage: "tr-TR",
-      breadcrumb: { "@id": `${pageUrl}#breadcrumbs` },
-      mainEntity: { "@id": serviceId },
-    },
-    serviceNode,
-    ...productNodes,
-  ];
-
-  if (faqNode) {
-    graph.push(faqNode);
-  }
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@graph": graph,
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Anasayfa",
+            item: `${ORIGIN}/`
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Çadır Kiralama",
+            item: `${ORIGIN}/cadir-kiralama`
+          },
+        ],
+      },
+      serviceNode,
+      {
+        "@type": "WebPage",
+        name: "Çadır Kiralama | Profesyonel Etkinlik Çözümleri | Sahneva",
+        description: "Pagoda, şeffaf dome, endüstriyel çadır kiralama. Zemin kaplama, aydınlatma ve profesyonel kurulum. Türkiye geneli hızlı hizmet.",
+        url: `${ORIGIN}/cadir-kiralama`,
+        mainEntity: {
+          "@type": "Service",
+          name: "Çadır Kiralama"
+        }
+      },
+      ...productNodes,
+      ...(faqSchema ? [faqSchema] : []),
+    ],
   };
 
   return (
