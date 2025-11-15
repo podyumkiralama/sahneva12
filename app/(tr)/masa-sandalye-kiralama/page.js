@@ -1582,49 +1582,70 @@ function CTA() {
    Böylece bu sayfa için ekstra client-side JS yükü oluşmuyor. */
 function JsonLd() {
   const pageUrl = `${ORIGIN}/masa-sandalye-kiralama`;
+  const pageName = metadata.title;
   const pageDescription = metadata.description;
 
-  const provider = {
+  // Ortak organizasyon nodu
+  const orgNode = {
     "@type": "Organization",
     "@id": `${ORIGIN}#org`,
     name: "Sahneva",
     url: ORIGIN,
-    telephone: "+905453048671",
+    telephone: PHONE,
     logo: `${ORIGIN}/img/logo.png`,
   };
 
+  // buildServiceProductSchema çıktıları
   const { service: serviceSchema, products } = buildServiceProductSchema({
     slug: "/masa-sandalye-kiralama",
     locale: "tr-TR",
   });
 
+  // Service node (ARTIK aggregateRating YOK)
   const baseService = {
     "@type": "Service",
     name: "Masa Sandalye Kiralama",
     description: pageDescription,
-    provider,
-    areaServed: { "@type": "Country", name: "Türkiye" },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.9",
-      reviewCount: "183",
-      bestRating: "5",
+    provider: {
+      "@id": `${ORIGIN}#org`,
     },
+    areaServed: { "@type": "Country", name: "Türkiye" },
   };
 
   const serviceNode = serviceSchema
-    ? { ...serviceSchema, ...baseService, provider, url: pageUrl }
+    ? { ...serviceSchema, ...baseService, url: pageUrl }
     : { ...baseService, "@id": `${pageUrl}#service`, url: pageUrl };
 
   const serviceId = serviceNode["@id"] ?? `${pageUrl}#service`;
   serviceNode["@id"] = serviceId;
 
+  // Review snippet için Product + AggregateRating
+  const reviewProductNode = {
+    "@type": "Product",
+    "@id": `${pageUrl}#product`,
+    name: "Masa Sandalye Kiralama Hizmeti",
+    description: pageDescription,
+    brand: {
+      "@id": `${ORIGIN}#org`,
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      reviewCount: "183",
+      bestRating: "5",
+      worstRating: "1",
+    },
+  };
+
+  // buildServiceProductSchema'dan gelen ürün nodları (varsa)
   const productNodes = products ?? [];
+
   const faqSchema = buildFaqSchema(FAQ_ITEMS);
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
+      // Breadcrumb
       {
         "@type": "BreadcrumbList",
         itemListElement: [
@@ -1638,30 +1659,39 @@ function JsonLd() {
             "@type": "ListItem",
             position: 2,
             name: "Masa Sandalye Kiralama",
-            item: `${ORIGIN}/masa-sandalye-kiralama`,
+            item: pageUrl,
           },
         ],
       },
+      // Organizasyon
+      orgNode,
+      // Service
       serviceNode,
+      // WebPage
       {
         "@type": "WebPage",
-        name: "Masa Sandalye Kiralama | Profesyonel Çözümler | Sahneva",
+        "@id": `${pageUrl}#webpage`,
+        name: pageName,
         description: pageDescription,
         url: pageUrl,
         mainEntity: {
-          "@type": "Service",
-          name: "Masa Sandalye Kiralama",
+          "@id": serviceId,
         },
       },
+      // Review snippet için Product
+      reviewProductNode,
+      // Ek ürün nodları
       ...productNodes,
+      // FAQ
       ...(faqSchema ? [faqSchema] : []),
     ],
   };
 
   return (
-    <script
+    <Script
       id="ld-json-masa-sandalye"
       type="application/ld+json"
+      strategy="afterInteractive"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
     />
   );
