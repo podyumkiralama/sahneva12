@@ -277,7 +277,7 @@ const CONTENT = {
 function Hero() {
   return (
     <section
-      className="relative flex items-center justify-center overflow-hidden bg-slate-900 pt-20 min-h-[80vh]"
+      className="relative flex items-center justify-center overflow-hidden bg-slate-900 pt-20 min-h-[100svh] md:min-h-[80vh]"
       aria-labelledby="hero-title"
     >
       <div className="absolute inset-0">
