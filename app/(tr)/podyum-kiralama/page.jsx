@@ -1325,7 +1325,7 @@ function FAQ() {
 
         <div
           className="space-y-6"
-          role="list"
+         
           aria-label="Sık sorulan sorular listesi"
         >
           {FAQ_ITEMS.map((faq, index) => (
@@ -1336,8 +1336,7 @@ function FAQ() {
             >
               <summary
                 className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900"
-                role="button"
-                tabIndex={0}
+               
               >
                 <span className="pr-4">{faq.q}</span>
                 <span
