@@ -196,6 +196,110 @@ const USE_CASES = [
     desc: "Eğitim kurumları için çözümler",
   },
 ];
+      {/* ========== JSON-LD (Product + Service + FAQ) TEK BLOK ========== */}
+      <Script
+        id="ld-json-cadir"
+        type="application/ld+json"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "Product",
+                "@id": `${PAGE_URL}#product`,
+                name: "Çadır Kiralama",
+                description:
+                  "Pagoda, şeffaf dome ve endüstriyel çadır kiralama. Zemin kaplama, aydınlatma, güç altyapısı ve profesyonel ekip ile Türkiye geneli hızlı hizmet.",
+                image: `${ORIGIN}/img/cadir/hero.webp`,
+                brand: {
+                  "@type": "Organization",
+                  "@id": `${ORIGIN}#org`,
+                },
+                aggregateRating: {
+                  "@type": "AggregateRating",
+                  ratingValue: "4.8",
+                  reviewCount: "180",
+                  bestRating: "5",
+                  worstRating: "1",
+                },
+                offers: {
+                  "@type": "AggregateOffer",
+                  priceCurrency: "TRY",
+                  lowPrice: "300",
+                  highPrice: "7000",
+                  availability: "https://schema.org/InStock",
+                  url: PAGE_URL,
+                },
+              },
+
+              {
+                "@type": "Service",
+                "@id": `${PAGE_URL}#service`,
+                name: "Çadır Kiralama Hizmeti",
+                description:
+                  "Pagoda çadır, şeffaf dome ve endüstriyel çadır sistemleri. Profesyonel keşif, projelendirme, kurulum, söküm ve teknik destek.",
+                areaServed: {
+                  "@type": "Country",
+                  name: "Türkiye",
+                },
+                provider: {
+                  "@type": "Organization",
+                  "@id": `${ORIGIN}#org`,
+                  name: "Sahneva",
+                  url: ORIGIN,
+                  telephone: "+905453048671",
+                  logo: `${ORIGIN}/img/logo.png`,
+                },
+              },
+
+              {
+                "@type": "FAQPage",
+                "@id": `${PAGE_URL}#faq`,
+                mainEntity: [
+                  {
+                    "@type": "Question",
+                    name: "Çadır kiralama fiyatları ne kadar?",
+                    acceptedAnswer: {
+                      "@type": "Answer",
+                      text:
+                        "5×5 pagoda çadır için fiyatlar 7.000 TL’den başlar. Standart modellerde metrekare fiyatı 300 TL’den başlar. Kurulum, söküm ve teknik destek dahildir.",
+                    },
+                  },
+                  {
+                    "@type": "Question",
+                    name: "Çadır kurulumu ne kadar sürer?",
+                    acceptedAnswer: {
+                      "@type": "Answer",
+                      text:
+                        "Pagoda çadırlar 2–3 saatte kurulur. Endüstriyel çadırlarda süre 3–6 saat arasında değişir. Büyük projelerde bir gün önce kurulum yapılabilir.",
+                    },
+                  },
+                  {
+                    "@type": "Question",
+                    name: "Çadırlar kötü hava koşullarına dayanıklı mı?",
+                    acceptedAnswer: {
+                      "@type": "Answer",
+                      text:
+                        "Tüm çadırlarımız TS EN 13782 standartlarına uygundur. 90 km/s rüzgar dayanımı ve UV dayanımlı 650 gr/m² branda kullanılır.",
+                    },
+                  },
+                  {
+                    "@type": "Question",
+                    name: "Hangi şehirlerde hizmet veriyorsunuz?",
+                    acceptedAnswer: {
+                      "@type": "Answer",
+                      text:
+                        "Türkiye’nin 81 ilinde hizmet veriyoruz. İstanbul, Ankara ve İzmir’de aynı gün kurulum mümkündür.",
+                    },
+                  },
+                ],
+              },
+            ],
+          }),
+        }}
+      />
+
 
 /* ================== HERO ================== */
 function Hero() {
@@ -1338,113 +1442,6 @@ function CTA() {
     </section>
   );
 }
-
-{/** ======================================================
-       * ⭐ JSON-LD (Product + Service + FAQ) — TEK BLOK
-       =======================================================*/}
-      <Script
-        id="ld-json-cadir"
-        type="application/ld+json"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@graph": [
-              {
-                "@type": "Product",
-                "@id": "https://www.sahneva.com/cadir-kiralama#product",
-                name: "Çadır Kiralama",
-                description:
-                  "Pagoda, dome ve endüstriyel çadır kiralama. Zemin kaplama, ışık, ısıtma-soğutma, güç altyapısı ve profesyonel ekip ile Türkiye genelinde hizmet.",
-                image: "https://www.sahneva.com/img/cadir/hero.webp",
-                brand: {
-                  "@type": "Organization",
-                  "@id": "https://www.sahneva.com#org",
-                },
-                aggregateRating: {
-                  "@type": "AggregateRating",
-                  ratingValue: "4.8",
-                  reviewCount: "180",
-                  bestRating: "5",
-                  worstRating: "1",
-                },
-                offers: {
-                  "@type": "AggregateOffer",
-                  priceCurrency: "TRY",
-                  lowPrice: "300",
-                  highPrice: "7000",
-                  availability: "https://schema.org/InStock",
-                  url: "https://www.sahneva.com/cadir-kiralama",
-                },
-              },
-
-              {
-                "@type": "Service",
-                "@id": "https://www.sahneva.com/cadir-kiralama#service",
-                name: "Çadır Kiralama Hizmeti",
-                description:
-                  "Pagoda, dome ve endüstriyel çadır sistemleri. Profesyonel keşif, projelendirme, kurulum, söküm ve teknik destek.",
-                areaServed: {
-                  "@type": "Country",
-                  name: "Türkiye",
-                },
-                provider: {
-                  "@type": "Organization",
-                  "@id": "https://www.sahneva.com#org",
-                  name: "Sahneva",
-                  url: "https://www.sahneva.com",
-                  telephone: "+905453048671",
-                  logo: "https://www.sahneva.com/img/logo.png",
-                },
-              },
-
-              {
-                "@type": "FAQPage",
-                "@id": "https://www.sahneva.com/cadir-kiralama#faq",
-                mainEntity: [
-                  {
-                    "@type": "Question",
-                    name: "Çadır kiralama fiyatları ne kadar?",
-                    acceptedAnswer: {
-                      "@type": "Answer",
-                      text:
-                        "5×5 pagoda çadır 7.000 TL’dir. Metrekare fiyatları 300 TL’den başlar. Kurulum, söküm ve teknik destek dahildir.",
-                    },
-                  },
-                  {
-                    "@type": "Question",
-                    name: "Çadır kurulumu ne kadar sürer?",
-                    acceptedAnswer: {
-                      "@type": "Answer",
-                      text:
-                        "Pagoda modeller 2-3 saatte, büyük çadırlar 3-5 saatte kurulur. Büyük projelerde bir gün önce kurulum yapılır.",
-                    },
-                  },
-                  {
-                    "@type": "Question",
-                    name: "Çadırlar kötü hava koşullarına dayanıklı mı?",
-                    acceptedAnswer: {
-                      "@type": "Answer",
-                      text:
-                        "Tüm çadırlarımız TS EN 13782 standartlarına uygun olup 90 km/s rüzgar dayanımına sahiptir.",
-                    },
-                  },
-                  {
-                    "@type": "Question",
-                    name: "Hangi şehirlerde hizmet veriyorsunuz?",
-                    acceptedAnswer: {
-                      "@type": "Answer",
-                      text:
-                        "81 ilde hizmet veriyoruz. İstanbul, Ankara, İzmir yoğun bölgelerdir.",
-                    },
-                  },
-                ],
-              },
-            ],
-          }),
-        }}
-      />
-
 /* ================== Sayfa Bileşeni ================== */
 export default function Page() {
   return (
