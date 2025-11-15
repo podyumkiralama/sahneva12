@@ -1343,7 +1343,7 @@ function CTA() {
 function JsonLd() {
   const pageUrl = `${ORIGIN}/cadir-kiralama`;
 
-  // Sadece FAQ için minimum, tertemiz şema
+  /* ----- FAQ Schema ----- */
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -1357,14 +1357,14 @@ function JsonLd() {
     })),
   };
 
-  // İstersen hizmet şemasını da ekleyelim (rich result zorunlu değil ama faydalı)
+  /* ----- Service Schema ----- */
   const serviceJsonLd = {
     "@context": "https://schema.org",
     "@type": "Service",
     "@id": `${pageUrl}#service`,
     "name": "Çadır Kiralama",
     "description":
-      "Pagoda, şeffaf dome, endüstriyel çadır kiralama. Zemin kaplama, aydınlatma ve profesyonel kurulum. Türkiye geneli hızlı hizmet.",
+      "Pagoda, şeffaf dome, endüstriyel çadır kiralama. Zemin kaplama, aydınlatma, güvenlik ve profesyonel kurulum hizmeti.",
     "provider": {
       "@type": "Organization",
       "@id": `${ORIGIN}#org`,
@@ -1373,33 +1373,84 @@ function JsonLd() {
       "telephone": "+905453048671",
       "logo": `${ORIGIN}/img/logo.png`,
     },
-    "areaServed": { "@type": "Country", "name": "Türkiye" },
+    "areaServed": {
+      "@type": "Country",
+      "name": "Türkiye",
+    },
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": "4.8",
       "reviewCount": "180",
       "bestRating": "5",
+      "worstRating": "1",
+    },
+  };
+
+  /* ----- Product + Offer Schema → Google Rich Snippet garantisi ----- */
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "@id": `${pageUrl}#product`,
+    "name": "Çadır Kiralama",
+    "description":
+      "Pagoda çadır, şeffaf dome çadır ve endüstriyel çadır kiralama hizmeti. Türkiye geneli hızlı kurulum ve 7/24 teknik destek.",
+    "image": [
+      `${ORIGIN}/img/cadir/1.webp`,
+      `${ORIGIN}/img/cadir/2.webp`,
+      `${ORIGIN}/img/cadir/3.webp`,
+    ],
+    "brand": {
+      "@type": "Brand",
+      "name": "Sahneva",
+    },
+    "sku": "CADIR-001",
+    "offers": {
+      "@type": "AggregateOffer",
+      "url": pageUrl,
+      "priceCurrency": "TRY",
+      "lowPrice": "7000",
+      "highPrice": "30000",
+      "offerCount": "12",
+      "availability": "http://schema.org/InStock",
+      "priceValidUntil": "2025-12-31",
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "180",
+      "bestRating": "5",
+      "ratingCount": "180",
     },
   };
 
   return (
     <>
+      {/* FAQ */}
       <Script
         id="ld-faq-cadir"
         type="application/ld+json"
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
+
+      {/* Service */}
       <Script
         id="ld-service-cadir"
         type="application/ld+json"
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
       />
+
+      {/* Product */}
+      <Script
+        id="ld-product-cadir"
+        type="application/ld+json"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
     </>
   );
 }
-
 /* ================== Sayfa Bileşeni ================== */
 export default function Page() {
   return (
