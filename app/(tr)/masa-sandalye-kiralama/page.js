@@ -1,7 +1,6 @@
 // app/masa-sandalye-kiralama/page.jsx
 import Image from "next/image";
 import Link from "next/link";
-import Script from "next/script";
 import dynamic from "next/dynamic";
 
 import { buildFaqSchema } from "@/lib/structuredData/faq";
@@ -1583,61 +1582,44 @@ function CTA() {
    Böylece bu sayfa için ekstra client-side JS yükü oluşmuyor. */
 function JsonLd() {
   const pageUrl = `${ORIGIN}/masa-sandalye-kiralama`;
-  const pageName = metadata.title;
   const pageDescription = metadata.description;
 
-  // Marka / Organizasyon
-  const orgNode = {
+  const provider = {
     "@type": "Organization",
     "@id": `${ORIGIN}#org`,
     name: "Sahneva",
     url: ORIGIN,
-    telephone: PHONE,
+    telephone: "+905453048671",
     logo: `${ORIGIN}/img/logo.png`,
   };
 
-  // buildServiceProductSchema sadece temel servis bilgisi için kullanılacak
-  const { service: serviceSchema } = buildServiceProductSchema({
+  const { service: serviceSchema, products } = buildServiceProductSchema({
     slug: "/masa-sandalye-kiralama",
     locale: "tr-TR",
   });
 
-  // Hizmet (review snippet için değil, genel Service datası)
   const baseService = {
     "@type": "Service",
     name: "Masa Sandalye Kiralama",
     description: pageDescription,
-    provider: { "@id": `${ORIGIN}#org` },
+    provider,
     areaServed: { "@type": "Country", name: "Türkiye" },
-    url: pageUrl,
-  };
-
-  const serviceNode = serviceSchema
-    ? { ...serviceSchema, ...baseService }
-    : { ...baseService, "@id": `${pageUrl}#service` };
-
-  const serviceId = serviceNode["@id"] ?? `${pageUrl}#service`;
-  serviceNode["@id"] = serviceId;
-
-  // 🔹 REVIEW SNIPPET İÇİN ASIL NODE (Google'ın istediği)
-  // Desteklenen türlerden biri: Product
-  const reviewProductNode = {
-    "@type": "Product",
-    "@id": `${pageUrl}#product`,
-    name: "Masa Sandalye Kiralama Hizmeti",
-    description: pageDescription,
-    brand: { "@id": `${ORIGIN}#org` },
-    // Buradaki aggregateRating, itemReviewed almaz; zaten Product'ın kendi rating'i
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.9",
       reviewCount: "183",
       bestRating: "5",
-      worstRating: "1",
     },
   };
 
-  // SSS
+  const serviceNode = serviceSchema
+    ? { ...serviceSchema, ...baseService, provider, url: pageUrl }
+    : { ...baseService, "@id": `${pageUrl}#service`, url: pageUrl };
+
+  const serviceId = serviceNode["@id"] ?? `${pageUrl}#service`;
+  serviceNode["@id"] = serviceId;
+
+  const productNodes = products ?? [];
   const faqSchema = buildFaqSchema(FAQ_ITEMS);
 
   const jsonLd = {
@@ -1656,30 +1638,30 @@ function JsonLd() {
             "@type": "ListItem",
             position: 2,
             name: "Masa Sandalye Kiralama",
-            item: pageUrl,
+            item: `${ORIGIN}/masa-sandalye-kiralama`,
           },
         ],
       },
-      orgNode,
       serviceNode,
       {
         "@type": "WebPage",
-        "@id": `${pageUrl}#webpage`,
-        name: pageName,
+        name: "Masa Sandalye Kiralama | Profesyonel Çözümler | Sahneva",
         description: pageDescription,
         url: pageUrl,
-        mainEntity: { "@id": serviceId },
+        mainEntity: {
+          "@type": "Service",
+          name: "Masa Sandalye Kiralama",
+        },
       },
-      reviewProductNode,
+      ...productNodes,
       ...(faqSchema ? [faqSchema] : []),
     ],
   };
 
   return (
-    <Script
+    <script
       id="ld-json-masa-sandalye"
       type="application/ld+json"
-      strategy="afterInteractive"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
     />
   );
