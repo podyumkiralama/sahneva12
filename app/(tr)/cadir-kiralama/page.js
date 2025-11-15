@@ -1,7 +1,6 @@
-// app/cadir-kiralama/page.jsx
+// app/(tr)/cadir-kiralama/page.jsx
 import Image from "next/image";
 import Link from "next/link";
-import Script from "next/script";
 import dynamic from "next/dynamic";
 
 /* ================== Sabitler ================== */
@@ -14,7 +13,7 @@ const WHATSAPP = `https://wa.me/${PHONE.replace("+", "")}?text=${WA_TEXT}`;
 
 // Base64 blur placeholder
 const BLUR_DATA_URL =
-  "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAADAAQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==`";
+  "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAADAAQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==";
 
 /* ================== Dinamik galeri (CaseGallery) ================== */
 const CaseGallery = dynamic(() => import("@/components/CaseGallery"), {
@@ -253,10 +252,7 @@ function Hero() {
         </p>
         <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed font-normal mb-6">
           Pagoda çadırlar, şeffaf dome sistemleri ve endüstriyel çadırlar ile
-          <span className="font-semibold text-white">
-            {" "}
-            anahtar teslim çözümler
-          </span>
+          <span className="font-semibold text-white"> anahtar teslim çözümler</span>
         </p>
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-8">
@@ -951,6 +947,7 @@ function Articles() {
                     <span className="text-xl" aria-hidden="true">
                       💎
                     </span>
+                  Neden Sahneva?
                   </h5>
                   <p className="text-yellow-800 mb-0">
                     <strong>
@@ -1110,11 +1107,11 @@ function Articles() {
 const FAQ_ITEMS = [
   {
     q: "Çadır kiralama fiyatları ne kadar?",
-    a: "5×5 metre pagoda çadır kiralama fiyatımız 7.000 TL'dir. Bu fiyata İstanbul içi nakliye, profesyonel kurulum, söküm işlemleri ve temel teknik destek dahildir. Metrekare başına standart çadırlar için fiyat 300 TL'dir. Özel tasarım ve premium çadırlarda fiyat değişiklik gösterebilir.",
+    a: "5×5 metre pagoda çadır kiralama fiyatımız yaklaşık 7.000 TL'dir. Bu fiyata İstanbul içi nakliye, profesyonel kurulum, söküm işlemleri ve temel teknik destek dahildir. Metrekare başına standart çadırlar için fiyat 300 TL'den başlamaktadır. Özel tasarım ve premium çadırlarda fiyat değişiklik gösterebilir.",
   },
   {
     q: "Çadır kurulumu ne kadar sürer?",
-    a: "5×5 metre çadır kurulumu 2-3 saat, 6×6 metre çadır kurulumu 3-4 saat sürmektedir. Büyük ölçekli projelerde kurulum 1 gün önceden tamamlanır. Acil durumlarda express kurulum hizmeti sunuyoruz.",
+    a: "5×5 metre çadır kurulumu genellikle 2-3 saat, 6×6 metre çadır kurulumu ise 3-4 saat sürmektedir. Büyük ölçekli projelerde kurulum 1 gün önceden tamamlanır. Acil durumlarda express kurulum hizmeti sunuyoruz.",
   },
   {
     q: "Çadırlar kötü hava koşullarına dayanıklı mı?",
@@ -1122,7 +1119,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Hangi şehirlerde hizmet veriyorsunuz?",
-    a: "Türkiye'nin 81 ilinde profesyonel çadır kiralama hizmeti sunuyoruz. İstanbul, Ankara, İzmir gibi büyükşehirlerde daha hızlı kurulum süreleri sunarken, tüm illerde standart hizmet kalitemizi koruyoruz.",
+    a: "Türkiye'nin 81 ilinde profesyonel çadır kiralama hizmeti sunuyoruz. İstanbul, Ankara, İzmir gibi büyükşehirlerde daha hızlı kurulum süreleri sağlarken, tüm illerde standart hizmet kalitemizi koruyoruz.",
   },
 ];
 
@@ -1145,7 +1142,7 @@ function FAQ() {
           </p>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-6" role="list" aria-label="Sık sorulan sorular listesi">
           {FAQ_ITEMS.map((faq, index) => (
             <details
               key={index}
@@ -1338,111 +1335,62 @@ function CTA() {
   );
 }
 
-/* ================== JSON-LD ================== */
+/* ================== JSON-LD (Product + FAQ) ================== */
 function JsonLd() {
   const pageUrl = `${ORIGIN}/cadir-kiralama`;
 
-  // FAQ Schema
-  const faqJsonLd = {
+  const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": FAQ_ITEMS.map((item) => ({
-      "@type": "Question",
-      "name": item.q,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": item.a,
+    "@graph": [
+      {
+        "@type": "Product",
+        "@id": `${pageUrl}#product`,
+        name: "Çadır Kiralama",
+        description:
+          "Pagoda, şeffaf dome, endüstriyel çadır kiralama. Zemin kaplama, aydınlatma ve profesyonel kurulum. Türkiye geneli hızlı hizmet.",
+        image: `${ORIGIN}/img/cadir/hero.webp`,
+        brand: {
+          "@type": "Organization",
+          "@id": `${ORIGIN}#org`,
+        },
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: "4.8",
+          reviewCount: "180",
+          bestRating: "5",
+          worstRating: "1",
+        },
+        offers: {
+          "@type": "AggregateOffer",
+          priceCurrency: "TRY",
+          lowPrice: "300",
+          highPrice: "7000",
+          availability: "https://schema.org/InStock",
+          url: pageUrl,
+        },
       },
-    })),
-  };
-
-  // Service Schema
-  const serviceJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "@id": `${pageUrl}#service`,
-    "name": "Çadır Kiralama",
-    "description":
-      "Pagoda, şeffaf dome, endüstriyel çadır kiralama. Zemin kaplama, aydınlatma, güvenlik ve profesyonel kurulum hizmeti.",
-    "provider": {
-      "@type": "Organization",
-      "@id": `${ORIGIN}#org`,
-      "name": "Sahneva",
-      "url": ORIGIN,
-      "telephone": "+905453048671",
-      "logo": `${ORIGIN}/img/logo.png`,
-    },
-    "areaServed": {
-      "@type": "Country",
-      "name": "Türkiye",
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.8",
-      "reviewCount": "180",
-      "bestRating": "5",
-      "worstRating": "1",
-    },
-  };
-
-  // Product + Offers Schema
-  const productJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "@id": `${pageUrl}#product`,
-    "name": "Çadır Kiralama",
-    "description":
-      "Pagoda çadır, şeffaf dome çadır ve endüstriyel çadır kiralama hizmeti. Türkiye geneli hızlı kurulum ve 7/24 teknik destek.",
-    "image": [
-      `${ORIGIN}/img/cadir/1.webp`,
-      `${ORIGIN}/img/cadir/2.webp`,
-      `${ORIGIN}/img/cadir/3.webp`,
+      {
+        "@type": "FAQPage",
+        "@id": `${pageUrl}#faq`,
+        mainEntity: FAQ_ITEMS.map((item) => ({
+          "@type": "Question",
+          name: item.q,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: item.a,
+          },
+        })),
+      },
     ],
-    "brand": {
-      "@type": "Brand",
-      "name": "Sahneva",
-    },
-    "sku": "CADIR-001",
-    "offers": {
-      "@type": "AggregateOffer",
-      "url": pageUrl,
-      "priceCurrency": "TRY",
-      "lowPrice": "7000",
-      "highPrice": "30000",
-      "offerCount": "12",
-      "availability": "http://schema.org/InStock",
-      "priceValidUntil": "2025-12-31",
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.8",
-      "reviewCount": "180",
-      "bestRating": "5",
-      "ratingCount": "180",
-    },
   };
 
   return (
-    <>
-      <Script
-        id="ld-faq-cadir"
-        type="application/ld+json"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
-      <Script
-        id="ld-service-cadir"
-        type="application/ld+json"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
-      />
-      <Script
-        id="ld-product-cadir"
-        type="application/ld+json"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
-      />
-    </>
+    <script
+      id="ld-json-cadir"
+      type="application/ld+json"
+      // LED ekran sayfasındaki gibi: direkt script, next/script yok
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
   );
 }
 
