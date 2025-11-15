@@ -337,14 +337,23 @@ function HeroBackgroundImage({ alt = "", ariaHidden = true }) {
   const { fetchPriority, ...rest } = props;
 
   // eslint-disable-next-line react/no-unknown-property -- force lowercase attribute for HTML validators
-  return (
-    <img
-      {...rest}
-      fetchpriority={fetchPriority}
-      aria-hidden={ariaHidden}
-    />
-  );
+  return <img {...rest} fetchpriority={fetchPriority} aria-hidden={ariaHidden} />;
 }
+
+export default function HomePage() {
+  return (
+    <div className="overflow-x-hidden">
+      <StructuredData />
+
+      {/* HERO SECTION */}
+      <section
+        className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950 pt-16 lg:pt-20"
+        aria-labelledby="hero-title"
+      >
+        {/* Arka plan görseli */}
+        <div className="absolute inset-0" aria-hidden="true">
+          <HeroBackgroundImage />
+        </div>
 
         {/* Overlay katmanları */}
         <div
