@@ -320,12 +320,9 @@ function HeroBackgroundImage({ alt = "", ariaHidden = true }) {
     alt,
     src: heroImg,
     sizes: "100vw",
-
-    // Avoid Next.js <link rel="preload"> during route prefetches (causes console warnings)
-    // while still keeping the hero image eagerly loaded on actual visits.
+    priority: true,
     fetchPriority: "high",
     loading: "eager",
-
     placeholder: "blur",
     quality: 70,
     className: "absolute inset-0 h-full w-full object-cover object-center",
@@ -347,7 +344,7 @@ export default function HomePage() {
 
       {/* HERO SECTION */}
       <section
-        className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950 pt-16 lg:pt-20"
+        className="relative min-h-[80vh] flex items-center justifycenter overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950 pt-16 lg:pt-20"
         aria-labelledby="hero-title"
       >
         {/* Arka plan görseli */}
