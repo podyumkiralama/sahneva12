@@ -1123,11 +1123,7 @@ const FAQ_ITEMS = [
 
 function FAQ() {
   return (
-    <section
-      className="py-20 bg-white"
-      aria-labelledby="sss-baslik"
-      style={{ contentVisibility: "auto" }}
-    >
+    <section className="py-20 bg-white" aria-labelledby="sss-baslik">
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="text-center mb-16">
           <h2
@@ -1144,28 +1140,29 @@ function FAQ() {
           </p>
         </div>
 
-        {/* WCAG uyumlu: gerçek ul/li listesi */}
-        <ul className="space-y-6" aria-label="Sık sorulan sorular listesi">
+        {/* role="list" ve aria-label KALDIRILDI */}
+        <div className="space-y-6">
           {FAQ_ITEMS.map((faq, index) => (
-            <li key={index} className="list-none">
-              <details className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border">
-                <summary className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900">
-                  <span className="pr-4">{faq.q}</span>
-                  <span
-                    aria-hidden="true"
-                    className="ml-4 transition-transform duration-500 group-open:rotate-180 text-blue-600 bg-blue-100 rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0"
-                  >
-                    ⌄
-                  </span>
-                </summary>
+            <details
+              key={index}
+              className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border"
+            >
+              <summary className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900">
+                <span className="pr-4">{faq.q}</span>
+                <span
+                  aria-hidden="true"
+                  className="ml-4 transition-transform duration-500 group-open:rotate-180 text-blue-600 bg-blue-100 rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0"
+                >
+                  ⌄
+                </span>
+              </summary>
 
-                <div className="mt-6 text-gray-700 leading-relaxed text-lg pl-4 border-l-4 border-blue-500">
-                  {faq.a}
-                </div>
-              </details>
-            </li>
+              <div className="mt-6 text-gray-700 leading-relaxed text-lg pl-4 border-l-4 border-blue-500">
+                {faq.a}
+              </div>
+            </details>
           ))}
-        </ul>
+        </div>
 
         <div className="text-center mt-12">
           <p className="text-gray-600 text-lg mb-6">
@@ -1175,6 +1172,7 @@ function FAQ() {
             href="/sss"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring"
             title="Sık Sorulan Sorular sayfasındaki tüm soruları görüntüle"
+            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">
               📚
