@@ -320,14 +320,9 @@ function HeroBackgroundImage({ alt = "", ariaHidden = true }) {
     alt,
     src: heroImg,
     sizes: "100vw",
-
-    // ❌ Bu satır uyarıyı oluşturuyordu:
-    // priority: true,
-
-    // ✅ LCP için ideal ama preload HİÇ OLUŞMAZ
-    loading: "eager",
+    priority: true,
     fetchPriority: "high",
-
+    loading: "eager",
     placeholder: "blur",
     quality: 70,
     className: "absolute inset-0 h-full w-full object-cover object-center",
@@ -338,14 +333,24 @@ function HeroBackgroundImage({ alt = "", ariaHidden = true }) {
 
   const { fetchPriority, ...rest } = props;
 
-  return (
-    <img
-      {...rest}
-      fetchpriority={fetchPriority}
-      aria-hidden={ariaHidden}
-    />
-  );
+  // eslint-disable-next-line react/no-unknown-property -- force lowercase attribute for HTML validators
+  return <img {...rest} fetchpriority={fetchPriority} aria-hidden={ariaHidden} />;
 }
+
+export default function HomePage() {
+  return (
+    <div className="overflow-x-hidden">
+      <StructuredData />
+
+      {/* HERO SECTION */}
+      <section
+        className="relative min-h-[80vh] flex items-center justifycenter overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950 pt-16 lg:pt-20"
+        aria-labelledby="hero-title"
+      >
+        {/* Arka plan görseli */}
+        <div className="absolute inset-0" aria-hidden="true">
+          <HeroBackgroundImage />
+        </div>
 
         {/* Overlay katmanları */}
         <div
