@@ -1,6 +1,7 @@
 // app/masa-sandalye-kiralama/page.jsx
 import Image from "next/image";
 import Link from "next/link";
+import Script from "next/script";
 import dynamic from "next/dynamic";
 
 import { buildFaqSchema } from "@/lib/structuredData/faq";
@@ -1585,7 +1586,6 @@ function JsonLd() {
   const pageName = metadata.title;
   const pageDescription = metadata.description;
 
-  // Ortak organizasyon nodu
   const orgNode = {
     "@type": "Organization",
     "@id": `${ORIGIN}#org`,
@@ -1595,20 +1595,16 @@ function JsonLd() {
     logo: `${ORIGIN}/img/logo.png`,
   };
 
-  // buildServiceProductSchema çıktıları
   const { service: serviceSchema, products } = buildServiceProductSchema({
     slug: "/masa-sandalye-kiralama",
     locale: "tr-TR",
   });
 
-  // Service node (ARTIK aggregateRating YOK)
   const baseService = {
     "@type": "Service",
     name: "Masa Sandalye Kiralama",
     description: pageDescription,
-    provider: {
-      "@id": `${ORIGIN}#org`,
-    },
+    provider: { "@id": `${ORIGIN}#org` },
     areaServed: { "@type": "Country", name: "Türkiye" },
   };
 
@@ -1619,15 +1615,12 @@ function JsonLd() {
   const serviceId = serviceNode["@id"] ?? `${pageUrl}#service`;
   serviceNode["@id"] = serviceId;
 
-  // Review snippet için Product + AggregateRating
   const reviewProductNode = {
     "@type": "Product",
     "@id": `${pageUrl}#product`,
     name: "Masa Sandalye Kiralama Hizmeti",
     description: pageDescription,
-    brand: {
-      "@id": `${ORIGIN}#org`,
-    },
+    brand: { "@id": `${ORIGIN}#org` },
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.9",
@@ -1637,15 +1630,12 @@ function JsonLd() {
     },
   };
 
-  // buildServiceProductSchema'dan gelen ürün nodları (varsa)
   const productNodes = products ?? [];
-
   const faqSchema = buildFaqSchema(FAQ_ITEMS);
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
-      // Breadcrumb
       {
         "@type": "BreadcrumbList",
         itemListElement: [
@@ -1663,26 +1653,18 @@ function JsonLd() {
           },
         ],
       },
-      // Organizasyon
       orgNode,
-      // Service
       serviceNode,
-      // WebPage
       {
         "@type": "WebPage",
         "@id": `${pageUrl}#webpage`,
         name: pageName,
         description: pageDescription,
         url: pageUrl,
-        mainEntity: {
-          "@id": serviceId,
-        },
+        mainEntity: { "@id": serviceId },
       },
-      // Review snippet için Product
       reviewProductNode,
-      // Ek ürün nodları
       ...productNodes,
-      // FAQ
       ...(faqSchema ? [faqSchema] : []),
     ],
   };
