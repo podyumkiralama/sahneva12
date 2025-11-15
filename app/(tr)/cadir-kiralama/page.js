@@ -1,4 +1,4 @@
-// app/cadir-kiralama/page.jsx
+// app/(tr)/cadir-kiralama/page.jsx
 import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
@@ -15,7 +15,7 @@ const WA_TEXT =
   "Merhaba%2C+çadır+kiralama+icin+teklif+istiyorum.+Etkinlik+turu%3A+%5Bdüğün%2Ffuar%2Fkonser%5D%2C+Tarih%3A+%5Bgg.aa.yyyy%5D%2C+Kisi+sayisi%3A+%5Bxxx%5D.";
 const WHATSAPP = `https://wa.me/${PHONE.replace("+", "")}?text=${WA_TEXT}`;
 
-// Base64 blur placeholder (dikkat: normal string, backtick YOK)
+// Base64 blur placeholder (dikkat: normal string, backtick yok)
 const BLUR_DATA_URL =
   "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAADAAQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==";
 
@@ -213,12 +213,12 @@ function Hero() {
           alt={HERO.alt}
           fill
           priority
-          fetchPriority="high"
           className="object-cover"
           sizes={HERO.sizes}
           quality={85}
           placeholder="blur"
           blurDataURL={BLUR_DATA_URL}
+          loading="eager"
         />
         <div
           className="absolute inset-0 bg-gradient-to-br from-blue-900/80 via-purple-800/70 to-blue-950/90"
@@ -438,23 +438,23 @@ const GALLERY_IMAGES = [
   },
   {
     src: "/img/cadir/8.webp",
-    alt: "Markalı çadır - Kurumsal etkinlik alanı için özel tasarım",
+    alt: "Markalı çadır - Kurumsal etkinlikler için özel tasarım",
   },
   {
     src: "/img/cadir/9.webp",
-    alt: "Markalı çadır - Fuar alanı için kurumsal tasarım",
+    alt: "Markalı çadır - Kurumsal etkinlikler için özel tasarım",
   },
   {
     src: "/img/cadir/10.webp",
-    alt: "Markalı çadır - Açık hava lansman alanı",
+    alt: "Markalı çadır - Kurumsal etkinlikler için özel tasarım",
   },
   {
     src: "/img/cadir/11.webp",
-    alt: "Markalı çadır - Festival ve etkinlik alanı",
+    alt: "Markalı çadır - Kurumsal etkinlikler için özel tasarım",
   },
   {
     src: "/img/cadir/12.webp",
-    alt: "Markalı çadır - Kurumsal tanıtım etkinliği",
+    alt: "Markalı çadır - Kurumsal etkinlikler için özel tasarım",
   },
 ];
 
@@ -1346,9 +1346,10 @@ function CTA() {
   );
 }
 
-/* ================== JSON-LD (Rich Snippets – LED sayfası ile uyumlu) ================== */
+/* ================== JSON-LD ================== */
 function JsonLd() {
   const pageUrl = `${ORIGIN}/cadir-kiralama`;
+  const pageName = metadata.title;
   const pageDescription = metadata.description;
 
   const provider = {
@@ -1360,7 +1361,6 @@ function JsonLd() {
     logo: `${ORIGIN}/img/logo.png`,
   };
 
-  // Ortak service/product şeması (LED ekran ve Kurumsal sayfadaki gibi)
   const { service: serviceSchema, products } = buildServiceProductSchema({
     slug: "/cadir-kiralama",
     locale: "tr-TR",
@@ -1381,17 +1381,8 @@ function JsonLd() {
   };
 
   const serviceNode = serviceSchema
-    ? {
-        ...serviceSchema,
-        ...baseService,
-        provider,
-        url: pageUrl,
-      }
-    : {
-        ...baseService,
-        "@id": `${pageUrl}#service`,
-        url: pageUrl,
-      };
+    ? { ...serviceSchema, ...baseService, provider, url: pageUrl }
+    : { ...baseService, "@id": `${pageUrl}#service`, url: pageUrl };
 
   const serviceId = serviceNode["@id"] ?? `${pageUrl}#service`;
   serviceNode["@id"] = serviceId;
@@ -1422,11 +1413,12 @@ function JsonLd() {
       serviceNode,
       {
         "@type": "WebPage",
-        name: "Çadır Kiralama | Profesyonel Etkinlik Çözümleri | Sahneva",
+        name: pageName,
         description: pageDescription,
         url: pageUrl,
         mainEntity: {
           "@type": "Service",
+          "@id": serviceId,
           name: "Çadır Kiralama",
         },
       },
@@ -1450,8 +1442,6 @@ export default function Page() {
   return (
     <>
       <JsonLd />
-      {/* SkipLinks bu sayfada #main-content e atlayacaksa, layout tarafında <main id="main-content"> kullanacağız.
-          Şimdilik bu sayfada sadece içerik komponentleri geliyor. */}
       <Hero />
       <Services />
       <Gallery />
