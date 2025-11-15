@@ -1,11 +1,8 @@
-// app/(tr)/cadir-kiralama/page.jsx
+// app/cadir-kiralama/page.jsx
 import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
 import dynamic from "next/dynamic";
-
-import { buildFaqSchema } from "@/lib/structuredData/faq";
-import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
 
 /* ================== Sabitler ================== */
 export const revalidate = 1800;
@@ -15,9 +12,9 @@ const WA_TEXT =
   "Merhaba%2C+çadır+kiralama+icin+teklif+istiyorum.+Etkinlik+turu%3A+%5Bdüğün%2Ffuar%2Fkonser%5D%2C+Tarih%3A+%5Bgg.aa.yyyy%5D%2C+Kisi+sayisi%3A+%5Bxxx%5D.";
 const WHATSAPP = `https://wa.me/${PHONE.replace("+", "")}?text=${WA_TEXT}`;
 
-// Base64 blur placeholder (dikkat: normal string, backtick yok)
+// Base64 blur placeholder
 const BLUR_DATA_URL =
-  "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAADAAQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==";
+  "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAADAAQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==`";
 
 /* ================== Dinamik galeri (CaseGallery) ================== */
 const CaseGallery = dynamic(() => import("@/components/CaseGallery"), {
@@ -478,11 +475,7 @@ function Gallery() {
         </div>
 
         <div className="max-w-7xl mx-auto">
-          <CaseGallery
-            images={GALLERY_IMAGES}
-            visibleCount={8}
-            priorityCount={2}
-          />
+          <CaseGallery images={GALLERY_IMAGES} visibleCount={8} priorityCount={2} />
         </div>
 
         <div className="text-center mt-12">
@@ -958,7 +951,6 @@ function Articles() {
                     <span className="text-xl" aria-hidden="true">
                       💎
                     </span>
-                    Neden Sahneva?
                   </h5>
                   <p className="text-yellow-800 mb-0">
                     <strong>
@@ -1349,91 +1341,108 @@ function CTA() {
 /* ================== JSON-LD ================== */
 function JsonLd() {
   const pageUrl = `${ORIGIN}/cadir-kiralama`;
-  const pageName = metadata.title;
-  const pageDescription = metadata.description;
 
-  const provider = {
-    "@type": "Organization",
-    "@id": `${ORIGIN}#org`,
-    name: "Sahneva",
-    url: ORIGIN,
-    telephone: "+905453048671",
-    logo: `${ORIGIN}/img/logo.png`,
+  // FAQ Schema
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": FAQ_ITEMS.map((item) => ({
+      "@type": "Question",
+      "name": item.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.a,
+      },
+    })),
   };
 
-  const { service: serviceSchema, products } = buildServiceProductSchema({
-    slug: "/cadir-kiralama",
-    locale: "tr-TR",
-  });
-
-  const baseService = {
+  // Service Schema
+  const serviceJsonLd = {
+    "@context": "https://schema.org",
     "@type": "Service",
-    name: "Çadır Kiralama",
-    description: pageDescription,
-    provider,
-    areaServed: { "@type": "Country", name: "Türkiye" },
-    aggregateRating: {
+    "@id": `${pageUrl}#service`,
+    "name": "Çadır Kiralama",
+    "description":
+      "Pagoda, şeffaf dome, endüstriyel çadır kiralama. Zemin kaplama, aydınlatma, güvenlik ve profesyonel kurulum hizmeti.",
+    "provider": {
+      "@type": "Organization",
+      "@id": `${ORIGIN}#org`,
+      "name": "Sahneva",
+      "url": ORIGIN,
+      "telephone": "+905453048671",
+      "logo": `${ORIGIN}/img/logo.png`,
+    },
+    "areaServed": {
+      "@type": "Country",
+      "name": "Türkiye",
+    },
+    "aggregateRating": {
       "@type": "AggregateRating",
-      ratingValue: "4.8",
-      reviewCount: "180",
-      bestRating: "5",
+      "ratingValue": "4.8",
+      "reviewCount": "180",
+      "bestRating": "5",
+      "worstRating": "1",
     },
   };
 
-  const serviceNode = serviceSchema
-    ? { ...serviceSchema, ...baseService, provider, url: pageUrl }
-    : { ...baseService, "@id": `${pageUrl}#service`, url: pageUrl };
-
-  const serviceId = serviceNode["@id"] ?? `${pageUrl}#service`;
-  serviceNode["@id"] = serviceId;
-
-  const productNodes = products ?? [];
-  const faqSchema = buildFaqSchema(FAQ_ITEMS);
-
-  const jsonLd = {
+  // Product + Offers Schema
+  const productJsonLd = {
     "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Anasayfa",
-            item: `${ORIGIN}/`,
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Çadır Kiralama",
-            item: pageUrl,
-          },
-        ],
-      },
-      serviceNode,
-      {
-        "@type": "WebPage",
-        name: pageName,
-        description: pageDescription,
-        url: pageUrl,
-        mainEntity: {
-          "@type": "Service",
-          "@id": serviceId,
-          name: "Çadır Kiralama",
-        },
-      },
-      ...productNodes,
-      ...(faqSchema ? [faqSchema] : []),
+    "@type": "Product",
+    "@id": `${pageUrl}#product`,
+    "name": "Çadır Kiralama",
+    "description":
+      "Pagoda çadır, şeffaf dome çadır ve endüstriyel çadır kiralama hizmeti. Türkiye geneli hızlı kurulum ve 7/24 teknik destek.",
+    "image": [
+      `${ORIGIN}/img/cadir/1.webp`,
+      `${ORIGIN}/img/cadir/2.webp`,
+      `${ORIGIN}/img/cadir/3.webp`,
     ],
+    "brand": {
+      "@type": "Brand",
+      "name": "Sahneva",
+    },
+    "sku": "CADIR-001",
+    "offers": {
+      "@type": "AggregateOffer",
+      "url": pageUrl,
+      "priceCurrency": "TRY",
+      "lowPrice": "7000",
+      "highPrice": "30000",
+      "offerCount": "12",
+      "availability": "http://schema.org/InStock",
+      "priceValidUntil": "2025-12-31",
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "180",
+      "bestRating": "5",
+      "ratingCount": "180",
+    },
   };
 
   return (
-    <Script
-      id="ld-json-cadir"
-      type="application/ld+json"
-      strategy="afterInteractive"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
+    <>
+      <Script
+        id="ld-faq-cadir"
+        type="application/ld+json"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <Script
+        id="ld-service-cadir"
+        type="application/ld+json"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+      />
+      <Script
+        id="ld-product-cadir"
+        type="application/ld+json"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+    </>
   );
 }
 
