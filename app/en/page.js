@@ -1,6 +1,7 @@
-import { getImageProps } from "next/image";
-
-import heroImg from "@/public/img/hero-bg.webp";
+const HERO_BACKGROUND = Object.freeze({
+  src: "/img/hero-bg.webp",
+  blur: "/img/hero-bg-blur.webp",
+});
 import CorporateEvents from "@/components/CorporateEvents";
 import {
   ReviewBannerDeferred,
@@ -469,25 +470,27 @@ function StructuredData() {
 }
 
 function HeroBackgroundImage({ alt = "", ariaHidden = true }) {
-  const { props } = getImageProps({
-    alt,
-    src: heroImg,
-    sizes: "100vw",
-    priority: true,
-    fetchPriority: "high",
-    loading: "eager",
-    placeholder: "blur",
-    quality: 70,
-    className: "absolute inset-0 h-full w-full object-cover object-center",
-    style: {
-      filter: "brightness(0.7) contrast(1.1) saturate(1.05)",
-    },
-  });
-
-  const { fetchPriority, ...rest } = props;
-
-  // eslint-disable-next-line react/no-unknown-property -- force lowercase attribute for HTML validators
-  return <img {...rest} fetchpriority={fetchPriority} aria-hidden={ariaHidden} />;
+  return (
+    <img
+      src={HERO_BACKGROUND.src}
+      alt={alt}
+      className="absolute inset-0 h-full w-full object-cover object-center"
+      style={{
+        filter: "brightness(0.7) contrast(1.1) saturate(1.05)",
+        backgroundImage: HERO_BACKGROUND.blur
+          ? `url(${HERO_BACKGROUND.blur})`
+          : undefined,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+      loading="eager"
+      decoding="async"
+      sizes="100vw"
+      // eslint-disable-next-line react/no-unknown-property -- lowercase attribute per spec
+      fetchpriority="high"
+      aria-hidden={ariaHidden}
+    />
+  );
 }
 
 export default function EnglishHomePage() {

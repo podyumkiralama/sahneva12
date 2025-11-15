@@ -1,6 +1,8 @@
 // app/(site)/page.js
-import { getImageProps } from "next/image";
-import heroImg from "@/public/img/hero-bg.webp";
+const HERO_BACKGROUND = Object.freeze({
+  src: "/img/hero-bg.webp",
+  blur: "/img/hero-bg-blur.webp",
+});
 
 // Statik bileşenler
 import CorporateEvents from "@/components/CorporateEvents";
@@ -316,36 +318,43 @@ function StructuredData() {
 // SAYFA
 // —————————————————————————————————————————
 function HeroBackgroundImage({ alt = "", ariaHidden = true }) {
-  const { props } = getImageProps({
-    alt,
-    src: heroImg,
-    sizes: "100vw",
-
-    // ❌ Bu satır uyarıyı oluşturuyordu:
-    // priority: true,
-
-    // ✅ LCP için ideal ama preload HİÇ OLUŞMAZ
-    loading: "eager",
-    fetchPriority: "high",
-
-    placeholder: "blur",
-    quality: 70,
-    className: "absolute inset-0 h-full w-full object-cover object-center",
-    style: {
-      filter: "brightness(0.7) contrast(1.1) saturate(1.05)",
-    },
-  });
-
-  const { fetchPriority, ...rest } = props;
-
   return (
     <img
-      {...rest}
-      fetchpriority={fetchPriority}
+      src={HERO_BACKGROUND.src}
+      alt={alt}
+      className="absolute inset-0 h-full w-full object-cover object-center"
+      style={{
+        filter: "brightness(0.7) contrast(1.1) saturate(1.05)",
+        backgroundImage: HERO_BACKGROUND.blur
+          ? `url(${HERO_BACKGROUND.blur})`
+          : undefined,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+      loading="eager"
+      decoding="async"
+      sizes="100vw"
+      // eslint-disable-next-line react/no-unknown-property -- lowercase attribute per spec
+      fetchpriority="high"
       aria-hidden={ariaHidden}
     />
   );
 }
+
+export default function HomePage() {
+  return (
+    <div className="overflow-x-hidden">
+      <StructuredData />
+
+      {/* HERO SECTION */}
+      <section
+        className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950 pt-16 lg:pt-20"
+        aria-labelledby="hero-title"
+      >
+        {/* Arka plan görseli */}
+        <div className="absolute inset-0" aria-hidden="true">
+          <HeroBackgroundImage />
+        </div>
 
         {/* Overlay katmanları */}
         <div
