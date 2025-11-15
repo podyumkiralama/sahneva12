@@ -196,165 +196,66 @@ const USE_CASES = [
   },
 ];
 
-// Paket verileri
+// =====================  PAKET VERİLERİ  =====================
 const PACKAGES = [
   {
     id: "davet-100",
     name: "Davet Seti — 100 Kişi",
     badge: "Popüler",
-    // ...
+    specs: {
+      people: 100,
+      tables: { type: "Yuvarlak Ø180", count: 10 },
+      chairs: { type: "Napolyon", count: 100 },
+      linens: { tablecloth: 10, runner: 10 },
+    },
+    includes: [
+      "10 × yuvarlak banket masa (Ø180 cm)",
+      "100 × Napolyon sandalye (beyaz/krem)",
+      "Keten masa örtüsü + runner",
+      "Teslimat, yerleşim ve toplama",
+    ],
+    note: "Düğün, nişan ve kurumsal yemekler için şık görünüm.",
   },
+
   {
     id: "konferans-60",
     name: "Konferans Seti — 60 Kişi",
     badge: "Kurumsal",
-    // ...
+    specs: {
+      people: 60,
+      tables: { type: "Dikdörtgen 180×75", count: 10 },
+      chairs: { type: "Konferans", count: 60 },
+      linens: { tablecloth: 10 },
+    },
+    includes: [
+      "10 × dikdörtgen masa (180×75 cm)",
+      "60 × konferans sandalyesi (yastıklı)",
+      "Numaralandırma ve oturma planı yerleşimi",
+      "Teslimat + kurulum",
+    ],
+    note: "Seminer, eğitim ve panel düzenleri için.",
   },
+
   {
     id: "kokteyl-15",
     name: "Kokteyl Seti — 15 Ünite",
     badge: "Hafif Kurulum",
-    // ...
-  },
+    specs: {
+      people: 90,
+      tables: { type: "Bistro Ø60–80", count: 15 },
+      chairs: { type: "", count: 0 },
+      linens: { stretchCover: 15 },
+    },
+    includes: [
+      "15 × bistro kokteyl masası (Ø60–80 cm)",
+      "Strech kılıf (beyaz/siyah/renkli)",
+      "Opsiyon: fırfır/tafta şal",
+      "Teslimat + toplama",
+    ],
+    note: "Lansman, açılış ve networking alanları için.",
+  }
 ];
 
-// ...
-
-function Packages() {
-  const formatTRY = (n) =>
-    new Intl.NumberFormat("tr-TR", {
-      style: "currency",
-      currency: "TRY",
-      maximumFractionDigits: 0,
-    }).format(n);
-
-  const packagePrices = {
-    "davet-100": 12500,
-    "konferans-60": 9800,
-    "kokteyl-15": 7200,
-  };
-
-  return (
-    <section
-      id="paketler"
-      className="py-20 bg-gradient-to-b from-gray-50 to-white"
-      aria-labelledby="paketler-baslik"
-    >
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2
-            id="paketler-baslik"
-            className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900"
-          >
-            Hazır{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-              Paketler
-            </span>
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            İhtiyacınıza uygun, anahtar teslim masa sandalye çözümleri
-          </p>
-        </div>
-
-        <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {PACKAGES.map((pkg) => (
-            <div key={pkg.id} className="group">
-              <div
-                className={`bg-white rounded-3xl border-2 shadow-xl hover:shadow-2xl overflow-hidden transition-all duration-500 h-full flex flex-col ${
-                  pkg.badge === "Popüler"
-                    ? "border-blue-500 ring-4 ring-blue-500/20 transform scale-105 group-hover:scale-110"
-                    : "border-gray-100 group-hover:scale-105"
-                }`}
-              >
-                {/* Header */}
-                <div className="bg-gradient-to-r from-blue-700 to-purple-700 p-8 text-white relative overflow-hidden">
-                  {pkg.badge && (
-                    <div
-                      className={`absolute top-4 right-4 px-4 py-2 rounded-full text-sm font-bold text-white ${
-                        pkg.badge === "Popüler"
-                          ? "bg-orange-700"
-                          : pkg.badge === "Kurumsal"
-                          ? "bg-blue-700"
-                          : "bg-green-700"
-                      }`}
-                    >
-                      {pkg.badge}
-                    </div>
-                  )}
-                  <div className="text-4xl mb-4" aria-hidden="true">
-                    {pkg.id === "davet-100" && "💒"}
-                    {pkg.id === "konferans-60" && "🏢"}
-                    {pkg.id === "kokteyl-15" && "🥂"}
-                  </div>
-                  <h3 className="text-2xl font-black mb-2">{pkg.name}</h3>
-                  <p className="text-blue-100 text-lg">{pkg.note}</p>
-                </div>
-
-                {/* Content */}
-                <div className="p-8 flex-grow">
-                  <div className="mb-6">
-                    <h4 className="font-bold text-gray-900 mb-4 text-lg flex items-center gap-2">
-                      <span
-                        className="w-2 h-2 bg-blue-600 rounded-full"
-                        aria-hidden="true"
-                      />
-                      Paket İçeriği
-                    </h4>
-                    <ul className="space-y-3">
-                      {pkg.includes.map((item, i) => (
-                        <li
-                          key={i}
-                          className="flex items-start gap-3 text-gray-700"
-                        >
-                          <span
-                            className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"
-                            aria-hidden="true"
-                          />
-                          <span className="text-base">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-200">
-                    <div className="text-center mb-4">
-                      <div className="text-sm text-gray-500 uppercase tracking-wider font-semibold">
-                        Günlük Kira (İstanbul)
-                      </div>
-                      <div className="text-3xl font-black text-gray-900 mt-2">
-                        {formatTRY(packagePrices[pkg.id])}
-                        <span className="text-sm text-gray-500 font-normal ml-2">
-                          + KDV
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-8 pt-0">
-                  <Link
-                    href={`${WHATSAPP}&package=${encodeURIComponent(
-                      pkg.name
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full inline-flex items-center justify-center font-bold px-6 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring"
-                    role="button"
-                  >
-                    <span aria-hidden="true" className="text-xl mr-2">
-                      💬
-                    </span>
-                    <span>Bu Paket için Teklif Al</span>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 /* ================== HERO ================== */
 function Hero() {
   return (
