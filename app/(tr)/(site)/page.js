@@ -321,12 +321,10 @@ function HeroBackgroundImage({ alt = "", ariaHidden = true }) {
     src: heroImg,
     sizes: "100vw",
 
-    // ❌ Bu satır uyarıyı oluşturuyordu:
-    // priority: true,
-
-    // ✅ LCP için ideal ama preload HİÇ OLUŞMAZ
-    loading: "eager",
+    // Avoid Next.js <link rel="preload"> during route prefetches (causes console warnings)
+    // while still keeping the hero image eagerly loaded on actual visits.
     fetchPriority: "high",
+    loading: "eager",
 
     placeholder: "blur",
     quality: 70,
@@ -338,6 +336,7 @@ function HeroBackgroundImage({ alt = "", ariaHidden = true }) {
 
   const { fetchPriority, ...rest } = props;
 
+  // eslint-disable-next-line react/no-unknown-property -- force lowercase attribute for HTML validators
   return (
     <img
       {...rest}
