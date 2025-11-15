@@ -4,9 +4,6 @@ import Link from "next/link";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 
-import { buildFaqSchema } from "@/lib/structuredData/faq";
-import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
-
 /* ================== Sabitler ================== */
 export const revalidate = 1800;
 const ORIGIN = "https://www.sahneva.com";
@@ -478,11 +475,7 @@ function Gallery() {
         </div>
 
         <div className="max-w-7xl mx-auto">
-          <CaseGallery
-            images={GALLERY_IMAGES}
-            visibleCount={8}
-            priorityCount={2}
-          />
+          <CaseGallery images={GALLERY_IMAGES} visibleCount={8} priorityCount={2} />
         </div>
 
         <div className="text-center mt-12">
@@ -1153,26 +1146,30 @@ function FAQ() {
           </p>
         </div>
 
-       <div className="space-y-6">
-  {FAQ_ITEMS.map((faq, index) => (
-    <details 
-      key={index} 
-      className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border"
-    >
-      <summary className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900">
-        <span className="pr-4">{faq.q}</span>
-        <span aria-hidden="true" className="ml-4 transition-transform duration-500 group-open:rotate-180 text-blue-600 bg-blue-100 rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0">
-          ⌄
-        </span>
-      </summary>
+        <div className="space-y-6">
+          {FAQ_ITEMS.map((faq, index) => (
+            <details
+              key={index}
+              className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border"
+            >
+              <summary className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900">
+                <span className="pr-4">{faq.q}</span>
+                <span
+                  aria-hidden="true"
+                  className="ml-4 transition-transform duration-500 group-open:rotate-180 text-blue-600 bg-blue-100 rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0"
+                >
+                  ⌄
+                </span>
+              </summary>
 
-      <div className="mt-6 text-gray-700 leading-relaxed text-lg pl-4 border-l-4 border-blue-500">
-        {faq.a}
-      </div>
-    </details>
-  ))}
-</div>
-       <div className="text-center mt-12">
+              <div className="mt-6 text-gray-700 leading-relaxed text-lg pl-4 border-l-4 border-blue-500">
+                {faq.a}
+              </div>
+            </details>
+          ))}
+        </div>
+
+        <div className="text-center mt-12">
           <p className="text-gray-600 text-lg mb-6">
             Daha fazla sorunuz mu var? Uzman ekibimiz sizi arayıp bilgilendirsin.
           </p>
@@ -1347,22 +1344,21 @@ function JsonLd() {
   const pageUrl = `${ORIGIN}/cadir-kiralama`;
   const pageDescription = metadata.description;
 
-  const provider = {
+  const organization = {
     "@type": "Organization",
     "@id": `${ORIGIN}#org`,
     name: "Sahneva",
     url: ORIGIN,
-    telephone: "+905453048671",
+    telephone: PHONE,
     logo: `${ORIGIN}/img/logo.png`,
   };
 
-  // Hizmet (Service) şeması
   const serviceNode = {
     "@type": "Service",
     "@id": `${pageUrl}#service`,
     name: "Çadır Kiralama",
     description: pageDescription,
-    provider,
+    provider: { "@id": organization["@id"] },
     areaServed: { "@type": "Country", name: "Türkiye" },
     aggregateRating: {
       "@type": "AggregateRating",
@@ -1372,11 +1368,10 @@ function JsonLd() {
     },
   };
 
-  // FAQ şeması – helper kullanmadan direkt
   const faqSchema = {
     "@type": "FAQPage",
     "@id": `${pageUrl}#faq`,
-    mainEntity: FAQ_ITEMS.map((item, index) => ({
+    mainEntity: FAQ_ITEMS.map((item) => ({
       "@type": "Question",
       name: item.q,
       acceptedAnswer: {
@@ -1406,6 +1401,7 @@ function JsonLd() {
           },
         ],
       },
+      organization,
       serviceNode,
       {
         "@type": "WebPage",
@@ -1428,7 +1424,6 @@ function JsonLd() {
     />
   );
 }
-
 
 /* ================== Sayfa Bileşeni ================== */
 export default function Page() {
