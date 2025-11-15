@@ -207,16 +207,12 @@ function Hero() {
           src={HERO.src}
           alt={HERO.alt}
           className="absolute inset-0 h-full w-full object-cover"
-          loading="eager"
           decoding="async"
-          sizes={HERO.sizes}
           style={{
             backgroundImage: `url(${BLUR_DATA_URL})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
-          // eslint-disable-next-line react/no-unknown-property -- lowercase attribute per spec
-          fetchpriority="high"
         />
         <div
           className="absolute inset-0 bg-gradient-to-br from-blue-900/80 via-purple-800/70 to-blue-950/90"

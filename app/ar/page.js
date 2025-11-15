@@ -494,24 +494,22 @@ function StructuredData() {
 }
 
 function HeroBackgroundImage({ alt = "", ariaHidden = true }) {
+  const layeredBackground = HERO_BACKGROUND.blur
+    ? `url(${HERO_BACKGROUND.src}), url(${HERO_BACKGROUND.blur})`
+    : `url(${HERO_BACKGROUND.src})`;
+
   return (
-    <img
-      src={HERO_BACKGROUND.src}
-      alt={alt}
-      className="absolute inset-0 h-full w-full object-cover object-center"
+    <div
+      className="absolute inset-0 h-full w-full"
       style={{
+        backgroundImage: layeredBackground,
+        backgroundSize: HERO_BACKGROUND.blur ? "cover, cover" : "cover",
+        backgroundPosition: HERO_BACKGROUND.blur ? "center, center" : "center",
+        backgroundRepeat: "no-repeat",
         filter: "brightness(0.7) contrast(1.1) saturate(1.05)",
-        backgroundImage: HERO_BACKGROUND.blur
-          ? `url(${HERO_BACKGROUND.blur})`
-          : undefined,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
       }}
-      loading="eager"
-      decoding="async"
-      sizes="100vw"
-      // eslint-disable-next-line react/no-unknown-property -- lowercase attribute per spec
-      fetchpriority="high"
+      role={ariaHidden ? undefined : "img"}
+      aria-label={ariaHidden ? undefined : alt}
       aria-hidden={ariaHidden}
     />
   );

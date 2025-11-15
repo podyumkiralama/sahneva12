@@ -52,7 +52,6 @@ export default function CasePage() {
     src="/img/projeler/kapali-alan-led/1.webp"
     alt="Kapalı alan sahne ve LED ekran kurulumu"
     fill
-    priority
     className="object-cover"
   />
 
