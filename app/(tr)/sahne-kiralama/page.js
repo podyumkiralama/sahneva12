@@ -1240,51 +1240,43 @@ function JsonLd() {
 
   const productGraphNodes = (products ?? []).map((node) => ({ ...node }));
 
+  const productNodes = products ?? [];
   const faqSchema = buildFaqSchema(FAQ_ITEMS);
-  const faqNode = faqSchema
-    ? { "@id": `${pageUrl}#faq`, url: pageUrl, ...faqSchema }
-    : null;
-
-  const graph = [
-    {
-      "@type": "BreadcrumbList",
-      "@id": `${pageUrl}#breadcrumbs`,
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Anasayfa",
-          item: `${ORIGIN}/`,
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Sahne Kiralama",
-          item: pageUrl,
-        },
-      ],
-    },
-    {
-      "@type": "WebPage",
-      "@id": `${pageUrl}#webpage`,
-      url: pageUrl,
-      name: pageName,
-      description: pageDescription,
-      inLanguage: "tr-TR",
-      breadcrumb: { "@id": `${pageUrl}#breadcrumbs` },
-      mainEntity: { "@id": serviceId },
-    },
-    serviceNode,
-    ...productGraphNodes,
-  ];
-
-  if (faqNode) {
-    graph.push(faqNode);
-  }
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@graph": graph,
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Anasayfa",
+            item: `${ORIGIN}/`
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Sahne Kiralama",
+            item: `${ORIGIN}/sahne-kiralama`
+          },
+        ],
+      },
+      serviceNode,
+      {
+        "@type": "WebPage",
+        name: "Sahne Kiralama | Profesyonel Sahne Çözümleri | Sahneva",
+        description: "Konser, konferans, lansman, miting ve festival etkinlikleri için anahtar teslim sahne kiralama. Truss, podyum, LED ekran, ses ve ışık sistemleri. 81 ilde profesyonel hizmet.",
+        url: `${ORIGIN}/sahne-kiralama`,
+        mainEntity: {
+          "@type": "Service",
+          name: "Sahne Kiralama"
+        }
+      },
+      ...productNodes,
+      ...(faqSchema ? [faqSchema] : []),
+    ],
   };
 
   return (
