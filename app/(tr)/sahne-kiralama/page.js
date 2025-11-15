@@ -1199,39 +1199,46 @@ function CTA() {
 
 /* ================== JSON-LD ================== */
 function JsonLd() {
+  const pageUrl = `${ORIGIN}/sahne-kiralama`;
+  const pageName = metadata.title;
+  const pageDescription = metadata.description;
+
+  const provider = {
+    "@type": "Organization",
+    "@id": `${ORIGIN}#org`,
+    name: "Sahneva",
+    url: ORIGIN,
+    telephone: "+905453048671",
+    logo: `${ORIGIN}/img/logo.png`,
+  };
+
   const { service: serviceSchema, products } = buildServiceProductSchema({
     slug: "/sahne-kiralama",
     locale: "tr-TR",
   });
 
-  const serviceNode = {
+  const baseService = {
     "@type": "Service",
-    name: "Sahne Kiralama Hizmeti",
-    description:
-      "Profesyonel sahne kiralama hizmeti. Konser, konferans, lansman, miting ve festival etkinlikleri için truss, podyum, LED ekran, ses ve ışık sistemleri ile anahtar teslim sahne çözümleri.",
-    provider: {
-      "@type": "Organization",
-      name: "Sahneva",
-      telephone: "+905453048671",
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: "İstanbul",
-        addressCountry: "TR"
-      },
-      url: ORIGIN,
-      logo: `${ORIGIN}/logo.png`,
-    },
+    name: "Sahne Kiralama",
+    description: pageDescription,
+    provider,
+    areaServed: { "@type": "Country", name: "Türkiye" },
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.9",
       reviewCount: "183",
-      bestRating: "5"
+      bestRating: "5",
     },
   };
 
-  if (serviceSchema) {
-    Object.assign(serviceNode, serviceSchema);
-  }
+  const serviceNode = serviceSchema
+    ? { ...serviceSchema, ...baseService, provider, url: pageUrl }
+    : { ...baseService, "@id": `${pageUrl}#service`, url: pageUrl };
+
+  const serviceId = serviceNode["@id"] ?? `${pageUrl}#service`;
+  serviceNode["@id"] = serviceId;
+
+  const productGraphNodes = (products ?? []).map((node) => ({ ...node }));
 
   const productNodes = products ?? [];
   const faqSchema = buildFaqSchema(FAQ_ITEMS);

@@ -1210,39 +1210,44 @@ function CTA() {
 
 /* ================== JSON-LD ================== */
 function JsonLd() {
+  const pageUrl = `${ORIGIN}/podyum-kiralama`;
+  const pageName = metadata.title;
+  const pageDescription = metadata.description;
+
+  const provider = {
+    "@type": "Organization",
+    "@id": `${ORIGIN}#org`,
+    name: "Sahneva",
+    url: ORIGIN,
+    telephone: "+905453048671",
+    logo: `${ORIGIN}/img/logo.png`,
+  };
+
   const { service: serviceSchema, products } = buildServiceProductSchema({
     slug: "/podyum-kiralama",
     locale: "tr-TR",
   });
 
-  const serviceNode = {
+  const baseService = {
     "@type": "Service",
-    name: "Podyum Kiralama Hizmeti",
-    description:
-      "Profesyonel podyum kiralama hizmeti. Modüler podyum sistemleri, kaymaz kaplama ve kurulum hizmetleri ile İstanbul genelinde hizmet.",
-    provider: {
-      "@type": "Organization",
-      name: "Sahneva",
-      telephone: "+905453048671",
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: "İstanbul",
-        addressCountry: "TR"
-      },
-      url: ORIGIN,
-      logo: `${ORIGIN}/logo.png`,
-    },
+    name: "Podyum Kiralama",
+    description: pageDescription,
+    provider,
+    areaServed: { "@type": "Country", name: "Türkiye" },
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.8",
       reviewCount: "200",
-      bestRating: "5"
+      bestRating: "5",
     },
   };
 
-  if (serviceSchema) {
-    Object.assign(serviceNode, serviceSchema);
-  }
+  const serviceNode = serviceSchema
+    ? { ...serviceSchema, ...baseService, provider, url: pageUrl }
+    : { ...baseService, "@id": `${pageUrl}#service`, url: pageUrl };
+
+  const serviceId = serviceNode["@id"] ?? `${pageUrl}#service`;
+  serviceNode["@id"] = serviceId;
 
   const productNodes = products ?? [];
   const faqSchema = buildFaqSchema(FAQ_ITEMS);
