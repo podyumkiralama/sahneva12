@@ -497,7 +497,9 @@ function HeroBackgroundImage({ alt = "", ariaHidden = true }) {
     alt,
     src: heroImg,
     sizes: "100vw",
-    priority: true,
+
+    // Avoid Next.js <link rel="preload"> during route prefetches (causes console warnings)
+    // while still keeping the hero image eagerly loaded on actual visits.
     fetchPriority: "high",
     loading: "eager",
     placeholder: "blur",

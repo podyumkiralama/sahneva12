@@ -208,7 +208,7 @@ function Hero() {
           src={HERO.src}
           alt={HERO.alt}
           fill
-          priority
+          loading="eager"
           fetchPriority="high"
           className="object-cover"
           sizes={HERO.sizes}
