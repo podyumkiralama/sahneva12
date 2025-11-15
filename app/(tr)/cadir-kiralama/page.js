@@ -1,4 +1,4 @@
-// app/(tr)/cadir-kiralama/page.jsx
+// app/(tr)/cadir-kiralama/page.jsx 
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -13,7 +13,7 @@ const WHATSAPP = `https://wa.me/${PHONE.replace("+", "")}?text=${WA_TEXT}`;
 
 // Base64 blur placeholder
 const BLUR_DATA_URL =
-  "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAADAAQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==";
+  "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAADAAQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==`;
 
 /* ================== Dinamik galeri (CaseGallery) ================== */
 const CaseGallery = dynamic(() => import("@/components/CaseGallery"), {
@@ -209,6 +209,7 @@ function Hero() {
           alt={HERO.alt}
           fill
           priority
+          fetchPriority="high"
           className="object-cover"
           sizes={HERO.sizes}
           quality={85}
@@ -471,7 +472,11 @@ function Gallery() {
         </div>
 
         <div className="max-w-7xl mx-auto">
-          <CaseGallery images={GALLERY_IMAGES} visibleCount={8} priorityCount={2} />
+          <CaseGallery
+            images={GALLERY_IMAGES}
+            visibleCount={8}
+            priorityCount={2}
+          />
         </div>
 
         <div className="text-center mt-12">
@@ -523,8 +528,7 @@ function Technical() {
     {
       category: "olcu",
       title: "Ölçü & Kombinasyonlar",
-      description:
-        "Modüler sistemler ile esnek ölçü ve birleşim seçenekleri",
+      description: "Modüler sistemler ile esnek ölçü ve birleşim seçenekleri",
       features: [
         "5×5m / 6×6m pagoda",
         "Proje bazlı ölçülendirme",
@@ -947,7 +951,7 @@ function Articles() {
                     <span className="text-xl" aria-hidden="true">
                       💎
                     </span>
-                  Neden Sahneva?
+                    Neden Sahneva?
                   </h5>
                   <p className="text-yellow-800 mb-0">
                     <strong>
@@ -1142,28 +1146,31 @@ function FAQ() {
           </p>
         </div>
 
-        <div className="space-y-6" role="list" aria-label="Sık sorulan sorular listesi">
+        {/* ARIA uyarısı için: gerçek ul/li listesi */}
+        <ul
+          className="space-y-6"
+          aria-label="Sık sorulan sorular listesi"
+        >
           {FAQ_ITEMS.map((faq, index) => (
-            <details
-              key={index}
-              className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border"
-            >
-              <summary className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900">
-                <span className="pr-4">{faq.q}</span>
-                <span
-                  aria-hidden="true"
-                  className="ml-4 transition-transform duration-500 group-open:rotate-180 text-blue-600 bg-blue-100 rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0"
-                >
-                  ⌄
-                </span>
-              </summary>
+            <li key={index} className="list-none">
+              <details className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border">
+                <summary className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900">
+                  <span className="pr-4">{faq.q}</span>
+                  <span
+                    aria-hidden="true"
+                    className="ml-4 transition-transform duration-500 group-open:rotate-180 text-blue-600 bg-blue-100 rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0"
+                  >
+                    ⌄
+                  </span>
+                </summary>
 
-              <div className="mt-6 text-gray-700 leading-relaxed text-lg pl-4 border-l-4 border-blue-500">
-                {faq.a}
-              </div>
-            </details>
+                <div className="mt-6 text-gray-700 leading-relaxed text-lg pl-4 border-l-4 border-blue-500">
+                  {faq.a}
+                </div>
+              </details>
+            </li>
           ))}
-        </div>
+        </ul>
 
         <div className="text-center mt-12">
           <p className="text-gray-600 text-lg mb-6">
@@ -1388,7 +1395,6 @@ function JsonLd() {
     <script
       id="ld-json-cadir"
       type="application/ld+json"
-      // LED ekran sayfasındaki gibi: direkt script, next/script yok
       dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
     />
   );
