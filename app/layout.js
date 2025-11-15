@@ -3,6 +3,8 @@ import "../styles/globals.css";
 import Script from "next/script";
 import { Inter } from "next/font/google";
 import SkipLinks from "@/components/SkipLinks";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const inter = Inter({
   subsets: ["latin", "latin-ext", "arabic"],
@@ -174,8 +176,26 @@ export default function RootLayout({ children }) {
           }}
         />
       </head>
-      <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
+      <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth">
         <SkipLinks />
+
+        <div className="flex min-h-screen flex-col">
+          <header id="_main_header">
+            <Navbar />
+          </header>
+
+          <main
+            id="_main_content"
+            tabIndex={-1}
+            className="flex-1 pt-16 md:pt-20"
+          >
+            {children}
+          </main>
+
+          <footer id="_main_footer">
+            <Footer />
+          </footer>
+        </div>
 
         {GA_MEASUREMENT_ID && (
           <>
@@ -198,8 +218,6 @@ export default function RootLayout({ children }) {
             </Script>
           </>
         )}
-
-        {children}
 
         <Script id="performance-observer" strategy="afterInteractive">
           {`
