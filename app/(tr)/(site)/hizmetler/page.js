@@ -266,7 +266,6 @@ export default function ServicesPage() {
             src="/img/hizmetler-hero.webp"
             alt="Sahneva Hizmetler - Profesyonel Etkinlik Ekipmanları ve Teknoloji Çözümleri"
             fill
-            priority
             quality={80}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
             className="object-cover object-center"

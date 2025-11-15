@@ -284,7 +284,6 @@ export default function EnglishServicesPage() {
             src="/img/hizmetler-hero.webp"
             alt="Sahneva Services - Professional Event Equipment and Technology Solutions"
             fill
-            priority
             quality={80}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
             className="object-cover object-center"

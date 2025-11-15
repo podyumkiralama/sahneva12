@@ -156,11 +156,10 @@ export default function HakkimizdaPage() {
       {/* HERO - LED Ekran Sayfası ile Birebir Aynı (İstatistikler Hero İçinde) */}
       <section className="relative flex items-center justify-center overflow-hidden bg-slate-900 pt-20 min-h-[80vh]" aria-labelledby="hero-title">
         <div className="absolute inset-0">
-          <Image 
+          <Image
             src="/img/hakkimizda-hero-corporate.webp"
             alt="Sahneva Profesyonel Ekip - Etkinlik Teknolojilerinde 10+ Yıllık Deneyim"
-            fill 
-            priority 
+            fill
             className="object-cover"
             sizes="100vw"
             quality={85}

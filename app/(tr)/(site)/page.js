@@ -1,6 +1,8 @@
 // app/(site)/page.js
-import { getImageProps } from "next/image";
-import heroImg from "@/public/img/hero-bg.webp";
+const HERO_BACKGROUND = Object.freeze({
+  src: "/img/hero-bg.webp",
+  blur: "/img/hero-bg-blur.webp",
+});
 
 // Statik bileşenler
 import CorporateEvents from "@/components/CorporateEvents";

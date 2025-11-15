@@ -335,8 +335,6 @@ export default function ProjectsGallery({
                         decoding="async"
                         placeholder="blur"
                         blurDataURL={BLUR_DATA_URL}
-                        priority={i === 0}
-                        fetchPriority={i === 0 ? "high" : "auto"}
                         onError={() => handleImageError(cover)}
                       />
 
@@ -472,7 +470,6 @@ export default function ProjectsGallery({
                     className="object-contain rounded-xl"
                     sizes={LIGHTBOX_SIZES}
                     quality={70}
-                    priority
                     loading="eager"
                     decoding="sync"
                     onError={() => handleImageError(items[index])}

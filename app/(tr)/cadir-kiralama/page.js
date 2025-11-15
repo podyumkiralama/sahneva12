@@ -1,5 +1,4 @@
 // app/(tr)/cadir-kiralama/page.jsx
-import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
@@ -204,7 +203,7 @@ function Hero() {
       aria-labelledby="hero-title"
     >
       <div className="absolute inset-0">
-        <Image
+        <img
           src={HERO.src}
           alt={HERO.alt}
           fill

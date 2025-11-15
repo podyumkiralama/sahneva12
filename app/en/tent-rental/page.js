@@ -164,9 +164,8 @@ function Hero() {
       <div className="absolute inset-0">
         <Image
           src={HERO.src}
-          alt={HERO.alt} 
-          fill 
-          priority 
+          alt={HERO.alt}
+          fill
           className="object-cover"
           sizes={HERO.sizes}
           quality={85}
