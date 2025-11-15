@@ -1057,53 +1057,43 @@ function JsonLd() {
   const serviceId = serviceNode["@id"] ?? `${pageUrl}#service`;
   serviceNode["@id"] = serviceId;
 
-  const productGraphNodes = (products ?? []).map((node) => ({ ...node }));
-
+  const productNodes = products ?? [];
   const faqSchema = buildFaqSchema(FAQ_ITEMS);
-  const faqNode = faqSchema
-    ? { "@id": `${pageUrl}#faq`, url: pageUrl, ...faqSchema }
-    : null;
-
-  const graph = [
-    {
-      "@type": "BreadcrumbList",
-      "@id": `${pageUrl}#breadcrumbs`,
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Anasayfa",
-          item: `${ORIGIN}/`,
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "LED Ekran Kiralama",
-          item: pageUrl,
-        },
-      ],
-    },
-    {
-      "@type": "WebPage",
-      "@id": `${pageUrl}#webpage`,
-      url: pageUrl,
-      name: pageName,
-      description: pageDescription,
-      inLanguage: "tr-TR",
-      breadcrumb: { "@id": `${pageUrl}#breadcrumbs` },
-      mainEntity: { "@id": serviceId },
-    },
-    serviceNode,
-    ...productGraphNodes,
-  ];
-
-  if (faqNode) {
-    graph.push(faqNode);
-  }
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@graph": graph,
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Anasayfa",
+            item: `${ORIGIN}/`
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "LED Ekran Kiralama",
+            item: `${ORIGIN}/led-ekran-kiralama`
+          },
+        ],
+      },
+      serviceNode,
+      {
+        "@type": "WebPage",
+        name: "LED Ekran Kiralama | Profesyonel Çözümler | Sahneva",
+        description: "P2-P6 piksel aralığı, 4K çözünürlük, yüksek parlaklık LED ekran kiralama. İç/dış mekan, konser, fuar ve kurumsal etkinlikler için profesyonel çözümler.",
+        url: `${ORIGIN}/led-ekran-kiralama`,
+        mainEntity: {
+          "@type": "Service",
+          name: "LED Ekran Kiralama"
+        }
+      },
+      ...productNodes,
+      ...(faqSchema ? [faqSchema] : []),
+    ],
   };
 
   return (

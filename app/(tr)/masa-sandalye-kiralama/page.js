@@ -1231,51 +1231,43 @@ function JsonLd() {
 
   const productGraphNodes = (products ?? []).map((node) => ({ ...node }));
 
+  const productNodes = products ?? [];
   const faqSchema = buildFaqSchema(FAQ_ITEMS);
-  const faqNode = faqSchema
-    ? { "@id": `${pageUrl}#faq`, url: pageUrl, ...faqSchema }
-    : null;
-
-  const graph = [
-    {
-      "@type": "BreadcrumbList",
-      "@id": `${pageUrl}#breadcrumbs`,
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Anasayfa",
-          item: `${ORIGIN}/`,
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Masa Sandalye Kiralama",
-          item: pageUrl,
-        },
-      ],
-    },
-    {
-      "@type": "WebPage",
-      "@id": `${pageUrl}#webpage`,
-      url: pageUrl,
-      name: pageName,
-      description: pageDescription,
-      inLanguage: "tr-TR",
-      breadcrumb: { "@id": `${pageUrl}#breadcrumbs` },
-      mainEntity: { "@id": serviceId },
-    },
-    serviceNode,
-    ...productGraphNodes,
-  ];
-
-  if (faqNode) {
-    graph.push(faqNode);
-  }
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@graph": graph,
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Anasayfa",
+            item: `${ORIGIN}/`
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Masa Sandalye Kiralama",
+            item: `${ORIGIN}/masa-sandalye-kiralama`
+          },
+        ],
+      },
+      serviceNode,
+      {
+        "@type": "WebPage",
+        name: "Masa Sandalye Kiralama | Profesyonel Çözümler | Sahneva",
+        description: "Napolyon ve konferans sandalyeleri, banket ve bistro masalar, örtü-kılıf; numaralandırma ve profesyonel yerleşim. İstanbul genelinde hızlı teslim.",
+        url: `${ORIGIN}/masa-sandalye-kiralama`,
+        mainEntity: {
+          "@type": "Service",
+          name: "Masa Sandalye Kiralama"
+        }
+      },
+      ...productNodes,
+      ...(faqSchema ? [faqSchema] : []),
+    ],
   };
 
   return (
