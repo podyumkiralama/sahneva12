@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 
 const UtilityBar = dynamic(() => import("./UtilityBar"), {
@@ -8,84 +8,90 @@ const UtilityBar = dynamic(() => import("./UtilityBar"), {
   loading: () => null,
 });
 
-const SLOW_CONNECTION_TYPES = new Set(["slow-2g", "2g"]);
+const LS_KEYS = {
+  ACTIVE: "acc_active",
+  PANEL_POSITION: "acc_panel_position",
+};
 
-function getConnectionInfo() {
-  if (typeof navigator === "undefined") return null;
-  return navigator.connection || navigator.mozConnection || navigator.webkitConnection || null;
+function readStorageValue(key, fallback) {
+  if (typeof window === "undefined") return fallback;
+  try {
+    const raw = window.localStorage.getItem(key);
+    return raw === null ? fallback : JSON.parse(raw);
+  } catch {
+    return fallback;
+  }
+}
+
+function writeStorageValue(key, value) {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    // ignore write errors (e.g. private mode)
+  }
 }
 
 export default function UtilityBarClient() {
   const [shouldRender, setShouldRender] = useState(false);
-  const [manualTrigger, setManualTrigger] = useState(false);
-  const [showManualPrompt, setShowManualPrompt] = useState(false);
+  const [panelPosition, setPanelPosition] = useState("right");
 
   useEffect(() => {
-    if (typeof window === "undefined" || shouldRender) return;
+    const storedPosition = readStorageValue(LS_KEYS.PANEL_POSITION, "right");
+    setPanelPosition(storedPosition === "left" ? "left" : "right");
 
-    const connection = getConnectionInfo();
-    const effective = connection?.effectiveType?.toLowerCase?.();
-    const saveData = Boolean(connection?.saveData);
-    const isVerySlow = effective ? SLOW_CONNECTION_TYPES.has(effective) : false;
-
-    if (!manualTrigger && (saveData || isVerySlow)) {
-      setShowManualPrompt(true);
-      return;
+    const hasActivePrefs = readStorageValue(LS_KEYS.ACTIVE, false);
+    if (hasActivePrefs) {
+      setShouldRender(true);
     }
+  }, []);
 
-    setShowManualPrompt(false);
+  const handleOpenPanel = useCallback(() => {
+    setShouldRender(true);
+  }, []);
 
-    const scheduleRender = () => setShouldRender(true);
+  const togglePanelPosition = useCallback(() => {
+    setPanelPosition((prev) => {
+      const next = prev === "right" ? "left" : "right";
+      writeStorageValue(LS_KEYS.PANEL_POSITION, next);
+      return next;
+    });
+  }, []);
 
-    const timeout = effective === "3g" ? 2200 : 1200;
-
-    if ("requestIdleCallback" in window) {
-      const idleId = window.requestIdleCallback(scheduleRender, { timeout: timeout + 600 });
-      return () => {
-        if ("cancelIdleCallback" in window) {
-          window.cancelIdleCallback(idleId);
-        }
-      };
-    }
-
-    const timerId = window.setTimeout(scheduleRender, timeout);
-    return () => window.clearTimeout(timerId);
-  }, [manualTrigger, shouldRender]);
+  const handlePanelPositionChange = useCallback((position) => {
+    if (position !== "left" && position !== "right") return;
+    setPanelPosition(position);
+    writeStorageValue(LS_KEYS.PANEL_POSITION, position);
+  }, []);
 
   if (shouldRender) {
-    return <UtilityBar />;
-  }
-
-  if (showManualPrompt && !manualTrigger) {
     return (
-      <button
-        type="button"
-        onClick={() => {
-          setManualTrigger(true);
-          setShouldRender(true);
-        }}
-        style={{
-          position: "fixed",
-          bottom: "1.5rem",
-          right: "1.25rem",
-          zIndex: 60,
-          padding: "0.75rem 1.25rem",
-          borderRadius: "9999px",
-          border: "1px solid rgba(109, 40, 217, 0.28)",
-          background: "rgba(255, 255, 255, 0.95)",
-          color: "#6d28d9",
-          fontWeight: 600,
-          boxShadow: "0 18px 40px rgba(109, 40, 217, 0.22)",
-          backdropFilter: "blur(6px)",
-          WebkitBackdropFilter: "blur(6px)",
-          cursor: "pointer",
-        }}
-        aria-label="Erişilebilirlik menüsünü yükle"
-      >
-        ♿ Erişilebilirlik menüsünü yükle
-      </button>
+      <UtilityBar
+        initialPanelPosition={panelPosition}
+        onPanelPositionChange={handlePanelPositionChange}
+      />
     );
   }
 
-  return null;
+  return (
+    <div
+      className={`fixed ${panelPosition === "right" ? "right-8" : "left-8"} bottom-8 z-50 flex flex-col gap-3`}
+    >
+      <button
+        onClick={handleOpenPanel}
+        className="w-14 h-14 bg-gradient-to-br from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full shadow-2xl flex items-center justify-center text-2xl transition-all duration-300 hover:scale-110"
+        aria-label="Erişilebilirlik ayarlarını aç"
+      >
+        ♿
+      </button>
+
+      <button
+        onClick={togglePanelPosition}
+        className="w-10 h-10 bg-gray-600 hover:bg-gray-700 text-white rounded-full shadow-lg flex items-center justify-center text-lg transition-all duration-300 hover:scale-110"
+        aria-label={`Paneli ${panelPosition === "right" ? "sola" : "sağa"} taşı`}
+      >
+        {panelPosition === "right" ? "◀" : "▶"}
+      </button>
+    </div>
+  );
 }
