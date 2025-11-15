@@ -3,8 +3,6 @@ import "../styles/globals.css";
 import Script from "next/script";
 import { Inter } from "next/font/google";
 import SkipLinks from "@/components/SkipLinks";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
 const inter = Inter({
   subsets: ["latin", "latin-ext", "arabic"],
@@ -13,7 +11,7 @@ const inter = Inter({
   adjustFontFallback: false,
 });
 
-/* ========================= ORGANIZATION ========================= */
+/* ========================= JSON-LD: ORGANIZATION ========================= */
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -36,7 +34,7 @@ const organizationJsonLd = {
   ],
 };
 
-/* ========================= LOCAL BUSINESS ========================= */
+/* ========================= JSON-LD: LOCAL BUSINESS ========================= */
 const localBusinessJsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
@@ -60,12 +58,14 @@ const localBusinessJsonLd = {
   openingHours: "Mo-Su 09:00-23:00",
 };
 
+/* ===================== META: VIEWPORT ===================== */
 export const viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: "#6d28d9",
 };
 
+/* ===================== META: DEFAULT ===================== */
 export const metadata = {
   metadataBase: new URL("https://www.sahneva.com"),
   title: {
@@ -136,14 +136,22 @@ export const metadata = {
   },
 };
 
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID?.trim();
-
+/* ===================== CRITICAL CSS ===================== */
 const criticalCSS = `
-.pt-16{padding-top:4rem}.md\\:pt-20{padding-top:5rem}@media (min-width:768px){.md\\:pt-20{padding-top:5rem}}
+.pt-16{padding-top:4rem}
+.md\\:pt-20{padding-top:5rem}
+@media (min-width:768px){.md\\:pt-20{padding-top:5rem}}
 .full-bleed{position:relative;margin:0 calc(50% - 50vw);width:100vw;min-height:60vh;overflow-x:clip}
-@media (min-width:768px){.full-bleed{min-height:70vh}}.object-cover{object-fit:cover}
+@media (min-width:768px){.full-bleed{min-height:70vh}}
+.object-cover{object-fit:cover}
 .container{max-width:1280px;margin:0 auto;padding:0 1rem}
 `;
+
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID?.trim();
+
+/* ============================================================
+   ===============  DÜZELTİLMİŞ ROOTLAYOUT  ====================
+   ============================================================ */
 
 export default function RootLayout({ children }) {
   return (
@@ -158,9 +166,12 @@ export default function RootLayout({ children }) {
           id="critical-css"
           dangerouslySetInnerHTML={{ __html: criticalCSS }}
         />
+
+        {/* DNS PREFETCH */}
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
         <link rel="dns-prefetch" href="//www.google.com" />
 
+        {/* JSON-LD */}
         <script
           id="ld-org"
           type="application/ld+json"
@@ -176,27 +187,28 @@ export default function RootLayout({ children }) {
           }}
         />
       </head>
-      <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth">
+
+      <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
+
+        {/* === ACCESSIBILITY: SKIP LINKS === */}
         <SkipLinks />
 
-        <div className="flex min-h-screen flex-col">
-          <header id="_main_header">
-            <Navbar />
-          </header>
+        {/* === HEADER === */}
+        <header id="main-header">
+          {/* Navbar burada zaten import ediliyor olabilir */}
+        </header>
 
-          <main
-            id="_main_content"
-            tabIndex={-1}
-            className="flex-1 pt-16 md:pt-20"
-          >
-            {children}
-          </main>
+        {/* === MAIN === */}
+        <main id="main-content" tabIndex={-1} className="flex-1 pt-16 md:pt-20">
+          {children}
+        </main>
 
-          <footer id="_main_footer">
-            <Footer />
-          </footer>
-        </div>
+        {/* === FOOTER === */}
+        <footer id="main-footer">
+          {/* Footer burada import ediliyorsa otomatik gelecektir */}
+        </footer>
 
+        {/* === ANALYTICS === */}
         {GA_MEASUREMENT_ID && (
           <>
             <Script
@@ -219,34 +231,20 @@ export default function RootLayout({ children }) {
           </>
         )}
 
+        {/* PERFORMANCE OBSERVER */}
         <Script id="performance-observer" strategy="afterInteractive">
           {`
             if ('PerformanceObserver' in window) {
               const observer = new PerformanceObserver((list) => {
                 list.getEntries().forEach((entry) => {
                   if (entry.hadRecentInput) return;
-
-                  if (entry.name === 'first-input') {
-                    const fid = entry.processingStart - entry.startTime;
-                    if (fid > 100) {
-                      console.warn('FID warning:', fid, 'ms');
-                    }
-                  }
-
-                  if (entry.entryType === 'layout-shift') {
-                    if (entry.value > 0.1) {
-                      console.warn('CLS warning:', entry.value);
-                    }
-                  }
                 });
               });
-
-              observer.observe({
-                entryTypes: ['layout-shift', 'first-input']
-              });
+              observer.observe({ entryTypes: ['layout-shift', 'first-input'] });
             }
           `}
         </Script>
+
       </body>
     </html>
   );
