@@ -1016,95 +1016,84 @@ function CTA() {
   );
 }
 
-/* ================== JSON-LD ================== */
+/* ================== JSON-LD (Product + FAQ) ================== */
 function JsonLd() {
   const pageUrl = `${ORIGIN}/led-ekran-kiralama`;
-  const pageName = metadata.title;
-  const pageDescription = metadata.description;
-
-  const provider = {
-    "@type": "Organization",
-    "@id": `${ORIGIN}/#org`, // layout'taki Organization ile aynı ID
-    name: "Sahneva",
-    url: ORIGIN,
-    telephone: "+905453048671",
-    logo: `${ORIGIN}/img/logo.png`,
-  };
-
-  const { service: serviceSchema, products } = buildServiceProductSchema({
-    slug: "led-ekran-kiralama", // başında / yok
-    locale: "tr-TR",
-  });
-
-  const baseService = {
-    "@type": "Service",
-    name: "LED Ekran Kiralama",
-    description: pageDescription,
-    provider,
-    areaServed: { "@type": "Country", name: "Türkiye" },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.9",
-      reviewCount: "183",
-      bestRating: "5",
-    },
-  };
-
-  const serviceNode = serviceSchema
-    ? { ...serviceSchema, ...baseService, provider, url: pageUrl }
-    : { ...baseService, "@id": `${pageUrl}#service`, url: pageUrl };
-
-  const serviceId = serviceNode["@id"] ?? `${pageUrl}#service`;
-  serviceNode["@id"] = serviceId;
-
-  const productNodes = (products ?? []).map((node) => ({ ...node }));
-
-  const faqSchema = buildFaqSchema(FAQ_ITEMS);
-  const faqNode = faqSchema
-    ? { "@id": `${pageUrl}#faq`, url: pageUrl, ...faqSchema }
-    : null;
-
-  const graph = [
-    {
-      "@type": "BreadcrumbList",
-      "@id": `${pageUrl}#breadcrumbs`,
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Anasayfa",
-          item: `${ORIGIN}/`,
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "LED Ekran Kiralama",
-          item: pageUrl,
-        },
-      ],
-    },
-    serviceNode,
-    {
-      "@type": "WebPage",
-      "@id": `${pageUrl}#webpage`,
-      name: pageName,
-      description: pageDescription,
-      url: pageUrl,
-    },
-    ...productNodes,
-    ...(faqNode ? [faqNode] : []),
-  ];
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@graph": graph,
+    "@graph": [
+      {
+        "@type": "Product",
+        "@id": `${pageUrl}#product`,
+        "name": "LED Ekran Kiralama",
+        "description": "P2-P6 piksel aralığı, 4K çözünürlük, yüksek parlaklık LED ekran kiralama. İç/dış mekan, konser, fuar ve kurumsal etkinlikler için profesyonel çözümler.",
+        "image": `${ORIGIN}/img/hizmet-led-ekran.webp`,
+        "brand": {
+          "@type": "Organization",
+          "@id": `${ORIGIN}#org`
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "reviewCount": "183",
+          "bestRating": "5",
+          "worstRating": "1"
+        },
+        "offers": {
+          "@type": "AggregateOffer",
+          "priceCurrency": "TRY",
+          "lowPrice": "1800",
+          "highPrice": "2800",
+          "availability": "https://schema.org/InStock",
+          "url": pageUrl
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": `${pageUrl}#faq`,
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "LED ekran kiralama fiyatları ne kadar?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "LED ekran kiralama fiyatları piksel aralığına ve ekran boyutuna göre değişmektedir. P2.5 iç mekan LED ekran için m² fiyatı yaklaşık 2.800 TL, P4 dış mekan LED ekran için m² fiyatı yaklaşık 1.800 TL'dir. Profesyonel kurulum ve operatör hizmetleri paket fiyatlarına dahil edilebilir."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "LED ekran kurulumu ne kadar sürer?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Standart bir LED ekran kurulumu 2-6 saat arasında tamamlanır. 20 m²'ye kadar küçük kurulumlar genellikle 2-3 saat, 20-50 m² arası kurulumlar 3-4 saat, 50 m² üzeri büyük kurulumlar ise 4-6 saat sürebilir."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Yağmurlu havada LED ekran kullanılabilir mi?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Evet, dış mekan LED ekranlarımız IP65 koruma sınıfına sahiptir ve yağmurlu havada güvenle kullanılabilir. Ancak şiddetli fırtına ve kasırga gibi ekstrem hava koşullarında güvenlik için kullanıma ara verilmesini öneriyoruz."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "LED ekran için hangi piksel aralığını seçmeliyim?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Piksel aralığı seçimi izleyici mesafesine göre yapılmalıdır. 3-10 m arası için P2.5-P3.9, 10-25 m arası için P4, 25 m ve üzeri mesafeler için P6 piksel aralığı önerilir. İç mekan için genelde P2.5-P3.9, dış mekan için P4-P6 tercih edilir."
+            }
+          }
+        ]
+      }
+    ]
   };
 
   return (
-    <Script
+    <script
       id="ld-json-led-ekran"
       type="application/ld+json"
-      strategy="afterInteractive"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
     />
   );
