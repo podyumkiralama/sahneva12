@@ -399,7 +399,6 @@ function StructuredData() {
         url: "https://www.sahneva.com/ar",
         name: "تأجير منصات وشاشات LED وأنظمة صوت وإضاءة | سحنيفا",
         inLanguage: "ar",
-        isPartOf: { "@id": "https://www.sahneva.com/#website" },
         about: { "@id": "https://www.sahneva.com/#org" },
       },
       {

@@ -44,67 +44,187 @@ export const revalidate = 3600;
 // JSON-LD (Schema.org) – Sadece sayfaya özgü tipler
 // —————————————————————————————————————————
 function StructuredData() {
+  const HOME_URL = "https://www.sahneva.com/";
+  const ORGANIZATION_ID = "https://www.sahneva.com/#org";
+  const WEBSITE_ID = "https://www.sahneva.com/#website";
+  const WEBPAGE_ID = "https://www.sahneva.com/#webpage";
+  const SERVICE_ID = "https://www.sahneva.com/#primary-service";
+  const CATALOG_ID = "https://www.sahneva.com/#catalog";
+  const FAQ_ID = "https://www.sahneva.com/#faq";
+  const IMAGE_ID = "https://www.sahneva.com/#og";
+
   const data = {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "WebPage",
-        "@id": "https://www.sahneva.com/#webpage",
-        url: "https://www.sahneva.com/",
-        name: "Sahne Sistemleri, LED Ekran, Ses-Işık | Türkiye Geneli | Sahneva",
+        "@type": "WebSite",
+        "@id": WEBSITE_ID,
+        url: HOME_URL,
+        name: "Sahneva",
+        description:
+          "Profesyonel sahne, podyum, LED ekran ve ses-ışık sistemleri kiralama hizmetleri. Türkiye geneli kurulum ve teknik destek.",
         inLanguage: "tr-TR",
-        isPartOf: { "@id": "https://www.sahneva.com/#website" },
-        about: { "@id": "https://www.sahneva.com/#org" },
+        publisher: { "@id": ORGANIZATION_ID },
+        potentialAction: {
+          "@type": "SearchAction",
+          target: "https://www.sahneva.com/search?q={search_term_string}",
+          "query-input": "required name=search_term_string",
+        },
+      },
+      {
+        "@type": "WebPage",
+        "@id": WEBPAGE_ID,
+        url: HOME_URL,
+        name: "Sahne Sistemleri, LED Ekran, Ses-Işık | Türkiye Geneli | Sahneva",
+        description:
+          "Sahneva ile sahne, podyum, LED ekran, ses ve ışık sistemleri kiralama çözümlerini keşfedin. İstanbul merkezli, Türkiye geneli hizmet.",
+        inLanguage: "tr-TR",
+        isPartOf: { "@id": WEBSITE_ID },
+        about: { "@id": ORGANIZATION_ID },
+        primaryImageOfPage: { "@id": IMAGE_ID },
       },
       {
         "@type": "OfferCatalog",
-        "@id": "https://www.sahneva.com/#catalog",
+        "@id": CATALOG_ID,
         name: "Etkinlik Ekipmanları",
-        url: "https://www.sahneva.com/",
+        url: HOME_URL,
         itemListElement: [
           {
             "@type": "Offer",
-            itemOffered: { "@type": "Service", name: "Podyum Kiralama", description: "Podyum sahne kiralama hizmeti" },
+            itemOffered: {
+              "@type": "Service",
+              name: "Podyum Kiralama",
+              description: "Podyum sahne kiralama hizmeti",
+            },
             priceSpecification: {
               "@type": "UnitPriceSpecification",
-              price: 250,
+              price: "250.00",
               priceCurrency: "TRY",
               unitText: "m²",
+              unitCode: "MTK",
             },
             availability: "https://schema.org/InStock",
-            areaServed: "TR",
-            seller: { "@id": "https://www.sahneva.com/#org" },
+            areaServed: { "@type": "Country", name: "Türkiye" },
+            seller: { "@id": ORGANIZATION_ID },
           },
-          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Sahne Kiralama" }, areaServed: "TR", seller: { "@id": "https://www.sahneva.com/#org" } },
-          { "@type": "Offer", itemOffered: { "@type": "Service", name: "LED Ekran Kiralama" }, areaServed: "TR", seller: { "@id": "https://www.sahneva.com/#org" } },
-          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Ses-Işık Sistemleri" }, areaServed: "TR", seller: { "@id": "https://www.sahneva.com/#org" } },
-          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Çadır Kiralama" }, areaServed: "TR", seller: { "@id": "https://www.sahneva.com/#org" } },
-          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Truss Sistemleri" }, areaServed: "TR", seller: { "@id": "https://www.sahneva.com/#org" } },
-          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Organizasyon Yönetimi" }, areaServed: "TR", seller: { "@id": "https://www.sahneva.com/#org" } },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "LED Ekran Kiralama",
+              description: "İç/dış mekan LED ekran kiralama",
+            },
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: "1700.00",
+              priceCurrency: "TRY",
+              unitText: "günlük",
+              unitCode: "DAY",
+            },
+            availability: "https://schema.org/InStock",
+            areaServed: { "@type": "Country", name: "Türkiye" },
+            seller: { "@id": ORGANIZATION_ID },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Çadır Kiralama",
+              description: "Etkinlik çadırı kiralama",
+            },
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: "300.00",
+              priceCurrency: "TRY",
+              unitText: "m²",
+              unitCode: "MTK",
+            },
+            availability: "https://schema.org/InStock",
+            areaServed: { "@type": "Country", name: "Türkiye" },
+            seller: { "@id": ORGANIZATION_ID },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Sandalye Kiralama",
+              description: "Etkinlik sandalyesi kiralama",
+            },
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: "200.00",
+              priceCurrency: "TRY",
+              unitText: "günlük",
+              unitCode: "DAY",
+            },
+            availability: "https://schema.org/InStock",
+            areaServed: { "@type": "Country", name: "Türkiye" },
+            seller: { "@id": ORGANIZATION_ID },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Masa Kiralama",
+              description: "Davet masası kiralama",
+            },
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: "800.00",
+              priceCurrency: "TRY",
+              unitText: "günlük",
+              unitCode: "DAY",
+            },
+            availability: "https://schema.org/InStock",
+            areaServed: { "@type": "Country", name: "Türkiye" },
+            seller: { "@id": ORGANIZATION_ID },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Sahne Kiralama",
+              description: "Konser ve etkinlik sahnesi kiralama",
+            },
+            availability: "https://schema.org/InStock",
+            areaServed: { "@type": "Country", name: "Türkiye" },
+            seller: { "@id": ORGANIZATION_ID },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Ses-Işık Sistemleri",
+              description: "Profesyonel ses ve ışık ekipmanı",
+            },
+            availability: "https://schema.org/InStock",
+            areaServed: { "@type": "Country", name: "Türkiye" },
+            seller: { "@id": ORGANIZATION_ID },
+          },
         ],
       },
       {
         "@type": "Service",
-        "@id": "https://www.sahneva.com/#service",
+        "@id": SERVICE_ID,
         name: "Etkinlik Ekipmanları Kiralama",
         description:
-          "Türkiye genelinde sahne, podyum, LED ekran, ses ve ışık sistemleri kiralama; kurulum ve teknik operasyon.",
-        url: "https://www.sahneva.com/",
-        areaServed: { "@type": "Country", name: "TR" },
-        provider: { "@id": "https://www.sahneva.com/#org" },
+          "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama hizmeti. Kurulum, teknik operasyon ve söküm dahil.",
+        url: HOME_URL,
+        areaServed: { "@type": "Country", name: "Türkiye" },
+        provider: { "@id": ORGANIZATION_ID },
+        hasOfferCatalog: { "@id": CATALOG_ID },
       },
       {
         "@type": "ImageObject",
-        "@id": "https://www.sahneva.com/#og",
+        "@id": IMAGE_ID,
         contentUrl: "https://www.sahneva.com/og/sahneva-home.jpg",
         width: 1200,
         height: 630,
       },
-      // FAQ rich snippet
       {
         "@type": "FAQPage",
-        "@id": "https://www.sahneva.com/#faq",
-        url: "https://www.sahneva.com/",
+        "@id": FAQ_ID,
+        url: HOME_URL,
         mainEntity: [
           {
             "@type": "Question",
