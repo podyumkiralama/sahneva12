@@ -431,3 +431,17 @@ function Articles() {
     </section>
   );
 }
+export default function LedEkranPage() {
+  return (
+    <>
+      <Hero />
+      <Services />
+      <Gallery />
+      <Technical />
+      <StatsBand />
+      <UseCases />
+      <Articles />
+      <JsonLd />
+    </>
+  );
+}
