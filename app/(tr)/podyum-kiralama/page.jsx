@@ -1338,20 +1338,24 @@ function FAQ() {
                 className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900"
                
               >
-                <span className="pr-4">{faq.q}</span>
-                <span
-                  aria-hidden="true"
-                  className="ml-4 transition-transform duration-500 group-open:rotate-180 text-blue-600 bg-blue-100 rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0"
+                <summary
+                  className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900"
                 >
-                  ⌄
-                </span>
-              </summary>
-              <div className="mt-6 text-gray-700 leading-relaxed text-lg pl-4 border-l-4 border-blue-500" role="region">
-                {faq.a}
-              </div>
-            </details>
+                  <span className="pr-4">{faq.q}</span>
+                  <span
+                    aria-hidden="true"
+                    className="ml-4 transition-transform duration-500 group-open:rotate-180 text-blue-600 bg-blue-100 rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0"
+                  >
+                    ⌄
+                  </span>
+                </summary>
+                <div className="mt-6 text-gray-700 leading-relaxed text-lg pl-4 border-l-4 border-blue-500" role="region">
+                  {faq.a}
+                </div>
+              </details>
+            </li>
           ))}
-        </div>
+        </ul>
 
         <div className="text-center mt-12">
           <p className="text-gray-600 text-lg mb-6">
