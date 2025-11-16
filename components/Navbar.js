@@ -4,10 +4,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useState, useEffect, useRef, useCallback, useId } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 
 const focusRingClass = "focus-ring";
+const MOBILE_MENU_HEADING_ID = "navbar-mobile-menu-heading";
 
 const serviceLinks = [
   {
@@ -72,7 +73,7 @@ export default function Navbar() {
   const previousOverflow = useRef("");
 
   const mobileMenuId = "mobile_menu";
-  const mobileMenuHeadingId = useId(); // 🔹 Erişilebilir başlık ID'si
+  const mobileMenuHeadingId = MOBILE_MENU_HEADING_ID; // 🔹 Erişilebilir başlık ID'si
   const servicesBtnId = "nav-services-button";
   const servicesMenuId = "nav-services-menu";
 
