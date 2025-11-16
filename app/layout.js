@@ -1,4 +1,3 @@
-// app/layout.js
 import "../styles/globals.css";
 import Script from "next/script";
 import { Inter } from "next/font/google";
@@ -26,7 +25,7 @@ const organizationJsonLd = {
     telephone: "+90-545-304-8671",
     contactType: "customer service",
     areaServed: "TR",
-    availableLanguage: ["Turkish"],
+    availableLanguage: ["tr"],
   },
   sameAs: [
     "https://www.instagram.com/sahnevaorganizasyon",
@@ -54,8 +53,23 @@ const localBusinessJsonLd = {
     latitude: 41.081,
     longitude: 28.9702,
   },
-  priceRange: "$$",
-  openingHours: "Mo-Su 09:00-23:00",
+  priceRange: "₺₺",
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+      ],
+      opens: "09:00",
+      closes: "23:00",
+    },
+  ],
 };
 
 /* ===================== META: VIEWPORT ===================== */
@@ -158,18 +172,13 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
     >
       <head>
-        {/* Critical CSS – sadece en gerekli yardımcı sınıflar */}
         <style
           id="critical-css"
           dangerouslySetInnerHTML={{ __html: criticalCSS }}
         />
-
-        {/* DNS Prefetch + Preconnect (yalnızca gerekli domainler) */}
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.google-analytics.com" />
-
-        {/* JSON-LD – bloklayıcı olmayan inline scriptler */}
         <script
           id="ld-org"
           type="application/ld+json"
@@ -185,14 +194,9 @@ export default function RootLayout({ children }) {
           }}
         />
       </head>
-
       <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
-        {/* SKIP LINKS – erişebilirlik */}
         <SkipLinks />
-
         {children}
-
-        {/* ANALYTICS – sadece prod + ID varsa yükle, gereksiz JS yok */}
         {isProd && GA_MEASUREMENT_ID && (
           <>
             <Script
@@ -214,8 +218,6 @@ export default function RootLayout({ children }) {
             </Script>
           </>
         )}
-
-        {/* PERFORMANCE OBSERVER – hafif, sadece prod'da çalışsın */}
         {isProd && (
           <Script id="performance-observer" strategy="afterInteractive">
             {`
@@ -223,7 +225,6 @@ export default function RootLayout({ children }) {
                 const observer = new PerformanceObserver((list) => {
                   list.getEntries().forEach((entry) => {
                     if (entry.hadRecentInput) return;
-                    // CLS / FID loglamak istersen buraya ekleyebilirsin
                   });
                 });
                 observer.observe({ entryTypes: ['layout-shift', 'first-input'] });
