@@ -29,6 +29,73 @@ const CaseGallery = dynamic(() => import("@/components/CaseGallery"), {
   )
 });
 
+function FAQ() {
+  return (
+    <section className="py-20 bg-white" aria-labelledby="sss-baslik">
+      <div className="container mx-auto px-4 max-w-4xl">
+        <div className="text-center mb-16">
+          <h2 id="sss-baslik" className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
+            Sık Sorulan <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Sorular</span>
+          </h2>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            LED ekran kiralama hakkında merak edilen sorular ve cevapları
+          </p>
+        </div>
+
+        <div className="space-y-4" role="list" aria-label="Sık sorulan sorular listesi">
+          {FAQ_ITEMS.map((faq, index) => {
+            const panelId = `faq-panel-${index}`;
+            const headingId = `faq-heading-${index}`;
+
+            return (
+              <article key={faq.q} role="listitem">
+                <details
+                  className="group bg-gray-50 rounded-3xl border-2 border-transparent transition-all duration-500 hover:bg-gray-100 open:bg-gray-100 open:border-blue-100 [&_summary::-webkit-details-marker]:hidden"
+                  id={panelId}
+                  aria-labelledby={headingId}
+                >
+                  <summary
+                    id={headingId}
+                    className="cursor-pointer w-full list-none text-left flex items-center justify-between gap-4 px-8 py-6 text-xl font-bold text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-3xl"
+                  >
+                    <span className="pr-4 flex-1">{faq.q}</span>
+                    <span
+                      aria-hidden="true"
+                      className="ml-4 transition-transform duration-300 text-blue-600 bg-blue-100 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0 group-open:rotate-180"
+                    >
+                      ⌄
+                    </span>
+                  </summary>
+
+                  <div className="grid grid-rows-[0fr] group-open:grid-rows-[1fr] transition-[grid-template-rows] duration-300 px-8 pb-0">
+                    <div className="overflow-hidden text-gray-700 leading-relaxed text-lg pt-0 group-open:pt-2 group-open:pb-6">
+                      <p className="pl-4 border-l-4 border-blue-500">{faq.a}</p>
+                    </div>
+                  </div>
+                </details>
+              </article>
+            );
+          })}
+        </div>
+
+        <div className="text-center mt-12">
+          <p className="text-gray-600 text-lg mb-6">
+            Daha fazla sorunuz mu var? Uzman ekibimiz sizi arayıp bilgilendirsin.
+          </p>
+          <Link
+            href="/sss"
+            className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-500"
+            title="Sık Sorulan Sorular sayfasındaki tüm soruları görüntüle"
+          >
+            <span aria-hidden="true" className="text-xl mr-3">📚</span>
+            <span className="text-lg">Tüm SSS'yi Görüntüle</span>
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ================== META ================== */
 export const metadata = {
   title: "LED Ekran Kiralama | Profesyonel Çözümler | Sahneva",
@@ -835,68 +902,6 @@ function Articles() {
               </div>
             </div>
           </article>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ================== SSS ================== */
-function FAQ() {
-  const faqs = FAQ_ITEMS;
-
-  return (
-    <section className="py-20 bg-white" aria-labelledby="sss-baslik">
-      <div className="container mx-auto px-4 max-w-4xl">
-        <div className="text-center mb-16">
-          <h2 id="sss-baslik" className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
-            Sık Sorulan <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Sorular</span>
-          </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            LED ekran kiralama hakkında merak edilen sorular ve cevapları
-          </p>
-        </div>
-
-        <div className="space-y-4" role="list" aria-label="Sık sorulan sorular listesi">
-          {faqs.map((faq, index) => {
-            const panelId = `faq-panel-${index}`;
-
-            return (
-              <details
-                key={faq.q}
-                className="group bg-gray-50 rounded-3xl border-2 border-transparent transition-all duration-500 open:border-blue-200 open:bg-blue-50 open:shadow-lg hover:bg-gray-100"
-                role="listitem"
-                id={panelId}
-              >
-                <summary className="cursor-pointer w-full text-left flex items-center justify-between gap-4 px-8 py-6 text-xl font-bold text-gray-900 list-none marker:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-3xl">
-                  <span className="pr-4 flex-1">{faq.q}</span>
-                  <span
-                    aria-hidden="true"
-                    className="ml-4 transition-transform duration-300 text-blue-600 bg-blue-100 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0 group-open:rotate-180"
-                  >
-                    ⌄
-                  </span>
-                </summary>
-                <div className="text-gray-700 leading-relaxed text-lg px-8 pb-8 -mt-2">
-                  <p className="pl-4 border-l-4 border-blue-500">{faq.a}</p>
-                </div>
-              </details>
-            );
-          })}
-        </div>
-
-        <div className="text-center mt-12">
-          <p className="text-gray-600 text-lg mb-6">
-            Daha fazla sorunuz mu var? Uzman ekibimiz sizi arayıp bilgilendirsin.
-          </p>
-          <Link
-            href="/sss"
-            className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-500"
-            title="Sık Sorulan Sorular sayfasındaki tüm soruları görüntüle"
-          >
-            <span aria-hidden="true" className="text-xl mr-3">📚</span>
-            <span className="text-lg">Tüm SSS'yi Görüntüle</span>
-          </Link>
         </div>
       </div>
     </section>

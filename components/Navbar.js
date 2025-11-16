@@ -314,7 +314,6 @@ export default function Navbar() {
     <>
       {/* Header artık layout'ta, burada sadece NAV var */}
       <nav
-        role="navigation"
         aria-label={headerStrings?.navLabel ?? "Ana gezinme"}
         className="fixed top-0 inset-x-0 z-50 bg-white border-b border-neutral-200/80 shadow-lg"
         itemScope
@@ -563,7 +562,6 @@ export default function Navbar() {
 
         <nav
           id="primary-navigation-mobile"
-          role="navigation"
           aria-label={headerStrings?.navLabel ?? "Ana gezinme"}
         >
           <div className="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
