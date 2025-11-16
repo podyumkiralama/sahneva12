@@ -14,6 +14,11 @@ const ORIGIN = "https://www.sahneva.com";
 const WA_TEXT = "Merhaba%2C+LED+ekran+kiralama+icin+teklif+istiyorum.+Etkinlik+turu%3A+%5Bkonser%2Ffuar%2Flansman%5D%2C+Tarih%3A+%5Bgg.aa.yyyy%5D%2C+Ekran+boyutu%3A+%5Bxxx%5D.";
 const WHATSAPP = `https://wa.me/${WHATSAPP_PHONE.replace("+", "")}?text=${WA_TEXT}`;
 
+const getServiceWhatsappLink = (title) => {
+  const text = `Merhaba, ${title} hizmeti icin detayli bilgi ve fiyat teklifi almak istiyorum. Etkinlik tarihi: [gg.aa.yyyy], mekan: [ic/dis], tahmini ekran olcusu: [xx m2]`;
+  return `https://wa.me/${PHONE.replace("+", "")}?text=${encodeURIComponent(text)}`;
+};
+
 // Base64 blur placeholder
 const BLUR_DATA_URL = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAADAAQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==";
 
@@ -72,6 +77,103 @@ const HERO = {
   alt: "Profesyonel LED ekran kurulumu - Konser sahnesinde büyük LED wall ve görsel şov",
   sizes: "(max-width: 768px) 100vw, 100vw",
 };
+
+const SERVICES = [
+  {
+    icon: "🖥️",
+    title: "İç Mekan LED Ekranlar",
+    description: "P2.5-P3.9 piksel aralığı ile yüksek çözünürlüklü iç mekan çözümleri",
+    features: ["P2.5-P3.9 piksel", "800-1500 nit parlaklık", "4K çözünürlük", "Hızlı kurulum"],
+    cta: { label: "Detaylı Bilgi", href: getServiceWhatsappLink("İç Mekan LED Ekranlar") },
+  },
+  {
+    icon: "🌞",
+    title: "Dış Mekan LED Ekranlar",
+    description: "P4-P6 piksel aralığı ve yüksek parlaklık ile açık hava çözümleri",
+    features: ["P4-P6 piksel", "5000-6500+ nit", "IP65 su geçirmez", "UV dayanıklı"],
+    cta: { label: "Teklif Al", href: getServiceWhatsappLink("Dış Mekan LED Ekranlar") },
+  },
+  {
+    icon: "🎬",
+    title: "Video Wall Sistemleri",
+    description: "Modüler yapıda esnek video wall ve kreatif ekran çözümleri",
+    features: ["Modüler tasarım", "Esnek konfigürasyon", "Yüksek yenileme hızı", "Profesyonel kontrol"],
+    cta: { label: "Kreatif Çözüm Planla", href: getServiceWhatsappLink("Video Wall Sistemleri") },
+  },
+  {
+    icon: "⚡",
+    title: "Kontrol & Yayın Sistemleri",
+    description: "Profesyonel video işleme, kontrol ve canlı yayın sistemleri",
+    features: ["Novastar işlemciler", "4K scaler", "Medya sunucular", "Canlı yayın"],
+    cta: { label: "Yayın Desteği", href: getServiceWhatsappLink("Kontrol & Yayın Sistemleri") },
+  },
+  {
+    icon: "🔧",
+    title: "Kurulum & Rigging",
+    description: "Profesyonel kurulum, truss sistemleri ve güvenlik çözümleri",
+    features: ["Ground stack", "Truss rigging", "Güvenlik sistemleri", "Hızlı montaj"],
+    cta: { label: "Kurulum Planı", href: getServiceWhatsappLink("Kurulum & Rigging") },
+  },
+  {
+    icon: "🎮",
+    title: "Operatör & Teknik Destek",
+    description: "Deneyimli operatörler ve 7/24 teknik destek hizmeti",
+    features: ["Profesyonel operatör", "İçerik yönetimi", "7/24 teknik destek", "Acil müdahale"],
+    cta: { label: "Operatör Talep Et", href: getServiceWhatsappLink("Operatör & Teknik Destek") },
+  },
+];
+
+const USE_CASES = [
+  {
+    icon: "🎵",
+    text: "Konser, festival ve sahne performansları",
+    desc: "Ana sahne LED ekranları ve yan ekran çözümleri"
+  },
+  { 
+    icon: "💼", 
+    text: "Kurumsal lansman ve toplantılar",
+    desc: "Profesyonel sunum ve marka gösterimi"
+  },
+  { 
+    icon: "🎪", 
+    text: "Fuar, sergi ve ticari etkinlikler",
+    desc: "Stand tasarımı ve etkileşimli ekranlar"
+  },
+  { 
+    icon: "🏟️", 
+    text: "Spor etkinlikleri ve stadyumlar",
+    desc: "Dev ekranlar ve skorboard sistemleri"
+  },
+  { 
+    icon: "🛍️", 
+    text: "AVM ve perakende mekanları",
+    desc: "Reklam ve bilgilendirme ekranları"
+  },
+  { 
+    icon: "💒", 
+    text: "Düğün ve özel davetler",
+    desc: "Fotoğraf/video gösterimi ve canlı yayın"
+  },
+];
+
+const FAQ_ITEMS = [
+  {
+    q: "LED ekran kiralama fiyatları ne kadar?",
+    a: "LED ekran kiralama fiyatları piksel aralığına ve ekran boyutuna göre değişmektedir. P2.5 iç mekan LED ekran için m² fiyatı 2.800 TL, P4 dış mekan LED ekran için m² fiyatı 1.800 TL'dir. Profesyonel kurulum ve operatör hizmetleri paket fiyatlarına dahildir."
+  },
+  {
+    q: "LED ekran kurulumu ne kadar sürer?",
+    a: "Standart bir LED ekran kurulumu 2-6 saat arasında tamamlanır. 20m²'ye kadar küçük kurulumlar 2-3 saat, 20-50m² orta ölçekli kurulumlar 3-4 saat, 50m²+ büyük kurulumlar ise 4-6 saat sürmektedir. Kompleks rigging gerektiren projelerde bu süre 24 saate kadar çıkabilir."
+  },
+  {
+    q: "Yağmurlu havada LED ekran kullanılabilir mi?",
+    a: "Evet, dış mekan LED ekranlarımız IP65 koruma sınıfına sahiptir ve yağmurlu havada güvenle kullanılabilir. IP65 koruma, ekranın toza karşı tam korumalı ve su jetlerine karşı korumalı olduğu anlamına gelir. Ancak şiddetli fırtına ve kasırga gibi ekstrem hava koşullarında güvenlik önlemi olarak kullanıma ara verilmesini öneriyoruz."
+  },
+  {
+    q: "LED ekran için hangi piksel aralığını seçmeliyim?",
+    a: "Piksel aralığı seçimi izleyici mesafesine göre belirlenmelidir. 3-10m mesafe için P2.5-P3.9, 10-25m mesafe için P4, 25m+ mesafe için P6 piksel aralığı öneriyoruz. İç mekan etkinliklerinde P2.5-P3.9, dış mekan etkinliklerinde ise P4-P6 aralığı tercih edilmektedir."
+  },
+];
 
 /* ================== HERO ================== */
 function Hero() {
@@ -699,6 +801,8 @@ function Articles() {
 
 /* ================== SSS ================== */
 function FAQ() {
+  const faqs = FAQ_ITEMS;
+
   return (
     <section className="py-20 bg-white" aria-labelledby="sss-baslik">
       <div className="container mx-auto px-4 max-w-4xl">
@@ -711,7 +815,33 @@ function FAQ() {
           </p>
         </div>
 
-        <FaqAccordion items={FAQ_ITEMS} />
+        <div className="space-y-4" role="list" aria-label="Sık sorulan sorular listesi">
+          {faqs.map((faq, index) => {
+            const panelId = `faq-panel-${index}`;
+
+            return (
+              <details
+                key={faq.q}
+                className="group bg-gray-50 rounded-3xl border-2 border-transparent transition-all duration-500 open:border-blue-200 open:bg-blue-50 open:shadow-lg hover:bg-gray-100"
+                role="listitem"
+                id={panelId}
+              >
+                <summary className="cursor-pointer w-full text-left flex items-center justify-between gap-4 px-8 py-6 text-xl font-bold text-gray-900 list-none marker:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-3xl">
+                  <span className="pr-4 flex-1">{faq.q}</span>
+                  <span
+                    aria-hidden="true"
+                    className="ml-4 transition-transform duration-300 text-blue-600 bg-blue-100 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0 group-open:rotate-180"
+                  >
+                    ⌄
+                  </span>
+                </summary>
+                <div className="text-gray-700 leading-relaxed text-lg px-8 pb-8 -mt-2">
+                  <p className="pl-4 border-l-4 border-blue-500">{faq.a}</p>
+                </div>
+              </details>
+            );
+          })}
+        </div>
 
         <div className="text-center mt-12">
           <p className="text-gray-600 text-lg mb-6">
