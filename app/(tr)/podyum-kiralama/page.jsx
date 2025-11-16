@@ -1200,190 +1200,135 @@ function Articles() {
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Ana Makale */}
           <article className="lg:col-span-2 bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
-            <header className="bg-gradient-to-r from-blue-700 via-purple-700 to-blue-800 text-white p-8 md:p-10 relative overflow-hidden">
-              <div
-                className="absolute inset-0 bg-black/10"
-                aria-hidden="true"
-              ></div>
-              <div className="relative z-10">
-                <div className="flex flex-wrap items-center gap-3 mb-4">
-                  <span className="bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-semibold">
-                    📚 Kapsamlı Rehber
-                  </span>
-                  <span className="bg-green-500/20 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-semibold">
-                    ⭐ Uzman Görüşü
-                  </span>
-                  <span className="bg-blue-500/20 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-semibold">
-                    🎯 Pratik Çözümler
-                  </span>
-                </div>
-                <h3 className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tight leading-tight">
-                  Profesyonel Podyum Kiralama: Etkinlik Başarınız İçin Tam
-                  Kapsamlı Çözümler
-                </h3>
-                <p className="text-blue-100 mt-4 text-lg md:text-xl leading-relaxed">
-                  Modüler sistemler, güvenlik standartları ve ölçülebilir kalite
-                  garantisi ile etkinliklerinizde mükemmel performans
-                </p>
+            <header className="bg-gradient-to-r from-blue-700 via-purple-700 to-blue-800 text-white p-8 md:p-10 relative">
+              <div className="flex flex-wrap items-center gap-3 mb-4">
+                <span className="bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-semibold">
+                  📚 Kapsamlı Rehber
+                </span>
+                <span className="bg-green-500/20 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-semibold">
+                  ⭐ Uzman Görüşü
+                </span>
+                <span className="bg-blue-500/20 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-semibold">
+                  🎯 Pratik Çözümler
+                </span>
               </div>
+              <h3 className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tight leading-tight">
+                Profesyonel Podyum Kiralama: Etkinlik Başarınız İçin Tam
+                Kapsamlı Çözümler
+              </h3>
+              <p className="text-blue-100 mt-4 text-lg md:text-xl leading-relaxed">
+                Modüler sistemler, güvenlik standartları ve ölçülebilir kalite
+                garantisi ile etkinliklerinizde mükemmel performans
+              </p>
             </header>
 
-            <div className="p-8 md:p-10">
-              <div className="prose prose-lg max-w-none prose-headings:font-black prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-em:text-gray-600 prose-ul:mt-6 prose-ul:mb-6 prose-li:marker:text-blue-500">
-                <div className="grid md:grid-cols-2 gap-8 mb-8">
-                  <div className="space-y-6">
-                    <h4 className="text-2xl font-black text-gray-900 flex items-center gap-4">
-                      <span
-                        className="bg-blue-100 text-blue-600 rounded-2xl p-3"
-                        aria-hidden="true"
-                      >
-                        🎭
-                      </span>
-                      Podyum Sistemleri ve Teknolojileri
-                    </h4>
-                    <p>
-                      <strong className="text-gray-900">Sahneva</strong>,
-                      İstanbul genelinde{" "}
-                      <Link
-                        href="/podyum-kiralama"
-                        className="font-semibold text-blue-600 hover:text-blue-700 underline underline-offset-4"
-                      >
-                        profesyonel podyum kiralama
-                      </Link>{" "}
-                      hizmetleriyle kurumsal standartta çözümler sunmaktadır.
-                    </p>
-                    <p>
-                      Etkinliğiniz ister düğün, ister konser olsun; detaylı
-                      keşif, teknik projelendirme, güvenli kurulum ve söküm
-                      dahil{" "}
-                      <strong className="text-gray-900">
-                        uçtan uca hizmet
-                      </strong>{" "}
-                      modelimizle tek ekipten kapsamlı yönetim sağlıyoruz.
-                    </p>
-                  </div>
+            <div className="p-8 md:p-10 prose prose-lg max-w-none prose-headings:font-black prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-em:text-gray-600">
+              <h4 className="flex items-center gap-3">
+                <span
+                  className="inline-flex bg-blue-100 text-blue-600 rounded-2xl p-2"
+                  aria-hidden="true"
+                >
+                  🎭
+                </span>
+                Podyum Sistemleri ve Teknolojileri
+              </h4>
+              <p>
+                <strong>Sahneva</strong>, İstanbul genelinde{" "}
+                <Link
+                  href="/podyum-kiralama"
+                  className="font-semibold text-blue-600 hover:text-blue-700 underline underline-offset-4"
+                >
+                  profesyonel podyum kiralama
+                </Link>{" "}
+                hizmetleriyle kurumsal standartta çözümler sunmaktadır.
+              </p>
+              <p>
+                Etkinliğiniz ister düğün, ister konser olsun; detaylı keşif,
+                teknik projelendirme, güvenli kurulum ve söküm dahil{" "}
+                <strong>uçtan uca hizmet</strong> modelimizle tek ekipten
+                kapsamlı yönetim sağlıyoruz.
+              </p>
 
-                  <div className="space-y-6">
-                    <h4 className="text-2xl font-black text-gray-900 flex items-center gap-4">
-                      <span
-                        className="bg-purple-100 text-purple-600 rounded-2xl p-3"
-                        aria-hidden="true"
-                      >
-                        🔧
-                      </span>
-                      Özel Podyum Sistemleri
-                    </h4>
-                    <p>
-                      1×1m panellerimiz düzensiz zeminlerde esnek çözümler
-                      sunarken, 2×1m paneller ana sahnelerde hızlı kurulum
-                      imkanı sağlıyor.
-                    </p>
-                    <p>
-                      40cm&apos;den 100cm&apos;ye kadar yükseklik seçenekleri,
-                      kaymaz kaplama ve güvenlik ekipmanları ile her türlü
-                      etkinlik için ideal çözümler sunuyoruz.
-                    </p>
-                  </div>
-                </div>
+              <h4 className="flex items-center gap-3 mt-10">
+                <span
+                  className="inline-flex bg-purple-100 text-purple-600 rounded-2xl p-2"
+                  aria-hidden="true"
+                >
+                  🔧
+                </span>
+                Özel Podyum Sistemleri
+              </h4>
+              <p>
+                1×1m panellerimiz düzensiz zeminlerde esnek çözümler sunarken,
+                2×1m paneller ana sahnelerde hızlı kurulum imkanı sağlıyor.
+              </p>
+              <p>
+                40cm&apos;den 100cm&apos;ye kadar yükseklik seçenekleri, kaymaz
+                kaplama ve güvenlik ekipmanları ile her türlü etkinlik için
+                ideal çözümler sunuyoruz.
+              </p>
 
-                {/* Önemli Bilgi Kutusu */}
-                <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-l-4 border-blue-500 rounded-r-2xl p-6 mb-8">
-                  <h5 className="font-black text-blue-700 text-xl mb-4 flex items-center gap-3">
-                    <span className="text-2xl" aria-hidden="true">
-                      💡
-                    </span>
-                    Profesyonel Kurulum Stratejisi
-                  </h5>
-                  <p className="text-gray-700 text-lg mb-0 leading-relaxed">
-                    Kurulum stratejimiz mekânın topoğrafik yapısına ve etkinlik
-                    ihtiyaçlarına göre şekillenir. Düğün etkinliklerinde estetik
-                    ve konfor ön planda tutulurken, konser ve performanslarda
-                    dayanıklılık ve güvenlik önceliklendirilir.
-                  </p>
-                </div>
+              <aside className="mt-10 rounded-2xl border-l-4 border-blue-500 bg-gradient-to-r from-blue-50 to-purple-50 p-5">
+                <h5 className="font-black text-blue-700 text-lg mb-2 flex items-center gap-2">
+                  <span aria-hidden="true">💡</span>
+                  Profesyonel Kurulum Stratejisi
+                </h5>
+                <p className="mb-0">
+                  Kurulum stratejimiz mekânın topoğrafik yapısına ve etkinlik
+                  ihtiyaçlarına göre şekillenir. Düğün etkinliklerinde estetik
+                  ve konfor ön planda tutulurken, konser ve performanslarda
+                  dayanıklılık ve güvenlik önceliklendirilir.
+                </p>
+              </aside>
 
-                {/* Başarı Faktörleri Grid */}
-                <div className="mb-8">
-                  <h4 className="text-2xl font-black text-gray-900 mb-8 flex items-center gap-4">
-                    <span
-                      className="bg-green-100 text-green-600 rounded-2xl p-3"
-                      aria-hidden="true"
-                    >
-                      🚀
-                    </span>
-                    Kritik Başarı Faktörleri
-                  </h4>
-                  <div className="grid md:grid-cols-2 gap-6">
-                    {[
-                      {
-                        icon: "🎯",
-                        title: "Detaylı Keşif ve Analiz",
-                        desc: "Mekan analizi, zemin değerlendirmesi ve risk analizi",
-                      },
-                      {
-                        icon: "📊",
-                        title: "Teknik Projelendirme",
-                        desc: "Yük dağılımı hesapları, stabilite analizi ve güvenlik planlaması",
-                      },
-                      {
-                        icon: "🔒",
-                        title: "Güvenlik Sistemleri",
-                        desc: "TS EN standartları, korkuluk sistemleri ve acil durum planları",
-                      },
-                      {
-                        icon: "🎨",
-                        title: "Estetik Çözümler",
-                        desc: "Dekorasyon, halı kaplama ve markalama entegrasyonu",
-                      },
-                    ].map((item, index) => (
-                      <div
-                        key={index}
-                        className="bg-white border-2 border-gray-100 rounded-2xl p-6 hover:shadow-lg transition-all duration-300 group hover:border-blue-200"
-                      >
-                        <div className="flex items-start gap-4">
-                          <span
-                            className="text-3xl group-hover:scale-110 transition-transform duration-300 flex-shrink-0"
-                            aria-hidden="true"
-                          >
-                            {item.icon}
-                          </span>
-                          <div>
-                            <h5 className="font-bold text-gray-900 text-lg mb-2 group-hover:text-blue-600 transition-colors">
-                              {item.title}
-                            </h5>
-                            <p className="text-gray-600 leading-relaxed">
-                              {item.desc}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+              <h4 className="mt-10 flex items-center gap-3">
+                <span
+                  className="inline-flex bg-green-100 text-green-600 rounded-2xl p-2"
+                  aria-hidden="true"
+                >
+                  🚀
+                </span>
+                Kritik Başarı Faktörleri
+              </h4>
+              <ul>
+                <li>
+                  <strong>Detaylı keşif ve analiz:</strong> mekan analizi, zemin
+                  değerlendirmesi ve risk analizi
+                </li>
+                <li>
+                  <strong>Teknik projelendirme:</strong> yük dağılımı
+                  hesapları, stabilite analizi ve güvenlik planlaması
+                </li>
+                <li>
+                  <strong>Güvenlik sistemleri:</strong> TS EN standartları,
+                  korkuluk sistemleri ve acil durum planları
+                </li>
+                <li>
+                  <strong>Estetik çözümler:</strong> dekorasyon, halı kaplama ve
+                  markalama entegrasyonu
+                </li>
+              </ul>
 
-                <div className="bg-yellow-50 border-l-4 border-yellow-400 rounded-r-2xl p-6 mt-8">
-                  <h5 className="font-black text-yellow-700 text-lg mb-3 flex items-center gap-3">
-                    <span className="text-xl" aria-hidden="true">
-                      💎
-                    </span>
-                    Neden Sahneva?
-                  </h5>
-                  <p className="text-yellow-800 mb-0">
-                    <strong>
-                      8+ yıllık deneyim, 600+ başarılı etkinlik ve İstanbul
-                      geneli hizmet
-                    </strong>{" "}
-                    ile podyum kiralama konusunda güvenilir çözüm ortağınız.
-                    Profesyonel ekipman, uzman ekip ve 7/24 teknik destek
-                    garantisi.
-                  </p>
-                </div>
-              </div>
+              <aside className="mt-10 rounded-2xl border-l-4 border-yellow-400 bg-yellow-50 p-5">
+                <h5 className="font-black text-yellow-700 text-lg mb-2 flex items-center gap-2">
+                  <span aria-hidden="true">💎</span>
+                  Neden Sahneva?
+                </h5>
+                <p className="mb-0 text-yellow-800">
+                  <strong>
+                    8+ yıllık deneyim, 600+ başarılı etkinlik ve İstanbul geneli
+                    hizmet
+                  </strong>{" "}
+                  ile podyum kiralama konusunda güvenilir çözüm ortağınız.
+                  Profesyonel ekipman, uzman ekip ve 7/24 teknik destek
+                  garantisi.
+                </p>
+              </aside>
             </div>
           </article>
 
-          {/* Yan Makaleler */}
-          <article className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-500 h-full">
+          {/* Yan Makale 1 */}
+          <article className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-500">
             <header className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-6 md:p-8">
               <h3 className="text-xl md:text-2xl font-black tracking-tight leading-tight">
                 Teknik Entegrasyon ve Kurulum Süreçleri
@@ -1394,41 +1339,28 @@ function Articles() {
               </p>
             </header>
 
-            <div className="p-6 md:p-8">
-              <div className="prose prose-lg max-w-none prose-p:text-gray-600 prose-p:leading-relaxed">
-                <p>
-                  Podyum kurulum sürecimiz detaylı keşif ve teknik projelendirme
-                  ile başlar. Mekanın zemin yapısı, yük dağılımı ve etkinlik
-                  ihtiyaçları analiz edilir.
-                </p>
-                <p>
-                  Profesyonel kurulum ekibimiz 2-6 saat içinde podyumunuzu
-                  montajlar, güvenlik sistemlerini kurar ve tamamlayıcı
-                  hizmetleri entegre eder.
-                </p>
-
-                <div className="bg-gray-50 rounded-2xl p-5 mt-6 border border-gray-200">
-                  <h4 className="font-bold text-gray-900 text-lg mb-3 flex items-center gap-3">
-                    <span
-                      className="bg-purple-100 text-purple-600 rounded-xl p-2"
-                      aria-hidden="true"
-                    >
-                      📋
-                    </span>
-                    Teknik Özellikler ve Standartlar
-                  </h4>
-                  <ul className="text-gray-700 space-y-2 text-base list-disc list-inside">
-                    <li>Alüminyum karkas ve çelik bağlantı elemanları</li>
-                    <li>Kaymaz kaplama ve UV dayanımlı yüzey</li>
-                    <li>40-100cm yükseklik seçenekleri</li>
-                    <li>Korkuluk, merdiven ve rampa sistemleri</li>
-                  </ul>
-                </div>
-              </div>
+            <div className="p-6 md:p-8 prose prose-lg max-w-none prose-p:text-gray-600 prose-p:leading-relaxed">
+              <p>
+                Podyum kurulum sürecimiz detaylı keşif ve teknik projelendirme
+                ile başlar. Mekanın zemin yapısı, yük dağılımı ve etkinlik
+                ihtiyaçları analiz edilir.
+              </p>
+              <p>
+                Profesyonel kurulum ekibimiz 2-6 saat içinde podyumunuzu
+                montajlar, güvenlik sistemlerini kurar ve tamamlayıcı
+                hizmetleri entegre eder.
+              </p>
+              <ul>
+                <li>Alüminyum karkas ve çelik bağlantı elemanları</li>
+                <li>Kaymaz kaplama ve UV dayanımlı yüzey</li>
+                <li>40-100cm yükseklik seçenekleri</li>
+                <li>Korkuluk, merdiven ve rampa sistemleri</li>
+              </ul>
             </div>
           </article>
 
-          <article className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-500 h-full">
+          {/* Yan Makale 2 */}
+          <article className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-500">
             <header className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 md:p-8">
               <h3 className="text-xl md:text-2xl font-black tracking-tight leading-tight">
                 Etkinlik Türlerine Özel Çözümler
@@ -1438,58 +1370,45 @@ function Articles() {
               </p>
             </header>
 
-            <div className="p-6 md:p-8">
-              <div className="prose prose-lg max-w-none prose-p:text-gray-600 prose-p:leading-relaxed">
-                <div className="space-y-6">
-                  <div className="bg-blue-50 rounded-2xl p-5 border border-blue-200">
-                    <h4 className="font-bold text-gray-900 text-lg flex items-center gap-3 mb-2">
-                      <span
-                        className="bg-blue-100 text-blue-600 rounded-xl p-2"
-                        aria-hidden="true"
-                      >
-                        💍
-                      </span>
-                      Düğün ve Özel Davetler
-                    </h4>
-                    <p className="text-gray-700 text-base mb-0">
-                      Şık tasarım, halı kaplama, dekoratif aydınlatma, konforlu
-                      alanlar
-                    </p>
-                  </div>
+            <div className="p-6 md:p-8 prose prose-lg max-w-none prose-p:text-gray-600 prose-p:leading-relaxed">
+              <h4 className="flex items-center gap-2 text-lg font-bold">
+                <span
+                  className="inline-flex bg-blue-100 text-blue-600 rounded-xl p-2"
+                  aria-hidden="true"
+                >
+                  💍
+                </span>
+                Düğün ve Özel Davetler
+              </h4>
+              <p>Şık tasarım, halı kaplama, dekoratif aydınlatma, konforlu alanlar.</p>
 
-                  <div className="bg-purple-50 rounded-2xl p-5 border border-purple-200">
-                    <h4 className="font-bold text-gray-900 text-lg flex items-center gap-3 mb-2">
-                      <span
-                        className="bg-purple-100 text-purple-600 rounded-xl p-2"
-                        aria-hidden="true"
-                      >
-                        🎤
-                      </span>
-                      Konser ve Performanslar
-                    </h4>
-                    <p className="text-gray-700 text-base mb-0">
-                      Yüksek dayanıklılık, ses izolasyonu, kablo kanalları,
-                      güvenlik ekipmanları
-                    </p>
-                  </div>
+              <h4 className="flex items-center gap-2 text-lg font-bold mt-6">
+                <span
+                  className="inline-flex bg-purple-100 text-purple-600 rounded-xl p-2"
+                  aria-hidden="true"
+                >
+                  🎤
+                </span>
+                Konser ve Performanslar
+              </h4>
+              <p>
+                Yüksek dayanıklılık, ses izolasyonu, kablo kanalları, güvenlik
+                ekipmanları.
+              </p>
 
-                  <div className="bg-green-50 rounded-2xl p-5 border border-green-200">
-                    <h4 className="font-bold text-gray-900 text-lg flex items-center gap-3 mb-2">
-                      <span
-                        className="bg-green-100 text-green-600 rounded-xl p-2"
-                        aria-hidden="true"
-                      >
-                        🏢
-                      </span>
-                      Kurumsal Lansmanlar
-                    </h4>
-                    <p className="text-gray-700 text-base mb-0">
-                      Markalı kaplama, rampa ve merdiven, LED entegrasyonu,
-                      profesyonel görünüm
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <h4 className="flex items-center gap-2 text-lg font-bold mt-6">
+                <span
+                  className="inline-flex bg-green-100 text-green-600 rounded-xl p-2"
+                  aria-hidden="true"
+                >
+                  🏢
+                </span>
+                Kurumsal Lansmanlar
+              </h4>
+              <p>
+                Markalı kaplama, rampa ve merdiven, LED entegrasyonu, profesyonel
+                görünüm.
+              </p>
             </div>
           </article>
         </div>
