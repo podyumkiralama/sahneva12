@@ -1,6 +1,7 @@
 // app/en/contact/page.js
 import Link from "next/link";
 import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
+import JsonLdScript from "@/components/JsonLdScript";
 
 export const metadata = {
   title: "Contact | Sahneva - Professional Event Solutions",
@@ -66,12 +67,7 @@ function ContactStructuredData() {
     },
   };
 
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-    />
-  );
+  return <JsonLdScript id="ld-json-contact-en" data={schema} />;
 }
 
 export default function ContactPage() {

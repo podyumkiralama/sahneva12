@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { SEO_ARTICLES } from "@/lib/articlesData";
+import JsonLdScript from "./JsonLdScript";
 
 const SITE = "https://www.sahneva.com";
 const abs = (p) =>
@@ -45,14 +46,7 @@ function ArticlesJsonLd({ items = [] }) {
     itemListElement: list,
   };
 
-  return (
-    <script
-      id="home-articles-jsonld"
-      type="application/ld+json"
-      suppressHydrationWarning
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-    />
-  );
+  return <JsonLdScript id="home-articles-jsonld" data={schema} />;
 }
 
 export default function SeoArticles({

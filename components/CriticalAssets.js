@@ -1,3 +1,5 @@
+import Script from "next/script";
+
 const CRITICAL_STYLE = `
   :root {
     color-scheme: light;
@@ -77,9 +79,10 @@ export default function CriticalAssets() {
         data-priority="critical"
         dangerouslySetInnerHTML={{ __html: CRITICAL_STYLE.trim() }}
       />
-      <script
+      <Script
         id="critical-inline-script"
         data-priority="critical"
+        strategy="beforeInteractive"
         dangerouslySetInnerHTML={{ __html: CRITICAL_SCRIPT.trim() }}
       />
     </>

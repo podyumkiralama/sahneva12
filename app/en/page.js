@@ -1,4 +1,5 @@
 import { getImageProps } from "next/image";
+import JsonLdScript from "@/components/JsonLdScript";
 
 import heroImg from "@/public/img/hero-bg.webp";
 import CorporateEvents from "@/components/CorporateEvents";
@@ -400,6 +401,7 @@ function StructuredData() {
         name: "Stage, LED Wall, Sound & Lighting Rentals | Nationwide Türkiye | Sahneva",
         inLanguage: "en-US",
         about: { "@id": "https://www.sahneva.com/#org" },
+        mainEntity: { "@id": "https://www.sahneva.com/en#faq" },
       },
       {
         "@type": "OfferCatalog",
@@ -459,13 +461,7 @@ function StructuredData() {
     ],
   };
 
-  return (
-    <script
-      type="application/ld+json"
-      suppressHydrationWarning
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
+  return <JsonLdScript id="ld-home-en" data={data} />;
 }
 
 function HeroBackgroundImage({ alt = "", ariaHidden = true }) {
@@ -865,6 +861,7 @@ export default function EnglishHomePage() {
         </section>
 
         <section
+          id="faq"
           className="py-12 bg-gradient-to-br from-neutral-900 to-blue-900/95"
           aria-labelledby="faq-title"
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}

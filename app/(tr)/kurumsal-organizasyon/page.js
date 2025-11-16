@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import JsonLdScript from "@/components/JsonLdScript";
 
 import { buildFaqSchema } from "@/lib/structuredData/faq";
 import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
@@ -1318,8 +1319,7 @@ function CTA() {
 }
 
 /* ================== JSON-LD ================== */
-/* Burada next/script yerine düz <script> kullanıyoruz.
-   Böylece bu sayfa için ekstra client-side JS yükü oluşmuyor. */
+/* JSON-LD çıktısı JsonLdScript sayesinde Next.js <Script> ile gömülür. */
 function JsonLd() {
   const pageUrl = `${ORIGIN}/kurumsal-organizasyon`;
   const pageDescription = metadata.description;
@@ -1398,14 +1398,7 @@ function JsonLd() {
     ],
   };
 
-  return (
-    <script
-      id="ld-json-kurumsal"
-      type="application/ld+json"
-      // Burada JSON string'ini direkt gömüyoruz; ekstra JS çalışmıyor.
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
-  );
+  return <JsonLdScript id="ld-json-kurumsal" data={jsonLd} />;
 }
 
 /* ================== Sayfa Bileşeni ================== */

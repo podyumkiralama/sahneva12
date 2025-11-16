@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useId } from "react";
 import Link from "next/link";
 
 const focusRingClass = "focus-ring";
@@ -164,6 +164,7 @@ export default function SiteHeader({ locale, strings }) {
         aria-hidden={!open}
         hidden={!open}
         aria-label={ariaStrings.nav}
+        aria-labelledby={mobileMenuHeadingId}
         className="lg:hidden border-t border-neutral-200 bg-white shadow-xl"
       >
         <nav
