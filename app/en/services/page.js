@@ -361,7 +361,7 @@ export default function EnglishServicesPage() {
         </div>
       </section>
 
-      <main id="main" className="relative">
+      <div id="main" className="relative">
         {/* QUICK ACCESS CARDS */}
         <section className="py-20 bg-gradient-to-br from-white to-blue-50/50">
           <div className="container max-w-6xl mx-auto px-4">
@@ -629,7 +629,7 @@ export default function EnglishServicesPage() {
             </div>
           </div>
         </section>
-      </main>
+      </div>
     </div>
   );
 }

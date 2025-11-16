@@ -190,22 +190,7 @@ export default function RootLayout({ children }) {
         {/* SKIP LINKS – erişebilirlik */}
         <SkipLinks />
 
-        {/* LANDMARKLAR */}
-        <header id="main-header">
-          {/* Navbar burada render ediliyor (Server/Client component fark etmez) */}
-        </header>
-
-        <main
-          id="main-content"
-          tabIndex={-1}
-          className="flex-1 pt-16 md:pt-20"
-        >
-          {children}
-        </main>
-
-        <footer id="main-footer">
-          {/* Footer burada render ediliyor */}
-        </footer>
+        {children}
 
         {/* ANALYTICS – sadece prod + ID varsa yükle, gereksiz JS yok */}
         {isProd && GA_MEASUREMENT_ID && (

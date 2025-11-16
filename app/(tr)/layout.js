@@ -6,8 +6,10 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 export default function TurkishLayout({ children }) {
   return (
     <div className="flex flex-col min-h-screen">
-      <UtilityBar />
-      <Navbar />
+      <header id="main-header" className="w-full">
+        <UtilityBar />
+        <Navbar />
+      </header>
       <main
         id="main-content"
         tabIndex={-1}

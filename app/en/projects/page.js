@@ -37,7 +37,7 @@ export default async function ProjectsIndexPageEn() {
   const projects = getProjects();
 
   return (
-    <main className="relative min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
+    <div className="relative min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
       {/* Background decorations */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 right-[-10%] w-80 h-80 bg-blue-500/10 rounded-full blur-3xl" />
@@ -197,6 +197,6 @@ export default async function ProjectsIndexPageEn() {
           </div>
         )}
       </section>
-    </main>
+    </div>
   );
 }
