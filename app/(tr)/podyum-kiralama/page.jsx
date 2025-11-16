@@ -400,7 +400,7 @@ function JsonLd() {
       "@id": `${pageUrl}#service`,
     },
     isPartOf: {
-      "@id": `${ORIGIN}/#website`,
+      "@id": `${ORIGIN}#website`,
     },
     about: {
       "@id": `${pageUrl}#service`,
