@@ -1337,7 +1337,7 @@ function CTA() {
   );
 }
 
-/* ================== JSON-LD (Product + FAQ) ================== */
+/* ================== JSON-LD (Service + Offer + Review) ================== */
 function JsonLd() {
   const pageUrl = `${ORIGIN}/cadir-kiralama`;
 
@@ -1345,55 +1345,127 @@ function JsonLd() {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "Product",
-        "@id": `${pageUrl}#product`,
-        name: "Çadır Kiralama",
-        description:
-          "Pagoda, şeffaf dome, endüstriyel çadır kiralama. Zemin kaplama, aydınlatma ve profesyonel kurulum. Türkiye geneli hızlı hizmet.",
-        image: `${ORIGIN}/img/cadir/hero.webp`,
-        brand: {
+        "@type": "Service",
+        "@id": `${pageUrl}#service`,
+        "name": "Çadır Kiralama",
+        "description":
+          "Pagoda, şeffaf dome ve endüstriyel çadır kiralama. Zemin kaplama, aydınlatma ve profesyonel kurulum ile Türkiye geneli anahtar teslim çözümler.",
+        "serviceType": "Çadır Kiralama Hizmeti",
+        "url": pageUrl,
+        "provider": {
           "@type": "Organization",
-          "@id": `${ORIGIN}#org`,
+          "@id": `${ORIGIN}#org`
         },
-        aggregateRating: {
-          "@type": "AggregateRating",
-          ratingValue: "4.8",
-          reviewCount: "180",
-          bestRating: "5",
-          worstRating: "1",
+        "areaServed": {
+          "@type": "State",
+          "name": "İstanbul",
+          "description": "İstanbul başta olmak üzere Türkiye genelinde çadır kiralama hizmeti"
         },
-        offers: {
+        "offers": {
           "@type": "AggregateOffer",
-          priceCurrency: "TRY",
-          lowPrice: "300",
-          highPrice: "7000",
-          availability: "https://schema.org/InStock",
-          url: pageUrl,
+          "priceCurrency": "TRY",
+          "lowPrice": "1500",
+          "highPrice": "4500",
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "priceCurrency": "TRY",
+            "description":
+              "Fiyatlar m², çadır tipi ve kurulum lokasyonuna göre değişmektedir. Keşif sonrası net teklif sunulur."
+          },
+          "availability": "https://schema.org/InStock",
+          "url": pageUrl
         },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.8",
+          "reviewCount": "180",
+          "bestRating": "5",
+          "worstRating": "1"
+        }
       },
       {
-        "@type": "FAQPage",
-        "@id": `${pageUrl}#faq`,
-        mainEntity: FAQ_ITEMS.map((item) => ({
-          "@type": "Question",
-          name: item.q,
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: item.a,
-          },
-        })),
+        "@type": "Product",
+        "@id": `${pageUrl}#product`,
+        "name": "Pagoda ve Endüstriyel Çadır Kiralama",
+        "description":
+          "5×5m, 6×6m pagoda çadırlar, şeffaf dome ve geniş açıklıklı endüstriyel çadır sistemleri için kiralama hizmeti.",
+        "category": "EventTentRental",
+        "image": `${ORIGIN}/img/cadir/hero.webp`,
+        "brand": {
+          "@type": "Organization",
+          "@id": `${ORIGIN}#org`
+        },
+        "url": pageUrl,
+        "isRelatedTo": {
+          "@id": `${pageUrl}#service`
+        },
+        "offers": {
+          "@type": "AggregateOffer",
+          "priceCurrency": "TRY",
+          "lowPrice": "1500",
+          "highPrice": "4500",
+          "availability": "https://schema.org/InStock",
+          "url": pageUrl
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.8",
+          "reviewCount": "180",
+          "bestRating": "5",
+          "worstRating": "1"
+        }
       },
-    ],
+      {
+        "@type": "Review",
+        "@id": `${pageUrl}#review-1`,
+        "itemReviewed": {
+          "@id": `${pageUrl}#service`
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Kurumsal Müşteri"
+        },
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5",
+          "worstRating": "1"
+        },
+        "reviewBody":
+          "Pagoda çadır kurulumu zamanında ve çok profesyonel şekilde yapıldı. Zemin kaplama ve aydınlatma ile alan tamamen hazırdı."
+      },
+      {
+        "@type": "Review",
+        "@id": `${pageUrl}#review-2`,
+        "itemReviewed": {
+          "@id": `${pageUrl}#service`
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Etkinlik Ajansı"
+        },
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "4.8",
+          "bestRating": "5",
+          "worstRating": "1"
+        },
+        "reviewBody":
+          "Festival alanında endüstriyel çadırlar sorunsuz kuruldu. Hızlı kurulum ve 7/24 teknik destek bizim için kritik oldu."
+      }
+    ]
   };
 
   return (
     <script
       id="ld-json-cadir"
       type="application/ld+json"
+      // layout’taki Organization vs tekrar tanımlamıyoruz, sadece @id ile referans veriyoruz
       dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
     />
   );
 }
+
 
 /* ================== Sayfa Bileşeni ================== */
 export default function Page() {
