@@ -9,12 +9,7 @@ import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 import { NAVBAR_A11Y_IDS } from "@/lib/accessibility/constants";
 
 const focusRingClass = "focus-ring";
-const {
-  mobileMenu: MOBILE_MENU_ID,
-  mobileMenuHeading: MOBILE_MENU_HEADING_ID,
-  servicesButton: SERVICES_BUTTON_ID,
-  servicesMenu: SERVICES_MENU_ID,
-} = NAVBAR_A11Y_IDS;
+const MOBILE_MENU_HEADING_ID = "navbar-mobile-menu-heading";
 
 const serviceLinks = [
   {
@@ -78,10 +73,10 @@ export default function Navbar() {
   const previouslyFocusedElement = useRef(null);
   const previousOverflow = useRef("");
 
-  const mobileMenuId = MOBILE_MENU_ID;
+  const mobileMenuId = "mobile_menu";
   const mobileMenuHeadingId = MOBILE_MENU_HEADING_ID; // 🔹 Erişilebilir başlık ID'si
-  const servicesBtnId = SERVICES_BUTTON_ID;
-  const servicesMenuId = SERVICES_MENU_ID;
+  const servicesBtnId = "nav-services-button";
+  const servicesMenuId = "nav-services-menu";
 
   const mobileToggleOpenLabel =
     headerStrings?.mobileToggleOpenLabel ?? "Menüyü aç";
