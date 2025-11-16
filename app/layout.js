@@ -137,7 +137,6 @@ export const metadata = {
   verification: {
     google: "H9p1RO-W1U3JDTjp0mM32blFkYABaTHNFnxVKKFfo08",
   },
-export const metadata = {
   category: "event services",
   icons: {
     icon: [
@@ -149,9 +148,7 @@ export const metadata = {
       { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],
   },
-  manifest: "/site.webmanifest",
 };
-
 
 /* ===================== CRITICAL CSS ===================== */
 const criticalCSS = `
