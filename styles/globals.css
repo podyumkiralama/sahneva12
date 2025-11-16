@@ -122,6 +122,12 @@ img, video, canvas, svg {
     opacity: 1;
     transform: none;
   }
+
+  .animate-fade-up {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @layer utilities {
@@ -135,6 +141,30 @@ img, video, canvas, svg {
     outline-color: #4f46e5;
     box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.35);
   }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-up {
+    opacity: 0;
+    animation: fade-up 0.7s ease forwards;
+  }
+
+  .animation-delay-0 { animation-delay: 0ms; }
+  .animation-delay-100 { animation-delay: 100ms; }
+  .animation-delay-200 { animation-delay: 200ms; }
+  .animation-delay-300 { animation-delay: 300ms; }
+  .animation-delay-400 { animation-delay: 400ms; }
+  .animation-delay-500 { animation-delay: 500ms; }
 }
 
 /* Gecikmeli animasyonlar için */

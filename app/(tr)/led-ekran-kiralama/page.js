@@ -1,15 +1,18 @@
 // app/led-ekran-kiralama/page.jsx
+
 import Image from "next/image";
 import Link from "next/link";
-import Script from "next/script";
 import dynamic from "next/dynamic";
+
+import FaqAccordion from "@/components/FaqAccordion";
+import { FAQ_ITEMS, GALLERY_IMAGES, SERVICES, USE_CASES, WHATSAPP_PHONE } from "@/lib/ledEkranData";
+import { slugify } from "@/lib/slugify";
 
 /* ================== Sabitler ================== */
 export const revalidate = 1800;
 const ORIGIN = "https://www.sahneva.com";
-const PHONE = "+905453048671";
 const WA_TEXT = "Merhaba%2C+LED+ekran+kiralama+icin+teklif+istiyorum.+Etkinlik+turu%3A+%5Bkonser%2Ffuar%2Flansman%5D%2C+Tarih%3A+%5Bgg.aa.yyyy%5D%2C+Ekran+boyutu%3A+%5Bxxx%5D.";
-const WHATSAPP = `https://wa.me/${PHONE.replace("+", "")}?text=${WA_TEXT}`;
+const WHATSAPP = `https://wa.me/${WHATSAPP_PHONE.replace("+", "")}?text=${WA_TEXT}`;
 
 // Base64 blur placeholder
 const BLUR_DATA_URL = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAADAAQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==";
@@ -37,18 +40,18 @@ export const metadata = {
     type: "website",
     siteName: "Sahneva",
     locale: "tr_TR",
-    images: [{ 
-      url: `${ORIGIN}/img/hizmet-led-ekran.webp`, 
-      width: 1200, 
-      height: 630, 
-      alt: "Sahneva LED Ekran Kiralama - Profesyonel Görsel Çözümler" 
+    images: [{
+      url: `${ORIGIN}/img/og.jpg`,
+      width: 1200,
+      height: 630,
+      alt: "Sahneva LED Ekran Kiralama - Profesyonel Görsel Çözümler"
     }],
   },
   twitter: {
     card: "summary_large_image",
     title: "LED Ekran Kiralama | Profesyonel Çözümler | Sahneva",
     description: "P2-P6 piksel aralığı, 4K çözünürlük, yüksek parlaklık LED ekran kiralama. Konser, fuar ve kurumsal etkinlikler.",
-    images: [`${ORIGIN}/img/hizmet-led-ekran.webp`],
+    images: [`${ORIGIN}/img/og.jpg`],
   },
   robots: {
     index: true,
@@ -64,94 +67,11 @@ export const metadata = {
 };
 
 /* ================== Yardımcılar & Sabitler ================== */
-const slugify = (s) =>
-  String(s)
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/&/g, " ve ")
-    .replace(/[^\p{L}\p{N}\s-]/gu, "")
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
-
 const HERO = {
   src: "/img/hizmet-led-ekran.webp",
   alt: "Profesyonel LED ekran kurulumu - Konser sahnesinde büyük LED wall ve görsel şov",
   sizes: "(max-width: 768px) 100vw, 100vw",
 };
-
-const SERVICES = [
-  {
-    icon: "🖥️",
-    title: "İç Mekan LED Ekranlar",
-    description: "P2.5-P3.9 piksel aralığı ile yüksek çözünürlüklü iç mekan çözümleri",
-    features: ["P2.5-P3.9 piksel", "800-1500 nit parlaklık", "4K çözünürlük", "Hızlı kurulum"],
-  },
-  {
-    icon: "🌞",
-    title: "Dış Mekan LED Ekranlar",
-    description: "P4-P6 piksel aralığı ve yüksek parlaklık ile açık hava çözümleri",
-    features: ["P4-P6 piksel", "5000-6500+ nit", "IP65 su geçirmez", "UV dayanıklı"],
-  },
-  {
-    icon: "🎬",
-    title: "Video Wall Sistemleri",
-    description: "Modüler yapıda esnek video wall ve kreatif ekran çözümleri",
-    features: ["Modüler tasarım", "Esnek konfigürasyon", "Yüksek yenileme hızı", "Profesyonel kontrol"],
-  },
-  {
-    icon: "⚡",
-    title: "Kontrol & Yayın Sistemleri",
-    description: "Profesyonel video işleme, kontrol ve canlı yayın sistemleri",
-    features: ["Novastar işlemciler", "4K scaler", "Medya sunucular", "Canlı yayın"],
-  },
-  {
-    icon: "🔧",
-    title: "Kurulum & Rigging",
-    description: "Profesyonel kurulum, truss sistemleri ve güvenlik çözümleri",
-    features: ["Ground stack", "Truss rigging", "Güvenlik sistemleri", "Hızlı montaj"],
-  },
-  {
-    icon: "🎮",
-    title: "Operatör & Teknik Destek",
-    description: "Deneyimli operatörler ve 7/24 teknik destek hizmeti",
-    features: ["Profesyonel operatör", "İçerik yönetimi", "7/24 teknik destek", "Acil müdahale"],
-  },
-];
-
-const USE_CASES = [
-  { 
-    icon: "🎵", 
-    text: "Konser, festival ve sahne performansları",
-    desc: "Ana sahne LED ekranları ve yan ekran çözümleri"
-  },
-  { 
-    icon: "💼", 
-    text: "Kurumsal lansman ve toplantılar",
-    desc: "Profesyonel sunum ve marka gösterimi"
-  },
-  { 
-    icon: "🎪", 
-    text: "Fuar, sergi ve ticari etkinlikler",
-    desc: "Stand tasarımı ve etkileşimli ekranlar"
-  },
-  { 
-    icon: "🏟️", 
-    text: "Spor etkinlikleri ve stadyumlar",
-    desc: "Dev ekranlar ve skorboard sistemleri"
-  },
-  { 
-    icon: "🛍️", 
-    text: "AVM ve perakende mekanları",
-    desc: "Reklam ve bilgilendirme ekranları"
-  },
-  { 
-    icon: "💒", 
-    text: "Düğün ve özel davetler",
-    desc: "Fotoğraf/video gösterimi ve canlı yayın"
-  },
-];
 
 /* ================== HERO ================== */
 function Hero() {
@@ -170,8 +90,9 @@ function Hero() {
           blurDataURL={BLUR_DATA_URL}
           loading="eager"
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/80 via-purple-800/70 to-blue-950/90" aria-hidden="true" />
-        <div className="absolute inset-0 bg-gradient-to-t from-blue-950/80 via-transparent to-purple-900/60" aria-hidden="true" />
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/80 via-purple-800/70 to-blue-950/90" aria-hidden="true" />
+          <div className="absolute inset-0 bg-gradient-to-t from-blue-950/85 via-black/40 to-purple-900/70" aria-hidden="true" />
+          <div className="absolute inset-0 bg-black/35" aria-hidden="true" />
       </div>
 
       <div className="relative z-10 container mx-auto px-4 text-center text-white py-12">
@@ -202,7 +123,6 @@ function Hero() {
             rel="noopener noreferrer"
             title="WhatsApp üzerinden hemen teklif alın"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-green-600 shadow-lg"
-            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-2">💬</span> 
             <span className="text-base">Hemen Teklif Al</span>
@@ -212,7 +132,6 @@ function Hero() {
             href="#hizmetler"
             title="Hizmetlerimiz hakkında daha fazla bilgi edinin"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-white text-white/95 bg-white/10 backdrop-blur-lg hover:bg-white/20 hover:scale-105 transform transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 shadow-lg"
-            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-2">🎯</span> 
             <span className="text-base">Hizmetlerimiz</span>
@@ -256,12 +175,13 @@ function Services() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {SERVICES.map((service) => {
+          {SERVICES.map((service, index) => {
             const id = `svc-${slugify(service.title)}`;
+            const delayClass = `animation-delay-${index * 100}`;
             return (
               <div key={id} className="group">
-                <article 
-                  className="bg-white rounded-3xl border-2 border-gray-100 shadow-xl hover:shadow-2xl p-8 group-hover:scale-105 transition-all duration-500 h-full flex flex-col"
+                <article
+                  className={`bg-white rounded-3xl border-2 border-gray-100 shadow-xl hover:shadow-2xl p-8 group-hover:scale-105 transition-all duration-500 h-full flex flex-col animate-fade-up ${delayClass}`}
                   aria-labelledby={id}
                 >
                   <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300" aria-hidden="true">
@@ -281,6 +201,20 @@ function Services() {
                       </li>
                     ))}
                   </ul>
+                  {service.cta && (
+                    <div className="mt-8">
+                      <Link
+                        href={service.cta.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-2 font-bold px-5 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                        aria-label={`${service.title} için ${service.cta.label}`}
+                      >
+                        <span aria-hidden="true">➡️</span>
+                        <span>{service.cta.label}</span>
+                      </Link>
+                    </div>
+                  )}
                 </article>
               </div>
             );
@@ -293,7 +227,6 @@ function Services() {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-500"
-            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">📞</span>
             <span>Detaylı Teklif için İletişime Geçin</span>
@@ -305,41 +238,6 @@ function Services() {
 }
 
 /* ================== Galeri ================== */
-const GALLERY_IMAGES = [
-  { 
-    src: "/img/galeri/led-ekran-kiralama-1.webp", 
-    alt: "Konser sahnesinde kurulmuş büyük LED ekran, kalabalık önünde canlı performans gösterimi" 
-  },
-  { 
-    src: "/img/galeri/led-ekran-kiralama-2.webp", 
-    alt: "Kurumsal etkinlikte kullanılan LED ekran, sunum sırasında profesyonel aydınlatma ile aydınlatılmış" 
-  },
-  { 
-    src: "/img/galeri/led-ekran-kiralama-3.webp",
-    alt: "Açık hava festivalinde yüksek parlaklıklı LED ekran, gün ışığında net görüntü" 
-  },
-  { 
-    src: "/img/galeri/led-ekran-kiralama-4.webp",
-    alt: "Fuar standında kullanılan video wall sistemi, marka tanıtımı için optimize edilmiş" 
-  },
-  { 
-    src: "/img/galeri/led-ekran-kiralama-5.webp", 
-    alt: "Stadyumda dev LED ekran, spor etkinliği sırasında canlı skor ve görüntüler" 
-  },
-  { 
-    src: "/img/galeri/led-ekran-kiralama-6.webp", 
-    alt: "Düğün organizasyonunda LED ekran, canlı fotoğraf ve video gösterimi" 
-  },
-  { 
-    src: "/img/galeri/led-ekran-kiralama-7.webp", 
-    alt: "TV stüdyosunda kullanılan profesyonel LED ekran, canlı yayın için optimize edilmiş" 
-  },
-  { 
-    src: "/img/galeri/led-ekran-kiralama-8.webp",
-    alt: "Alışveriş merkezinde reklam LED ekranı, yüksek trafikli alanda marka gösterimi" 
-  },
-];
-
 function Gallery() {
   return (
     <section className="py-20 bg-white" aria-labelledby="galeri-baslik">
@@ -364,7 +262,6 @@ function Gallery() {
           <Link
             href="/projeler"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white transform transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-purple-300"
-            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">📸</span>
             <span>Tüm Projeleri Görüntüle</span>
@@ -382,36 +279,42 @@ function Technical() {
       category: "piksel",
       title: "Piksel Teknolojileri",
       description: "P2.5-P6 piksel aralığı ile her ihtiyaca uygun çözümler",
+      icon: "🔍",
       features: ["P2.5: İç mekan premium", "P3.9: Hibrit kullanım", "P4: Dış mekan standart", "P6: Büyük açık alanlar"]
     },
     {
       category: "parlaklik",
       title: "Parlaklık & Görünürlük",
       description: "Ortam koşullarına göre optimize edilmiş parlaklık seviyeleri",
+      icon: "☀️",
       features: ["İç mekan: 800-1500 nit", "Dış mekan: 3500-6500 nit", "Otomatik parlaklık", "Güneş altında netlik"]
     },
     {
       category: "koruma",
       title: "Koruma Sistemleri",
       description: "IP65 su geçirmez koruma ve dayanıklı yapı",
+      icon: "🛡️",
       features: ["IP65 ön koruma", "IP54 arka koruma", "UV dayanıklı malzeme", "Toz geçirmez yapı"]
     },
     {
       category: "kontrol",
       title: "Kontrol Sistemleri",
       description: "Profesyonel video işleme ve kontrol sistemleri",
+      icon: "🎮",
       features: ["Novastar işlemciler", "4K video scaling", "Medya sunucular", "Uzaktan kontrol"]
     },
     {
       category: "kurulum",
       title: "Kurulum Sistemleri",
       description: "Hızlı ve güvenli kurulum için özel sistemler",
+      icon: "⚡",
       features: ["Ground stack", "Truss rigging", "Motorlu asma sistem", "Hızlı kilit mekanizması"]
     },
     {
       category: "destek",
       title: "Teknik Destek",
       description: "7/24 teknik destek ve acil müdahale hizmetleri",
+      icon: "📞",
       features: ["7/24 teknik destek", "Yedek modül stoğu", "Acil müdahale ekibi", "Uzaktan diagnostik"]
     }
   ];
@@ -433,14 +336,7 @@ function Technical() {
             <div key={item.category} className="group">
               <div className="bg-white rounded-3xl border-2 border-gray-100 p-8 shadow-lg hover:shadow-xl group-hover:scale-105 transition-all duration-500 h-full">
                 <h3 className="font-bold text-2xl text-gray-900 mb-4 group-hover:text-blue-600 transition-colors flex items-center gap-3">
-                  <span className="text-3xl" aria-hidden="true">
-                    {item.category === "piksel" && "🔍"}
-                    {item.category === "parlaklik" && "☀️"}
-                    {item.category === "koruma" && "🛡️"}
-                    {item.category === "kontrol" && "🎮"}
-                    {item.category === "kurulum" && "⚡"}
-                    {item.category === "destek" && "📞"}
-                  </span>
+                  <span className="text-3xl" aria-hidden="true">{item.icon}</span>
                   {item.title}
                 </h3>
                 <p className="text-gray-600 mb-6 text-lg leading-relaxed">
@@ -540,7 +436,6 @@ function UseCases() {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-white text-blue-700 hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus:outline-none focus-visible:ring-4 focus-visible:ring-white"
-            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">💬</span>
             <span>Etkinliğiniz için Özel Çözüm Alın</span>
@@ -804,25 +699,6 @@ function Articles() {
 
 /* ================== SSS ================== */
 function FAQ() {
-  const faqs = [
-    { 
-      q: "LED ekran kiralama fiyatları ne kadar?", 
-      a: "LED ekran kiralama fiyatları piksel aralığına ve ekran boyutuna göre değişmektedir. P2.5 iç mekan LED ekran için m² fiyatı 2.800 TL, P4 dış mekan LED ekran için m² fiyatı 1.800 TL'dir. Profesyonel kurulum ve operatör hizmetleri paket fiyatlarına dahildir." 
-    },
-    { 
-      q: "LED ekran kurulumu ne kadar sürer?", 
-      a: "Standart bir LED ekran kurulumu 2-6 saat arasında tamamlanır. 20m²'ye kadar küçük kurulumlar 2-3 saat, 20-50m² orta ölçekli kurulumlar 3-4 saat, 50m²+ büyük kurulumlar ise 4-6 saat sürmektedir. Kompleks rigging gerektiren projelerde bu süre 24 saate kadar çıkabilir." 
-    },
-    { 
-      q: "Yağmurlu havada LED ekran kullanılabilir mi?", 
-      a: "Evet, dış mekan LED ekranlarımız IP65 koruma sınıfına sahiptir ve yağmurlu havada güvenle kullanılabilir. IP65 koruma, ekranın toza karşı tam korumalı ve su jetlerine karşı korumalı olduğu anlamına gelir. Ancak şiddetli fırtına ve kasırga gibi ekstrem hava koşullarında güvenlik önlemi olarak kullanıma ara verilmesini öneriyoruz." 
-    },
-    { 
-      q: "LED ekran için hangi piksel aralığını seçmeliyim?", 
-      a: "Piksel aralığı seçimi izleyici mesafesine göre belirlenmelidir. 3-10m mesafe için P2.5-P3.9, 10-25m mesafe için P4, 25m+ mesafe için P6 piksel aralığı öneriyoruz. İç mekan etkinliklerinde P2.5-P3.9, dış mekan etkinliklerinde ise P4-P6 aralığı tercih edilmektedir." 
-    },
-  ];
-  
   return (
     <section className="py-20 bg-white" aria-labelledby="sss-baslik">
       <div className="container mx-auto px-4 max-w-4xl">
@@ -835,32 +711,7 @@ function FAQ() {
           </p>
         </div>
 
-        <div className="space-y-6" role="list" aria-label="Sık sorulan sorular listesi">
-          {faqs.map((faq, index) => (
-            <details 
-              key={index} 
-              className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border"
-            >
-              <summary 
-                className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900"
-                role="button"
-                aria-expanded="false"
-                tabIndex={0}
-              >
-                <span className="pr-4">{faq.q}</span>
-                <span 
-                  aria-hidden="true" 
-                  className="ml-4 transition-transform duration-500 group-open:rotate-180 text-blue-600 bg-blue-100 rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0"
-                >
-                  ⌄
-                </span>
-              </summary>
-              <div className="mt-6 text-gray-700 leading-relaxed text-lg pl-4 border-l-4 border-blue-500" role="region">
-                {faq.a}
-              </div>
-            </details>
-          ))}
-        </div>
+        <FaqAccordion items={FAQ_ITEMS} />
 
         <div className="text-center mt-12">
           <p className="text-gray-600 text-lg mb-6">
@@ -870,9 +721,8 @@ function FAQ() {
             href="/sss"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-500"
             title="Sık Sorulan Sorular sayfasındaki tüm soruları görüntüle"
-            role="button"
           >
-            <span aria-hidden="true" className="text-xl mr-3">📚</span> 
+            <span aria-hidden="true" className="text-xl mr-3">📚</span>
             <span className="text-lg">Tüm SSS'yi Görüntüle</span>
           </Link>
         </div>
@@ -978,7 +828,7 @@ function CTA() {
     <section className="py-20 bg-white" aria-labelledby="cta-baslik">
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="bg-gradient-to-r from-blue-700 to-purple-700 rounded-3xl p-8 md:p-12 text-center text-white relative overflow-hidden">
-          <div className="absolute inset-0 bg-black/10" aria-hidden="true"></div>
+          <div className="absolute inset-0 bg-black/20" aria-hidden="true"></div>
           <div className="relative z-10">
             <h2 id="cta-baslik" className="text-3xl md:text-4xl lg:text-5xl font-black mb-6">
               Profesyonel LED Ekran Çözümlerine Hazır Mısınız?
@@ -988,20 +838,18 @@ function CTA() {
               rekabetçi fiyat garantisi ile hizmetinizdeyiz.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link 
-                href="/iletisim" 
+              <Link
+                href="/iletisim"
                 className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-white text-blue-700 hover:scale-105 transform transition-all duration-300 hover:shadow-2xl focus:outline-none focus-visible:ring-4 focus-visible:ring-white shadow-lg"
-                role="button"
               >
                 <span aria-hidden="true" className="text-xl mr-3">📞</span> 
                 <span className="text-lg">Hemen Teklif Al</span>
               </Link>
-              <a 
-                href={WHATSAPP} 
-                target="_blank" 
+              <a
+                href={WHATSAPP}
+                target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-white text-white bg-transparent hover:bg-white/20 hover:scale-105 transform transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-white shadow-lg"
-                role="button"
               >
                 <span aria-hidden="true" className="text-xl mr-3">💬</span> 
                 <span className="text-lg">WhatsApp'tan Yaz</span>
