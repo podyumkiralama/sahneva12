@@ -47,14 +47,17 @@ const LS_KEYS = {
   HIDE_IMAGES: "acc_hide_images",
 };
 
-export default function UtilityBar() {
+export default function UtilityBar({
+  initialPanelPosition = "right",
+  onPanelPositionChange,
+} = {}) {
   // Ana durumlar
   const [isActive, setIsActive] = useState(false);
   const [fontSize, setFontSize] = useState(16);
   const [activeTab, setActiveTab] = useState("profiles");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [panelPosition, setPanelPosition] = useState("right");
+  const [panelPosition, setPanelPosition] = useState(() => initialPanelPosition);
 
   // Tüm ayar durumları
   const [seizureSafe, setSeizureSafe] = useState(false);
@@ -277,7 +280,10 @@ export default function UtilityBar() {
   useEffect(() => {
     const active = getLS(LS_KEYS.ACTIVE, false);
     const savedFontSize = getLS(LS_KEYS.FONT_SIZE, 16);
-    const savedPosition = getLS(LS_KEYS.PANEL_POSITION, "right");
+    const savedPosition = getLS(
+      LS_KEYS.PANEL_POSITION,
+      initialPanelPosition
+    );
 
     // Tüm state'leri yükle
     setSeizureSafe(getLS(LS_KEYS.SEIZURE_SAFE, false));
@@ -304,6 +310,7 @@ export default function UtilityBar() {
     setIsActive(active);
     setFontSize(savedFontSize);
     setPanelPosition(savedPosition);
+    onPanelPositionChange?.(savedPosition);
 
     if (active) {
       document.documentElement.classList.add('accessibility-active');
@@ -317,7 +324,13 @@ export default function UtilityBar() {
         initReadingGuide();
       }
     }
-  }, [applyStyles, handleStopAnimations, initReadingGuide]);
+  }, [
+    applyStyles,
+    handleStopAnimations,
+    initReadingGuide,
+    initialPanelPosition,
+    onPanelPositionChange,
+  ]);
 
   // Aktif durum değiştiğinde
   useEffect(() => {
@@ -337,7 +350,8 @@ export default function UtilityBar() {
     const newPosition = panelPosition === "right" ? "left" : "right";
     setPanelPosition(newPosition);
     setLS(LS_KEYS.PANEL_POSITION, newPosition);
-  }, [panelPosition]);
+    onPanelPositionChange?.(newPosition);
+  }, [panelPosition, onPanelPositionChange]);
 
   // Genel toggle fonksiyonu
   const createToggleHandler = useCallback((state, setState, key, extraAction = null) => {
