@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import JsonLdScript from "@/components/JsonLdScript";
 
 import { buildFaqSchema } from "@/lib/structuredData/faq";
 import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
@@ -1528,8 +1529,7 @@ function CTA() {
 }
 
 /* ================== JSON-LD ================== */
-/* Bu sayfada next/script yerine düz <script> kullanıyoruz;
-   ekstra client-side JS yükü oluşmuyor, sadece JSON-LD render ediliyor. */
+/* JSON-LD çıktısı ortak yardımcı JsonLdScript ile Next.js <Script> üzerinden gömülür. */
 function JsonLd() {
   const pageUrl = `${ORIGIN}/podyum-kiralama`;
   const pageDescription = metadata.description;
@@ -1603,13 +1603,7 @@ function JsonLd() {
     ],
   };
 
-  return (
-    <script
-      id="ld-json-podyum"
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
-  );
+  return <JsonLdScript id="ld-json-podyum" data={jsonLd} />;
 }
 
 /* ================== Sayfa Bileşeni ================== */

@@ -5,8 +5,10 @@ import { useEffect } from "react";
 export default function DocumentDirection({ lang, dir }) {
   useEffect(() => {
     if (typeof document === "undefined") return;
-    document.documentElement.lang = lang;
-    document.documentElement.dir = dir;
+    const { documentElement } = document;
+    documentElement.lang = lang;
+    documentElement.setAttribute("xml:lang", lang);
+    documentElement.dir = dir;
   }, [lang, dir]);
 
   return null;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useId } from "react";
 import Link from "next/link";
 
 const focusRingClass = "focus-ring";
@@ -11,6 +11,8 @@ export default function SiteHeader({ locale, strings }) {
   const toggleButtonRef = useRef(null);
   const previouslyFocusedElement = useRef(null);
   const previousOverflow = useRef("");
+  const mobileMenuId = "mobile_menu";
+  const mobileMenuHeadingId = useId();
 
   const direction = strings.direction ?? (locale === "ar" ? "rtl" : "ltr");
   const homeHref = locale === "tr" ? "/" : `/${locale}`;
@@ -19,7 +21,18 @@ export default function SiteHeader({ locale, strings }) {
     () => ({
       header: strings?.ariaLabel ?? "Site header",
       nav: strings?.navLabel ?? strings?.navigationLabel ?? "Main navigation",
-      mobileToggle: strings?.mobileToggleLabel ?? strings?.mobileToggle ?? "Toggle navigation",
+      mobileToggleOpen:
+        strings?.mobileToggleOpenLabel ??
+        strings?.mobileToggleOpen ??
+        strings?.mobileToggleLabel ??
+        strings?.mobileToggle ??
+        "Open navigation menu",
+      mobileToggleClose:
+        strings?.mobileToggleCloseLabel ??
+        strings?.mobileToggleClose ??
+        strings?.mobileToggleLabel ??
+        strings?.mobileToggle ??
+        "Close navigation menu",
     }),
     [strings]
   );
@@ -28,7 +41,7 @@ export default function SiteHeader({ locale, strings }) {
     if (!open) return undefined;
 
     const node = mobileMenuRef.current;
-    previouslyFocusedElement.current = document.activeElement;
+    previouslyFocusedElement.current = toggleButtonRef.current;
     previousOverflow.current = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     document.body.classList.add("overflow-hidden");
@@ -74,7 +87,9 @@ export default function SiteHeader({ locale, strings }) {
 
   return (
     <header
-      id="main-header"
+      id="_main_header"
+      role="banner"
+      tabIndex={-1}
       aria-label={ariaStrings.header}
       className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-200/70"
       dir={direction}
@@ -90,6 +105,7 @@ export default function SiteHeader({ locale, strings }) {
 
           <nav
             id="primary-navigation"
+            role="navigation"
             className="hidden lg:flex items-center gap-6"
             aria-label={ariaStrings.nav}
           >
@@ -117,12 +133,15 @@ export default function SiteHeader({ locale, strings }) {
             type="button"
             ref={toggleButtonRef}
             onClick={() => setOpen((v) => !v)}
-          className={`lg:hidden inline-flex items-center justify-center rounded-xl border border-neutral-200 bg-white p-3 text-neutral-700 shadow-sm ${focusRingClass}`}
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          aria-label={ariaStrings.mobileToggle}
-        >
-            <span className="sr-only">{ariaStrings.mobileToggle}</span>
+            className={`lg:hidden inline-flex items-center justify-center rounded-xl border border-neutral-200 bg-white p-3 text-neutral-700 shadow-sm ${focusRingClass}`}
+            aria-expanded={open}
+            aria-controls={mobileMenuId}
+            aria-haspopup="true"
+            aria-label={open ? ariaStrings.mobileToggleClose : ariaStrings.mobileToggleOpen}
+          >
+            <span className="sr-only">
+              {open ? ariaStrings.mobileToggleClose : ariaStrings.mobileToggleOpen}
+            </span>
             <span className="relative h-5 w-5" aria-hidden="true">
               <span
                 className={`absolute inset-x-0 top-1 h-0.5 bg-current transition-transform duration-200 ${open ? "translate-y-2 rotate-45" : ""}`}
@@ -139,15 +158,24 @@ export default function SiteHeader({ locale, strings }) {
       </div>
 
       <div
-        id="mobile-menu"
+        id={mobileMenuId}
         ref={mobileMenuRef}
         role="dialog"
         aria-modal={open ? "true" : undefined}
+        aria-hidden={!open}
         hidden={!open}
         aria-label={ariaStrings.nav}
+        aria-labelledby={mobileMenuHeadingId}
         className="lg:hidden border-t border-neutral-200 bg-white shadow-xl"
       >
-        <nav id="primary-navigation-mobile" aria-label={ariaStrings.nav}>
+        <h2 id={mobileMenuHeadingId} className="sr-only">
+          {ariaStrings.nav}
+        </h2>
+        <nav
+          id="primary-navigation-mobile"
+          role="navigation"
+          aria-label={ariaStrings.nav}
+        >
           <div className="container mx-auto px-4 py-4 space-y-2">
             {strings.links.map((item) => (
               <Link

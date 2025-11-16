@@ -10,9 +10,13 @@ export default function EnglishLayout({ children }) {
   return (
     <div className="flex min-h-screen flex-col bg-white text-neutral-900">
       <DocumentDirection lang="en" dir={content.direction} />
-      <SiteHeader locale="en" strings={{ ...content.header, direction: content.direction }} />
+      <SiteHeader
+        locale="en"
+        strings={{ ...content.header, direction: content.direction }}
+      />
       <main
-        id="main-content"
+        id="_main_content"
+        role="main"
         tabIndex={-1}
         className="flex-1 pb-16 pt-0 focus-ring scroll-mt-4"
       >

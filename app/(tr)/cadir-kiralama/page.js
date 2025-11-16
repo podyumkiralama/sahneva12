@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import JsonLdScript from "@/components/JsonLdScript";
 
 /* ================== Sabitler ================== */
 export const revalidate = 1800;
@@ -1386,13 +1387,7 @@ function JsonLd() {
     ],
   };
 
-  return (
-    <script
-      id="ld-json-cadir"
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
-  );
+  return <JsonLdScript id="ld-json-cadir" data={jsonLd} />;
 }
 
 /* ================== Sayfa Bileşeni ================== */

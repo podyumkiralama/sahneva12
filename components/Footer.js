@@ -57,7 +57,9 @@ const footerStrings = LOCALE_CONTENT.tr.footer;
 export default function Footer() {
   return (
     <footer
-      id="site-footer"
+      id="_main_footer"
+      role="contentinfo"
+      tabIndex={-1}
       className="relative w-full flex-shrink-0 bg-gradient-to-br from-[#0b1120] via-[#1a1038] to-[#1b1f4a] border-t border-white/10"
       aria-labelledby="site-footer-heading"
       itemScope
@@ -209,7 +211,7 @@ export default function Footer() {
         </section>
 
         {/* Hizmetler */}
-        <nav aria-labelledby="ft-services">
+        <nav aria-labelledby="ft-services" role="navigation">
           <h3
             id="ft-services"
             className="text-white font-bold mb-6 text-lg bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
@@ -233,7 +235,7 @@ export default function Footer() {
         </nav>
 
         {/* Hızlı Erişim */}
-        <nav aria-labelledby="ft-quick">
+        <nav aria-labelledby="ft-quick" role="navigation">
           <h3
             id="ft-quick"
             className="text-white font-bold mb-6 text-lg bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent"
@@ -391,7 +393,7 @@ export default function Footer() {
               •
             </span>
             <a
-              href="#main-content"
+              href="#_main_content"
               className={`text-slate-100 hover:text-white underline-offset-4 hover:underline focus-visible:underline transition-colors duration-200 rounded-sm ${focusRingClass}`}
             >
               Başa dön
