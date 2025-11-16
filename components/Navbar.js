@@ -73,7 +73,7 @@ export default function Navbar() {
   const previousOverflow = useRef("");
 
   const mobileMenuId = "mobile_menu";
-  const mobileMenuHeadingId = MOBILE_MENU_HEADING_ID; // 🔹 Erişilebilir başlık ID'si
+  const mobileMenuHeadingId = MOBILE_MENU_HEADING_ID;
   const servicesBtnId = "nav-services-button";
   const servicesMenuId = "nav-services-menu";
 
@@ -312,12 +312,9 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Header artık layout'ta, burada sadece NAV var */}
       <nav
         aria-label={headerStrings?.navLabel ?? "Ana gezinme"}
         className="fixed top-0 inset-x-0 z-50 bg-white border-b border-neutral-200/80 shadow-lg"
-        itemScope
-        itemType="https://schema.org/Organization"
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
@@ -327,7 +324,6 @@ export default function Navbar() {
               className={`flex items-center gap-3 group ${focusRingClass}`}
               aria-label="Sahneva - Profesyonel sahne ve etkinlik ekipmanları kiralama"
               title="Sahneva Ana Sayfa - Etkinlik ekipmanları kiralama"
-              itemProp="url"
             >
               <Image
                 src="/img/logo.png"
@@ -337,7 +333,6 @@ export default function Navbar() {
                 priority={pathname === "/"}
                 sizes="(max-width: 768px) 120px, 160px"
                 className="h-8 lg:h-10 w-auto transition-transform duration-200 group-hover:scale-105"
-                itemProp="logo"
               />
             </Link>
 
@@ -535,7 +530,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobil backdrop – focus alınmasın, sadece tıklanabilir alan */}
+      {/* Mobil backdrop */}
       {mobileOpen && (
         <div
           className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden"
@@ -544,7 +539,7 @@ export default function Navbar() {
         />
       )}
 
-      {/* Mobil menü – her zaman DOM'da, kapalıyken gizli */}
+      {/* Mobil menü */}
       <div
         id={mobileMenuId}
         ref={mobileMenuRef}
@@ -555,7 +550,6 @@ export default function Navbar() {
         hidden={!mobileOpen}
         className="lg:hidden fixed z-50 left-0 right-0 top-16 bg-white border-t border-neutral-200 shadow-2xl max-h-[80vh] opacity-100 transition-all duration-300 overflow-hidden"
       >
-        {/* Ekran okuyucular için başlık */}
         <h2 id={mobileMenuHeadingId} className="sr-only">
           {headerStrings?.navLabel ?? "Ana gezinme menüsü"}
         </h2>
