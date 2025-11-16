@@ -4,10 +4,19 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useState, useEffect, useRef, useCallback, useId } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
+import { NAVBAR_A11Y_IDS } from "@/lib/accessibility/constants";
 
 const focusRingClass = "focus-ring";
+const {
+  mobileMenu: MOBILE_MENU_ID,
+  mobileMenuHeading: MOBILE_MENU_HEADING_ID,
+  mobileServicesList: MOBILE_SERVICES_LIST_ID,
+  mobileNavigation: MOBILE_NAVIGATION_ID,
+  servicesButton: SERVICES_BUTTON_ID,
+  servicesMenu: SERVICES_MENU_ID,
+} = NAVBAR_A11Y_IDS;
 
 const serviceLinks = [
   {
@@ -71,10 +80,12 @@ export default function Navbar() {
   const previouslyFocusedElement = useRef(null);
   const previousOverflow = useRef("");
 
-  const mobileMenuId = "mobile_menu";
-  const mobileMenuHeadingId = useId(); // 🔹 Erişilebilir başlık ID'si
-  const servicesBtnId = "nav-services-button";
-  const servicesMenuId = "nav-services-menu";
+  const mobileMenuId = MOBILE_MENU_ID;
+  const mobileMenuHeadingId = MOBILE_MENU_HEADING_ID; // 🔹 Erişilebilir başlık ID'si
+  const mobileServicesListId = MOBILE_SERVICES_LIST_ID;
+  const mobileNavigationId = MOBILE_NAVIGATION_ID;
+  const servicesBtnId = SERVICES_BUTTON_ID;
+  const servicesMenuId = SERVICES_MENU_ID;
 
   const mobileToggleOpenLabel =
     headerStrings?.mobileToggleOpenLabel ?? "Menüyü aç";
@@ -561,7 +572,7 @@ export default function Navbar() {
         </h2>
 
         <nav
-          id="primary-navigation-mobile"
+          id={mobileNavigationId}
           role="navigation"
           aria-label={headerStrings?.navLabel ?? "Ana gezinme"}
         >
@@ -584,7 +595,7 @@ export default function Navbar() {
                 type="button"
                 onClick={() => setMobileServicesOpen((s) => !s)}
                 aria-expanded={mobileServicesOpen}
-                aria-controls="mobile-services-list"
+                aria-controls={mobileServicesListId}
                 className={`w-full flex items-center justify-between gap-3 py-3.5 px-4 text-[15px] font-bold text-neutral-900 rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 min-h-[44px] transform hover:scale-[1.02] ${focusRingClass}`}
                 title="Sahneva Hizmetler Menüsü"
               >
@@ -611,7 +622,7 @@ export default function Navbar() {
               </button>
 
               <div
-                id="mobile-services-list"
+                id={mobileServicesListId}
                 className={`overflow-hidden transition-all duration-200 ${
                   mobileServicesOpen
                     ? "max-h-80 opacity-100 mt-2"
