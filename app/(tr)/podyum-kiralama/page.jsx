@@ -277,7 +277,7 @@ const CONTENT = {
 function Hero() {
   return (
     <section
-      className="relative flex items-center justify-center overflow-hidden bg-slate-900 pt-20 min-h-[80vh]"
+      className="relative flex items-center justify-center overflow-hidden bg-slate-900 pt-20 min-h-[100svh] md:min-h-[80vh]"
       aria-labelledby="hero-title"
     >
       <div className="absolute inset-0">
@@ -417,13 +417,16 @@ function Services() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <ul
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"
+         
+        >
           {SERVICES.map((service) => {
             const id = `svc-${slugify(service.title)}`;
             return (
-              <div key={id} className="group">
+              <li key={id} className="h-full">
                 <article
-                  className="bg-white rounded-3xl border-2 border-gray-100 shadow-xl hover:shadow-2xl p-8 group-hover:scale-105 transition-all duration-500 h-full flex flex-col"
+                  className="group bg-white rounded-3xl border-2 border-gray-100 shadow-xl hover:shadow-2xl p-8 transition-all duration-500 h-full flex flex-col"
                   aria-labelledby={id}
                 >
                   <div
@@ -441,25 +444,16 @@ function Services() {
                   <p className="text-gray-600 mb-6 text-lg leading-relaxed flex-grow">
                     {service.description}
                   </p>
-                  <ul className="space-y-3">
+                  <ul className="space-y-2 text-base text-gray-700 list-disc list-inside">
                     {service.features.map((feature) => (
-                      <li
-                        key={feature}
-                        className="flex items-center gap-3 text-gray-700"
-                      >
-                        <span
-                          className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex-shrink-0"
-                          aria-hidden="true"
-                        />
-                        <span className="text-base">{feature}</span>
-                      </li>
+                      <li key={feature}>{feature}</li>
                     ))}
                   </ul>
                 </article>
-              </div>
+              </li>
             );
           })}
-        </div>
+        </ul>
 
         <div className="text-center mt-12">
           <Link
@@ -576,10 +570,10 @@ function Packages() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <ul className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {enrichedPkgs.map((pkg, index) => (
-            <div key={pkg.key} className="group">
-              <div className="bg-white rounded-3xl border-2 border-gray-100 shadow-xl hover:shadow-2xl overflow-hidden group-hover:scale-105 transition-all duration-500 h-full flex flex-col">
+            <li key={pkg.key} className="group h-full">
+              <article className="bg-white rounded-3xl border-2 border-gray-100 shadow-xl hover:shadow-2xl overflow-hidden transition-all duration-500 h-full flex flex-col">
                 <div className="relative h-48 overflow-hidden">
                   <Image
                     src={CONTENT.gallery[index] || CONTENT.gallery[0]}
@@ -604,18 +598,9 @@ function Packages() {
                 </div>
 
                 <div className="p-6 flex-grow">
-                  <ul className="space-y-3 mb-6">
-                    {pkg.includes.map((item, i) => (
-                      <li
-                        key={i}
-                        className="flex items-center gap-3 text-gray-700"
-                      >
-                        <span
-                          className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"
-                          aria-hidden="true"
-                        />
-                        <span className="text-base">{item}</span>
-                      </li>
+                  <ul className="space-y-2 mb-6 list-disc list-inside text-base text-gray-700">
+                    {pkg.includes.map((item) => (
+                      <li key={item}>{item}</li>
                     ))}
                   </ul>
 
@@ -663,10 +648,10 @@ function Packages() {
                     <span>Hemen Teklif Al</span>
                   </Link>
                 </div>
-              </div>
-            </div>
+              </article>
+            </li>
           ))}
-        </div>
+        </ul>
 
         <div className="text-center mt-8">
           <p className="text-gray-600 text-lg">
@@ -830,10 +815,13 @@ function Technical() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <ul
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"
+         
+        >
           {technicalItems.map((item) => (
-            <div key={item.category} className="group">
-              <div className="bg-white rounded-3xl border-2 border-gray-100 p-8 shadow-lg hover:shadow-xl group-hover:scale-105 transition-all duration-500 h-full">
+            <li key={item.category} className="h-full">
+              <article className="group bg-white rounded-3xl border-2 border-gray-100 p-8 shadow-lg hover:shadow-xl transition-all duration-500 h-full">
                 <h3 className="font-bold text-2xl text-gray-900 mb-4 group-hover:text-blue-600 transition-colors flex items-center gap-3">
                   <span className="text-3xl" aria-hidden="true">
                     {item.category === "malzeme" && "🏗️"}
@@ -848,24 +836,15 @@ function Technical() {
                 <p className="text-gray-600 mb-6 text-lg leading-relaxed">
                   {item.description}
                 </p>
-                <ul className="space-y-3">
-                  {item.features.map((feature, index) => (
-                    <li
-                      key={index}
-                      className="flex items-center gap-3 text-gray-700"
-                    >
-                      <span
-                        className="w-2 h-2 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex-shrink-0"
-                        aria-hidden="true"
-                      />
-                      <span className="text-base">{feature}</span>
-                    </li>
+                <ul className="space-y-2 text-base text-gray-700 list-disc list-inside">
+                  {item.features.map((feature) => (
+                    <li key={feature}>{feature}</li>
                   ))}
                 </ul>
-              </div>
-            </div>
+              </article>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );
@@ -886,31 +865,22 @@ function StatsBand() {
       aria-label="Başarı İstatistiklerimiz"
     >
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+        <ul className="grid grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
           {stats.map((stat) => (
-            <div
-              key={stat.label}
-              className="text-center group"
-              role="group"
-              aria-label={`${stat.label}: ${stat.value}`}
-            >
-              <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 group-hover:bg-white/20 transition-all duration-500 group-hover:scale-105">
+            <li key={stat.label} className="text-center">
+              <div className="group bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 hover:bg-white/20 transition-all duration-500 hover:scale-105">
                 <div
                   className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300"
                   aria-hidden="true"
                 >
                   {stat.icon}
                 </div>
-                <div className="text-4xl md:text-5xl font-black mb-2 text-white drop-shadow-lg">
-                  {stat.value}
-                </div>
-                <div className="text-blue-100 text-lg font-semibold">
-                  {stat.label}
-                </div>
+                <p className="text-4xl md:text-5xl font-black mb-1 text-white drop-shadow-lg">{stat.value}</p>
+                <p className="text-blue-100 text-lg font-semibold mb-0">{stat.label}</p>
               </div>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );
@@ -944,15 +914,11 @@ function UseCases() {
           />
         </div>
 
-        <div
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto"
-          role="list"
-        >
+        <ul className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {USE_CASES.map((uc) => (
-            <div
+            <li
               key={uc.text}
               className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/30 hover:border-white/50 transition-all duration-500 group hover:scale-105"
-              role="listitem"
             >
               <div className="flex flex-col items-start gap-4">
                 <div
@@ -965,14 +931,12 @@ function UseCases() {
                   <h3 className="text-white font-bold text-xl mb-2 group-hover:text-blue-300 transition-colors">
                     {uc.text}
                   </h3>
-                  <p className="text-white/70 text-lg leading-relaxed">
-                    {uc.desc}
-                  </p>
+                  <p className="text-white/70 text-lg leading-relaxed">{uc.desc}</p>
                 </div>
               </div>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
 
         <div className="text-center mt-12">
           <Link
@@ -1236,35 +1200,11 @@ function Articles() {
                     </span>
                     Teknik Özellikler ve Standartlar
                   </h4>
-                  <ul className="text-gray-700 space-y-2 text-base">
-                    <li className="flex items-center gap-3">
-                      <span
-                        className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0"
-                        aria-hidden="true"
-                      />
-                      Alüminyum karkas ve çelik bağlantı elemanları
-                    </li>
-                    <li className="flex items-center gap-3">
-                      <span
-                        className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0"
-                        aria-hidden="true"
-                      />
-                      Kaymaz kaplama ve UV dayanımlı yüzey
-                    </li>
-                    <li className="flex items-center gap-3">
-                      <span
-                        className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0"
-                        aria-hidden="true"
-                      />
-                      40-100cm yükseklik seçenekleri
-                    </li>
-                    <li className="flex items-center gap-3">
-                      <span
-                        className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0"
-                        aria-hidden="true"
-                      />
-                      Korkuluk, merdiven ve rampa sistemleri
-                    </li>
+                  <ul className="text-gray-700 space-y-2 text-base list-disc list-inside">
+                    <li>Alüminyum karkas ve çelik bağlantı elemanları</li>
+                    <li>Kaymaz kaplama ve UV dayanımlı yüzey</li>
+                    <li>40-100cm yükseklik seçenekleri</li>
+                    <li>Korkuluk, merdiven ve rampa sistemleri</li>
                   </ul>
                 </div>
               </div>
@@ -1383,35 +1323,31 @@ function FAQ() {
           </p>
         </div>
 
-        <div
-          className="space-y-6"
-          role="list"
-          aria-label="Sık sorulan sorular listesi"
+        <ul
+          className="space-y-6 list-none"
+          aria-labelledby="sss-baslik"
         >
-          {FAQ_ITEMS.map((faq, index) => (
-            <details
-              key={index}
-              className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border"
-            >
-              <summary
-                className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900"
-                role="button"
-                tabIndex={0}
-              >
-                <span className="pr-4">{faq.q}</span>
-                <span
-                  aria-hidden="true"
-                  className="ml-4 transition-transform duration-500 group-open:rotate-180 text-blue-600 bg-blue-100 rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0"
-                >
-                  ⌄
-                </span>
-              </summary>
-              <div className="mt-6 text-gray-700 leading-relaxed text-lg pl-4 border-l-4 border-blue-500" role="region">
-                {faq.a}
-              </div>
-            </details>
-          ))}
-        </div>
+          {FAQ_ITEMS.map((faq) => {
+            return (
+              <li key={faq.q} className="list-none">
+                <details className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent">
+                  <summary className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900">
+                    <span className="pr-4">{faq.q}</span>
+                    <span
+                      aria-hidden="true"
+                      className="ml-4 transition-transform duration-500 group-open:rotate-180 text-blue-600 bg-blue-100 rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0"
+                    >
+                      ⌄
+                    </span>
+                  </summary>
+                  <div className="mt-6 text-gray-700 leading-relaxed text-lg pl-4 border-l-4 border-blue-500" role="region">
+                    {faq.a}
+                  </div>
+                </details>
+              </li>
+            );
+          })}
+        </ul>
 
         <div className="text-center mt-12">
           <p className="text-gray-600 text-lg mb-6">
@@ -1490,29 +1426,30 @@ function RelatedServices() {
         </div>
 
         <nav aria-label="Tamamlayıcı hizmetler">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+          <ul className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
             {services.map((service) => (
-              <Link
-                key={service.href}
-                href={service.href}
-                className="group bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl border-2 border-gray-100 hover:border-blue-200 transition-all duration-500 hover:scale-105 text-center focus-ring h-full flex flex-col"
-                aria-label={`${service.title} - ${service.desc}`}
-              >
-                <div
-                  className="text-4xl mb-6 group-hover:scale-110 transition-transform duration-300"
-                  aria-hidden="true"
+              <li key={service.href} className="h-full">
+                <Link
+                  href={service.href}
+                  className="group bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl border-2 border-gray-100 hover:border-blue-200 transition-all duration-500 hover:scale-105 text-center focus-ring h-full flex flex-col"
+                  aria-label={`${service.title} - ${service.desc}`}
                 >
-                  {service.icon}
-                </div>
-                <h3 className="font-bold text-xl text-gray-900 group-hover:text-blue-600 transition-colors mb-4 flex-grow">
-                  {service.title}
-                </h3>
-                <p className="text-gray-600 text-lg leading-relaxed group-hover:text-gray-700 transition-colors">
-                  {service.desc}
-                </p>
-              </Link>
+                  <div
+                    className="text-4xl mb-6 group-hover:scale-110 transition-transform duration-300"
+                    aria-hidden="true"
+                  >
+                    {service.icon}
+                  </div>
+                  <h3 className="font-bold text-xl text-gray-900 group-hover:text-blue-600 transition-colors mb-4 flex-grow">
+                    {service.title}
+                  </h3>
+                  <p className="text-gray-600 text-lg leading-relaxed group-hover:text-gray-700 transition-colors">
+                    {service.desc}
+                  </p>
+                </Link>
+              </li>
             ))}
-          </div>
+          </ul>
         </nav>
 
         <div className="sr-only">

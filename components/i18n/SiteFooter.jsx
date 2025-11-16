@@ -6,7 +6,7 @@ export default function SiteFooter({ strings }) {
   const year = new Date().getFullYear();
   return (
     <footer
-      id="main-footer"
+      id="site-footer"
       aria-label={strings?.ariaLabel ?? "Site footer"}
       className="bg-slate-950 text-slate-200"
       dir={strings.direction}
