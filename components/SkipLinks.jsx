@@ -72,23 +72,17 @@ export default function SkipLinks() {
   }, []);
 
   return (
-    <nav
-      aria-label={strings?.regionLabel ?? "İçerik atlama bağlantıları"}
-      className="sr-only focus-within:not-sr-only fixed top-2 left-2 z-[9999]"
-    >
-      <ul className="flex flex-col gap-2">
-        {SKIP_TARGETS.map(({ id, key }) => (
-          <li key={id}>
-            <a
-              href={`#${id}`}
-              className={LINK_CLASSNAME}
-              onClick={(event) => handleSkip(event, id)}
-            >
-              {strings?.[key] ?? FALLBACK_STRINGS[key]}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
+    <div className="sr-only focus-within:not-sr-only fixed top-2 left-2 z-[9999] space-y-2">
+      {SKIP_TARGETS.map(({ id, key }) => (
+        <a
+          key={id}
+          href={`#${id}`}
+          className={LINK_CLASSNAME}
+          onClick={(event) => handleSkip(event, id)}
+        >
+          {strings?.[key] ?? FALLBACK_STRINGS[key]}
+        </a>
+      ))}
+    </div>
   );
 }

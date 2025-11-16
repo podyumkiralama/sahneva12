@@ -18,7 +18,6 @@ export default function TurkishLayout({ children }) {
       </header>
       <main
         id="_main_content"
-        role="main"
         tabIndex={-1}
         className="flex-1 pt-6 pb-10 lg:pb-12 focus-ring scroll-mt-4"
       >
