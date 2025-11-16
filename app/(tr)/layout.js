@@ -1,6 +1,6 @@
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
-import UtilityBar from "../../components/UtilityBar.client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import UtilityBar from "@/components/UtilityBar.client";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export default function TurkishLayout({ children }) {
