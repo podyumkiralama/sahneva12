@@ -1,10 +1,8 @@
 // app/led-ekran-kiralama/page.jsx
-"use client";
 
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { useState } from "react";
 
 /* ================== Sabitler ================== */
 export const revalidate = 1800;
@@ -847,12 +845,6 @@ function Articles() {
 function FAQ() {
   const faqs = FAQ_ITEMS;
 
-  const [openIndex, setOpenIndex] = useState(0);
-
-  const toggleItem = (index) => {
-    setOpenIndex((current) => (current === index ? null : index));
-  };
-  
   return (
     <section className="py-20 bg-white" aria-labelledby="sss-baslik">
       <div className="container mx-auto px-4 max-w-4xl">
@@ -867,41 +859,28 @@ function FAQ() {
 
         <div className="space-y-4" role="list" aria-label="Sık sorulan sorular listesi">
           {faqs.map((faq, index) => {
-            const isOpen = openIndex === index;
             const panelId = `faq-panel-${index}`;
-            const buttonId = `faq-trigger-${index}`;
 
             return (
-              <div
+              <details
                 key={faq.q}
-                className={`bg-gray-50 rounded-3xl border-2 transition-all duration-500 ${isOpen ? "border-blue-200 bg-blue-50 shadow-lg" : "border-transparent hover:bg-gray-100"}`}
+                className="group bg-gray-50 rounded-3xl border-2 border-transparent transition-all duration-500 open:border-blue-200 open:bg-blue-50 open:shadow-lg hover:bg-gray-100"
                 role="listitem"
+                id={panelId}
               >
-                <button
-                  id={buttonId}
-                  type="button"
-                  className="w-full text-left flex items-center justify-between gap-4 px-8 py-6 text-xl font-bold text-gray-900"
-                  aria-expanded={isOpen}
-                  aria-controls={panelId}
-                  onClick={() => toggleItem(index)}
-                >
+                <summary className="cursor-pointer w-full text-left flex items-center justify-between gap-4 px-8 py-6 text-xl font-bold text-gray-900 list-none marker:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-3xl">
                   <span className="pr-4 flex-1">{faq.q}</span>
                   <span
                     aria-hidden="true"
-                    className={`ml-4 transition-transform duration-300 text-blue-600 bg-blue-100 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0 ${isOpen ? "rotate-180" : ""}`}
+                    className="ml-4 transition-transform duration-300 text-blue-600 bg-blue-100 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0 group-open:rotate-180"
                   >
                     ⌄
                   </span>
-                </button>
-                <div
-                  id={panelId}
-                  role="region"
-                  aria-labelledby={buttonId}
-                  className={`text-gray-700 leading-relaxed text-lg px-8 pb-8 transition-[max-height,opacity] duration-300 ease-in-out ${isOpen ? "max-h-[300px] opacity-100" : "max-h-0 opacity-0 overflow-hidden"}`}
-                >
+                </summary>
+                <div className="text-gray-700 leading-relaxed text-lg px-8 pb-8 -mt-2">
                   <p className="pl-4 border-l-4 border-blue-500">{faq.a}</p>
                 </div>
-              </div>
+              </details>
             );
           })}
         </div>
