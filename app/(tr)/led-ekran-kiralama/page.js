@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { useState } from "react";
 
 /* ================== Sabitler ================== */
 export const revalidate = 1800;
@@ -30,14 +29,7 @@ const CaseGallery = dynamic(() => import("@/components/CaseGallery"), {
   )
 });
 
-const FAQSection = () => {
-  const [openIndex, setOpenIndex] = useState(null);
-  const faqs = FAQ_ITEMS;
-
-  const toggleItem = (index) => {
-    setOpenIndex((current) => (current === index ? null : index));
-  };
-
+function FAQ() {
   return (
     <section className="py-20 bg-white" aria-labelledby="sss-baslik">
       <div className="container mx-auto px-4 max-w-4xl">
@@ -51,45 +43,36 @@ const FAQSection = () => {
         </div>
 
         <div className="space-y-4" role="list" aria-label="Sık sorulan sorular listesi">
-          {faqs.map((faq, index) => {
+          {FAQ_ITEMS.map((faq, index) => {
             const panelId = `faq-panel-${index}`;
             const headingId = `faq-heading-${index}`;
-            const isOpen = openIndex === index;
 
             return (
-              <article
-                key={faq.q}
-                className="group bg-gray-50 rounded-3xl border-2 border-transparent transition-all duration-500 hover:bg-gray-100"
-                role="listitem"
-              >
-                <h3 id={headingId}>
-                  <button
-                    type="button"
-                    onClick={() => toggleItem(index)}
-                    className="w-full text-left flex items-center justify-between gap-4 px-8 py-6 text-xl font-bold text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-3xl"
-                    aria-expanded={isOpen}
-                    aria-controls={panelId}
+              <article key={faq.q} role="listitem">
+                <details
+                  className="group bg-gray-50 rounded-3xl border-2 border-transparent transition-all duration-500 hover:bg-gray-100 open:bg-gray-100 open:border-blue-100 [&_summary::-webkit-details-marker]:hidden"
+                  id={panelId}
+                  aria-labelledby={headingId}
+                >
+                  <summary
+                    id={headingId}
+                    className="cursor-pointer w-full list-none text-left flex items-center justify-between gap-4 px-8 py-6 text-xl font-bold text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-3xl"
                   >
                     <span className="pr-4 flex-1">{faq.q}</span>
                     <span
                       aria-hidden="true"
-                      className="ml-4 transition-transform duration-300 text-blue-600 bg-blue-100 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0"
-                      data-accordion-indicator
-                      style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+                      className="ml-4 transition-transform duration-300 text-blue-600 bg-blue-100 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0 group-open:rotate-180"
                     >
                       ⌄
                     </span>
-                  </button>
-                </h3>
-                <div
-                  id={panelId}
-                  role="region"
-                  aria-labelledby={headingId}
-                  hidden={!isOpen}
-                  className="text-gray-700 leading-relaxed text-lg px-8 pb-8 -mt-2"
-                >
-                  <p className="pl-4 border-l-4 border-blue-500">{faq.a}</p>
-                </div>
+                  </summary>
+
+                  <div className="grid grid-rows-[0fr] group-open:grid-rows-[1fr] transition-[grid-template-rows] duration-300 px-8 pb-0">
+                    <div className="overflow-hidden text-gray-700 leading-relaxed text-lg pt-0 group-open:pt-2 group-open:pb-6">
+                      <p className="pl-4 border-l-4 border-blue-500">{faq.a}</p>
+                    </div>
+                  </div>
+                </details>
               </article>
             );
           })}
@@ -111,9 +94,7 @@ const FAQSection = () => {
       </div>
     </section>
   );
-};
-
-const FAQ = dynamic(() => Promise.resolve(FAQSection), { ssr: false });
+}
 
 /* ================== META ================== */
 export const metadata = {
