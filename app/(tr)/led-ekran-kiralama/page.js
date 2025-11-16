@@ -4,9 +4,6 @@ import Link from "next/link";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 
-import { buildFaqSchema } from "@/lib/structuredData/faq";
-import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
-
 /* ================== Sabitler ================== */
 export const revalidate = 1800;
 const ORIGIN = "https://www.sahneva.com";
@@ -31,6 +28,7 @@ const CaseGallery = dynamic(() => import("@/components/CaseGallery"), {
 export const metadata = {
   title: "LED Ekran Kiralama | Profesyonel Çözümler | Sahneva",
   description: "P2-P6 piksel aralığı, 4K çözünürlük, yüksek parlaklık LED ekran kiralama. İç/dış mekan, konser, fuar ve kurumsal etkinlikler için profesyonel çözümler.",
+  keywords: "led ekran kiralama, p2.5 led ekran, p4 led ekran, dış mekan led ekran, led wall kiralama, video wall kiralama, konser led ekran",
   alternates: { canonical: `${ORIGIN}/led-ekran-kiralama` },
   openGraph: {
     title: "LED Ekran Kiralama | Profesyonel Çözümler",
@@ -67,9 +65,13 @@ export const metadata = {
 
 /* ================== Yardımcılar & Sabitler ================== */
 const slugify = (s) =>
-  s.toLowerCase()
+  String(s)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
     .replace(/&/g, " ve ")
-    .replace(/[^a-z0-9çğıöşü\s-]/g, "")
+    .replace(/[^\p{L}\p{N}\s-]/gu, "")
+    .trim()
     .replace(/\s+/g, "-")
     .replace(/-+/g, "-");
 
@@ -199,7 +201,7 @@ function Hero() {
             target="_blank"
             rel="noopener noreferrer"
             title="WhatsApp üzerinden hemen teklif alın"
-            className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring shadow-lg"
+            className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-green-600 shadow-lg"
             role="button"
           >
             <span aria-hidden="true" className="text-xl mr-2">💬</span> 
@@ -209,7 +211,7 @@ function Hero() {
           <Link
             href="#hizmetler"
             title="Hizmetlerimiz hakkında daha fazla bilgi edinin"
-            className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-white text-white/95 bg-white/10 backdrop-blur-lg hover:bg-white/20 hover:scale-105 transform transition-all duration-300 focus-ring shadow-lg"
+            className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-white text-white/95 bg-white/10 backdrop-blur-lg hover:bg-white/20 hover:scale-105 transform transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 shadow-lg"
             role="button"
           >
             <span aria-hidden="true" className="text-xl mr-2">🎯</span> 
@@ -290,7 +292,7 @@ function Services() {
             href={WHATSAPP}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring"
+            className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-500"
             role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">📞</span>
@@ -361,7 +363,7 @@ function Gallery() {
           </p>
           <Link
             href="/projeler"
-            className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white transform transition-all duration-300 focus-ring"
+            className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white transform transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-purple-300"
             role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">📸</span>
@@ -537,7 +539,7 @@ function UseCases() {
             href={WHATSAPP}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-white text-blue-700 hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring"
+            className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-white text-blue-700 hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus:outline-none focus-visible:ring-4 focus-visible:ring-white"
             role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">💬</span>
@@ -801,7 +803,8 @@ function Articles() {
 }
 
 /* ================== SSS ================== */
-const FAQ_ITEMS = [
+function FAQ() {
+  const faqs = [
     { 
       q: "LED ekran kiralama fiyatları ne kadar?", 
       a: "LED ekran kiralama fiyatları piksel aralığına ve ekran boyutuna göre değişmektedir. P2.5 iç mekan LED ekran için m² fiyatı 2.800 TL, P4 dış mekan LED ekran için m² fiyatı 1.800 TL'dir. Profesyonel kurulum ve operatör hizmetleri paket fiyatlarına dahildir." 
@@ -819,8 +822,6 @@ const FAQ_ITEMS = [
       a: "Piksel aralığı seçimi izleyici mesafesine göre belirlenmelidir. 3-10m mesafe için P2.5-P3.9, 10-25m mesafe için P4, 25m+ mesafe için P6 piksel aralığı öneriyoruz. İç mekan etkinliklerinde P2.5-P3.9, dış mekan etkinliklerinde ise P4-P6 aralığı tercih edilmektedir." 
     },
   ];
-
-function FAQ() {
   
   return (
     <section className="py-20 bg-white" aria-labelledby="sss-baslik">
@@ -835,7 +836,7 @@ function FAQ() {
         </div>
 
         <div className="space-y-6" role="list" aria-label="Sık sorulan sorular listesi">
-          {FAQ_ITEMS.map((faq, index) => (
+          {faqs.map((faq, index) => (
             <details 
               key={index} 
               className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border"
@@ -867,7 +868,7 @@ function FAQ() {
           </p>
           <Link
             href="/sss"
-            className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring"
+            className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-500"
             title="Sık Sorulan Sorular sayfasındaki tüm soruları görüntüle"
             role="button"
           >
@@ -940,7 +941,7 @@ function RelatedServices() {
               <Link
                 key={service.href}
                 href={service.href}
-                className="group bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl border-2 border-gray-100 hover:border-blue-200 transition-all duration-500 hover:scale-105 text-center focus-ring h-full flex flex-col"
+                className="group bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl border-2 border-gray-100 hover:border-blue-200 transition-all duration-500 hover:scale-105 text-center focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-600 focus-visible:ring-offset-2 focus-visible:ring-offset-white h-full flex flex-col"
                 aria-label={`${service.title} - ${service.desc}`}
               >
                 <div 
@@ -989,7 +990,7 @@ function CTA() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link 
                 href="/iletisim" 
-                className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-white text-blue-700 hover:scale-105 transform transition-all duration-300 hover:shadow-2xl focus-ring shadow-lg"
+                className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-white text-blue-700 hover:scale-105 transform transition-all duration-300 hover:shadow-2xl focus:outline-none focus-visible:ring-4 focus-visible:ring-white shadow-lg"
                 role="button"
               >
                 <span aria-hidden="true" className="text-xl mr-3">📞</span> 
@@ -999,14 +1000,14 @@ function CTA() {
                 href={WHATSAPP} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-white text-white bg-transparent hover:bg-white/20 hover:scale-105 transform transition-all duration-300 focus-ring shadow-lg"
+                className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-white text-white bg-transparent hover:bg-white/20 hover:scale-105 transform transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-white shadow-lg"
                 role="button"
               >
                 <span aria-hidden="true" className="text-xl mr-3">💬</span> 
                 <span className="text-lg">WhatsApp'tan Yaz</span>
               </a>
             </div>
-            <div className="mt-8 text-blue-200 text-lg">
+            <div className="mt-8 text-blue-200 text-lg" role="contentinfo">
               📍 81 ilde hizmet • ⏰ 7/24 teknik destek • ⭐ 5+ yıl deneyim
             </div>
           </div>
@@ -1016,78 +1017,238 @@ function CTA() {
   );
 }
 
-/* ================== JSON-LD (Product + FAQ) ================== */
+/* ================== JSON-LD (LED Ekran Kiralama) — FINAL ================== */
 function JsonLd() {
   const pageUrl = `${ORIGIN}/led-ekran-kiralama`;
+  const pageDescription = metadata.description;
 
+  const providerRef = {
+    "@id": `${ORIGIN}#org`,
+  };
+
+  /* ----------------------------------------
+    LOCAL BUSINESS (layout'taki #localbiz)
+  ---------------------------------------- */
+  const localBusinessNode = {
+    "@type": "LocalBusiness",
+    "@id": `${ORIGIN}#localbiz`,
+    name: "Sahneva",
+    url: ORIGIN,
+  };
+
+  /* ----------------------------------------
+    RATING NODE (LocalBusiness'a bağlı)
+  ---------------------------------------- */
+  const ratingNodeId = `${pageUrl}#rating`;
+
+  const ratingNode = {
+    "@type": "AggregateRating",
+    "@id": ratingNodeId,
+    ratingValue: "4.9",
+    bestRating: "5",
+    worstRating: "1",
+    ratingCount: "183",
+    itemReviewed: {
+      "@id": `${ORIGIN}#localbiz`,
+    },
+  };
+
+  /* ----------------------------------------
+    SERVICE
+  ---------------------------------------- */
+  const serviceNode = {
+    "@type": "Service",
+    "@id": `${pageUrl}#service`,
+    name: "LED Ekran Kiralama",
+    description: pageDescription,
+    serviceType: "LED Ekran Kiralama Hizmeti",
+    url: pageUrl,
+    provider: providerRef,
+    areaServed: {
+      "@type": "State",
+      name: "Türkiye",
+      description:
+        "Türkiye'nin 81 ilinde profesyonel LED ekran kiralama hizmeti",
+    },
+    offers: {
+      "@type": "AggregateOffer",
+      priceCurrency: "TRY",
+      lowPrice: "1800",
+      highPrice: "28000",
+      availability: "https://schema.org/InStock",
+      url: pageUrl,
+    },
+    aggregateRating: {
+      "@id": ratingNodeId,
+    },
+  };
+
+  /* ----------------------------------------
+    PRODUCT (Review buraya bağlanacak)
+  ---------------------------------------- */
+  const productNode = {
+    "@type": "Product",
+    "@id": `${pageUrl}#product`,
+    name: "İç ve Dış Mekan LED Ekran Kiralama",
+    description:
+      "P2-P6 piksel aralığı, 4K çözünürlük ve yüksek parlaklık sunan iç/dış mekan LED ekran kiralama hizmeti. Konser, fuar, festival ve kurumsal etkinlikler için profesyonel çözümler.",
+    category: "EventLedScreenRental",
+    image: `${ORIGIN}/img/hizmet-led-ekran.webp`,
+    brand: providerRef,
+    url: pageUrl,
+    isRelatedTo: {
+      "@id": `${pageUrl}#service`,
+    },
+    aggregateRating: {
+      "@id": ratingNodeId,
+    },
+    offers: {
+      "@type": "AggregateOffer",
+      priceCurrency: "TRY",
+      lowPrice: "1800",
+      highPrice: "28000",
+      availability: "https://schema.org/InStock",
+      url: pageUrl,
+    },
+  };
+
+  /* ----------------------------------------
+    BREADCRUMB
+  ---------------------------------------- */
+  const breadcrumbSchema = {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Anasayfa",
+        item: `${ORIGIN}/`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "LED Ekran Kiralama",
+        item: pageUrl,
+      },
+    ],
+  };
+
+  /* ----------------------------------------
+    WEBPAGE
+  ---------------------------------------- */
+  const webpageSchema = {
+    "@type": "WebPage",
+    "@id": `${pageUrl}#webpage`,
+    name: metadata.title,
+    description: pageDescription,
+    url: pageUrl,
+    inLanguage: "tr-TR",
+    mainEntity: {
+      "@id": `${pageUrl}#service`,
+    },
+    isPartOf: {
+      "@id": `${ORIGIN}#website`,
+    },
+    about: {
+      "@id": `${pageUrl}#service`,
+    },
+    primaryImageOfPage: {
+      "@type": "ImageObject",
+      url: `${ORIGIN}/img/hizmet-led-ekran.webp`,
+      width: 1200,
+      height: 630,
+      caption: "Sahneva — Profesyonel LED Ekran Kiralama Hizmetleri",
+    },
+    datePublished: "2024-01-01",
+    dateModified: new Date().toISOString().split("T")[0],
+    author: providerRef,
+  };
+
+  /* ----------------------------------------
+    EVENT SERVICE
+  ---------------------------------------- */
+  const eventServiceSchema = {
+    "@type": "EventService",
+    "@id": `${pageUrl}#eventservice`,
+    name: "Etkinlik LED Ekran Kiralama Hizmeti",
+    description:
+      "Konser, festival, fuar, kurumsal lansman ve özel etkinlikler için LED ekran çözümleri.",
+    serviceType: USE_CASES.map((uc) => uc.text),
+    provider: providerRef,
+    areaServed: {
+      "@type": "AdministrativeArea",
+      name: "Türkiye",
+    },
+  };
+
+  /* ----------------------------------------
+    REVIEWS (Product'a bağlı — Google uyumlu)
+  ---------------------------------------- */
+  const reviews = [
+    {
+      "@type": "Review",
+      "@id": `${pageUrl}#review-1`,
+      itemReviewed: { "@id": `${pageUrl}#product` },
+      author: { "@type": "Person", name: "Kurumsal Müşteri" },
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: "5",
+        bestRating: "5",
+        worstRating: "1",
+      },
+      reviewBody:
+        "Lansman etkinliğimizde kullanılan LED ekranlar çok parlak ve netti. Kurulum ve yayın süreci sorunsuz ilerledi.",
+      datePublished: "2024-02-10",
+    },
+    {
+      "@type": "Review",
+      "@id": `${pageUrl}#review-2`,
+      itemReviewed: { "@id": `${pageUrl}#product` },
+      author: { "@type": "Person", name: "Etkinlik Ajansı" },
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: "4.9",
+        bestRating: "5",
+        worstRating: "1",
+      },
+      reviewBody:
+        "Açık hava festivalinde gün ışığında bile LED ekran parlaklığı çok iyiydi. Teknik ekip hızlı ve profesyoneldi.",
+      datePublished: "2024-03-05",
+    },
+  ];
+
+  /* ----------------------------------------
+    FAQ
+  ---------------------------------------- */
+  const faqSchema = {
+    "@type": "FAQPage",
+    "@id": `${pageUrl}#faq`,
+    mainEntity: FAQ_ITEMS.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.a,
+      },
+    })),
+  };
+
+  /* ----------------------------------------
+    TOP GRAPH (çadır sayfasıyla aynı mantık)
+  ---------------------------------------- */
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
-      {
-        "@type": "Product",
-        "@id": `${pageUrl}#product`,
-        "name": "LED Ekran Kiralama",
-        "description": "P2-P6 piksel aralığı, 4K çözünürlük, yüksek parlaklık LED ekran kiralama. İç/dış mekan, konser, fuar ve kurumsal etkinlikler için profesyonel çözümler.",
-        "image": `${ORIGIN}/img/hizmet-led-ekran.webp`,
-        "brand": {
-          "@type": "Organization",
-          "@id": `${ORIGIN}#org`
-        },
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "183",
-          "bestRating": "5",
-          "worstRating": "1"
-        },
-        "offers": {
-          "@type": "AggregateOffer",
-          "priceCurrency": "TRY",
-          "lowPrice": "1800",
-          "highPrice": "2800",
-          "availability": "https://schema.org/InStock",
-          "url": pageUrl
-        }
-      },
-      {
-        "@type": "FAQPage",
-        "@id": `${pageUrl}#faq`,
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "LED ekran kiralama fiyatları ne kadar?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "LED ekran kiralama fiyatları piksel aralığına ve ekran boyutuna göre değişmektedir. P2.5 iç mekan LED ekran için m² fiyatı yaklaşık 2.800 TL, P4 dış mekan LED ekran için m² fiyatı yaklaşık 1.800 TL'dir. Profesyonel kurulum ve operatör hizmetleri paket fiyatlarına dahil edilebilir."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "LED ekran kurulumu ne kadar sürer?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Standart bir LED ekran kurulumu 2-6 saat arasında tamamlanır. 20 m²'ye kadar küçük kurulumlar genellikle 2-3 saat, 20-50 m² arası kurulumlar 3-4 saat, 50 m² üzeri büyük kurulumlar ise 4-6 saat sürebilir."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Yağmurlu havada LED ekran kullanılabilir mi?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Evet, dış mekan LED ekranlarımız IP65 koruma sınıfına sahiptir ve yağmurlu havada güvenle kullanılabilir. Ancak şiddetli fırtına ve kasırga gibi ekstrem hava koşullarında güvenlik için kullanıma ara verilmesini öneriyoruz."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "LED ekran için hangi piksel aralığını seçmeliyim?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Piksel aralığı seçimi izleyici mesafesine göre yapılmalıdır. 3-10 m arası için P2.5-P3.9, 10-25 m arası için P4, 25 m ve üzeri mesafeler için P6 piksel aralığı önerilir. İç mekan için genelde P2.5-P3.9, dış mekan için P4-P6 tercih edilir."
-            }
-          }
-        ]
-      }
-    ]
+      localBusinessNode,   // 1) LocalBusiness (#localbiz)
+      webpageSchema,       // 2) WebPage
+      breadcrumbSchema,    // 3) Breadcrumb
+      serviceNode,         // 4) Service
+      productNode,         // 5) Product
+      eventServiceSchema,  // 6) EventService
+      ratingNode,          // 7) Rating
+      ...reviews,          // 8) Reviews
+      faqSchema,           // 9) FAQ
+    ],
   };
 
   return (
@@ -1098,7 +1259,6 @@ function JsonLd() {
     />
   );
 }
-
 
 /* ================== Sayfa Bileşeni ================== */
 export default function Page() {
