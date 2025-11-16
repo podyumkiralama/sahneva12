@@ -1,4 +1,4 @@
-// app/led-ekran-kiralama/page.jsx
+// app/(tr)/led-ekran-kiralama/page.js
 
 import Image from "next/image";
 import Link from "next/link";
