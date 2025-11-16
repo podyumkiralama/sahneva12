@@ -419,7 +419,7 @@ function Services() {
 
         <ul
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"
-         
+          role="list"
         >
           {SERVICES.map((service) => {
             const id = `svc-${slugify(service.title)}`;
@@ -570,7 +570,7 @@ function Packages() {
           </p>
         </div>
 
-        <ul className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <ul className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto" role="list">
           {enrichedPkgs.map((pkg, index) => (
             <li key={pkg.key} className="group h-full">
               <article className="bg-white rounded-3xl border-2 border-gray-100 shadow-xl hover:shadow-2xl overflow-hidden transition-all duration-500 h-full flex flex-col">
@@ -817,7 +817,7 @@ function Technical() {
 
         <ul
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"
-         
+          role="list"
         >
           {technicalItems.map((item) => (
             <li key={item.category} className="h-full">
@@ -865,9 +865,9 @@ function StatsBand() {
       aria-label="Başarı İstatistiklerimiz"
     >
       <div className="container mx-auto px-4">
-        <ul className="grid grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+        <ul className="grid grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto" role="list">
           {stats.map((stat) => (
-            <li key={stat.label} className="text-center">
+            <li key={stat.label} className="text-center" aria-label={`${stat.label}: ${stat.value}`}>
               <div className="group bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 hover:bg-white/20 transition-all duration-500 hover:scale-105">
                 <div
                   className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300"
@@ -914,7 +914,7 @@ function UseCases() {
           />
         </div>
 
-        <ul className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <ul className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto" role="list">
           {USE_CASES.map((uc) => (
             <li
               key={uc.text}
@@ -1323,31 +1323,35 @@ function FAQ() {
           </p>
         </div>
 
-        <ul
-          className="space-y-6 list-none"
-          aria-labelledby="sss-baslik"
+        <div
+          className="space-y-6"
+         
+          aria-label="Sık sorulan sorular listesi"
         >
-          {FAQ_ITEMS.map((faq) => {
-            return (
-              <li key={faq.q} className="list-none">
-                <details className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent">
-                  <summary className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900">
-                    <span className="pr-4">{faq.q}</span>
-                    <span
-                      aria-hidden="true"
-                      className="ml-4 transition-transform duration-500 group-open:rotate-180 text-blue-600 bg-blue-100 rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0"
-                    >
-                      ⌄
-                    </span>
-                  </summary>
-                  <div className="mt-6 text-gray-700 leading-relaxed text-lg pl-4 border-l-4 border-blue-500" role="region">
-                    {faq.a}
-                  </div>
-                </details>
-              </li>
-            );
-          })}
-        </ul>
+          {FAQ_ITEMS.map((faq, index) => (
+            <details
+              key={index}
+              className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border"
+              role="listitem"
+            >
+              <summary
+                className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900"
+               
+              >
+                <span className="pr-4">{faq.q}</span>
+                <span
+                  aria-hidden="true"
+                  className="ml-4 transition-transform duration-500 group-open:rotate-180 text-blue-600 bg-blue-100 rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0"
+                >
+                  ⌄
+                </span>
+              </summary>
+              <div className="mt-6 text-gray-700 leading-relaxed text-lg pl-4 border-l-4 border-blue-500" role="region">
+                {faq.a}
+              </div>
+            </details>
+          ))}
+        </div>
 
         <div className="text-center mt-12">
           <p className="text-gray-600 text-lg mb-6">
@@ -1426,7 +1430,7 @@ function RelatedServices() {
         </div>
 
         <nav aria-label="Tamamlayıcı hizmetler">
-          <ul className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+          <ul className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto" role="list">
             {services.map((service) => (
               <li key={service.href} className="h-full">
                 <Link
