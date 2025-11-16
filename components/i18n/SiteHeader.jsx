@@ -12,7 +12,6 @@ export default function SiteHeader({ locale, strings }) {
   const previouslyFocusedElement = useRef(null);
   const previousOverflow = useRef("");
   const mobileMenuId = "mobile_menu";
-  const mobileMenuHeadingId = `mobile-menu-title-${locale ?? "tr"}`;
 
   const direction = strings.direction ?? (locale === "ar" ? "rtl" : "ltr");
   const homeHref = locale === "tr" ? "/" : `/${locale}`;
@@ -168,9 +167,6 @@ export default function SiteHeader({ locale, strings }) {
         aria-labelledby={mobileMenuHeadingId}
         className="lg:hidden border-t border-neutral-200 bg-white shadow-xl"
       >
-        <h2 id={mobileMenuHeadingId} className="sr-only">
-          {ariaStrings.nav}
-        </h2>
         <nav
           id="primary-navigation-mobile"
           role="navigation"

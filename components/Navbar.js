@@ -73,7 +73,6 @@ export default function Navbar() {
   const mobileMenuId = "mobile_menu";
   const servicesBtnId = "nav-services-button";
   const servicesMenuId = "nav-services-menu";
-  const mobileMenuHeadingId = "mobile-menu-title-tr";
   const mobileToggleOpenLabel =
     headerStrings?.mobileToggleOpenLabel ?? "Menüyü aç";
   const mobileToggleCloseLabel =
@@ -551,7 +550,6 @@ export default function Navbar() {
         aria-label={
           mobileOpen ? headerStrings?.navLabel ?? "Ana gezinme" : undefined
         }
-        aria-labelledby={mobileMenuHeadingId}
         aria-hidden={!mobileOpen}
         hidden={!mobileOpen}
         className="lg:hidden fixed z-50 left-0 right-0 top-16 bg-white border-t border-neutral-200 shadow-2xl max-h-[80vh] opacity-100 transition-all duration-300 overflow-hidden"
