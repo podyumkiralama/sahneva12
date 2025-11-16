@@ -1,11 +1,7 @@
 // app/led-ekran-kiralama/page.jsx
 import Image from "next/image";
 import Link from "next/link";
-import Script from "next/script";
 import dynamic from "next/dynamic";
-
-import { buildFaqSchema } from "@/lib/structuredData/faq";
-import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
 
 /* ================== Sabitler ================== */
 export const revalidate = 1800;
