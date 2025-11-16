@@ -542,8 +542,9 @@ export default function Navbar() {
         ref={mobileMenuRef}
         role={mobileOpen ? "dialog" : undefined}
         aria-modal={mobileOpen ? "true" : undefined}
-        aria-hidden={!mobileOpen}
-        aria-label={headerStrings?.navLabel ?? "Ana gezinme"}
+        aria-label={
+          mobileOpen ? headerStrings?.navLabel ?? "Ana gezinme" : undefined
+        }
         hidden={!mobileOpen}
         className="lg:hidden fixed z-50 left-0 right-0 top-16 bg-white border-t border-neutral-200 shadow-2xl max-h-[80vh] opacity-100 transition-all duration-300 overflow-hidden"
       >
