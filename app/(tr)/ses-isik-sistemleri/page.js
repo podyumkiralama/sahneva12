@@ -1022,7 +1022,6 @@ function CTA() {
 /* ================== JSON-LD ================== */
 function JsonLd() {
   const pageUrl = `${ORIGIN}/ses-isik-sistemleri`;
-  const pageName = metadata.title;
   const pageDescription = metadata.description;
 
   const provider = {
