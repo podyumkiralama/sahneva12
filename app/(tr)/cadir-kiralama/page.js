@@ -13,7 +13,7 @@ const WHATSAPP = `https://wa.me/${PHONE.replace("+", "")}?text=${WA_TEXT}`;
 
 // Base64 blur placeholder (LCP hero için)
 const BLUR_DATA_URL =
-  "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAADAAQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==`";
+  "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAADAAQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==";
 
 /* ================== Dinamik galeri (CaseGallery) ================== */
 const CaseGallery = dynamic(() => import("@/components/CaseGallery"), {
@@ -208,6 +208,7 @@ function Hero() {
           src={HERO.src}
           alt={HERO.alt}
           fill
+          priority
           loading="eager"
           fetchPriority="high"
           className="object-cover"
@@ -272,7 +273,7 @@ function Hero() {
           <Link
             href="#hizmetler"
             title="Hizmetlerimiz hakkında daha fazla bilgi edinin"
-            className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-white text-white/95 bg-white/10 backdrop-blur-lg hover:bg-white/20 hover:scale-105 transform transition-all duration-300 focus-ring shadow-lg"
+            className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-white text-white/95 bg-white/10 backdrop-blur-lg hover:bg_WHITE/20 hover:scale-105 transform transition-all duration-300 focus-ring shadow-lg"
           >
             <span aria-hidden="true" className="text-xl mr-2">
               🎯
@@ -282,25 +283,25 @@ function Hero() {
         </div>
 
         <div className="grid grid-cols-3 gap-4 max-w-xl mx-auto">
-          <div className="flex flex-col items-center text-center p-4 bg-white/10 backdrop-blur-md rounded-xl border border-white/20">
+          <div className="flex flex-col items-center text-center p-4 bg-white/10 backdrop-blur-md rounded-xl border border_WHITE/20">
             <span className="text-2xl mb-2" aria-hidden="true">
               ⭐
             </span>
             <div className="text-xl font-black text-white">4.8/5</div>
             <div className="text-white/80 text-sm">180+ Değerlendirme</div>
           </div>
-          <div className="flex flex-col items-center text-center p-4 bg-white/10 backdrop-blur-md rounded-xl border border-white/20">
+          <div className="flex flex-col items-center text-center p-4 bg-white/10 backdrop-blur-md rounded-xl border border_WHITE/20">
             <span className="text-2xl mb-2" aria-hidden="true">
               🏆
             </span>
-            <div className="text-xl font-black text-white">850+</div>
+            <div className="text-xl font-black text_WHITE">850+</div>
             <div className="text-white/80 text-sm">Etkinlik</div>
           </div>
-          <div className="flex flex-col items-center text-center p-4 bg-white/10 backdrop-blur-md rounded-xl border border-white/20">
+          <div className="flex flex-col items-center text-center p-4 bg-white/10 backdrop-blur-md rounded-xl border border_WHITE/20">
             <span className="text-2xl mb-2" aria-hidden="true">
               🚀
             </span>
-            <div className="text-xl font-black text-white">81 İl</div>
+            <div className="text-xl font-black text_WHITE">81 İl</div>
             <div className="text-white/80 text-sm">Hizmet</div>
           </div>
         </div>
@@ -335,7 +336,7 @@ function Services() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx_auto">
           {SERVICES.map((service) => {
             const id = `svc-${slugify(service.title)}`;
             return (
@@ -781,7 +782,7 @@ function Articles() {
               <div
                 className="absolute inset-0 bg-black/10"
                 aria-hidden="true"
-              ></div>
+              />
               <div className="relative z-10">
                 <div className="flex flex-wrap items-center gap-3 mb-4">
                   <span className="bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-semibold">
@@ -856,7 +857,7 @@ function Articles() {
                       aydınlatmasıyla büyüleyici atmosferler yaratıyor.
                     </p>
                     <p>
-                      Endüstriyel çadırlarımız 10-20m geniş açıklıklarla
+                      Endüstriyel çadırlarımız 10–20m geniş açıklıklarla
                       depolama ve üretim alanları için ideal çözümler
                       sunarken, fuar çadırlarımız profesyonel sergi alanları
                       oluşturuyor.
@@ -954,7 +955,7 @@ function Articles() {
                     </strong>{" "}
                     ile çadır kiralama konusunda güvenilir çözüm ortağınız.
                     Profesyonel ekipman, uzman ekip ve 7/24 teknik destek
-                    garantisi.
+                    garantisi sunuyoruz.
                   </p>
                 </div>
               </div>
@@ -981,7 +982,7 @@ function Articles() {
                   etkinlik ihtiyaçları analiz edilir.
                 </p>
                 <p>
-                  Profesyonel kurulum ekibimiz 2-6 saat içinde çadırınızı
+                  Profesyonel kurulum ekibimiz 2–6 saat içinde çadırınızı
                   montajlar, güvenlik sistemlerini kurar ve tamamlayıcı
                   hizmetleri entegre eder.
                 </p>
@@ -1056,7 +1057,7 @@ function Articles() {
                     </h4>
                     <p className="text-gray-700 text-base mb-0">
                       Şık tasarım, romantik aydınlatma, konforlu alanlar, özel
-                      dekorasyon
+                      dekorasyon çözümleri
                     </p>
                   </div>
 
@@ -1071,8 +1072,8 @@ function Articles() {
                       Fuar ve Sergiler
                     </h4>
                     <p className="text-gray-700 text-base mb-0">
-                      Profesyonel görünüm, stand uyumu, markalama, fonksiyonel
-                      alanlar
+                      Profesyonel görünüm, stand uyumu, kurumsal markalama,
+                      fonksiyonel alan planlaması
                     </p>
                   </div>
 
@@ -1088,7 +1089,7 @@ function Articles() {
                     </h4>
                     <p className="text-gray-700 text-base mb-0">
                       Dayanıklı yapı, geniş açıklık, forklift erişimi, uzun
-                      ömür
+                      ömürlü kullanım ve bakım desteği
                     </p>
                   </div>
                 </div>
@@ -1140,14 +1141,13 @@ function FAQ() {
           </p>
         </div>
 
-        {/* role="list" ve aria-label KALDIRILDI */}
         <div className="space-y-6">
           {FAQ_ITEMS.map((faq, index) => (
             <details
               key={index}
               className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border"
             >
-              <summary className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900">
+              <summary className="cursor-pointer list-none flex items-center justify_between text-xl font-bold text-gray-900">
                 <span className="pr-4">{faq.q}</span>
                 <span
                   aria-hidden="true"
@@ -1292,7 +1292,7 @@ function CTA() {
           <div
             className="absolute inset-0 bg-black/10"
             aria-hidden="true"
-          ></div>
+          />
           <div className="relative z-10">
             <h2
               id="cta-baslik"
