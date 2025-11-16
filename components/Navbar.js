@@ -536,13 +536,20 @@ export default function Navbar() {
         />
       )}
 
-      {/* Mobil menü – sadece açıkken renderlansın ki gereksiz aria uyarıları olmasın */}
-      {mobileOpen && (
-        <div
-          id="mobile-menu"
-          ref={mobileMenuRef}
-          role="dialog"
-          aria-modal="true"
+      {/* Mobil menü – her zaman DOM'da, kapalıyken gizli */}
+      <div
+        id="mobile-menu"
+        ref={mobileMenuRef}
+        role={mobileOpen ? "dialog" : undefined}
+        aria-modal={mobileOpen ? "true" : undefined}
+        aria-label={
+          mobileOpen ? headerStrings?.navLabel ?? "Ana gezinme" : undefined
+        }
+        hidden={!mobileOpen}
+        className="lg:hidden fixed z-50 left-0 right-0 top-16 bg-white border-t border-neutral-200 shadow-2xl max-h-[80vh] opacity-100 transition-all duration-300 overflow-hidden"
+      >
+        <nav
+          id="primary-navigation-mobile"
           aria-label={headerStrings?.navLabel ?? "Ana gezinme"}
           className="lg:hidden fixed z-50 left-0 right-0 top-16 bg-white border-t border-neutral-200 shadow-2xl max-h-[80vh] opacity-100 transition-all duration-300 overflow-hidden"
         >
