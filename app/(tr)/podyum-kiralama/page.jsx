@@ -305,14 +305,23 @@ function JsonLd() {
     locale: "tr-TR",
   });
 
-  // Review / rating şeması (Service içine gömülecek)
-  const reviewSchema = {
+  const productNodes = products || [];
+  const faqSchema = buildFaqSchema(FAQ_ITEMS);
+
+  // Google rating rich result için AYRI AggregateRating node
+  const ratingNodeId = `${pageUrl}#rating`;
+
+  const ratingNode = {
     "@type": "AggregateRating",
-    "@id": `${pageUrl}#rating`,
+    "@id": ratingNodeId,
     ratingValue: "4.8",
     bestRating: "5",
     worstRating: "1",
     ratingCount: "200",
+    // BURASI ÖNEMLİ: Artık Service DEĞİL, LocalBusiness / org'a bağlıyoruz
+    itemReviewed: {
+      "@id": `${ORIGIN}#localbusiness`, // layout'taki LocalBusiness @id'in neyse onu kullan
+    },
   };
 
   const baseService = {
@@ -352,19 +361,16 @@ function JsonLd() {
         availability: "https://schema.org/InStock",
       })),
     },
-    // Rating'i doğrudan Service içine ekliyoruz
-    aggregateRating: reviewSchema,
+    // Service tarafında rating ile ilişkiyi ID üzerinden kuruyoruz
+    aggregateRating: {
+      "@id": ratingNodeId,
+    },
   };
 
-  // Önce helper'dan gelen serviceSchema, üzerine sayfaya özel baseService bindiriyoruz
   const serviceNode =
     serviceSchema != null
       ? { ...serviceSchema, ...baseService }
       : baseService;
-
-  const productNodes = products || [];
-
-  const faqSchema = buildFaqSchema(FAQ_ITEMS);
 
   const breadcrumbSchema = {
     "@type": "BreadcrumbList",
@@ -471,6 +477,7 @@ function JsonLd() {
       webpageSchema,
       howToSchema,
       eventServiceSchema,
+      ratingNode,          // <— bağımsız rating node’u
       ...productNodes,
       ...(faqSchema ? [faqSchema] : []),
     ].filter(Boolean),
