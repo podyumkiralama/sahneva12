@@ -57,7 +57,9 @@ const footerStrings = LOCALE_CONTENT.tr.footer;
 export default function Footer() {
   return (
     <footer
-      id="site-footer"
+      id="_main_footer"
+      role="contentinfo"
+      tabIndex={-1}
       className="relative w-full flex-shrink-0 bg-gradient-to-br from-[#0b1120] via-[#1a1038] to-[#1b1f4a] border-t border-white/10"
       aria-labelledby="site-footer-heading"
       itemScope
@@ -391,7 +393,7 @@ export default function Footer() {
               •
             </span>
             <a
-              href="#main-content"
+              href="#_main_content"
               className={`text-slate-100 hover:text-white underline-offset-4 hover:underline focus-visible:underline transition-colors duration-200 rounded-sm ${focusRingClass}`}
             >
               Başa dön

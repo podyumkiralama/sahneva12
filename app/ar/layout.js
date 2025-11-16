@@ -12,7 +12,7 @@ export default function ArabicLayout({ children }) {
       <DocumentDirection lang="ar" dir={content.direction} />
       <SiteHeader locale="ar" strings={{ ...content.header, direction: content.direction }} />
       <main
-        id="main-content"
+        id="_main_content"
         tabIndex={-1}
         className="flex-1 pb-16 pt-0 focus-ring scroll-mt-4"
       >

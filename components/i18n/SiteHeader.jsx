@@ -74,7 +74,9 @@ export default function SiteHeader({ locale, strings }) {
 
   return (
     <header
-      id="main-header"
+      id="_main_header"
+      role="banner"
+      tabIndex={-1}
       aria-label={ariaStrings.header}
       className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-200/70"
       dir={direction}
@@ -90,6 +92,7 @@ export default function SiteHeader({ locale, strings }) {
 
           <nav
             id="primary-navigation"
+            role="navigation"
             className="hidden lg:flex items-center gap-6"
             aria-label={ariaStrings.nav}
           >
@@ -147,7 +150,11 @@ export default function SiteHeader({ locale, strings }) {
         aria-label={ariaStrings.nav}
         className="lg:hidden border-t border-neutral-200 bg-white shadow-xl"
       >
-        <nav id="primary-navigation-mobile" aria-label={ariaStrings.nav}>
+        <nav
+          id="primary-navigation-mobile"
+          role="navigation"
+          aria-label={ariaStrings.nav}
+        >
           <div className="container mx-auto px-4 py-4 space-y-2">
             {strings.links.map((item) => (
               <Link
