@@ -1337,7 +1337,7 @@ function CTA() {
   );
 }
 
-/* ================== JSON-LD (Çadır Kiralama) ================== */
+/* ================== JSON-LD (Çadır Kiralama) — FINAL ================== */
 function JsonLd() {
   const pageUrl = `${ORIGIN}/cadir-kiralama`;
   const pageDescription = metadata.description;
@@ -1346,7 +1346,19 @@ function JsonLd() {
     "@id": `${ORIGIN}#org`,
   };
 
-  // Google rating rich result için AYRI AggregateRating node
+  /* ----------------------------------------
+    LOCAL BUSINESS (layout'taki #localbiz)
+  ---------------------------------------- */
+  const localBusinessNode = {
+    "@type": "LocalBusiness",
+    "@id": `${ORIGIN}#localbiz`,
+    name: "Sahneva",
+    url: ORIGIN,
+  };
+
+  /* ----------------------------------------
+    RATING NODE (LocalBusiness'a bağlı)
+  ---------------------------------------- */
   const ratingNodeId = `${pageUrl}#rating`;
 
   const ratingNode = {
@@ -1357,11 +1369,13 @@ function JsonLd() {
     worstRating: "1",
     ratingCount: "180",
     itemReviewed: {
-      "@id": `${ORIGIN}#localbiz`, // LocalBusiness (layout'ta tanımlı)
+      "@id": `${ORIGIN}#localbiz`,
     },
   };
 
-  /* ---- Hizmet (Service) ---- */
+  /* ----------------------------------------
+    SERVICE
+  ---------------------------------------- */
   const serviceNode = {
     "@type": "Service",
     "@id": `${pageUrl}#service`,
@@ -1372,39 +1386,8 @@ function JsonLd() {
     provider: providerRef,
     areaServed: {
       "@type": "State",
-      name: "İstanbul",
-      description:
-        "İstanbul başta olmak üzere Türkiye genelinde çadır kiralama hizmeti",
-    },
-    offers: {
-      "@type": "AggregateOffer",
-      priceCurrency: "TRY",
-      lowPrice: "300",
-      highPrice: "7000",
-      availability: "https://schema.org/InStock",
-      url: pageUrl,
-    },
-    aggregateRating: {
-      "@id": ratingNodeId, // ratingNode'a referans
-    },
-  };
-
-  /* ---- Ürün (Product) ---- */
-  const productNode = {
-    "@type": "Product",
-    "@id": `${pageUrl}#product`,
-    name: "Pagoda, Şeffaf ve Endüstriyel Çadır Kiralama",
-    description:
-      "Pagoda, şeffaf dome ve endüstriyel çadır sistemleri için profesyonel kiralama hizmeti. Zemin kaplama, aydınlatma ve kurulum dahil çözümler.",
-    category: "EventTentRental",
-    image: `${ORIGIN}/img/cadir/hero.webp`,
-    brand: {
-      "@type": "Organization",
-      "@id": `${ORIGIN}#org`,
-    },
-    url: pageUrl,
-    isRelatedTo: {
-      "@id": `${pageUrl}#service`,
+      name: "Türkiye",
+      description: "Türkiye'nin 81 ilinde profesyonel çadır kiralama hizmeti",
     },
     offers: {
       "@type": "AggregateOffer",
@@ -1419,7 +1402,38 @@ function JsonLd() {
     },
   };
 
-  /* ---- Breadcrumb ---- */
+  /* ----------------------------------------
+    PRODUCT (Review buraya bağlanacak)
+  ---------------------------------------- */
+  const productNode = {
+    "@type": "Product",
+    "@id": `${pageUrl}#product`,
+    name: "Pagoda, Şeffaf Dome ve Endüstriyel Çadır Kiralama",
+    description:
+      "Pagoda, şeffaf dome ve endüstriyel çadır sistemleri için profesyonel kiralama hizmeti.",
+    category: "EventTentRental",
+    image: `${ORIGIN}/img/cadir/hero.webp`,
+    brand: providerRef,
+    url: pageUrl,
+    isRelatedTo: {
+      "@id": `${pageUrl}#service`,
+    },
+    aggregateRating: {
+      "@id": ratingNodeId,
+    },
+    offers: {
+      "@type": "AggregateOffer",
+      priceCurrency: "TRY",
+      lowPrice: "300",
+      highPrice: "7000",
+      availability: "https://schema.org/InStock",
+      url: pageUrl,
+    },
+  };
+
+  /* ----------------------------------------
+    BREADCRUMB
+  ---------------------------------------- */
   const breadcrumbSchema = {
     "@type": "BreadcrumbList",
     itemListElement: [
@@ -1438,7 +1452,9 @@ function JsonLd() {
     ],
   };
 
-  /* ---- WebPage ---- */
+  /* ----------------------------------------
+    WEBPAGE
+  ---------------------------------------- */
   const webpageSchema = {
     "@type": "WebPage",
     "@id": `${pageUrl}#webpage`,
@@ -1450,7 +1466,7 @@ function JsonLd() {
       "@id": `${pageUrl}#service`,
     },
     isPartOf: {
-      "@id": `${ORIGIN}#website`, // DİKKAT: slash YOK
+      "@id": `${ORIGIN}#website`,
     },
     about: {
       "@id": `${pageUrl}#service`,
@@ -1460,40 +1476,39 @@ function JsonLd() {
       url: `${ORIGIN}/img/cadir/hero.webp`,
       width: 1200,
       height: 630,
-      caption: "Sahneva çadır kiralama - profesyonel etkinlik çözümleri",
+      caption: "Sahneva — Profesyonel Çadır Kiralama Hizmetleri",
     },
     datePublished: "2024-01-01",
     dateModified: new Date().toISOString().split("T")[0],
     author: providerRef,
   };
 
-  /* ---- Etkinlik Hizmeti (EventService) ---- */
+  /* ----------------------------------------
+    EVENT SERVICE
+  ---------------------------------------- */
   const eventServiceSchema = {
     "@type": "EventService",
     "@id": `${pageUrl}#eventservice`,
     name: "Etkinlik Çadır Kiralama Hizmeti",
     description:
-      "Düğün, fuar, festival ve kurumsal etkinlikler için çadır kiralama çözümleri",
+      "Düğün, fuar, konser, festival ve kurumsal etkinlikler için çadır çözümleri",
     serviceType: USE_CASES.map((uc) => uc.text),
     provider: providerRef,
     areaServed: {
       "@type": "AdministrativeArea",
-      name: "İstanbul",
+      name: "Türkiye",
     },
   };
 
-  /* ---- Review nodları ---- */
+  /* ----------------------------------------
+    REVIEWS (Product'a bağlı — Google uyumlu)
+  ---------------------------------------- */
   const reviews = [
     {
       "@type": "Review",
       "@id": `${pageUrl}#review-1`,
-      itemReviewed: {
-        "@id": `${pageUrl}#service`,
-      },
-      author: {
-        "@type": "Person",
-        name: "Kurumsal Müşteri",
-      },
+      itemReviewed: { "@id": `${pageUrl}#product` },
+      author: { "@type": "Person", name: "Kurumsal Müşteri" },
       reviewRating: {
         "@type": "Rating",
         ratingValue: "5",
@@ -1502,17 +1517,13 @@ function JsonLd() {
       },
       reviewBody:
         "Pagoda çadır kurulumu zamanında ve profesyonel şekilde yapıldı. Zemin kaplama ve aydınlatma ile alan tamamen hazırdı.",
+      datePublished: "2024-01-20",
     },
     {
       "@type": "Review",
       "@id": `${pageUrl}#review-2`,
-      itemReviewed: {
-        "@id": `${pageUrl}#service`,
-      },
-      author: {
-        "@type": "Person",
-        name: "Etkinlik Ajansı",
-      },
+      itemReviewed: { "@id": `${pageUrl}#product` },
+      author: { "@type": "Person", name: "Etkinlik Ajansı" },
       reviewRating: {
         "@type": "Rating",
         ratingValue: "4.8",
@@ -1521,10 +1532,13 @@ function JsonLd() {
       },
       reviewBody:
         "Festival alanında endüstriyel çadırlar sorunsuz kuruldu. Hızlı kurulum ve 7/24 teknik destek bizim için kritik oldu.",
+      datePublished: "2024-01-28",
     },
   ];
 
-  /* ---- FAQ ---- */
+  /* ----------------------------------------
+    FAQ
+  ---------------------------------------- */
   const faqSchema = {
     "@type": "FAQPage",
     "@id": `${pageUrl}#faq`,
@@ -1538,17 +1552,21 @@ function JsonLd() {
     })),
   };
 
+  /* ----------------------------------------
+    TOP GRAPH (sıra senin istediğin gibi)
+  ---------------------------------------- */
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
-      breadcrumbSchema,
-      webpageSchema,
-      serviceNode,
-      productNode,
-      eventServiceSchema,
-      ratingNode,
-      ...reviews,
-      faqSchema,
+      localBusinessNode,   // 1) Önce LocalBusiness
+      webpageSchema,       // 2) WebPage
+      breadcrumbSchema,    // 3) Breadcrumb
+      serviceNode,         // 4) Service
+      productNode,         // 5) Product
+      eventServiceSchema,  // 6) EventService
+      ratingNode,          // 7) Rating
+      ...reviews,          // 8) Reviews
+      faqSchema            // 9) FAQ
     ],
   };
 
@@ -1560,7 +1578,6 @@ function JsonLd() {
     />
   );
 }
-
 
 /* ================== Sayfa Bileşeni ================== */
 export default function Page() {
