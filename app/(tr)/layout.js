@@ -8,7 +8,6 @@ export default function TurkishLayout({ children }) {
     <div className="flex flex-col min-h-screen">
       <header
         id="_main_header"
-        role="banner"
         tabIndex={-1}
         aria-label="Sahneva ana site başlığı"
         className="w-full"
