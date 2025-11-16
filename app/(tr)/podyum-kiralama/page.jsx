@@ -305,6 +305,16 @@ function JsonLd() {
     locale: "tr-TR",
   });
 
+  // Review / rating şeması (Service içine gömülecek)
+  const reviewSchema = {
+    "@type": "AggregateRating",
+    "@id": `${pageUrl}#rating`,
+    ratingValue: "4.8",
+    bestRating: "5",
+    worstRating: "1",
+    ratingCount: "200",
+  };
+
   const baseService = {
     "@type": "Service",
     "@id": `${pageUrl}#service`,
@@ -342,11 +352,15 @@ function JsonLd() {
         availability: "https://schema.org/InStock",
       })),
     },
+    // Rating'i doğrudan Service içine ekliyoruz
+    aggregateRating: reviewSchema,
   };
 
-  const serviceNode = serviceSchema
-    ? { ...baseService, ...serviceSchema }
-    : baseService;
+  // Önce helper'dan gelen serviceSchema, üzerine sayfaya özel baseService bindiriyoruz
+  const serviceNode =
+    serviceSchema != null
+      ? { ...serviceSchema, ...baseService }
+      : baseService;
 
   const productNodes = products || [];
 
@@ -449,18 +463,6 @@ function JsonLd() {
     },
   };
 
-  const reviewSchema = {
-    "@type": "AggregateRating",
-    ratingValue: "4.8",
-    bestRating: "5",
-    worstRating: "1",
-    ratingCount: "200",
-    itemReviewed: {
-      "@type": "Service",
-      name: "Podyum Kiralama",
-    },
-  };
-
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -469,7 +471,6 @@ function JsonLd() {
       webpageSchema,
       howToSchema,
       eventServiceSchema,
-      reviewSchema,
       ...productNodes,
       ...(faqSchema ? [faqSchema] : []),
     ].filter(Boolean),
@@ -1380,7 +1381,9 @@ function Articles() {
                 </span>
                 Düğün ve Özel Davetler
               </h4>
-              <p>Şık tasarım, halı kaplama, dekoratif aydınlatma, konforlu alanlar.</p>
+              <p>
+                Şık tasarım, halı kaplama, dekoratif aydınlatma, konforlu alanlar.
+              </p>
 
               <h4 className="flex items-center gap-2 text-lg font-bold mt-6">
                 <span
@@ -1547,7 +1550,7 @@ function RelatedServices() {
                   aria-label={`${service.title} - ${service.desc}`}
                 >
                   <div
-                    className="text-4xl mb-6 group-hover:scale-110 transition-transform duration-300"
+                    className="text-4xl mb-6 group-hover:scale-110 transition-transform	duration-300"
                     aria-hidden="true"
                   >
                     {service.icon}
