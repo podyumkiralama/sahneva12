@@ -1,3 +1,4 @@
+// app/layout.jsx (veya projenin root layout dosyası)
 import "../styles/globals.css";
 import Script from "next/script";
 import { Inter } from "next/font/google";
@@ -70,6 +71,24 @@ const localBusinessJsonLd = {
       closes: "23:00",
     },
   ],
+};
+
+/* ========================= JSON-LD: WEBSITE ========================= */
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://www.sahneva.com/#website",
+  url: "https://www.sahneva.com",
+  name: "Sahneva",
+  inLanguage: "tr-TR",
+  publisher: {
+    "@id": "https://www.sahneva.com/#org",
+  },
+  potentialAction: {
+    "@type": "SearchAction",
+    target: "https://www.sahneva.com/arama?q={search_term}",
+    "query-input": "required name=search_term",
+  },
 };
 
 /* ===================== META: VIEWPORT ===================== */
@@ -172,13 +191,18 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
     >
       <head>
+        {/* Critical CSS */}
         <style
           id="critical-css"
           dangerouslySetInnerHTML={{ __html: criticalCSS }}
         />
+
+        {/* DNS Prefetch & Preconnect (GA) */}
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.google-analytics.com" />
+
+        {/* Global Structured Data */}
         <script
           id="ld-org"
           type="application/ld+json"
@@ -193,10 +217,19 @@ export default function RootLayout({ children }) {
             __html: JSON.stringify(localBusinessJsonLd),
           }}
         />
+        <script
+          id="ld-website"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteJsonLd),
+          }}
+        />
       </head>
       <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
         <SkipLinks />
         {children}
+
+        {/* GA4 (sadece production ve ID varsa) */}
         {isProd && GA_MEASUREMENT_ID && (
           <>
             <Script
@@ -218,6 +251,8 @@ export default function RootLayout({ children }) {
             </Script>
           </>
         )}
+
+        {/* Performans observer (CLS, FID vs için hook noktası) */}
         {isProd && (
           <Script id="performance-observer" strategy="afterInteractive">
             {`
@@ -225,6 +260,7 @@ export default function RootLayout({ children }) {
                 const observer = new PerformanceObserver((list) => {
                   list.getEntries().forEach((entry) => {
                     if (entry.hadRecentInput) return;
+                    // İstersen buraya console.log veya GA event entegre edebilirsin
                   });
                 });
                 observer.observe({ entryTypes: ['layout-shift', 'first-input'] });
