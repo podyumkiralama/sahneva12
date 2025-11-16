@@ -1,6 +1,7 @@
 // app/en/about/page.js
 import Image from "next/image";
 import Link from "next/link";
+import JsonLdScript from "@/components/JsonLdScript";
 
 /* ───── META & ISR ───── */
 export const metadata = {
@@ -56,12 +57,7 @@ function AboutStructuredData() {
     aggregateRating: { "@type": "AggregateRating", ratingValue: "4.9", ratingCount: "500" },
   };
 
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-    />
-  );
+  return <JsonLdScript id="ld-json-about-en" data={schema} />;
 }
 
 // Base64 blur placeholder

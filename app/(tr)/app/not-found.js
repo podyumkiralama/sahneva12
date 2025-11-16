@@ -1,3 +1,5 @@
+import JsonLdScript from "@/components/JsonLdScript";
+
 const NOT_FOUND_URL = "https://www.sahneva.com/404";
 const ORGANIZATION_ID = "https://www.sahneva.com/#org";
 const NOT_FOUND_DESCRIPTION = "Aradığınız sayfa bulunamadı veya taşınmış olabilir.";
@@ -14,7 +16,7 @@ const buildNotFoundSchema = () => ({
   inLanguage: "tr-TR",
 });
 
-const NOT_FOUND_JSON_LD = JSON.stringify(buildNotFoundSchema());
+const NOT_FOUND_JSON_LD = buildNotFoundSchema();
 
 export const metadata = {
   title: "Sayfa Bulunamadı | Sahneva",
@@ -27,11 +29,7 @@ export default function NotFound() {
   return (
     <div className="min-h-[60vh] flex items-center justify-center bg-white">
       <>
-        <script
-          id="ld-json-not-found"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: NOT_FOUND_JSON_LD }}
-        />
+        <JsonLdScript id="ld-json-not-found" data={NOT_FOUND_JSON_LD} />
         <section className="text-center px-6">
           <h1 className="text-3xl md:text-4xl font-black text-neutral-900 mb-3">404 — Sayfa Bulunamadı</h1>
           <p className="text-neutral-600 mb-6 max-w-xl mx-auto">

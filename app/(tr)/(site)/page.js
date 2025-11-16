@@ -1,5 +1,6 @@
 // app/(site)/page.js
 import { getImageProps } from "next/image";
+import JsonLdScript from "@/components/JsonLdScript";
 import heroImg from "@/public/img/hero-bg.webp";
 
 // Statik bileşenler
@@ -44,7 +45,7 @@ export const revalidate = 3600;
 // JSON-LD (Schema.org) – Sadece sayfaya özgü tipler
 // —————————————————————————————————————————
 function StructuredData() {
-  const HOME_URL = "https://www.sahneva.com/";
+  const HOME_URL = "https://www.sahneva.com";
   const ORGANIZATION_ID = "https://www.sahneva.com/#org";
   const WEBSITE_ID = "https://www.sahneva.com/#website";
   const WEBPAGE_ID = "https://www.sahneva.com/#webpage";
@@ -75,12 +76,13 @@ function StructuredData() {
         "@type": "WebPage",
         "@id": WEBPAGE_ID,
         url: HOME_URL,
-        name: "Sahne Sistemleri, LED Ekran, Ses-Işık | Türkiye Geneli | Sahneva",
+        name: "Sahne, Podyum, LED Ekran & Ses-Işık Kiralama | Sahneva",
         description:
           "Sahneva ile sahne, podyum, LED ekran, ses ve ışık sistemleri kiralama çözümlerini keşfedin. İstanbul merkezli, Türkiye geneli hizmet.",
         inLanguage: "tr-TR",
         isPartOf: { "@id": WEBSITE_ID },
         about: { "@id": ORGANIZATION_ID },
+        mainEntity: { "@id": FAQ_ID },
         primaryImageOfPage: { "@id": IMAGE_ID },
       },
       {
@@ -303,13 +305,7 @@ function StructuredData() {
     ],
   };
 
-  return (
-    <script
-      type="application/ld+json"
-      suppressHydrationWarning
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
+  return <JsonLdScript id="ld-home" data={data} />;
 }
 
 // —————————————————————————————————————————
@@ -718,6 +714,7 @@ export default function HomePage() {
 
         {/* SSS */}
         <section
+          id="faq"
           className="py-12 bg-gradient-to-br from-neutral-900 to-blue-900/95"
           aria-labelledby="sss-title"
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}

@@ -164,6 +164,7 @@ export default function SiteHeader({ locale, strings }) {
         aria-hidden={!open}
         hidden={!open}
         aria-label={ariaStrings.nav}
+        aria-labelledby={mobileMenuHeadingId}
         className="lg:hidden border-t border-neutral-200 bg-white shadow-xl"
       >
         <nav
