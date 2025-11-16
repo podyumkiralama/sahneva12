@@ -14,11 +14,11 @@ const WA_TEXT =
   "Merhaba%2C+podyum+kiralama+icin+teklif+istiyorum.+Etkinlik+turu%3A+%5Bdüğün%2Fkonser%2Flansman%5D%2C+Tarih%3A+%5Bgg.aa.yyyy%5D%2C+Alan%3A+%5Bxx+m²%5D.";
 const WHATSAPP = `https://wa.me/${PHONE.replace("+", "")}?text=${WA_TEXT}`;
 
-// Base64 blur placeholder
+// Base64 blur placeholder (hero için)
 const BLUR_DATA_URL =
   "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAADAAQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==";
 
-/* ================== Dinamik galeri (CaseGallery) ================== */
+/* ================== Dinamik bileşenler ================== */
 const CaseGallery = dynamic(() => import("@/components/CaseGallery"), {
   loading: () => (
     <div
@@ -35,7 +35,6 @@ const CaseGallery = dynamic(() => import("@/components/CaseGallery"), {
   ),
 });
 
-/* ================== Dinamik fiyat hesaplayıcı ================== */
 const PriceEstimatorPodyum = dynamic(
   () => import("@/components/PriceEstimatorPodyum"),
   {
@@ -292,14 +291,13 @@ const FAQ_ITEMS = [
   },
 ];
 
-/* ================== JSON-LD: TAM ZENGİN SNIPPET YAPISI ================== */
+/* ================== JSON-LD ================== */
 function JsonLd() {
   const pageUrl = `${ORIGIN}/podyum-kiralama`;
   const pageDescription = metadata.description;
 
-  // Layout'taki organization'a referans
-  const provider = {
-    "@id": `${ORIGIN}#org`
+  const providerRef = {
+    "@id": `${ORIGIN}#org`,
   };
 
   const { service: serviceSchema, products } = buildServiceProductSchema({
@@ -307,56 +305,53 @@ function JsonLd() {
     locale: "tr-TR",
   });
 
-  // Detaylı Service Schema
   const baseService = {
     "@type": "Service",
     "@id": `${pageUrl}#service`,
     name: "Podyum Kiralama",
     description: pageDescription,
-    provider,
+    provider: providerRef,
     url: pageUrl,
     areaServed: {
       "@type": "State",
       name: "İstanbul",
-      description: "İstanbul ve çevre illerde hizmet veriyoruz"
+      description: "İstanbul ve çevre illerde hizmet veriyoruz",
     },
     serviceType: "Sahne ve Podyum Kiralama",
     offers: {
       "@type": "Offer",
       priceCurrency: "TRY",
-      description: "Profesyonel podyum kiralama hizmeti"
+      description: "Profesyonel podyum kiralama hizmeti",
     },
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "Podyum Kiralama Paketleri",
-      itemListElement: CONTENT.packages.map((pkg, index) => ({
+      itemListElement: CONTENT.packages.map((pkg) => ({
         "@type": "Offer",
         itemOffered: {
           "@type": "Service",
           name: pkg.name,
           description: pkg.note,
         },
-        price: pkg.layout.area * UNIT_PRICES.platform_m2_week + 
-               pkg.layout.area * UNIT_PRICES.carpet_m2_week + 
-               pkg.layout.perimeter * UNIT_PRICES.skirt_ml_week + 
-               UNIT_PRICES.istanbul_setup,
+        price:
+          pkg.layout.area * UNIT_PRICES.platform_m2_week +
+          pkg.layout.area * UNIT_PRICES.carpet_m2_week +
+          pkg.layout.perimeter * UNIT_PRICES.skirt_ml_week +
+          UNIT_PRICES.istanbul_setup,
         priceCurrency: "TRY",
-        availability: "https://schema.org/InStock"
-      }))
-    }
+        availability: "https://schema.org/InStock",
+      })),
+    },
   };
 
   const serviceNode = serviceSchema
-    ? { ...serviceSchema, ...baseService }
+    ? { ...baseService, ...serviceSchema }
     : baseService;
 
-  // Product Schemas
   const productNodes = products || [];
-  
-  // FAQ Schema
+
   const faqSchema = buildFaqSchema(FAQ_ITEMS);
 
-  // Breadcrumb Schema
   const breadcrumbSchema = {
     "@type": "BreadcrumbList",
     itemListElement: [
@@ -375,7 +370,6 @@ function JsonLd() {
     ],
   };
 
-  // WebPage Schema
   const webpageSchema = {
     "@type": "WebPage",
     "@id": pageUrl,
@@ -383,29 +377,26 @@ function JsonLd() {
     description: pageDescription,
     url: pageUrl,
     mainEntity: {
-      "@id": `${pageUrl}#service`
+      "@id": `${pageUrl}#service`,
     },
     isPartOf: {
-      "@id": `${ORIGIN}/#website`
+      "@id": `${ORIGIN}/#website`,
     },
     about: {
-      "@id": `${pageUrl}#service`
+      "@id": `${pageUrl}#service`,
     },
     primaryImageOfPage: {
       "@type": "ImageObject",
       url: `${ORIGIN}/img/podyum/hero.webp`,
       width: 1200,
       height: 630,
-      caption: "Profesyonel Podyum Kurulumu"
+      caption: "Profesyonel Podyum Kurulumu",
     },
     datePublished: "2024-01-01",
-    dateModified: new Date().toISOString().split('T')[0],
-    author: {
-      "@id": `${ORIGIN}#org`
-    }
+    dateModified: new Date().toISOString().split("T")[0],
+    author: providerRef,
   };
 
-  // HowTo Schema - Podyum Kurulum Süreci
   const howToSchema = {
     "@type": "HowTo",
     name: "Podyum Kurulum Süreci",
@@ -414,85 +405,50 @@ function JsonLd() {
     estimatedCost: {
       "@type": "MonetaryAmount",
       currency: "TRY",
-      value: "8000"
+      value: "8000",
     },
     supply: [
-      {
-        "@type": "HowToSupply",
-        name: "Modüler Podyum Panelleri"
-      },
-      {
-        "@type": "HowToSupply", 
-        name: "Kurulum Ekipmanları"
-      }
+      { "@type": "HowToSupply", name: "Modüler Podyum Panelleri" },
+      { "@type": "HowToSupply", name: "Kurulum Ekipmanları" },
     ],
-    tool: [
-      {
-        "@type": "HowToTool",
-        name: "Profesyonel Kurulum Ekibi"
-      }
-    ],
+    tool: [{ "@type": "HowToTool", name: "Profesyonel Kurulum Ekibi" }],
     step: [
       {
         "@type": "HowToStep",
         name: "Keşif ve Planlama",
         text: "Mekan keşfi yapılır ve teknik projelendirme hazırlanır.",
-        image: {
-          "@type": "ImageObject",
-          url: `${ORIGIN}/img/podyum/planlama.jpg`,
-          caption: "Mekan Keşfi ve Planlama"
-        }
       },
       {
-        "@type": "HowToStep", 
+        "@type": "HowToStep",
         name: "Zemin Hazırlığı",
         text: "Zemin düzleştirilir ve güvenlik kontrolleri yapılır.",
-        image: {
-          "@type": "ImageObject",
-          url: `${ORIGIN}/img/podyum/hazirlik.jpg`,
-          caption: "Zemin Hazırlığı"
-        }
       },
       {
         "@type": "HowToStep",
         name: "Podyum Kurulumu",
         text: "Modüler paneller monte edilir ve güvenlik sistemleri kurulur.",
-        image: {
-          "@type": "ImageObject",
-          url: `${ORIGIN}/img/podyum/kurulum.jpg`,
-          caption: "Podyum Kurulumu"
-        }
       },
       {
         "@type": "HowToStep",
         name: "Kalite Kontrol",
         text: "Kurulum sonrası güvenlik ve stabilite kontrolleri yapılır.",
-        image: {
-          "@type": "ImageObject",
-          url: `${ORIGIN}/img/podyum/kontrol.jpg`,
-          caption: "Kalite Kontrol"
-        }
-      }
-    ]
+      },
+    ],
   };
 
-  // Event Service Schema - Hizmetin etkinlik türleri
   const eventServiceSchema = {
     "@type": "EventService",
     "@id": `${pageUrl}#eventservice`,
     name: "Etkinlik Podyum Kiralama Hizmeti",
     description: "Çeşitli etkinlik türleri için podyum kiralama çözümleri",
-    serviceType: USE_CASES.map(uc => uc.text),
-    provider: {
-      "@id": `${ORIGIN}#org`
-    },
+    serviceType: USE_CASES.map((uc) => uc.text),
+    provider: providerRef,
     areaServed: {
       "@type": "AdministrativeArea",
-      name: "İstanbul"
-    }
+      name: "İstanbul",
+    },
   };
 
-  // Review Schema - Müşteri değerlendirmeleri
   const reviewSchema = {
     "@type": "AggregateRating",
     ratingValue: "4.8",
@@ -501,27 +457,8 @@ function JsonLd() {
     ratingCount: "200",
     itemReviewed: {
       "@type": "Service",
-      name: "Podyum Kiralama"
-    }
-  };
-
-  // QAPage Schema - SSS yapısı
-  const qaPageSchema = {
-    "@type": "QAPage",
-    "@id": `${pageUrl}#qapage`,
-    mainEntity: {
-      "@type": "Question",
-      name: "Podyum kiralama hakkında sık sorulan sorular",
-      answerCount: FAQ_ITEMS.length,
-      acceptedAnswer: FAQ_ITEMS.map((faq, index) => ({
-        "@type": "Answer",
-        text: faq.a,
-        parentItem: {
-          "@type": "Question",
-          text: faq.q
-        }
-      }))
-    }
+      name: "Podyum Kiralama",
+    },
   };
 
   const jsonLd = {
@@ -533,7 +470,6 @@ function JsonLd() {
       howToSchema,
       eventServiceSchema,
       reviewSchema,
-      qaPageSchema,
       ...productNodes,
       ...(faqSchema ? [faqSchema] : []),
     ].filter(Boolean),
@@ -547,10 +483,6 @@ function JsonLd() {
     />
   );
 }
-
-// ... (Hero, Services, PriceCalculator, Packages, Gallery, Technical, 
-// StatsBand, UseCases, Articles, FAQ, RelatedServices, CTA bileşenleri 
-// önceki kodda olduğu gibi aynen kalacak, sadece JsonLd kısmı güncellendi)
 
 /* ================== HERO ================== */
 function Hero() {
@@ -570,7 +502,6 @@ function Hero() {
           quality={85}
           placeholder="blur"
           blurDataURL={BLUR_DATA_URL}
-          loading="eager"
         />
         <div
           className="absolute inset-0 bg-gradient-to-br from-blue-900/80 via-purple-800/70 to-blue-950/90"
@@ -608,10 +539,7 @@ function Hero() {
         </p>
         <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed font-normal mb-6">
           Modüler podyum sistemleri, kaymaz kaplama ve
-          <span className="font-semibold text-white">
-            {" "}
-            profesyonel kurulum
-          </span>{" "}
+          <span className="font-semibold text-white"> profesyonel kurulum</span>{" "}
           ile anahtar teslim çözümler
         </p>
 
@@ -622,7 +550,6 @@ function Hero() {
             rel="noopener noreferrer"
             title="WhatsApp üzerinden hemen teklif alın"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring shadow-lg"
-            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-2">
               💬
@@ -634,7 +561,6 @@ function Hero() {
             href="#hizmetler"
             title="Hizmetlerimiz hakkında daha fazla bilgi edinin"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-white text-white/95 bg-white/10 backdrop-blur-lg hover:bg-white/20 hover:scale-105 transform transition-all duration-300 focus-ring shadow-lg"
-            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-2">
               🎯
@@ -740,7 +666,6 @@ function Services() {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring"
-            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">
               📞
@@ -783,8 +708,8 @@ function PriceCalculator() {
               <p className="text-blue-800 text-lg">
                 <strong>İstanbul içi nakliye, kurulum ve söküm: 8.000 TL</strong>
                 <br />
-                *200 m²'ye kadar geçerlidir. Şehir dışı projeler için özel teklif
-                alın.
+                *200 m²&apos;ye kadar geçerlidir. Şehir dışı projeler için özel
+                teklif alın.
               </p>
             </div>
           </div>
@@ -829,10 +754,7 @@ function Packages() {
   });
 
   return (
-    <section
-      className="py-20 bg-white"
-      aria-labelledby="paketler-baslik"
-    >
+    <section className="py-20 bg-white" aria-labelledby="paketler-baslik">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2
@@ -849,7 +771,10 @@ function Packages() {
           </p>
         </div>
 
-        <ul className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto" role="list">
+        <ul
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"
+          role="list"
+        >
           {enrichedPkgs.map((pkg, index) => (
             <li key={pkg.key} className="group h-full">
               <article className="bg-white rounded-3xl border-2 border-gray-100 shadow-xl hover:shadow-2xl overflow-hidden transition-all duration-500 h-full flex flex-col">
@@ -919,7 +844,6 @@ function Packages() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full inline-flex items-center justify-center font-bold px-6 py-3 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring"
-                    role="button"
                   >
                     <span aria-hidden="true" className="text-lg mr-2">
                       💬
@@ -984,7 +908,6 @@ function Gallery() {
           <Link
             href="/projeler"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white transform transition-all duration-300 focus-ring"
-            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">
               📸
@@ -1144,9 +1067,16 @@ function StatsBand() {
       aria-label="Başarı İstatistiklerimiz"
     >
       <div className="container mx-auto px-4">
-        <ul className="grid grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto" role="list">
+        <ul
+          className="grid grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto"
+          role="list"
+        >
           {stats.map((stat) => (
-            <li key={stat.label} className="text-center" aria-label={`${stat.label}: ${stat.value}`}>
+            <li
+              key={stat.label}
+              className="text-center"
+              aria-label={`${stat.label}: ${stat.value}`}
+            >
               <div className="group bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 hover:bg-white/20 transition-all duration-500 hover:scale-105">
                 <div
                   className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300"
@@ -1154,8 +1084,12 @@ function StatsBand() {
                 >
                   {stat.icon}
                 </div>
-                <p className="text-4xl md:text-5xl font-black mb-1 text-white drop-shadow-lg">{stat.value}</p>
-                <p className="text-blue-100 text-lg font-semibold mb-0">{stat.label}</p>
+                <p className="text-4xl md:text-5xl font-black mb-1 text-white drop-shadow-lg">
+                  {stat.value}
+                </p>
+                <p className="text-blue-100 text-lg font-semibold mb-0">
+                  {stat.label}
+                </p>
               </div>
             </li>
           ))}
@@ -1193,7 +1127,10 @@ function UseCases() {
           />
         </div>
 
-        <ul className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto" role="list">
+        <ul
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto"
+          role="list"
+        >
           {USE_CASES.map((uc) => (
             <li
               key={uc.text}
@@ -1210,7 +1147,9 @@ function UseCases() {
                   <h3 className="text-white font-bold text-xl mb-2 group-hover:text-blue-300 transition-colors">
                     {uc.text}
                   </h3>
-                  <p className="text-white/70 text-lg leading-relaxed">{uc.desc}</p>
+                  <p className="text-white/70 text-lg leading-relaxed">
+                    {uc.desc}
+                  </p>
                 </div>
               </div>
             </li>
@@ -1223,7 +1162,6 @@ function UseCases() {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-white text-blue-700 hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring"
-            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">
               💬
@@ -1563,10 +1501,7 @@ function Articles() {
 /* ================== SSS ================== */
 function FAQ() {
   return (
-    <section
-      className="py-20 bg-white"
-      aria-labelledby="sss-baslik"
-    >
+    <section className="py-20 bg-white" aria-labelledby="sss-baslik">
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="text-center mb-16">
           <h2
@@ -1583,21 +1518,13 @@ function FAQ() {
           </p>
         </div>
 
-        <div
-          className="space-y-6"
-         
-          aria-label="Sık sorulan sorular listesi"
-        >
+        <div className="space-y-6" aria-label="Sık sorulan sorular listesi">
           {FAQ_ITEMS.map((faq, index) => (
             <details
               key={index}
               className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border"
-              role="listitem"
             >
-              <summary
-                className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900"
-               
-              >
+              <summary className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900">
                 <span className="pr-4">{faq.q}</span>
                 <span
                   aria-hidden="true"
@@ -1606,7 +1533,7 @@ function FAQ() {
                   ⌄
                 </span>
               </summary>
-              <div className="mt-6 text-gray-700 leading-relaxed text-lg pl-4 border-l-4 border-blue-500" role="region">
+              <div className="mt-6 text-gray-700 leading-relaxed text-lg pl-4 border-l-4 border-blue-500">
                 {faq.a}
               </div>
             </details>
@@ -1621,12 +1548,11 @@ function FAQ() {
             href="/sss"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring"
             title="Sık Sorulan Sorular sayfasındaki tüm soruları görüntüle"
-            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">
               📚
             </span>
-            <span className="text-lg">Tüm SSS'yi Görüntüle</span>
+            <span className="text-lg">Tüm SSS&apos;yi Görüntüle</span>
           </Link>
         </div>
       </div>
@@ -1690,7 +1616,10 @@ function RelatedServices() {
         </div>
 
         <nav aria-label="Tamamlayıcı hizmetler">
-          <ul className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto" role="list">
+          <ul
+            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto"
+            role="list"
+          >
             {services.map((service) => (
               <li key={service.href} className="h-full">
                 <Link
@@ -1731,10 +1660,7 @@ function RelatedServices() {
 /* ================== CTA ================== */
 function CTA() {
   return (
-    <section
-      className="py-20 bg-white"
-      aria-labelledby="cta-baslik"
-    >
+    <section className="py-20 bg-white" aria-labelledby="cta-baslik">
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="bg-gradient-to-r from-blue-700 to-purple-700 rounded-3xl p-8 md:p-12 text-center text-white relative overflow-hidden">
           <div
@@ -1757,7 +1683,6 @@ function CTA() {
               <Link
                 href="/iletisim"
                 className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-white text-blue-700 hover:scale-105 transform transition-all duration-300 hover:shadow-2xl focus-ring shadow-lg"
-                role="button"
               >
                 <span aria-hidden="true" className="text-xl mr-3">
                   📞
@@ -1769,12 +1694,11 @@ function CTA() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-white text-white bg-transparent hover:bg-white/20 hover:scale-105 transform transition-all duration-300 focus-ring shadow-lg"
-                role="button"
               >
                 <span aria-hidden="true" className="text-xl mr-3">
                   💬
                 </span>
-                <span className="text-lg">WhatsApp'tan Yaz</span>
+                <span className="text-lg">WhatsApp&apos;tan Yaz</span>
               </a>
             </div>
             <div className="mt-8 text-blue-200 text-lg">
