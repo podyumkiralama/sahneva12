@@ -511,6 +511,21 @@ function UseCases() {
             </article>
           ))}
         </div>
+
+        <div className="text-center mt-12">
+          <Link
+            href={WHATSAPP}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-white text-blue-700 hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-white/40"
+            role="button"
+          >
+            <span aria-hidden="true" className="text-xl mr-3">
+              💬
+            </span>
+            <span>Etkinliğiniz için Özel Çözüm Alın</span>
+          </Link>
+        </div>
       </div>
     </section>
   );
