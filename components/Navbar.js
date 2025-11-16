@@ -4,7 +4,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useId } from "react";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 
 const focusRingClass = "focus-ring";
@@ -57,7 +57,7 @@ const serviceLinks = [
 export default function Navbar() {
   const pathname = usePathname();
   const headerStrings = LOCALE_CONTENT.tr.header;
-  
+
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
@@ -70,9 +70,12 @@ export default function Navbar() {
   const serviceItemRefs = useRef([]);
   const previouslyFocusedElement = useRef(null);
   const previousOverflow = useRef("");
+
   const mobileMenuId = "mobile_menu";
+  const mobileMenuHeadingId = useId(); // 🔹 Erişilebilir başlık ID'si
   const servicesBtnId = "nav-services-button";
   const servicesMenuId = "nav-services-menu";
+
   const mobileToggleOpenLabel =
     headerStrings?.mobileToggleOpenLabel ?? "Menüyü aç";
   const mobileToggleCloseLabel =
@@ -300,11 +303,9 @@ export default function Navbar() {
     element.style.transform = "scale(1)";
   };
 
-  const whatsappBtnClass =
-    `ml-2 inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-white text-sm font-bold bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 min-h-[44px] border border-green-600/20 ${focusRingClass}`;
+  const whatsappBtnClass = `ml-2 inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-white text-sm font-bold bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 min-h-[44px] border border-green-600/20 ${focusRingClass}`;
 
-  const mobileWhatsappBtnClass =
-    `block text-center mt-4 rounded-xl px-5 py-3 text-white text-sm font-bold bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 min-h-[44px] flex items-center justify-center gap-2 border border-green-600/20 ${focusRingClass}`;
+  const mobileWhatsappBtnClass = `block text-center mt-4 rounded-xl px-5 py-3 text-white text-sm font-bold bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 min-h-[44px] flex items-center justify-center gap-2 border border-green-600/20 ${focusRingClass}`;
 
   serviceItemRefs.current.length = serviceLinks.length;
 
@@ -504,7 +505,9 @@ export default function Navbar() {
               ref={toggleButtonRef}
               onClick={() => setMobileOpen((s) => !s)}
               className={`lg:hidden inline-flex items-center justify-center p-3 rounded-xl bg-white border border-neutral-200 hover:bg-neutral-50 transition-all duration-200 min-h-[44px] min-w-[44px] transform hover:scale-105 ${focusRingClass}`}
-              aria-label={mobileOpen ? mobileToggleCloseLabel : mobileToggleOpenLabel}
+              aria-label={
+                mobileOpen ? mobileToggleCloseLabel : mobileToggleOpenLabel
+              }
               aria-expanded={mobileOpen}
               aria-controls={mobileMenuId}
               aria-haspopup="true"
@@ -546,14 +549,17 @@ export default function Navbar() {
         id={mobileMenuId}
         ref={mobileMenuRef}
         role="dialog"
-        aria-modal={mobileOpen ? "true" : undefined}
-        aria-label={
-          mobileOpen ? headerStrings?.navLabel ?? "Ana gezinme" : undefined
-        }
+        aria-modal={mobileOpen || undefined}
+        aria-labelledby={mobileMenuHeadingId}
         aria-hidden={!mobileOpen}
         hidden={!mobileOpen}
         className="lg:hidden fixed z-50 left-0 right-0 top-16 bg-white border-t border-neutral-200 shadow-2xl max-h-[80vh] opacity-100 transition-all duration-300 overflow-hidden"
       >
+        {/* Ekran okuyucular için başlık */}
+        <h2 id={mobileMenuHeadingId} className="sr-only">
+          {headerStrings?.navLabel ?? "Ana gezinme menüsü"}
+        </h2>
+
         <nav
           id="primary-navigation-mobile"
           role="navigation"
