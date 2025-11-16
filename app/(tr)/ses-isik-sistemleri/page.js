@@ -508,29 +508,27 @@ function UseCases() {
           <div className="w-32 h-1 bg-gradient-to-r from-blue-400 to-purple-400 mx-auto mt-8 rounded-full" aria-hidden="true" />
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto" role="list">
+        <ul className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto list-none">
           {USE_CASES.map((uc) => (
-            <div
-              key={uc.text}
-              className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/30 hover:border-white/50 transition-all duration-500 group hover:scale-105"
-              role="listitem"
-            >
-              <div className="flex flex-col items-start gap-4">
-                <div className="text-3xl bg-white/20 rounded-2xl p-4 group-hover:scale-110 transition-transform duration-300" aria-hidden="true">
-                  {uc.icon}
-                </div>
-                <div>
-                  <h3 className="text-white font-bold text-xl mb-2 group-hover:text-blue-300 transition-colors">
-                    {uc.text}
-                  </h3>
-                  <p className="text-white/70 text-lg leading-relaxed">
-                    {uc.desc}
-                  </p>
+            <li key={uc.text} className="h-full">
+              <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/30 hover:border-white/50 transition-all duration-500 group hover:scale-105 h-full">
+                <div className="flex flex-col items-start gap-4">
+                  <div className="text-3xl bg-white/20 rounded-2xl p-4 group-hover:scale-110 transition-transform duration-300" aria-hidden="true">
+                    {uc.icon}
+                  </div>
+                  <div>
+                    <h3 className="text-white font-bold text-xl mb-2 group-hover:text-blue-300 transition-colors">
+                      {uc.text}
+                    </h3>
+                    <p className="text-white/70 text-lg leading-relaxed">
+                      {uc.desc}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
 
         <div className="text-center mt-12">
           <Link
@@ -847,7 +845,7 @@ function FAQ() {
             >
               <summary 
                 className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900"
-                role="button"
+               
                 aria-expanded="false"
                 tabIndex={0}
               >

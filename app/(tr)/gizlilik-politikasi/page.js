@@ -51,7 +51,7 @@ export default function PrivacyPolicyPage() {
         {JSON.stringify(jsonLd)}
       </Script>
 
-      <main className="bg-slate-950 text-slate-50">
+      <div className="bg-slate-950 text-slate-50">
         {/* Hero / Başlık */}
         <section className="relative border-b border-white/5 bg-gradient-to-b from-purple-900/40 via-slate-950 to-slate-950">
           <div className="pointer-events-none absolute inset-0">
@@ -542,7 +542,7 @@ export default function PrivacyPolicyPage() {
             </div>
           </div>
         </section>
-      </main>
+      </div>
     </>
   );
 }
