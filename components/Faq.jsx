@@ -124,7 +124,7 @@ function FaqRow({ question, answer, slug }) {
         id={summaryId}
         aria-controls={panelId}
         aria-expanded={open}
-        className="cursor-pointer flex items-center justify-between font-semibold text-gray-900 hover:text-blue-600 transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-blue-500 focus-visible:outline-offset-2 min-h-[42px] w-full text-left"
+        className={`cursor-pointer flex items-center justify-between font-semibold text-gray-900 hover:text-blue-600 transition-colors duration-200 min-h-[42px] w-full text-left focus-ring ${open ? "text-blue-700" : ""}`}
         itemProp="name"
       >
         <span className="pr-3 text-sm leading-relaxed">{question}</span>

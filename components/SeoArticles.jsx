@@ -92,7 +92,7 @@ export default function SeoArticles({
                   <div className="relative aspect-[16/10]">
                     <Link
                       href={url}
-                      className="absolute inset-0 block focus-visible:outline-2 focus-visible:outline-blue-600 focus-visible:outline-offset-2 rounded-t-2xl"
+                      className="absolute inset-0 block rounded-t-2xl focus-ring"
                     >
                       <span className="sr-only">{a.title}</span>
                     </Link>
@@ -126,7 +126,10 @@ export default function SeoArticles({
                   {/* İçerik */}
                   <div className="p-5">
                     <h3 id={titleId} className="text-base md:text-lg font-bold text-neutral-900 line-clamp-2">
-                      <Link href={url} className="hover:text-blue-700 transition-colors duration-200">
+                      <Link
+                        href={url}
+                        className="hover:text-blue-700 transition-colors duration-200 focus-ring rounded-md"
+                      >
                         {a.title}
                       </Link>
                     </h3>

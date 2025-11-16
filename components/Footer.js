@@ -211,7 +211,7 @@ export default function Footer() {
         </section>
 
         {/* Hizmetler */}
-        <nav aria-labelledby="ft-services">
+        <nav aria-labelledby="ft-services" role="navigation">
           <h3
             id="ft-services"
             className="text-white font-bold mb-6 text-lg bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
@@ -235,7 +235,7 @@ export default function Footer() {
         </nav>
 
         {/* Hızlı Erişim */}
-        <nav aria-labelledby="ft-quick">
+        <nav aria-labelledby="ft-quick" role="navigation">
           <h3
             id="ft-quick"
             className="text-white font-bold mb-6 text-lg bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent"

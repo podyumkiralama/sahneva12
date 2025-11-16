@@ -57,7 +57,7 @@ const serviceLinks = [
 export default function Navbar() {
   const pathname = usePathname();
   const headerStrings = LOCALE_CONTENT.tr.header;
-
+  
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
@@ -70,8 +70,13 @@ export default function Navbar() {
   const serviceItemRefs = useRef([]);
   const previouslyFocusedElement = useRef(null);
   const previousOverflow = useRef("");
+  const mobileMenuId = "mobile_menu";
   const servicesBtnId = "nav-services-button";
   const servicesMenuId = "nav-services-menu";
+  const mobileToggleOpenLabel =
+    headerStrings?.mobileToggleOpenLabel ?? "Menüyü aç";
+  const mobileToggleCloseLabel =
+    headerStrings?.mobileToggleCloseLabel ?? "Menüyü kapat";
 
   /* =============== ESC ile kapatma =============== */
   useEffect(() => {
@@ -107,7 +112,7 @@ export default function Navbar() {
   useEffect(() => {
     if (mobileOpen) {
       previousOverflow.current = document.body.style.overflow;
-      previouslyFocusedElement.current = document.activeElement;
+      previouslyFocusedElement.current = toggleButtonRef.current;
       document.body.style.overflow = "hidden";
       document.body.classList.add("overflow-hidden");
     } else {
@@ -499,11 +504,10 @@ export default function Navbar() {
               ref={toggleButtonRef}
               onClick={() => setMobileOpen((s) => !s)}
               className={`lg:hidden inline-flex items-center justify-center p-3 rounded-xl bg-white border border-neutral-200 hover:bg-neutral-50 transition-all duration-200 min-h-[44px] min-w-[44px] transform hover:scale-105 ${focusRingClass}`}
-              aria-label={
-                headerStrings?.mobileToggleLabel ?? "Mobil menüyü aç/kapat"
-              }
+              aria-label={mobileOpen ? mobileToggleCloseLabel : mobileToggleOpenLabel}
               aria-expanded={mobileOpen}
-              aria-controls="primary-navigation-mobile"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
               title="Mobil menü"
             >
               <span className="relative w-6 h-6" aria-hidden="true">
@@ -539,13 +543,14 @@ export default function Navbar() {
 
       {/* Mobil menü – her zaman DOM'da, kapalıyken gizli */}
       <div
-        id="mobile-menu"
+        id={mobileMenuId}
         ref={mobileMenuRef}
-        role={mobileOpen ? "dialog" : undefined}
+        role="dialog"
         aria-modal={mobileOpen ? "true" : undefined}
         aria-label={
           mobileOpen ? headerStrings?.navLabel ?? "Ana gezinme" : undefined
         }
+        aria-hidden={!mobileOpen}
         hidden={!mobileOpen}
         className="lg:hidden fixed z-50 left-0 right-0 top-16 bg-white border-t border-neutral-200 shadow-2xl max-h-[80vh] opacity-100 transition-all duration-300 overflow-hidden"
       >
