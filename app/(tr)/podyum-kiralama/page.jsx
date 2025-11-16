@@ -291,24 +291,26 @@ const FAQ_ITEMS = [
   },
 ];
 
-/* ================== JSON-LD ================== */
+/* ================== JSON-LD (Podyum Kiralama) — FINAL ================== */
 function JsonLd() {
   const pageUrl = `${ORIGIN}/podyum-kiralama`;
   const pageDescription = metadata.description;
 
-  const providerRef = {
-    "@id": `${ORIGIN}#org`,
+  const providerRef = { "@id": `${ORIGIN}#org` };
+
+  /* ----------------------------------------
+    LOCAL BUSINESS (layout'taki #localbiz)
+  ---------------------------------------- */
+  const localBusinessNode = {
+    "@type": "LocalBusiness",
+    "@id": `${ORIGIN}#localbiz`,
+    name: "Sahneva",
+    url: ORIGIN,
   };
 
-  const { service: serviceSchema, products } = buildServiceProductSchema({
-    slug: "/podyum-kiralama",
-    locale: "tr-TR",
-  });
-
-  const productNodes = products || [];
-  const faqSchema = buildFaqSchema(FAQ_ITEMS);
-
-  // Google rating rich result için AYRI AggregateRating node
+  /* ----------------------------------------
+    RATING NODE (LocalBusiness’a bağlı)
+  ---------------------------------------- */
   const ratingNodeId = `${pageUrl}#rating`;
 
   const ratingNode = {
@@ -318,13 +320,13 @@ function JsonLd() {
     bestRating: "5",
     worstRating: "1",
     ratingCount: "200",
-    // BURASI ÖNEMLİ: Artık Service DEĞİL, LocalBusiness / org'a bağlıyoruz
-    itemReviewed: {
-      "@id": `${ORIGIN}#localbiz`, 
-    },
+    itemReviewed: { "@id": `${ORIGIN}#localbiz` }
   };
 
-  const baseService = {
+  /* ----------------------------------------
+    SERVICE
+  ---------------------------------------- */
+  const serviceNode = {
     "@type": "Service",
     "@id": `${pageUrl}#service`,
     name: "Podyum Kiralama",
@@ -334,13 +336,13 @@ function JsonLd() {
     areaServed: {
       "@type": "State",
       name: "İstanbul",
-      description: "İstanbul ve çevre illerde hizmet veriyoruz",
+      description: "İstanbul ve çevre illerde podyum kiralama hizmeti"
     },
     serviceType: "Sahne ve Podyum Kiralama",
     offers: {
       "@type": "Offer",
       priceCurrency: "TRY",
-      description: "Profesyonel podyum kiralama hizmeti",
+      description: "Profesyonel podyum kiralama hizmeti"
     },
     hasOfferCatalog: {
       "@type": "OfferCatalog",
@@ -358,20 +360,116 @@ function JsonLd() {
           pkg.layout.perimeter * UNIT_PRICES.skirt_ml_week +
           UNIT_PRICES.istanbul_setup,
         priceCurrency: "TRY",
-        availability: "https://schema.org/InStock",
+        availability: "https://schema.org/InStock"
       })),
     },
-    // Service tarafında rating ile ilişkiyi ID üzerinden kuruyoruz
-    aggregateRating: {
-      "@id": ratingNodeId,
-    },
+    aggregateRating: { "@id": ratingNodeId }
   };
 
-  const serviceNode =
-    serviceSchema != null
-      ? { ...serviceSchema, ...baseService }
-      : baseService;
+  /* ----------------------------------------
+    PRODUCT (Review bağlanacak)
+  ---------------------------------------- */
+  const productNode = {
+    "@type": "Product",
+    "@id": `${pageUrl}#product`,
+    name: "Podyum Sistemleri",
+    description:
+      "Modüler podyum panelleri ile farklı ölçülerde kurulabilen profesyonel podyum kiralama çözümleri.",
+    category: "StagePlatformRental",
+    image: `${ORIGIN}/img/podyum/hero.webp`,
+    brand: providerRef,
+    url: pageUrl,
+    isRelatedTo: { "@id": `${pageUrl}#service` },
+    aggregateRating: { "@id": ratingNodeId },
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "TRY",
+      description: "Podyum ölçüsüne göre fiyatlandırılır."
+    }
+  };
 
+  /* ----------------------------------------
+    REVIEWS (Product'a bağlı — Google uyumlu)
+  ---------------------------------------- */
+  const reviews = [
+    {
+      "@type": "Review",
+      "@id": `${pageUrl}#review-1`,
+      itemReviewed: { "@id": `${pageUrl}#product` },
+      author: { "@type": "Person", name: "Etkinlik Ajansı" },
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: "5",
+        bestRating: "5",
+        worstRating: "1"
+      },
+      reviewBody:
+        "Podyum kurulumu son derece hızlı ve profesyoneldi. Teknik ekip her detayı kontrol etti.",
+      datePublished: "2024-02-01"
+    },
+    {
+      "@type": "Review",
+      "@id": `${pageUrl}#review-2`,
+      itemReviewed: { "@id": `${pageUrl}#product` },
+      author: { "@type": "Person", name: "Kurumsal Müşteri" },
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: "4.9",
+        bestRating: "5",
+        worstRating: "1"
+      },
+      reviewBody:
+        "Kurumsal lansman için sahne+podyum kurulumunu eksiksiz yaptılar. Çok memnun kaldık.",
+      datePublished: "2024-02-15"
+    }
+  ];
+
+  /* ----------------------------------------
+    HOW-TO
+  ---------------------------------------- */
+  const howToSchema = {
+    "@type": "HowTo",
+    "@id": `${pageUrl}#howto`,
+    name: "Podyum Kurulum Süreci",
+    description: "Profesyonel podyum kurulum adımları",
+    totalTime: "PT4H",
+    estimatedCost: {
+      "@type": "MonetaryAmount",
+      currency: "TRY",
+      value: "8000"
+    },
+    supply: [
+      { "@type": "HowToSupply", name: "Modüler Podyum Panelleri" },
+      { "@type": "HowToSupply", name: "Kurulum Ekipmanları" }
+    ],
+    tool: [{ "@type": "HowToTool", name: "Profesyonel Kurulum Ekibi" }],
+    step: [
+      {
+        "@type": "HowToStep",
+        name: "Keşif ve Planlama",
+        text: "Mekan keşfi yapılır ve teknik projelendirme hazırlanır."
+      },
+      {
+        "@type": "HowToStep",
+        name: "Zemin Hazırlığı",
+        text: "Zemin düzleştirilir ve güvenlik kontrolleri yapılır."
+      },
+      {
+        "@type": "HowToStep",
+        name: "Podyum Kurulumu",
+        text: "Modüler paneller monte edilir ve güvenlik sistemleri kurulur."
+      },
+      {
+        "@type": "HowToStep",
+        name: "Kalite Kontrol",
+        text: "Kurulum sonrası güvenlik ve stabilite kontrolleri yapılır."
+      }
+    ]
+  };
+
+  /* ----------------------------------------
+    BREADCRUMB
+  ---------------------------------------- */
   const breadcrumbSchema = {
     "@type": "BreadcrumbList",
     itemListElement: [
@@ -379,108 +477,75 @@ function JsonLd() {
         "@type": "ListItem",
         position: 1,
         name: "Anasayfa",
-        item: `${ORIGIN}/`,
+        item: `${ORIGIN}/`
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Podyum Kiralama",
-        item: pageUrl,
-      },
-    ],
+        item: pageUrl
+      }
+    ]
   };
 
+  /* ----------------------------------------
+    WEBPAGE
+  ---------------------------------------- */
   const webpageSchema = {
     "@type": "WebPage",
-    "@id": pageUrl,
+    "@id": `${pageUrl}#webpage`,
     name: metadata.title,
     description: pageDescription,
     url: pageUrl,
-    mainEntity: {
-      "@id": `${pageUrl}#service`,
-    },
-    isPartOf: {
-      "@id": `${ORIGIN}#website`,
-    },
-    about: {
-      "@id": `${pageUrl}#service`,
-    },
+    mainEntity: { "@id": `${pageUrl}#service` },
+    isPartOf: { "@id": `${ORIGIN}#website` },
+    about: { "@id": `${pageUrl}#service` },
     primaryImageOfPage: {
       "@type": "ImageObject",
       url: `${ORIGIN}/img/podyum/hero.webp`,
       width: 1200,
       height: 630,
-      caption: "Profesyonel Podyum Kurulumu",
+      caption: "Profesyonel Podyum Kurulumu"
     },
     datePublished: "2024-01-01",
     dateModified: new Date().toISOString().split("T")[0],
-    author: providerRef,
+    author: providerRef
   };
 
-  const howToSchema = {
-    "@type": "HowTo",
-    name: "Podyum Kurulum Süreci",
-    description: "Profesyonel podyum kurulum adımları",
-    totalTime: "PT4H",
-    estimatedCost: {
-      "@type": "MonetaryAmount",
-      currency: "TRY",
-      value: "8000",
-    },
-    supply: [
-      { "@type": "HowToSupply", name: "Modüler Podyum Panelleri" },
-      { "@type": "HowToSupply", name: "Kurulum Ekipmanları" },
-    ],
-    tool: [{ "@type": "HowToTool", name: "Profesyonel Kurulum Ekibi" }],
-    step: [
-      {
-        "@type": "HowToStep",
-        name: "Keşif ve Planlama",
-        text: "Mekan keşfi yapılır ve teknik projelendirme hazırlanır.",
-      },
-      {
-        "@type": "HowToStep",
-        name: "Zemin Hazırlığı",
-        text: "Zemin düzleştirilir ve güvenlik kontrolleri yapılır.",
-      },
-      {
-        "@type": "HowToStep",
-        name: "Podyum Kurulumu",
-        text: "Modüler paneller monte edilir ve güvenlik sistemleri kurulur.",
-      },
-      {
-        "@type": "HowToStep",
-        name: "Kalite Kontrol",
-        text: "Kurulum sonrası güvenlik ve stabilite kontrolleri yapılır.",
-      },
-    ],
-  };
-
+  /* ----------------------------------------
+    EVENT SERVICE
+  ---------------------------------------- */
   const eventServiceSchema = {
     "@type": "EventService",
     "@id": `${pageUrl}#eventservice`,
     name: "Etkinlik Podyum Kiralama Hizmeti",
-    description: "Çeşitli etkinlik türleri için podyum kiralama çözümleri",
+    description:
+      "Konser, lansman, fuar ve kurumsal etkinlikler için profesyonel podyum çözümleri",
     serviceType: USE_CASES.map((uc) => uc.text),
-    provider: providerRef,
-    areaServed: {
-      "@type": "AdministrativeArea",
-      name: "İstanbul",
-    },
+    provider: providerRef
   };
 
+  /* ----------------------------------------
+    FAQ
+  ---------------------------------------- */
+  const faqSchema = faqSchema;
+
+  /* ----------------------------------------
+    TOP GRAPH — ideal sıralama
+  ---------------------------------------- */
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
-      breadcrumbSchema,
-      serviceNode,
-      webpageSchema,
-      howToSchema,
-      eventServiceSchema,
-      ratingNode,          // <— bağımsız rating node’u
-      ...productNodes,
-      ...(faqSchema ? [faqSchema] : []),
-    ].filter(Boolean),
+      localBusinessNode,     // 1
+      webpageSchema,         // 2
+      breadcrumbSchema,      // 3
+      serviceNode,           // 4
+      productNode,           // 5
+      eventServiceSchema,    // 6
+      ratingNode,            // 7
+      ...reviews,            // 8
+      faqSchema              // 9
+    ]
   };
 
   return (
@@ -491,6 +556,7 @@ function JsonLd() {
     />
   );
 }
+
 
 /* ================== HERO ================== */
 function Hero() {
