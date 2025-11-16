@@ -320,7 +320,7 @@ function JsonLd() {
     ratingCount: "200",
     // BURASI ÖNEMLİ: Artık Service DEĞİL, LocalBusiness / org'a bağlıyoruz
     itemReviewed: {
-      "@id": `${ORIGIN}#localbusiness`, // layout'taki LocalBusiness @id'in neyse onu kullan
+      "@id": `${ORIGIN}#localbiz`, 
     },
   };
 
