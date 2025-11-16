@@ -12,7 +12,7 @@ export default function EnglishLayout({ children }) {
       <DocumentDirection lang="en" dir={content.direction} />
       <SiteHeader locale="en" strings={{ ...content.header, direction: content.direction }} />
       <main
-        id="main-content"
+        id="_main_content"
         tabIndex={-1}
         className="flex-1 pb-16 pt-0 focus-ring scroll-mt-4"
       >
