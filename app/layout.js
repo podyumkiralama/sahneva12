@@ -4,6 +4,17 @@ import Script from "next/script";
 import { Inter } from "next/font/google";
 import SkipLinks from "@/components/SkipLinks";
 
+const SITE_URL = "https://www.sahneva.com";
+const ORGANIZATION_ID = `${SITE_URL}/#org`;
+const ORGANIZATION_ADDRESS = {
+  "@type": "PostalAddress",
+  streetAddress: "Yenidoğan Mahallesi",
+  addressLocality: "Kağıthane",
+  addressRegion: "İstanbul",
+  postalCode: "34406",
+  addressCountry: "TR",
+};
+
 const inter = Inter({
   subsets: ["latin", "latin-ext", "arabic"],
   preload: true,
@@ -15,12 +26,13 @@ const inter = Inter({
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "@id": "https://www.sahneva.com/#org",
+  "@id": ORGANIZATION_ID,
   name: "Sahneva",
-  url: "https://www.sahneva.com",
-  logo: "https://www.sahneva.com/img/logo.png",
+  url: SITE_URL,
+  logo: `${SITE_URL}/img/logo.png`,
   description:
     "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri kiralama hizmetleri",
+  address: ORGANIZATION_ADDRESS,
   contactPoint: {
     "@type": "ContactPoint",
     telephone: "+90-545-304-8671",
@@ -40,15 +52,10 @@ const localBusinessJsonLd = {
   "@type": "LocalBusiness",
   "@id": "https://www.sahneva.com/#localbiz",
   name: "Sahneva",
-  image: "https://www.sahneva.com/img/logo.png",
-  url: "https://www.sahneva.com",
+  image: `${SITE_URL}/img/logo.png`,
+  url: SITE_URL,
   telephone: "+90-545-304-8671",
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Kağıthane",
-    addressRegion: "İstanbul",
-    addressCountry: "TR",
-  },
+  address: ORGANIZATION_ADDRESS,
   geo: {
     "@type": "GeoCoordinates",
     latitude: 41.081,
@@ -56,6 +63,7 @@ const localBusinessJsonLd = {
   },
   priceRange: "$$",
   openingHours: "Mo-Su 09:00-23:00",
+  parentOrganization: { "@id": ORGANIZATION_ID },
 };
 
 /* ===================== META: VIEWPORT ===================== */
@@ -67,7 +75,7 @@ export const viewport = {
 
 /* ===================== META: DEFAULT ===================== */
 export const metadata = {
-  metadataBase: new URL("https://www.sahneva.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Sahne, Podyum, LED Ekran & Ses-Işık Kiralama | Sahneva",
     template: "%s | Sahneva",
@@ -76,19 +84,19 @@ export const metadata = {
     "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı kurulum, profesyonel teknik ekip, uygun fiyat. Hemen teklif alın!",
   manifest: "/site.webmanifest",
   alternates: {
-    canonical: "https://www.sahneva.com",
+    canonical: SITE_URL,
     languages: {
-      "tr-TR": "https://www.sahneva.com",
+      "tr-TR": SITE_URL,
       en: "https://www.sahneva.com/en",
       ar: "https://www.sahneva.com/ar",
-      "x-default": "https://www.sahneva.com",
+      "x-default": SITE_URL,
     },
   },
   openGraph: {
-    title: "Sahneva – Etkinlik Prodüksiyon & Organizasyon",
+    title: "Sahne, Podyum, LED Ekran & Ses-Işık Kiralama | Sahneva",
     description:
       "Sahne, podyum, LED ekran, ses-ışık ve kurulum hizmetleri. Türkiye geneli.",
-    url: "https://www.sahneva.com",
+    url: SITE_URL,
     siteName: "Sahneva",
     images: [
       {
@@ -114,7 +122,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sahneva – Etkinlik Prodüksiyon & Organizasyon",
+    title: "Sahne, Podyum, LED Ekran & Ses-Işık Kiralama | Sahneva",
     description:
       "Sahne, podyum, LED ekran, ses-ışık ve kurulum hizmetleri. Türkiye geneli.",
     images: ["/img/og.jpg"],
@@ -153,6 +161,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="tr"
+      xmlLang="tr"
       dir="ltr"
       className={inter.className}
       suppressHydrationWarning
@@ -170,16 +179,18 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://www.google-analytics.com" />
 
         {/* JSON-LD – bloklayıcı olmayan inline scriptler */}
-        <script
+        <Script
           id="ld-org"
           type="application/ld+json"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(organizationJsonLd),
           }}
         />
-        <script
+        <Script
           id="ld-local"
           type="application/ld+json"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(localBusinessJsonLd),
           }}

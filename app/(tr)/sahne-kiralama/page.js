@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import JsonLdScript from "@/components/JsonLdScript";
 
 import { buildFaqSchema } from "@/lib/structuredData/faq";
 import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
@@ -1548,7 +1549,7 @@ function CTA() {
 }
 
 /* ================== JSON-LD ================== */
-/* Burada next/script yerine düz <script> kullanıyoruz. */
+/* JSON-LD çıktılarını JsonLdScript bileşeni ile Next.js <Script> üzerinden yayımlarız. */
 function JsonLd() {
   const pageUrl = `${ORIGIN}/sahne-kiralama`;
   const pageDescription = metadata.description;
@@ -1636,13 +1637,7 @@ function JsonLd() {
     ],
   };
 
-  return (
-    <script
-      id="ld-json-sahne"
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
-  );
+  return <JsonLdScript id="ld-json-sahne" data={jsonLd} />;
 }
 
 /* ================== Sayfa Bileşeni ================== */

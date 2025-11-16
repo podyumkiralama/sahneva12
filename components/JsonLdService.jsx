@@ -1,5 +1,6 @@
 // components/JsonLdService.tsx  (veya .jsx)
 import { headers } from "next/headers";
+import JsonLdScript from "./JsonLdScript";
 
 const absUrl = (site, path = "") => {
   if (!path) return site.replace(/\/+$/,"");
@@ -68,11 +69,7 @@ export default function JsonLdService({
     mainEntityOfPage: { "@type": "WebPage", "@id": pageUrl },
   });
 
-  return (
-    <script
-      nonce={nonce}
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
+  const scriptId = slug ? `jsonld-service-${slug}` : "jsonld-service";
+
+  return <JsonLdScript id={scriptId} nonce={nonce} data={data} />;
 }

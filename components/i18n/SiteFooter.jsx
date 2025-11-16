@@ -6,7 +6,9 @@ export default function SiteFooter({ strings }) {
   const year = new Date().getFullYear();
   return (
     <footer
-      id="site-footer"
+      id="_main_footer"
+      role="contentinfo"
+      tabIndex={-1}
       aria-label={strings?.ariaLabel ?? "Site footer"}
       className="bg-slate-950 text-slate-200"
       dir={strings.direction}
@@ -42,18 +44,20 @@ export default function SiteFooter({ strings }) {
             <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-400">
               {strings.servicesTitle}
             </h3>
-            <ul className="mt-4 space-y-2 text-sm">
-              {strings.services.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className={`hover:text-emerald-300 ${focusRingClass}`}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <nav aria-label={strings.servicesTitle} role="navigation">
+              <ul className="mt-4 space-y-2 text-sm">
+                {strings.services.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className={`hover:text-emerald-300 ${focusRingClass}`}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
 
           <div>
@@ -61,7 +65,11 @@ export default function SiteFooter({ strings }) {
               {strings.officeTitle}
             </h3>
             <p className="mt-4 text-sm text-slate-300 whitespace-pre-line">{strings.address}</p>
-            <div className="mt-4 flex flex-wrap gap-3 text-sm">
+            <nav
+              aria-label={strings?.socialLabel ?? "Sosyal bağlantılar"}
+              role="navigation"
+              className="mt-4 flex flex-wrap gap-3 text-sm"
+            >
               {strings.social.map((item) => (
                 <a
                   key={item.href}
@@ -73,7 +81,7 @@ export default function SiteFooter({ strings }) {
                   {item.label}
                 </a>
               ))}
-            </div>
+            </nav>
           </div>
         </div>
       </div>

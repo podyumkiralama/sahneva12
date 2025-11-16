@@ -1,5 +1,6 @@
 // app/sss/page.js
 import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
+import JsonLdScript from "@/components/JsonLdScript";
 
 /* ——— META ——— */
 export const metadata = {
@@ -336,10 +337,7 @@ export default function FaqPage() {
   return (
     <>
       {/* JSON-LD – SSR ile direkt HTML içinde */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <JsonLdScript id="ld-json-sss" data={jsonLd} />
 
       <div className="container py-10 md:py-14">
         <ScrollReveal>
