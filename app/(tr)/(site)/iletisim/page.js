@@ -139,7 +139,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <main id="main" className="relative pb-28 md:pb-0">
+      <div id="main" className="relative pb-28 md:pb-0">
         {/* Hızlı İletişim Kartları */}
         <section className="py-20 bg-gradient-to-br from-white to-blue-50/50">
           <div className="container max-w-6xl mx-auto px-4">
@@ -532,7 +532,7 @@ export default function ContactPage() {
 
         {/* Mobil bar için ekstra boşluk (yapışmayı engeller) */}
         <div className="h-28 md:hidden" aria-hidden="true" />
-      </main>
+      </div>
 
       {/* Mobile CTA Bar */}
       <div className="fixed bottom-0 left-0 w-full bg-white shadow-2xl border-t py-4 flex justify-around md:hidden z-50">

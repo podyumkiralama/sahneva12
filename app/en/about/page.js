@@ -236,7 +236,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <main className="relative">
+      <div className="relative">
         {/* WHO WE ARE */}
         <section className="py-20 bg-gradient-to-b from-white to-blue-50/50" aria-labelledby="who-we-are-title">
           <div className="container max-w-6xl mx-auto px-4">
@@ -535,7 +535,7 @@ export default function AboutPage() {
             </div>
           </div>
         </section>
-      </main>
+      </div>
     </div>
   );
 }

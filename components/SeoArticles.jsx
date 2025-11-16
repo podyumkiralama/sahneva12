@@ -77,92 +77,90 @@ export default function SeoArticles({
           </p>
         </div>
 
-        {/* role=list + role=listitem semantik olarak doğru */}
-        <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3" role="list">
+          {/* role=list semantiği kartların liste olarak algılanmasını sağlar */}
+        <ul className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3 list-none">
           {items.slice(0, 6).map((a, idx) => {
             const url = abs(a.href || a.slug || "");
             const titleId = `article-card-${idx}-title`;
             return (
-              <article
-                key={a.slug || a.href || idx}
-                className="group bg-white rounded-2xl border border-neutral-200 hover:border-blue-200 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden"
-                role="listitem"
-                aria-labelledby={titleId}
-              >
-                {/* Kapak */}
-                <div className="relative aspect-[16/10]">
-                  <Link
-                    href={url}
-                    className="absolute inset-0 block focus-visible:outline-2 focus-visible:outline-blue-600 focus-visible:outline-offset-2 rounded-t-2xl"
-                  >
-                    <span className="sr-only">{a.title}</span>
-                  </Link>
-
-                  {a.image ? (
-                    <Image
-                      src={a.image}
-                      alt={a.alt || a.title}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      sizes={CARD_SIZES}
-                      quality={80}
-                      loading={idx < 2 ? "eager" : "lazy"}
-                      placeholder="blur"
-                      blurDataURL={BLUR}
-                    />
-                  ) : (
-                    <div
-                      className="absolute inset-0 bg-gradient-to-br from-neutral-200 to-neutral-300"
-                      aria-hidden="true"
-                    />
-                  )}
-
-                  {a.badge && (
-                    <span className="absolute top-2 left-2 text-[11px] font-semibold text-white bg-blue-600/90 rounded-full px-2 py-1">
-                      {a.badge}
-                    </span>
-                  )}
-                </div>
-
-                {/* İçerik */}
-                <div className="p-5">
-                  <h3 id={titleId} className="text-base md:text-lg font-bold text-neutral-900 line-clamp-2">
-                    <Link href={url} className="hover:text-blue-700 transition-colors duration-200">
-                      {a.title}
-                    </Link>
-                  </h3>
-
-                  {a.desc && (
-                    <p className="text-sm text-neutral-600 mt-2 line-clamp-2">{a.desc}</p>
-                  )}
-
-                  <div className="mt-4 flex items-center justify-between">
-                    {a.tag ? (
-                      <span className="text-[12px] font-semibold text-blue-700 bg-blue-50 rounded-full px-2.5 py-1">
-                        {a.tag}
-                      </span>
-                    ) : (
-                      <span className="text-[12px] font-semibold text-neutral-600">
-                        Okuma süresi: {a.read || "2-4 dk"}
-                      </span>
-                    )}
-
+              <li key={a.slug || a.href || idx} className="h-full">
+                <article
+                  className="group bg-white rounded-2xl border border-neutral-200 hover:border-blue-200 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden h-full"
+                  aria-labelledby={titleId}
+                >
+                  {/* Kapak */}
+                  <div className="relative aspect-[16/10]">
                     <Link
                       href={url}
-                      className="text-sm font-semibold text-neutral-800 hover:text-blue-700 transition-colors duration-200 flex items-center gap-1 group/lnk"
+                      className="absolute inset-0 block focus-visible:outline-2 focus-visible:outline-blue-600 focus-visible:outline-offset-2 rounded-t-2xl"
                     >
-                      <span>Oku</span>
-                      <span className="sr-only"> — {a.title}</span>
-                      <span className="transition-transform group-hover/lnk:translate-x-1" aria-hidden="true">
-                        →
-                      </span>
+                      <span className="sr-only">{a.title}</span>
                     </Link>
+
+                    {a.image ? (
+                      <Image
+                        src={a.image}
+                        alt={a.alt || a.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        sizes={CARD_SIZES}
+                        quality={80}
+                        loading={idx < 2 ? "eager" : "lazy"}
+                        placeholder="blur"
+                        blurDataURL={BLUR}
+                      />
+                    ) : (
+                      <div
+                        className="absolute inset-0 bg-gradient-to-br from-neutral-200 to-neutral-300"
+                        aria-hidden="true"
+                      />
+                    )}
+
+                    {a.badge && (
+                      <span className="absolute top-2 left-2 text-[11px] font-semibold text-white bg-blue-600/90 rounded-full px-2 py-1">
+                        {a.badge}
+                      </span>
+                    )}
                   </div>
-                </div>
-              </article>
+
+                  {/* İçerik */}
+                  <div className="p-5">
+                    <h3 id={titleId} className="text-base md:text-lg font-bold text-neutral-900 line-clamp-2">
+                      <Link href={url} className="hover:text-blue-700 transition-colors duration-200">
+                        {a.title}
+                      </Link>
+                    </h3>
+
+                    {a.desc && (
+                      <p className="text-sm text-neutral-600 mt-2 line-clamp-2">{a.desc}</p>
+                    )}
+
+                    <div className="mt-4 flex items-center justify-between">
+                      {a.tag ? (
+                        <span className="inline-flex items-center gap-2 text-[13px] font-semibold text-blue-700 bg-blue-50 px-3 py-1 rounded-full">
+                          <span className="text-base" aria-hidden="true">
+                            🏷️
+                          </span>
+                          {a.tag}
+                        </span>
+                      ) : (
+                        <span className="text-xs uppercase tracking-wide text-neutral-500">Blog</span>
+                      )}
+
+                      <Link
+                        href={url}
+                        className="text-sm font-semibold text-blue-600 hover:text-blue-800 inline-flex items-center gap-2"
+                      >
+                        Oku
+                        <span aria-hidden="true">→</span>
+                      </Link>
+                    </div>
+                  </div>
+                </article>
+              </li>
             );
           })}
-        </div>
+        </ul>
 
         <ArticlesJsonLd items={items} />
       </div>

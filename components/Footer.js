@@ -57,7 +57,7 @@ const footerStrings = LOCALE_CONTENT.tr.footer;
 export default function Footer() {
   return (
     <footer
-      id="main-footer"
+      id="site-footer"
       className="relative w-full flex-shrink-0 bg-gradient-to-br from-[#0b1120] via-[#1a1038] to-[#1b1f4a] border-t border-white/10"
       aria-labelledby="site-footer-heading"
       itemScope
