@@ -70,31 +70,29 @@ export default function UtilityBarClient() {
   if (showManualPrompt && !manualTrigger) {
     return (
       <button
-        type="button"
-        onClick={() => {
-          setManualTrigger(true);
-          setShouldRender(true);
-        }}
-        style={{
-          position: "fixed",
-          bottom: "1.5rem",
-          right: "1.25rem",
-          zIndex: 60,
-          padding: "0.75rem 1.25rem",
-          borderRadius: "9999px",
-          border: "1px solid rgba(109, 40, 217, 0.28)",
-          background: "rgba(255, 255, 255, 0.95)",
-          color: "#6d28d9",
-          fontWeight: 600,
-          boxShadow: "0 18px 40px rgba(109, 40, 217, 0.22)",
-          backdropFilter: "blur(6px)",
-          WebkitBackdropFilter: "blur(6px)",
-          cursor: "pointer",
-        }}
-        aria-label="Erişilebilirlik menüsünü yükle"
-      >
-        ♿ Erişilebilirlik menüsünü yükle
-      </button>
+  type="button"
+  onClick={() => {
+    setManualTrigger(true);
+    setShouldRender(true);
+  }}
+  style={{
+    position: "fixed",
+    bottom: "1.5rem",
+    left: "1.25rem",   // ← ← ← SAĞ TARAF KALKSIN, SOL TARAF EKLENSİN
+    zIndex: 60,
+    padding: "0.75rem 1.25rem",
+    borderRadius: "9999px",
+    border: "1px solid rgba(109, 40, 217, 0.28)",
+    background: "rgba(255, 255, 255, 0.95)",
+    color: "#6d28d9",
+    fontWeight: 600,
+    boxShadow: "0 18px 40px rgba(109, 40, 217, 0.22)",
+    backdropFilter: "blur(6px)",
+    WebkitBackdropFilter: "blur(6px)",
+    cursor: "pointer",
+  }}
+  aria-label="Erişilebilirlik menüsünü yükle"
+>
     );
   }
 
