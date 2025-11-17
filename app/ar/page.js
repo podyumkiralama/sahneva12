@@ -14,6 +14,9 @@ import { FAQ_ITEMS_AR } from "@/lib/faqData";
 
 const { home } = LOCALE_CONTENT.ar;
 
+const HERO_IMAGE_ALT_AR =
+  "خلفية تعرض منصة مع شاشة LED وهيكل تعليق وإضاءة من فريق ساهنيفا للتقنيات الحدثية";
+
 const HERO_FEATURES_AR = [
   {
     icon: "⭐",
@@ -492,7 +495,7 @@ function StructuredData() {
   );
 }
 
-function HeroBackgroundImage({ alt = "", ariaHidden = true }) {
+function HeroBackgroundImage({ alt = HERO_IMAGE_ALT_AR, ariaHidden = false }) {
   const { props } = getImageProps({
     alt,
     src: heroImg,

@@ -14,6 +14,9 @@ import { FAQ_ITEMS_EN } from "@/lib/faqData";
 
 const { home } = LOCALE_CONTENT.en;
 
+const HERO_IMAGE_ALT =
+  "Stage with LED wall, truss roof and lighting setup by Sahneva event technology team";
+
 const HERO_FEATURES = [
   {
     icon: "⭐",
@@ -468,7 +471,7 @@ function StructuredData() {
   );
 }
 
-function HeroBackgroundImage({ alt = "", ariaHidden = true }) {
+function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
   const { props } = getImageProps({
     alt,
     src: heroImg,

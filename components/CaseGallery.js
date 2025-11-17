@@ -183,12 +183,14 @@ function CaseGallery({ images = [], visibleCount = 4 }) {
             key={`${img.src}-${index}`}
             type="button"
             className="relative aspect-[16/9] overflow-hidden rounded-xl border-2 border-gray-200 bg-white hover:border-blue-500 hover:shadow-lg transition-all duration-300 group focus-ring"
-            onClick={thumbnailClickHandlers[index]}
-            aria-label={`${img.alt} - Görseli büyüt`}
+            onClick={() => openLightbox(index)}
+            aria-label={`${
+              img.alt || `Galerideki ${index + 1}. görsel`
+            } - Görseli büyüt`}
           >
             <Image
               src={img.src}
-              alt={img.alt}
+              alt={img.alt || `Galerideki ${index + 1}. görsel`}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -286,7 +288,10 @@ function CaseGallery({ images = [], visibleCount = 4 }) {
               <Image
                 key={images[currentIndex]?.src}
                 src={images[currentIndex]?.src || ""}
-                alt={images[currentIndex]?.alt || ""}
+                alt={
+                  images[currentIndex]?.alt ||
+                  `Galerideki ${currentIndex + 1}. görsel`
+                }
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 80vw"
                 className="object-contain"
@@ -345,21 +350,25 @@ function CaseGallery({ images = [], visibleCount = 4 }) {
           {/* Küçük resim önizlemeleri (desktop) */}
           {images.length > 1 && (
             <div className="hidden md:flex absolute bottom-4 left-1/2 -translate-x-1/2 gap-2 max-w-full overflow-x-auto px-4 py-2">
-                {images.map((img, index) => (
-                  <button
-                    key={`thumb-${index}`}
-                    type="button"
-                    className={`flex-shrink-0 w-16 h-12 relative rounded border-2 transition-all duration-200 focus-ring ${
-                      index === currentIndex
-                        ? "border-white scale-110"
-                        : "border-white/30 hover:border-white/60"
-                    }`}
-                    onClick={lightboxThumbnailHandlers[index]}
-                    aria-label={`${index + 1}. görsele git: ${img.alt}`}
-                  >
+              {images.map((img, index) => (
+                <button
+                  key={`thumb-${index}`}
+                  type="button"
+                  className={`flex-shrink-0 w-16 h-12 relative rounded border-2 transition-all duration-200 focus-ring ${
+                    index === currentIndex
+                      ? "border-white scale-110"
+                      : "border-white/30 hover:border-white/60"
+                  }`}
+                  onClick={() => setCurrentIndex(index)}
+                  aria-label={`${
+                    index + 1
+                  }. görsele git: ${
+                    img.alt || `Galerideki ${index + 1}. görsel`
+                  }`}
+                >
                   <Image
                     src={img.src}
-                    alt=""
+                    alt={img.alt || `Galerideki ${index + 1}. görsel küçük önizleme`}
                     fill
                     sizes="64px"
                     className="object-cover rounded"
