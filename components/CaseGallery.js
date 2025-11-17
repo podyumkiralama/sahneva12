@@ -148,11 +148,13 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
             type="button"
             className="relative aspect-[16/9] overflow-hidden rounded-xl border-2 border-gray-200 bg-white hover:border-blue-500 hover:shadow-lg transition-all duration-300 group focus-ring"
             onClick={() => openLightbox(index)}
-            aria-label={`${img.alt} - Görseli büyüt`}
+            aria-label={`${
+              img.alt || `Galerideki ${index + 1}. görsel`
+            } - Görseli büyüt`}
           >
             <Image
               src={img.src}
-              alt={img.alt}
+              alt={img.alt || `Galerideki ${index + 1}. görsel`}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -250,7 +252,10 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
               <Image
                 key={images[currentIndex]?.src}
                 src={images[currentIndex]?.src || ""}
-                alt={images[currentIndex]?.alt || ""}
+                alt={
+                  images[currentIndex]?.alt ||
+                  `Galerideki ${currentIndex + 1}. görsel`
+                }
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 80vw"
                 className="object-contain"
@@ -319,11 +324,15 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
                       : "border-white/30 hover:border-white/60"
                   }`}
                   onClick={() => setCurrentIndex(index)}
-                  aria-label={`${index + 1}. görsele git: ${img.alt}`}
+                  aria-label={`${
+                    index + 1
+                  }. görsele git: ${
+                    img.alt || `Galerideki ${index + 1}. görsel`
+                  }`}
                 >
                   <Image
                     src={img.src}
-                    alt=""
+                    alt={img.alt || `Galerideki ${index + 1}. görsel küçük önizleme`}
                     fill
                     sizes="64px"
                     className="object-cover rounded"
