@@ -47,6 +47,78 @@ const LS_KEYS = {
   HIDE_IMAGES: "acc_hide_images",
 };
 
+// ToggleCard Bileşeni (GÜNCELLENDİ)
+function ToggleCard({ icon, title, description, isActive, onToggle }) {
+  // Toggle mekanizmasını kapsayan div'e benzersiz bir ID verelim
+  // Bu ID, aria-labelledby için kullanılacak
+  const uniqueId = useMemo(() => `toggle-${title.toLowerCase().replace(/[^a-z0-9]/g, '-')}`, [title]);
+
+  return (
+    <div 
+      className="flex items-center justify-between p-4 rounded-xl border border-gray-200 bg-white hover:border-gray-300 transition-colors cursor-pointer"
+      onClick={onToggle} // Tıklama tüm karta uygulandı
+      id={uniqueId} // Benzersiz ID
+    >
+      <div className="flex items-start gap-3 flex-1 pointer-events-none">
+        <span className="text-2xl mt-1">{icon}</span>
+        <div className="flex-1">
+          <h3 className="font-semibold text-gray-900 text-base" id={`${uniqueId}-title`}>{title}</h3>
+          <p className="text-sm text-gray-600 mt-1">{description}</p>
+        </div>
+      </div>
+      
+      <div className="flex items-center gap-3 ml-4 pointer-events-none">
+        <span className={`text-xs font-medium ${isActive ? 'text-green-600' : 'text-gray-500'}`}>
+          {isActive ? 'AÇIK' : 'KAPALI'}
+        </span>
+        <div // Buton yerine sadece görsel kaydırıcı kaldı
+          className={`w-14 h-7 rounded-full transition-colors relative ${
+            isActive ? 'bg-green-500' : 'bg-gray-300'
+          }`}
+        >
+          <div
+            className={`w-5 h-5 rounded-full bg-white transform transition-transform absolute top-1 ${
+              isActive ? 'translate-x-8' : 'translate-x-1'
+            }`}
+          />
+        </div>
+      </div>
+      
+      {/* GÖRSEL KAYDIRICININ YERİNE GEÇEN KLAVYE ODAKLI GÖRÜNMEZ BUTON
+        Tüm kart tıklanabilir olsa da, ARIA switch rolünü taşıyan bu elementtir.
+      */}
+      <button
+        onClick={onToggle}
+        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" // Kartın tamamını kaplayan görünmez buton
+        role="switch" // 👈 CRITICAL: ARIA Role eklendi
+        aria-checked={isActive} // 👈 CRITICAL: ARIA durumu eklendi
+        aria-labelledby={`${uniqueId}-title`} // 👈 CRITICAL: Başlıkla ilişkilendirildi
+      >
+        <span className="sr-only">{title} ayarını {isActive ? 'kapat' : 'aç'}</span> 
+      </button>
+    </div>
+  );
+}
+
+// ActionCard Bileşeni
+function ActionCard({ icon, title, description, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      className="w-full flex items-center justify-between p-4 rounded-xl border border-gray-200 bg-white hover:border-blue-300 hover:bg-blue-50 transition-colors text-left"
+    >
+      <div className="flex items-start gap-3 flex-1"> 
+        <span className="text-2xl mt-1">{icon}</span>
+        <div className="flex-1">
+          <h3 className="font-semibold text-gray-900 text-base">{title}</h3>
+          <p className="text-sm text-gray-600 mt-1">{description}</p>
+        </div>
+      </div>
+    </button>
+  );
+}
+
+
 export default function UtilityBar() {
   // Ana durumlar
   const [isActive, setIsActive] = useState(false);
@@ -83,6 +155,7 @@ export default function UtilityBar() {
   const guideRef = useRef(null);
   const animationStyleRef = useRef(null);
   const panelRef = useRef(null);
+  const firstTabRef = useRef(null); // Yeni Ref: Panel açıldığında odaklanılacak ilk öğe
 
   // Yardımcı fonksiyonlar
   const setLS = (key, value) => {
@@ -222,6 +295,19 @@ export default function UtilityBar() {
       .accessibility-active .reading-guide {
         display: block;
       }
+      
+      /* Ekran Okuyucu Metinlerini Gizleme Sınıfı */
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+      }
     `;
 
     styleRef.current.textContent = styles;
@@ -319,12 +405,30 @@ export default function UtilityBar() {
     }
   }, [applyStyles, handleStopAnimations, initReadingGuide]);
 
-  // Aktif durum değiştiğinde
+  // Aktif durum değiştiğinde (Panel açıldığında/kapandığında)
   useEffect(() => {
     if (isActive) {
       document.documentElement.classList.add('accessibility-active');
       setLS(LS_KEYS.ACTIVE, true);
       applyStyles();
+      
+      // Panel açıldığında odağı ilk sekmeye taşı
+      if (firstTabRef.current) {
+          firstTabRef.current.focus();
+      }
+      
+      // ESC tuşu ile kapatma (Modal Trap'in bir parçası)
+      const handleEscape = (event) => {
+        if (event.key === 'Escape') {
+          setIsActive(false);
+        }
+      };
+      document.addEventListener('keydown', handleEscape);
+      
+      return () => {
+        document.removeEventListener('keydown', handleEscape);
+      };
+
     } else {
       document.documentElement.classList.remove('accessibility-active');
       setLS(LS_KEYS.ACTIVE, false);
@@ -383,6 +487,15 @@ export default function UtilityBar() {
         setLS(LS_KEYS.UNDERLINE_LINKS, true);
         setBigCursor(true);
         setLS(LS_KEYS.BIG_CURSOR, true);
+      } else { // Profil kapatıldığında manuel ayarları sıfırla
+        setFontSize(16);
+        setLS(LS_KEYS.FONT_SIZE, 16);
+        setHighContrast(false);
+        setLS(LS_KEYS.HIGH_CONTRAST, false);
+        setUnderlineLinks(false);
+        setLS(LS_KEYS.UNDERLINE_LINKS, false);
+        setBigCursor(false);
+        setLS(LS_KEYS.BIG_CURSOR, false);
       }
     }
   );
@@ -414,6 +527,15 @@ export default function UtilityBar() {
         setLS(LS_KEYS.HIGHLIGHT_HEADINGS, true);
         setHighlightLinks(true);
         setLS(LS_KEYS.HIGHLIGHT_LINKS, true);
+      } else { // Profil kapatıldığında manuel ayarları sıfırla
+        setFontSize(16);
+        setLS(LS_KEYS.FONT_SIZE, 16);
+        setDyslexicFont(false);
+        setLS(LS_KEYS.DYSLEXIC_FONT, false);
+        setHighlightHeadings(false);
+        setLS(LS_KEYS.HIGHLIGHT_HEADINGS, false);
+        setHighlightLinks(false);
+        setLS(LS_KEYS.HIGHLIGHT_LINKS, false);
       }
     }
   );
@@ -485,6 +607,10 @@ export default function UtilityBar() {
     setPanelPosition("right");
     handleStartAnimations();
     
+    if (styleRef.current) {
+        styleRef.current.textContent = ''; // Stilleri temizle
+    }
+    
     if (guideRef.current) {
       guideRef.current.remove();
       guideRef.current = null;
@@ -515,6 +641,7 @@ export default function UtilityBar() {
           onClick={() => setIsActive(true)}
           className="w-14 h-14 bg-gradient-to-br from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full shadow-2xl flex items-center justify-center text-2xl transition-all duration-300 hover:scale-110"
           aria-label="Erişilebilirlik ayarlarını aç"
+          aria-expanded={isActive} // 👈 GÜNCELLENDİ
         >
           ♿
         </button>
@@ -535,6 +662,9 @@ export default function UtilityBar() {
       <div 
         ref={panelRef}
         className={`fixed top-0 ${panelPosition === 'right' ? 'right-0' : 'left-0'} z-[10000] w-full max-w-96 h-screen bg-white shadow-2xl border-l border-gray-200 flex flex-col`}
+        role="dialog" // 👈 YENİ: Modal/Dialog rolü
+        aria-modal="true" // 👈 YENİ: Arka planı devre dışı bırakır
+        aria-labelledby="accessibility-panel-title" // Başlıkla ilişkilendirildi
       >
         
         {/* Header */}
@@ -544,7 +674,7 @@ export default function UtilityBar() {
               <span className="text-xl">♿</span>
             </div>
             <div>
-              <h2 className="font-bold text-lg">Erişilebilirlik</h2>
+              <h2 className="font-bold text-lg" id="accessibility-panel-title">Erişilebilirlik</h2>
               <p className="text-blue-100 text-sm">Ayarlarınızı kişiselleştirin</p>
             </div>
           </div>
@@ -553,6 +683,7 @@ export default function UtilityBar() {
             <button
               onClick={togglePanelPosition}
               className="w-8 h-8 rounded-lg bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors"
+              aria-label={`Paneli ${panelPosition === 'right' ? 'sola' : 'sağa'} taşı`}
             >
               {panelPosition === 'right' ? '◀' : '▶'}
             </button>
@@ -560,6 +691,7 @@ export default function UtilityBar() {
             <button
               onClick={() => setIsActive(false)}
               className="w-8 h-8 rounded-lg bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors"
+              aria-label="Erişilebilirlik ayarlarını kapat"
             >
               ✕
             </button>
@@ -567,22 +699,28 @@ export default function UtilityBar() {
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-gray-200 bg-gray-50">
+        <div className="flex border-b border-gray-200 bg-gray-50" role="tablist"> {/* 👈 GÜNCELLENDİ */}
           {[
             { id: "profiles", label: "Profiller", icon: "👤" },
             { id: "content", label: "İçerik", icon: "📝" },
             { id: "color", label: "Renk", icon: "🎨" },
             { id: "orientation", label: "Yönlendirme", icon: "🎯" },
             { id: "tools", label: "Araçlar", icon: "🛠️" },
-          ].map(tab => (
+          ].map((tab, index) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
+              ref={index === 0 ? firstTabRef : null} // İlk sekmeye ref atandı
               className={`flex-1 flex flex-col items-center py-3 text-xs font-medium transition-colors ${
                 activeTab === tab.id 
                   ? 'text-blue-600 bg-white border-b-2 border-blue-600' 
                   : 'text-gray-600 hover:text-gray-900'
               }`}
+              role="tab" // 👈 GÜNCELLENDİ
+              aria-selected={activeTab === tab.id} // 👈 GÜNCELLENDİ
+              id={`tab-${tab.id}`}
+              aria-controls={`panel-${tab.id}`}
+              tabIndex={activeTab === tab.id ? 0 : -1} // Sadece aktif sekme odaklanılabilir
             >
               <span className="text-lg mb-1">{tab.icon}</span>
               {tab.label}
@@ -594,267 +732,314 @@ export default function UtilityBar() {
         <div className="flex-1 overflow-y-auto p-4">
           
           {/* Profiller */}
-          {activeTab === "profiles" && (
-            <div className="space-y-6">
-              <div className="text-center mb-2">
-                <h3 className="text-lg font-semibold text-gray-900">Sizin için doğru erişilebilirlik profilini seçin</h3>
-              </div>
+          <div 
+            id="panel-profiles"
+            role="tabpanel"
+            aria-labelledby="tab-profiles"
+            tabIndex={activeTab === "profiles" ? 0 : -1}
+            hidden={activeTab !== "profiles"}
+            className={activeTab === "profiles" ? "space-y-6" : "hidden"}
+          >
+            {activeTab === "profiles" && (
+              <>
+                <div className="text-center mb-2">
+                  <h3 className="text-lg font-semibold text-gray-900">Sizin için doğru erişilebilirlik profilini seçin</h3>
+                </div>
 
-              <ToggleCard
-                icon="⚡"
-                title="Epilepsi Güvenli Profili"
-                description="Yanıp sönen efektleri temizler ve renkleri azaltır"
-                isActive={seizureSafe}
-                onToggle={toggleSeizureSafe}
-              />
-              
-              <ToggleCard
-                icon="👁️"
-                title="Görme Engelli Profili"
-                description="Web sitesinin görsellerini geliştirir"
-                isActive={visionImpaired}
-                onToggle={toggleVisionImpaired}
-              />
-              
-              <ToggleCard
-                icon="🧠"
-                title="DEHB Dostu Profili"
-                description="Daha fazla odaklanma ve daha az dikkat dağıtıcı öğe"
-                isActive={adhdFriendly}
-                onToggle={toggleAdhdFriendly}
-              />
-              
-              <ToggleCard
-                icon="🎯"
-                title="Bilişsel Engelli Profili"
-                description="Okuma ve odaklanmaya yardımcı olur"
-                isActive={cognitiveDisability}
-                onToggle={toggleCognitiveDisability}
-              />
-              
-              <ToggleCard
-                icon="⌨️"
-                title="Klavye Navigasyonu"
-                description="Web sitesini klavye ile kullanın"
-                isActive={keyboardNav}
-                onToggle={toggleKeyboardNav}
-              />
-              
-              <ToggleCard
-                icon="🔈"
-                title="Görme Engelli Kullanıcılar"
-                description="Web sitesini ekran okuyucular için optimize edin"
-                isActive={blindUsers}
-                onToggle={toggleBlindUsers}
-              />
-            </div>
-          )}
+                <ToggleCard
+                  icon="⚡"
+                  title="Epilepsi Güvenli Profili"
+                  description="Yanıp sönen efektleri temizler ve renkleri azaltır"
+                  isActive={seizureSafe}
+                  onToggle={toggleSeizureSafe}
+                />
+                
+                <ToggleCard
+                  icon="👁️"
+                  title="Görme Engelli Profili"
+                  description="Web sitesinin görsellerini geliştirir"
+                  isActive={visionImpaired}
+                  onToggle={toggleVisionImpaired}
+                />
+                
+                <ToggleCard
+                  icon="🧠"
+                  title="DEHB Dostu Profili"
+                  description="Daha fazla odaklanma ve daha az dikkat dağıtıcı öğe"
+                  isActive={adhdFriendly}
+                  onToggle={toggleAdhdFriendly}
+                />
+                
+                <ToggleCard
+                  icon="🎯"
+                  title="Bilişsel Engelli Profili"
+                  description="Okuma ve odaklanmaya yardımcı olur"
+                  isActive={cognitiveDisability}
+                  onToggle={toggleCognitiveDisability}
+                />
+                
+                <ToggleCard
+                  icon="⌨️"
+                  title="Klavye Navigasyonu"
+                  description="Web sitesini klavye ile kullanın"
+                  isActive={keyboardNav}
+                  onToggle={toggleKeyboardNav}
+                />
+                
+                <ToggleCard
+                  icon="🔈"
+                  title="Görme Engelli Kullanıcılar"
+                  description="Web sitesini ekran okuyucular için optimize edin"
+                  isActive={blindUsers}
+                  onToggle={toggleBlindUsers}
+                />
+              </>
+            )}
+          </div>
 
           {/* İçerik */}
-          {activeTab === "content" && (
-            <div className="space-y-6">
-              <div className="text-center mb-2">
-                <h3 className="text-lg font-semibold text-gray-900">İçerik ve Okunabilirlik Ayarları</h3>
-              </div>
-
-              <div className="bg-gray-50 p-4 rounded-xl">
-                <h4 className="font-semibold text-gray-900 mb-3">Yazı Boyutu</h4>
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => setFontSizeWithSave(Math.max(12, fontSize - 2))}
-                    className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-bold text-lg transition-colors"
-                  >
-                    A-
-                  </button>
-                  <div className="flex-1 text-center py-3 bg-blue-50 text-blue-700 rounded-lg font-bold">
-                    {fontSize}px
-                  </div>
-                  <button
-                    onClick={() => setFontSizeWithSave(Math.min(24, fontSize + 2))}
-                    className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-bold text-lg transition-colors"
-                  >
-                    A+
-                  </button>
+          <div 
+            id="panel-content"
+            role="tabpanel"
+            aria-labelledby="tab-content"
+            tabIndex={activeTab === "content" ? 0 : -1}
+            hidden={activeTab !== "content"}
+            className={activeTab === "content" ? "space-y-6" : "hidden"}
+          >
+            {activeTab === "content" && (
+              <>
+                <div className="text-center mb-2">
+                  <h3 className="text-lg font-semibold text-gray-900">İçerik ve Okunabilirlik Ayarları</h3>
                 </div>
-              </div>
 
-              <ToggleCard
-                icon="🔤"
-                title="Disleksi Yazı Tipi"
-                description="Okumayı kolaylaştıran özel yazı tipi"
-                isActive={dyslexicFont}
-                onToggle={toggleDyslexicFont}
-              />
-              
-              <ToggleCard
-                icon="📑"
-                title="Başlıkları Vurgula"
-                description="Tüm başlıkları belirgin şekilde işaretler"
-                isActive={highlightHeadings}
-                onToggle={toggleHighlightHeadings}
-              />
-              
-              <ToggleCard
-                icon="🔗"
-                title="Bağlantıları Vurgula"
-                description="Tüm linkleri belirgin şekilde gösterir"
-                isActive={highlightLinks}
-                onToggle={toggleHighlightLinks}
-              />
-              
-              <ToggleCard
-                icon="👁️"
-                title="Okuma Maskesi"
-                description="Okuduğunuz alanı vurgulayan maske"
-                isActive={readingMask}
-                onToggle={toggleReadingMask}
-              />
-            </div>
-          )}
+                <div className="bg-gray-50 p-4 rounded-xl">
+                  <h4 className="font-semibold text-gray-900 mb-3">Yazı Boyutu</h4>
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => setFontSizeWithSave(Math.max(12, fontSize - 2))}
+                      className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-bold text-lg transition-colors"
+                      aria-label="Yazı boyutunu küçült" // 👈 YENİ
+                    >
+                      A-
+                    </button>
+                    <div className="flex-1 text-center py-3 bg-blue-50 text-blue-700 rounded-lg font-bold" aria-live="polite"> {/* 👈 YENİ: Değişimi bildir */}
+                      {fontSize}px
+                    </div>
+                    <button
+                      onClick={() => setFontSizeWithSave(Math.min(24, fontSize + 2))}
+                      className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-bold text-lg transition-colors"
+                      aria-label="Yazı boyutunu büyüt" // 👈 YENİ
+                    >
+                      A+
+                    </button>
+                  </div>
+                </div>
+
+                <ToggleCard
+                  icon="🔤"
+                  title="Disleksi Yazı Tipi"
+                  description="Okumayı kolaylaştıran özel yazı tipi"
+                  isActive={dyslexicFont}
+                  onToggle={toggleDyslexicFont}
+                />
+                
+                <ToggleCard
+                  icon="📑"
+                  title="Başlıkları Vurgula"
+                  description="Tüm başlıkları belirgin şekilde işaretler"
+                  isActive={highlightHeadings}
+                  onToggle={toggleHighlightHeadings}
+                />
+                
+                <ToggleCard
+                  icon="🔗"
+                  title="Bağlantıları Vurgula"
+                  description="Tüm linkleri belirgin şekilde gösterir"
+                  isActive={highlightLinks}
+                  onToggle={toggleHighlightLinks}
+                />
+                
+                <ToggleCard
+                  icon="👁️"
+                  title="Okuma Maskesi"
+                  description="Okuduğunuz alanı vurgulayan maske"
+                  isActive={readingMask}
+                  onToggle={toggleReadingMask}
+                />
+              </>
+            )}
+          </div>
 
           {/* Renk */}
-          {activeTab === "color" && (
-            <div className="space-y-6">
-              <div className="text-center mb-2">
-                <h3 className="text-lg font-semibold text-gray-900">Renk ve Görünüm Ayarları</h3>
-              </div>
+          <div 
+            id="panel-color"
+            role="tabpanel"
+            aria-labelledby="tab-color"
+            tabIndex={activeTab === "color" ? 0 : -1}
+            hidden={activeTab !== "color"}
+            className={activeTab === "color" ? "space-y-6" : "hidden"}
+          >
+            {activeTab === "color" && (
+              <>
+                <div className="text-center mb-2">
+                  <h3 className="text-lg font-semibold text-gray-900">Renk ve Görünüm Ayarları</h3>
+                </div>
 
-              <ToggleCard
-                icon="🎨"
-                title="Yüksek Kontrast"
-                description="Metin ve arkaplan kontrastını maksimuma çıkarır"
-                isActive={highContrast}
-                onToggle={toggleHighContrast}
-              />
-              
-              <ToggleCard
-                icon="🔄"
-                title="Renkleri Ters Çevir"
-                description="Tüm renkleri tersine çevirir"
-                isActive={invertColors}
-                onToggle={toggleInvertColors}
-              />
-              
-              <ToggleCard
-                icon="⚫"
-                title="Siyah-Beyaz Mod"
-                description="Tüm renkleri gri tonlarına çevirir"
-                isActive={grayscale}
-                onToggle={toggleGrayscale}
-              />
-              
-              <ToggleCard
-                icon="🔗"
-                title="Bağlantıların Altını Çiz"
-                description="Tüm linklerin altını çizer"
-                isActive={underlineLinks}
-                onToggle={toggleUnderlineLinks}
-              />
-              
-              <ToggleCard
-                icon="🌙"
-                title="Koyu Mod"
-                description="Koyu arkaplan ve açık renk metin"
-                isActive={darkMode}
-                onToggle={toggleDarkMode}
-              />
-              
-              <ToggleCard
-                icon="☀️"
-                title="Açık Mod"
-                description="Açık arkaplan ve koyu renk metin"
-                isActive={lightMode}
-                onToggle={toggleLightMode}
-              />
-            </div>
-          )}
+                <ToggleCard
+                  icon="🎨"
+                  title="Yüksek Kontrast"
+                  description="Metin ve arkaplan kontrastını maksimuma çıkarır"
+                  isActive={highContrast}
+                  onToggle={toggleHighContrast}
+                />
+                
+                <ToggleCard
+                  icon="🔄"
+                  title="Renkleri Ters Çevir"
+                  description="Tüm renkleri tersine çevirir"
+                  isActive={invertColors}
+                  onToggle={toggleInvertColors}
+                />
+                
+                <ToggleCard
+                  icon="⚫"
+                  title="Siyah-Beyaz Mod"
+                  description="Tüm renkleri gri tonlarına çevirir"
+                  isActive={grayscale}
+                  onToggle={toggleGrayscale}
+                />
+                
+                <ToggleCard
+                  icon="🔗"
+                  title="Bağlantıların Altını Çiz"
+                  description="Tüm linklerin altını çizer"
+                  isActive={underlineLinks}
+                  onToggle={toggleUnderlineLinks}
+                />
+                
+                <ToggleCard
+                  icon="🌙"
+                  title="Koyu Mod"
+                  description="Koyu arkaplan ve açık renk metin"
+                  isActive={darkMode}
+                  onToggle={toggleDarkMode}
+                />
+                
+                <ToggleCard
+                  icon="☀️"
+                  title="Açık Mod"
+                  description="Açık arkaplan ve koyu renk metin"
+                  isActive={lightMode}
+                  onToggle={toggleLightMode}
+                />
+              </>
+            )}
+          </div>
 
           {/* Yönlendirme */}
-          {activeTab === "orientation" && (
-            <div className="space-y-6">
-              <div className="text-center mb-2">
-                <h3 className="text-lg font-semibold text-gray-900">Yönlendirme ve Navigasyon</h3>
-              </div>
+          <div 
+            id="panel-orientation"
+            role="tabpanel"
+            aria-labelledby="tab-orientation"
+            tabIndex={activeTab === "orientation" ? 0 : -1}
+            hidden={activeTab !== "orientation"}
+            className={activeTab === "orientation" ? "space-y-6" : "hidden"}
+          >
+            {activeTab === "orientation" && (
+              <>
+                <div className="text-center mb-2">
+                  <h3 className="text-lg font-semibold text-gray-900">Yönlendirme ve Navigasyon</h3>
+                </div>
 
-              <ToggleCard
-                icon="🖱️"
-                title="Büyük İmleç"
-                description="Daha kolay görünen büyük fare imleci"
-                isActive={bigCursor}
-                onToggle={toggleBigCursor}
-              />
-              
-              <ToggleCard
-                icon="⏸️"
-                title="Animasyonları Durdur"
-                description="Tüm hareketli öğeleri durdurur"
-                isActive={animationsStopped}
-                onToggle={toggleStopAnimations}
-              />
-              
-              <ToggleCard
-                icon="🔇"
-                title="Sesleri Kapat"
-                description="Tüm ses ve video seslerini kapatır"
-                isActive={muteSounds}
-                onToggle={toggleMuteSounds}
-              />
-              
-              <ToggleCard
-                icon="🖼️"
-                title="Resimleri Gizle"
-                description="Tüm görselleri gizler"
-                isActive={hideImages}
-                onToggle={toggleHideImages}
-              />
-            </div>
-          )}
+                <ToggleCard
+                  icon="🖱️"
+                  title="Büyük İmleç"
+                  description="Daha kolay görünen büyük fare imleci"
+                  isActive={bigCursor}
+                  onToggle={toggleBigCursor}
+                />
+                
+                <ToggleCard
+                  icon="⏸️"
+                  title="Animasyonları Durdur"
+                  description="Tüm hareketli öğeleri durdurur"
+                  isActive={animationsStopped}
+                  onToggle={toggleStopAnimations}
+                />
+                
+                <ToggleCard
+                  icon="🔇"
+                  title="Sesleri Kapat"
+                  description="Tüm ses ve video seslerini kapatır"
+                  isActive={muteSounds}
+                  onToggle={toggleMuteSounds}
+                />
+                
+                <ToggleCard
+                  icon="🖼️"
+                  title="Resimleri Gizle"
+                  description="Tüm görselleri gizler"
+                  isActive={hideImages}
+                  onToggle={toggleHideImages}
+                />
+              </>
+            )}
+          </div>
 
           {/* Araçlar */}
-          {activeTab === "tools" && (
-            <div className="space-y-6">
-              <div className="text-center mb-2">
-                <h3 className="text-lg font-semibold text-gray-900">Yardımcı Araçlar</h3>
-              </div>
+          <div 
+            id="panel-tools"
+            role="tabpanel"
+            aria-labelledby="tab-tools"
+            tabIndex={activeTab === "tools" ? 0 : -1}
+            hidden={activeTab !== "tools"}
+            className={activeTab === "tools" ? "space-y-6" : "hidden"}
+          >
+            {activeTab === "tools" && (
+              <>
+                <div className="text-center mb-2">
+                  <h3 className="text-lg font-semibold text-gray-900">Yardımcı Araçlar</h3>
+                </div>
 
-              <ActionCard
-                icon="🔍"
-                title="Site İçi Arama"
-                description="Sayfalarda hızlı arama yapın"
-                onClick={() => setIsSearchOpen(true)}
-              />
-              
-              <ActionCard
-                icon="📞"
-                title="Hızlı İletişim"
-                description="Telefon ile hemen ulaşın"
-                onClick={() => window.open('tel:+905453048671')}
-              />
-              
-              <ActionCard
-                icon="💬"
-                title="WhatsApp"
-                description="WhatsApp'tan mesaj gönderin"
-                onClick={() => window.open('https://wa.me/905453048671')}
-              />
-              
-              <ActionCard
-                icon="⬆️"
-                title="Yukarı Çık"
-                description="Sayfanın en üstüne dönün"
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              />
-              
-              <div className="pt-4 border-t border-gray-200">
-                <button
-                  onClick={resetAll}
-                  className="w-full py-4 bg-red-50 text-red-600 rounded-lg font-semibold hover:bg-red-100 transition-colors border border-red-200"
-                >
-                  ↻ Tüm Ayarları Sıfırla
-                </button>
-              </div>
-            </div>
-          )}
+                <ActionCard
+                  icon="🔍"
+                  title="Site İçi Arama"
+                  description="Sayfalarda hızlı arama yapın"
+                  onClick={() => setIsSearchOpen(true)}
+                />
+                
+                <ActionCard
+                  icon="📞"
+                  title="Hızlı İletişim"
+                  description="Telefon ile hemen ulaşın"
+                  onClick={() => window.open('tel:+905453048671')}
+                />
+                
+                <ActionCard
+                  icon="💬"
+                  title="WhatsApp"
+                  description="WhatsApp'tan mesaj gönderin"
+                  onClick={() => window.open('https://wa.me/905453048671')}
+                />
+                
+                <ActionCard
+                  icon="⬆️"
+                  title="Yukarı Çık"
+                  description="Sayfanın en üstüne dönün"
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                />
+                
+                <div className="pt-4 border-t border-gray-200">
+                  <button
+                    onClick={resetAll}
+                    className="w-full py-4 bg-red-50 text-red-600 rounded-lg font-semibold hover:bg-red-100 transition-colors border border-red-200"
+                  >
+                    ↻ Tüm Ayarları Sıfırla
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
         </div>
 
         {/* Footer */}
@@ -869,6 +1054,7 @@ export default function UtilityBar() {
             <button
               onClick={togglePanelPosition}
               className="px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors text-sm"
+              aria-label={`Paneli ${panelPosition === 'right' ? 'sola' : 'sağa'} taşı`}
             >
               {panelPosition === 'right' ? '◀' : '▶'}
             </button>
@@ -876,7 +1062,7 @@ export default function UtilityBar() {
         </div>
       </div>
 
-      {/* Arama Modalı */}
+      {/* Arama Modalı (Geliştirme alanı) */}
       {isSearchOpen && (
         <SearchModal
           query={searchQuery}
@@ -886,111 +1072,5 @@ export default function UtilityBar() {
         />
       )}
     </>
-  );
-}
-
-// ToggleCard Bileşeni
-function ToggleCard({ icon, title, description, isActive, onToggle }) {
-  return (
-    <div className="flex items-center justify-between p-4 rounded-xl border border-gray-200 bg-white hover:border-gray-300 transition-colors">
-      <div className="flex items-start gap-3 flex-1">
-        <span className="text-2xl mt-1">{icon}</span>
-        <div className="flex-1">
-          <h3 className="font-semibold text-gray-900 text-base">{title}</h3>
-          <p className="text-sm text-gray-600 mt-1">{description}</p>
-        </div>
-      </div>
-      
-      <div className="flex items-center gap-3 ml-4">
-        <span className={`text-xs font-medium ${isActive ? 'text-green-600' : 'text-gray-500'}`}>
-          {isActive ? 'AÇIK' : 'KAPALI'}
-        </span>
-        <button
-          onClick={onToggle}
-          className={`w-14 h-7 rounded-full transition-colors relative ${
-            isActive ? 'bg-green-500' : 'bg-gray-300'
-          }`}
-        >
-          <div
-            className={`w-5 h-5 rounded-full bg-white transform transition-transform absolute top-1 ${
-              isActive ? 'translate-x-8' : 'translate-x-1'
-            }`}
-          />
-        </button>
-      </div>
-    </div>
-  );
-}
-
-// ActionCard Bileşeni
-function ActionCard({ icon, title, description, onClick }) {
-  return (
-    <button
-      onClick={onClick}
-      className="w-full flex items-center justify-between p-4 rounded-xl border border-gray-200 bg-white hover:border-blue-300 hover:bg-blue-50 transition-colors text-left"
-    >
-      <div className="flex items-start gap-3 flex-1">
-        <span className="text-2xl mt-1">{icon}</span>
-        <div className="flex-1">
-          <h3 className="font-semibold text-gray-900 text-base">{title}</h3>
-          <p className="text-sm text-gray-600 mt-1">{description}</p>
-        </div>
-      </div>
-      <span className="text-gray-400 text-lg">›</span>
-    </button>
-  );
-}
-
-// SearchModal Bileşeni
-function SearchModal({ query, setQuery, results, onClose }) {
-  return (
-    <div className="fixed inset-0 z-[10001] bg-black/50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl w-full max-w-2xl shadow-2xl max-h-[80vh] flex flex-col">
-        <div className="p-4 border-b border-gray-200">
-          <div className="flex items-center gap-3">
-            <div className="flex-1 relative">
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Sayfalarda arama yapın..."
-                className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus-ring"
-                autoFocus
-              />
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                🔍
-              </span>
-            </div>
-            <button
-              onClick={onClose}
-              className="px-4 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
-            >
-              Kapat
-            </button>
-          </div>
-        </div>
-        
-        <div className="flex-1 overflow-y-auto">
-          {results.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-12 text-gray-500">
-              <div className="text-4xl mb-4">🔍</div>
-              <div className="text-lg font-semibold">Sonuç bulunamadı</div>
-            </div>
-          ) : (
-            results.map((route) => (
-              <Link
-                key={route.href}
-                href={route.href}
-                onClick={onClose}
-                className="flex items-center gap-3 p-4 hover:bg-gray-50 border-b border-gray-100 last:border-b-0 transition-colors"
-              >
-                <span className="text-xl">{route.icon}</span>
-                <span className="font-medium text-gray-700">{route.label}</span>
-              </Link>
-            ))
-          )}
-        </div>
-      </div>
-    </div>
   );
 }
