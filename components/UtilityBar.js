@@ -953,17 +953,14 @@ function UtilityBar() {
       </div>
 
       {/* Arama Modali */}
-      {isSearchOpen && (
-        <SearchModal
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          results={searchResults}
-          onClose={() => setIsSearchOpen(false)}
-        />
-      )}
-    </>
-  );
-}
+{isSearchOpen && (
+  <SearchModal
+    searchQuery={searchQuery}
+    setSearchQuery={setSearchQuery}
+    results={searchResults}
+    onClose={() => setIsSearchOpen(false)}
+  />
+)}
 
 /* ---------- Yardımcı Bileşenler ---------- */
 
