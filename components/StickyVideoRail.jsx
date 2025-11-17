@@ -35,21 +35,35 @@ const VIDEOS = [
   },
    {
     id: "c72ILTyJH4A",
-    title: "Üniversite Mezuniyet Töreni Organizasyonu | Sahne, LED Ekran ve Ses–Işık Prodüksiyon",
-    description: "Üniversite mezuniyet törenleri için profesyonel sahne, LED ekran, ses–ışık sistemleri ve tüm teknik prodüksiyon altyapısını sağlayarak kurumlara eksiksiz bir mezuniyet deneyimi sunuyoruz",
+    title: "Helal Fuarı Organizasyonu | Sahneva Profesyonel Sahne, LED Ekran ve Teknik Prodüksiyon",
+    description: "Helal Fuarı kapsamında gerçekleştirilen etkinlik ve organizasyon alanlarının sahne, LED ekran, ses–ışık ve teknik prodüksiyon kurulumlarını Sahneva olarak profesyonel ekiplerimizle gerçekleştirdik.
+",
     thumbnail: "https://img.youtube.com/vi/c72ILTyJH4A/hqdefault.jpg",
   },
    {
     id: "egd21AA1dZ0",
-    title: "Üniversite Mezuniyet Töreni Organizasyonu | Sahne, LED Ekran ve Ses–Işık Prodüksiyon",
-    description: "Üniversite mezuniyet törenleri için profesyonel sahne, LED ekran, ses–ışık sistemleri ve tüm teknik prodüksiyon altyapısını sağlayarak kurumlara eksiksiz bir mezuniyet deneyimi sunuyoruz",
+    title: "Ankara Gençlik Festivali Organizasyonu | Sahneva Sahne – LED Ekran – Teknik Prodüksiyon",
+    description: "Ankara Gençlik Festivali için sahne, LED ekran, ses–ışık sistemleri ve tüm teknik prodüksiyon altyapısını Sahneva olarak profesyonel ekiplerimizle sağladık.",
     thumbnail: "https://img.youtube.com/vi/egd21AA1dZ0/hqdefault.jpg",
   },
     {
     id: "tyb1lG9KtiA",
-    title: "Üniversite Mezuniyet Töreni Organizasyonu | Sahne, LED Ekran ve Ses–Işık Prodüksiyon",
-    description: "Üniversite mezuniyet törenleri için profesyonel sahne, LED ekran, ses–ışık sistemleri ve tüm teknik prodüksiyon altyapısını sağlayarak kurumlara eksiksiz bir mezuniyet deneyimi sunuyoruz",
+    title: "Çadır Kurulumu Organizasyonu | Sahneva Profesyonel Etkinlik Çadırı & Teknik Altyapı",
+    description: "Etkinlik, fuar, festival, kurumsal organizasyon, düğün, açılış ve özel proje alanlarında profesyonel çadır kurulumu hizmeti sunuyoruz.",
     thumbnail: "https://img.youtube.com/vi/tyb1lG9KtiA/hqdefault.jpg",
+  },
+  {
+    id: "1R5Av0x5ouA",
+    title: "Sahne Işık Şov | Sahneva Profesyonel Işık Tasarımı & Etkinlik Prodüksiyonu",
+    description: "Konserler, festivaller, kurumsal etkinlikler, açılış törenleri ve gösteriler için profesyonel sahne ışık şovları hazırlıyoruz.",
+    thumbnail: "https://img.youtube.com/vi/1R5Av0x5ouA/hqdefault.jpg",
+  },
+    {
+    id: "HNDZ-wYVKLw",
+    title: "Şirket Etkinliği & Lansman Organizasyonu | Profesyonel Sahne Kurulumu",
+    description: "Kurumsal etkinlikler, lansmanlar, toplantılar, ödül törenleri ve marka etkinlikleri için profesyonel sahne, LED ekran, ses–ışık ve teknik prodüksiyon hizmeti sunuyoruz.
+",
+    thumbnail: "https://img.youtube.com/vi/HNDZ-wYVKLw/hqdefault.jpg",
   },
 ];
 
