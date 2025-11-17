@@ -3,7 +3,8 @@ import "../styles/globals.css";
 import Script from "next/script";
 import { Inter } from "next/font/google";
 import SkipLinks from "@/components/SkipLinks";
-import StickyVideoRail from "@/components/StickyVideoRail"; // 🔹 Video rail
+import UtilityBar from "@/components/UtilityBar.client";
+import StickyVideoRail from "@/components/StickyVideoRail";
 
 const inter = Inter({
   subsets: ["latin", "latin-ext", "arabic"],
@@ -229,10 +230,11 @@ export default function RootLayout({ children }) {
       <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
         <SkipLinks />
 
-        {children}
-
-        {/* Sticky video rail – tüm sayfalarda */}
+        {/* 🔹 Önce video rail, hemen altında UtilityBar */}
         <StickyVideoRail />
+        <UtilityBar />
+
+        {children}
 
         {/* GA4 (sadece production ve ID varsa) */}
         {isProd && GA_MEASUREMENT_ID && (
