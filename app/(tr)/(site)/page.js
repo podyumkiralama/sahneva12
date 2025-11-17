@@ -315,10 +315,7 @@ function StructuredData() {
 // —————————————————————————————————————————
 // SAYFA
 // —————————————————————————————————————————
-function HeroBackgroundImage({
-  alt = "Sahneva etkinlik sahnesi ve LED ekran arka planı",
-  ariaHidden = false,
-}) {
+function HeroBackgroundImage({ alt = "", ariaHidden = true }) {
   return (
     <Image
       alt={alt}
