@@ -1,19 +1,23 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-
-// Dinamik yükleme
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+
 const UtilityBar = dynamic(() => import("./UtilityBar"), {
   ssr: false,
   loading: () => null,
 });
 
-// Bağlantı kontrolü
 const SLOW_CONNECTION_TYPES = new Set(["slow-2g", "2g"]);
+
 function getConnectionInfo() {
   if (typeof navigator === "undefined") return null;
-  return navigator.connection || navigator.mozConnection || navigator.webkitConnection || null;
+  return (
+    navigator.connection ||
+    navigator.mozConnection ||
+    navigator.webkitConnection ||
+    null
+  );
 }
 
 export default function UtilityBarClient() {
@@ -21,98 +25,48 @@ export default function UtilityBarClient() {
   const [manualTrigger, setManualTrigger] = useState(false);
   const [showManualPrompt, setShowManualPrompt] = useState(false);
 
-  const panelRef = useRef(null);
-  const dragging = useRef(false);
-  const startPos = useRef({ x: 0, y: 0, offsetX: 0, offsetY: 0 });
-  const [pos, setPos] = useState({ x: 20, y: 80 }); // Başlangıç pozisyonu
-
-  // ------------------------------------------------------------------
-  // Performans – geç yükleme
-  // ------------------------------------------------------------------
   useEffect(() => {
     if (typeof window === "undefined" || shouldRender) return;
 
     const connection = getConnectionInfo();
     const effective = connection?.effectiveType?.toLowerCase?.();
     const saveData = Boolean(connection?.saveData);
-    const verySlow = effective ? SLOW_CONNECTION_TYPES.has(effective) : false;
+    const isVerySlow = effective ? SLOW_CONNECTION_TYPES.has(effective) : false;
 
-    if (!manualTrigger && (saveData || verySlow)) {
+    // Çok yavaş bağlantıda kullanıcıdan izin iste
+    if (!manualTrigger && (saveData || isVerySlow)) {
       setShowManualPrompt(true);
       return;
     }
 
-    const schedule = () => setShouldRender(true);
+    setShowManualPrompt(false);
+
+    const scheduleRender = () => setShouldRender(true);
+
+    // Orta–yavaş bağlantılar için ufak gecikme
     const timeout = effective === "3g" ? 2200 : 1200;
 
     if ("requestIdleCallback" in window) {
-      const id = window.requestIdleCallback(schedule, { timeout: timeout + 800 });
-      return () => window.cancelIdleCallback?.(id);
+      const idleId = window.requestIdleCallback(scheduleRender, {
+        timeout: timeout + 600,
+      });
+      return () => {
+        if ("cancelIdleCallback" in window) {
+          window.cancelIdleCallback(idleId);
+        }
+      };
     }
 
-    const id = setTimeout(schedule, timeout);
-    return () => clearTimeout(id);
+    const timerId = window.setTimeout(scheduleRender, timeout);
+    return () => window.clearTimeout(timerId);
   }, [manualTrigger, shouldRender]);
 
-  // ------------------------------------------------------------------
-  // Sürükleme – desktop + mobil
-  // ------------------------------------------------------------------
-  useEffect(() => {
-    if (!shouldRender) return;
+  // Artık erişilebilirlik paneli yüklenecek
+  if (shouldRender) {
+    return <UtilityBar />;
+  }
 
-    const panel = panelRef.current;
-    if (!panel) return;
-
-    const handleDown = (e) => {
-      dragging.current = true;
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-
-      startPos.current = {
-        x: clientX,
-        y: clientY,
-        offsetX: pos.x,
-        offsetY: pos.y,
-      };
-    };
-
-    const handleMove = (e) => {
-      if (!dragging.current) return;
-
-      e.preventDefault();
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-
-      setPos({
-        x: startPos.current.offsetX + (clientX - startPos.current.x),
-        y: startPos.current.offsetY + (clientY - startPos.current.y),
-      });
-    };
-
-    const handleUp = () => {
-      dragging.current = false;
-    };
-
-    panel.addEventListener("mousedown", handleDown);
-    panel.addEventListener("touchstart", handleDown);
-    window.addEventListener("mousemove", handleMove, { passive: false });
-    window.addEventListener("touchmove", handleMove, { passive: false });
-    window.addEventListener("mouseup", handleUp);
-    window.addEventListener("touchend", handleUp);
-
-    return () => {
-      panel.removeEventListener("mousedown", handleDown);
-      panel.removeEventListener("touchstart", handleDown);
-      window.removeEventListener("mousemove", handleMove);
-      window.removeEventListener("touchmove", handleMove);
-      window.removeEventListener("mouseup", handleUp);
-      window.removeEventListener("touchend", handleUp);
-    };
-  }, [shouldRender, pos]);
-
-  // ------------------------------------------------------------------
-  // Manual yükleme butonu (çok kötü internet için)
-  // ------------------------------------------------------------------
+  // Çok yavaş bağlantıda: manuel açma butonu göster
   if (showManualPrompt && !manualTrigger) {
     return (
       <button
@@ -121,31 +75,29 @@ export default function UtilityBarClient() {
           setManualTrigger(true);
           setShouldRender(true);
         }}
-        className="fixed bottom-6 right-6 z-50 px-4 py-3 rounded-full bg-white text-purple-700 shadow-xl border border-purple-300 font-semibold"
+        style={{
+          position: "fixed",
+          bottom: "1.5rem",
+          right: "1.25rem",
+          zIndex: 60,
+          padding: "0.75rem 1.25rem",
+          borderRadius: "9999px",
+          border: "1px solid rgba(109, 40, 217, 0.28)",
+          background: "rgba(255, 255, 255, 0.95)",
+          color: "#6d28d9",
+          fontWeight: 600,
+          boxShadow: "0 18px 40px rgba(109, 40, 217, 0.22)",
+          backdropFilter: "blur(6px)",
+          WebkitBackdropFilter: "blur(6px)",
+          cursor: "pointer",
+        }}
+        aria-label="Erişilebilirlik menüsünü yükle"
       >
-        ♿ Erişilebilirliği Aç
+        ♿ Erişilebilirlik menüsünü yükle
       </button>
     );
   }
 
-  // ------------------------------------------------------------------
-  // Render
-  // ------------------------------------------------------------------
-  if (!shouldRender) return null;
-
-  return (
-    <div
-      ref={panelRef}
-      style={{
-        position: "fixed",
-        left: pos.x,
-        top: pos.y,
-        zIndex: 9999,
-        touchAction: "none",
-      }}
-      className="cursor-move active:scale-[0.98] transition-transform"
-    >
-      <UtilityBar />
-    </div>
-  );
+  // Henüz yüklemiyoruz → hiç bir şey render etme
+  return null;
 }
