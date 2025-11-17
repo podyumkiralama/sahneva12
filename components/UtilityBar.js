@@ -848,23 +848,16 @@ if (!isActive) {
         </div>
 
         {/* Footer */}
-        <div className="border-t border-gray-200 bg-gray-50 p-3">
-          <div className="flex justify-between gap-2">
-            <button
-              onClick={() => setIsActive(false)}
-              className="flex-1 py-2 bg-gray-600 text-white rounded-lg font-semibold hover:bg-gray-700 transition-colors text-sm"
-            >
-              Kapat
-            </button>
-            <button
-              onClick={togglePanelPosition}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors text-sm"
-            >
-              {panelPosition === 'right' ? '◀' : '▶'}
-            </button>
-          </div>
-        </div>
-      </div>
+<div className="border-t border-gray-200 bg-gray-50 p-3">
+  <div className="flex justify-end">
+    <button
+      onClick={() => setIsActive(false)}
+      className="px-4 py-2 bg-gray-600 text-white rounded-lg font-semibold hover:bg-gray-700 transition-colors text-sm"
+    >
+      Kapat
+    </button>
+  </div>
+</div>
 
       {/* Arama Modalı */}
       {isSearchOpen && (
