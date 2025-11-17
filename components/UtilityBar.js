@@ -858,7 +858,8 @@ if (!isActive) {
     </button>
   </div>
 </div>
-
+);
+}
       {/* Arama Modalı */}
       {isSearchOpen && (
         <SearchModal
