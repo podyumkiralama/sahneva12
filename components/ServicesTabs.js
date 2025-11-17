@@ -391,8 +391,8 @@ export default function ServicesTabs({
                     )}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 560px"
-                    quality={75}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 45vw, 380px"
+                    quality={70}
                     loading="lazy"
                     decoding="async"
                     placeholder="empty"
