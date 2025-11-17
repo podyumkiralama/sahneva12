@@ -17,6 +17,9 @@ import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
 // —————————————————————————————————————————
 // SABİT VERİLER
 // —————————————————————————————————————————
+const HERO_IMAGE_ALT =
+  "LED ekran, truss çatı ve ışık sistemi içeren Sahneva sahne kurulumunu gösteren arka plan görseli";
+
 const HERO_FEATURES = [
   { icon: "⭐", title: "4.9/5 Puan", description: "500+ Mutlu Müşteri", color: "from-yellow-400 to-orange-400" },
   { icon: "⚡", title: "Aynı Gün", description: "Hızlı Kurulum", color: "from-blue-400 to-cyan-400" },
@@ -315,7 +318,7 @@ function StructuredData() {
 // —————————————————————————————————————————
 // SAYFA
 // —————————————————————————————————————————
-function HeroBackgroundImage({ alt = "", ariaHidden = true }) {
+function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
   return (
     <Image
       alt={alt}
