@@ -1,15 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-export default function StatsCounter() {
+function StatsCounter() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 });
-  const [counters, setCounters] = useState({ 
-    projects: 0, 
-    experience: 0, 
-    cities: 0 
+  const [counters, setCounters] = useState({
+    projects: 0,
+    experience: 0,
+    cities: 0
   });
+  const timersRef = useRef([]);
 
   useEffect(() => {
     if (inView) {
@@ -28,31 +29,36 @@ export default function StatsCounter() {
             setCounters(prev => ({ ...prev, [key]: Math.floor(start) }));
           }
         }, duration / steps);
+        timersRef.current.push(timer);
       };
 
       increment(700, 'projects');
       increment(12, 'experience');
       increment(81, 'cities');
     }
+    return () => {
+      timersRef.current.forEach(clearInterval);
+      timersRef.current = [];
+    };
   }, [inView]);
 
-  const stats = [
-    { 
-      number: `${counters.projects}+`, 
-      label: "Başarılı Proje", 
-      color: "from-blue-500 to-cyan-500" 
+  const stats = useMemo(() => [
+    {
+      number: `${counters.projects}+`,
+      label: "Başarılı Proje",
+      color: "from-blue-500 to-cyan-500"
     },
-    { 
-      number: `${counters.experience}+`, 
-      label: "Yıl Deneyim", 
-      color: "from-purple-500 to-pink-500" 
+    {
+      number: `${counters.experience}+`,
+      label: "Yıl Deneyim",
+      color: "from-purple-500 to-pink-500"
     },
-    { 
-      number: `${counters.cities}`, 
-      label: "İlde Hizmet", 
-      color: "from-green-500 to-emerald-500" 
+    {
+      number: `${counters.cities}`,
+      label: "İlde Hizmet",
+      color: "from-green-500 to-emerald-500"
     },
-  ];
+  ], [counters.cities, counters.experience, counters.projects]);
 
   return (
     <div ref={ref} className="container -mt-16 relative z-10">
@@ -74,3 +80,5 @@ export default function StatsCounter() {
     </div>
   );
 }
+
+export default memo(StatsCounter);
