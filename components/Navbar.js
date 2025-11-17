@@ -546,7 +546,6 @@ export default function Navbar() {
         role="dialog"
         aria-modal={mobileOpen || undefined}
         aria-labelledby={mobileMenuHeadingId}
-        aria-hidden={!mobileOpen}
         hidden={!mobileOpen}
         className="lg:hidden fixed z-50 left-0 right-0 top-16 bg-white border-t border-neutral-200 shadow-2xl max-h-[80vh] opacity-100 transition-all duration-300 overflow-hidden"
       >
