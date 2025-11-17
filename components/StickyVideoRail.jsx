@@ -27,6 +27,12 @@ const VIDEOS = [
     description: "Podyum Sahne masa sandalye çadır kiralama kurulum süreci.",
     thumbnail: "https://img.youtube.com/vi/_9Q7v0ZL304/hqdefault.jpg",
   },
+   {
+    id: "ah4ORjaQSMA",
+    title: "Üniversite Mezuniyet Töreni Organizasyonu | Sahne, LED Ekran ve Ses–Işık Prodüksiyon",
+    description: "Üniversite mezuniyet törenleri için profesyonel sahne, LED ekran, ses–ışık sistemleri ve tüm teknik prodüksiyon altyapısını sağlayarak kurumlara eksiksiz bir mezuniyet deneyimi sunuyoruz",
+    thumbnail: "https://img.youtube.com/vi/ah4ORjaQSMA/hqdefault.jpg",
+  },
 ];
 
 const INITIAL_POSITION = { x: -24, y: -24 }; // sağ alt köşe ofseti
