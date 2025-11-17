@@ -5,15 +5,21 @@ import { useEffect, useRef, useState } from "react";
 const VIDEOS = [
   {
     id: "173gBurWSRQ",
-    title: "Sahneva – LED Ekran & Sahne Kurulum Öncesi",
+    title: "Sahneva – LED Ekran podyum sahne kurulumu  & Sahne Kurulum Öncesi",
     description: "Backstage, sahne kurulumu ve hazırlık görüntüleri.",
     thumbnail: "https://img.youtube.com/vi/173gBurWSRQ/hqdefault.jpg",
   },
   {
     id: "4ygMbL4FDRc",
-    title: "Sahneva – LED Ekran & Sahne Kurulum",
+    title: "Sahneva – LED Ekran podyum çadır & Sahne Kurulum",
     description: "LED ekran kurulum ve sahne ışıklandırma süreci.",
     thumbnail: "https://img.youtube.com/vi/4ygMbL4FDRc/hqdefault.jpg",
+  },
+  {
+    id: "fDeCt9JfNlYM",
+    title: "Sahneva – LED Ekran Çadır podyum & Sahne Kurulum",
+    description: "Podyum Sahne dom çadır kiralama kurulum süreci.",
+    thumbnail: "https://img.youtube.com/vi/fDeCt9JfNlYM/hqdefault.jpg",
   },
 ];
 
