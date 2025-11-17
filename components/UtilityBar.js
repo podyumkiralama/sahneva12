@@ -1035,44 +1035,51 @@ function SearchModal({ searchQuery, setSearchQuery, results, onClose }) {
   return (
     <div className="fixed inset-0 z-[10001] bg-black/40 backdrop-blur-sm flex items-center justify-center px-4">
       <div className="w-full max-w-lg bg-white rounded-2xl shadow-2xl max-h-[80vh] flex flex-col">
-        {/* Üst bar */}
+        {/* Başlık */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
-          <h2 className="text-sm font-semibold text-gray-900">
-            Site İçi Arama
-          </h2>
+          <div className="flex items-center gap-2">
+            <span className="text-xl">🔍</span>
+            <div>
+              <p className="font-semibold text-gray-900 text-sm">
+                Site içi arama
+              </p>
+              <p className="text-xs text-gray-500">
+                Sayfalarda hızlıca arama yapın
+              </p>
+            </div>
+          </div>
           <button
             type="button"
             onClick={onClose}
-            className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 focus-ring"
-            aria-label="Arama penceresini kapat"
+            className="px-3 py-1.5 rounded-lg bg-gray-100 text-xs font-medium text-gray-700 hover:bg-gray-200"
           >
-            ✕
+            Kapat
           </button>
         </div>
 
-        {/* Arama alanı */}
+        {/* Arama inputu */}
         <div className="px-4 py-3 border-b border-gray-100">
           <div className="relative">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+              🔍
+            </span>
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Sayfalarda arama yapın..."
-              className="w-full pl-9 pr-3 py-2.5 text-sm border border-gray-300 rounded-lg focus-ring"
+              placeholder="Örn: LED ekran kiralama..."
+              className="w-full pl-9 pr-3 py-2.5 rounded-lg border border-gray-300 text-sm focus-ring"
               autoFocus
             />
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
-              🔍
-            </span>
           </div>
         </div>
 
-        {/* Sonuç listesi */}
+        {/* Sonuçlar */}
         <div className="flex-1 overflow-y-auto">
           {results.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-10 text-gray-500 text-sm">
-              <div className="text-3xl mb-3">🔍</div>
-              <p>Eşleşen sayfa bulunamadı.</p>
+              <div className="text-3xl mb-2">😕</div>
+              <p>Eşleşen bir sayfa bulunamadı.</p>
             </div>
           ) : (
             <ul className="divide-y divide-gray-100">
@@ -1081,9 +1088,9 @@ function SearchModal({ searchQuery, setSearchQuery, results, onClose }) {
                   <Link
                     href={route.href}
                     onClick={onClose}
-                    className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 focus:bg-gray-50 focus:outline-none"
+                    className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors"
                   >
-                    <span className="text-lg">{route.icon}</span>
+                    <span className="text-xl">{route.icon}</span>
                     <span className="text-sm font-medium text-gray-800">
                       {route.label}
                     </span>
