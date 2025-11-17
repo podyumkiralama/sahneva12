@@ -868,7 +868,6 @@ if (!isActive) {
           onClose={() => setIsSearchOpen(false)}
         />
       )}
-    </>
   );
 }
 
