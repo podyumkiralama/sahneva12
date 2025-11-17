@@ -1,7 +1,7 @@
 // components/Faq.jsx
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { FAQ_ITEMS } from "../lib/faqData";
 import Script from "next/script";
 
@@ -95,12 +95,16 @@ function useCspNonce() {
   return nonce;
 }
 
-function FaqRow({ question, answer, slug }) {
+const FaqRow = React.memo(function FaqRow({ question, answer, slug }) {
   const [open, setOpen] = useState(false);
   const [contentHeight, setContentHeight] = useState("0px");
   const contentRef = useRef(null);
   const summaryId = `${slug}-summary`;
   const panelId = `${slug}-panel`;
+
+  const toggleOpen = useCallback(() => {
+    setOpen((prev) => !prev);
+  }, []);
 
   useEffect(() => {
     if (open && contentRef.current) {
@@ -120,7 +124,7 @@ function FaqRow({ question, answer, slug }) {
     >
       <button
         type="button"
-        onClick={() => setOpen(!open)}
+        onClick={toggleOpen}
         id={summaryId}
         aria-controls={panelId}
         aria-expanded={open}
@@ -171,7 +175,7 @@ function FaqRow({ question, answer, slug }) {
       </div>
     </div>
   );
-}
+});
 
 // FAQ Schema
 const generateFaqSchema = (items) => ({
@@ -186,19 +190,39 @@ const generateFaqSchema = (items) => ({
 
 // ✅ TAM SÜRÜM — a11y + CSP uyumlu
 export default function Faq({ items = FAQ_ITEMS, dictionary: dictionaryOverride } = {}) {
-  const dictionary = mergeDictionary(DEFAULT_DICTIONARY, dictionaryOverride);
-  const faqSchema = generateFaqSchema(items);
+  const dictionary = useMemo(
+    () => mergeDictionary(DEFAULT_DICTIONARY, dictionaryOverride),
+    [dictionaryOverride]
+  );
+  const faqSchema = useMemo(() => generateFaqSchema(items), [items]);
   const nonce = useCspNonce(); // 👈 nonce burada
 
-  const primaryLink = dictionary.cta?.primary ?? DEFAULT_DICTIONARY.cta.primary;
-  const secondaryLink = dictionary.cta?.secondary ?? DEFAULT_DICTIONARY.cta.secondary;
-  const quickContact = dictionary.quickContact ?? DEFAULT_DICTIONARY.quickContact;
-  const quickContactItems = Array.isArray(quickContact.items)
-    ? quickContact.items
-    : DEFAULT_DICTIONARY.quickContact.items;
-  const quickContactStats = Array.isArray(quickContact.stats)
-    ? quickContact.stats
-    : DEFAULT_DICTIONARY.quickContact.stats;
+  const primaryLink = useMemo(
+    () => dictionary.cta?.primary ?? DEFAULT_DICTIONARY.cta.primary,
+    [dictionary]
+  );
+  const secondaryLink = useMemo(
+    () => dictionary.cta?.secondary ?? DEFAULT_DICTIONARY.cta.secondary,
+    [dictionary]
+  );
+  const quickContact = useMemo(
+    () => dictionary.quickContact ?? DEFAULT_DICTIONARY.quickContact,
+    [dictionary]
+  );
+  const quickContactItems = useMemo(
+    () =>
+      Array.isArray(quickContact.items)
+        ? quickContact.items
+        : DEFAULT_DICTIONARY.quickContact.items,
+    [quickContact]
+  );
+  const quickContactStats = useMemo(
+    () =>
+      Array.isArray(quickContact.stats)
+        ? quickContact.stats
+        : DEFAULT_DICTIONARY.quickContact.stats,
+    [quickContact]
+  );
 
   return (
     <section
