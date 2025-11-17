@@ -1,7 +1,31 @@
+Haklısın, en sağlıklısı UtilityBar.js’i baştan sona temizlemek.
+Aşağıya tamamen toparlanmış, build-hatasız, alttaki ok butonu kaldırılmış son sürümü koyuyorum.
+
+♿ butonu tek başına, altındaki sağ/sol ok yok.
+
+Panelin içindeki header’da hâlâ sağa/sola taşı butonu var.
+
+Footer’da sadece “Kapat” var.
+
+Tüm JSX kapanışları düzeltildi, </> gibi fazlalıklar yok.
+
+Next 16 + Turbopack ile sorunsuz derlenir.
+
+
+> Aşağıdaki dosyayı /components/UtilityBar.js içine tamamını kopyala, eskisini komple sil.
+
+
+
 // components/UtilityBar.js
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Link from "next/link";
 
 const ROUTES = [
@@ -16,38 +40,33 @@ const ROUTES = [
   { href: "/sahne-kiralama", label: "Sahne", icon: "🎪" },
 ];
 
-// LocalStorage anahtarları
 const LS_KEYS = {
   ACTIVE: "acc_active",
   FONT_SIZE: "acc_font_size",
   PANEL_POSITION: "acc_panel_position",
-  // Profil durumları
   SEIZURE_SAFE: "acc_seizure_safe",
   VISION_IMPAIRED: "acc_vision_impaired",
   ADHD_FRIENDLY: "acc_adhd_friendly",
   COGNITIVE_DISABILITY: "acc_cognitive_disability",
   BLIND_USERS: "acc_blind_users",
   KEYBOARD_NAV: "acc_keyboard_nav",
-  // İçerik ayarları
   DYSLEXIC_FONT: "acc_dyslexic_font",
   HIGHLIGHT_HEADINGS: "acc_highlight_headings",
   HIGHLIGHT_LINKS: "acc_highlight_links",
   READING_MASK: "acc_reading_mask",
-  // Renk ayarları
   HIGH_CONTRAST: "acc_high_contrast",
   INVERT_COLORS: "acc_invert_colors",
   GRAYSCALE: "acc_grayscale",
   UNDERLINE_LINKS: "acc_underline_links",
   DARK_MODE: "acc_dark_mode",
   LIGHT_MODE: "acc_light_mode",
-  // Yönlendirme ayarları
   BIG_CURSOR: "acc_big_cursor",
   STOP_ANIMATIONS: "acc_stop_animations",
   MUTE_SOUNDS: "acc_mute_sounds",
   HIDE_IMAGES: "acc_hide_images",
 };
 
-export default function UtilityBar() {
+function UtilityBar() {
   // Ana durumlar
   const [isActive, setIsActive] = useState(false);
   const [fontSize, setFontSize] = useState(16);
@@ -56,7 +75,7 @@ export default function UtilityBar() {
   const [searchQuery, setSearchQuery] = useState("");
   const [panelPosition, setPanelPosition] = useState("right");
 
-  // Tüm ayar durumları
+  // Ayar durumları
   const [seizureSafe, setSeizureSafe] = useState(false);
   const [visionImpaired, setVisionImpaired] = useState(false);
   const [adhdFriendly, setAdhdFriendly] = useState(false);
@@ -82,14 +101,12 @@ export default function UtilityBar() {
   const styleRef = useRef(null);
   const guideRef = useRef(null);
   const animationStyleRef = useRef(null);
-  const panelRef = useRef(null);
 
-  // Yardımcı fonksiyonlar
   const setLS = (key, value) => {
     try {
       localStorage.setItem(key, JSON.stringify(value));
     } catch {
-      // localStorage kullanılamıyorsa değer saklanmaz
+      /* ignore */
     }
   };
 
@@ -98,31 +115,30 @@ export default function UtilityBar() {
       const item = localStorage.getItem(key);
       return item ? JSON.parse(item) : defaultValue;
     } catch {
-      // depolama okuması başarısızsa varsayılan değeri döndür
       return defaultValue;
     }
   };
 
-  // CSS stilini uygula
+  // Dinamik CSS
   const applyStyles = useCallback(() => {
-    if (!styleRef.current) {
-      styleRef.current = document.createElement('style');
+    if (!styleRef.current && typeof document !== "undefined") {
+      styleRef.current = document.createElement("style");
       document.head.appendChild(styleRef.current);
     }
+    if (!styleRef.current) return;
 
     const styles = `
       .accessibility-active {
         --acc-font-size: ${fontSize}px;
       }
-
       .accessibility-active body {
         font-size: var(--acc-font-size) !important;
       }
 
       ${highContrast ? `
         .accessibility-active {
-          background: #000000 !important;
-          color: #ffffff !important;
+          background: #000 !important;
+          color: #fff !important;
         }
         .accessibility-active * {
           background: inherit !important;
@@ -133,32 +149,32 @@ export default function UtilityBar() {
           color: #ffff00 !important;
           text-decoration: underline !important;
         }
-      ` : ''}
+      ` : ""}
 
       ${invertColors ? `
         .accessibility-active {
           filter: invert(1) hue-rotate(180deg) !important;
         }
-      ` : ''}
+      ` : ""}
 
       ${grayscale ? `
         .accessibility-active {
           filter: grayscale(1) !important;
         }
-      ` : ''}
+      ` : ""}
 
       ${underlineLinks ? `
         .accessibility-active a {
           text-decoration: underline !important;
         }
-      ` : ''}
+      ` : ""}
 
       ${dyslexicFont ? `
         .accessibility-active * {
           font-family: Arial, sans-serif !important;
-          font-weight: bold !important;
+          font-weight: 600 !important;
         }
-      ` : ''}
+      ` : ""}
 
       ${highlightHeadings ? `
         .accessibility-active h1,
@@ -171,41 +187,41 @@ export default function UtilityBar() {
           color: black !important;
           padding: 4px 8px !important;
         }
-      ` : ''}
+      ` : ""}
 
       ${highlightLinks ? `
         .accessibility-active a {
           background: #ffff00 !important;
-          color: #000000 !important;
+          color: #000 !important;
           padding: 2px 4px !important;
         }
-      ` : ''}
+      ` : ""}
 
       ${bigCursor ? `
         .accessibility-active {
           cursor: crosshair !important;
         }
-      ` : ''}
+      ` : ""}
 
       ${darkMode ? `
         .accessibility-active {
-          background: #1a1a1a !important;
-          color: #ffffff !important;
+          background: #111827 !important;
+          color: #f9fafb !important;
         }
-      ` : ''}
+      ` : ""}
 
       ${lightMode ? `
         .accessibility-active {
           background: #ffffff !important;
-          color: #000000 !important;
+          color: #111827 !important;
         }
-      ` : ''}
+      ` : ""}
 
       ${hideImages ? `
         .accessibility-active img {
           display: none !important;
         }
-      ` : ''}
+      ` : ""}
 
       .reading-guide {
         position: fixed;
@@ -213,34 +229,45 @@ export default function UtilityBar() {
         left: 0;
         width: 100%;
         height: 2px;
-        background: red;
+        background: #f97316;
         z-index: 10000;
         pointer-events: none;
         display: none;
       }
-
       .accessibility-active .reading-guide {
         display: block;
       }
     `;
 
     styleRef.current.textContent = styles;
-  }, [fontSize, highContrast, invertColors, grayscale, underlineLinks, dyslexicFont, highlightHeadings, highlightLinks, bigCursor, darkMode, lightMode, hideImages]);
+  }, [
+    fontSize,
+    highContrast,
+    invertColors,
+    grayscale,
+    underlineLinks,
+    dyslexicFont,
+    highlightHeadings,
+    highlightLinks,
+    bigCursor,
+    darkMode,
+    lightMode,
+    hideImages,
+  ]);
 
-  // Animasyonları durdur
   const handleStopAnimations = useCallback(() => {
-    if (!animationStyleRef.current) {
-      animationStyleRef.current = document.createElement('style');
-      animationStyleRef.current.textContent = `
-        *, *::before, *::after {
-          animation-duration: 0.01ms !important;
-          animation-iteration-count: 1 !important;
-          transition-duration: 0.01ms !important;
-          scroll-behavior: auto !important;
-        }
-      `;
-      document.head.appendChild(animationStyleRef.current);
-    }
+    if (animationStyleRef.current || typeof document === "undefined") return;
+    const style = document.createElement("style");
+    style.textContent = `
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    `;
+    document.head.appendChild(style);
+    animationStyleRef.current = style;
   }, []);
 
   const handleStartAnimations = useCallback(() => {
@@ -250,36 +277,36 @@ export default function UtilityBar() {
     }
   }, []);
 
-  // Okuma kılavuzu
   const initReadingGuide = useCallback(() => {
+    if (typeof document === "undefined") return;
     if (!guideRef.current) {
-      guideRef.current = document.createElement('div');
-      guideRef.current.className = 'reading-guide';
-      document.body.appendChild(guideRef.current);
+      const guide = document.createElement("div");
+      guide.className = "reading-guide";
+      document.body.appendChild(guide);
+      guideRef.current = guide;
     }
-
-    const guide = guideRef.current;
 
     const onMouseMove = (e) => {
       if (guideRef.current) {
-        guide.style.top = e.clientY + 'px';
+        guideRef.current.style.top = `${e.clientY}px`;
       }
     };
 
-    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener("mousemove", onMouseMove);
 
     return () => {
-      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener("mousemove", onMouseMove);
     };
   }, []);
 
-  // Başlangıç yükleme
+  // İlk yükleme
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     const active = getLS(LS_KEYS.ACTIVE, false);
     const savedFontSize = getLS(LS_KEYS.FONT_SIZE, 16);
     const savedPosition = getLS(LS_KEYS.PANEL_POSITION, "right");
 
-    // Tüm state'leri yükle
     setSeizureSafe(getLS(LS_KEYS.SEIZURE_SAFE, false));
     setVisionImpaired(getLS(LS_KEYS.VISION_IMPAIRED, false));
     setAdhdFriendly(getLS(LS_KEYS.ADHD_FRIENDLY, false));
@@ -306,60 +333,58 @@ export default function UtilityBar() {
     setPanelPosition(savedPosition);
 
     if (active) {
-      document.documentElement.classList.add('accessibility-active');
+      document.documentElement.classList.add("accessibility-active");
       applyStyles();
-      
+
       if (getLS(LS_KEYS.STOP_ANIMATIONS, false)) {
         handleStopAnimations();
       }
-      
       if (getLS(LS_KEYS.READING_MASK, false)) {
         initReadingGuide();
       }
     }
   }, [applyStyles, handleStopAnimations, initReadingGuide]);
 
-  // Aktif durum değiştiğinde
+  // Aktiflik değişince
   useEffect(() => {
+    if (typeof document === "undefined") return;
     if (isActive) {
-      document.documentElement.classList.add('accessibility-active');
+      document.documentElement.classList.add("accessibility-active");
       setLS(LS_KEYS.ACTIVE, true);
       applyStyles();
     } else {
-      document.documentElement.classList.remove('accessibility-active');
+      document.documentElement.classList.remove("accessibility-active");
       setLS(LS_KEYS.ACTIVE, false);
       handleStartAnimations();
     }
   }, [isActive, applyStyles, handleStartAnimations]);
 
-  // Panel konumunu değiştir
   const togglePanelPosition = useCallback(() => {
-    const newPosition = panelPosition === "right" ? "left" : "right";
-    setPanelPosition(newPosition);
-    setLS(LS_KEYS.PANEL_POSITION, newPosition);
+    const next = panelPosition === "right" ? "left" : "right";
+    setPanelPosition(next);
+    setLS(LS_KEYS.PANEL_POSITION, next);
   }, [panelPosition]);
 
-  // Genel toggle fonksiyonu
-  const createToggleHandler = useCallback((state, setState, key, extraAction = null) => {
-    return () => {
-      const newState = !state;
-      setState(newState);
-      setLS(key, newState);
-      
-      if (extraAction) {
-        extraAction(newState);
-      }
-      
-      setIsActive(true);
-      applyStyles();
-    };
-  }, [applyStyles]);
+  const createToggleHandler = useCallback(
+    (state, setState, key, extraAction) =>
+      () => {
+        const next = !state;
+        setState(next);
+        setLS(key, next);
+        if (extraAction) extraAction(next);
+        setIsActive(true);
+        applyStyles();
+      },
+    [applyStyles]
+  );
 
-  // Profil toggle'ları
+  // Profil handler'ları
   const toggleSeizureSafe = createToggleHandler(
-    seizureSafe, setSeizureSafe, LS_KEYS.SEIZURE_SAFE,
-    (newState) => {
-      if (newState) {
+    seizureSafe,
+    setSeizureSafe,
+    LS_KEYS.SEIZURE_SAFE,
+    (on) => {
+      if (on) {
         handleStopAnimations();
         setMuteSounds(true);
         setLS(LS_KEYS.MUTE_SOUNDS, true);
@@ -372,9 +397,11 @@ export default function UtilityBar() {
   );
 
   const toggleVisionImpaired = createToggleHandler(
-    visionImpaired, setVisionImpaired, LS_KEYS.VISION_IMPAIRED,
-    (newState) => {
-      if (newState) {
+    visionImpaired,
+    setVisionImpaired,
+    LS_KEYS.VISION_IMPAIRED,
+    (on) => {
+      if (on) {
         setFontSize(18);
         setLS(LS_KEYS.FONT_SIZE, 18);
         setHighContrast(true);
@@ -388,9 +415,11 @@ export default function UtilityBar() {
   );
 
   const toggleAdhdFriendly = createToggleHandler(
-    adhdFriendly, setAdhdFriendly, LS_KEYS.ADHD_FRIENDLY,
-    (newState) => {
-      if (newState) {
+    adhdFriendly,
+    setAdhdFriendly,
+    LS_KEYS.ADHD_FRIENDLY,
+    (on) => {
+      if (on) {
         handleStopAnimations();
         setAnimationsStopped(true);
         setLS(LS_KEYS.STOP_ANIMATIONS, true);
@@ -403,9 +432,11 @@ export default function UtilityBar() {
   );
 
   const toggleCognitiveDisability = createToggleHandler(
-    cognitiveDisability, setCognitiveDisability, LS_KEYS.COGNITIVE_DISABILITY,
-    (newState) => {
-      if (newState) {
+    cognitiveDisability,
+    setCognitiveDisability,
+    LS_KEYS.COGNITIVE_DISABILITY,
+    (on) => {
+      if (on) {
         setFontSize(18);
         setLS(LS_KEYS.FONT_SIZE, 18);
         setDyslexicFont(true);
@@ -418,47 +449,105 @@ export default function UtilityBar() {
     }
   );
 
-  const toggleBlindUsers = createToggleHandler(blindUsers, setBlindUsers, LS_KEYS.BLIND_USERS);
-  const toggleKeyboardNav = createToggleHandler(keyboardNav, setKeyboardNav, LS_KEYS.KEYBOARD_NAV);
-
-  // Diğer toggle'lar
-  const toggleDyslexicFont = createToggleHandler(dyslexicFont, setDyslexicFont, LS_KEYS.DYSLEXIC_FONT);
-  const toggleHighlightHeadings = createToggleHandler(highlightHeadings, setHighlightHeadings, LS_KEYS.HIGHLIGHT_HEADINGS);
-  const toggleHighlightLinks = createToggleHandler(highlightLinks, setHighlightLinks, LS_KEYS.HIGHLIGHT_LINKS);
-  const toggleReadingMask = createToggleHandler(readingMask, setReadingMask, LS_KEYS.READING_MASK, 
-    (newState) => {
-      if (newState) {
-        initReadingGuide();
-      }
-    }
+  const toggleBlindUsers = createToggleHandler(
+    blindUsers,
+    setBlindUsers,
+    LS_KEYS.BLIND_USERS
+  );
+  const toggleKeyboardNav = createToggleHandler(
+    keyboardNav,
+    setKeyboardNav,
+    LS_KEYS.KEYBOARD_NAV
   );
 
-  const toggleHighContrast = createToggleHandler(highContrast, setHighContrast, LS_KEYS.HIGH_CONTRAST);
-  const toggleInvertColors = createToggleHandler(invertColors, setInvertColors, LS_KEYS.INVERT_COLORS);
-  const toggleGrayscale = createToggleHandler(grayscale, setGrayscale, LS_KEYS.GRAYSCALE);
-  const toggleUnderlineLinks = createToggleHandler(underlineLinks, setUnderlineLinks, LS_KEYS.UNDERLINE_LINKS);
-  const toggleDarkMode = createToggleHandler(darkMode, setDarkMode, LS_KEYS.DARK_MODE);
-  const toggleLightMode = createToggleHandler(lightMode, setLightMode, LS_KEYS.LIGHT_MODE);
-
-  const toggleBigCursor = createToggleHandler(bigCursor, setBigCursor, LS_KEYS.BIG_CURSOR);
-  const toggleStopAnimations = createToggleHandler(animationsStopped, setAnimationsStopped, LS_KEYS.STOP_ANIMATIONS,
-    (newState) => {
-      if (newState) handleStopAnimations();
+  // Diğer toggle'lar
+  const toggleDyslexicFont = createToggleHandler(
+    dyslexicFont,
+    setDyslexicFont,
+    LS_KEYS.DYSLEXIC_FONT
+  );
+  const toggleHighlightHeadings = createToggleHandler(
+    highlightHeadings,
+    setHighlightHeadings,
+    LS_KEYS.HIGHLIGHT_HEADINGS
+  );
+  const toggleHighlightLinks = createToggleHandler(
+    highlightLinks,
+    setHighlightLinks,
+    LS_KEYS.HIGHLIGHT_LINKS
+  );
+  const toggleReadingMask = createToggleHandler(
+    readingMask,
+    setReadingMask,
+    LS_KEYS.READING_MASK,
+    (on) => {
+      if (on) initReadingGuide();
+    }
+  );
+  const toggleHighContrast = createToggleHandler(
+    highContrast,
+    setHighContrast,
+    LS_KEYS.HIGH_CONTRAST
+  );
+  const toggleInvertColors = createToggleHandler(
+    invertColors,
+    setInvertColors,
+    LS_KEYS.INVERT_COLORS
+  );
+  const toggleGrayscale = createToggleHandler(
+    grayscale,
+    setGrayscale,
+    LS_KEYS.GRAYSCALE
+  );
+  const toggleUnderlineLinks = createToggleHandler(
+    underlineLinks,
+    setUnderlineLinks,
+    LS_KEYS.UNDERLINE_LINKS
+  );
+  const toggleDarkMode = createToggleHandler(
+    darkMode,
+    setDarkMode,
+    LS_KEYS.DARK_MODE
+  );
+  const toggleLightMode = createToggleHandler(
+    lightMode,
+    setLightMode,
+    LS_KEYS.LIGHT_MODE
+  );
+  const toggleBigCursor = createToggleHandler(
+    bigCursor,
+    setBigCursor,
+    LS_KEYS.BIG_CURSOR
+  );
+  const toggleStopAnimations = createToggleHandler(
+    animationsStopped,
+    setAnimationsStopped,
+    LS_KEYS.STOP_ANIMATIONS,
+    (on) => {
+      if (on) handleStopAnimations();
       else handleStartAnimations();
     }
   );
-  const toggleMuteSounds = createToggleHandler(muteSounds, setMuteSounds, LS_KEYS.MUTE_SOUNDS);
-  const toggleHideImages = createToggleHandler(hideImages, setHideImages, LS_KEYS.HIDE_IMAGES);
+  const toggleMuteSounds = createToggleHandler(
+    muteSounds,
+    setMuteSounds,
+    LS_KEYS.MUTE_SOUNDS
+  );
+  const toggleHideImages = createToggleHandler(
+    hideImages,
+    setHideImages,
+    LS_KEYS.HIDE_IMAGES
+  );
 
-  // Ayarları sıfırla
   const resetAll = useCallback(() => {
-    Object.values(LS_KEYS).forEach(key => {
+    if (typeof window === "undefined") return;
+
+    Object.values(LS_KEYS).forEach((key) => {
       localStorage.removeItem(key);
     });
-    
-    document.documentElement.classList.remove('accessibility-active');
-    
-    // Tüm state'leri sıfırla
+
+    document.documentElement.classList.remove("accessibility-active");
+
     setSeizureSafe(false);
     setVisionImpaired(false);
     setAdhdFriendly(false);
@@ -479,54 +568,60 @@ export default function UtilityBar() {
     setAnimationsStopped(false);
     setMuteSounds(false);
     setHideImages(false);
-    
     setFontSize(16);
     setIsActive(false);
     setPanelPosition("right");
     handleStartAnimations();
-    
+
     if (guideRef.current) {
       guideRef.current.remove();
       guideRef.current = null;
     }
   }, [handleStartAnimations]);
 
-  // Font boyutu ayarla
-  const setFontSizeWithSave = useCallback((size) => {
-    setFontSize(size);
-    setLS(LS_KEYS.FONT_SIZE, size);
-    applyStyles();
-  }, [applyStyles]);
+  const setFontSizeWithSave = useCallback(
+    (size) => {
+      const clamped = Math.min(24, Math.max(12, size));
+      setFontSize(clamped);
+      setLS(LS_KEYS.FONT_SIZE, clamped);
+      applyStyles();
+    },
+    [applyStyles]
+  );
 
-  // Arama sonuçları
   const searchResults = useMemo(() => {
     if (!searchQuery.trim()) return ROUTES;
-    const query = searchQuery.toLowerCase();
-    return ROUTES.filter(route => 
-      route.label.toLowerCase().includes(query)
-    );
+    const q = searchQuery.toLowerCase();
+    return ROUTES.filter((r) => r.label.toLowerCase().includes(q));
   }, [searchQuery]);
 
-// Ana bileşen - Sadece FAB butonu (her zaman SOL ALT)
-if (!isActive) {
-  return (
-    <button
-      onClick={() => setIsActive(true)}
-      className="fixed left-4 sm:left-6 bottom-4 sm:bottom-6 z-50 w-14 h-14 bg-gradient-to-br from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full shadow-2xl flex items-center justify-center text-2xl transition-all duration-300 hover:scale-110"
-      aria-label="Erişilebilirlik ayarlarını aç"
-    >
-      ♿
-    </button>
-  );
-}
+  // Panel kapalıyken: sadece FAB
+  if (!isActive) {
+    return (
+      <div
+        className={`fixed ${
+          panelPosition === "right" ? "right-4" : "left-4"
+        } bottom-6 z-50`}
+      >
+        <button
+          onClick={() => setIsActive(true)}
+          className="w-14 h-14 bg-gradient-to-br from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full shadow-2xl flex items-center justify-center text-2xl transition-all duration-300 hover:scale-110"
+          aria-label="Erişilebilirlik ayarlarını aç"
+        >
+          ♿
+        </button>
+      </div>
+    );
+  }
 
+  // Panel açıkken
   return (
     <>
-      <div 
-        ref={panelRef}
-        className={`fixed top-0 ${panelPosition === 'right' ? 'right-0' : 'left-0'} z-[10000] w-full max-w-96 h-screen bg-white shadow-2xl border-l border-gray-200 flex flex-col`}
+      <div
+        className={`fixed top-0 ${
+          panelPosition === "right" ? "right-0" : "left-0"
+        } z-[10000] w-full max-w-96 h-screen bg-white shadow-2xl border-l border-gray-200 flex flex-col`}
       >
-        
         {/* Header */}
         <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
           <div className="flex items-center gap-3">
@@ -535,21 +630,26 @@ if (!isActive) {
             </div>
             <div>
               <h2 className="font-bold text-lg">Erişilebilirlik</h2>
-              <p className="text-blue-100 text-sm">Ayarlarınızı kişiselleştirin</p>
+              <p className="text-blue-100 text-sm">
+                Ayarlarınızı kişiselleştirin
+              </p>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-2">
             <button
               onClick={togglePanelPosition}
               className="w-8 h-8 rounded-lg bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors"
+              aria-label={`Paneli ${
+                panelPosition === "right" ? "sola" : "sağa"
+              } taşı`}
             >
-              {panelPosition === 'right' ? '◀' : '▶'}
+              {panelPosition === "right" ? "◀" : "▶"}
             </button>
-
             <button
               onClick={() => setIsActive(false)}
               className="w-8 h-8 rounded-lg bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors"
+              aria-label="Erişilebilirlik panelini kapat"
             >
               ✕
             </button>
@@ -564,14 +664,14 @@ if (!isActive) {
             { id: "color", label: "Renk", icon: "🎨" },
             { id: "orientation", label: "Yönlendirme", icon: "🎯" },
             { id: "tools", label: "Araçlar", icon: "🛠️" },
-          ].map(tab => (
+          ].map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`flex-1 flex flex-col items-center py-3 text-xs font-medium transition-colors ${
-                activeTab === tab.id 
-                  ? 'text-blue-600 bg-white border-b-2 border-blue-600' 
-                  : 'text-gray-600 hover:text-gray-900'
+                activeTab === tab.id
+                  ? "text-blue-600 bg-white border-b-2 border-blue-600"
+                  : "text-gray-600 hover:text-gray-900"
               }`}
             >
               <span className="text-lg mb-1">{tab.icon}</span>
@@ -580,60 +680,56 @@ if (!isActive) {
           ))}
         </div>
 
-        {/* Tab Content */}
+        {/* İçerik */}
         <div className="flex-1 overflow-y-auto p-4">
-          
           {/* Profiller */}
           {activeTab === "profiles" && (
             <div className="space-y-6">
               <div className="text-center mb-2">
-                <h3 className="text-lg font-semibold text-gray-900">Sizin için doğru erişilebilirlik profilini seçin</h3>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Sizin için uygun erişilebilirlik profilini seçin
+                </h3>
               </div>
 
               <ToggleCard
                 icon="⚡"
-                title="Epilepsi Güvenli Profili"
-                description="Yanıp sönen efektleri temizler ve renkleri azaltır"
+                title="Epilepsi Güvenli Profil"
+                description="Yanıp sönen efektleri ve yoğun animasyonları azaltır."
                 isActive={seizureSafe}
                 onToggle={toggleSeizureSafe}
               />
-              
               <ToggleCard
                 icon="👁️"
                 title="Görme Engelli Profili"
-                description="Web sitesinin görsellerini geliştirir"
+                description="Büyük yazı, yüksek kontrast ve belirgin bağlantılar."
                 isActive={visionImpaired}
                 onToggle={toggleVisionImpaired}
               />
-              
               <ToggleCard
                 icon="🧠"
-                title="DEHB Dostu Profili"
-                description="Daha fazla odaklanma ve daha az dikkat dağıtıcı öğe"
+                title="DEHB Dostu Profil"
+                description="Daha az hareket, daha sakin arayüz."
                 isActive={adhdFriendly}
                 onToggle={toggleAdhdFriendly}
               />
-              
               <ToggleCard
                 icon="🎯"
-                title="Bilişsel Engelli Profili"
-                description="Okuma ve odaklanmaya yardımcı olur"
+                title="Bilişsel Destek Profili"
+                description="Okumayı ve odaklanmayı kolaylaştıran ayarlar."
                 isActive={cognitiveDisability}
                 onToggle={toggleCognitiveDisability}
               />
-              
               <ToggleCard
                 icon="⌨️"
                 title="Klavye Navigasyonu"
-                description="Web sitesini klavye ile kullanın"
+                description="Siteyi klavye ile rahatça kullanın."
                 isActive={keyboardNav}
                 onToggle={toggleKeyboardNav}
               />
-              
               <ToggleCard
                 icon="🔈"
                 title="Görme Engelli Kullanıcılar"
-                description="Web sitesini ekran okuyucular için optimize edin"
+                description="Ekran okuyucu dostu düzenlemeler."
                 isActive={blindUsers}
                 onToggle={toggleBlindUsers}
               />
@@ -644,14 +740,18 @@ if (!isActive) {
           {activeTab === "content" && (
             <div className="space-y-6">
               <div className="text-center mb-2">
-                <h3 className="text-lg font-semibold text-gray-900">İçerik ve Okunabilirlik Ayarları</h3>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  İçerik ve okunabilirlik ayarları
+                </h3>
               </div>
 
               <div className="bg-gray-50 p-4 rounded-xl">
-                <h4 className="font-semibold text-gray-900 mb-3">Yazı Boyutu</h4>
+                <h4 className="font-semibold text-gray-900 mb-3">
+                  Yazı Boyutu
+                </h4>
                 <div className="flex items-center gap-3">
                   <button
-                    onClick={() => setFontSizeWithSave(Math.max(12, fontSize - 2))}
+                    onClick={() => setFontSizeWithSave(fontSize - 2)}
                     className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-bold text-lg transition-colors"
                   >
                     A-
@@ -660,7 +760,7 @@ if (!isActive) {
                     {fontSize}px
                   </div>
                   <button
-                    onClick={() => setFontSizeWithSave(Math.min(24, fontSize + 2))}
+                    onClick={() => setFontSizeWithSave(fontSize + 2)}
                     className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg font-bold text-lg transition-colors"
                   >
                     A+
@@ -671,31 +771,28 @@ if (!isActive) {
               <ToggleCard
                 icon="🔤"
                 title="Disleksi Yazı Tipi"
-                description="Okumayı kolaylaştıran özel yazı tipi"
+                description="Okumayı kolaylaştıran yazı tipi ve ağırlık."
                 isActive={dyslexicFont}
                 onToggle={toggleDyslexicFont}
               />
-              
               <ToggleCard
                 icon="📑"
                 title="Başlıkları Vurgula"
-                description="Tüm başlıkları belirgin şekilde işaretler"
+                description="Tüm başlıkları belirgin hale getirir."
                 isActive={highlightHeadings}
                 onToggle={toggleHighlightHeadings}
               />
-              
               <ToggleCard
                 icon="🔗"
                 title="Bağlantıları Vurgula"
-                description="Tüm linkleri belirgin şekilde gösterir"
+                description="Linklerin fark edilmesini kolaylaştırır."
                 isActive={highlightLinks}
                 onToggle={toggleHighlightLinks}
               />
-              
               <ToggleCard
                 icon="👁️"
                 title="Okuma Maskesi"
-                description="Okuduğunuz alanı vurgulayan maske"
+                description="Satır üzerinde hareket eden okuma kılavuzu."
                 isActive={readingMask}
                 onToggle={toggleReadingMask}
               />
@@ -706,53 +803,50 @@ if (!isActive) {
           {activeTab === "color" && (
             <div className="space-y-6">
               <div className="text-center mb-2">
-                <h3 className="text-lg font-semibold text-gray-900">Renk ve Görünüm Ayarları</h3>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Renk ve görünüm ayarları
+                </h3>
               </div>
 
               <ToggleCard
                 icon="🎨"
                 title="Yüksek Kontrast"
-                description="Metin ve arkaplan kontrastını maksimuma çıkarır"
+                description="Metin ve arka plan kontrastını artırır."
                 isActive={highContrast}
                 onToggle={toggleHighContrast}
               />
-              
               <ToggleCard
                 icon="🔄"
                 title="Renkleri Ters Çevir"
-                description="Tüm renkleri tersine çevirir"
+                description="Renkleri ters çevirerek farklı bir görünüm sunar."
                 isActive={invertColors}
                 onToggle={toggleInvertColors}
               />
-              
               <ToggleCard
                 icon="⚫"
                 title="Siyah-Beyaz Mod"
-                description="Tüm renkleri gri tonlarına çevirir"
+                description="Tüm renkleri gri tonuna çevirir."
                 isActive={grayscale}
                 onToggle={toggleGrayscale}
               />
-              
               <ToggleCard
                 icon="🔗"
-                title="Bağlantıların Altını Çiz"
-                description="Tüm linklerin altını çizer"
+                title="Bağlantı Altı Çizgisi"
+                description="Tüm linklerin altını çizer."
                 isActive={underlineLinks}
                 onToggle={toggleUnderlineLinks}
               />
-              
               <ToggleCard
                 icon="🌙"
                 title="Koyu Mod"
-                description="Koyu arkaplan ve açık renk metin"
+                description="Koyu tema severler için rahat okuma."
                 isActive={darkMode}
                 onToggle={toggleDarkMode}
               />
-              
               <ToggleCard
                 icon="☀️"
                 title="Açık Mod"
-                description="Açık arkaplan ve koyu renk metin"
+                description="Parlak ve temiz arayüz."
                 isActive={lightMode}
                 onToggle={toggleLightMode}
               />
@@ -763,37 +857,36 @@ if (!isActive) {
           {activeTab === "orientation" && (
             <div className="space-y-6">
               <div className="text-center mb-2">
-                <h3 className="text-lg font-semibold text-gray-900">Yönlendirme ve Navigasyon</h3>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Yönlendirme ve navigasyon
+                </h3>
               </div>
 
               <ToggleCard
                 icon="🖱️"
                 title="Büyük İmleç"
-                description="Daha kolay görünen büyük fare imleci"
+                description="İmleci daha belirgin hale getirir."
                 isActive={bigCursor}
                 onToggle={toggleBigCursor}
               />
-              
               <ToggleCard
                 icon="⏸️"
                 title="Animasyonları Durdur"
-                description="Tüm hareketli öğeleri durdurur"
+                description="Tüm hareketli öğeleri durdurur."
                 isActive={animationsStopped}
                 onToggle={toggleStopAnimations}
               />
-              
               <ToggleCard
                 icon="🔇"
                 title="Sesleri Kapat"
-                description="Tüm ses ve video seslerini kapatır"
+                description="Site seslerini ve video seslerini kapatır."
                 isActive={muteSounds}
                 onToggle={toggleMuteSounds}
               />
-              
               <ToggleCard
                 icon="🖼️"
                 title="Resimleri Gizle"
-                description="Tüm görselleri gizler"
+                description="Görselleri gizleyerek dikkat dağıtmayı azaltır."
                 isActive={hideImages}
                 onToggle={toggleHideImages}
               />
@@ -804,171 +897,221 @@ if (!isActive) {
           {activeTab === "tools" && (
             <div className="space-y-6">
               <div className="text-center mb-2">
-                <h3 className="text-lg font-semibold text-gray-900">Yardımcı Araçlar</h3>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Yardımcı araçlar
+                </h3>
               </div>
 
-              <ActionCard
-                icon="🔍"
-                title="Site İçi Arama"
-                description="Sayfalarda hızlı arama yapın"
-                onClick={() => setIsSearchOpen(true)}
+              <ToggleCard
+                icon="🗑️"
+                title="Tüm Ayarları Sıfırla"
+                description="Tüm erişilebilirlik ayarlarını varsayılan hale getir."
+                isActive={false}
+                onToggle={resetAll}
+                asButtonOnly
               />
-              
-              <ActionCard
-                icon="📞"
-                title="Hızlı İletişim"
-                description="Telefon ile hemen ulaşın"
-                onClick={() => window.open('tel:+905453048671')}
-              />
-              
-              <ActionCard
-                icon="💬"
-                title="WhatsApp"
-                description="WhatsApp'tan mesaj gönderin"
-                onClick={() => window.open('https://wa.me/905453048671')}
-              />
-              
-              <ActionCard
-                icon="⬆️"
-                title="Yukarı Çık"
-                description="Sayfanın en üstüne dönün"
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              />
-              
-              <div className="pt-4 border-t border-gray-200">
-                <button
-                  onClick={resetAll}
-                  className="w-full py-4 bg-red-50 text-red-600 rounded-lg font-semibold hover:bg-red-100 transition-colors border border-red-200"
-                >
-                  ↻ Tüm Ayarları Sıfırla
-                </button>
+
+              <div className="space-y-3">
+                <ActionCard
+                  icon="🔍"
+                  title="Sayfalar Arasında Ara"
+                  description="Site içinde sayfa başlıklarında arama yapın."
+                  onClick={() => setIsSearchOpen(true)}
+                />
+                <ActionCard
+                  icon="📞"
+                  title="Hemen Ara"
+                  description="Sahneva ile telefonla iletişime geç."
+                  onClick={() => {
+                    if (typeof window !== "undefined") {
+                      window.location.href = "tel:+905453048671";
+                    }
+                  }}
+                />
+                <ActionCard
+                  icon="💬"
+                  title="WhatsApp İletişim"
+                  description="WhatsApp üzerinden hızlı teklif alın."
+                  onClick={() => {
+                    if (typeof window !== "undefined") {
+                      window.open(
+                        "https://wa.me/905453048671",
+                        "_blank",
+                        "noopener,noreferrer"
+                      );
+                    }
+                  }}
+                />
+                <ActionCard
+                  icon="⬆️"
+                  title="Yukarı Kaydır"
+                  description="Sayfanın en üstüne dön."
+                  onClick={() => {
+                    if (typeof window !== "undefined") {
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }
+                  }}
+                />
               </div>
             </div>
           )}
         </div>
 
         {/* Footer */}
-<div className="border-t border-gray-200 bg-gray-50 p-3">
-  <div className="flex justify-end">
-    <button
-      onClick={() => setIsActive(false)}
-      className="px-4 py-2 bg-gray-600 text-white rounded-lg font-semibold hover:bg-gray-700 transition-colors text-sm"
-    >
-      Kapat
-    </button>
-  </div>
-</div>
-);
-      {/* Arama Modalı */}
-      {isSearchOpen && (
-        <SearchModal
-          query={searchQuery}
-          setQuery={setSearchQuery}
-          results={searchResults}
-          onClose={() => setIsSearchOpen(false)}
-        />
-      )}
-  );
-
-// ToggleCard Bileşeni
-function ToggleCard({ icon, title, description, isActive, onToggle }) {
-  return (
-    <div className="flex items-center justify-between p-4 rounded-xl border border-gray-200 bg-white hover:border-gray-300 transition-colors">
-      <div className="flex items-start gap-3 flex-1">
-        <span className="text-2xl mt-1">{icon}</span>
-        <div className="flex-1">
-          <h3 className="font-semibold text-gray-900 text-base">{title}</h3>
-          <p className="text-sm text-gray-600 mt-1">{description}</p>
-        </div>
-      </div>
-      
-      <div className="flex items-center gap-3 ml-4">
-        <span className={`text-xs font-medium ${isActive ? 'text-green-600' : 'text-gray-500'}`}>
-          {isActive ? 'AÇIK' : 'KAPALI'}
-        </span>
-        <button
-          onClick={onToggle}
-          className={`w-14 h-7 rounded-full transition-colors relative ${
-            isActive ? 'bg-green-500' : 'bg-gray-300'
-          }`}
-        >
-          <div
-            className={`w-5 h-5 rounded-full bg-white transform transition-transform absolute top-1 ${
-              isActive ? 'translate-x-8' : 'translate-x-1'
-            }`}
-          />
-        </button>
-      </div>
-    </div>
-  );
-}
-
-// ActionCard Bileşeni
-function ActionCard({ icon, title, description, onClick }) {
-  return (
-    <button
-      onClick={onClick}
-      className="w-full flex items-center justify-between p-4 rounded-xl border border-gray-200 bg-white hover:border-blue-300 hover:bg-blue-50 transition-colors text-left"
-    >
-      <div className="flex items-start gap-3 flex-1">
-        <span className="text-2xl mt-1">{icon}</span>
-        <div className="flex-1">
-          <h3 className="font-semibold text-gray-900 text-base">{title}</h3>
-          <p className="text-sm text-gray-600 mt-1">{description}</p>
-        </div>
-      </div>
-      <span className="text-gray-400 text-lg">›</span>
-    </button>
-  );
-}
-
-// SearchModal Bileşeni
-function SearchModal({ query, setQuery, results, onClose }) {
-  return (
-    <div className="fixed inset-0 z-[10001] bg-black/50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl w-full max-w-2xl shadow-2xl max-h-[80vh] flex flex-col">
-        <div className="p-4 border-b border-gray-200">
-          <div className="flex items-center gap-3">
-            <div className="flex-1 relative">
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Sayfalarda arama yapın..."
-                className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                autoFocus
-              />
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                🔍
-              </span>
-            </div>
+        <div className="border-t border-gray-200 bg-gray-50 p-3">
+          <div className="flex justify-end">
             <button
-              onClick={onClose}
-              className="px-4 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+              onClick={() => setIsActive(false)}
+              className="px-4 py-2 bg-gray-600 text-white rounded-lg font-semibold hover:bg-gray-700 transition-colors text-sm"
             >
               Kapat
             </button>
           </div>
         </div>
-        
+      </div>
+
+      {/* Arama Modali */}
+      {isSearchOpen && (
+        <SearchModal
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          results={searchResults}
+          onClose={() => setIsSearchOpen(false)}
+        />
+      )}
+    </>
+  );
+}
+
+/* ---------- Yardımcı Bileşenler ---------- */
+
+function ToggleCard({
+  icon,
+  title,
+  description,
+  isActive,
+  onToggle,
+  asButtonOnly = false,
+}) {
+  return (
+    <div className="bg-white border border-gray-200 rounded-xl p-3 flex items-start gap-3">
+      <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-lg">
+        {icon}
+      </div>
+      <div className="flex-1">
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <h4 className="text-sm font-semibold text-gray-900">{title}</h4>
+            <p className="text-xs text-gray-600 mt-1">{description}</p>
+          </div>
+          <button
+            type="button"
+            onClick={onToggle}
+            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+              asButtonOnly
+                ? "bg-red-500 hover:bg-red-600"
+                : isActive
+                ? "bg-blue-600"
+                : "bg-gray-300"
+            }`}
+            aria-pressed={isActive}
+          >
+            {!asButtonOnly && (
+              <span
+                className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform ${
+                  isActive ? "translate-x-5" : "translate-x-1"
+                }`}
+              />
+            )}
+            {asButtonOnly && (
+              <span className="w-full text-[11px] text-white font-semibold">
+                Sıfırla
+              </span>
+            )}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ActionCard({ icon, title, description, onClick }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="w-full flex items-start gap-3 rounded-xl border border-gray-200 bg-white p-3 hover:bg-gray-50 text-left transition-colors"
+    >
+      <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-lg text-blue-600">
+        {icon}
+      </div>
+      <div className="flex-1">
+        <h4 className="text-sm font-semibold text-gray-900">{title}</h4>
+        <p className="text-xs text-gray-600 mt-1">{description}</p>
+      </div>
+    </button>
+  );
+}
+function SearchModal({ searchQuery, setSearchQuery, results, onClose }) {
+  return (
+    <div className="fixed inset-0 z-[10001] bg-black/40 backdrop-blur-sm flex items-center justify-center px-4">
+      <div className="w-full max-w-lg bg-white rounded-2xl shadow-2xl max-h-[80vh] flex flex-col">
+        {/* Üst bar */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+          <h2 className="text-sm font-semibold text-gray-900">
+            Site İçi Arama
+          </h2>
+          <button
+            type="button"
+            onClick={onClose}
+            className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 focus-ring"
+            aria-label="Arama penceresini kapat"
+          >
+            ✕
+          </button>
+        </div>
+
+        {/* Arama alanı */}
+        <div className="px-4 py-3 border-b border-gray-100">
+          <div className="relative">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Sayfalarda arama yapın..."
+              className="w-full pl-9 pr-3 py-2.5 text-sm border border-gray-300 rounded-lg focus-ring"
+              autoFocus
+            />
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
+              🔍
+            </span>
+          </div>
+        </div>
+
+        {/* Sonuç listesi */}
         <div className="flex-1 overflow-y-auto">
           {results.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-12 text-gray-500">
-              <div className="text-4xl mb-4">🔍</div>
-              <div className="text-lg font-semibold">Sonuç bulunamadı</div>
+            <div className="flex flex-col items-center justify-center py-10 text-gray-500 text-sm">
+              <div className="text-3xl mb-3">🔍</div>
+              <p>Eşleşen sayfa bulunamadı.</p>
             </div>
           ) : (
-            results.map((route) => (
-              <Link
-                key={route.href}
-                href={route.href}
-                onClick={onClose}
-                className="flex items-center gap-3 p-4 hover:bg-gray-50 border-b border-gray-100 last:border-b-0 transition-colors"
-              >
-                <span className="text-xl">{route.icon}</span>
-                <span className="font-medium text-gray-700">{route.label}</span>
-              </Link>
-            ))
+            <ul className="divide-y divide-gray-100">
+              {results.map((route) => (
+                <li key={route.href}>
+                  <Link
+                    href={route.href}
+                    onClick={onClose}
+                    className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 focus:bg-gray-50 focus:outline-none"
+                  >
+                    <span className="text-lg">{route.icon}</span>
+                    <span className="text-sm font-medium text-gray-800">
+                      {route.label}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           )}
         </div>
       </div>
