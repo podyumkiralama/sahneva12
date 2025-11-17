@@ -60,8 +60,7 @@ const VIDEOS = [
     {
     id: "HNDZ-wYVKLw",
     title: "Şirket Etkinliği & Lansman Organizasyonu | Profesyonel Sahne Kurulumu",
-    description: "Kurumsal etkinlikler, lansmanlar, toplantılar, ödül törenleri ve marka etkinlikleri için profesyonel sahne, LED ekran, ses–ışık ve teknik prodüksiyon hizmeti sunuyoruz.
-",
+    description: "Kurumsal etkinlikler, lansmanlar, toplantılar, ödül törenleri ve marka etkinlikleri için profesyonel sahne, LED ekran, ses–ışık ve teknik prodüksiyon hizmeti sunuyoruz.",
     thumbnail: "https://img.youtube.com/vi/HNDZ-wYVKLw/hqdefault.jpg",
   },
 ];
