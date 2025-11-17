@@ -5,21 +5,27 @@ import { useEffect, useRef, useState } from "react";
 const VIDEOS = [
   {
     id: "173gBurWSRQ",
-    title: "Sahneva – LED Ekran podyum sahne kurulumu  & Sahne Kurulum Öncesi",
+    title: "Sahneva Organizasyon – LED Ekran podyum sahne kurulumu  & Sahne Kurulum Öncesi",
     description: "Backstage, sahne kurulumu ve hazırlık görüntüleri.",
     thumbnail: "https://img.youtube.com/vi/173gBurWSRQ/hqdefault.jpg",
   },
   {
     id: "4ygMbL4FDRc",
-    title: "Sahneva – LED Ekran podyum çadır & Sahne Kurulum",
+    title: "Sahneva Organizasyon – LED Ekran podyum çadır & Sahne Kurulum",
     description: "LED ekran kurulum ve sahne ışıklandırma süreci.",
     thumbnail: "https://img.youtube.com/vi/4ygMbL4FDRc/hqdefault.jpg",
   },
   {
     id: "JNzGlNzNRuk",
-    title: "Sahneva – LED Ekran Çadır podyum & Sahne Kurulum",
+    title: "Sahneva Organizasyon – LED Ekran Çadır podyum & Sahne Kurulum",
     description: "Podyum Sahne dom çadır kiralama kurulum süreci.",
     thumbnail: "https://img.youtube.com/vi/JNzGlNzNRuk/hqdefault.jpg",
+  },
+    {
+    id: "9Q7v0ZL304",
+    title: "Sahneva Organizasyon – LED Ekran Çadır Masa sandalye podyum kiralama ",
+    description: "Podyum Sahne masa sandalye çadır kiralama kurulum süreci.",
+    thumbnail: "https://img.youtube.com/vi/9Q7v0ZL304/hqdefault.jpg",
   },
 ];
 
