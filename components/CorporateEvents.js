@@ -1,7 +1,7 @@
 // components/CorporateEvents.js
 
 import Image from "next/image";
-import { Fragment } from "react";
+import { Fragment, useId } from "react";
 import Link from "next/link";
 
 const CARD_SIZES =
@@ -181,6 +181,17 @@ export default function CorporateEvents({
   const supportStats = Array.isArray(dictionary.supportStats)
     ? dictionary.supportStats
     : DEFAULT_DICTIONARY.supportStats;
+  const phoneHintId = useId();
+  const whatsappHintId = useId();
+  const phoneDescription = dictionary.phoneCtaAria?.trim();
+  const whatsappDescription = [
+    dictionary.whatsappCtaAria?.trim(),
+    dictionary.whatsappSrHint?.trim(),
+  ]
+    .filter(Boolean)
+    .join(" — ");
+  const phoneAriaDescribedBy = phoneDescription ? phoneHintId : undefined;
+  const whatsappAriaDescribedBy = whatsappDescription ? whatsappHintId : undefined;
 
 
   return (
@@ -346,12 +357,18 @@ export default function CorporateEvents({
               <a
                 href={dictionary.phoneCtaHref}
                 className="inline-flex items-center justify-center gap-3 bg-white text-blue-600 font-semibold px-8 py-4 rounded-2xl hover:bg-gray-100 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1 min-h-[60px] focus-ring"
-                aria-label={dictionary.phoneCtaAria}
+                aria-label={dictionary.phoneCtaLabel}
+                aria-describedby={phoneAriaDescribedBy}
               >
                 <span className="text-2xl" aria-hidden="true">
                   📞
                 </span>
                 <span>{dictionary.phoneCtaLabel}</span>
+                {phoneDescription ? (
+                  <span id={phoneHintId} className="sr-only">
+                    {phoneDescription}
+                  </span>
+                ) : null}
               </a>
 
               <a
@@ -359,13 +376,18 @@ export default function CorporateEvents({
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-3 bg-green-100 hover:bg-green-200 border-2 border-green-600 text-green-900 font-bold px-5 py-4 rounded-xl shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl min-h-[60px] focus-ring"
-                aria-label={dictionary.whatsappCtaAria}
+                aria-label={dictionary.whatsappCtaLabel}
+                aria-describedby={whatsappAriaDescribedBy}
               >
                 <span className="text-xl" aria-hidden="true">
                   💬
                 </span>
                 <span className="text-sm font-bold">{dictionary.whatsappCtaLabel}</span>
-                <span className="sr-only">{dictionary.whatsappSrHint}</span>
+                {whatsappDescription ? (
+                  <span id={whatsappHintId} className="sr-only">
+                    {whatsappDescription}
+                  </span>
+                ) : null}
               </a>
             </div>
 

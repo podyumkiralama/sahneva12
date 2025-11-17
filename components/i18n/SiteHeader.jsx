@@ -104,7 +104,6 @@ export default function SiteHeader({ locale, strings }) {
 
           <nav
             id="primary-navigation"
-            role="navigation"
             className="hidden lg:flex items-center gap-6"
             aria-label={ariaStrings.nav}
           >
