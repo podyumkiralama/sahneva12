@@ -869,7 +869,6 @@ if (!isActive) {
         />
       )}
   );
-}
 
 // ToggleCard Bileşeni
 function ToggleCard({ icon, title, description, isActive, onToggle }) {
