@@ -181,7 +181,9 @@ const criticalCSS = `
 .container{max-width:1280px;margin:0 auto;padding:0 1rem}
 `;
 
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID?.trim() || null;
+const DEFAULT_GA_MEASUREMENT_ID = "G-J5YK10YLLC";
+const GA_MEASUREMENT_ID =
+  process.env.NEXT_PUBLIC_GA_ID?.trim() || DEFAULT_GA_MEASUREMENT_ID;
 const isProd = process.env.NODE_ENV === "production";
 
 export default function RootLayout({ children }) {
