@@ -1,38 +1,67 @@
 'use client';
 
+import { memo, useMemo } from 'react';
 import { useScrollAnimation } from '@/components/hooks/useScrollAnimation';
 
-export function ScrollReveal({ 
-  children, 
-  className = '', 
+const ANIMATION_CLASSES = {
+  left: 'reveal-left',
+  right: 'reveal-right',
+  scale: 'reveal-scale',
+  default: 'reveal'
+};
+
+function getAnimationClass(direction) {
+  return ANIMATION_CLASSES[direction] ?? ANIMATION_CLASSES.default;
+}
+
+const ScrollReveal = memo(function ScrollReveal({
+  children,
+  className = '',
   delay = '',
   direction = 'up',
-  ...props 
+  ...props
 }) {
   const ref = useScrollAnimation();
-  
-  const getAnimationClass = () => {
-    switch (direction) {
-      case 'left': return 'reveal-left';
-      case 'right': return 'reveal-right';
-      case 'scale': return 'reveal-scale';
-      default: return 'reveal';
+
+  const animationClass = useMemo(
+    () => getAnimationClass(direction),
+    [direction]
+  );
+
+  const delayClass = useMemo(
+    () => (delay ? `delay-${delay}` : ''),
+    [delay]
+  );
+
+  const composedClassName = useMemo(() => {
+    const classNames = [animationClass];
+
+    if (delayClass) {
+      classNames.push(delayClass);
     }
-  };
+
+    if (className) {
+      classNames.push(className);
+    }
+
+    return classNames.join(' ');
+  }, [animationClass, className, delayClass]);
 
   return (
     <div
       ref={ref}
-      className={`${getAnimationClass()} ${delay ? `delay-${delay}` : ''} ${className}`}
+      className={composedClassName}
       {...props}
     >
       {children}
     </div>
   );
-}
+});
+
+ScrollReveal.displayName = 'ScrollReveal';
 
 // Grup halinde animasyon için bileşen
-export function ScrollRevealGroup({
+const ScrollRevealGroup = memo(function ScrollRevealGroup({
   children,
   className = ''
 }) {
@@ -41,4 +70,8 @@ export function ScrollRevealGroup({
       {children}
     </div>
   );
-}
+});
+
+ScrollRevealGroup.displayName = 'ScrollRevealGroup';
+
+export { ScrollReveal, ScrollRevealGroup };
