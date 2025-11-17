@@ -280,7 +280,10 @@ function Hero() {
           <span className="text-sm font-bold text-white">Türkiye Geneli Profesyonel Hizmet</span>
         </div>
 
-        <h1 id="hero-title" className="text-4xl md:text-6xl lg:text-7xl font-black leading-tight mb-4 drop-shadow-2xl">
+        <h1
+          id="hero-title"
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] mb-4 drop-shadow-2xl"
+        >
           Profesyonel <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">LED Ekran Kiralama</span>
         </h1>
 
@@ -318,7 +321,7 @@ function Hero() {
           <div className="flex flex-col items-center text-center p-4 bg-white/10 backdrop-blur-md rounded-xl border border-white/20">
             <span className="text-2xl mb-2" aria-hidden="true">⭐</span>
             <div className="text-xl font-black text-white">4.9/5</div>
-            <div className="text-white/80 text-sm">183+ Değerlendirme</div>
+            <div className="text-white/80 text-sm">2 Doğrulanmış Değerlendirme</div>
           </div>
           <div className="flex flex-col items-center text-center p-4 bg-white/10 backdrop-blur-md rounded-xl border border-white/20">
             <span className="text-2xl mb-2" aria-hidden="true">🏆</span>
@@ -1072,7 +1075,7 @@ function JsonLd() {
     ratingValue: "4.9",
     bestRating: "5",
     worstRating: "1",
-    ratingCount: "183",
+    ratingCount: "2",
     itemReviewed: {
       "@id": `${ORIGIN}#localbiz`,
     },
