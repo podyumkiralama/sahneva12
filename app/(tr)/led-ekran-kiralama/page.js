@@ -318,7 +318,7 @@ function Hero() {
           <div className="flex flex-col items-center text-center p-4 bg-white/10 backdrop-blur-md rounded-xl border border-white/20">
             <span className="text-2xl mb-2" aria-hidden="true">⭐</span>
             <div className="text-xl font-black text-white">4.9/5</div>
-            <div className="text-white/80 text-sm">183+ Değerlendirme</div>
+            <div className="text-white/80 text-sm">2 Doğrulanmış Değerlendirme</div>
           </div>
           <div className="flex flex-col items-center text-center p-4 bg-white/10 backdrop-blur-md rounded-xl border border-white/20">
             <span className="text-2xl mb-2" aria-hidden="true">🏆</span>
@@ -1072,7 +1072,7 @@ function JsonLd() {
     ratingValue: "4.9",
     bestRating: "5",
     worstRating: "1",
-    ratingCount: "183",
+    ratingCount: "2",
     itemReviewed: {
       "@id": `${ORIGIN}#localbiz`,
     },
