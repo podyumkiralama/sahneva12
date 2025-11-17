@@ -26,6 +26,14 @@ const HERO_FEATURES = [
   { icon: "👑", title: "Premium", description: "Kalite Garantisi", color: "from-purple-400 to-pink-400" },
 ];
 
+const HERO_IMAGE_STYLE = Object.freeze({
+  filter: "brightness(0.7) contrast(1.1) saturate(1.05)",
+});
+
+const HERO_OVERLAY_ANIMATION_STYLE = Object.freeze({
+  animationDuration: "8s",
+});
+
 const WHY_SAHNEVA_FEATURES = [
   { icon: "⭐", title: "Yüksek Müşteri Memnuniyeti", desc: "Her organizasyonda %98'in üzerinde müşteri memnuniyeti. Referanslar ve Google yorumları bizim güvencemiz.", stat: "%98 Memnuniyet" },
   { icon: "⚡", title: "Hızlı Kurulum ve Teslimat", desc: "Aynı gün profesyonel sahne, LED ekran ve ses-ışık kurulumları.", stat: "2–6 Saat" },
@@ -39,6 +47,20 @@ const WHY_SAHNEVA_FEATURES = [
 const BELOW_THE_FOLD_VISIBILITY_STYLE = Object.freeze({
   contentVisibility: "auto",
 });
+
+const SEO_TECH_FEATURES = [
+  "IP65 dış mekân LED paneller, 4500+ nit parlaklık",
+  "Profesyonel line-array ses sistemleri, dijital mikserler",
+  "Modüler podyum ve sahne platformları, truss sistemleri",
+  "DMX kontrollü ışık sistemleri ve ambiyans aydınlatma",
+];
+
+const SEO_INFRA_FEATURES = [
+  "100m²+ LED ekran kurulumu (P3.9 outdoor)",
+  "Line-array ses sistemleri (JBL, RCF, dB)",
+  "Truss kule sistemleri ve roof sahne çözümleri",
+  "Jeneratör, UPS ve yedekli enerji altyapısı",
+];
 
 // ISR
 export const revalidate = 3600;
@@ -331,7 +353,7 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
       placeholder="blur"
       quality={70}
       className="absolute inset-0 h-full w-full object-cover object-center"
-      style={{ filter: "brightness(0.7) contrast(1.1) saturate(1.05)" }}
+      style={HERO_IMAGE_STYLE}
       aria-hidden={ariaHidden}
     />
   );
@@ -359,7 +381,7 @@ export default function HomePage() {
         />
         <div
           className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse motion-reduce:animate-none"
-          style={{ animationDuration: "8s" }}
+          style={HERO_OVERLAY_ANIMATION_STYLE}
           aria-hidden="true"
         />
 
@@ -669,12 +691,7 @@ export default function HomePage() {
                       hizmetlerinde komple çözümler sunuyoruz.
                     </p>
                     <ul className="mt-4 space-y-2 text-neutral-700">
-                      {[
-                        "IP65 dış mekân LED paneller, 4500+ nit parlaklık",
-                        "Profesyonel line-array ses sistemleri, dijital mikserler",
-                        "Modüler podyum ve sahne platformları, truss sistemleri",
-                        "DMX kontrollü ışık sistemleri ve ambiyans aydınlatma",
-                      ].map((item, i) => (
+                      {SEO_TECH_FEATURES.map((item, i) => (
                         <li key={i} className="flex items-center gap-3">
                           <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0" aria-hidden="true" />
                           {item}
@@ -697,12 +714,7 @@ export default function HomePage() {
                       Konser, miting, festival, fuar ve açık hava etkinlikleri için yüksek kapasiteli ekipman altyapımızla hizmet veriyoruz. 50.000+ kişilik organizasyonlarda aktif rol alıyoruz.
                     </p>
                     <ul className="mt-4 space-y-2 text-neutral-700">
-                      {[
-                        "100m²+ LED ekran kurulumu (P3.9 outdoor)",
-                        "Line-array ses sistemleri (JBL, RCF, dB)",
-                        "Truss kule sistemleri ve roof sahne çözümleri",
-                        "Jeneratör, UPS ve yedekli enerji altyapısı",
-                      ].map((item, i) => (
+                      {SEO_INFRA_FEATURES.map((item, i) => (
                         <li key={i} className="flex items-center gap-3">
                           <div className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0" aria-hidden="true" />
                           {item}
