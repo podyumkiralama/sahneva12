@@ -953,14 +953,17 @@ function UtilityBar() {
       </div>
 
       {/* Arama Modali */}
-{isSearchOpen && (
-  <SearchModal
-    searchQuery={searchQuery}
-    setSearchQuery={setSearchQuery}
-    results={searchResults}
-    onClose={() => setIsSearchOpen(false)}
-  />
-)}
+      {isSearchOpen && (
+        <SearchModal
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          results={searchResults}
+          onClose={() => setIsSearchOpen(false)}
+        />
+      )}
+    </>
+  );
+}
 
 /* ---------- Yardımcı Bileşenler ---------- */
 
@@ -1031,6 +1034,7 @@ function ActionCard({ icon, title, description, onClick }) {
     </button>
   );
 }
+
 function SearchModal({ searchQuery, setSearchQuery, results, onClose }) {
   return (
     <div className="fixed inset-0 z-[10001] bg-black/40 backdrop-blur-sm flex items-center justify-center px-4">
@@ -1104,3 +1108,5 @@ function SearchModal({ searchQuery, setSearchQuery, results, onClose }) {
     </div>
   );
 }
+
+export default UtilityBar;
