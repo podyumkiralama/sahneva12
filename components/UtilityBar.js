@@ -55,7 +55,7 @@ function UtilityBar() {
   const [activeTab, setActiveTab] = useState("profiles");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [panelPosition, setPanelPosition] = useState("right");
+  const [panelPosition, setPanelPosition] = useState("left");
 
   // Ayar durumları
   const [seizureSafe, setSeizureSafe] = useState(false);
