@@ -25,7 +25,7 @@ const ROUTES = [
 const LS_KEYS = {
   ACTIVE: "acc_active",
   FONT_SIZE: "acc_font_size",
-  PANEL_POSITION: "acc_panel_position",
+  PANEL_POSITION: "acc_panel_position_v2",
   SEIZURE_SAFE: "acc_seizure_safe",
   VISION_IMPAIRED: "acc_vision_impaired",
   ADHD_FRIENDLY: "acc_adhd_friendly",
@@ -287,7 +287,7 @@ function UtilityBar() {
 
     const active = getLS(LS_KEYS.ACTIVE, false);
     const savedFontSize = getLS(LS_KEYS.FONT_SIZE, 16);
-    const savedPosition = getLS(LS_KEYS.PANEL_POSITION, "right");
+    const savedPosition = getLS(LS_KEYS.PANEL_POSITION, "left");
 
     setSeizureSafe(getLS(LS_KEYS.SEIZURE_SAFE, false));
     setVisionImpaired(getLS(LS_KEYS.VISION_IMPAIRED, false));
@@ -552,7 +552,9 @@ function UtilityBar() {
     setHideImages(false);
     setFontSize(16);
     setIsActive(false);
-    setPanelPosition("right");
+    setPanelPosition("left");
+setLS(LS_KEYS.PANEL_POSITION, "left");
+
     handleStartAnimations();
 
     if (guideRef.current) {
