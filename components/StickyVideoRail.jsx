@@ -16,10 +16,10 @@ const VIDEOS = [
     thumbnail: "https://img.youtube.com/vi/4ygMbL4FDRc/hqdefault.jpg",
   },
   {
-    id: "fDeCt9JfNlYM",
+    id: "JNzGlNzNRuk",
     title: "Sahneva – LED Ekran Çadır podyum & Sahne Kurulum",
     description: "Podyum Sahne dom çadır kiralama kurulum süreci.",
-    thumbnail: "https://img.youtube.com/vi/fDeCt9JfNlYM/hqdefault.jpg",
+    thumbnail: "https://img.youtube.com/vi/JNzGlNzNRuk/hqdefault.jpg",
   },
 ];
 
