@@ -507,28 +507,18 @@ export default function UtilityBar() {
     );
   }, [searchQuery]);
 
-  // Ana bileşen - Sadece FAB butonu
-  if (!isActive) {
-    return (
-      <div className={`fixed ${panelPosition === 'right' ? 'right-8' : 'left-8'} bottom-8 z-50 flex flex-col gap-3`}>
-        <button
-          onClick={() => setIsActive(true)}
-          className="w-14 h-14 bg-gradient-to-br from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full shadow-2xl flex items-center justify-center text-2xl transition-all duration-300 hover:scale-110"
-          aria-label="Erişilebilirlik ayarlarını aç"
-        >
-          ♿
-        </button>
-
-        <button
-          onClick={togglePanelPosition}
-          className="w-10 h-10 bg-gray-600 hover:bg-gray-700 text-white rounded-full shadow-lg flex items-center justify-center text-lg transition-all duration-300 hover:scale-110"
-          aria-label={`Paneli ${panelPosition === 'right' ? 'sola' : 'sağa'} taşı`}
-        >
-          {panelPosition === 'right' ? '◀' : '▶'}
-        </button>
-      </div>
-    );
-  }
+// Ana bileşen - Sadece FAB butonu (her zaman SOL ALT)
+if (!isActive) {
+  return (
+    <button
+      onClick={() => setIsActive(true)}
+      className="fixed left-4 sm:left-6 bottom-4 sm:bottom-6 z-50 w-14 h-14 bg-gradient-to-br from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full shadow-2xl flex items-center justify-center text-2xl transition-all duration-300 hover:scale-110"
+      aria-label="Erişilebilirlik ayarlarını aç"
+    >
+      ♿
+    </button>
+  );
+}
 
   return (
     <>
