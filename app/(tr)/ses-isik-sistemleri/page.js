@@ -156,11 +156,10 @@ function Hero() {
   return (
     <section className="relative flex items-center justify-center overflow-hidden bg-slate-900 pt-20 min-h-[80vh]" aria-labelledby="hero-title">
       <div className="absolute inset-0">
-        <Image 
-          src={HERO.src} 
-          alt={HERO.alt} 
-          fill 
-          priority 
+        <Image
+          src={HERO.src}
+          alt={HERO.alt}
+          fill
           className="object-cover"
           sizes={HERO.sizes}
           quality={85}

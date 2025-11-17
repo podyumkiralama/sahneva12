@@ -1,6 +1,7 @@
-import { getImageProps } from "next/image";
-
-import heroImg from "@/public/img/hero-bg.webp";
+const HERO_BACKGROUND = Object.freeze({
+  src: "/img/hero-bg.webp",
+  blur: "/img/hero-bg-blur.webp",
+});
 import CorporateEvents from "@/components/CorporateEvents";
 import {
   ReviewBannerDeferred,
@@ -488,8 +489,21 @@ function HeroBackgroundImage({ alt = "", ariaHidden = true }) {
 
   const { fetchPriority, ...rest } = props;
 
-  // eslint-disable-next-line react/no-unknown-property -- force lowercase attribute for HTML validators
-  return <img {...rest} fetchpriority={fetchPriority} aria-hidden={ariaHidden} />;
+  return (
+    <div
+      className="absolute inset-0 h-full w-full"
+      style={{
+        backgroundImage: layeredBackground,
+        backgroundSize: HERO_BACKGROUND.blur ? "cover, cover" : "cover",
+        backgroundPosition: HERO_BACKGROUND.blur ? "center, center" : "center",
+        backgroundRepeat: "no-repeat",
+        filter: "brightness(0.7) contrast(1.1) saturate(1.05)",
+      }}
+      role={ariaHidden ? undefined : "img"}
+      aria-label={ariaHidden ? undefined : alt}
+      aria-hidden={ariaHidden}
+    />
+  );
 }
 
 export default function EnglishHomePage() {

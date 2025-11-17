@@ -330,7 +330,6 @@ export default function Navbar() {
                 alt="Sahneva Logo - Profesyonel sahne, podyum, LED ekran kiralama"
                 width={160}
                 height={40}
-                priority={pathname === "/"}
                 sizes="(max-width: 768px) 120px, 160px"
                 className="h-8 lg:h-10 w-auto transition-transform duration-200 group-hover:scale-105"
               />

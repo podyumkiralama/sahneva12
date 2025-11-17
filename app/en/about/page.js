@@ -160,7 +160,6 @@ export default function AboutPage() {
             src="/img/hakkimizda-hero-corporate.webp"
             alt="Sahneva professional crew with more than a decade of event technology experience"
             fill
-            priority
             className="object-cover"
             sizes="100vw"
             quality={85}
