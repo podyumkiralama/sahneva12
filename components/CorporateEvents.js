@@ -181,6 +181,16 @@ export default function CorporateEvents({
   const supportStats = Array.isArray(dictionary.supportStats)
     ? dictionary.supportStats
     : DEFAULT_DICTIONARY.supportStats;
+  const phoneAriaLabel = dictionary.phoneCtaAria
+    ? dictionary.phoneCtaAria.includes(dictionary.phoneCtaLabel)
+      ? dictionary.phoneCtaAria
+      : `${dictionary.phoneCtaLabel} — ${dictionary.phoneCtaAria}`
+    : dictionary.phoneCtaLabel;
+  const whatsappAriaLabel = dictionary.whatsappCtaAria
+    ? dictionary.whatsappCtaAria.includes(dictionary.whatsappCtaLabel)
+      ? dictionary.whatsappCtaAria
+      : `${dictionary.whatsappCtaLabel} — ${dictionary.whatsappCtaAria}`
+    : dictionary.whatsappCtaLabel;
 
 
   return (
@@ -346,7 +356,7 @@ export default function CorporateEvents({
               <a
                 href={dictionary.phoneCtaHref}
                 className="inline-flex items-center justify-center gap-3 bg-white text-blue-600 font-semibold px-8 py-4 rounded-2xl hover:bg-gray-100 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1 min-h-[60px] focus-ring"
-                aria-label={dictionary.phoneCtaAria}
+                aria-label={phoneAriaLabel}
               >
                 <span className="text-2xl" aria-hidden="true">
                   📞
@@ -359,7 +369,7 @@ export default function CorporateEvents({
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-3 bg-green-100 hover:bg-green-200 border-2 border-green-600 text-green-900 font-bold px-5 py-4 rounded-xl shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl min-h-[60px] focus-ring"
-                aria-label={dictionary.whatsappCtaAria}
+                aria-label={whatsappAriaLabel}
               >
                 <span className="text-xl" aria-hidden="true">
                   💬
