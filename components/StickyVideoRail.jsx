@@ -22,10 +22,10 @@ const VIDEOS = [
     thumbnail: "https://img.youtube.com/vi/JNzGlNzNRuk/hqdefault.jpg",
   },
     {
-    id: "9Q7v0ZL304",
+    id: "_9Q7v0ZL304",
     title: "Sahneva Organizasyon – LED Ekran Çadır Masa sandalye podyum kiralama ",
     description: "Podyum Sahne masa sandalye çadır kiralama kurulum süreci.",
-    thumbnail: "https://img.youtube.com/vi/9Q7v0ZL304/hqdefault.jpg",
+    thumbnail: "https://img.youtube.com/vi/_9Q7v0ZL304/hqdefault.jpg",
   },
 ];
 
