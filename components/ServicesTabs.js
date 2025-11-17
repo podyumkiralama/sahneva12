@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import React, { useRef, useState, useCallback, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
@@ -119,6 +119,12 @@ const DEFAULT_DICTIONARY = {
 
 const TITLE_TEMPLATE_TOKEN = /\{\{\s*title\s*\}\}/g;
 
+const IMAGE_STYLE = Object.freeze({
+  objectFit: "cover",
+  width: "100%",
+  height: "100%",
+});
+
 function formatTitleTemplate(template, title, fallback) {
   const source = template ?? fallback;
 
@@ -160,34 +166,74 @@ function mergeDictionary(base, override = {}) {
   return result;
 }
 
-export default function ServicesTabs({
+function ServicesTabs({
   servicesData = DEFAULT_SERVICES,
   dictionary: dictionaryOverride,
 }) {
-  const services = Array.isArray(servicesData) && servicesData.length
-    ? servicesData
-    : DEFAULT_SERVICES;
+  const services = useMemo(
+    () =>
+      Array.isArray(servicesData) && servicesData.length
+        ? servicesData
+        : DEFAULT_SERVICES,
+    [servicesData]
+  );
 
-  const dictionary = mergeDictionary(DEFAULT_DICTIONARY, dictionaryOverride);
+  const dictionary = useMemo(
+    () => mergeDictionary(DEFAULT_DICTIONARY, dictionaryOverride),
+    [dictionaryOverride]
+  );
 
-  const imageAltTemplate = dictionary.imageAlt ?? DEFAULT_DICTIONARY.imageAlt;
-  const overlayButtonTitleTemplate =
-    dictionary.overlayButtonTitle ?? DEFAULT_DICTIONARY.overlayButtonTitle;
-  const overlayButtonAriaTemplate =
-    dictionary.overlayButtonAria ?? DEFAULT_DICTIONARY.overlayButtonAria;
+  const imageAltTemplate = useMemo(
+    () => dictionary.imageAlt ?? DEFAULT_DICTIONARY.imageAlt,
+    [dictionary]
+  );
+  const overlayButtonTitleTemplate = useMemo(
+    () => dictionary.overlayButtonTitle ?? DEFAULT_DICTIONARY.overlayButtonTitle,
+    [dictionary]
+  );
+  const overlayButtonAriaTemplate = useMemo(
+    () => dictionary.overlayButtonAria ?? DEFAULT_DICTIONARY.overlayButtonAria,
+    [dictionary]
+  );
 
   const [activeTab, setActiveTab] = useState(() => services[0]?.id ?? "");
   const [imageErrors, setImageErrors] = useState({});
   const listRef = useRef(null);
 
-  const activeService = services.find((s) => s.id === activeTab) ?? services[0];
+  const activeService = useMemo(
+    () => services.find((s) => s.id === activeTab) ?? services[0],
+    [activeTab, services]
+  );
 
-  const handleImageError = (serviceId) => {
+  const handleImageError = useCallback((serviceId) => {
     setImageErrors((prev) => ({ ...prev, [serviceId]: true }));
-  };
+  }, []);
 
-  const getImageSrc = (service) =>
-    imageErrors[service.id] ? "/img/placeholder-service.webp" : service.image;
+  const imageErrorHandlers = useMemo(
+    () =>
+      services.reduce((acc, service) => {
+        acc[service.id] = () => handleImageError(service.id);
+        return acc;
+      }, {}),
+    [handleImageError, services]
+  );
+
+  const getImageSrc = useCallback(
+    (service) =>
+      imageErrors[service.id]
+        ? "/img/placeholder-service.webp"
+        : service.image,
+    [imageErrors]
+  );
+
+  const tabClickHandlers = useMemo(
+    () =>
+      services.reduce((acc, service) => {
+        acc[service.id] = () => setActiveTab(service.id);
+        return acc;
+      }, {}),
+    [services]
+  );
 
   // Klavye ile sekmeler arasında gezinme (ArrowLeft/Right, Home/End)
   const onKeyDownTabs = useCallback((e) => {
@@ -234,7 +280,7 @@ export default function ServicesTabs({
                   aria-selected={activeTab === service.id}
                   aria-controls={`panel-${service.id}`}
                   id={`tab-${service.id}`}
-                  onClick={() => setActiveTab(service.id)}
+                  onClick={tabClickHandlers[service.id]}
                   className={`inline-flex items-center gap-2 px-4 py-3 min-h-11 rounded-xl font-semibold text-sm
                     transition-all duration-300 border-2 whitespace-nowrap flex-shrink-0 focus-ring
                     ${
@@ -383,7 +429,7 @@ export default function ServicesTabs({
               <ScrollReveal direction="right">
                 <div className="relative h-64 md:h-80 lg:h-96 rounded-2xl overflow-hidden shadow-xl order-1 lg:order-2 group">
                   <Image
-                    src={getImageSrc(activeService)}
+                    src={activeService ? getImageSrc(activeService) : ""}
                     alt={formatTitleTemplate(
                       imageAltTemplate,
                       activeService.title,
@@ -396,8 +442,8 @@ export default function ServicesTabs({
                     loading="lazy"
                     decoding="async"
                     placeholder="empty"
-                    onError={() => handleImageError(activeService.id)}
-                    style={{ objectFit: "cover", width: "100%", height: "100%" }}
+                    onError={activeService ? imageErrorHandlers[activeService.id] : undefined}
+                    style={IMAGE_STYLE}
                   />
 
                   <div
@@ -453,3 +499,5 @@ export default function ServicesTabs({
     </div>
   );
 }
+
+export default React.memo(ServicesTabs);

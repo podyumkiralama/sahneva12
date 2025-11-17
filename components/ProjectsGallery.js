@@ -1,7 +1,14 @@
 // components/ProjectsGallery.js
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import {
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 
@@ -88,6 +95,8 @@ function formatWithParams(template, fallback, params, order = []) {
   return "";
 }
 
+const SKELETON_ITEMS = [1, 2, 3];
+
 function mergeDictionary(base, override = {}) {
   const result = { ...base };
 
@@ -107,12 +116,180 @@ function mergeDictionary(base, override = {}) {
   return result;
 }
 
+const GalleryCard = memo(function GalleryCard({
+  dictionary,
+  galleryData,
+  getImageSrc,
+  groupTitle,
+  handleImageError,
+  index,
+  open,
+  prefersReducedMotion,
+  templates,
+}) {
+  const {
+    cardAltTemplate,
+    exploreAriaTemplate,
+    exploreHiddenLabelTemplate,
+    seeAllSrTemplate,
+  } = templates;
+
+  const images = galleryData.images;
+  const cover = images[0];
+
+  const exploreAria = useMemo(
+    () =>
+      formatWithParams(
+        exploreAriaTemplate,
+        DEFAULT_DICTIONARY.exploreAria,
+        { title: groupTitle, count: images.length },
+        ["title", "count"]
+      ),
+    [exploreAriaTemplate, groupTitle, images.length]
+  );
+
+  const exploreHiddenLabel = useMemo(
+    () =>
+      formatWithParams(
+        exploreHiddenLabelTemplate,
+        DEFAULT_DICTIONARY.exploreHiddenLabel,
+        { title: groupTitle, count: images.length },
+        ["title", "count"]
+      ),
+    [exploreHiddenLabelTemplate, groupTitle, images.length]
+  );
+
+  const cardAlt = useMemo(
+    () =>
+      formatWithParams(
+        cardAltTemplate,
+        DEFAULT_DICTIONARY.cardAlt,
+        { title: groupTitle },
+        ["title"]
+      ),
+    [cardAltTemplate, groupTitle]
+  );
+
+  const seeAllSr = useMemo(
+    () =>
+      formatWithParams(
+        seeAllSrTemplate,
+        DEFAULT_DICTIONARY.seeAllSr,
+        { title: groupTitle, count: images.length },
+        ["title", "count"]
+      ),
+    [groupTitle, images.length, seeAllSrTemplate]
+  );
+
+  const openFirst = useCallback(
+    () => open(groupTitle, images, 0),
+    [groupTitle, images, open]
+  );
+
+  const handleCoverError = useCallback(
+    () => handleImageError(cover),
+    [cover, handleImageError]
+  );
+
+  return (
+    <li>
+      <article className="group relative bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-200/60 hover:border-blue-200/80 overflow-hidden">
+        <div className="relative h-80 overflow-hidden">
+          <button
+            type="button"
+            onClick={openFirst}
+            aria-label={exploreAria}
+            className="absolute inset-0 w-full h-full focus-ring rounded-t-2xl"
+          >
+            <span className="absolute opacity-0 pointer-events-none">
+              {exploreHiddenLabel}
+            </span>
+
+            <Image
+              src={getImageSrc(cover)}
+              alt={cardAlt}
+              fill
+              className={`object-cover transition-transform duration-700 ${
+                prefersReducedMotion ? "" : "group-hover:scale-110"
+              }`}
+              sizes={COVER_SIZES}
+              quality={index === 0 ? 60 : 65}
+              loading={index === 0 ? "eager" : "lazy"}
+              decoding="async"
+              placeholder="blur"
+              blurDataURL={BLUR_DATA_URL}
+              priority={index === 0}
+              fetchPriority={index === 0 ? "high" : "auto"}
+              onError={handleCoverError}
+            />
+
+            <div
+              className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              aria-hidden="true"
+            />
+
+            <div
+              className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              aria-hidden="true"
+            >
+              <div className="bg-white/90 backdrop-blur-sm rounded-full px-5 py-2.5 transform -translate-y-3 group-hover:translate-y-0 transition-transform duration-500">
+                <span className="font-semibold text-gray-900 text-sm flex items-center gap-2">
+                  <span aria-hidden="true">🔍</span>
+                  {dictionary.hoverCta}
+                </span>
+              </div>
+            </div>
+          </button>
+        </div>
+
+        <div className="p-5">
+          <div className="flex items-center gap-3 mb-2.5">
+            <span className="text-2xl text-gray-700" aria-hidden="true">
+              {galleryData.icon}
+            </span>
+            <h3 className="text-lg font-bold text-gray-900">{groupTitle}</h3>
+          </div>
+
+          <p className="text-gray-600 leading-relaxed mb-3 line-clamp-2">
+            {galleryData.description}
+          </p>
+
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-semibold text-blue-600 bg-blue-50 rounded-full px-3 py-1">
+              {galleryData.stats}
+            </span>
+
+            <button
+              onClick={openFirst}
+              className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 flex items-center gap-1 group/btn focus-ring"
+            >
+              {dictionary.seeAllLabel}
+              <span
+                className="transform group-hover/btn:translate-x-1 transition-transform duration-200"
+                aria-hidden="true"
+              >
+                →
+              </span>
+              <span className="sr-only">{seeAllSr}</span>
+            </button>
+          </div>
+        </div>
+      </article>
+    </li>
+  );
+});
+
 export default function ProjectsGallery({
   galleries = DEFAULT_GALLERIES,
   dictionary: dictionaryOverride,
   ariaLabelledBy,
   regionLabelId = "projects-gallery-region-title",
 }) {
+  const dictionary = useMemo(
+    () => mergeDictionary(DEFAULT_DICTIONARY, dictionaryOverride),
+    [dictionaryOverride]
+  );
+
   const [isOpen, setIsOpen] = useState(false);
   const [anim, setAnim] = useState(false);
   const [title, setTitle] = useState("");
@@ -129,8 +306,6 @@ export default function ProjectsGallery({
   const liveRef = useRef(null);
   const portalRef = useRef(null);
 
-  const dictionary = mergeDictionary(DEFAULT_DICTIONARY, dictionaryOverride);
-
   const exploreAriaTemplate = dictionary.exploreAria;
   const exploreHiddenLabelTemplate = dictionary.exploreHiddenLabel;
   const cardAltTemplate = dictionary.cardAlt;
@@ -139,6 +314,16 @@ export default function ProjectsGallery({
   const counterLabelTemplate = dictionary.counterLabel;
   const liveMessageTemplate = dictionary.liveMessage;
   const lightboxAltTemplate = dictionary.lightboxAlt;
+
+  const templates = useMemo(
+    () => ({
+      cardAltTemplate,
+      exploreAriaTemplate,
+      exploreHiddenLabelTemplate,
+      seeAllSrTemplate,
+    }),
+    [cardAltTemplate, exploreAriaTemplate, exploreHiddenLabelTemplate, seeAllSrTemplate]
+  );
 
   useEffect(() => {
     if (typeof document === "undefined") return;
@@ -156,11 +341,13 @@ export default function ProjectsGallery({
     };
   }, []);
 
-  const handleImageError = (key) => {
+  const handleImageError = useCallback((key) => {
     setImageErrors((prev) => ({ ...prev, [key]: true }));
-  };
-  const getImageSrc = (key) =>
-    imageErrors[key] ? "/img/placeholder-service.webp" : key;
+  }, []);
+  const getImageSrc = useCallback(
+    (key) => (imageErrors[key] ? "/img/placeholder-service.webp" : key),
+    [imageErrors]
+  );
 
   const open = useCallback(
     (groupTitle, images, startIndex = 0) => {
@@ -235,16 +422,35 @@ export default function ProjectsGallery({
     };
   }, [isOpen, close, prev, next]);
 
-  const onTouchStart = (e) => (touchStartX.current = e.touches[0].clientX);
-  const onTouchEnd = (e) => {
-    touchEndX.current = e.changedTouches[0].clientX;
-    const dx = touchEndX.current - touchStartX.current;
-    if (Math.abs(dx) > 50) (dx > 0 ? prev() : next());
-  };
+  const onTouchStart = useCallback((e) => {
+    touchStartX.current = e.touches[0].clientX;
+  }, []);
+  const onTouchEnd = useCallback(
+    (e) => {
+      touchEndX.current = e.changedTouches[0].clientX;
+      const dx = touchEndX.current - touchStartX.current;
+      if (Math.abs(dx) > 50) (dx > 0 ? prev() : next());
+    },
+    [next, prev]
+  );
 
   const regionHeadingId = ariaLabelledBy ?? regionLabelId;
   const regionHeading =
     dictionary.regionTitleSr ?? DEFAULT_DICTIONARY.regionTitleSr;
+
+  const handleOverlayClick = useCallback(
+    (event) => {
+      if (event.target === event.currentTarget) {
+        close();
+      }
+    },
+    [close]
+  );
+
+  const galleryEntries = useMemo(
+    () => Object.entries(galleries),
+    [galleries]
+  );
 
   if (!mounted) {
     return (
@@ -259,7 +465,7 @@ export default function ProjectsGallery({
         )}
         <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3].map((k) => (
+            {SKELETON_ITEMS.map((k) => (
               <div key={k} className="group">
                 <div className="h-80 bg-gradient-to-br from-gray-200 to-gray-300 rounded-2xl animate-pulse motion-reduce:animate-none mb-3" />
                 <div className="h-5 bg-gray-200 rounded animate-pulse w-3/4 mb-1.5" />
@@ -289,119 +495,20 @@ export default function ProjectsGallery({
       )}
       <div className="container relative z-10">
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {Object.entries(galleries).map(([groupTitle, galleryData], i) => {
-            const images = galleryData.images;
-            const cover = images[0];
-
-            return (
-              <li key={groupTitle}>
-                <article className="group relative bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-200/60 hover:border-blue-200/80 overflow-hidden">
-                  <div className="relative h-80 overflow-hidden">
-                    <button
-                      type="button"
-                      onClick={() => open(groupTitle, images, 0)}
-                      aria-label={formatWithParams(
-                        exploreAriaTemplate,
-                        DEFAULT_DICTIONARY.exploreAria,
-                        { title: groupTitle, count: images.length },
-                        ["title", "count"]
-                      )}
-                      className="absolute inset-0 w-full h-full focus-ring rounded-t-2xl"
-                    >
-                      <span className="absolute opacity-0 pointer-events-none">
-                        {formatWithParams(
-                          exploreHiddenLabelTemplate,
-                          DEFAULT_DICTIONARY.exploreHiddenLabel,
-                          { title: groupTitle, count: images.length },
-                          ["title", "count"]
-                        )}
-                      </span>
-
-                      <Image
-                        src={getImageSrc(cover)}
-                        alt={formatWithParams(
-                          cardAltTemplate,
-                          DEFAULT_DICTIONARY.cardAlt,
-                          { title: groupTitle },
-                          ["title"]
-                        )}
-                        fill
-                        className={`object-cover transition-transform duration-700 ${
-                          prefersReducedMotion ? "" : "group-hover:scale-110"
-                        }`}
-                        sizes={COVER_SIZES}
-                        quality={i === 0 ? 60 : 65}
-                        loading={i === 0 ? "eager" : "lazy"}
-                        decoding="async"
-                        placeholder="blur"
-                        blurDataURL={BLUR_DATA_URL}
-                        priority={i === 0}
-                        fetchPriority={i === 0 ? "high" : "auto"}
-                        onError={() => handleImageError(cover)}
-                      />
-
-                      <div
-                        className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                        aria-hidden="true"
-                      />
-
-                      <div
-                        className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                        aria-hidden="true"
-                      >
-                        <div className="bg-white/90 backdrop-blur-sm rounded-full px-5 py-2.5 transform -translate-y-3 group-hover:translate-y-0 transition-transform duration-500">
-                          <span className="font-semibold text-gray-900 text-sm flex items-center gap-2">
-                            <span aria-hidden="true">🔍</span>
-                            {dictionary.hoverCta}
-                          </span>
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-
-                  <div className="p-5">
-                    <div className="flex items-center gap-3 mb-2.5">
-                      <span className="text-2xl text-gray-700" aria-hidden="true">
-                        {galleryData.icon}
-                      </span>
-                      <h3 className="text-lg font-bold text-gray-900">{groupTitle}</h3>
-                    </div>
-
-                    <p className="text-gray-600 leading-relaxed mb-3 line-clamp-2">
-                      {galleryData.description}
-                    </p>
-
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-semibold text-blue-600 bg-blue-50 rounded-full px-3 py-1">
-                        {galleryData.stats}
-                      </span>
-
-                      <button
-                        onClick={() => open(groupTitle, images, 0)}
-                        className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 flex items-center gap-1 group/btn focus-ring"
-                      >
-                        {dictionary.seeAllLabel}
-                        <span
-                          className="transform group-hover/btn:translate-x-1 transition-transform duration-200"
-                          aria-hidden="true"
-                        >
-                          →
-                        </span>
-                        <span className="sr-only">
-                          {formatWithParams(
-                            seeAllSrTemplate,
-                            DEFAULT_DICTIONARY.seeAllSr,
-                            { title: groupTitle, count: images.length },
-                            ["title", "count"]
-                          )}
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-                </article>
-              </li>
-            );
-          })}
+          {galleryEntries.map(([groupTitle, galleryData], i) => (
+            <GalleryCard
+              key={groupTitle}
+              dictionary={dictionary}
+              galleryData={galleryData}
+              getImageSrc={getImageSrc}
+              handleImageError={handleImageError}
+              index={i}
+              open={open}
+              prefersReducedMotion={prefersReducedMotion}
+              templates={templates}
+              groupTitle={groupTitle}
+            />
+          ))}
         </ul>
       </div>
 
@@ -421,7 +528,7 @@ export default function ProjectsGallery({
               { title },
               ["title"]
             )}
-              onClick={(e) => e.target === e.currentTarget && close()}
+              onClick={handleOverlayClick}
               onTouchStart={onTouchStart}
               onTouchEnd={onTouchEnd}
             >

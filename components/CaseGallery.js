@@ -2,9 +2,15 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
-export default function CaseGallery({ images = [], visibleCount = 4 }) {
+function CaseGallery({ images = [], visibleCount = 4 }) {
   const [open, setOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const lastFocus = useRef(null);
@@ -18,29 +24,46 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
     setIsMounted(true);
   }, []);
 
-  const openLightbox = (index) => {
-    if (!isMounted) return;
+  const openLightbox = useCallback(
+    (index) => {
+      if (!isMounted) return;
 
-    lastFocus.current = document.activeElement;
-    setCurrentIndex(index);
-    setOpen(true);
-  };
+      lastFocus.current = document.activeElement;
+      setCurrentIndex(index);
+      setOpen(true);
+    },
+    [isMounted]
+  );
 
-  const closeLightbox = () => {
+  const closeLightbox = useCallback(() => {
     setOpen(false);
-  };
+  }, []);
 
-  const navigate = (direction) => {
-    setCurrentIndex((prev) => {
-      if (!images.length) return prev;
+  const navigate = useCallback(
+    (direction) => {
+      setCurrentIndex((prev) => {
+        if (!images.length) return prev;
 
-      if (direction === "prev") {
-        return prev === 0 ? images.length - 1 : prev - 1;
-      } else {
+        if (direction === "prev") {
+          return prev === 0 ? images.length - 1 : prev - 1;
+        }
         return prev === images.length - 1 ? 0 : prev + 1;
+      });
+    },
+    [images.length]
+  );
+
+  const handleBackdropClick = useCallback(
+    (event) => {
+      if (event.target === event.currentTarget) {
+        closeLightbox();
       }
-    });
-  };
+    },
+    [closeLightbox]
+  );
+
+  const handlePrev = useCallback(() => navigate("prev"), [navigate]);
+  const handleNext = useCallback(() => navigate("next"), [navigate]);
 
   // Lightbox açıkken body scroll kilidi + klavye kontrolleri
   useEffect(() => {
@@ -109,10 +132,23 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
         setTimeout(() => lastFocus.current.focus(), 50);
       }
     };
-  }, [open, isMounted, images.length]);
+  }, [closeLightbox, navigate, open, isMounted, images.length]);
 
   // Görüntülenecek thumbnail'leri belirle
-  const displayImages = visibleCount ? images.slice(0, visibleCount) : images;
+  const displayImages = useMemo(
+    () => (visibleCount ? images.slice(0, visibleCount) : images),
+    [images, visibleCount]
+  );
+
+  const thumbnailClickHandlers = useMemo(
+    () => displayImages.map((_, index) => () => openLightbox(index)),
+    [displayImages, openLightbox]
+  );
+
+  const lightboxThumbnailHandlers = useMemo(
+    () => images.map((_, index) => () => setCurrentIndex(index)),
+    [images]
+  );
 
   if (!isMounted) {
     return (
@@ -147,7 +183,7 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
             key={`${img.src}-${index}`}
             type="button"
             className="relative aspect-[16/9] overflow-hidden rounded-xl border-2 border-gray-200 bg-white hover:border-blue-500 hover:shadow-lg transition-all duration-300 group focus-ring"
-            onClick={() => openLightbox(index)}
+            onClick={thumbnailClickHandlers[index]}
             aria-label={`${img.alt} - Görseli büyüt`}
           >
             <Image
@@ -189,12 +225,12 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
           role="dialog"
           aria-modal="true"
           aria-labelledby="lightbox-title"
-          aria-describedby="lightbox-description"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm p-4"
-          onClick={(e) => e.target === e.currentTarget && closeLightbox()}
-          style={{
-            overscrollBehavior: "contain",
-            paddingBottom: "env(safe-area-inset-bottom)",
+            aria-describedby="lightbox-description"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm p-4"
+            onClick={handleBackdropClick}
+            style={{
+              overscrollBehavior: "contain",
+              paddingBottom: "env(safe-area-inset-bottom)",
             paddingTop: "env(safe-area-inset-top)",
           }}
         >
@@ -231,14 +267,14 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
           )}
 
           {/* Önceki butonu */}
-          {images.length > 1 && (
-            <button
-              type="button"
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/10 hover:bg-white/20 text-white rounded-full w-12 h-12 flex items-center justify-center transition-all duration-200 focus-ring backdrop-blur-sm md:left-6"
-              onClick={() => navigate("prev")}
-              aria-label="Önceki görsel"
-            >
-              <span aria-hidden="true" className="text-2xl">
+            {images.length > 1 && (
+              <button
+                type="button"
+                className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/10 hover:bg-white/20 text-white rounded-full w-12 h-12 flex items-center justify-center transition-all duration-200 focus-ring backdrop-blur-sm md:left-6"
+                onClick={handlePrev}
+                aria-label="Önceki görsel"
+              >
+                <span aria-hidden="true" className="text-2xl">
                 ‹
               </span>
             </button>
@@ -262,14 +298,14 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
           </div>
 
           {/* Sonraki butonu */}
-          {images.length > 1 && (
-            <button
-              type="button"
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/10 hover:bg-white/20 text-white rounded-full w-12 h-12 flex items-center justify-center transition-all duration-200 focus-ring backdrop-blur-sm md:right-6"
-              onClick={() => navigate("next")}
-              aria-label="Sonraki görsel"
-            >
-              <span aria-hidden="true" className="text-2xl">
+            {images.length > 1 && (
+              <button
+                type="button"
+                className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/10 hover:bg-white/20 text-white rounded-full w-12 h-12 flex items-center justify-center transition-all duration-200 focus-ring backdrop-blur-sm md:right-6"
+                onClick={handleNext}
+                aria-label="Sonraki görsel"
+              >
+                <span aria-hidden="true" className="text-2xl">
                 ›
               </span>
             </button>
@@ -286,22 +322,22 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
 
           {/* Mobil navigasyon */}
           {images.length > 1 && (
-            <div className="md:hidden absolute bottom-4 inset-x-4 flex justify-between">
-              <button
-                type="button"
-                className="flex-1 max-w-[120px] bg-white/10 hover:bg-white/20 text-white py-3 rounded-l-lg transition-colors duration-200 focus-ring"
-                onClick={() => navigate("prev")}
-                aria-label="Önceki görsel"
-              >
-                Önceki
-              </button>
-              <button
-                type="button"
-                className="flex-1 max-w-[120px] bg-white/10 hover:bg-white/20 text-white py-3 rounded-r-lg transition-colors duration-200 focus-ring"
-                onClick={() => navigate("next")}
-                aria-label="Sonraki görsel"
-              >
-                Sonraki
+              <div className="md:hidden absolute bottom-4 inset-x-4 flex justify-between">
+                <button
+                  type="button"
+                  className="flex-1 max-w-[120px] bg-white/10 hover:bg-white/20 text-white py-3 rounded-l-lg transition-colors duration-200 focus-ring"
+                  onClick={handlePrev}
+                  aria-label="Önceki görsel"
+                >
+                  Önceki
+                </button>
+                <button
+                  type="button"
+                  className="flex-1 max-w-[120px] bg-white/10 hover:bg-white/20 text-white py-3 rounded-r-lg transition-colors duration-200 focus-ring"
+                  onClick={handleNext}
+                  aria-label="Sonraki görsel"
+                >
+                  Sonraki
               </button>
             </div>
           )}
@@ -309,18 +345,18 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
           {/* Küçük resim önizlemeleri (desktop) */}
           {images.length > 1 && (
             <div className="hidden md:flex absolute bottom-4 left-1/2 -translate-x-1/2 gap-2 max-w-full overflow-x-auto px-4 py-2">
-              {images.map((img, index) => (
-                <button
-                  key={`thumb-${index}`}
-                  type="button"
-                  className={`flex-shrink-0 w-16 h-12 relative rounded border-2 transition-all duration-200 focus-ring ${
-                    index === currentIndex
-                      ? "border-white scale-110"
-                      : "border-white/30 hover:border-white/60"
-                  }`}
-                  onClick={() => setCurrentIndex(index)}
-                  aria-label={`${index + 1}. görsele git: ${img.alt}`}
-                >
+                {images.map((img, index) => (
+                  <button
+                    key={`thumb-${index}`}
+                    type="button"
+                    className={`flex-shrink-0 w-16 h-12 relative rounded border-2 transition-all duration-200 focus-ring ${
+                      index === currentIndex
+                        ? "border-white scale-110"
+                        : "border-white/30 hover:border-white/60"
+                    }`}
+                    onClick={lightboxThumbnailHandlers[index]}
+                    aria-label={`${index + 1}. görsele git: ${img.alt}`}
+                  >
                   <Image
                     src={img.src}
                     alt=""
@@ -340,3 +376,5 @@ export default function CaseGallery({ images = [], visibleCount = 4 }) {
     </div>
   );
 }
+
+export default React.memo(CaseGallery);
