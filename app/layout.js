@@ -1,8 +1,9 @@
-// app/layout.jsx (veya projenin root layout dosyası)
+// app/layout.jsx
 import "../styles/globals.css";
 import Script from "next/script";
 import { Inter } from "next/font/google";
 import SkipLinks from "@/components/SkipLinks";
+import StickyVideoRail from "@/components/StickyVideoRail"; // 🔹 Video rail
 
 const inter = Inter({
   subsets: ["latin", "latin-ext", "arabic"],
@@ -227,7 +228,11 @@ export default function RootLayout({ children }) {
       </head>
       <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
         <SkipLinks />
+
         {children}
+
+        {/* Sticky video rail – tüm sayfalarda */}
+        <StickyVideoRail />
 
         {/* GA4 (sadece production ve ID varsa) */}
         {isProd && GA_MEASUREMENT_ID && (
@@ -260,7 +265,6 @@ export default function RootLayout({ children }) {
                 const observer = new PerformanceObserver((list) => {
                   list.getEntries().forEach((entry) => {
                     if (entry.hadRecentInput) return;
-                    // İstersen buraya console.log veya GA event entegre edebilirsin
                   });
                 });
                 observer.observe({ entryTypes: ['layout-shift', 'first-input'] });
