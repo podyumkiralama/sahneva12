@@ -33,6 +33,24 @@ const VIDEOS = [
     description: "Üniversite mezuniyet törenleri için profesyonel sahne, LED ekran, ses–ışık sistemleri ve tüm teknik prodüksiyon altyapısını sağlayarak kurumlara eksiksiz bir mezuniyet deneyimi sunuyoruz",
     thumbnail: "https://img.youtube.com/vi/ah4ORjaQSMA/hqdefault.jpg",
   },
+   {
+    id: "c72ILTyJH4A",
+    title: "Üniversite Mezuniyet Töreni Organizasyonu | Sahne, LED Ekran ve Ses–Işık Prodüksiyon",
+    description: "Üniversite mezuniyet törenleri için profesyonel sahne, LED ekran, ses–ışık sistemleri ve tüm teknik prodüksiyon altyapısını sağlayarak kurumlara eksiksiz bir mezuniyet deneyimi sunuyoruz",
+    thumbnail: "https://img.youtube.com/vi/c72ILTyJH4A/hqdefault.jpg",
+  },
+   {
+    id: "egd21AA1dZ0",
+    title: "Üniversite Mezuniyet Töreni Organizasyonu | Sahne, LED Ekran ve Ses–Işık Prodüksiyon",
+    description: "Üniversite mezuniyet törenleri için profesyonel sahne, LED ekran, ses–ışık sistemleri ve tüm teknik prodüksiyon altyapısını sağlayarak kurumlara eksiksiz bir mezuniyet deneyimi sunuyoruz",
+    thumbnail: "https://img.youtube.com/vi/egd21AA1dZ0/hqdefault.jpg",
+  },
+    {
+    id: "tyb1lG9KtiA",
+    title: "Üniversite Mezuniyet Töreni Organizasyonu | Sahne, LED Ekran ve Ses–Işık Prodüksiyon",
+    description: "Üniversite mezuniyet törenleri için profesyonel sahne, LED ekran, ses–ışık sistemleri ve tüm teknik prodüksiyon altyapısını sağlayarak kurumlara eksiksiz bir mezuniyet deneyimi sunuyoruz",
+    thumbnail: "https://img.youtube.com/vi/tyb1lG9KtiA/hqdefault.jpg",
+  },
 ];
 
 const INITIAL_POSITION = { x: -24, y: -24 }; // sağ alt köşe ofseti
