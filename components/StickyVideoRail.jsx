@@ -1,4 +1,3 @@
-// components/StickyVideoRail.jsx
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -12,6 +11,8 @@ const VIDEOS = [
     id: "4ygMbL4FDRc",
     title: "Sahneva – Proje Uygulama",
   },
+  // Yeni video eklemek istersen sadece buraya obje ekle:
+  // { id: "YOUTUBE_ID", title: "Başlık" },
 ];
 
 const SCROLL_THRESHOLD = 280; // px
@@ -21,18 +22,20 @@ function getEmbedUrl(id) {
 }
 
 export default function StickyVideoRail() {
-  const [visible, setVisible] = useState(false); // scroll sonrası aç
+  const [visible, setVisible] = useState(false);
   const [activeId, setActiveId] = useState(VIDEOS[0].id);
-  const [loadPlayer, setLoadPlayer] = useState(false); // lazy iframe
+  const [loadPlayer, setLoadPlayer] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showList, setShowList] = useState(true);
+
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [hasPosition, setHasPosition] = useState(false);
 
   const dragDataRef = useRef(null);
   const containerRef = useRef(null);
 
-  // İlk scroll + başlangıç pozisyonu
+  // İlk pozisyon + scroll sonrası görünür yap
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -40,7 +43,7 @@ export default function StickyVideoRail() {
       const w = window.innerWidth;
       const h = window.innerHeight;
       const baseW = w < 768 ? 260 : 320;
-      const baseH = w < 768 ? 150 : 180;
+      const baseH = w < 768 ? 200 : 220;
 
       setPosition({
         x: w - baseW - 16,
@@ -66,7 +69,7 @@ export default function StickyVideoRail() {
     };
   }, []);
 
-  // drag işlemleri
+  // Sürükleme
   const handlePointerDown = (event) => {
     if (!containerRef.current) return;
 
@@ -78,6 +81,8 @@ export default function StickyVideoRail() {
       startY: event.clientY,
       startLeft: rect.left,
       startTop: rect.top,
+      width: rect.width,
+      height: rect.height,
     };
 
     const handleMove = (e) => {
@@ -89,8 +94,8 @@ export default function StickyVideoRail() {
       const newX = dragDataRef.current.startLeft + dx;
       const newY = dragDataRef.current.startTop + dy;
 
-      const maxX = window.innerWidth - rect.width - 8;
-      const maxY = window.innerHeight - rect.height - 8;
+      const maxX = window.innerWidth - dragDataRef.current.width - 8;
+      const maxY = window.innerHeight - dragDataRef.current.height - 8;
 
       setPosition({
         x: Math.min(Math.max(8, newX), maxX),
@@ -108,11 +113,12 @@ export default function StickyVideoRail() {
     window.addEventListener("pointerup", handleUp);
   };
 
+  /* ================= MINIMIZE (SIMGE) ================ */
+
   if (!hasPosition || !visible) {
     return null;
   }
 
-  // Tamamen küçültülmüş hali: sadece simge (mobilde istediğin davranış)
   if (isMinimized) {
     return (
       <button
@@ -129,8 +135,121 @@ export default function StickyVideoRail() {
     );
   }
 
-  const baseWidth = isExpanded ? 420 : 300;
-  const baseHeight = isExpanded ? 236 : 170;
+  /* ================= EXPANDED MODAL ================ */
+
+  if (isExpanded) {
+    return (
+      <>
+        <div className="fixed inset-0 z-[70] bg-black/70 backdrop-blur-sm flex items-center justify-center px-4">
+          <div className="w-full max-w-5xl">
+            {/* Başlık + butonlar */}
+            <div className="flex items-center justify-between mb-3 text-sm text-slate-100">
+              <div className="flex items-center gap-2">
+                <span className="inline-flex w-2 h-2 rounded-full bg-emerald-400" />
+                <span className="font-semibold">
+                  Sahneva Proje Videoları – Galeri
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsExpanded(false);
+                  }}
+                  className="px-3 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
+                  aria-label="Küçült"
+                >
+                  Küçült
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsExpanded(false);
+                    setIsMinimized(true);
+                  }}
+                  className="px-3 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
+                  aria-label="Simge durumuna küçült"
+                >
+                  Gizle
+                </button>
+              </div>
+            </div>
+
+            {/* Büyük video */}
+            <div className="aspect-video rounded-2xl overflow-hidden bg-black shadow-2xl border border-slate-800 mb-4">
+              {loadPlayer ? (
+                <iframe
+                  title="Sahneva video oynatıcı"
+                  src={getEmbedUrl(activeId)}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  className="w-full h-full border-0"
+                  loading="lazy"
+                />
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setLoadPlayer(true)}
+                  className="w-full h-full flex flex-col items-center justify-center bg-black/80 text-white gap-3 group"
+                >
+                  <div className="w-20 h-20 rounded-full bg-red-600 flex items-center justify-center shadow-xl group-hover:scale-105 transition-transform">
+                    ▶
+                  </div>
+                  <span className="text-sm opacity-80">
+                    Oynatmak için tıklayın (YouTube)
+                  </span>
+                </button>
+              )}
+            </div>
+
+            {/* Aşağı doğru inen liste */}
+            <div className="bg-slate-950/90 border border-slate-800 rounded-2xl max-h-56 overflow-y-auto p-3">
+              <div className="text-xs text-slate-300 mb-2">
+                Diğer videoları seçmek için listeden birine tıklayın.
+              </div>
+              <div className="space-y-2">
+                {VIDEOS.map((video) => {
+                  const isActive = video.id === activeId;
+                  return (
+                    <button
+                      key={video.id}
+                      type="button"
+                      onClick={() => {
+                        setActiveId(video.id);
+                        setLoadPlayer(true);
+                      }}
+                      className={`w-full flex items-center gap-3 rounded-xl overflow-hidden border text-left text-sm transition-colors ${
+                        isActive
+                          ? "border-purple-500 bg-purple-900/40"
+                          : "border-slate-800 bg-slate-900/60 hover:bg-slate-800/80"
+                      }`}
+                    >
+                      <img
+                        src={`https://i.ytimg.com/vi/${video.id}/mqdefault.jpg`}
+                        alt={video.title}
+                        className="w-20 h-12 object-cover flex-shrink-0"
+                        loading="lazy"
+                      />
+                      <span className="pr-3 line-clamp-2 text-slate-100">
+                        {video.title}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Simge buton – expanded açıkken de dursun (isteğe bağlı) */}
+      </>
+    );
+  }
+
+  /* ============== KÜÇÜK SÜRÜKLENEBİLİR PENCERE ============== */
+
+  const baseWidth = 320;
+  const baseHeight = 190; // video alanı
 
   return (
     <div
@@ -139,7 +258,6 @@ export default function StickyVideoRail() {
         position: "fixed",
         zIndex: 60,
         width: baseWidth,
-        height: baseHeight + 56, // header + player
         left: position.x,
         top: position.y,
       }}
@@ -147,80 +265,84 @@ export default function StickyVideoRail() {
       aria-label="Sahneva video galerisi"
     >
       {/* Üst bar: drag + butonlar */}
-      <div
-        className="flex items-center justify-between px-3 py-2 cursor-move select-none bg-slate-900/80 text-xs"
-        onPointerDown={handlePointerDown}
-      >
-        <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between px-3 py-2 bg-slate-900/80 text-xs select-none">
+        <div
+          className="flex items-center gap-2 cursor-move"
+          onPointerDown={handlePointerDown}
+        >
           <span className="inline-flex w-2 h-2 rounded-full bg-emerald-400" />
           <span className="font-semibold">Sahneva Proje Videoları</span>
         </div>
-        <div className="flex items-center gap-1 cursor-default">
+        <div className="flex items-center gap-1">
           <button
             type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsExpanded((prev) => !prev);
-            }}
+            onClick={() => setShowList((p) => !p)}
             className="w-6 h-6 rounded-md bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-[11px] focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
-            aria-label={isExpanded ? "Videoyu küçült" : "Videoyu büyüt"}
+            aria-label={showList ? "Video listesini gizle" : "Video listesini göster"}
           >
-            {isExpanded ? "▢" : "▣"}
+            {showList ? "▾" : "▴"}
           </button>
           <button
             type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsMinimized(true);
-            }}
+            onClick={() => setIsExpanded(true)}
             className="w-6 h-6 rounded-md bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-[11px] focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
-            aria-label="Pencereyi küçült"
+            aria-label="Videoyu büyüt"
+          >
+            ▣
+          </button>
+          <button
+            type="button"
+            onClick={() => setIsMinimized(true)}
+            className="w-6 h-6 rounded-md bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-[11px] focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
+            aria-label="Pencereyi simge durumuna küçült"
           >
             _
           </button>
         </div>
       </div>
 
-      {/* Ana içerik */}
-      <div className="flex-1 flex">
-        {/* Video player */}
-        <div className="flex-1 relative">
-          {!loadPlayer && (
-            <button
-              type="button"
-              onClick={() => setLoadPlayer(true)}
-              className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 text-white gap-3 group"
-            >
-              <div className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center shadow-xl group-hover:scale-105 transition-transform">
-                ▶
-              </div>
-              <span className="text-xs opacity-80">
-                Oynatmak için tıklayın (YouTube)
-              </span>
-            </button>
-          )}
+      {/* Video player */}
+      <div
+        className="relative bg-black"
+        style={{ width: "100%", height: baseHeight }}
+      >
+        {!loadPlayer && (
+          <button
+            type="button"
+            onClick={() => setLoadPlayer(true)}
+            className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 text-white gap-3 group"
+          >
+            <div className="w-12 h-12 rounded-full bg-red-600 flex items-center justify-center shadow-xl group-hover:scale-105 transition-transform">
+              ▶
+            </div>
+            <span className="text-[11px] opacity-80">
+              Oynatmak için tıklayın
+            </span>
+          </button>
+        )}
 
-          {loadPlayer ? (
-            <iframe
-              title="Sahneva video oynatıcı"
-              src={getEmbedUrl(activeId)}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              className="w-full h-full border-0"
-              loading="lazy"
-            />
-          ) : (
-            <img
-              src={`https://i.ytimg.com/vi/${activeId}/hqdefault.jpg`}
-              alt="Sahneva video önizleme"
-              className="w-full h-full object-cover"
-              loading="lazy"
-            />
-          )}
-        </div>
+        {loadPlayer ? (
+          <iframe
+            title="Sahneva video oynatıcı"
+            src={getEmbedUrl(activeId)}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+            className="w-full h-full border-0"
+            loading="lazy"
+          />
+        ) : (
+          <img
+            src={`https://i.ytimg.com/vi/${activeId}/hqdefault.jpg`}
+            alt="Sahneva video önizleme"
+            className="w-full h-full object-cover"
+            loading="lazy"
+          />
+        )}
+      </div>
 
-        {/* Sağ tarafta küçük diğer videolar (desktop) */}
-        <div className="hidden md:flex flex-col w-28 border-l border-slate-800 bg-slate-950/70">
+      {/* Açılıp kapanan liste – aşağı doğru, scrollable */}
+      {showList && (
+        <div className="border-t border-slate-800 max-h-40 overflow-y-auto bg-slate-950/90">
           {VIDEOS.map((video) => {
             const isActive = video.id === activeId;
             return (
@@ -231,26 +353,26 @@ export default function StickyVideoRail() {
                   setActiveId(video.id);
                   setLoadPlayer(true);
                 }}
-                className={`relative flex-1 min-h-[64px] border-b border-slate-800 last:border-b-0 overflow-hidden text-[11px] text-left group ${
-                  isActive ? "bg-purple-600/40" : "hover:bg-slate-800/80"
+                className={`w-full flex items-center gap-2 px-2 py-2 text-left text-[11px] transition-colors ${
+                  isActive
+                    ? "bg-purple-700/50"
+                    : "hover:bg-slate-800/80"
                 }`}
               >
                 <img
-                  src={`https://i.ytimg.com/vi/${video.id}/mqdefault.jpg`}
+                  src={`https://i.ytimg.com/vi/${video.id}/default.jpg`}
                   alt={video.title}
-                  className="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-90"
+                  className="w-12 h-8 object-cover rounded"
                   loading="lazy"
                 />
-                <div className="relative z-10 p-2 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
-                  <div className="line-clamp-2 leading-snug">
-                    {video.title}
-                  </div>
-                </div>
+                <span className="line-clamp-2 text-slate-100">
+                  {video.title}
+                </span>
               </button>
             );
           })}
         </div>
-      </div>
+      )}
     </div>
   );
 }
