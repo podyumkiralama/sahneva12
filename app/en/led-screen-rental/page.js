@@ -12,6 +12,11 @@ const WA_TEXT =
   "Hello%2C+I'd+like+to+request+a+quote+for+LED+screen+rental.+Event+type%3A+%5Bconcert%2Fexpo%2Flaunch%5D%2C+Date%3A+%5Bdd.mm.yyyy%5D%2C+Screen+size%3A+%5Bxxx%5D.";
 const WHATSAPP = `https://wa.me/${PHONE.replace("+", "")}?text=${WA_TEXT}`;
 
+const createServiceWhatsAppLink = (serviceTitle) =>
+  `https://wa.me/${PHONE.replace("+", "")}?text=${encodeURIComponent(
+    `Hello, I'm interested in detailed information about your ${serviceTitle} package. Could you share pricing, availability and the recommended configuration for my event?`
+  )}`;
+
 // Base64 blur placeholder
 const BLUR_DATA_URL = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAADAAQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==";
 
@@ -40,7 +45,7 @@ export const metadata = {
     siteName: "Sahneva",
     locale: "en_US",
     images: [{
-      url: `${ORIGIN}/img/hizmet-led-ekran.webp`,
+      url: `${ORIGIN}/img/og.jpg`,
       width: 1200,
       height: 630,
       alt: "Sahneva LED screen rental - professional visual solutions"
@@ -51,7 +56,7 @@ export const metadata = {
     title: "LED Screen Rental | Professional LED Wall Solutions | Sahneva",
     description:
       "LED screen rental with high brightness, 4K processors and nationwide certified crews for concerts, expos and corporate events.",
-    images: [`${ORIGIN}/img/hizmet-led-ekran.webp`],
+    images: [`${ORIGIN}/img/og.jpg`],
   },
   robots: {
     index: true,
@@ -201,7 +206,6 @@ function Hero() {
             rel="noopener noreferrer"
             title="Request an LED screen quote on WhatsApp"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring shadow-lg"
-            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-2">💬</span> 
             <span className="text-base">Get a fast quote</span>
@@ -211,7 +215,6 @@ function Hero() {
             href="#services"
             title="Explore our LED screen services"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-white text-white/95 bg-white/10 backdrop-blur-lg hover:bg-white/20 hover:scale-105 transform transition-all duration-300 focus-ring shadow-lg"
-            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-2">🎯</span> 
             <span className="text-base">Our services</span>
@@ -257,9 +260,10 @@ function Services() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {SERVICES.map((service) => {
             const id = `svc-${slugify(service.title)}`;
+            const panelId = `${id}-panel`;
             return (
               <div key={id} className="group">
-                <article 
+                <article
                   className="bg-white rounded-3xl border-2 border-gray-100 shadow-xl hover:shadow-2xl p-8 group-hover:scale-105 transition-all duration-500 h-full flex flex-col"
                   aria-labelledby={id}
                 >
@@ -272,7 +276,7 @@ function Services() {
                   <p className="text-gray-600 mb-6 text-lg leading-relaxed flex-grow">
                     {service.description}
                   </p>
-                  <ul className="space-y-3">
+                  <ul className="space-y-3" id={panelId} aria-label={`${service.title} key features`}>
                     {service.features.map((feature) => (
                       <li key={feature} className="flex items-center gap-3 text-gray-700">
                         <span className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex-shrink-0" aria-hidden="true" />
@@ -280,6 +284,26 @@ function Services() {
                       </li>
                     ))}
                   </ul>
+                  <div className="mt-6 flex flex-wrap gap-3" aria-label={`${service.title} actions`}>
+                    <Link
+                      href={createServiceWhatsAppLink(service.title)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-transform focus-ring"
+                      aria-describedby={panelId}
+                    >
+                      <span aria-hidden="true">💬</span>
+                      <span>Request details</span>
+                    </Link>
+                    <Link
+                      href="#cta"
+                      className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-gray-200 text-gray-800 font-semibold bg-gray-50 hover:bg-gray-100 hover:border-blue-200 transition-colors focus-ring"
+                      aria-describedby={panelId}
+                    >
+                      <span aria-hidden="true">📄</span>
+                      <span>View proposal options</span>
+                    </Link>
+                  </div>
                 </article>
               </div>
             );
@@ -292,7 +316,6 @@ function Services() {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring"
-            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">📞</span>
             <span>Request a detailed proposal</span>
@@ -363,7 +386,6 @@ function Gallery() {
           <Link
             href="/en/projects"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white transform transition-all duration-300 focus-ring"
-            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">📸</span>
             <span>View all projects</span>
@@ -375,45 +397,51 @@ function Gallery() {
 }
 
 /* ================== Technical infrastructure ================== */
-function Technical() {
-  const technicalItems = [
-    {
-      category: "pixel",
-      title: "Pixel technologies",
-      description: "P2.5–P6 pixel pitch options tailored to every audience distance",
-      features: ["P2.5: Premium indoor detail", "P3.9: Hybrid use", "P4: Outdoor standard", "P6: Long-distance viewing"]
-    },
-    {
-      category: "brightness",
-      title: "Brightness & visibility",
-      description: "Optimised luminance for indoor venues and open-air sunlight",
-      features: ["Indoor: 800–1500 nit", "Outdoor: 3500–6500 nit", "Auto brightness control", "Daylight clarity"]
-    },
-    {
-      category: "protection",
-      title: "Protection systems",
-      description: "Weather-resistant cabinets with IP-rated sealing and robust build",
-      features: ["IP65 front protection", "IP54 rear sealing", "UV-resistant housing", "Dust-proof modules"]
-    },
-    {
-      category: "control",
-      title: "Control systems",
-      description: "Professional video processing, switching and redundancy",
-      features: ["Novastar processors", "4K video scaling", "Media servers", "Remote monitoring"]
-    },
-    {
-      category: "rigging",
-      title: "Rigging systems",
-      description: "Engineered structures for rapid and safe installations",
-      features: ["Ground stack platforms", "Truss rigging", "Motorised hoists", "Quick-lock mechanisms"]
-    },
-    {
-      category: "support",
-      title: "Technical support",
-      description: "Round-the-clock engineers with backup inventory and diagnostics",
-      features: ["24/7 technical hotline", "Spare module stock", "Rapid response crew", "Remote diagnostics"]
-    }
-  ];
+  function Technical() {
+    const technicalItems = [
+      {
+        category: "pixel",
+        title: "Pixel technologies",
+        description: "P2.5–P6 pixel pitch options tailored to every audience distance",
+        features: ["P2.5: Premium indoor detail", "P3.9: Hybrid use", "P4: Outdoor standard", "P6: Long-distance viewing"],
+        icon: "🔍"
+      },
+      {
+        category: "brightness",
+        title: "Brightness & visibility",
+        description: "Optimised luminance for indoor venues and open-air sunlight",
+        features: ["Indoor: 800–1500 nit", "Outdoor: 3500–6500 nit", "Auto brightness control", "Daylight clarity"],
+        icon: "☀️"
+      },
+      {
+        category: "protection",
+        title: "Protection systems",
+        description: "Weather-resistant cabinets with IP-rated sealing and robust build",
+        features: ["IP65 front protection", "IP54 rear sealing", "UV-resistant housing", "Dust-proof modules"],
+        icon: "🛡️"
+      },
+      {
+        category: "control",
+        title: "Control systems",
+        description: "Professional video processing, switching and redundancy",
+        features: ["Novastar processors", "4K video scaling", "Media servers", "Remote monitoring"],
+        icon: "🎮"
+      },
+      {
+        category: "rigging",
+        title: "Rigging systems",
+        description: "Engineered structures for rapid and safe installations",
+        features: ["Ground stack platforms", "Truss rigging", "Motorised hoists", "Quick-lock mechanisms"],
+        icon: "⚡"
+      },
+      {
+        category: "support",
+        title: "Technical support",
+        description: "Round-the-clock engineers with backup inventory and diagnostics",
+        features: ["24/7 technical hotline", "Spare module stock", "Rapid response crew", "Remote diagnostics"],
+        icon: "📞"
+      }
+    ];
 
   return (
     <section className="py-20 bg-gradient-to-b from-gray-50 to-white" aria-labelledby="technical-title">
@@ -433,12 +461,7 @@ function Technical() {
               <div className="bg-white rounded-3xl border-2 border-gray-100 p-8 shadow-lg hover:shadow-xl group-hover:scale-105 transition-all duration-500 h-full">
                 <h3 className="font-bold text-2xl text-gray-900 mb-4 group-hover:text-blue-600 transition-colors flex items-center gap-3">
                   <span className="text-3xl" aria-hidden="true">
-                    {item.category === "pixel" && "🔍"}
-                    {item.category === "brightness" && "☀️"}
-                    {item.category === "protection" && "🛡️"}
-                    {item.category === "control" && "🎮"}
-                    {item.category === "rigging" && "⚡"}
-                    {item.category === "support" && "📞"}
+                    {item.icon}
                   </span>
                   {item.title}
                 </h3>
@@ -537,7 +560,6 @@ function UseCases() {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-white text-blue-700 hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring"
-            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">💬</span>
             <span>Request a tailored solution for your event</span>
@@ -830,28 +852,44 @@ function FAQ() {
         </div>
 
         <ul className="space-y-6 list-none" aria-label="Frequently asked questions">
-          {faqs.map((faq, index) => (
-            <li key={index}>
-              <details
-                className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border"
-              >
-                <summary
-                  className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900"
+          {faqs.map((faq, index) => {
+            const summaryId = `faq-summary-${index}`;
+            const panelId = `faq-panel-${index}`;
+
+            return (
+              <li key={index}>
+                {/**
+                 * Using <details> provides a native, accessible accordion. Summary elements are focusable by default,
+                 * so no tabIndex is necessary. The heading references the answer region via aria-controls for clarity.
+                 */}
+                <details
+                  className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border"
                 >
-                  <span className="pr-4">{faq.q}</span>
-                  <span
-                    aria-hidden="true"
-                    className="ml-4 transition-transform duration-500 group-open:rotate-180 text-blue-600 bg-blue-100 rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0"
+                  <summary
+                    id={summaryId}
+                    className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900"
+                    aria-controls={panelId}
                   >
-                    ⌄
-                  </span>
-                </summary>
-                <div className="mt-6 text-gray-700 leading-relaxed text-lg pl-4 border-l-4 border-blue-500" role="region">
-                  {faq.a}
-                </div>
-              </details>
-            </li>
-          ))}
+                    <span className="pr-4">{faq.q}</span>
+                    <span
+                      aria-hidden="true"
+                      className="ml-4 transition-transform duration-500 group-open:rotate-180 text-blue-600 bg-blue-100 rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0"
+                    >
+                      ⌄
+                    </span>
+                  </summary>
+                  <div
+                    id={panelId}
+                    className="mt-6 text-gray-700 leading-relaxed text-lg pl-4 border-l-4 border-blue-500"
+                    role="region"
+                    aria-labelledby={summaryId}
+                  >
+                    {faq.a}
+                  </div>
+                </details>
+              </li>
+            );
+          })}
         </ul>
 
         <div className="text-center mt-12">
@@ -862,7 +900,6 @@ function FAQ() {
             href="/en/faq#led"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring"
             title="Explore all LED screen FAQs"
-            role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">📚</span>
             <span className="text-lg">View LED screen FAQs</span>
@@ -967,7 +1004,7 @@ function RelatedServices() {
 /* ================== CTA ================== */
 function CTA() {
   return (
-    <section className="py-20 bg-white" aria-labelledby="cta-title">
+    <section id="cta" className="py-20 bg-white" aria-labelledby="cta-title">
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="bg-gradient-to-r from-blue-700 to-purple-700 rounded-3xl p-8 md:p-12 text-center text-white relative overflow-hidden">
           <div className="absolute inset-0 bg-black/10" aria-hidden="true"></div>
@@ -983,7 +1020,6 @@ function CTA() {
               <Link
                 href="/en/contact"
                 className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-white text-blue-700 hover:scale-105 transform transition-all duration-300 hover:shadow-2xl focus-ring shadow-lg"
-                role="button"
               >
                 <span aria-hidden="true" className="text-xl mr-3">📞</span>
                 <span className="text-lg">Request a proposal</span>
@@ -993,7 +1029,6 @@ function CTA() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-white text-white bg-transparent hover:bg-white/20 hover:scale-105 transform transition-all duration-300 focus-ring shadow-lg"
-                role="button"
               >
                 <span aria-hidden="true" className="text-xl mr-3">💬</span>
                 <span className="text-lg">Message us on WhatsApp</span>
