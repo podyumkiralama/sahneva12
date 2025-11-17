@@ -3,8 +3,16 @@ import "../styles/globals.css";
 import Script from "next/script";
 import { Inter } from "next/font/google";
 import SkipLinks from "@/components/SkipLinks";
-import UtilityBar from "@/components/UtilityBar.client";
-import StickyVideoRail from "@/components/StickyVideoRail";
+import dynamic from "next/dynamic";
+
+// Sticky video bileşeni (client, SSR yok)
+const StickyVideoRail = dynamic(
+  () => import("@/components/StickyVideoRail"),
+  {
+    ssr: false,
+    loading: () => null,
+  }
+);
 
 const inter = Inter({
   subsets: ["latin", "latin-ext", "arabic"],
@@ -230,10 +238,7 @@ export default function RootLayout({ children }) {
       <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
         <SkipLinks />
 
-        {/* 🔹 Önce video rail, hemen altında UtilityBar */}
-        <StickyVideoRail />
-        <UtilityBar />
-
+        {/* Buraya istersen UtilityBar, Navbar, Footer vs ekleyebilirsin */}
         {children}
 
         {/* GA4 (sadece production ve ID varsa) */}
@@ -274,6 +279,9 @@ export default function RootLayout({ children }) {
             `}
           </Script>
         )}
+
+        {/* Sticky video rail – tüm sayfalarda görünür */}
+        <StickyVideoRail />
       </body>
     </html>
   );
