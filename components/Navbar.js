@@ -556,11 +556,16 @@ export default function Navbar() {
         <nav
           id="primary-navigation-mobile"
           aria-label={headerStrings?.navLabel ?? "Ana gezinme"}
+          className="lg:hidden fixed z-50 left-0 right-0 top-16 bg-white border-t border-neutral-200 shadow-2xl max-h-[80vh] opacity-100 transition-all duration-300 overflow-hidden"
         >
-          <div className="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
-            <Link
-              href="/hakkimizda"
-              onClick={() => setMobileOpen(false)}
+          <nav
+            id="primary-navigation-mobile"
+            aria-label={headerStrings?.navLabel ?? "Ana gezinme"}
+          >
+            <div className="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
+              <Link
+                href="/hakkimizda"
+                onClick={() => setMobileOpen(false)}
               className={`flex items-center gap-3 py-3.5 px-4 text-neutral-800 font-bold text-[15px] rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 transform hover:scale-[1.02] ${focusRingClass}`}
               aria-current={active("/hakkimizda") ? "page" : undefined}
               title="Sahneva Hakkında"
@@ -674,6 +679,7 @@ export default function Navbar() {
           </div>
         </nav>
       </div>
+      )}
     </>
   );
 }
