@@ -6,6 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
+import { NAVBAR_A11Y_IDS } from "@/lib/accessibility/constants";
 
 const focusRingClass = "focus-ring";
 const MOBILE_MENU_HEADING_ID = "navbar-mobile-menu-heading";
