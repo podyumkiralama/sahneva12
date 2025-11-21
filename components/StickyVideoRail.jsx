@@ -82,7 +82,6 @@ export default function StickyVideoRail() {
   const dragRef = useRef(null);
   const startPosRef = useRef({ mouseX: 0, mouseY: 0, x: 0, y: 0 });
 
-  // İlk mount + cihaz tipi
   useEffect(() => {
     setIsMounted(true);
     if (typeof window !== "undefined") {
@@ -90,7 +89,6 @@ export default function StickyVideoRail() {
     }
   }, []);
 
-  // Scroll sonrası otomatik görünme
   useEffect(() => {
     if (!isMounted || hasAutoShown) return;
 
@@ -111,7 +109,6 @@ export default function StickyVideoRail() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [isMounted, hasAutoShown, isMobile]);
 
-  // Drag
   useEffect(() => {
     if (!dragging || !dragRef.current) return;
 
@@ -164,7 +161,6 @@ export default function StickyVideoRail() {
 
   if (!isMounted) return null;
 
-  // Handler'lar
   const handlePlay = () => {
     setHasStarted(true);
     setIsOpen(true);
@@ -204,39 +200,48 @@ export default function StickyVideoRail() {
   if (isExpanded && isOpen) {
     return (
       <div
-        className="fixed inset-0 z-[80] bg-black/80 backdrop-blur-sm flex items-center justify-center px-2 sm:px-6"
+        className="fixed inset-0 z-[80] bg-black/90 backdrop-blur-sm flex flex-col items-center px-2 sm:px-6 py-2"
         aria-modal="true"
         role="dialog"
         aria-label="Video oynatıcı"
       >
-        <div className="absolute top-2 sm:top-4 right-3 sm:right-6 flex gap-2 flex-wrap justify-end">
-          <button
-            type="button"
-            onClick={handleCollapseFromExpanded}
-            className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700 transition-colors flex items-center gap-2"
-          >
-            <span>↘️</span>
-            Küçült
-          </button>
-          <button
-            type="button"
-            onClick={handleToggleMinimize}
-            className="px-4 py-2 rounded-lg bg-gray-600 text-white text-sm hover:bg-gray-700 transition-colors flex items-center gap-2"
-          >
-            <span>🗕</span>
-            Simge Yap
-          </button>
-          <button
-            type="button"
-            onClick={handleClose}
-            className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm hover:bg-red-700 transition-colors flex items-center gap-2"
-          >
-            <span>✕</span>
-            Kapat
-          </button>
+        {/* ÜST SABİT BUTON BAR - Mobilde bile her zaman görünür */}
+        <div className="w-full max-w-6xl flex justify-between items-center mb-4 bg-black/80 rounded-xl px-4 py-3 border border-white/20">
+          <div className="flex items-center gap-2">
+            <span className="text-white font-semibold text-sm sm:text-base">
+              Sahneva Video Galerisi
+            </span>
+          </div>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={handleCollapseFromExpanded}
+              className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700 transition-colors flex items-center gap-2 font-medium"
+            >
+              <span className="text-lg">↘️</span>
+              <span className="hidden sm:inline">Küçült</span>
+            </button>
+            <button
+              type="button"
+              onClick={handleToggleMinimize}
+              className="px-4 py-2 rounded-lg bg-gray-600 text-white text-sm hover:bg-gray-700 transition-colors flex items-center gap-2 font-medium"
+            >
+              <span className="text-lg">🗕</span>
+              <span className="hidden sm:inline">Simge</span>
+            </button>
+            <button
+              type="button"
+              onClick={handleClose}
+              className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm hover:bg-red-700 transition-colors flex items-center gap-2 font-medium"
+            >
+              <span className="text-lg">✕</span>
+              <span className="hidden sm:inline">Kapat</span>
+            </button>
+          </div>
         </div>
 
-        <div className="relative w-full max-w-6xl max-h-[90vh] flex flex-col md:flex-row gap-4 md:gap-6">
+        {/* İÇERİK ALANI */}
+        <div className="relative w-full max-w-6xl flex-1 flex flex-col md:flex-row gap-4 md:gap-6">
           {/* Ana video */}
           <div className="flex-1 bg-black rounded-2xl overflow-hidden shadow-2xl border border-white/10">
             <div className="relative w-full aspect-video">
@@ -278,13 +283,16 @@ export default function StickyVideoRail() {
           {/* Playlist */}
           <aside className="w-full md:w-64 lg:w-72 bg-slate-900/90 border border-white/10 rounded-2xl shadow-xl flex flex-col overflow-hidden">
             <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between">
-              <div>
-                <p className="text-xs uppercase tracking-wide text-slate-400">
-                  Oynatma Listesi
-                </p>
-                <p className="text-sm font-semibold text-white">
-                  Diğer videolar
-                </p>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                <div>
+                  <p className="text-xs uppercase tracking-wide text-slate-400">
+                    Oynatma Listesi
+                  </p>
+                  <p className="text-sm font-semibold text-white">
+                    Diğer videolar
+                  </p>
+                </div>
               </div>
               <span className="text-xs bg-blue-500 text-white px-2 py-1 rounded-full">
                 {playlistForExpanded.length}
@@ -372,20 +380,15 @@ export default function StickyVideoRail() {
       }}
     >
       <div className="mb-4 w-[280px] sm:w-[340px] bg-slate-900/95 border border-white/20 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-lg">
-        {/* Başlık + drag alanı */}
+        {/* Başlık + drag alanı - Kırmızı sarı yeşil banner kaldırıldı */}
         <div
           className="flex items-center justify-between px-4 py-3 cursor-move select-none bg-gradient-to-r from-slate-800 to-slate-900 border-b border-white/10"
           onMouseDown={startDrag}
           onTouchStart={startDrag}
         >
           <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1">
-              <span className="inline-flex w-2 h-2 rounded-full bg-red-500" />
-              <span className="inline-flex w-2 h-2 rounded-full bg-yellow-400" />
-              <span className="inline-flex w-2 h-2 rounded-full bg-green-500" />
-            </div>
-            <span className="ml-2 text-sm font-semibold text-slate-100 flex items-center gap-2">
-              <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+            <span className="text-sm font-semibold text-slate-100 flex items-center gap-2">
+              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
               Sahneva Video Galerisi
             </span>
           </div>
@@ -394,16 +397,16 @@ export default function StickyVideoRail() {
               type="button"
               onClick={handleExpand}
               aria-label="Videoyu büyüt"
-              className="p-2 rounded-lg hover:bg-white/10 transition-colors text-slate-100 group"
+              className="p-2 rounded-lg hover:bg-blue-600 transition-colors text-white bg-blue-500/80 group font-medium"
               title="Tam Ekran"
             >
-              <span className="group-hover:scale-110 transition-transform">⤢</span>
+              <span className="group-hover:scale-110 transition-transform text-sm">⤢ BÜYÜT</span>
             </button>
             <button
               type="button"
               onClick={handleToggleMinimize}
               aria-label="Simge durumuna küçült"
-              className="p-2 rounded-lg hover:bg-white/10 transition-colors text-slate-100 group"
+              className="p-2 rounded-lg hover:bg-gray-600 transition-colors text-slate-100 group"
               title="Simge Yap"
             >
               <span className="group-hover:scale-110 transition-transform">🗕</span>
@@ -412,7 +415,7 @@ export default function StickyVideoRail() {
               type="button"
               onClick={handleClose}
               aria-label="Kapat"
-              className="p-2 rounded-lg hover:bg-red-500/20 transition-colors text-slate-100 group"
+              className="p-2 rounded-lg hover:bg-red-600 transition-colors text-slate-100 group"
               title="Kapat"
             >
               <span className="group-hover:scale-110 transition-transform">✕</span>
@@ -461,6 +464,7 @@ export default function StickyVideoRail() {
         <details className="group border-t border-white/10">
           <summary className="flex items-center justify-between px-4 py-3 text-sm text-slate-200 cursor-pointer select-none hover:bg-white/5 transition-colors">
             <div className="flex items-center gap-2">
+              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
               <span className="font-medium">Diğer Videolar</span>
               <span className="text-xs bg-blue-500 text-white px-2 py-1 rounded-full">
                 {VIDEOS.length - 1}
