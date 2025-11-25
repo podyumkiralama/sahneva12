@@ -3,8 +3,7 @@ import "../styles/globals.css";
 import Script from "next/script";
 import { Inter } from "next/font/google";
 import SkipLinks from "@/components/SkipLinks";
-import UtilityBar from "@/components/UtilityBar.client";
-import StickyVideoRail from "@/components/StickyVideoRail";
+// UtilityBar ve StickyVideoRail buradan kaldırıldı (TurkishLayout'a taşındı)
 
 const inter = Inter({
   subsets: ["latin", "latin-ext", "arabic"],
@@ -230,12 +229,10 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
+        {/* SkipLinks erişilebilirlik için en tepede kalmalı */}
         <SkipLinks />
 
-        {/* 🔹 Önce video rail, hemen altında UtilityBar */}
-        <StickyVideoRail />
-        <UtilityBar />
-
+        {/* UI Elementleri (Navbar, Utility vb.) buradan kaldırıldı çünkü children (TurkishLayout) içinde zaten varlar. */}
         {children}
 
         {/* GA4 (sadece production ve ID varsa) */}
@@ -261,7 +258,7 @@ export default function RootLayout({ children }) {
           </>
         )}
 
-        {/* Performans observer (CLS, FID vs için hook noktası) */}
+        {/* Performans observer */}
         {isProd && (
           <Script id="performance-observer" strategy="afterInteractive">
             {`
