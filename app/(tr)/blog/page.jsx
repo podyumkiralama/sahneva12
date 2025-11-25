@@ -63,7 +63,8 @@ function normalizePostMeta(slug, rawMeta = {}) {
 /* ================== BLOG YAZILARINI AL (ASYNC) ================== */
 async function getBlogPosts() {
   try {
-    const blogDir = path.join(process.cwd(), "app/blog");
+    // *** BURAYI DEĞİŞTİRDİK ***
+    const blogDir = path.join(process.cwd(), "app", "(tr)", "blog");
 
     // Klasör kontrolü
     if (!existsSync(blogDir)) {
@@ -79,32 +80,27 @@ async function getBlogPosts() {
       if (!item.isDirectory()) return null;
 
       const postSlug = item.name;
-      // Kendisi (page.jsx) hariç tutmak için basit bir kontrol, gerçi slug klasörleri taranıyor
-      if (postSlug.startsWith(".")) return null; 
+      if (postSlug.startsWith(".")) return null;
 
       try {
-        // Dinamik import
+        // Bu kısım aynı kalıyor, çünkü dosyaya göre relatıve import
         const postModule = await import(`./${postSlug}/page`);
         const postMetadata = postModule.metadata || {};
-        
+
         return normalizePostMeta(postSlug, postMetadata);
       } catch (err) {
-        // Eğer klasörde page.jsx yoksa veya export metadata yoksa atla
-        // console.warn(`[Blog] ${postSlug} okunurken hata veya meta eksik.`);
+        // console.warn(`[Blog] ${postSlug} okunurken hata veya meta eksik.`, err);
         return null;
       }
     });
 
-    // Tüm promise'leri bekle
     const allPosts = await Promise.all(postsPromise);
 
-    // Null olanları (hata verenleri/draftları) filtrele ve sırala
     const validPosts = allPosts
       .filter((post) => post !== null && !post.draft)
       .sort((a, b) => new Date(b.date) - new Date(a.date));
 
     return validPosts;
-
   } catch (error) {
     console.error("[Blog] Kritik okuma hatası:", error);
     return [];
