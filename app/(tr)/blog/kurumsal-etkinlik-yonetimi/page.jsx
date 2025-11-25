@@ -329,7 +329,7 @@ export default function BlogPostCorporate() {
 
                 <figure className="my-10 not-prose">
                   <Image
-                    src="/img/blog/kurumsal-etkinlik-led-sahne.webp"
+                    src="/img/blog/kurumsal-etkinlik-led-ekran-sahne.webp"
                     alt="Kurumsal etkinlikte geniş LED ekranlı sahne"
                     width={1200}
                     height={675}
