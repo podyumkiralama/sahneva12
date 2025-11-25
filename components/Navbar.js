@@ -353,6 +353,22 @@ export default function Navbar() {
                 Hakkımızda
               </Link>
 
+              {/* Blog Linki Eklendi */}
+              <Link
+                href="/blog"
+                className={
+                  active("/blog")
+                    ? `relative text-[15px] font-bold transition-all duration-200 px-4 py-2.5 rounded-xl text-blue-700 bg-blue-50 border border-blue-200 ${focusRingClass}`
+                    : `relative text-[15px] font-bold transition-all duration-200 px-4 py-2.5 rounded-xl text-neutral-800 hover:text-blue-700 hover:bg-neutral-50 hover:border hover:border-neutral-200 ${focusRingClass}`
+                }
+                aria-current={active("/blog") ? "page" : undefined}
+                title="Sahneva Blog - Etkinlik planlama rehberleri ve ipuçları"
+                onMouseEnter={handleHover}
+                onMouseLeave={handleHoverEnd}
+              >
+                Blog
+              </Link>
+
               {/* Hizmetler açılır menü */}
               <div
                 className="relative"
@@ -569,6 +585,20 @@ export default function Navbar() {
                 👥
               </span>
               Hakkımızda
+            </Link>
+
+            {/* Blog Linki Eklendi (Mobil) */}
+            <Link
+              href="/blog"
+              onClick={() => setMobileOpen(false)}
+              className={`flex items-center gap-3 py-3.5 px-4 text-neutral-800 font-bold text-[15px] rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 transform hover:scale-[1.02] ${focusRingClass}`}
+              aria-current={active("/blog") ? "page" : undefined}
+              title="Sahneva Blog - Etkinlik planlama rehberleri"
+            >
+              <span className="text-lg" aria-hidden="true">
+                📝
+              </span>
+              Blog
             </Link>
 
             <div className="py-1">
