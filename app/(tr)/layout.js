@@ -1,11 +1,18 @@
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import UtilityBar from "../../components/UtilityBar.client";
+import StickyVideoRail from "@/components/StickyVideoRail"; // Bunu Root'tan buraya taşıdım
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export default function TurkishLayout({ children }) {
   return (
     <div className="flex flex-col min-h-screen">
+      {/* Skip Link erişilebilirlik için header'dan önce gelebilir veya Root'ta kalabilir, 
+          ama görsel akış burada başlıyor. */}
+          
+      {/* Video Rail ve Utility Bar buraya alındı */}
+      <StickyVideoRail />
+      
       <header
         id="_main_header"
         tabIndex={-1}
@@ -15,6 +22,7 @@ export default function TurkishLayout({ children }) {
         <UtilityBar />
         <Navbar />
       </header>
+
       <main
         id="_main_content"
         tabIndex={-1}
