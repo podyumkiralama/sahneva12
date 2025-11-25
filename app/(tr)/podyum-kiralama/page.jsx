@@ -4,27 +4,28 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 
 import { buildFaqSchema } from "@/lib/structuredData/faq";
-import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
+// Eğer serviceProducts dosyan yoksa veya hata veriyorsa aşağıdaki importu kaldırabilirsin
+// import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts"; 
 
 /* ================== Sabitler ================== */
 export const revalidate = 1800; // 30 Dakika ISR
 const ORIGIN = "https://www.sahneva.com";
-const PHONE = "+905453048671";
 const WHATSAPP_URL = `https://wa.me/905453048671?text=${encodeURIComponent("Merhaba, podyum kiralama için teklif istiyorum.")}`;
 
-// Base64 Placeholder (Blur efekti için)
+// Base64 Placeholder
 const BLUR_DATA_URL =
   "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAADAAQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==";
 
 /* ================== Dinamik Bileşenler ================== */
-// Yüklenene kadar layout kaymasını önlemek için sabit height'lı loading state
+
+// DÜZELTME: Server Component içinde ssr: false kullanılamaz. 
+// CaseGallery.jsx dosyasının en üstünde "use client"; yazdığından emin olun.
 const CaseGallery = dynamic(() => import("@/components/CaseGallery"), {
-  loading: () => <div className="h-96 w-full bg-gray-100 animate-pulse rounded-3xl" />,
-  ssr: false // Galeri genellikle client interaction gerektirir, SSR false yapılabilir (tercihe bağlı)
+  loading: () => <div className="h-96 w-full bg-gray-100 animate-pulse rounded-3xl" />
 });
 
 const PriceEstimatorPodyum = dynamic(() => import("@/components/PriceEstimatorPodyum"), {
-  loading: () => <div className="h-64 w-full bg-gray-50 animate-pulse rounded-3xl" />,
+  loading: () => <div className="h-64 w-full bg-gray-50 animate-pulse rounded-3xl" />
 });
 
 /* ================== META DATA ================== */
@@ -47,8 +48,7 @@ export const metadata = {
   },
 };
 
-/* ================== Data Objects ================== */
-// Fiyatlar ve içerik verisi dışarıda tutularak render temizlenir
+/* ================== Veri Objeleri ================== */
 const UNIT_PRICES = {
   platform_m2_week: 250,
   carpet_m2_week: 120,
@@ -105,12 +105,12 @@ const GALLERY_IMAGES = [
   "/img/galeri/podyum-kiralama-6.webp", "/img/galeri/podyum-kiralama-7.webp", "/img/galeri/podyum-kiralama-8.webp"
 ];
 
-/* ================== Sub-Components ================== */
+/* ================== Alt Bileşenler ================== */
 
 function StructuredData() {
-  // JSON-LD verilerini güvenli bir şekilde oluşturma
   const pageUrl = `${ORIGIN}/podyum-kiralama`;
   
+  // Basit service schema
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -138,7 +138,8 @@ function StructuredData() {
           { "@type": "ListItem", position: 2, name: "Podyum Kiralama", item: pageUrl }
         ]
       },
-      buildFaqSchema(FAQ_ITEMS)
+      // FAQ Schema (buildFaqSchema fonksiyonunun çalıştığını varsayıyoruz)
+      (buildFaqSchema ? buildFaqSchema(FAQ_ITEMS) : {})
     ]
   };
 
@@ -152,7 +153,7 @@ function StructuredData() {
 
 function HeroSection() {
   return (
-    <section className="relative flex items-center justify-center min-h-[90vh] bg-slate-900 overflow-hidden">
+    <section className="relative flex items-center justify-center min-h-[85vh] bg-slate-900 overflow-hidden">
       <div className="absolute inset-0 z-0">
         <Image
           src="/img/podyum/hero.webp"
@@ -167,8 +168,8 @@ function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-slate-900/50" />
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 text-center">
-        <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md rounded-full px-4 py-1.5 border border-white/20 mb-8 animate-fade-in-up">
+      <div className="relative z-10 container mx-auto px-4 text-center py-20">
+        <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md rounded-full px-4 py-1.5 border border-white/20 mb-8">
           <span className="relative flex h-3 w-3">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
@@ -191,7 +192,7 @@ function HeroSection() {
           <Link
             href={WHATSAPP_URL}
             target="_blank"
-            className="group relative px-8 py-4 bg-green-600 hover:bg-green-500 text-white rounded-2xl font-bold transition-all hover:-translate-y-1 shadow-lg shadow-green-900/20 flex items-center gap-3"
+            className="px-8 py-4 bg-green-600 hover:bg-green-500 text-white rounded-2xl font-bold transition-all hover:-translate-y-1 shadow-lg shadow-green-900/20 flex items-center gap-3"
           >
             <span className="text-2xl">💬</span>
             <span>WhatsApp Teklif Al</span>
@@ -286,7 +287,6 @@ function PackagesSection() {
         
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {PACKAGES.map((pkg) => {
-             // Basit fiyat hesaplama
              const basePrice = pkg.layout.area * UNIT_PRICES.platform_m2_week;
              const totalPrice = basePrice + UNIT_PRICES.istanbul_setup;
 
@@ -369,7 +369,7 @@ function FAQSection() {
 function CTASection() {
   return (
     <section className="py-24 bg-blue-900 relative overflow-hidden">
-      <div className="absolute inset-0 opacity-20 bg-[url('/img/pattern.png')] bg-repeat opacity-10"></div>
+      <div className="absolute inset-0 opacity-20 bg-[url('/img/pattern.png')] bg-repeat"></div>
       <div className="container mx-auto px-4 relative z-10 text-center text-white">
         <h2 className="text-3xl md:text-5xl font-black mb-6">Etkinliğinizi Riske Atmayın</h2>
         <p className="text-xl text-blue-100 max-w-2xl mx-auto mb-10">
@@ -386,7 +386,7 @@ function CTASection() {
   );
 }
 
-/* ================== MAIN PAGE COMPONENT ================== */
+/* ================== PAGE COMPONENT ================== */
 export default function PodyumKiralamaPage() {
   return (
     <>
