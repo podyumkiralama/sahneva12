@@ -7,13 +7,12 @@ import { buildFaqSchema } from "@/lib/structuredData/faq";
 /* ================== 1. AYARLAR & SABİTLER ================== */
 export const revalidate = 1800; // 30 Dakika ISR
 const ORIGIN = "https://www.sahneva.com";
-const PHONE = "+905453048671";
 const WHATSAPP_URL = `https://wa.me/905453048671?text=${encodeURIComponent("Merhaba, podyum kiralama için teklif istiyorum.")}`;
 
+// Blur placeholder
 const BLUR_DATA_URL = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAADAAQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==";
 
 /* ================== 2. DİNAMİK FİYAT MOTORU (TEK KAYNAK) ================== */
-// Fiyatları buradan yönetin. Burayı değiştirince HER YER (Ekran, Google, Hesaplayıcı) değişir.
 const UNIT_PRICES = {
   platform_m2_week: 250,      // m² başına podyum
   carpet_m2_week: 120,        // m² başına halı
@@ -22,13 +21,11 @@ const UNIT_PRICES = {
   currency: "TRY"
 };
 
-// Hesaplama Fonksiyonu
 const calculatePackagePrice = (layout) => {
   const base = layout.area * UNIT_PRICES.platform_m2_week;
   const carpet = layout.area * UNIT_PRICES.carpet_m2_week;
   const skirt = layout.perimeter * UNIT_PRICES.skirt_ml_week;
   const total = base + carpet + skirt + UNIT_PRICES.istanbul_setup;
-  
   return { base, carpet, skirt, total };
 };
 
@@ -137,25 +134,24 @@ export const metadata = {
   },
 };
 
-/* ================== 6. YAPI (BİLEŞENLER) ================== */
+/* ================== 6. BİLEŞENLER ================== */
 
-// --- JSON-LD (SEO Beyni) ---
+// --- JSON-LD ---
 function StructuredData() {
-  // Ürün Şemalarını Otomatik Oluştur
   const productSchemas = PACKAGES.map(pkg => {
     const prices = calculatePackagePrice(pkg.layout);
     return {
       "@type": "Product",
       name: pkg.name,
       description: pkg.note,
-      image: [`${ORIGIN}/img/podyum/hero.webp`], // Her paket için özel resim varsa buraya eklenmeli
+      image: [`${ORIGIN}/img/podyum/hero.webp`],
       sku: pkg.id,
       brand: { "@type": "Brand", name: "Sahneva" },
       offers: {
         "@type": "Offer",
         url: `${ORIGIN}/podyum-kiralama#${pkg.id}`,
         priceCurrency: UNIT_PRICES.currency,
-        price: prices.total, // Dinamik fiyat
+        price: prices.total,
         priceValidUntil: "2025-12-31",
         availability: "https://schema.org/InStock",
         itemCondition: "https://schema.org/NewCondition"
@@ -163,7 +159,6 @@ function StructuredData() {
     };
   });
 
-  // Makale Şeması
   const articleSchema = {
     "@type": "Article",
     headline: "Profesyonel Podyum Kiralama Rehberi",
@@ -201,6 +196,7 @@ function StructuredData() {
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />;
 }
 
+// --- HERO SECTION ---
 function HeroSection() {
   return (
     <section className="relative flex items-center justify-center overflow-hidden bg-slate-900 pt-20 min-h-[100svh] md:min-h-[80vh]">
@@ -269,6 +265,7 @@ function HeroSection() {
   );
 }
 
+// --- SERVICES SECTION ---
 function ServicesSection() {
   return (
     <section id="hizmetler" className="py-20 bg-gradient-to-b from-white to-blue-50/50">
@@ -293,11 +290,17 @@ function ServicesSection() {
             </article>
           ))}
         </div>
+        <div className="text-center mt-12">
+          <Link href={WHATSAPP_URL} target="_blank" className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl">
+            <span className="text-xl mr-3">📞</span> Detaylı Teklif için İletişime Geçin
+          </Link>
+        </div>
       </div>
     </section>
   );
 }
 
+// --- CALCULATOR SECTION ---
 function CalculatorSection() {
   return (
     <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
@@ -326,6 +329,7 @@ function CalculatorSection() {
   );
 }
 
+// --- PACKAGES SECTION ---
 function PackagesSection() {
   const formatTRY = (n) => new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 }).format(n);
 
@@ -343,9 +347,7 @@ function PackagesSection() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {PACKAGES.map((pkg, index) => {
-            // FİYAT HESAPLAMA BURADA YAPILIYOR
             const prices = calculatePackagePrice(pkg.layout);
-
             return (
               <article key={pkg.id} id={pkg.id} className="group h-full bg-white rounded-3xl border-2 border-gray-100 shadow-xl hover:shadow-2xl overflow-hidden transition-all duration-500 flex flex-col">
                 <div className="relative h-48 overflow-hidden">
@@ -391,6 +393,7 @@ function PackagesSection() {
   );
 }
 
+// --- GALLERY SECTION ---
 function GallerySection() {
   return (
     <section className="py-20 bg-gradient-to-b from-white to-blue-50/50">
@@ -416,6 +419,7 @@ function GallerySection() {
   );
 }
 
+// --- TECHNICAL SPECS SECTION ---
 function TechnicalSection() {
   return (
     <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
@@ -448,6 +452,7 @@ function TechnicalSection() {
   );
 }
 
+// --- STATS BAND ---
 function StatsSection() {
   const stats = [
     { value: "600+", label: "Başarılı Etkinlik", icon: "🎪" },
@@ -472,6 +477,7 @@ function StatsSection() {
   );
 }
 
+// --- USE CASES SECTION ---
 function UseCasesSection() {
   return (
     <section className="py-20 bg-gradient-to-br from-gray-900 to-blue-900/95">
@@ -508,6 +514,7 @@ function UseCasesSection() {
   );
 }
 
+// --- ARTICLES / GUIDES SECTION ---
 function ArticlesSection() {
   return (
     <section className="py-20 bg-gradient-to-b from-white to-gray-50/50">
@@ -584,6 +591,7 @@ function ArticlesSection() {
   );
 }
 
+// --- FAQ SECTION ---
 function FAQSection() {
   return (
     <section className="py-20 bg-white">
@@ -592,7 +600,11 @@ function FAQSection() {
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
             Sık Sorulan <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Sorular</span>
           </h2>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            Podyum kiralama hakkında merak edilen sorular ve cevapları
+          </p>
         </div>
+
         <div className="space-y-6">
           {FAQ_ITEMS.map((faq, index) => (
             <details key={index} className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border">
@@ -604,11 +616,27 @@ function FAQSection() {
             </details>
           ))}
         </div>
+
+        {/* BU BUTON GERİ EKLENDİ */}
+        <div className="text-center mt-12">
+          <p className="text-gray-600 text-lg mb-6">
+            Daha fazla sorunuz mu var? Uzman ekibimiz sizi arayıp bilgilendirsin.
+          </p>
+          <Link
+            href="/sss"
+            className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring"
+            title="Sık Sorulan Sorular sayfasındaki tüm soruları görüntüle"
+          >
+            <span aria-hidden="true" className="text-xl mr-3">📚</span>
+            <span className="text-lg">Tüm SSS&apos;yi Görüntüle</span>
+          </Link>
+        </div>
       </div>
     </section>
   );
 }
 
+// --- RELATED SERVICES SECTION ---
 function RelatedServicesSection() {
   return (
     <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-100/30">
@@ -617,6 +645,9 @@ function RelatedServicesSection() {
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
             Tamamlayıcı <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Hizmetlerimiz</span>
           </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Podyum kurulumunuzu tamamlayacak diğer profesyonel etkinlik çözümlerimiz
+          </p>
         </div>
         <ul className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
           {RELATED_SERVICES.map((service) => (
@@ -634,6 +665,7 @@ function RelatedServicesSection() {
   );
 }
 
+// --- CTA SECTION ---
 function CTASection() {
   return (
     <section className="py-20 bg-white">
