@@ -4,6 +4,7 @@ import Script from "next/script";
 import { Inter } from "next/font/google";
 import SkipLinks from "@/components/SkipLinks";
 import UtilityBar from "@/components/UtilityBar.client";
+import StickyVideoRail from "@/components/StickyVideoRail";
 
 const inter = Inter({
   subsets: ["latin", "latin-ext", "arabic"],
