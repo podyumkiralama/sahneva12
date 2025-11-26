@@ -3,31 +3,26 @@ import "../styles/globals.css";
 import Script from "next/script";
 import { Inter } from "next/font/google";
 import SkipLinks from "@/components/SkipLinks";
+import UtilityBar from "@/components/UtilityBar.client";
 import StickyVideoRail from "@/components/StickyVideoRail";
 
-// Font yapılandırması
 const inter = Inter({
-  subsets: ["latin", "latin-ext"],
-  display: "swap",
-  variable: "--font-inter",
-  // Preload true varsayılandır, LCP için önemlidir.
+  subsets: ["latin", "latin-ext", "arabic"],
   preload: true,
+  display: "swap",
+  adjustFontFallback: false,
 });
 
-/* ========================= JSON-LD DATA ========================= */
+/* ========================= JSON-LD: ORGANIZATION ========================= */
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "@id": "https://www.sahneva.com/#org",
   name: "Sahneva",
   url: "https://www.sahneva.com",
-  logo: {
-    "@type": "ImageObject",
-    url: "https://www.sahneva.com/img/logo.png",
-    width: 192,
-    height: 60
-  },
-  description: "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri kiralama hizmetleri",
+  logo: "https://www.sahneva.com/img/logo.png",
+  description:
+    "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri kiralama hizmetleri",
   contactPoint: {
     "@type": "ContactPoint",
     telephone: "+90-545-304-8671",
@@ -41,6 +36,7 @@ const organizationJsonLd = {
   ],
 };
 
+/* ========================= JSON-LD: LOCAL BUSINESS ========================= */
 const localBusinessJsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
@@ -64,13 +60,22 @@ const localBusinessJsonLd = {
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+      ],
       opens: "09:00",
       closes: "23:00",
     },
   ],
 };
 
+/* ========================= JSON-LD: WEBSITE ========================= */
 const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
@@ -78,7 +83,9 @@ const websiteJsonLd = {
   url: "https://www.sahneva.com",
   name: "Sahneva",
   inLanguage: "tr-TR",
-  publisher: { "@id": "https://www.sahneva.com/#org" },
+  publisher: {
+    "@id": "https://www.sahneva.com/#org",
+  },
   potentialAction: {
     "@type": "SearchAction",
     target: "https://www.sahneva.com/arama?q={search_term}",
@@ -86,31 +93,36 @@ const websiteJsonLd = {
   },
 };
 
-/* ===================== META CONFIG ===================== */
+/* ===================== META: VIEWPORT ===================== */
 export const viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: "#6d28d9",
 };
 
+/* ===================== META: DEFAULT ===================== */
 export const metadata = {
   metadataBase: new URL("https://www.sahneva.com"),
   title: {
     default: "Sahne, Podyum, LED Ekran & Ses-Işık Kiralama | Sahneva",
     template: "%s | Sahneva",
   },
-  description: "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı kurulum, profesyonel teknik ekip, uygun fiyat.",
+  description:
+    "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı kurulum, profesyonel teknik ekip, uygun fiyat. Hemen teklif alın!",
   manifest: "/site.webmanifest",
   alternates: {
     canonical: "https://www.sahneva.com",
     languages: {
       "tr-TR": "https://www.sahneva.com",
+      en: "https://www.sahneva.com/en",
+      ar: "https://www.sahneva.com/ar",
       "x-default": "https://www.sahneva.com",
     },
   },
   openGraph: {
     title: "Sahneva – Etkinlik Prodüksiyon & Organizasyon",
-    description: "Sahne, podyum, LED ekran, ses-ışık ve kurulum hizmetleri. Türkiye geneli.",
+    description:
+      "Sahne, podyum, LED ekran, ses-ışık ve kurulum hizmetleri. Türkiye geneli.",
     url: "https://www.sahneva.com",
     siteName: "Sahneva",
     images: [
@@ -138,13 +150,15 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Sahneva – Etkinlik Prodüksiyon & Organizasyon",
-    description: "Sahne, podyum, LED ekran, ses-ışık ve kurulum hizmetleri.",
+    description:
+      "Sahne, podyum, LED ekran, ses-ışık ve kurulum hizmetleri. Türkiye geneli.",
     images: ["/img/og.jpg"],
     creator: "@sahneva",
   },
   verification: {
     google: "H9p1RO-W1U3JDTjp0mM32blFkYABaTHNFnxVKKFfo08",
   },
+  category: "event services",
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -157,8 +171,19 @@ export const metadata = {
   },
 };
 
+/* ===================== CRITICAL CSS ===================== */
+const criticalCSS = `
+.pt-16{padding-top:4rem}
+@media (min-width:768px){.md\\:pt-20{padding-top:5rem}}
+.full-bleed{position:relative;margin:0 calc(50% - 50vw);width:100vw;min-height:60vh;overflow-x:clip}
+@media (min-width:768px){.full-bleed{min-height:70vh}}
+.object-cover{object-fit:cover}
+.container{max-width:1280px;margin:0 auto;padding:0 1rem}
+`;
+
 const DEFAULT_GA_MEASUREMENT_ID = "G-J5YK10YLLC";
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID?.trim() || DEFAULT_GA_MEASUREMENT_ID;
+const GA_MEASUREMENT_ID =
+  process.env.NEXT_PUBLIC_GA_ID?.trim() || DEFAULT_GA_MEASUREMENT_ID;
 const isProd = process.env.NODE_ENV === "production";
 
 export default function RootLayout({ children }) {
@@ -166,40 +191,62 @@ export default function RootLayout({ children }) {
     <html
       lang="tr"
       dir="ltr"
-      className={`${inter.variable} font-sans`}
-      suppressHydrationWarning // Bu sadece html tagindeki attribute mismatch'i gizler
+      className={inter.className}
+      suppressHydrationWarning
     >
       <head>
+        {/* Critical CSS */}
+        <style
+          id="critical-css"
+          dangerouslySetInnerHTML={{ __html: criticalCSS }}
+        />
+
+        {/* DNS Prefetch & Preconnect (GA) */}
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
+
+        {/* Global Structured Data */}
         <script
+          id="ld-org"
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify([organizationJsonLd, localBusinessJsonLd, websiteJsonLd]),
+            __html: JSON.stringify(organizationJsonLd),
+          }}
+        />
+        <script
+          id="ld-local"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(localBusinessJsonLd),
+          }}
+        />
+        <script
+          id="ld-website"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteJsonLd),
           }}
         />
       </head>
-      
-      {/* DÜZELTME: 'min-h-screen' ve 'flex' yapısı korundu.
-         font-sans class'ı Tailwind ile inter fontunu body'ye uygular.
-      */}
-      <body className="min-h-screen bg-white text-neutral-900 antialiased font-sans flex flex-col">
-        
-        {/* SkipLinks erişilebilirlik içindir, DOM'un en tepesinde olmalı */}
+      <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
         <SkipLinks />
 
-        {/* Ana içerik kapsayıcısı - Footer sticky olacaksa buraya flex-1 eklemek iyidir */}
-        <div className="flex-1 flex flex-col">
-          {children}
-        </div>
+        {/* 🔹 Önce video rail, hemen altında UtilityBar */}
+        <StickyVideoRail />
+        <UtilityBar />
 
-        {/* GA4 Script Optimasyonu: lazyOnload kullanıldı */}
+        {children}
+
+        {/* GA4 (sadece production ve ID varsa) */}
         {isProd && GA_MEASUREMENT_ID && (
           <>
             <Script
+              id="gtag-lib"
               src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-              strategy="lazyOnload" 
+              strategy="afterInteractive"
             />
-            <Script id="google-analytics" strategy="lazyOnload">
+            <Script id="ga-init" strategy="afterInteractive">
               {`
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
@@ -207,11 +254,27 @@ export default function RootLayout({ children }) {
                 gtag('config', '${GA_MEASUREMENT_ID}', {
                   page_title: document.title,
                   page_location: location.href,
-                  send_page_view: true
+                  transport_type: 'beacon'
                 });
               `}
             </Script>
           </>
+        )}
+
+        {/* Performans observer (CLS, FID vs için hook noktası) */}
+        {isProd && (
+          <Script id="performance-observer" strategy="afterInteractive">
+            {`
+              if ('PerformanceObserver' in window) {
+                const observer = new PerformanceObserver((list) => {
+                  list.getEntries().forEach((entry) => {
+                    if (entry.hadRecentInput) return;
+                  });
+                });
+                observer.observe({ entryTypes: ['layout-shift', 'first-input'] });
+              }
+            `}
+          </Script>
         )}
       </body>
     </html>
