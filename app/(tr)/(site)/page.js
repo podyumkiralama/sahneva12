@@ -1,5 +1,6 @@
 // app/(site)/page.js
 import Image from "next/image";
+import Link from "next/link"; // Düzeltme: Sayfa içi hızlı geçiş için eklendi
 import heroImg from "@/public/img/hero-bg.webp";
 
 // Statik bileşenler
@@ -366,7 +367,8 @@ export default function HomePage() {
 
       {/* HERO SECTION */}
       <section
-        className="relative min-h-[80vh] flex items-center justifycenter overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950 pt-16 lg:pt-20"
+        // DÜZELTME: justifycenter -> justify-center olarak düzeltildi
+        className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950 pt-16 lg:pt-20"
         aria-labelledby="hero-title"
       >
         {/* Arka plan görseli */}
@@ -684,10 +686,11 @@ export default function HomePage() {
                   <div className="prose max-w-none text-neutral-700">
                     <p className="text-base leading-relaxed">
                       <strong>Sahneva</strong> olarak Türkiye genelinde{" "}
-                      <a href="/sahne-kiralama" className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors">sahne kiralama</a>,{" "}
-                      <a href="/podyum-kiralama" className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors">podyum kurulumu</a>,{" "}
-                      <a href="/led-ekran-kiralama" className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors">LED ekran kiralama</a> ve{" "}
-                      <a href="/ses-isik-sistemleri" className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors">ses ışık sistemi kurulumu</a>{" "}
+                      {/* DÜZELTME: <a> yerine <Link> kullanıldı */}
+                      <Link href="/sahne-kiralama" className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors">sahne kiralama</Link>,{" "}
+                      <Link href="/podyum-kiralama" className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors">podyum kurulumu</Link>,{" "}
+                      <Link href="/led-ekran-kiralama" className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors">LED ekran kiralama</Link> ve{" "}
+                      <Link href="/ses-isik-sistemleri" className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors">ses ışık sistemi kurulumu</Link>{" "}
                       hizmetlerinde komple çözümler sunuyoruz.
                     </p>
                     <ul className="mt-4 space-y-2 text-neutral-700">
