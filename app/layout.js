@@ -4,11 +4,13 @@ import Script from "next/script";
 import { Inter } from "next/font/google";
 import SkipLinks from "@/components/SkipLinks";
 
-// Font yapılandırması - CLS optimizasyonu için varsayılan ayarlara dönüldü
+// Font yapılandırması
 const inter = Inter({
-  subsets: ["latin", "latin-ext"], // Arapça subset genelde Inter'de yoktur, kaldırdım.
+  subsets: ["latin", "latin-ext"],
   display: "swap",
-  variable: "--font-inter", // Tailwind config'de kullanmak için variable tanımladım
+  variable: "--font-inter",
+  // Preload true varsayılandır, LCP için önemlidir.
+  preload: true,
 });
 
 /* ========================= JSON-LD DATA ========================= */
@@ -163,14 +165,11 @@ export default function RootLayout({ children }) {
     <html
       lang="tr"
       dir="ltr"
-      className={`${inter.variable} font-sans`} // Variable kullanımı daha modern
-      suppressHydrationWarning
+      className={`${inter.variable} font-sans`}
+      suppressHydrationWarning // Bu sadece html tagindeki attribute mismatch'i gizler
     >
       <head>
-        {/* DNS Prefetch */}
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
-        
-        {/* Global Structured Data - Script tag ile eklenmesi Hydration hatalarını azaltır */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -178,19 +177,28 @@ export default function RootLayout({ children }) {
           }}
         />
       </head>
-      <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
-        <SkipLinks />
+      
+      {/* DÜZELTME: 'min-h-screen' ve 'flex' yapısı korundu.
+         font-sans class'ı Tailwind ile inter fontunu body'ye uygular.
+      */}
+      <body className="min-h-screen bg-white text-neutral-900 antialiased font-sans flex flex-col">
         
-        {children}
+        {/* SkipLinks erişilebilirlik içindir, DOM'un en tepesinde olmalı */}
+        <SkipLinks />
 
-        {/* GA4 */}
+        {/* Ana içerik kapsayıcısı - Footer sticky olacaksa buraya flex-1 eklemek iyidir */}
+        <div className="flex-1 flex flex-col">
+          {children}
+        </div>
+
+        {/* GA4 Script Optimasyonu: lazyOnload kullanıldı */}
         {isProd && GA_MEASUREMENT_ID && (
           <>
             <Script
               src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-              strategy="afterInteractive"
+              strategy="lazyOnload" 
             />
-            <Script id="google-analytics" strategy="afterInteractive">
+            <Script id="google-analytics" strategy="lazyOnload">
               {`
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
