@@ -1,104 +1,68 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
+import DeferredHydration from "./DeferredHydration"; // Az önce düzenlediğimiz dosya
 
-/**
- * Defers hydrating expensive client components until they are near the viewport
- * or the main thread is idle. This helps Lighthouse mobile scores by reducing
- * the amount of JavaScript executed during the first paint.
- */
-export default function DeferredHydration({
-  children,
-  fallback = null,
-  rootMargin = "240px",
-  idleTimeout = 3000,
-  as: Component = "div",
-  className,
-  "aria-live": ariaLive,
-  "aria-busy": ariaBusy,
-  ...rest
-}) {
-  const containerRef = useRef(null);
-  const [shouldRender, setShouldRender] = useState(false);
+// —————————————————————————————————————————————————
+// 1. Ağır Bileşenleri Dinamik Olarak İçe Aktar (Dynamic Import)
+// Bu sayede kodlar ana pakete (bundle) dahil olmaz, sonradan yüklenir.
+// —————————————————————————————————————————————————
 
-  useEffect(() => {
-    if (shouldRender) return;
+// Örnek: ReviewBanner bileşeni
+const ReviewBanner = dynamic(() => import("@/components/ReviewBanner"), {
+  ssr: false, // Sunucuda render etme, sadece client'ta
+  loading: () => <div className="h-16 bg-neutral-100 animate-pulse" />, // Yüklenirken görünecek iskelet
+});
 
-    const node = containerRef.current;
-    if (!node) {
-      setShouldRender(true);
-      return;
-    }
+// Örnek: ServicesTabs bileşeni
+const ServicesTabs = dynamic(() => import("@/components/ServicesTabs"), {
+  ssr: true, // SEO için önemliyse true kalabilir, ama lazy yüklenir
+  loading: () => <div className="h-96 w-full bg-neutral-100 rounded-xl animate-pulse" />,
+});
 
-    let idleHandle;
-    const markReady = () => setShouldRender(true);
+// Örnek: ProjectsGallery bileşeni
+const ProjectsGallery = dynamic(() => import("@/components/ProjectsGallery"), {
+  ssr: false,
+  loading: () => <div className="h-[500px] w-full bg-neutral-900 rounded-xl animate-pulse" />,
+});
 
-    if (typeof window !== "undefined") {
-      const startIdle = () => {
-        if ("requestIdleCallback" in window) {
-          idleHandle = window.requestIdleCallback(markReady, { timeout: idleTimeout });
-        } else {
-          idleHandle = window.setTimeout(markReady, idleTimeout);
-        }
-      };
+// Örnek: FAQ bileşeni
+const Faq = dynamic(() => import("@/components/Faq"), {
+  ssr: true,
+});
 
-      if ("IntersectionObserver" in window) {
-        const observer = new IntersectionObserver((entries) => {
-          const entry = entries[0];
-          if (entry?.isIntersecting) {
-            markReady();
-            observer.disconnect();
-          }
-        }, { rootMargin });
+// —————————————————————————————————————————————————
+// 2. Deferred (Ertelenmiş) Versiyonları Oluştur
+// —————————————————————————————————————————————————
 
-        observer.observe(node);
-        startIdle();
-
-        return () => {
-          observer.disconnect();
-          if (idleHandle) {
-            if ("cancelIdleCallback" in window) {
-              window.cancelIdleCallback(idleHandle);
-            } else {
-              window.clearTimeout(idleHandle);
-            }
-          }
-        };
-      }
-
-      startIdle();
-    }
-
-    return () => {
-      if (idleHandle) {
-        if (typeof window !== "undefined" && "cancelIdleCallback" in window) {
-          window.cancelIdleCallback(idleHandle);
-        } else if (typeof window !== "undefined") {
-          window.clearTimeout(idleHandle);
-        }
-      }
-    };
-  }, [idleTimeout, rootMargin, shouldRender]);
-
-  const normalizedAriaBusy = (() => {
-    if (typeof ariaBusy === "boolean") return ariaBusy;
-    if (typeof ariaBusy === "string") {
-      const value = ariaBusy.toLowerCase();
-      if (value === "true") return true;
-      if (value === "false") return false;
-    }
-    return undefined;
-  })();
-
+export function ReviewBannerDeferred(props) {
   return (
-    <Component
-      ref={containerRef}
-      className={className}
-      aria-live={ariaLive}
-      aria-busy={shouldRender ? undefined : normalizedAriaBusy ?? true}
-      {...rest}
-    >
-      {shouldRender ? children : fallback}
-    </Component>
+    <DeferredHydration idleTimeout={2000} {...props}>
+      <ReviewBanner />
+    </DeferredHydration>
+  );
+}
+
+export function ServicesTabsDeferred(props) {
+  return (
+    <DeferredHydration idleTimeout={3000} rootMargin="100px" {...props}>
+      <ServicesTabs />
+    </DeferredHydration>
+  );
+}
+
+export function ProjectsGalleryDeferred(props) {
+  return (
+    <DeferredHydration idleTimeout={4000} rootMargin="200px" {...props}>
+      <ProjectsGallery />
+    </DeferredHydration>
+  );
+}
+
+export function FaqDeferred(props) {
+  return (
+    <DeferredHydration idleTimeout={5000} {...props}>
+      <Faq />
+    </DeferredHydration>
   );
 }
