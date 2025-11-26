@@ -3,6 +3,7 @@ import "../styles/globals.css";
 import Script from "next/script";
 import { Inter } from "next/font/google";
 import SkipLinks from "@/components/SkipLinks";
+import StickyVideoRail from "@/components/StickyVideoRail";
 
 // Font yapılandırması
 const inter = Inter({
