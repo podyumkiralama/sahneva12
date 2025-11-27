@@ -1,4 +1,4 @@
-// app/layout.jsx
+// app/layout.js
 import "../styles/globals.css";
 import Script from "next/script";
 import { Inter } from "next/font/google";
@@ -93,14 +93,12 @@ const websiteJsonLd = {
   },
 };
 
-/* ===================== META: VIEWPORT ===================== */
 export const viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: "#6d28d9",
 };
 
-/* ===================== META: DEFAULT ===================== */
 export const metadata = {
   metadataBase: new URL("https://www.sahneva.com"),
   title: {
@@ -139,26 +137,7 @@ export const metadata = {
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Sahneva – Etkinlik Prodüksiyon & Organizasyon",
-    description:
-      "Sahne, podyum, LED ekran, ses-ışık ve kurulum hizmetleri. Türkiye geneli.",
-    images: ["/img/og.jpg"],
-    creator: "@sahneva",
-  },
-  verification: {
-    google: "H9p1RO-W1U3JDTjp0mM32blFkYABaTHNFnxVKKFfo08",
-  },
-  category: "event services",
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -171,7 +150,6 @@ export const metadata = {
   },
 };
 
-/* ===================== CRITICAL CSS ===================== */
 const criticalCSS = `
 .pt-16{padding-top:4rem}
 @media (min-width:768px){.md\\:pt-20{padding-top:5rem}}
@@ -200,13 +178,23 @@ export default function RootLayout({ children }) {
           id="critical-css"
           dangerouslySetInnerHTML={{ __html: criticalCSS }}
         />
-
-        {/* DNS Prefetch & Preconnect (GA) */}
+        {/* DNS Prefetch */}
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.google-analytics.com" />
+        
+        {/* NOT: JSON-LD scriptlerini buradan BODY içine taşıdık */}
+      </head>
+      <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
+        <SkipLinks />
+        <StickyVideoRail />
+        <UtilityBar />
 
-        {/* Global Structured Data */}
+        {children}
+
+        {/* ————————————————————————————————————————— */}
+        {/* GLOBAL SCHEMA (JSON-LD) - BODY ALTINDA GARANTİ ÇALIŞIR */}
+        {/* ————————————————————————————————————————— */}
         <script
           id="ld-org"
           type="application/ld+json"
@@ -228,17 +216,8 @@ export default function RootLayout({ children }) {
             __html: JSON.stringify(websiteJsonLd),
           }}
         />
-      </head>
-      <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
-        <SkipLinks />
 
-        {/* 🔹 Önce video rail, hemen altında UtilityBar */}
-        <StickyVideoRail />
-        <UtilityBar />
-
-        {children}
-
-        {/* GA4 (sadece production ve ID varsa) */}
+        {/* GA4 */}
         {isProd && GA_MEASUREMENT_ID && (
           <>
             <Script
@@ -259,22 +238,6 @@ export default function RootLayout({ children }) {
               `}
             </Script>
           </>
-        )}
-
-        {/* Performans observer (CLS, FID vs için hook noktası) */}
-        {isProd && (
-          <Script id="performance-observer" strategy="afterInteractive">
-            {`
-              if ('PerformanceObserver' in window) {
-                const observer = new PerformanceObserver((list) => {
-                  list.getEntries().forEach((entry) => {
-                    if (entry.hadRecentInput) return;
-                  });
-                });
-                observer.observe({ entryTypes: ['layout-shift', 'first-input'] });
-              }
-            `}
-          </Script>
         )}
       </body>
     </html>
