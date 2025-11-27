@@ -123,6 +123,7 @@ const nextConfig = {
   generateEtags: true,
   productionBrowserSourceMaps: false,
   trailingSlash: false,
+  swcMinify: true,
 
   // ❌ Webpack config KALDIRILDI - Turbopack ile çakışıyor
   // webpack: (config, { isServer }) => { ... }

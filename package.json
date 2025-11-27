@@ -38,8 +38,18 @@
     "globals": "16.4.0"
   },
   "browserslist": {
-    "production": ["chrome >= 115","edge >= 115","firefox >= 115","safari >= 17"],
-    "development": ["chrome >= 115","edge >= 115","firefox >= 115","safari >= 17"]
+    "production": [
+      "chrome >= 120",
+      "edge >= 120",
+      "firefox >= 120",
+      "safari >= 17.4"
+    ],
+    "development": [
+      "chrome >= 120",
+      "edge >= 120",
+      "firefox >= 120",
+      "safari >= 17.4"
+    ]
   },
   "engines": { "node": ">=20 <23" }
 }
