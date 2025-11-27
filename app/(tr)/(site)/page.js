@@ -14,6 +14,9 @@ import {
 // Animasyon bileşenleri
 import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
 
+// Video rail (YouTube oynatıcı)
+import StickyVideoRail from "@/components/StickyVideoRail";
+
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
   "https://www.sahneva.com";
@@ -175,7 +178,8 @@ function StructuredData() {
         "@type": "WebPage",
         "@id": WEBPAGE_ID,
         url: HOME_URL,
-        name: "Sahne Sistemleri, LED Ekran, Ses-Işık | Türkiye Geneli | Sahneva",
+        name:
+          "Sahne Sistemleri, LED Ekran, Ses-Işık | Türkiye Geneli | Sahneva",
         description:
           "Sahneva ile sahne, podyum, LED ekran, ses ve ışık sistemleri kiralama çözümlerini keşfedin. İstanbul merkezli, Türkiye geneli hizmet.",
         inLanguage: "tr-TR",
@@ -364,8 +368,7 @@ function StructuredData() {
           },
           {
             "@type": "Question",
-            name:
-              "Tek günlük veya kısa süreli etkinlikler için kiralama yapabilir miyim?",
+            name: "Tek günlük veya kısa süreli etkinlikler için kiralama yapabilir miyim?",
             acceptedAnswer: {
               "@type": "Answer",
               text:
@@ -472,14 +475,7 @@ function KeywordPills() {
   );
 }
 
-function CTAButton({
-  href,
-  label,
-  icon,
-  gradient = "from-blue-600 to-purple-600",
-  srHint,
-  ...rest
-}) {
+function CTAButton({ href, label, icon, gradient = "from-blue-600 to-purple-600", srHint, ...rest }) {
   return (
     <a
       href={href}
@@ -577,7 +573,7 @@ function ConsultationCard() {
 }
 
 // —————————————————————————————————————————
-// SAYFA
+// HERO BACKGROUND IMAGE
 // —————————————————————————————————————————
 function HeroBackgroundImage({
   alt = HERO_IMAGE_ALT,
@@ -601,6 +597,9 @@ function HeroBackgroundImage({
   );
 }
 
+// —————————————————————————————————————————
+// SAYFA
+// —————————————————————————————————————————
 export default function HomePage() {
   return (
     <div className="overflow-x-hidden">
@@ -674,7 +673,7 @@ export default function HomePage() {
               <CTAGroup />
             </ScrollReveal>
 
-            {/* === ÖNE ÇIKANLAR === */}
+            {/* Öne çıkanlar */}
             <ScrollReveal delay="4">
               <h2 className="sr-only">Öne çıkan özellikler</h2>
               <HeroFeatureGrid />
@@ -705,14 +704,8 @@ export default function HomePage() {
         {/* #teklif-al hedefi (Erişilebilir) */}
         <div id="teklif-al" className="sr-only" aria-hidden="true" />
 
-        <div className="sticky top-0 z-40">
-          <ReviewBannerDeferred
-            idleTimeout={2000}
-            rootMargin="0px"
-            className="block"
-            aria-live="polite"
-          />
-        </div>
+        {/* Google review banner – deferred + sticky bottom */}
+        <ReviewBannerDeferred idleTimeout={2000} rootMargin="0px" />
 
         {/* Hizmetler */}
         <section
@@ -898,7 +891,10 @@ export default function HomePage() {
                     </p>
                     <ul className="mt-4 space-y-2 text-neutral-700">
                       {SEO_TECH_FEATURES.map((item, i) => (
-                        <li key={i} className="flex items-center gap-3">
+                        <li
+                          key={i}
+                          className="flex items-center gap-3"
+                        >
                           <div
                             className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"
                             aria-hidden="true"
@@ -932,7 +928,10 @@ export default function HomePage() {
                     </p>
                     <ul className="mt-4 space-y-2 text-neutral-700">
                       {SEO_INFRA_FEATURES.map((item, i) => (
-                        <li key={i} className="flex items-center gap-3">
+                        <li
+                          key={i}
+                          className="flex items-center gap-3"
+                        >
                           <div
                             className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0"
                             aria-hidden="true"
@@ -968,6 +967,9 @@ export default function HomePage() {
           </div>
         </section>
       </div>
+
+      {/* YouTube sticky video rail – sadece scroll sonrası açılıyor */}
+      <StickyVideoRail />
     </div>
   );
 }
