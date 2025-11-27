@@ -611,7 +611,6 @@ export default function HomePage() {
         {/* #teklif-al hedefi (Erişilebilir) */}
         <div id="teklif-al" className="sr-only" aria-hidden="true" />
 
-        <div aria-hidden="true" className="h-12 lg:h-16" />
         <div className="sticky top-0 z-40">
           <ReviewBannerDeferred
             idleTimeout={2000}
