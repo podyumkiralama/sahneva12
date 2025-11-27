@@ -216,7 +216,5 @@ dangerouslySetInnerHTML={{ __html: criticalCSS }}
     )}
   </body>
 </html>
-```
-
 );
 }
