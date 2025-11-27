@@ -1066,10 +1066,14 @@ function SearchModal({ searchQuery, setSearchQuery, results, onClose }) {
         {/* Arama inputu */}
         <div className="px-4 py-3 border-b border-gray-100">
           <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+            <label htmlFor="site-search-input" className="sr-only">
+              Site içinde arama yapın
+            </label>
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" aria-hidden="true">
               🔍
             </span>
             <input
+              id="site-search-input"
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}

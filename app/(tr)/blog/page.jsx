@@ -266,9 +266,13 @@ export default async function BlogPage() {
                 <p className="text-blue-100 mb-8">Yeni yazılarımızdan ve etkinlik sektörü haberlerinden ilk siz haberdar olun.</p>
                 
                 <form className="flex flex-col sm:flex-row gap-3">
-                    <input 
-                        type="email" 
-                        placeholder="E-posta adresiniz" 
+                    <label htmlFor="newsletter-email" className="sr-only">
+                        Bülten e-posta adresi
+                    </label>
+                    <input
+                        id="newsletter-email"
+                        type="email"
+                        placeholder="E-posta adresiniz"
                         className="flex-1 px-5 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         required
                     />
