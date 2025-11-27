@@ -18,7 +18,6 @@ const DEFAULT_CARDS = [
     text: "LED ekran kurgu, sahne tasarımı, ışık şovları ve canlı yayın altyapısıyla etkileyici sunumlar.",
     icon: "🚀",
     gradient: "from-purple-500/10 to-blue-500/10",
-    // kontrast iyileştirme
     color: "text-purple-700",
   },
   {
@@ -29,7 +28,6 @@ const DEFAULT_CARDS = [
     text: "Çoklu mikrofon, simultane çeviri, sunum yönetimi ve kayıt çözümleriyle kusursuz akış.",
     icon: "🎤",
     gradient: "from-green-500/10 to-emerald-500/10",
-    // kontrast iyileştirme
     color: "text-green-700",
   },
   {
@@ -40,7 +38,6 @@ const DEFAULT_CARDS = [
     text: "Kurumsal kimliğe uygun sahne–dekor, çoklu ekran, video–ses yönetimi ve teknik ekip.",
     icon: "🤝",
     gradient: "from-orange-500/10 to-red-500/10",
-    // kontrast iyileştirme
     color: "text-orange-700",
   },
 ];
@@ -76,7 +73,6 @@ const DEFAULT_ADVANTAGES = [
   },
 ];
 
-// Optimized blur data URL for better performance
 const BLUR_DATA_URL =
   "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R";
 
@@ -210,10 +206,9 @@ export default function CorporateEvents({
           {dictionary.sectionTitleSr}
         </h2>
 
-        {/* KART LİSTESİ: ul/li + article (a11y) */}
+        {/* KART LİSTESİ: contain özelliği kaldırıldı */}
         <ul
           className="grid gap-8 md:grid-cols-3 mb-16"
-          style={{ contain: "layout style paint" }}
         >
           {cards.map((card, i) => (
             <li key={card.slug}>
@@ -300,10 +295,9 @@ export default function CorporateEvents({
               </h3>
             </div>
 
-            {/* AVANTAJ LİSTESİ */}
+            {/* AVANTAJ LİSTESİ: contain özelliği kaldırıldı */}
             <ul
               className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
-              style={{ contain: "layout style paint" }}
               aria-label={dictionary.advantagesAriaLabel}
             >
               {advantages.map((item, i) => (
@@ -348,7 +342,6 @@ export default function CorporateEvents({
               <span className="text-yellow-300">{dictionary.bannerTitleHighlight}</span>{" "}
               {dictionary.bannerTitleSuffix}
             </h3>
-            {/* kontrast: text-blue-100 → text-white/90 */}
             <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
               {dictionary.bannerDescription}
             </p>
