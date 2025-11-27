@@ -10,9 +10,12 @@ const SpeedInsights = dynamic(() => import("@vercel/speed-insights/next").then((
 
 const SLOW_CONNECTION_TYPES = new Set(["slow-2g", "2g"]);
 
+// Avoid vendor-prefixed Network Information API properties that trigger Lighthouse
+// "Deprecated API" warnings. Rely only on the standard `navigator.connection`
+// shape when it exists.
 function canLoadInsights() {
   if (typeof navigator === "undefined") return true;
-  const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  const connection = navigator.connection;
   if (!connection) return true;
   if (connection.saveData) return false;
   const effective = connection.effectiveType?.toLowerCase?.();
