@@ -424,25 +424,23 @@ export default function Navbar() {
                   onMouseEnter={openNow}
                 />
 
-                <div
+                <ul
                   id={servicesMenuId}
-                  role="menu"
                   aria-labelledby={servicesBtnId}
                   hidden={!servicesOpen}
                   className={`absolute left-0 top-full mt-2 w-80 bg-white border border-neutral-200 rounded-xl shadow-xl z-[60] overflow-hidden transition-all duration-200 ${
                     servicesOpen
                       ? "opacity-100 translate-y-0"
                       : "opacity-0 translate-y-2 pointer-events-none"
-                  }`}
+                  } flex flex-col p-2`}
                   onMouseEnter={openNow}
                   onMouseLeave={closeWithDelay}
+                  role="list"
                 >
-                  <div className="flex flex-col p-2">
-                    {serviceLinks.map(
-                      ({ href, label, title, icon, description }, index) => (
+                  {serviceLinks.map(
+                    ({ href, label, title, icon, description }, index) => (
+                      <li key={href} className="list-none">
                         <Link
-                          key={href}
-                          role="menuitem"
                           href={href}
                           ref={(node) => {
                             serviceItemRefs.current[index] = node;
@@ -470,10 +468,10 @@ export default function Navbar() {
                             </div>
                           </div>
                         </Link>
-                      )
-                    )}
-                  </div>
-                </div>
+                      </li>
+                    )
+                  )}
+                </ul>
               </div>
 
               <Link
