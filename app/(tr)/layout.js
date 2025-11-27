@@ -1,6 +1,7 @@
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import UtilityBar from "../../components/UtilityBar.client";
+// UtilityBar buradan kaldırılmalı çünkü Root Layout'ta zaten var.
+// import UtilityBar from "../../components/UtilityBar.client"; 
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export default function TurkishLayout({ children }) {
@@ -13,7 +14,6 @@ export default function TurkishLayout({ children }) {
         aria-label="Sahneva ana site başlığı"
         className="w-full"
       >
-        <UtilityBar />
         <Navbar />
       </header>
       <main
