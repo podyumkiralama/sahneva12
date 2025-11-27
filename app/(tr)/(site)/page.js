@@ -122,82 +122,9 @@ function StructuredData() {
   const FAQ_ID = `${HOME_URL}#faq`;
   const IMAGE_ID = `${HOME_URL}#og`;
 
-  const organizationNode = {
-    "@type": "Organization",
-    "@id": ORGANIZATION_ID,
-    name: "Sahneva",
-    url: SITE_URL,
-    logo: `${SITE_URL}/img/logo.png`,
-    sameAs: [
-      "https://www.instagram.com/sahnevaorganizasyon",
-      "https://www.youtube.com/@sahneva",
-    ],
-    contactPoint: {
-      "@type": "ContactPoint",
-      telephone: "+90-545-304-8671",
-      contactType: "customer service",
-      areaServed: "TR",
-      availableLanguage: ["tr"],
-    },
-  };
-
-  const localBusinessNode = {
-    "@type": "LocalBusiness",
-    "@id": `${SITE_URL}/#localbiz`,
-    name: "Sahneva",
-    url: SITE_URL,
-    image: `${SITE_URL}/img/logo.png`,
-    telephone: "+90-545-304-8671",
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Kağıthane",
-      addressRegion: "İstanbul",
-      addressCountry: "TR",
-    },
-    geo: {
-      "@type": "GeoCoordinates",
-      latitude: 41.081,
-      longitude: 28.9702,
-    },
-    priceRange: "₺₺",
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-          "Sunday",
-        ],
-        opens: "09:00",
-        closes: "23:00",
-      },
-    ],
-  };
-
-  const websiteNode = {
-    "@type": "WebSite",
-    "@id": WEBSITE_ID,
-    url: SITE_URL,
-    name: "Sahneva",
-    inLanguage: "tr-TR",
-    publisher: { "@id": ORGANIZATION_ID },
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${SITE_URL}/arama?q={search_term}`,
-      "query-input": "required name=search_term",
-    },
-  };
-
   const data = {
     "@context": "https://schema.org",
     "@graph": [
-      organizationNode,
-      localBusinessNode,
-      websiteNode,
       {
         "@type": "WebPage",
         "@id": WEBPAGE_ID,
