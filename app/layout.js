@@ -163,6 +163,7 @@ const DEFAULT_GA_MEASUREMENT_ID = "G-J5YK10YLLC";
 const GA_MEASUREMENT_ID =
   process.env.NEXT_PUBLIC_GA_ID?.trim() || DEFAULT_GA_MEASUREMENT_ID;
 const isProd = process.env.NODE_ENV === "production";
+const gaEnabled = isProd && Boolean(GA_MEASUREMENT_ID);
 
 export default function RootLayout({ children }) {
   return (
@@ -217,26 +218,21 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/* GA4 */}
-        {isProd && GA_MEASUREMENT_ID && (
+        {/* GA4 (dedupe safe) */}
+        {gaEnabled && (
           <>
             <Script
-              id="gtag-lib"
+              id="ga4-lib"
+              data-ga-id={GA_MEASUREMENT_ID}
               src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
               strategy="afterInteractive"
             />
-            <Script id="ga-init" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${GA_MEASUREMENT_ID}', {
-                  page_title: document.title,
-                  page_location: location.href,
-                  transport_type: 'beacon'
-                });
-              `}
-            </Script>
+            <Script
+              id="ga4-init"
+              src="/ga-init.js"
+              strategy="afterInteractive"
+              data-ga-id={GA_MEASUREMENT_ID}
+            />
           </>
         )}
       </body>
