@@ -43,7 +43,6 @@ const WHY_SAHNEVA_FEATURES = [
   { icon: "🏙️", title: "Türkiye Geneli Hizmet", desc: "İstanbul, Ankara, İzmir başta 81 ilde profesyonel hizmet.", stat: "81 İl" },
 ];
 
-// Katmanlı içerik bölümlerini ilk boyamadan hariç tutarak FCP/LCP'yi iyileştirir
 const BELOW_THE_FOLD_VISIBILITY_STYLE = Object.freeze({
   contentVisibility: "auto",
 });
@@ -66,7 +65,8 @@ const SEO_INFRA_FEATURES = [
 export const revalidate = 3600;
 
 // —————————————————————————————————————————
-// JSON-LD (Schema.org) – Sadece sayfaya özgü tipler
+// JSON-LD (Schema.org) – DÜZELTİLMİŞ HALİ
+// Not: WebSite şeması Root Layout'tan geldiği için buradan çıkarıldı.
 // —————————————————————————————————————————
 function StructuredData() {
   const HOME_URL = "https://www.sahneva.com/";
@@ -81,7 +81,6 @@ function StructuredData() {
   const data = {
     "@context": "https://schema.org",
     "@graph": [
-      // "WebSite" bloğu buradan kaldırıldı (Root Layout'ta olduğu için).
       {
         "@type": "WebPage",
         "@id": WEBPAGE_ID,
@@ -128,60 +127,6 @@ function StructuredData() {
             priceSpecification: {
               "@type": "UnitPriceSpecification",
               price: "1700.00",
-              priceCurrency: "TRY",
-              unitText: "günlük",
-              unitCode: "DAY",
-            },
-            availability: "https://schema.org/InStock",
-            areaServed: { "@type": "Country", name: "Türkiye" },
-            seller: { "@id": ORGANIZATION_ID },
-          },
-          {
-            "@type": "Offer",
-            itemOffered: {
-              "@type": "Service",
-              name: "Çadır Kiralama",
-              description: "Etkinlik çadırı kiralama",
-            },
-            priceSpecification: {
-              "@type": "UnitPriceSpecification",
-              price: "300.00",
-              priceCurrency: "TRY",
-              unitText: "m²",
-              unitCode: "MTK",
-            },
-            availability: "https://schema.org/InStock",
-            areaServed: { "@type": "Country", name: "Türkiye" },
-            seller: { "@id": ORGANIZATION_ID },
-          },
-          {
-            "@type": "Offer",
-            itemOffered: {
-              "@type": "Service",
-              name: "Sandalye Kiralama",
-              description: "Etkinlik sandalyesi kiralama",
-            },
-            priceSpecification: {
-              "@type": "UnitPriceSpecification",
-              price: "200.00",
-              priceCurrency: "TRY",
-              unitText: "günlük",
-              unitCode: "DAY",
-            },
-            availability: "https://schema.org/InStock",
-            areaServed: { "@type": "Country", name: "Türkiye" },
-            seller: { "@id": ORGANIZATION_ID },
-          },
-          {
-            "@type": "Offer",
-            itemOffered: {
-              "@type": "Service",
-              name: "Masa Kiralama",
-              description: "Davet masası kiralama",
-            },
-            priceSpecification: {
-              "@type": "UnitPriceSpecification",
-              price: "800.00",
               priceCurrency: "TRY",
               unitText: "günlük",
               unitCode: "DAY",
@@ -273,54 +218,13 @@ function StructuredData() {
                 "Kurulum süresi sahne/LED ekran ve ses-ışık altyapısının büyüklüğüne göre değişmekle birlikte çoğu kurulumumuz 2–6 saat arasında tamamlanır. Büyük konser ve miting sahnelerinde bu süre 1 güne kadar uzayabilir.",
             },
           },
-          {
-            "@type": "Question",
-            name: "Tek günlük veya kısa süreli etkinlikler için kiralama yapabilir miyim?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text:
-                "Evet, tek günlük, birkaç saatlik veya çok günlü etkinlikler için esnek kiralama seçenekleri sunuyoruz. Minimum kiralama süresi ve fiyatlandırma, kurulum yapılacak ekipmana göre değişir.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "Teklif süreci nasıl işliyor?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text:
-                "Web sitemiz, telefon veya WhatsApp üzerinden bize ulaştıktan sonra etkinlik detaylarınızı alıyor, gerekirse keşif yapıyor ve maksimum 2 saat içinde size net, kalem kalem açıklanmış bir teklif iletiyoruz.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "Ses-ışık sistemi için keşif yapıyor musunuz?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text:
-                "Büyük ölçekli etkinlikler, açık alan konserleri ve kurumsal lansmanlarda alanın akustiğini ve seyirci kapasitesini doğru hesaplamak için ücretsiz veya düşük maliyetli keşif hizmeti sunuyoruz.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "Teknik ekip etkinlik boyunca sahada kalıyor mu?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text:
-                "Evet. LED ekran operatörü, ses mühendisi, ışıkçı ve sahne teknisyenlerinden oluşan ekibimiz, etkinlik boyunca sahada kalarak tüm teknik süreci yönetir ve olası problemlere anında müdahale eder.",
-            },
-          },
         ],
       },
     ],
   };
 
-  return (
-    <script
-      type="application/ld+json"
-      suppressHydrationWarning
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
+  // Podyum kiralama sayfası ile birebir aynı script formatı:
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
 }
 
 // —————————————————————————————————————————
@@ -352,7 +256,7 @@ export default function HomePage() {
 
       {/* HERO SECTION */}
       <section
-        className="relative min-h-[80vh] flex items-center justifycenter overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950 pt-16 lg:pt-20"
+        className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950 pt-16 lg:pt-20"
         aria-labelledby="hero-title"
       >
         {/* Arka plan görseli */}
@@ -404,7 +308,6 @@ export default function HomePage() {
             </ScrollReveal>
 
             <ScrollReveal delay="2">
-              {/* Anahtar kelimeler */}
               <p className="text-white/90 text-lg md:text-xl lg:text-2xl mb-6 leading-relaxed font-medium max-w-4xl mx-auto">
                 <span className="bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text font-bold" aria-hidden="true">
                   Sahne Kiralama
@@ -417,7 +320,6 @@ export default function HomePage() {
                 <span className="bg-gradient-to-r from-cyan-400 to-blue-400 text-transparent bg-clip-text font-bold" aria-hidden="true">
                   Ses-Işık Sistemleri
                 </span>
-                <span className="sr-only">Sahne Kiralama, LED Ekran, Ses-Işık Sistemleri</span>
               </p>
 
               <p className="text-white/80 text-base md:text-lg mb-8 max-w-3xl mx-auto">
@@ -453,7 +355,7 @@ export default function HomePage() {
               </div>
             </ScrollReveal>
 
-            {/* === ÖNE ÇIKANLAR === */}
+            {/* Öne Çıkanlar */}
             <ScrollReveal delay="4">
               <h2 className="sr-only">Öne çıkan özellikler</h2>
               <ul className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12 list-none p-0 m-0">
@@ -513,7 +415,6 @@ export default function HomePage() {
 
       {/* Ana içerik başlangıcı */}
       <div id="main" className="relative">
-        {/* #teklif-al hedefi (Erişilebilir) */}
         <div id="teklif-al" className="sr-only" aria-hidden="true" />
 
         <div aria-hidden="true" className="h-12 lg:h-16" />
@@ -660,7 +561,6 @@ export default function HomePage() {
             </ScrollReveal>
 
             <div className="grid gap-6 lg:gap-8 lg:grid-cols-2">
-              {/* Sol blok */}
               <ScrollReveal direction="left">
                 <article className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 shadow-lg border border-blue-100">
                   <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
@@ -688,7 +588,6 @@ export default function HomePage() {
                 </article>
               </ScrollReveal>
 
-              {/* Sağ blok */}
               <ScrollReveal direction="right">
                 <article className="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-6 shadow-lg border border-purple-100">
                   <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
