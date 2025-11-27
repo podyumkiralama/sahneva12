@@ -6,6 +6,18 @@ import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 const REVIEW_URL = "https://g.page/r/CZhkMzkNOdgnEBI/review";
 const LS_KEY = "rvb.dismissed.v1";
 
+// Kullanıcı sayfanın ne kadarını scroll etmiş (0–1 arası)
+function getScrollRatio() {
+  if (typeof document === "undefined") return 0;
+
+  const doc = document.documentElement;
+  const scrollTop = doc.scrollTop || document.body.scrollTop || 0;
+  const scrollHeight = doc.scrollHeight || document.body.scrollHeight || 1;
+  const clientHeight = doc.clientHeight || window.innerHeight || 1;
+
+  return (scrollTop + clientHeight) / scrollHeight;
+}
+
 const BannerContent = memo(function BannerContent({
   title,
   subtitle,
@@ -25,10 +37,16 @@ const BannerContent = memo(function BannerContent({
       </div>
 
       <div className="min-w-0">
-        <p className="text-sm sm:text-base font-semibold text-neutral-900" id="review-title">
+        <p
+          className="text-sm sm:text-base font-semibold text-neutral-900"
+          id="review-title"
+        >
           {title}
         </p>
-        <p className="text-xs sm:text-sm text-neutral-600" id="review-subtitle">
+        <p
+          className="text-xs sm:text-sm text-neutral-600"
+          id="review-subtitle"
+        >
           {subtitle}
         </p>
       </div>
@@ -65,9 +83,19 @@ function ReviewBanner({
   ctaLabel = "Yorum Yaz",
   ctaAriaLabel = "Google üzerinde Sahneva için yorum yaz (yeni sekmede açılır)",
   closeAriaLabel = "Bu bildirimi kapat",
+  /**
+   * İstersen ileride prop ile oynayabil diye threshold ayrı:
+   * 0.5 = sayfanın %50'si, 0.8 = alta yakın, vs.
+   */
+  scrollThreshold = 0.5,
 }) {
-  const [hidden, setHidden] = useState(true);
+  // Kullanıcı kalıcı olarak kapattı mı?
+  const [dismissed, setDismissed] = useState(false);
+  // Scroll ile banner tetiklendi mi?
+  const [activated, setActivated] = useState(false);
+
   const wrapRef = useRef(null);
+
   const stickyStyle = useMemo(
     () => ({
       bottom: "max(0.75rem, env(safe-area-inset-bottom))",
@@ -75,12 +103,14 @@ function ReviewBanner({
     []
   );
 
+  const shouldShow = activated && !dismissed;
+
   // Banner yüksekliğini ölçüp :root'a CSS var olarak yaz
   const applyRootOffset = useCallback(() => {
     if (!wrapRef.current) return;
     const h = wrapRef.current.offsetHeight || 0;
     const root = document.documentElement;
-    root.style.setProperty("--rb-bottom", `${h + 8}px`); // +8px ekstra nefes payı
+    root.style.setProperty("--rb-bottom", `${h + 8}px`); // +8px nefes payı
     root.classList.add("has-review-banner");
   }, []);
 
@@ -90,43 +120,83 @@ function ReviewBanner({
     root.classList.remove("has-review-banner");
   }, []);
 
+  // İlk yüklemede daha önce dismiss etmiş mi kontrol et
   useEffect(() => {
-    const dismissed =
-      typeof window !== "undefined" && localStorage.getItem(LS_KEY) === "1";
-    setHidden(dismissed);
+    if (typeof window === "undefined") return;
+    try {
+      const dismissedValue = localStorage.getItem(LS_KEY);
+      if (dismissedValue === "1") {
+        setDismissed(true);
+      }
+    } catch {
+      // localStorage yoksa sessiz geç
+    }
   }, []);
 
+  // Scroll ile tetikleme (sayfanın ortalarına/sonuna gelince göster)
   useEffect(() => {
-    if (hidden || mode !== "sticky") {
-      clearRootOffset();
-      return;
-    }
-    // İlk ölçüm
-    applyRootOffset();
+    if (typeof window === "undefined") return;
+    if (dismissed || activated) return;
 
-    // Resize’da yeniden hesapla
-    const ro = new ResizeObserver(() => applyRootOffset());
-    if (wrapRef.current) ro.observe(wrapRef.current);
-    window.addEventListener("orientationchange", applyRootOffset);
+    const handleScroll = () => {
+      const ratio = getScrollRatio();
+      if (ratio >= scrollThreshold) {
+        setActivated(true);
+        window.removeEventListener("scroll", handleScroll);
+      }
+    };
+
+    // Kullanıcı zaten aşağıdaysa (örn. anchor ile geldi) hemen kontrol et
+    handleScroll();
+    if (!activated && !dismissed) {
+      window.addEventListener("scroll", handleScroll, { passive: true });
+    }
 
     return () => {
-      ro.disconnect();
-      window.removeEventListener("orientationchange", applyRootOffset);
-      clearRootOffset();
+      window.removeEventListener("scroll", handleScroll);
     };
-  }, [hidden, mode, applyRootOffset, clearRootOffset]);
+  }, [dismissed, activated, scrollThreshold]);
+
+  // Sticky modda root offset'i yönet
+  useEffect(() => {
+    if (!shouldShow || mode !== "sticky") {
+      if (typeof document !== "undefined") clearRootOffset();
+      return;
+    }
+
+    applyRootOffset();
+
+    const ro =
+      typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(() => applyRootOffset())
+        : null;
+
+    if (wrapRef.current && ro) ro.observe(wrapRef.current);
+    if (typeof window !== "undefined") {
+      window.addEventListener("orientationchange", applyRootOffset);
+    }
+
+    return () => {
+      if (ro) ro.disconnect();
+      if (typeof window !== "undefined") {
+        window.removeEventListener("orientationchange", applyRootOffset);
+      }
+      if (typeof document !== "undefined") clearRootOffset();
+    };
+  }, [shouldShow, mode, applyRootOffset, clearRootOffset]);
 
   const dismiss = useCallback(() => {
     try {
       localStorage.setItem(LS_KEY, "1");
     } catch {
-      // localStorage erişilemiyorsa görsel durum saklanmaz
+      // localStorage yoksa sadece state kapatır
     }
-    setHidden(true);
-    clearRootOffset();
+    setDismissed(true);
+    if (typeof document !== "undefined") clearRootOffset();
   }, [clearRootOffset]);
 
-  if (hidden) return null;
+  // Dismissed veya daha scroll threshold'a gelinmediyse render etme
+  if (!shouldShow) return null;
 
   if (mode === "inline") {
     return (
