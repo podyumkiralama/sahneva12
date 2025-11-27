@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import SkipLinks from "@/components/SkipLinks";
 import UtilityBar from "@/components/UtilityBar.client";
 import StickyVideoRailclient from "@/components/StickyVideoRail.client";
+import CriticalAssets from "@/components/CriticalAssets";
 
 const inter = Inter({
   subsets: ["latin", "latin-ext", "arabic"],
@@ -173,6 +174,7 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
     >
       <head>
+        <CriticalAssets />
         {/* Critical CSS */}
         <style
           id="critical-css"
@@ -220,12 +222,12 @@ export default function RootLayout({ children }) {
               id="ga4-lib"
               data-ga-id={GA_MEASUREMENT_ID}
               src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-              strategy="afterInteractive"
+              strategy="lazyOnload"
             />
             <Script
               id="ga4-init"
               src="/ga-init.js"
-              strategy="afterInteractive"
+              strategy="lazyOnload"
               data-ga-id={GA_MEASUREMENT_ID}
             />
           </>
