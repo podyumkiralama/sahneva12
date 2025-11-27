@@ -78,37 +78,84 @@ function StructuredData() {
   const FAQ_ID = "https://www.sahneva.com/#faq";
   const IMAGE_ID = "https://www.sahneva.com/#og";
 
+  const organizationSchema = {
+    "@type": "Organization",
+    "@id": ORGANIZATION_ID,
+    name: "Sahneva",
+    url: HOME_URL,
+    logo: "https://www.sahneva.com/img/logo.png",
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: "+90-545-304-8671",
+      contactType: "customer service",
+      areaServed: "TR",
+      availableLanguage: ["tr"],
+    },
+    sameAs: [
+      "https://www.instagram.com/sahnevaorganizasyon",
+      "https://www.youtube.com/@sahneva",
+    ],
+  };
+
+  const localBusinessSchema = {
+    "@type": "LocalBusiness",
+    "@id": "https://www.sahneva.com/#localbiz",
+    name: "Sahneva",
+    image: "https://www.sahneva.com/img/logo.png",
+    url: HOME_URL,
+    telephone: "+90-545-304-8671",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Kağıthane",
+      addressRegion: "İstanbul",
+      addressCountry: "TR",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 41.081,
+      longitude: 28.9702,
+    },
+    priceRange: "₺₺",
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday",
+        ],
+        opens: "09:00",
+        closes: "23:00",
+      },
+    ],
+  };
+
+  const websiteSchema = {
+    "@type": "WebSite",
+    "@id": WEBSITE_ID,
+    url: HOME_URL,
+    name: "Sahneva",
+    description:
+      "Profesyonel sahne, podyum, LED ekran ve ses-ışık sistemleri kiralama hizmetleri. Türkiye geneli kurulum ve teknik destek.",
+    inLanguage: "tr-TR",
+    publisher: { "@id": ORGANIZATION_ID },
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${HOME_URL}arama?q={search_term_string}`,
+      "query-input": "required name=search_term_string",
+    },
+  };
+
   const data = {
     "@context": "https://schema.org",
     "@graph": [
-      {
-        "@type": "WebSite",
-        "@id": WEBSITE_ID,
-        url: HOME_URL,
-        name: "Sahneva",
-        description:
-          "Profesyonel sahne, podyum, LED ekran ve ses-ışık sistemleri kiralama hizmetleri. Türkiye geneli kurulum ve teknik destek.",
-        inLanguage: "tr-TR",
-        publisher: { "@id": ORGANIZATION_ID },
-        potentialAction: {
-          "@type": "SearchAction",
-          target: "https://www.sahneva.com/search?q={search_term_string}",
-          "query-input": "required name=search_term_string",
-        },
-      },
-      {
-        "@type": "WebSite",
-        "@id": WEBSITE_ID,
-        url: HOME_URL,
-        name: "Sahneva",
-        inLanguage: "tr-TR",
-        publisher: { "@id": ORGANIZATION_ID },
-        potentialAction: {
-          "@type": "SearchAction",
-          target: `${HOME_URL}arama?q={search_term_string}`,
-          "query-input": "required name=search_term_string",
-        },
-      },
+      organizationSchema,
+      localBusinessSchema,
+      websiteSchema,
       {
         "@type": "WebPage",
         "@id": WEBPAGE_ID,
