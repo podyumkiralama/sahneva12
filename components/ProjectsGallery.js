@@ -19,21 +19,30 @@ const LIGHTBOX_SIZES =
 
 const DEFAULT_GALLERIES = {
   "LED Ekran Kiralama": {
-    images: Array.from({ length: 36 }, (_, i) => `/img/galeri/led-ekran-kiralama-${i + 1}.webp`),
+    images: Array.from(
+      { length: 36 },
+      (_, i) => `/img/galeri/led-ekran-kiralama-${i + 1}.webp`
+    ),
     description:
       "Yüksek çözünürlüklü LED ekran kurulumları ve profesyonel etkinlik prodüksiyonları",
     stats: "50+ Kurumsal Etkinlik",
     icon: "🖥️",
   },
   "Çadır Kiralama": {
-    images: Array.from({ length: 19 }, (_, i) => `/img/galeri/cadir-kiralama-${i + 1}.webp`),
+    images: Array.from(
+      { length: 19 },
+      (_, i) => `/img/galeri/cadir-kiralama-${i + 1}.webp`
+    ),
     description:
       "Açık hava etkinlikleri için premium çadır kurulumları ve profesyonel çözümler",
     stats: "100+ Açık Hava Organizasyonu",
     icon: "⛺",
   },
   "Podyum Kiralama": {
-    images: Array.from({ length: 36 }, (_, i) => `/img/galeri/podyum-kiralama-${i + 1}.webp`),
+    images: Array.from(
+      { length: 36 },
+      (_, i) => `/img/galeri/podyum-kiralama-${i + 1}.webp`
+    ),
     description:
       "Profesyonel podyum kurulumları ve modüler podyum sistemleri",
     stats: "200+ Profesyonel Kurulum",
@@ -260,6 +269,7 @@ const GalleryCard = memo(function GalleryCard({
             </span>
 
             <button
+              type="button"
               onClick={openFirst}
               className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 flex items-center gap-1 group/btn focus-ring"
             >
@@ -322,7 +332,12 @@ export default function ProjectsGallery({
       exploreHiddenLabelTemplate,
       seeAllSrTemplate,
     }),
-    [cardAltTemplate, exploreAriaTemplate, exploreHiddenLabelTemplate, seeAllSrTemplate]
+    [
+      cardAltTemplate,
+      exploreAriaTemplate,
+      exploreHiddenLabelTemplate,
+      seeAllSrTemplate,
+    ]
   );
 
   useEffect(() => {
@@ -351,7 +366,9 @@ export default function ProjectsGallery({
 
   const open = useCallback(
     (groupTitle, images, startIndex = 0) => {
-      lastFocus.current = document.activeElement;
+      if (typeof document !== "undefined") {
+        lastFocus.current = document.activeElement;
+      }
       setTitle(groupTitle);
       setItems(images);
       setIndex(startIndex);
@@ -522,17 +539,18 @@ export default function ProjectsGallery({
               } ${anim ? "opacity-100" : "opacity-0"}`}
               role="dialog"
               aria-modal="true"
-            aria-label={formatWithParams(
-              dialogAriaTemplate,
-              DEFAULT_DICTIONARY.dialogAria,
-              { title },
-              ["title"]
-            )}
+              aria-label={formatWithParams(
+                dialogAriaTemplate,
+                DEFAULT_DICTIONARY.dialogAria,
+                { title },
+                ["title"]
+              )}
               onClick={handleOverlayClick}
               onTouchStart={onTouchStart}
               onTouchEnd={onTouchEnd}
             >
               <button
+                type="button"
                 ref={closeBtnRef}
                 className="absolute top-6 right-6 z-10 text-white/90 hover:text-white bg-white/10 hover:bg-white/20 rounded-2xl p-4 focus-ring transition-all duration-300 min-h-[52px] min-w-[52px] flex items-center justify-center backdrop-blur-sm border border-white/20"
                 onClick={close}
@@ -544,6 +562,7 @@ export default function ProjectsGallery({
               {items.length > 1 && (
                 <>
                   <button
+                    type="button"
                     className="hidden md:flex absolute left-6 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-2xl w-14 h-14 items-center justify-center text-2xl transition-all duration-300 focus-ring backdrop-blur-sm border border-white/20"
                     onClick={prev}
                   >
@@ -551,6 +570,7 @@ export default function ProjectsGallery({
                     <span className="sr-only">{dictionary.prevSr}</span>
                   </button>
                   <button
+                    type="button"
                     className="hidden md:flex absolute right-6 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-2xl w-14 h-14 items-center justify-center text-2xl transition-all duration-300 focus-ring backdrop-blur-sm border border-white/20"
                     onClick={next}
                   >
@@ -592,6 +612,7 @@ export default function ProjectsGallery({
                   <div className="md:hidden fixed inset-x-0 bottom-0 z-[1000] bg-black/80 backdrop-blur-lg border-t border-white/20 py-4">
                     <div className="mx-auto max-w-sm flex items-center justify-between gap-3 px-4">
                       <button
+                        type="button"
                         onClick={prev}
                         className="flex-1 rounded-xl bg-white/20 text-white py-4 font-semibold text-sm transition-all duration-300 hover:bg-white/30 focus-ring min-h-[52px] backdrop-blur-sm border border-white/20"
                       >
@@ -606,8 +627,9 @@ export default function ProjectsGallery({
                         )}
                       </span>
                       <button
+                        type="button"
                         onClick={next}
-                        className="flex-1 rounded-xl bg-white/20 text-white py-4 font-semibold text-sm transition-all duration-300 hover:bg-white/30 focus-ring min-h-[52px] backdrop-blur-sm border border-white/20"
+                        className="flex-1 rounded-xl bg-white/20 text-white py-4 font-semibold text-sm transition-all duration-300 hover:bg:white/30 hover:bg-white/30 focus-ring min-h-[52px] backdrop-blur-sm border border-white/20"
                       >
                         {dictionary.mobileNextLabel}
                       </button>
