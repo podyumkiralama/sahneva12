@@ -2,15 +2,15 @@
 
 import { useEffect, useRef } from "react";
 
-const SLOW_CONNECTION_TYPES = new Set(["slow-2g", "2g"]);
-
+// Chrome Lighthouse ve DevTools "Deprecated API usage" uyarısını tetikleyen
+// `mozConnection`/`webkitConnection` gibi vendor-prefiksli Network Information
+// API erişimlerini kaldırıyoruz. Yalnızca standart `navigator.connection`
+// üzerinde bulunan `saveData` bilgisine bakıyoruz; yoksa analitikleri yüklemeye
+// devam ediyoruz.
 function shouldRespectSaveData() {
   if (typeof navigator === "undefined") return false;
-  const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-  if (!connection) return false;
-  if (connection.saveData) return true;
-  const effective = connection.effectiveType?.toLowerCase?.();
-  return effective ? SLOW_CONNECTION_TYPES.has(effective) : false;
+  const connection = navigator.connection;
+  return Boolean(connection?.saveData);
 }
 
 export default function DeferredAnalytics({ gaId }) {
