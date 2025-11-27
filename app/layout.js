@@ -3,7 +3,7 @@ import Script from "next/script";
 import { Inter } from "next/font/google";
 import SkipLinks from "@/components/SkipLinks";
 import UtilityBar from "@/components/UtilityBar.client";
-import StickyVideoRail from "@/components/StickyVideoRail";
+import StickyVideoRailclient from "@/components/StickyVideoRail.client";
 
 const inter = Inter({
   subsets: ["latin", "latin-ext", "arabic"],
@@ -185,7 +185,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
         <SkipLinks />
-        <StickyVideoRail />
+        <StickyVideoRail.client />
         <UtilityBar />
 
         {children}
