@@ -273,6 +273,11 @@ function StickyVideoRailInner() {
                   <img
                     src={currentVideo.thumbnail}
                     alt={currentVideo.title}
+                    width="480"
+                    height="270"
+                    loading="lazy"
+                    decoding="async"
+                    fetchPriority="low"
                     className="absolute inset-0 w-full h-full object-cover -z-10"
                   />
                   <div className="flex items-center justify-center w-20 h-20 rounded-full bg-white/90 shadow-xl mb-4 group-hover:scale-110 transition-transform">
@@ -336,8 +341,12 @@ function StickyVideoRailInner() {
                       <img
                         src={video.thumbnail}
                         alt={video.title}
+                        width="160"
+                        height="90"
                         className="w-full h-full object-cover"
                         loading="lazy"
+                        decoding="async"
+                        fetchPriority="low"
                       />
                       <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
                         <span className="text-white text-xs">▶</span>
