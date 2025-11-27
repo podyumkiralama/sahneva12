@@ -14,9 +14,6 @@ import {
 // Animasyon bileşenleri
 import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
 
-// Video rail (YouTube oynatıcı)
-import StickyVideoRail from "@/components/StickyVideoRail";
-
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
   "https://www.sahneva.com";
