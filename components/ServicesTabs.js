@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useRef, useState, useCallback, useMemo } from "react";
+import React, {
+  useRef,
+  useState,
+  useCallback,
+  useMemo,
+  memo,
+} from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
@@ -166,7 +172,7 @@ function mergeDictionary(base, override = {}) {
   return result;
 }
 
-function ServicesTabs({
+function ServicesTabsComponent({
   servicesData = DEFAULT_SERVICES,
   dictionary: dictionaryOverride,
 }) {
@@ -261,6 +267,11 @@ function ServicesTabs({
     if (e.key === "End") move(buttons.length - 1);
   }, []);
 
+  // Boş state’e karşı guard (teoride)
+  if (!services.length) {
+    return null;
+  }
+
   return (
     <div className="w-full">
       {/* TAB BUTONLARI */}
@@ -276,6 +287,7 @@ function ServicesTabs({
             {services.map((service, index) => (
               <ScrollReveal key={service.id} delay={String(index)}>
                 <button
+                  type="button"
                   role="tab"
                   aria-selected={activeTab === service.id}
                   aria-controls={`panel-${service.id}`}
@@ -442,7 +454,11 @@ function ServicesTabs({
                     loading="lazy"
                     decoding="async"
                     placeholder="empty"
-                    onError={activeService ? imageErrorHandlers[activeService.id] : undefined}
+                    onError={
+                      activeService
+                        ? imageErrorHandlers[activeService.id]
+                        : undefined
+                    }
                     style={IMAGE_STYLE}
                   />
 
@@ -456,7 +472,9 @@ function ServicesTabs({
                       <h4 className="font-bold text-gray-900 text-lg">
                         {activeService.title}
                       </h4>
-                      <p className="text-gray-600 text-sm">{dictionary.imageBadgeLabel}</p>
+                      <p className="text-gray-600 text-sm">
+                        {dictionary.imageBadgeLabel}
+                      </p>
                     </div>
                   </div>
 
@@ -500,4 +518,7 @@ function ServicesTabs({
   );
 }
 
-export default React.memo(ServicesTabs);
+const ServicesTabs = memo(ServicesTabsComponent);
+ServicesTabs.displayName = "ServicesTabs";
+
+export default ServicesTabs;
