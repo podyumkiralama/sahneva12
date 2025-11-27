@@ -1,29 +1,42 @@
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-// UtilityBar buradan kaldırılmalı çünkü Root Layout'ta zaten var.
-// import UtilityBar from "../../components/UtilityBar.client"; 
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export default function TurkishLayout({ children }) {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white text-neutral-900">
+      
+      {/* ---- HEADER ---- */}
       <header
-        id="_main_header"
-        tabIndex={-1}
+        id="site-header"
+        role="banner"
         aria-label="Sahneva ana site başlığı"
         className="w-full"
       >
         <Navbar />
       </header>
+
+      {/* ---- MAIN CONTENT ---- */}
       <main
-        id="_main_content"
-        tabIndex={-1}
+        id="main-content"
+        role="main"
         className="flex-1 pt-6 pb-10 lg:pb-12 focus-ring scroll-mt-4"
+        tabIndex={-1}
       >
         {children}
       </main>
 
-      <Footer />
+      {/* ---- FOOTER ---- */}
+      <footer
+        id="site-footer"
+        role="contentinfo"
+        className="w-full mt-auto"
+        aria-label="Sahneva alt bilgi alanı"
+      >
+        <Footer />
+      </footer>
+
+      {/* Vercel Analytics */}
       <SpeedInsights />
     </div>
   );
