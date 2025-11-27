@@ -967,9 +967,6 @@ export default function HomePage() {
           </div>
         </section>
       </div>
-
-      {/* YouTube sticky video rail – sadece scroll sonrası açılıyor */}
-      <StickyVideoRail />
     </div>
   );
 }
