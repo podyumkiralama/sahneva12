@@ -234,7 +234,12 @@ function HeroSection() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-8">
-          <Link href={WHATSAPP_URL} target="_blank" className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl shadow-lg">
+          <Link
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl shadow-lg"
+          >
             <span className="text-xl mr-2">💬</span> Hemen Teklif Al
           </Link>
           <Link href="#hizmetler" className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-white text-white/95 bg-white/10 backdrop-blur-lg hover:bg-white/20 hover:scale-105 transform transition-all duration-300 shadow-lg">
@@ -290,7 +295,12 @@ function ServicesSection() {
           ))}
         </div>
         <div className="text-center mt-12">
-          <Link href={WHATSAPP_URL} target="_blank" className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl">
+          <Link
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl"
+          >
             <span className="text-xl mr-3">📞</span> Detaylı Teklif için İletişime Geçin
           </Link>
         </div>
@@ -380,7 +390,12 @@ function PackagesSection() {
                 </div>
 
                 <div className="p-6 pt-0">
-                  <Link href={WHATSAPP_URL} target="_blank" className="w-full inline-flex items-center justify-center font-bold px-6 py-3 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl">
+                  <Link
+                    href={WHATSAPP_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-full inline-flex items-center justify-center font-bold px-6 py-3 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl"
+                  >
                     <span className="text-lg mr-2">💬</span> Hemen Teklif Al
                   </Link>
                 </div>
@@ -516,7 +531,12 @@ function UseCasesSection() {
           ))}
         </ul>
         <div className="text-center mt-12">
-          <Link href={WHATSAPP_URL} target="_blank" className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-white text-blue-700 hover:scale-105 transform transition-all duration-300 hover:shadow-xl">
+          <Link
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-white text-blue-700 hover:scale-105 transform transition-all duration-300 hover:shadow-xl"
+          >
             <span className="text-xl mr-3">💬</span> Etkinliğiniz için Özel Çözüm Alın
           </Link>
         </div>
@@ -724,7 +744,12 @@ function CTASection() {
               <Link href="/iletisim" className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-white text-blue-700 hover:scale-105 transform transition-all duration-300 hover:shadow-2xl">
                 <span className="text-xl mr-3">📞</span> Hemen Teklif Al
               </Link>
-              <a href={WHATSAPP_URL} target="_blank" className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-white text-white bg-transparent hover:bg-white/20 hover:scale-105 transform transition-all duration-300">
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-white text-white bg-transparent hover:bg-white/20 hover:scale-105 transform transition-all duration-300"
+              >
                 <span className="text-xl mr-3">💬</span> WhatsApp&apos;tan Yaz
               </a>
             </div>

@@ -140,16 +140,6 @@ function CaseGallery({ images = [], visibleCount = 4 }) {
     [images, visibleCount]
   );
 
-  const thumbnailClickHandlers = useMemo(
-    () => displayImages.map((_, index) => () => openLightbox(index)),
-    [displayImages, openLightbox]
-  );
-
-  const lightboxThumbnailHandlers = useMemo(
-    () => images.map((_, index) => () => setCurrentIndex(index)),
-    [images]
-  );
-
   if (!isMounted) {
     return (
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">

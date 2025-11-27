@@ -8,11 +8,43 @@ import {
   ProjectsGalleryDeferred,
   FaqDeferred,
 } from "@/components/DeferredSections.client";
-import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
+import { ScrollReveal } from "@/components/ScrollReveal";
 
 // —————————————————————————————————————————
 // 1. SABİT VERİLER & AYARLAR
 // —————————————————————————————————————————
+export const metadata = {
+  title: "Sahne, LED Ekran, Ses-Işık Kiralama | Türkiye Geneli | Sahneva",
+  description:
+    "Sahneva ile sahne, podyum, LED ekran, ses ve ışık sistemleri kiralama çözümlerini keşfedin. İstanbul merkezli, Türkiye geneli hizmet.",
+  alternates: {
+    canonical: "https://www.sahneva.com/",
+    languages: {
+      "tr-TR": "https://www.sahneva.com/",
+      en: "https://www.sahneva.com/en",
+      ar: "https://www.sahneva.com/ar",
+      "x-default": "https://www.sahneva.com/",
+    },
+  },
+  openGraph: {
+    title: "Sahneva | Sahne, LED Ekran, Ses-Işık Kiralama",
+    description:
+      "Profesyonel sahne, podyum, LED ekran, ses ve ışık sistemleri kiralama. İstanbul merkezli, Türkiye geneli hızlı kurulum ve destek.",
+    url: "https://www.sahneva.com/",
+    images: [
+      {
+        url: "https://www.sahneva.com/og/sahneva-home.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Sahneva sahne ve LED ekran kurulumu",
+      },
+    ],
+    type: "website",
+    locale: "tr_TR",
+  },
+  robots: { index: true, follow: true },
+};
+
 export const revalidate = 3600; // ISR
 
 const HERO_FEATURES = [
@@ -61,7 +93,6 @@ function StructuredData() {
     "@context": "https://schema.org",
     "@graph": [
       {
-        // EKSİK OLAN KISIM BURASIYDI, EKLENDİ:
         "@type": "Organization",
         "@id": ORGANIZATION_ID,
         name: "Sahneva",
@@ -69,7 +100,7 @@ function StructuredData() {
         logo: {
           "@type": "ImageObject",
           url: "https://www.sahneva.com/img/logo.png",
-          width: 200, // Logo boyutuna göre güncelleyebilirsin
+          width: 200,
           height: 60
         },
         contactPoint: {
@@ -80,9 +111,22 @@ function StructuredData() {
           availableLanguage: "Turkish"
         },
         sameAs: [
-          "https://www.instagram.com/sahneva", // Varsayılan, varsa diğerlerini ekle
+          "https://www.instagram.com/sahneva",
           "https://www.facebook.com/sahneva"
         ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": WEBSITE_ID,
+        url: HOME_URL,
+        name: "Sahneva",
+        inLanguage: "tr-TR",
+        publisher: { "@id": ORGANIZATION_ID },
+        potentialAction: {
+          "@type": "SearchAction",
+          target: `${HOME_URL}arama?q={search_term_string}`,
+          "query-input": "required name=search_term_string",
+        },
       },
       {
         "@type": "WebPage",
@@ -214,7 +258,14 @@ export default function HomePage() {
             <ScrollReveal delay="3">
               <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
                 <a href="tel:+905453048671" className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition-all hover:scale-105">📞 Hemen Ara</a>
-                <a href="https://wa.me/905453048671" target="_blank" className="bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition-all hover:scale-105">💬 WhatsApp Teklif</a>
+                <a
+                  href="https://wa.me/905453048671"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition-all hover:scale-105"
+                >
+                  💬 WhatsApp Teklif
+                </a>
               </div>
             </ScrollReveal>
 

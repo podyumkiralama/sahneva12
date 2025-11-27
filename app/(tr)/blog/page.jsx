@@ -88,8 +88,8 @@ async function getBlogPosts() {
         const postMetadata = postModule.metadata || {};
 
         return normalizePostMeta(postSlug, postMetadata);
-      } catch (err) {
-        // console.warn(`[Blog] ${postSlug} okunurken hata veya meta eksik.`, err);
+      } catch (error) {
+        console.warn(`[Blog] ${postSlug} okunurken hata veya meta eksik.`, error);
         return null;
       }
     });
