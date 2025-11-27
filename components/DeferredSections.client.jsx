@@ -2,44 +2,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useRef } from "react";
-// ÖNEMLİ: Bir önceki adımda oluşturduğun dosyanın tam adı neyse onu yazmalısın.
-// Eğer dosya adın "DeferredHydration.js" ise sondaki ".client"ı sil.
 import DeferredHydration from "@/components/DeferredHydration.client"; 
-
-// ✅ Layout Shift Önleyen Hook
-// Bu hook, bileşen yüklendiğinde ve görünür olduğunda,
-// kapsayıcıya verdiğimiz "min-height" kısıtlamasını kaldırarak
-// içeriğin doğal boyutuna gelmesine izin verir.
-function useLayoutShiftProtection() {
-  const ref = useRef(null);
-  
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
-
-    const observer = new IntersectionObserver(([entry]) => {
-      // Sadece element görünür olduğunda ve render işlemi başladığında kısıtlamayı kaldır
-      if (entry.isIntersecting) {
-        requestAnimationFrame(() => {
-          // İçerik yüklendikten sonra sabit yüksekliği kaldırıyoruz ki
-          // içerik dinamik olarak uzayabilsin (örn: Accordion açıldığında)
-          element.style.minHeight = '';
-        });
-        observer.disconnect();
-      }
-    }, {
-      threshold: 0.01, // En ufak bir temas yeterli
-      rootMargin: '100px' // Biraz erken tetiklenmesi daha yumuşak geçiş sağlar
-    });
-
-    observer.observe(element);
-    
-    return () => observer.disconnect();
-  }, []);
-
-  return ref;
-}
 
 // —————————————————————————————————————————————————
 // SKELETON (YÜKLENİYOR) BİLEŞENLERİ
@@ -47,10 +10,8 @@ function useLayoutShiftProtection() {
 // —————————————————————————————————————————————————
 
 function ReviewBannerSkeleton() {
-  const ref = useLayoutShiftProtection();
   return (
     <div 
-      ref={ref}
       className="pointer-events-none w-full" 
       aria-hidden="true"
       style={{ contain: 'layout paint', minHeight: '80px' }}
@@ -69,10 +30,8 @@ function ReviewBannerSkeleton() {
 }
 
 function ServicesTabsSkeleton({ srLabel = "Hizmet sekmeleri yükleniyor" } = {}) {
-  const ref = useLayoutShiftProtection();
   return (
     <div
-      ref={ref}
       className="w-full"
       role="status"
       style={{ contain: 'layout paint', minHeight: '400px' }}
@@ -89,10 +48,8 @@ function ServicesTabsSkeleton({ srLabel = "Hizmet sekmeleri yükleniyor" } = {})
 }
 
 function ProjectsGallerySkeleton({ srLabel = "Projeler yükleniyor" } = {}) {
-  const ref = useLayoutShiftProtection();
   return (
     <div
-      ref={ref}
       className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
       role="status"
       style={{ contain: 'layout paint', minHeight: '280px' }}
@@ -106,10 +63,8 @@ function ProjectsGallerySkeleton({ srLabel = "Projeler yükleniyor" } = {}) {
 }
 
 function FaqSkeleton({ srLabel = "Sık sorulan sorular yükleniyor" } = {}) {
-  const ref = useLayoutShiftProtection();
   return (
     <div
-      ref={ref}
       className="space-y-4"
       role="status"
       style={{ contain: 'layout paint', minHeight: '320px' }}
