@@ -185,7 +185,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
         <SkipLinks />
-        <StickyVideoRail.client />
+        <StickyVideoRailclient />
         <UtilityBar />
 
         {children}
