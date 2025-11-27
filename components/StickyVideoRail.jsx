@@ -1,73 +1,92 @@
+// components/StickyVideoRail.jsx
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import DeferredHydration from "@/components/DeferredHydration.client";
 
 const VIDEOS = [
   {
     id: "173gBurWSRQ",
-    title: "Sahneva Organizasyon – LED Ekran podyum sahne kurulumu  & Sahne Kurulum Öncesi",
+    title:
+      "Sahneva Organizasyon – LED Ekran podyum sahne kurulumu  & Sahne Kurulum Öncesi",
     description: "Backstage, sahne kurulumu ve hazırlık görüntüleri.",
     thumbnail: "https://img.youtube.com/vi/173gBurWSRQ/hqdefault.jpg",
   },
   {
     id: "4ygMbL4FDRc",
-    title: "Sahneva Organizasyon – LED Ekran podyum çadır & Sahne Kurulum",
+    title:
+      "Sahneva Organizasyon – LED Ekran podyum çadır & Sahne Kurulum",
     description: "LED ekran kurulum ve sahne ışıklandırma süreci.",
     thumbnail: "https://img.youtube.com/vi/4ygMbL4FDRc/hqdefault.jpg",
   },
   {
     id: "JNzGlNzNRuk",
-    title: "Sahneva Organizasyon – LED Ekran Çadır podyum & Sahne Kurulum",
+    title:
+      "Sahneva Organizasyon – LED Ekran Çadır podyum & Sahne Kurulum",
     description: "Podyum Sahne dom çadır kiralama kurulum süreci.",
     thumbnail: "https://img.youtube.com/vi/JNzGlNzNRuk/hqdefault.jpg",
   },
   {
     id: "_9Q7v0ZL304",
-    title: "Sahneva Organizasyon – LED Ekran Çadır Masa sandalye podyum kiralama ",
-    description: "Podyum Sahne masa sandalye çadır kiralama kurulum süreci.",
+    title:
+      "Sahneva Organizasyon – LED Ekran Çadır Masa sandalye podyum kiralama ",
+    description:
+      "Podyum Sahne masa sandalye çadır kiralama kurulum süreci.",
     thumbnail: "https://img.youtube.com/vi/_9Q7v0ZL304/hqdefault.jpg",
   },
   {
     id: "ah4ORjaQSMA",
-    title: "Üniversite Mezuniyet Töreni Organizasyonu | Sahne, LED Ekran ve Ses–Işık Prodüksiyon",
-    description: "Üniversite mezuniyet törenleri için profesyonel sahne, LED ekran, ses–ışık sistemleri ve tüm teknik prodüksiyon altyapısını sağlayarak kurumlara eksiksiz bir mezuniyet deneyimi sunuyoruz",
+    title:
+      "Üniversite Mezuniyet Töreni Organizasyonu | Sahne, LED Ekran ve Ses–Işık Prodüksiyon",
+    description:
+      "Üniversite mezuniyet törenleri için profesyonel sahne, LED ekran, ses–ışık sistemleri ve tüm teknik prodüksiyon altyapısını sağlayarak kurumlara eksiksiz bir mezuniyet deneyimi sunuyoruz",
     thumbnail: "https://img.youtube.com/vi/ah4ORjaQSMA/hqdefault.jpg",
   },
   {
     id: "c72ILTyJH4A",
-    title: "Helal Fuarı Organizasyonu | Sahneva Profesyonel Sahne, LED Ekran ve Teknik Prodüksiyon",
-    description: "Helal Fuarı kapsamında gerçekleştirilen etkinlik ve organizasyon alanlarının sahne, LED ekran, ses–ışık ve teknik prodüksiyon kurulumlarını Sahneva olarak profesyonel ekiplerimizle gerçekleştirdik.",
+    title:
+      "Helal Fuarı Organizasyonu | Sahneva Profesyonel Sahne, LED Ekran ve Teknik Prodüksiyon",
+    description:
+      "Helal Fuarı kapsamında gerçekleştirilen etkinlik ve organizasyon alanlarının sahne, LED ekran, ses–ışık ve teknik prodüksiyon kurulumlarını Sahneva olarak profesyonel ekiplerimizle gerçekleştirdik.",
     thumbnail: "https://img.youtube.com/vi/c72ILTyJH4A/hqdefault.jpg",
   },
   {
     id: "egd21AA1dZ0",
-    title: "Ankara Gençlik Festivali Organizasyonu | Sahneva Sahne – LED Ekran – Teknik Prodüksiyon",
-    description: "Ankara Gençlik Festivali için sahne, LED ekran, ses–ışık sistemleri ve tüm teknik prodüksiyon altyapısını Sahneva olarak profesyonel ekiplerimizle sağladık.",
+    title:
+      "Ankara Gençlik Festivali Organizasyonu | Sahneva Sahne – LED Ekran – Teknik Prodüksiyon",
+    description:
+      "Ankara Gençlik Festivali için sahne, LED ekran, ses–ışık sistemleri ve tüm teknik prodüksiyon altyapısını Sahneva olarak profesyonel ekiplerimizle sağladık.",
     thumbnail: "https://img.youtube.com/vi/egd21AA1dZ0/hqdefault.jpg",
   },
   {
     id: "tyb1lG9KtiA",
-    title: "Çadır Kurulumu Organizasyonu | Sahneva Profesyonel Etkinlik Çadırı & Teknik Altyapı",
-    description: "Etkinlik, fuar, festival, kurumsal organizasyon, düğün, açılış ve özel proje alanlarında profesyonel çadır kurulumu hizmeti sunuyoruz.",
+    title:
+      "Çadır Kurulumu Organizasyonu | Sahneva Profesyonel Etkinlik Çadırı & Teknik Altyapı",
+    description:
+      "Etkinlik, fuar, festival, kurumsal organizasyon, düğün, açılış ve özel proje alanlarında profesyonel çadır kurulumu hizmeti sunuyoruz.",
     thumbnail: "https://img.youtube.com/vi/tyb1lG9KtiA/hqdefault.jpg",
   },
   {
     id: "1R5Av0x5ouA",
-    title: "Sahne Işık Şov | Sahneva Profesyonel Işık Tasarımı & Etkinlik Prodüksiyonu",
-    description: "Konserler, festivaller, kurumsal etkinlikler, açılış törenleri ve gösteriler için profesyonel sahne ışık şovları hazırlıyoruz.",
+    title:
+      "Sahne Işık Şov | Sahneva Profesyonel Işık Tasarımı & Etkinlik Prodüksiyonu",
+    description:
+      "Konserler, festivaller, kurumsal etkinlikler, açılış törenleri ve gösteriler için profesyonel sahne ışık şovları hazırlıyoruz.",
     thumbnail: "https://img.youtube.com/vi/1R5Av0x5ouA/hqdefault.jpg",
   },
   {
     id: "HNDZ-wYVKLw",
-    title: "Şirket Etkinliği & Lansman Organizasyonu | Profesyonel Sahne Kurulumu",
-    description: "Kurumsal etkinlikler, lansmanlar, toplantılar, ödül törenleri ve marka etkinlikleri için profesyonel sahne, LED ekran, ses–ışık ve teknik prodüksiyon hizmeti sunuyoruz.",
+    title:
+      "Şirket Etkinliği & Lansman Organizasyonu | Profesyonel Sahne Kurulumu",
+    description:
+      "Kurumsal etkinlikler, lansmanlar, toplantılar, ödül törenleri ve marka etkinlikleri için profesyonel sahne, LED ekran, ses–ışık ve teknik prodüksiyon hizmeti sunuyoruz.",
     thumbnail: "https://img.youtube.com/vi/HNDZ-wYVKLw/hqdefault.jpg",
   },
 ];
 
 const INITIAL_POSITION = { x: -24, y: -24 };
 
-export default function StickyVideoRail() {
+function StickyVideoRailInner() {
   const [isMounted, setIsMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
@@ -196,7 +215,7 @@ export default function StickyVideoRail() {
     setIsMinimized((v) => !v);
   };
 
-  // ==================== Tam ekran / sinema modu ====================
+  // =============== Tam ekran / sinema modu ===============
   if (isExpanded && isOpen) {
     return (
       <div
@@ -205,7 +224,7 @@ export default function StickyVideoRail() {
         role="dialog"
         aria-label="Video oynatıcı"
       >
-        {/* ÜST SABİT BUTON BAR - Mobilde bile her zaman görünür */}
+        {/* ÜST BAR */}
         <div className="w-full max-w-6xl flex justify-between items-center mb-4 bg-black/80 rounded-xl px-4 py-3 border border-white/20">
           <div className="flex items-center gap-2">
             <span className="text-white font-semibold text-sm sm:text-base">
@@ -284,7 +303,7 @@ export default function StickyVideoRail() {
           <aside className="w-full md:w-64 lg:w-72 bg-slate-900/90 border border-white/10 rounded-2xl shadow-xl flex flex-col overflow-hidden">
             <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                 <div>
                   <p className="text-xs uppercase tracking-wide text-slate-400">
                     Oynatma Listesi
@@ -342,7 +361,7 @@ export default function StickyVideoRail() {
     );
   }
 
-  // ==================== Minimize mod (sadece simge) ====================
+  // =============== Minimize mod (simge) ===============
   if (isOpen && isMinimized) {
     return (
       <button
@@ -361,16 +380,15 @@ export default function StickyVideoRail() {
         <span className="hidden sm:inline font-medium">
           Videoları Görüntüle
         </span>
-        <span className="sm:hidden font-medium">
-          Aç
-        </span>
+        <span className="sm:hidden font-medium">Aç</span>
       </button>
     );
   }
 
-  // ==================== Küçük sticky mod ====================
+  // =============== Kapalıysa ===============
   if (!isOpen) return null;
 
+  // =============== Küçük sticky mod ===============
   return (
     <div
       ref={dragRef}
@@ -380,7 +398,7 @@ export default function StickyVideoRail() {
       }}
     >
       <div className="mb-4 w-[280px] sm:w-[340px] bg-slate-900/95 border border-white/20 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-lg">
-        {/* Başlık + drag alanı - Kırmızı sarı yeşil banner kaldırıldı */}
+        {/* Başlık + drag alanı */}
         <div
           className="flex items-center justify-between px-4 py-3 cursor-move select-none bg-gradient-to-r from-slate-800 to-slate-900 border-b border-white/10"
           onMouseDown={startDrag}
@@ -388,7 +406,7 @@ export default function StickyVideoRail() {
         >
           <div className="flex items-center gap-2">
             <span className="text-sm font-semibold text-slate-100 flex items-center gap-2">
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
               Sahneva Video Galerisi
             </span>
           </div>
@@ -400,7 +418,9 @@ export default function StickyVideoRail() {
               className="p-2 rounded-lg hover:bg-blue-600 transition-colors text-white bg-blue-500/80 group font-medium"
               title="Tam Ekran"
             >
-              <span className="group-hover:scale-110 transition-transform text-sm">⤢ BÜYÜT</span>
+              <span className="group-hover:scale-110 transition-transform text-sm">
+                ⤢ BÜYÜT
+              </span>
             </button>
             <button
               type="button"
@@ -409,7 +429,9 @@ export default function StickyVideoRail() {
               className="p-2 rounded-lg hover:bg-gray-600 transition-colors text-slate-100 group"
               title="Simge Yap"
             >
-              <span className="group-hover:scale-110 transition-transform">🗕</span>
+              <span className="group-hover:scale-110 transition-transform">
+                🗕
+              </span>
             </button>
             <button
               type="button"
@@ -418,7 +440,9 @@ export default function StickyVideoRail() {
               className="p-2 rounded-lg hover:bg-red-600 transition-colors text-slate-100 group"
               title="Kapat"
             >
-              <span className="group-hover:scale-110 transition-transform">✕</span>
+              <span className="group-hover:scale-110 transition-transform">
+                ✕
+              </span>
             </button>
           </div>
         </div>
@@ -460,11 +484,11 @@ export default function StickyVideoRail() {
           )}
         </div>
 
-        {/* Açılır/kapanır mini liste */}
+        {/* Açılır mini liste */}
         <details className="group border-t border-white/10">
           <summary className="flex items-center justify-between px-4 py-3 text-sm text-slate-200 cursor-pointer select-none hover:bg-white/5 transition-colors">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
               <span className="font-medium">Diğer Videolar</span>
               <span className="text-xs bg-blue-500 text-white px-2 py-1 rounded-full">
                 {VIDEOS.length - 1}
@@ -481,8 +505,8 @@ export default function StickyVideoRail() {
                 type="button"
                 onClick={() => handleChangeVideo(idx)}
                 className={`w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-slate-700/50 transition-colors ${
-                  idx === activeIndex 
-                    ? "bg-blue-500/20 border-r-2 border-blue-500" 
+                  idx === activeIndex
+                    ? "bg-blue-500/20 border-r-2 border-blue-500"
                     : "border-r-2 border-transparent"
                 }`}
               >
@@ -508,5 +532,24 @@ export default function StickyVideoRail() {
         </details>
       </div>
     </div>
+  );
+}
+
+/**
+ * Dışa açılan bileşen:
+ * - IntersectionObserver + idleTimeout ile geç hydrate olur
+ * - CLS etkilemez, sticky player zaten fixed konumda
+ */
+export default function StickyVideoRail(props) {
+  return (
+    <DeferredHydration
+      rootMargin="600px"   // sayfanın ortalarına yaklaştığında
+      idleTimeout={5000}   // ya da en geç 5 sn sonra
+      fallback={null}
+      as="div"
+      {...props}
+    >
+      <StickyVideoRailInner />
+    </DeferredHydration>
   );
 }
