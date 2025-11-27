@@ -14,7 +14,9 @@ import {
 // Animasyon bileşenleri
 import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://www.sahneva.com";
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
+  "https://www.sahneva.com";
 
 // —————————————————————————————————————————
 // SABİT VERİLER
@@ -23,9 +25,24 @@ const HERO_IMAGE_ALT =
   "LED ekran, truss çatı ve ışık sistemi içeren Sahneva sahne kurulumunu gösteren arka plan görseli";
 
 const HERO_FEATURES = [
-  { icon: "⭐", title: "4.9/5 Puan", description: "500+ Mutlu Müşteri", color: "from-yellow-400 to-orange-400" },
-  { icon: "⚡", title: "Aynı Gün", description: "Hızlı Kurulum", color: "from-blue-400 to-cyan-400" },
-  { icon: "👑", title: "Premium", description: "Kalite Garantisi", color: "from-purple-400 to-pink-400" },
+  {
+    icon: "⭐",
+    title: "4.9/5 Puan",
+    description: "500+ Mutlu Müşteri",
+    color: "from-yellow-400 to-orange-400",
+  },
+  {
+    icon: "⚡",
+    title: "Aynı Gün",
+    description: "Hızlı Kurulum",
+    color: "from-blue-400 to-cyan-400",
+  },
+  {
+    icon: "👑",
+    title: "Premium",
+    description: "Kalite Garantisi",
+    color: "from-purple-400 to-pink-400",
+  },
 ];
 
 const HERO_KEYWORDS = [
@@ -42,8 +59,7 @@ const CTA_BUTTONS = [
     srHint: "",
   },
   {
-    href:
-      "https://wa.me/905453048671?text=Merhaba%2C+web+sitenizden+ula%C5%9F%C4%B1yorum.+Sahne+kiralama+ve+LED+ekran+fiyatlar%C4%B1+hakk%C4%B1nda+detayl%C4%B1+teklif+almak+istiyorum.&utm_source=homepage&utm_medium=hero_cta&utm_campaign=whatsapp",
+    href: "https://wa.me/905453048671?text=Merhaba%2C+web+sitenizden+ula%C5%9F%C4%B1yorum.+Sahne+kiralama+ve+LED+ekran+fiyatlar%C4%B1+hakk%C4%B1nda+detayl%C4%B1+teklif+almak+istiyorum.&utm_source=homepage&utm_medium=hero_cta&utm_campaign=whatsapp",
     label: "WhatsApp Teklif",
     icon: "💬",
     target: "_blank",
@@ -79,12 +95,42 @@ const HERO_OVERLAY_ANIMATION_STYLE = Object.freeze({
 });
 
 const WHY_SAHNEVA_FEATURES = [
-  { icon: "⭐", title: "Yüksek Müşteri Memnuniyeti", desc: "Her organizasyonda %98'in üzerinde müşteri memnuniyeti. Referanslar ve Google yorumları bizim güvencemiz.", stat: "%98 Memnuniyet" },
-  { icon: "⚡", title: "Hızlı Kurulum ve Teslimat", desc: "Aynı gün profesyonel sahne, LED ekran ve ses-ışık kurulumları.", stat: "2–6 Saat" },
-  { icon: "🖥️", title: "Premium LED Ekran Teknolojisi", desc: "P2–P6 pixel pitch ile yüksek çözünürlüklü indoor/outdoor LED ekran.", stat: "P2–P6" },
-  { icon: "👷", title: "Uzman Teknik Ekip", desc: "10+ yıl deneyimli sahne, ses, ışık ve LED uzmanlarından kadro.", stat: "15+ Uzman" },
-  { icon: "💰", title: "Rekabetçi Fiyat Garantisi", desc: "Kaliteli hizmeti uygun fiyatla, bütçenize uygun çözümler.", stat: "%30 Tasarruf" },
-  { icon: "🏙️", title: "Türkiye Geneli Hizmet", desc: "İstanbul, Ankara, İzmir başta 81 ilde profesyonel hizmet.", stat: "81 İl" },
+  {
+    icon: "⭐",
+    title: "Yüksek Müşteri Memnuniyeti",
+    desc: "Her organizasyonda %98'in üzerinde müşteri memnuniyeti. Referanslar ve Google yorumları bizim güvencemiz.",
+    stat: "%98 Memnuniyet",
+  },
+  {
+    icon: "⚡",
+    title: "Hızlı Kurulum ve Teslimat",
+    desc: "Aynı gün profesyonel sahne, LED ekran ve ses-ışık kurulumları.",
+    stat: "2–6 Saat",
+  },
+  {
+    icon: "🖥️",
+    title: "Premium LED Ekran Teknolojisi",
+    desc: "P2–P6 pixel pitch ile yüksek çözünürlüklü indoor/outdoor LED ekran.",
+    stat: "P2–P6",
+  },
+  {
+    icon: "👷",
+    title: "Uzman Teknik Ekip",
+    desc: "10+ yıl deneyimli sahne, ses, ışık ve LED uzmanlarından kadro.",
+    stat: "15+ Uzman",
+  },
+  {
+    icon: "💰",
+    title: "Rekabetçi Fiyat Garantisi",
+    desc: "Kaliteli hizmeti uygun fiyatla, bütçenize uygun çözümler.",
+    stat: "%30 Tasarruf",
+  },
+  {
+    icon: "🏙️",
+    title: "Türkiye Geneli Hizmet",
+    desc: "İstanbul, Ankara, İzmir başta 81 ilde profesyonel hizmet.",
+    stat: "81 İl",
+  },
 ];
 
 // Katmanlı içerik bölümlerini ilk boyamadan hariç tutarak FCP/LCP'yi iyileştirir
@@ -318,7 +364,8 @@ function StructuredData() {
           },
           {
             "@type": "Question",
-            name: "Tek günlük veya kısa süreli etkinlikler için kiralama yapabilir miyim?",
+            name:
+              "Tek günlük veya kısa süreli etkinlikler için kiralama yapabilir miyim?",
             acceptedAnswer: {
               "@type": "Answer",
               text:
@@ -369,7 +416,15 @@ function StructuredData() {
 // —————————————————————————————————————————
 // PARÇALI BİLEŞENLER
 // —————————————————————————————————————————
-function SectionHeader({ id, title, highlight, description, afterText = "", align = "center", theme = "light" }) {
+function SectionHeader({
+  id,
+  title,
+  highlight,
+  description,
+  afterText = "",
+  align = "center",
+  theme = "light",
+}) {
   const themeClasses = SECTION_THEMES[theme];
   const alignment = align === "left" ? "text-left" : "text-center";
 
@@ -386,7 +441,11 @@ function SectionHeader({ id, title, highlight, description, afterText = "", alig
         {afterText}
       </h2>
       {description ? (
-        <p className={`text-lg ${themeClasses.description} max-w-3xl mx-auto ${alignment === "left" ? "md:mx-0" : ""}`}>
+        <p
+          className={`text-lg ${themeClasses.description} max-w-3xl mx-auto ${
+            alignment === "left" ? "md:mx-0" : ""
+          }`}
+        >
           {description}
         </p>
       ) : null}
@@ -406,12 +465,21 @@ function KeywordPills() {
           {text}
         </span>
       ))}
-      <span className="sr-only">Sahne Kiralama, LED Ekran, Ses-Işık Sistemleri</span>
+      <span className="sr-only">
+        Sahne Kiralama, LED Ekran, Ses-Işık Sistemleri
+      </span>
     </p>
   );
 }
 
-function CTAButton({ href, label, icon, gradient = "from-blue-600 to-purple-600", srHint, ...rest }) {
+function CTAButton({
+  href,
+  label,
+  icon,
+  gradient = "from-blue-600 to-purple-600",
+  srHint,
+  ...rest
+}) {
   return (
     <a
       href={href}
@@ -430,9 +498,16 @@ function CTAButton({ href, label, icon, gradient = "from-blue-600 to-purple-600"
 function CTAGroup() {
   return (
     <div className="flex flex-col sm:flex-row justify-center items-center gap-3 md:gap-4 mb-12">
-      {CTA_BUTTONS.map(({ srHint, gradient = "from-blue-600 to-purple-600", ...cta }) => (
-        <CTAButton key={cta.href} gradient={gradient} srHint={srHint} {...cta} />
-      ))}
+      {CTA_BUTTONS.map(
+        ({ srHint, gradient = "from-blue-600 to-purple-600", ...cta }) => (
+          <CTAButton
+            key={cta.href}
+            gradient={gradient}
+            srHint={srHint}
+            {...cta}
+          />
+        )
+      )}
     </div>
   );
 }
@@ -450,7 +525,9 @@ function HeroFeatureGrid() {
               >
                 {item.icon}
               </div>
-              <div className="text-white font-bold text-base mb-1">{item.title}</div>
+              <div className="text-white font-bold text-base mb-1">
+                {item.title}
+              </div>
               <div className="text-white/70 text-xs">{item.description}</div>
             </div>
           </ScrollReveal>
@@ -465,15 +542,25 @@ function ConsultationCard() {
     <div className="bg-gradient-to-r from-blue-600/90 to-purple-600/90 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-white/20 shadow-xl max-w-4xl mx-auto">
       <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
         <div className="flex-shrink-0">
-          <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center text-xl" aria-hidden="true">
+          <div
+            className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center text-xl"
+            aria-hidden="true"
+          >
             🎯
           </div>
         </div>
         <div className="flex-1 text-center md:text-left">
-          <h2 className="text-white text-xl md:text-2xl font-bold mb-2">Ücretsiz Profesyonel Danışmanlık</h2>
+          <h2 className="text-white text-xl md:text-2xl font-bold mb-2">
+            Ücretsiz Profesyonel Danışmanlık
+          </h2>
           <p className="text-white/90 text-base leading-relaxed">
-            Etkinliğiniz için <strong>en uygun sahne çözümleri</strong>, LED ekran seçenekleri ve ses-ışık sistemlerini ücretsiz teknik danışmanlık ile planlayalım.{" "}
-            <strong className="text-yellow-300">2 saat içinde detaylı teklif</strong> sunuyoruz.
+            Etkinliğiniz için <strong>en uygun sahne çözümleri</strong>, LED
+            ekran seçenekleri ve ses-ışık sistemlerini ücretsiz teknik
+            danışmanlık ile planlayalım.{" "}
+            <strong className="text-yellow-300">
+              2 saat içinde detaylı teklif
+            </strong>{" "}
+            sunuyoruz.
           </p>
         </div>
         <div className="flex-shrink-0">
@@ -492,7 +579,10 @@ function ConsultationCard() {
 // —————————————————————————————————————————
 // SAYFA
 // —————————————————————————————————————————
-function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
+function HeroBackgroundImage({
+  alt = HERO_IMAGE_ALT,
+  ariaHidden = false,
+}) {
   return (
     <Image
       alt={alt}
@@ -574,7 +664,8 @@ export default function HomePage() {
               <KeywordPills />
 
               <p className="text-white/80 text-base md:text-lg mb-8 max-w-3xl mx-auto">
-                500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli hızlı kurulum ile yanınızdayız
+                500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli
+                hızlı kurulum ile yanınızdayız
               </p>
             </ScrollReveal>
 
@@ -597,7 +688,10 @@ export default function HomePage() {
         </div>
 
         {/* Scroll cue */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2" aria-hidden="true">
+        <div
+          className="absolute bottom-6 left-1/2 -translate-x-1/2"
+          aria-hidden="true"
+        >
           <div className="animate-bounce motion-reduce:animate-none">
             <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
               <div className="w-1 h-3 bg-white/70 rounded-full mt-2" />
@@ -701,27 +795,40 @@ export default function HomePage() {
 
             <ScrollRevealGroup>
               <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 list-none p-0 m-0">
-                {WHY_SAHNEVA_FEATURES.map(({ icon, title, desc, stat }, i) => (
-                  <li key={i} className="m-0 p-0">
-                    <ScrollReveal delay={String(i % 3)} direction="scale">
-                      <article
-                        className="group relative bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 p-6 border border-neutral-100 hover:border-blue-200/70 hover:scale-105"
-                        aria-labelledby={`why-card-${i}-title`}
+                {WHY_SAHNEVA_FEATURES.map(
+                  ({ icon, title, desc, stat }, i) => (
+                    <li key={i} className="m-0 p-0">
+                      <ScrollReveal
+                        delay={String(i % 3)}
+                        direction="scale"
                       >
-                        <div className="absolute top-3 right-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                          {stat}
-                        </div>
-                        <div className="text-3xl mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text" aria-hidden="true">
-                          {icon}
-                        </div>
-                        <h3 id={`why-card-${i}-title`} className="font-black text-lg mb-3 text-neutral-900 group-hover:text-blue-600 transition-colors">
-                          {title}
-                        </h3>
-                        <p className="text-neutral-700 leading-relaxed text-sm">{desc}</p>
-                      </article>
-                    </ScrollReveal>
-                  </li>
-                ))}
+                        <article
+                          className="group relative bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 p-6 border border-neutral-100 hover:border-blue-200/70 hover:scale-105"
+                          aria-labelledby={`why-card-${i}-title`}
+                        >
+                          <div className="absolute top-3 right-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                            {stat}
+                          </div>
+                          <div
+                            className="text-3xl mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text"
+                            aria-hidden="true"
+                          >
+                            {icon}
+                          </div>
+                          <h3
+                            id={`why-card-${i}-title`}
+                            className="font-black text-lg mb-3 text-neutral-900 group-hover:text-blue-600 transition-colors"
+                          >
+                            {title}
+                          </h3>
+                          <p className="text-neutral-700 leading-relaxed text-sm">
+                            {desc}
+                          </p>
+                        </article>
+                      </ScrollReveal>
+                    </li>
+                  )
+                )}
               </ul>
             </ScrollRevealGroup>
           </div>
@@ -749,22 +856,53 @@ export default function HomePage() {
               <ScrollReveal direction="left">
                 <article className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 shadow-lg border border-blue-100">
                   <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
-                    <span className="bg-blue-500 text-white p-2 rounded-lg" aria-hidden="true">🚀</span>
+                    <span
+                      className="bg-blue-500 text-white p-2 rounded-lg"
+                      aria-hidden="true"
+                    >
+                      🚀
+                    </span>
                     Uçtan Uca Teknik Hizmet ve Profesyonel Çözümler
                   </h3>
                   <div className="prose max-w-none text-neutral-700">
                     <p className="text-base leading-relaxed">
                       <strong>Sahneva</strong> olarak Türkiye genelinde{" "}
-                      <a href="/sahne-kiralama" className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors">sahne kiralama</a>,{" "}
-                      <a href="/podyum-kiralama" className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors">podyum kurulumu</a>,{" "}
-                      <a href="/led-ekran-kiralama" className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors">LED ekran kiralama</a> ve{" "}
-                      <a href="/ses-isik-sistemleri" className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors">ses ışık sistemi kurulumu</a>{" "}
+                      <a
+                        href="/sahne-kiralama"
+                        className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
+                      >
+                        sahne kiralama
+                      </a>
+                      ,{" "}
+                      <a
+                        href="/podyum-kiralama"
+                        className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
+                      >
+                        podyum kurulumu
+                      </a>
+                      ,{" "}
+                      <a
+                        href="/led-ekran-kiralama"
+                        className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
+                      >
+                        LED ekran kiralama
+                      </a>{" "}
+                      ve{" "}
+                      <a
+                        href="/ses-isik-sistemleri"
+                        className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
+                      >
+                        ses ışık sistemi kurulumu
+                      </a>{" "}
                       hizmetlerinde komple çözümler sunuyoruz.
                     </p>
                     <ul className="mt-4 space-y-2 text-neutral-700">
                       {SEO_TECH_FEATURES.map((item, i) => (
                         <li key={i} className="flex items-center gap-3">
-                          <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0" aria-hidden="true" />
+                          <div
+                            className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"
+                            aria-hidden="true"
+                          />
                           {item}
                         </li>
                       ))}
@@ -777,17 +915,28 @@ export default function HomePage() {
               <ScrollReveal direction="right">
                 <article className="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-6 shadow-lg border border-purple-100">
                   <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
-                    <span className="bg-purple-500 text-white p-2 rounded-lg" aria-hidden="true">🎤</span>
+                    <span
+                      className="bg-purple-500 text-white p-2 rounded-lg"
+                      aria-hidden="true"
+                    >
+                      🎤
+                    </span>
                     Büyük Ölçekli Etkinlikler İçin Güçlü Altyapı
                   </h3>
                   <div className="prose max-w-none text-neutral-700">
                     <p className="text-base leading-relaxed">
-                      Konser, miting, festival, fuar ve açık hava etkinlikleri için yüksek kapasiteli ekipman altyapımızla hizmet veriyoruz. 50.000+ kişilik organizasyonlarda aktif rol alıyoruz.
+                      Konser, miting, festival, fuar ve açık hava etkinlikleri
+                      için yüksek kapasiteli ekipman altyapımızla hizmet
+                      veriyoruz. 50.000+ kişilik organizasyonlarda aktif rol
+                      alıyoruz.
                     </p>
                     <ul className="mt-4 space-y-2 text-neutral-700">
                       {SEO_INFRA_FEATURES.map((item, i) => (
                         <li key={i} className="flex items-center gap-3">
-                          <div className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0" aria-hidden="true" />
+                          <div
+                            className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0"
+                            aria-hidden="true"
+                          />
                           {item}
                         </li>
                       ))}
