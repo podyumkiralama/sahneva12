@@ -3,7 +3,6 @@
 
 import React, { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { FAQ_ITEMS } from "../lib/faqData";
-import Script from "next/script";
 
 const DEFAULT_DICTIONARY = {
   sectionTitle: "Sıkça Sorulan Sorular",
@@ -78,23 +77,6 @@ function mergeDictionary(base, override = {}) {
   return result;
 }
 
-/* Nonce'ı meta'dan okuyan küçük yardımcı */
-function useCspNonce() {
-  const [nonce, setNonce] = useState(undefined);
-  useEffect(() => {
-    try {
-      const n =
-        document
-          .querySelector('meta[name="csp-nonce"]')
-          ?.getAttribute("content") || undefined;
-      setNonce(n);
-    } catch {
-      // meta etiketi bulunamazsa nonce'suz devam ederiz
-    }
-  }, []);
-  return nonce;
-}
-
 const FaqRow = React.memo(function FaqRow({ question, answer, slug }) {
   const [open, setOpen] = useState(false);
   const [contentHeight, setContentHeight] = useState("0px");
@@ -119,8 +101,6 @@ const FaqRow = React.memo(function FaqRow({ question, answer, slug }) {
   return (
     <div
       className="group bg-white/80 backdrop-blur-sm border border-gray-200/60 rounded-xl p-4 mb-2 transition-all duration-200 hover:shadow-sm hover:border-blue-200/80"
-      itemScope
-      itemType="https://schema.org/Question"
     >
       <button
         type="button"
@@ -129,11 +109,9 @@ const FaqRow = React.memo(function FaqRow({ question, answer, slug }) {
         aria-controls={panelId}
         aria-expanded={open}
         className={`cursor-pointer flex items-center justify-between font-semibold text-gray-900 hover:text-blue-600 transition-colors duration-200 min-h-[42px] w-full text-left focus-ring ${open ? "text-blue-700" : ""}`}
-        itemProp="name"
       >
         <span className="pr-3 text-sm leading-relaxed">{question}</span>
 
-        {/* ❗️div yerine span (phrasing content) */}
         <span
           className={`flex-shrink-0 inline-flex w-6 h-6 rounded-full bg-blue-50 items-center justify-center transition-all duration-200 group-hover:bg-blue-100 ${
             open ? "bg-blue-100 rotate-90" : ""
@@ -163,12 +141,9 @@ const FaqRow = React.memo(function FaqRow({ question, answer, slug }) {
         aria-hidden={!open}
         role="region"
         aria-labelledby={summaryId}
-        itemScope
-        itemType="https://schema.org/Answer"
-        itemProp="acceptedAnswer"
       >
         <div className="mt-2 text-gray-700 border-t border-gray-100/60 pt-2">
-          <div itemProp="text" className="leading-relaxed text-sm text-gray-600">
+          <div className="leading-relaxed text-sm text-gray-600">
             <p>{answer}</p>
           </div>
         </div>
@@ -177,25 +152,11 @@ const FaqRow = React.memo(function FaqRow({ question, answer, slug }) {
   );
 });
 
-// FAQ Schema
-const generateFaqSchema = (items) => ({
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: items.map((item) => ({
-    "@type": "Question",
-    name: item.question,
-    acceptedAnswer: { "@type": "Answer", text: item.answer },
-  })),
-});
-
-// ✅ TAM SÜRÜM — a11y + CSP uyumlu
 export default function Faq({ items = FAQ_ITEMS, dictionary: dictionaryOverride } = {}) {
   const dictionary = useMemo(
     () => mergeDictionary(DEFAULT_DICTIONARY, dictionaryOverride),
     [dictionaryOverride]
   );
-  const faqSchema = useMemo(() => generateFaqSchema(items), [items]);
-  const nonce = useCspNonce(); // 👈 nonce burada
 
   const primaryLink = useMemo(
     () => dictionary.cta?.primary ?? DEFAULT_DICTIONARY.cta.primary,
@@ -356,17 +317,6 @@ export default function Faq({ items = FAQ_ITEMS, dictionary: dictionaryOverride 
         {/* Footer boşluğu */}
         <div className="h-0 p-0 m-0" />
       </div>
-
-      {/* JSON-LD: Nonce gelmeden render etme */}
-      {nonce && (
-        <Script
-          id="faq-schema"
-          type="application/ld+json"
-          nonce={nonce}
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-        />
-      )}
     </section>
   );
 }
