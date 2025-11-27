@@ -97,6 +97,19 @@ function StructuredData() {
         },
       },
       {
+        "@type": "WebSite",
+        "@id": WEBSITE_ID,
+        url: HOME_URL,
+        name: "Sahneva",
+        inLanguage: "tr-TR",
+        publisher: { "@id": ORGANIZATION_ID },
+        potentialAction: {
+          "@type": "SearchAction",
+          target: `${HOME_URL}arama?q={search_term_string}`,
+          "query-input": "required name=search_term_string",
+        },
+      },
+      {
         "@type": "WebPage",
         "@id": WEBPAGE_ID,
         url: HOME_URL,
