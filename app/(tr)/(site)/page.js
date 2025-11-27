@@ -81,21 +81,7 @@ function StructuredData() {
   const data = {
     "@context": "https://schema.org",
     "@graph": [
-      {
-        "@type": "WebSite",
-        "@id": WEBSITE_ID,
-        url: HOME_URL,
-        name: "Sahneva",
-        description:
-          "Profesyonel sahne, podyum, LED ekran ve ses-ışık sistemleri kiralama hizmetleri. Türkiye geneli kurulum ve teknik destek.",
-        inLanguage: "tr-TR",
-        publisher: { "@id": ORGANIZATION_ID },
-        potentialAction: {
-          "@type": "SearchAction",
-          target: "https://www.sahneva.com/search?q={search_term_string}",
-          "query-input": "required name=search_term_string",
-        },
-      },
+      // "WebSite" bloğu buradan kaldırıldı (Root Layout'ta olduğu için).
       {
         "@type": "WebPage",
         "@id": WEBPAGE_ID,
