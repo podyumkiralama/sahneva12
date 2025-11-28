@@ -2,7 +2,9 @@
 import Link from "next/link";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 
-const focusRingClass = "focus-ring";
+// Navbar ile uyumlu focus ring (Offset rengi footer background'a göre ayarlandı)
+const FOCUS_RING_CLASS =
+  "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-[#0b1120]";
 
 const SOCIAL_LINKS = [
   {
@@ -51,22 +53,71 @@ const BUSINESS_LINKS = [
   },
 ];
 
-const currentYear = new Date().getFullYear();
-const footerStrings = LOCALE_CONTENT.tr.footer;
+/* --- Yardımcı Bileşen: Standart Footer Link --- */
+const FooterLink = ({ href, children, hoverColorClass = "hover:text-blue-400 hover:border-blue-400" }) => (
+  <li>
+    <Link
+      href={href}
+      className={`
+        group flex items-center py-1 pl-2 border-l-2 border-transparent 
+        transition-all duration-200 rounded-sm text-gray-300 
+        hover:pl-3 hover:border-current ${hoverColorClass} ${FOCUS_RING_CLASS}
+      `}
+    >
+      <span>{children}</span>
+    </Link>
+  </li>
+);
+
+/* --- Yardımcı Bileşen: Sosyal Medya İkonu --- */
+const SocialLink = ({ href, label, title, icon, gradient }) => (
+  <li>
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer me"
+      aria-label={label}
+      title={title}
+      className={`
+        group relative inline-flex h-11 w-11 items-center justify-center rounded-xl 
+        bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 
+        hover:border-white/20 transition-all duration-300 hover:scale-110 
+        ${FOCUS_RING_CLASS}
+      `}
+      itemProp="sameAs"
+    >
+      <span
+        className={`
+          absolute inset-0 rounded-xl bg-gradient-to-r ${gradient} 
+          opacity-0 group-hover:opacity-100 transition-opacity duration-300
+        `}
+        aria-hidden="true"
+      />
+      <span aria-hidden="true" className="text-xl relative z-10">
+        {icon}
+      </span>
+    </a>
+  </li>
+);
 
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
+  // Safe access for localization
+  const footerStrings = LOCALE_CONTENT?.tr?.footer || {
+    ariaLabel: "Site altbilgisi",
+  };
+
   return (
     <footer
       id="_main_footer"
-      tabIndex={-1}
       className="relative w-full flex-shrink-0 bg-gradient-to-br from-[#0b1120] via-[#1a1038] to-[#1b1f4a] border-t border-white/10"
       aria-labelledby="site-footer-heading"
       itemScope
-      itemType="https://schema.org/Organization"
+      itemType="https://schema.org/LocalBusiness"
     >
-      {/* Üst dalga geçişi */}
+      {/* Üst Dalga (Wave) Efekti */}
       <div
-        className="absolute inset-x-0 -top-24 h-24 pointer-events-none"
+        className="absolute inset-x-0 -top-24 h-24 pointer-events-none w-full overflow-hidden"
         aria-hidden="true"
       >
         <svg
@@ -76,35 +127,17 @@ export default function Footer() {
           preserveAspectRatio="none"
         >
           <defs>
-            <linearGradient
-              id="footerWave"
-              x1="0%"
-              y1="0%"
-              x2="100%"
-              y2="100%"
-            >
+            <linearGradient id="footerWave" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="rgba(12,16,32,0.98)" />
               <stop offset="45%" stopColor="rgba(35,21,76,0.94)" />
               <stop offset="100%" stopColor="rgba(36,33,90,0.92)" />
             </linearGradient>
-            <linearGradient
-              id="footerWaveHighlight"
-              x1="0%"
-              y1="0%"
-              x2="0%"
-              y2="100%"
-            >
+            <linearGradient id="footerWaveHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stopColor="rgba(132,148,245,0.35)" />
               <stop offset="55%" stopColor="rgba(98,104,219,0.16)" />
               <stop offset="100%" stopColor="rgba(64,82,186,0.05)" />
             </linearGradient>
-            <linearGradient
-              id="footerWaveShadow"
-              x1="0%"
-              y1="0%"
-              x2="100%"
-              y2="100%"
-            >
+            <linearGradient id="footerWaveShadow" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="rgba(10,12,28,0.6)" />
               <stop offset="100%" stopColor="rgba(30,40,110,0.3)" />
             </linearGradient>
@@ -124,23 +157,23 @@ export default function Footer() {
         </svg>
       </div>
 
-      {/* Arka plan glow */}
+      {/* Arka plan glow efektleri */}
       <div
         className="absolute inset-0 overflow-hidden pointer-events-none"
         aria-hidden="true"
       >
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-r from-[#2d2b68]/25 via-[#5a3fa2]/20 to-[#3b6ad6]/15 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-r from-[#1e2858]/20 via-[#4a3a95]/20 to-[#2f5fbf]/15 rounded-full blur-3xl" />
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-r from-[#2d2b68]/25 via-[#5a3fa2]/20 to-[#3b6ad6]/15 rounded-full blur-3xl opacity-60" />
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-r from-[#1e2858]/20 via-[#4a3a95]/20 to-[#2f5fbf]/15 rounded-full blur-3xl opacity-60" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-transparent via-[#121633]/55 to-[#0b1024]/85" />
       </div>
 
-      {/* Footer başlığı (screen reader için) */}
+      {/* Başlık (Screen Reader Only) */}
       <h2 id="site-footer-heading" className="sr-only">
-        {footerStrings?.ariaLabel ?? "Site altbilgisi"}
+        {footerStrings.ariaLabel}
       </h2>
 
       <div className="relative z-10 container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pt-24 pb-14 px-6">
-        {/* Marka */}
+        {/* 1. SÜTUN: Marka & Sosyal */}
         <section
           aria-labelledby="ft-brand"
           itemProp="brand"
@@ -152,27 +185,20 @@ export default function Footer() {
           </h3>
 
           <div className="flex items-center gap-3 text-white font-bold text-2xl mb-6">
-            <div className="relative" aria-hidden="true">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg blur-sm opacity-75" />
-              <span
-                className="relative bg-gradient-to-r from-blue-500 to-purple-500 text-white p-2 rounded-lg"
-                aria-hidden="true"
-              >
+            <div className="relative flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg shadow-purple-500/20">
+              <span className="text-xl" aria-hidden="true">
                 ⭐
               </span>
             </div>
             <span
               itemProp="name"
-              className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent"
+              className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent tracking-wide"
             >
               SAHNEVA
             </span>
           </div>
 
-          <p
-            className="text-sm leading-6 text-gray-200 mb-6"
-            itemProp="description"
-          >
+          <p className="text-sm leading-7 text-gray-300 mb-6" itemProp="description">
             <span className="block">
               Profesyonel etkinlik prodüksiyon & ekipman kiralama.
             </span>
@@ -182,164 +208,140 @@ export default function Footer() {
             </span>
           </p>
 
-          <ul className="flex gap-3" aria-label="Sahneva sosyal bağlantılar">
-            {SOCIAL_LINKS.map(
-              ({ href, label, title, icon, gradient }) => (
-                <li key={href}>
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer me"
-                    aria-label={label}
-                    title={title}
-                    className={`group relative inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300 hover:scale-110 min-h-[44px] min-w-[44px] ${focusRingClass}`}
-                    itemProp="sameAs"
-                  >
-                    <span
-                      className={`absolute inset-0 rounded-xl bg-gradient-to-r ${gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
-                      aria-hidden="true"
-                    />
-                    <span aria-hidden="true" className="text-lg relative z-10">
-                      {icon}
-                    </span>
-                  </a>
-                </li>
-              )
-            )}
+          <ul className="flex gap-3" aria-label="Sosyal medya hesaplarımız">
+            {SOCIAL_LINKS.map((link) => (
+              <SocialLink key={link.href} {...link} />
+            ))}
           </ul>
         </section>
 
-        {/* Hizmetler */}
+        {/* 2. SÜTUN: Hizmetler */}
         <nav aria-labelledby="ft-services">
           <h3
             id="ft-services"
-            className="text-white font-bold mb-6 text-lg bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+            className="text-white font-bold mb-6 text-lg bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent inline-block"
           >
             Hizmetlerimiz
           </h3>
-          <ul className="space-y-3 text-sm">
-            {SERVICES.map(({ href, label }) => (
-              <li key={href}>
-                <Link
-                  href={href}
-                  className={`group text-slate-100 hover:text-white transition-all duration-200 block py-1 pl-2 border-l-2 border-transparent hover:border-blue-400 hover:pl-3 rounded-sm ${focusRingClass}`}
-                >
-                  <span className="group-hover:text-blue-300 transition-colors">
-                    {label}
-                  </span>
-                </Link>
-              </li>
+          <ul className="space-y-2 text-sm">
+            {SERVICES.map((link) => (
+              <FooterLink
+                key={link.href}
+                href={link.href}
+                hoverColorClass="hover:text-blue-400 hover:border-blue-400"
+              >
+                {link.label}
+              </FooterLink>
             ))}
           </ul>
         </nav>
 
-        {/* Hızlı Erişim */}
+        {/* 3. SÜTUN: Hızlı Erişim */}
         <nav aria-labelledby="ft-quick">
           <h3
             id="ft-quick"
-            className="text-white font-bold mb-6 text-lg bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent"
+            className="text-white font-bold mb-6 text-lg bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent inline-block"
           >
             Hızlı Erişim
           </h3>
-          <ul className="space-y-3 text-sm">
-            {QUICK_LINKS.map(({ href, label }) => (
-              <li key={href}>
-                <Link
-                  href={href}
-                  className={`group text-slate-100 hover:text-white transition-all duration-200 block py-1 pl-2 border-l-2 border-transparent hover:border-purple-400 hover:pl-3 rounded-sm ${focusRingClass}`}
-                >
-                  <span className="group-hover:text-purple-300 transition-colors">
-                    {label}
-                  </span>
-                </Link>
-              </li>
+          <ul className="space-y-2 text-sm">
+            {QUICK_LINKS.map((link) => (
+              <FooterLink
+                key={link.href}
+                href={link.href}
+                hoverColorClass="hover:text-purple-400 hover:border-purple-400"
+              >
+                {link.label}
+              </FooterLink>
             ))}
           </ul>
         </nav>
 
-        {/* İletişim */}
+        {/* 4. SÜTUN: İletişim */}
         <section aria-labelledby="ft-contact">
           <h3
             id="ft-contact"
-            className="text-white font-bold mb-6 text-lg bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent"
+            className="text-white font-bold mb-6 text-lg bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent inline-block"
           >
             İletişim Bilgileri
           </h3>
 
           <address
-            className="not-italic space-y-4 text-sm"
+            className="not-italic space-y-5 text-sm"
             itemProp="address"
             itemScope
             itemType="https://schema.org/PostalAddress"
           >
+            {/* Adres */}
             <div className="flex items-start gap-3">
-              <div className="relative" aria-hidden="true">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg blur-sm opacity-50" />
-                <span
-                  className="relative text-white text-base p-2 rounded-lg bg-slate-800/50 backdrop-blur-sm"
-                  aria-hidden="true"
-                >
-                  📍
-                </span>
-              </div>
+              <span
+                className="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-lg bg-slate-800/80 text-lg border border-white/5"
+                aria-hidden="true"
+              >
+                📍
+              </span>
               <div>
+                <span className="block text-white font-medium mb-0.5">
+                  Merkez Ofis
+                </span>
                 <span
-                  className="block text-white font-semibold"
+                  className="text-gray-300 block"
                   itemProp="addressLocality"
                 >
-                  İstanbul
+                  Kağıthane, İstanbul
                 </span>
-                <span className="text-gray-200">
+                <span className="text-gray-400 text-xs">
                   Türkiye geneli hizmet
                 </span>
               </div>
             </div>
 
+            {/* Telefon */}
             <div className="flex items-center gap-3">
-              <div className="relative" aria-hidden="true">
-                <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg blur-sm opacity-50" />
-                <span
-                  className="relative text-white text-base p-2 rounded-lg bg-slate-800/50 backdrop-blur-sm"
-                  aria-hidden="true"
-                >
-                  📞
-                </span>
-              </div>
+              <span
+                className="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-lg bg-slate-800/80 text-lg border border-white/5"
+                aria-hidden="true"
+              >
+                📞
+              </span>
               <a
                 href="tel:+905453048671"
-                className={`text-slate-100 hover:text-white font-semibold transition-all duration-300 hover:scale-105 rounded-sm ${focusRingClass}`}
+                className={`text-gray-300 hover:text-white font-medium transition-colors ${FOCUS_RING_CLASS}`}
                 itemProp="telephone"
               >
                 +90 545 304 8671
               </a>
             </div>
 
+            {/* E-posta */}
             <div className="flex items-center gap-3">
-              <div className="relative" aria-hidden="true">
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg blur-sm opacity-50" />
-                <span
-                  className="relative text-white text-base p-2 rounded-lg bg-slate-800/50 backdrop-blur-sm"
-                  aria-hidden="true"
-                >
-                  ✉️
-                </span>
-              </div>
+              <span
+                className="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-lg bg-slate-800/80 text-lg border border-white/5"
+                aria-hidden="true"
+              >
+                ✉️
+              </span>
               <a
                 href="mailto:info@sahneva.com"
-                className={`text-slate-100 hover:text-white transition-all duration-300 hover:scale-105 rounded-sm ${focusRingClass}`}
+                className={`text-gray-300 hover:text-white transition-colors ${FOCUS_RING_CLASS}`}
                 itemProp="email"
               >
                 info@sahneva.com
               </a>
             </div>
 
-            {BUSINESS_LINKS.map(({ href, label, title, icon }) => (
-              <div className="flex items-center gap-3" key={href}>
+            {/* İşletme Linkleri (Harita vb) */}
+            <div className="pt-2 flex flex-col gap-2">
+              {BUSINESS_LINKS.map(({ href, label, title, icon }) => (
                 <a
+                  key={href}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer nofollow"
-                  className={`group inline-flex items-center gap-2 text-xs text-slate-100 hover:text-white transition-all duration-300 hover:gap-3 rounded-sm ${focusRingClass}`}
+                  className={`
+                    group inline-flex items-center gap-2 text-xs text-gray-400 
+                    hover:text-white transition-all duration-300 ${FOCUS_RING_CLASS}
+                  `}
                   title={title}
                 >
                   <span
@@ -350,54 +352,53 @@ export default function Footer() {
                   </span>
                   {label}
                 </a>
-              </div>
-            ))}
+              ))}
+            </div>
           </address>
         </section>
       </div>
 
-      {/* Alt satır */}
-      <div className="relative border-t border-white/10 text-center text-sm text-gray-200 py-6 bg-gradient-to-r from-slate-900/50 via-purple-900/30 to-blue-900/50 backdrop-blur-sm">
-        <div
-          className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"
-          aria-hidden="true"
-        />
+      {/* Alt Telif Satırı */}
+      <div className="relative border-t border-white/5 text-center text-sm text-gray-400 py-6 bg-black/20 backdrop-blur-md">
         <div className="container mx-auto px-6 relative z-10">
-          <p className="mb-3 text-gray-200">
-            <span className="block">
-              Türkiye genelinde profesyonel sahne, podyum, LED ekran,
-              ses-ışık sistemleri ve kurulum hizmetleri.
-            </span>
+          <p className="mb-3 text-gray-400 max-w-2xl mx-auto">
+            Türkiye genelinde profesyonel sahne, podyum, LED ekran,
+            ses-ışık sistemleri ve kurulum hizmetleri.
           </p>
 
-          <p className="text-gray-200">
-            ©{" "}
-            <span itemProp="copyrightYear">
-              {currentYear}
-            </span>{" "}
-            <span itemProp="name" className="text-white font-semibold">
-              Sahneva
-            </span>{" "}
-            — Tüm hakları saklıdır.
-            <span className="mx-3 text-blue-400" aria-hidden="true">
+          <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2">
+            <span>
+              © <span itemProp="copyrightYear">{currentYear}</span>{" "}
+              <span itemProp="name" className="text-white font-medium">
+                Sahneva
+              </span>{" "}
+              — Tüm hakları saklıdır.
+            </span>
+            <span
+              className="hidden sm:inline text-white/20"
+              aria-hidden="true"
+            >
               •
             </span>
             <Link
               href="/kvkk"
-              className={`text-slate-100 hover:text-white underline-offset-4 hover:underline focus-visible:underline transition-colors duration-200 rounded-sm ${focusRingClass}`}
+              className={`hover:text-white transition-colors underline-offset-4 hover:underline ${FOCUS_RING_CLASS}`}
             >
               KVKK Aydınlatma Metni
             </Link>
-            <span className="mx-3 text-blue-400" aria-hidden="true">
+            <span
+              className="hidden sm:inline text-white/20"
+              aria-hidden="true"
+            >
               •
             </span>
             <a
               href="#_main_content"
-              className={`text-slate-100 hover:text-white underline-offset-4 hover:underline focus-visible:underline transition-colors duration-200 rounded-sm ${focusRingClass}`}
+              className={`hover:text-white transition-colors underline-offset-4 hover:underline ${FOCUS_RING_CLASS}`}
             >
               Başa dön
             </a>
-          </p>
+          </div>
         </div>
       </div>
     </footer>
