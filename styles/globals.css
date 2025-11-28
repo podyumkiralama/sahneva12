@@ -5,97 +5,172 @@
 @tailwind components;
 @tailwind utilities;
 
-
 /* ==========================================================================
-   Base
+   Base Settings
    ========================================================================== */
 :root {
   --font-system-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
+  
+  /* Marka Renkleri */
+  --brand-primary: #6d28d9; /* Purple-700 */
+  --brand-secondary: #4f46e5; /* Indigo-600 */
 }
 
 html {
-  scroll-behavior:smooth;
-  font-size:100%;
+  scroll-behavior: smooth;
+  font-size: 100%;
+  -webkit-tap-highlight-color: transparent;
 }
 
+/* Erişilebilirlik: Hareket azaltma tercihi */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto !important;
   }
 
+  /* scroll-smooth class'ını da devre dışı bırak */
   .scroll-smooth {
     scroll-behavior: auto !important;
   }
+  
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
-html, body {
-  height:100%;
+
+html,
+body {
+  height: 100%;
 }
 
 body {
-  @apply bg-white text-slate-800 antialiased;
-  font-family: var(--font-inter, var(--font-inter-fallback, var(--font-system-stack)));
+  /* Layout ile uyumlu */
+  @apply bg-white text-neutral-900 antialiased;
+  font-family: var(
+    --font-inter,
+    var(--font-inter-fallback, var(--font-system-stack))
+  );
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   Custom Scrollbar (Webkit)
+   ========================================================================== */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9; /* Slate-100 */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1; /* Slate-300 */
+  border-radius: 5px;
+  border: 2px solid #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8; /* Slate-400 */
+}
+
+/* ==========================================================================
+   Text Selection
+   ========================================================================== */
+::selection {
+  background-color: var(--brand-primary);
+  color: #ffffff;
 }
 
 /* Medya elementleri */
-img, video, canvas, svg { 
-  max-width:100%; 
-  height:auto; 
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+  display: block; /* alt boşluk sorununu önler */
 }
 
 /* ==========================================================================
    Erişilebilirlik & Etkileşim
    ========================================================================== */
 :focus-visible {
-  outline: 3px solid #4f46e5;
+  outline: 3px solid var(--brand-secondary);
   outline-offset: 2px;
   border-radius: 4px;
 }
 
+/* Erişilebilirlik modları için değişkenler */
+.accessibility-active {
+  --acc-font-size: 16px;
+  --acc-line-height: 1.6;
+  --acc-letter-spacing: 0px;
+  --acc-word-spacing: 0px;
+}
+
 /* ==========================================================================
-   Mikro animasyon: footer burst
+   Animations
    ========================================================================== */
+
+/* Burst Particle (footer mikro animasyon) */
 .burst-particle {
-  position:absolute;
-  left:0; top:0;
-  background:radial-gradient(circle, var(--burst-c1,#6d28d9), var(--burst-c2,#22c55e));
-  border-radius:9999px;
-  transform:translate(-50%,-50%);
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: radial-gradient(
+    circle,
+    var(--burst-c1, #6d28d9),
+    var(--burst-c2, #22c55e)
+  );
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
   animation:
-    burst-move var(--life,550ms) ease-out forwards,
-    burst-fade var(--life,550ms) ease-out forwards;
-  pointer-events:none; 
-  will-change:transform, opacity;
-  box-shadow:0 0 10px rgba(0,0,0,.12);
+    burst-move var(--life, 550ms) ease-out forwards,
+    burst-fade var(--life, 550ms) ease-out forwards;
+  pointer-events: none;
+  will-change: transform, opacity;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.12);
 }
 
 @keyframes burst-move {
-  from { transform:translate(-50%,-50%) rotate(0) scale(1); }
-  to   { transform:translate(calc(-50% + var(--dx)), calc(-50% + var(--dy)))
-                rotate(var(--dr)) scale(.6); }
-}
-@keyframes burst-fade {
-  0%{opacity:1;} 80%{opacity:.7;} 100%{opacity:0;}
-}
-
-@media (prefers-reduced-motion: reduce){
-  .burst-particle {
-    animation: burst-fade 200ms ease-out forwards;
-    transform:translate(-50%,-50%) scale(.8);
+  from {
+    transform: translate(-50%, -50%) rotate(0) scale(1);
+  }
+  to {
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy)))
+      rotate(var(--dr))
+      scale(0.6);
   }
 }
 
-
-/* ==========================================================================
-   Accessibility Styles
-   ========================================================================== */
-.accessibility-active {
-  --acc-font-size:16px;
-  --acc-line-height:1.6;
-  --acc-letter-spacing:0px;
-  --acc-word-spacing:0px;
+@keyframes burst-fade {
+  0% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0;
+  }
 }
-/* Scroll Animasyonları */
+
+/* Hareket azaltma tercihinde burst'i sadeleştir */
+@media (prefers-reduced-motion: reduce) {
+  .burst-particle {
+    animation: burst-fade 200ms ease-out forwards;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+}
+
+/* Scroll Animasyonları (.reveal) */
 .reveal {
   opacity: 0;
   transform: translateY(30px);
@@ -107,29 +182,62 @@ img, video, canvas, svg {
   transform: translateY(0);
 }
 
-/* Performans optimizasyonu */
-.reveal {
-  will-change: transform, opacity;
+/* Yönlü Animasyonlar */
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.reveal-left.active {
+  opacity: 1;
+  transform: translateX(0);
 }
 
-/* Erişilebilirlik - Animasyonları azaltmak isteyen kullanıcılar için */
-@media (prefers-reduced-motion: reduce) {
-  .reveal {
-    transition: none;
-  }
-
-  .reveal.active {
-    opacity: 1;
-    transform: none;
-  }
-
-  .animate-fade-up {
-    animation: none;
-    opacity: 1;
-    transform: none;
-  }
+.reveal-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.reveal-right.active {
+  opacity: 1;
+  transform: translateX(0);
 }
 
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.reveal-scale.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Gecikmeler */
+.reveal.delay-1,
+.reveal-scale.delay-1 {
+  transition-delay: 0.1s;
+}
+.reveal.delay-2,
+.reveal-scale.delay-2 {
+  transition-delay: 0.2s;
+}
+.reveal.delay-3,
+.reveal-scale.delay-3 {
+  transition-delay: 0.3s;
+}
+.reveal.delay-4,
+.reveal-scale.delay-4 {
+  transition-delay: 0.4s;
+}
+.reveal.delay-5,
+.reveal-scale.delay-5 {
+  transition-delay: 0.5s;
+}
+
+/* ==========================================================================
+   Utilities Layer
+   ========================================================================== */
 @layer utilities {
   .focus-ring {
     outline: 3px solid transparent;
@@ -138,7 +246,7 @@ img, video, canvas, svg {
   }
 
   .focus-ring:focus-visible {
-    outline-color: #4f46e5;
+    outline-color: var(--brand-secondary);
     box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.35);
   }
 
@@ -147,7 +255,6 @@ img, video, canvas, svg {
       opacity: 0;
       transform: translateY(14px);
     }
-
     to {
       opacity: 1;
       transform: translateY(0);
@@ -159,51 +266,23 @@ img, video, canvas, svg {
     animation: fade-up 0.7s ease forwards;
   }
 
-  .animation-delay-0 { animation-delay: 0ms; }
-  .animation-delay-100 { animation-delay: 100ms; }
-  .animation-delay-200 { animation-delay: 200ms; }
-  .animation-delay-300 { animation-delay: 300ms; }
-  .animation-delay-400 { animation-delay: 400ms; }
-  .animation-delay-500 { animation-delay: 500ms; }
-}
-
-/* Gecikmeli animasyonlar için */
-.reveal.delay-1 { transition-delay: 0.1s; }
-.reveal.delay-2 { transition-delay: 0.2s; }
-.reveal.delay-3 { transition-delay: 0.3s; }
-.reveal.delay-4 { transition-delay: 0.4s; }
-.reveal.delay-5 { transition-delay: 0.5s; }
-
-/* Farklı yönlerden gelen animasyonlar */
-.reveal-left {
-  opacity: 0;
-  transform: translateX(-50px);
-  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.reveal-left.active {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.reveal-right {
-  opacity: 0;
-  transform: translateX(50px);
-  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.reveal-right.active {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.reveal-scale {
-  opacity: 0;
-  transform: scale(0.9);
-  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.reveal-scale.active {
-  opacity: 1;
-  transform: scale(1);
+  /* Eski dosyadaki gecikme utilitiy'lerini de koru */
+  .animation-delay-0 {
+    animation-delay: 0ms;
+  }
+  .animation-delay-100 {
+    animation-delay: 100ms;
+  }
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
 }
