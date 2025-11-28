@@ -8,17 +8,18 @@ export default function TurkishLayout({ children }) {
       
       {/* ---- HEADER ---- */}
       <header
-        id="site-header"
+        id="_main_header"
         role="banner"
         aria-label="Sahneva ana site başlığı"
         className="w-full"
+        tabIndex={-1}
       >
         <Navbar />
       </header>
 
       {/* ---- MAIN CONTENT ---- */}
       <main
-        id="main-content"
+        id="_main_content"
         role="main"
         className="flex-1 pt-6 pb-10 lg:pb-12 focus-ring scroll-mt-4"
         tabIndex={-1}
