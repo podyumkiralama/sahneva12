@@ -509,8 +509,8 @@ function HeroFeatureGrid() {
   return (
     <ul className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12 list-none p-0 m-0">
       {HERO_FEATURES.map((item, index) => (
-        <li key={item.title} className="m-0 p-0">
-          <ScrollReveal delay={String(index + 1)} direction="scale">
+        <ScrollReveal asChild key={item.title} delay={String(index + 1)} direction="scale">
+          <li className="m-0 p-0">
             <div className="group bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20 hover:border-white/40 transition-all duration-500 hover:scale-105 hover:bg-white/15">
               <div
                 className={`text-2xl mb-2 bg-gradient-to-r ${item.color} text-transparent bg-clip-text`}
@@ -523,8 +523,8 @@ function HeroFeatureGrid() {
               </div>
               <div className="text-white/70 text-xs">{item.description}</div>
             </div>
-          </ScrollReveal>
-        </li>
+          </li>
+        </ScrollReveal>
       ))}
     </ul>
   );
@@ -626,7 +626,7 @@ export default function HomePage() {
         {/* İçerik */}
         <div className="relative z-10 container py-12 md:py-16">
           <div className="max-w-6xl mx-auto text-center mb-10">
-            <ScrollReveal>
+            <ScrollReveal asChild>
               <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20 mb-6">
                 <span
                   className="w-2 h-2 bg-green-400 rounded-full animate-pulse motion-reduce:animate-none"
@@ -639,7 +639,7 @@ export default function HomePage() {
             </ScrollReveal>
 
             {/* Başlık */}
-            <ScrollReveal delay="1">
+            <ScrollReveal delay="1" asChild>
               <h1
                 id="hero-title"
                 className="text-white text-3xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight tracking-tight"
@@ -789,6 +789,7 @@ export default function HomePage() {
                   ({ icon, title, desc, stat }, i) => (
                     <li key={i} className="m-0 p-0">
                       <ScrollReveal
+                        asChild
                         delay={String(i % 3)}
                         direction="scale"
                       >
@@ -843,7 +844,7 @@ export default function HomePage() {
 
             <div className="grid gap-6 lg:gap-8 lg:grid-cols-2">
               {/* Sol blok */}
-              <ScrollReveal direction="left">
+              <ScrollReveal direction="left" asChild>
                 <article className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 shadow-lg border border-blue-100">
                   <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
                     <span
@@ -905,7 +906,7 @@ export default function HomePage() {
               </ScrollReveal>
 
               {/* Sağ blok */}
-              <ScrollReveal direction="right">
+              <ScrollReveal direction="right" asChild>
                 <article className="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-6 shadow-lg border border-purple-100">
                   <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
                     <span

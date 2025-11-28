@@ -269,7 +269,7 @@ function ServicesTabsComponent({
   return (
     <div className="w-full">
       {/* TAB BUTONLARI */}
-      <ScrollReveal>
+      <ScrollReveal asChild>
         <div className="relative mb-12">
           <div
             ref={listRef}
@@ -279,7 +279,7 @@ function ServicesTabsComponent({
             onKeyDown={onKeyDownTabs}
           >
             {services.map((service, index) => (
-              <ScrollReveal key={service.id} delay={String(index)}>
+              <ScrollReveal asChild key={service.id} delay={String(index)}>
                 <button
                   type="button"
                   role="tab"
@@ -318,7 +318,7 @@ function ServicesTabsComponent({
       </ScrollReveal>
 
       {/* TAB PANEL */}
-      <ScrollReveal direction="up">
+      <ScrollReveal direction="up" asChild>
         <div
           className="bg-white rounded-3xl shadow-2xl p-6 md:p-12 border border-gray-100"
           role="tabpanel"
@@ -329,7 +329,7 @@ function ServicesTabsComponent({
           {activeService && (
             <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-start">
               {/* METİN KISMI */}
-              <ScrollReveal direction="left">
+              <ScrollReveal direction="left" asChild>
                 <div className="space-y-6 order-2 lg:order-1">
                   <div className="flex items-center gap-3 mb-4">
                     <span className="text-3xl" aria-hidden="true">
@@ -367,40 +367,38 @@ function ServicesTabsComponent({
                     <ScrollRevealGroup>
                       <ul className="space-y-3">
                         {activeService.features.map((feature, idx) => (
-                          <li key={idx} className="flex items-start gap-3 group">
-                            <ScrollReveal delay={String(idx)}>
-                              <div className="flex items-start gap-3">
-                                <span
-                                  className="w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform"
-                                  aria-hidden="true"
+                          <ScrollReveal asChild delay={String(idx)} key={idx}>
+                            <li className="flex items-start gap-3 group">
+                              <span
+                                className="w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform"
+                                aria-hidden="true"
+                              >
+                                <svg
+                                  className="w-3 h-3 text-white"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
                                 >
-                                  <svg
-                                    className="w-3 h-3 text-white"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth={3}
-                                      d="M5 13l4 4L19 7"
-                                    />
-                                  </svg>
-                                </span>
-                                <span className="text-gray-700 group-hover:text-gray-900 transition-colors">
-                                  {feature}
-                                </span>
-                              </div>
-                            </ScrollReveal>
-                          </li>
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={3}
+                                    d="M5 13l4 4L19 7"
+                                  />
+                                </svg>
+                              </span>
+                              <span className="text-gray-700 group-hover:text-gray-900 transition-colors">
+                                {feature}
+                              </span>
+                            </li>
+                          </ScrollReveal>
                         ))}
                       </ul>
                     </ScrollRevealGroup>
                   </div>
 
                   {/* Detay CTA */}
-                  <ScrollReveal delay="3">
+                  <ScrollReveal delay="3" asChild>
                     <div className="pt-4">
                       <Link
                         href={activeService.href}
@@ -432,7 +430,7 @@ function ServicesTabsComponent({
               </ScrollReveal>
 
               {/* GÖRSEL KISMI */}
-              <ScrollReveal direction="right">
+              <ScrollReveal direction="right" asChild>
                 <div className="relative h-64 md:h-80 lg:h-96 rounded-2xl overflow-hidden shadow-xl order-1 lg:order-2 group">
                   <Image
                     src={activeService ? getImageSrc(activeService) : ""}
