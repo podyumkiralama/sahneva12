@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useMemo } from 'react';
+import { cloneElement, isValidElement, memo, useMemo } from 'react';
 import { useScrollAnimation } from '@/components/hooks/useScrollAnimation';
 
 const ANIMATION_CLASSES = {
@@ -14,11 +14,26 @@ function getAnimationClass(direction) {
   return ANIMATION_CLASSES[direction] ?? ANIMATION_CLASSES.default;
 }
 
+function mergeRefs(...refs) {
+  return (node) => {
+    refs.forEach((ref) => {
+      if (!ref) return;
+
+      if (typeof ref === 'function') {
+        ref(node);
+      } else {
+        ref.current = node;
+      }
+    });
+  };
+}
+
 const ScrollReveal = memo(function ScrollReveal({
   children,
   className = '',
   delay = '',
   direction = 'up',
+  asChild = false,
   ...props
 }) {
   const ref = useScrollAnimation();
@@ -46,6 +61,19 @@ const ScrollReveal = memo(function ScrollReveal({
 
     return classNames.join(' ');
   }, [animationClass, className, delayClass]);
+
+  if (asChild && isValidElement(children)) {
+    const childClass = children.props.className;
+    const mergedClassName = childClass
+      ? `${childClass} ${composedClassName}`.trim()
+      : composedClassName;
+
+    return cloneElement(children, {
+      className: mergedClassName,
+      ref: mergeRefs(children.ref, ref),
+      ...props
+    });
+  }
 
   return (
     <div
