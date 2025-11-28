@@ -114,7 +114,7 @@ const GALLERY_IMAGES = [
 
 /* ================== 5. META DATA ================== */
 export const metadata = {
-  title: "Podyum Kiralama | Profesyonel Sahne Çözümleri | Sahneva",
+  title: "Podyum Kiralama | Profesyonel Sahne Çözümleri",
   description: "Modüler podyum kiralama: 1×1 ve 2×1 paneller, kaymaz kaplama, halı ve skört opsiyonları. İstanbul geneli profesyonel kurulum.",
   alternates: { canonical: `${ORIGIN}/podyum-kiralama` },
   openGraph: {
