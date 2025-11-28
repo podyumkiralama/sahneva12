@@ -1,3 +1,4 @@
+// app/layout.jsx
 import "../styles/globals.css";
 import Script from "next/script";
 import { Inter } from "next/font/google";
@@ -6,19 +7,20 @@ import UtilityBar from "@/components/UtilityBar.client";
 import StickyVideoRailclient from "@/components/StickyVideoRail.client";
 import CriticalAssets from "@/components/CriticalAssets";
 
+// ================== FONT ==================
 const inter = Inter({
-  subsets: ["latin", "latin-ext"], // Arapça gerekli değilse çıkarıldı, yükü azaltır
+  subsets: ["latin", "latin-ext"], // Bu layout TR odaklı, Arapça ayrı layout'ta çözülebilir
   preload: true,
   display: "swap",
   adjustFontFallback: false,
 });
 
-// Site URL'ini güvenli bir şekilde al
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL 
-  ? process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "") 
+// ================== SITE URL (ENV DESTEKLİ) ==================
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL
+  ? process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "")
   : "https://www.sahneva.com";
 
-/* ========================= JSON-LD DATA ========================= */
+// ================== JSON-LD: ORGANIZATION ==================
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -26,7 +28,8 @@ const organizationJsonLd = {
   name: "Sahneva",
   url: SITE_URL,
   logo: `${SITE_URL}/img/logo.png`,
-  description: "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri kiralama hizmetleri",
+  description:
+    "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri kiralama hizmetleri",
   contactPoint: {
     "@type": "ContactPoint",
     telephone: "+90-545-304-8671",
@@ -40,6 +43,7 @@ const organizationJsonLd = {
   ],
 };
 
+// ================== JSON-LD: LOCAL BUSINESS ==================
 const localBusinessJsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
@@ -63,13 +67,22 @@ const localBusinessJsonLd = {
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+      ],
       opens: "09:00",
       closes: "23:00",
     },
   ],
 };
 
+// ================== JSON-LD: WEBSITE ==================
 const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
@@ -77,7 +90,9 @@ const websiteJsonLd = {
   url: SITE_URL,
   name: "Sahneva",
   inLanguage: "tr-TR",
-  publisher: { "@id": `${SITE_URL}/#org` },
+  publisher: {
+    "@id": `${SITE_URL}/#org`,
+  },
   potentialAction: {
     "@type": "SearchAction",
     target: `${SITE_URL}/arama?q={search_term}`,
@@ -85,21 +100,22 @@ const websiteJsonLd = {
   },
 };
 
-// Viewport ve Theme Color (Next.js 14+ Standart)
+// ================== VIEWPORT ==================
 export const viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: "#6d28d9",
 };
 
-// Metadata (SEO)
+// ================== METADATA (SEO) ==================
 export const metadata = {
-  metadataBase: new URL(SITE_URL), // Göreceli URL'ler için kritik
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Sahne, Podyum, LED Ekran & Ses-Işık Kiralama | Sahneva",
     template: "%s | Sahneva",
   },
-  description: "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı kurulum, profesyonel teknik ekip, uygun fiyat. Hemen teklif alın!",
+  description:
+    "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı kurulum, profesyonel teknik ekip, uygun fiyat. Hemen teklif alın!",
   manifest: "/site.webmanifest",
   alternates: {
     canonical: SITE_URL,
@@ -112,7 +128,8 @@ export const metadata = {
   },
   openGraph: {
     title: "Sahneva – Etkinlik Prodüksiyon & Organizasyon",
-    description: "Sahne, podyum, LED ekran, ses-ışık ve kurulum hizmetleri. Türkiye geneli.",
+    description:
+      "Sahne, podyum, LED ekran, ses-ışık ve kurulum hizmetleri. Türkiye geneli.",
     url: SITE_URL,
     siteName: "Sahneva",
     images: [
@@ -132,9 +149,9 @@ export const metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   icons: {
@@ -149,7 +166,7 @@ export const metadata = {
   },
 };
 
-// Kritik CSS (Layout Shift'i önlemek için)
+// ================== CRITICAL CSS ==================
 const criticalCSS = `
 .pt-16{padding-top:4rem}
 @media (min-width:768px){.md\\:pt-20{padding-top:5rem}}
@@ -159,18 +176,21 @@ const criticalCSS = `
 .container{max-width:1280px;margin:0 auto;padding:0 1rem}
 `;
 
+// ================== GA4 ==================
 const DEFAULT_GA_MEASUREMENT_ID = "G-J5YK10YLLC";
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID?.trim() || DEFAULT_GA_MEASUREMENT_ID;
+const GA_MEASUREMENT_ID =
+  process.env.NEXT_PUBLIC_GA_ID?.trim() || DEFAULT_GA_MEASUREMENT_ID;
 const isProd = process.env.NODE_ENV === "production";
 const gaEnabled = isProd && Boolean(GA_MEASUREMENT_ID);
 
+// ================== ROOT LAYOUT ==================
 export default function RootLayout({ children }) {
   return (
     <html
       lang="tr"
       dir="ltr"
       className={inter.className}
-      suppressHydrationWarning // Next.js hydration hatalarını önler (ör: eklentilerden kaynaklı)
+      suppressHydrationWarning
     >
       <head>
         <CriticalAssets />
@@ -189,21 +209,27 @@ export default function RootLayout({ children }) {
 
         {children}
 
-        {/* Global Schema Scripts */}
+        {/* GLOBAL JSON-LD SCHEMA */}
         <script
           id="ld-org"
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd),
+          }}
         />
         <script
           id="ld-local"
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(localBusinessJsonLd),
+          }}
         />
         <script
           id="ld-website"
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteJsonLd),
+          }}
         />
 
         {/* Google Analytics 4 */}
@@ -212,12 +238,9 @@ export default function RootLayout({ children }) {
             <Script
               id="ga4-lib"
               src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-              strategy="afterInteractive" // lazyOnload yerine afterInteractive daha doğru ölçüm sağlar
-            />
-            <Script
-              id="ga4-init"
               strategy="afterInteractive"
-            >
+            />
+            <Script id="ga4-init" strategy="afterInteractive">
               {`
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
