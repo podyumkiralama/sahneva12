@@ -1,45 +1,40 @@
 // app/sitemap.js
 import { services, projects } from "@/lib/data";
+import fs from "fs";
+import path from "path";
 
 const SITE = "https://www.sahneva.com";
 const abs = (p) => (p?.startsWith("http") ? p : `${SITE}${p}`);
 const NOW_ISO = new Date().toISOString();
 
 const REJECT_PATTERNS = [
-  /^\/_next\//,     // build assetleri
-  /^\/api\//,       // API route'lar
-  /^\/?[$&]$/,       // /$ veya /& gibi hatalı path'ler
-  /^\/search/i,     // arama şablonları
+  /^\/_next\//,
+  /^\/api\//,
+  /^\/?[$&]$/,
+  /^\/search/i,
 ];
 
-// path normalizasyonu + filtre
-function clean(path) {
-  if (!path) return null;
-  let p = String(path).trim();
+function clean(pathStr) {
+  if (!pathStr) return null;
+  let p = String(pathStr).trim();
 
-  // absolute URL gelirse sadece path'i al
   try {
     const u = new URL(p, SITE);
-    p = u.pathname; // query + hash at
-  } catch {
-    // relative ise devam
-  }
+    p = u.pathname;
+  } catch {}
 
   if (!p.startsWith("/")) p = `/${p}`;
 
-  // placeholder/braces varsa at
   if (p.includes("{") || p.includes("}")) return null;
 
-  // istenmeyen kalıplar
   if (REJECT_PATTERNS.some((rx) => rx.test(p))) return null;
 
-  // trailing slash standardize (ana sayfa hariç)
   if (p.length > 1 && p.endsWith("/")) p = p.slice(0, -1);
 
   return p;
 }
 
-// ❶ Statik sayfalar
+// --- STATIC PAGES ---
 const STATIC_PAGES = [
   "/",
   "/hizmetler",
@@ -66,13 +61,16 @@ const STATIC_PAGES = [
 ].map((p) => ({
   path: p,
   lastMod: NOW_ISO,
-  change: ["hakkimizda","iletisim"].includes(p.replace("/",""))
-    ? "yearly"
-    : (["/sss", "/en/faq"].includes(p) ? "monthly" : "weekly"),
+  change:
+    ["hakkimizda", "iletisim"].includes(p.replace("/", ""))
+      ? "yearly"
+      : ["/sss", "/en/faq"].includes(p)
+      ? "monthly"
+      : "weekly",
   pr: p === "/" ? 1.0 : 0.9,
 }));
 
-// ❷ İsteğe bağlı sayfa görselleri
+// --- IMAGE MAP ---
 const IMAGE_MAP = {
   "/": ["/img/hero-bg.webp"],
   "/podyum-kiralama": [
@@ -92,23 +90,9 @@ const IMAGE_MAP = {
   "/masa-sandalye-kiralama": ["/img/hizmet-masa.webp"],
   "/hizmetler": ["/img/hizmetler-ust.webp"],
   "/hakkimizda": ["/img/hakkimizda.webp"],
-  "/en": ["/img/hero-bg.webp"],
-  "/en/about": ["/img/hakkimizda.webp"],
-  "/en/led-screen-rental": [
-    "/img/hizmet-led-ekran.webp",
-    "/img/galeri/led-ekran-kiralama-1.webp",
-  ],
-  "/en/stage-rental": ["/img/hizmet-sahne.webp"],
-  "/en/sound-light-rental": ["/img/hizmet-sesisik.webp"],
-  "/en/table-chair-rental": ["/img/hizmet-masa.webp", "/img/sandalye/3.webp"],
-  "/en/tent-rental": [
-    "/img/hizmet-cadir.webp",
-    "/img/galeri/cadir-kiralama-1.webp",
-  ],
-  "/en/faq": ["/img/hizmetler-ust.webp"],
 };
 
-// ❸ services → dinamik
+// --- SERVICES ---
 function dynamicFromServices() {
   const seen = new Set(STATIC_PAGES.map((s) => s.path));
   return (services ?? [])
@@ -123,7 +107,7 @@ function dynamicFromServices() {
     }));
 }
 
-// ❹ projects → dinamik
+// --- PROJECTS ---
 function dynamicFromProjects() {
   return (projects ?? [])
     .map((p) => ({
@@ -136,12 +120,41 @@ function dynamicFromProjects() {
     .filter(({ path }) => Boolean(path));
 }
 
-// ❺ Next.js sitemap çıktısı
+// --- BLOG (YENİ) ---
+function dynamicFromBlog() {
+  const blogDir = path.join(process.cwd(), "app/(tr)/blog");
+
+  if (!fs.existsSync(blogDir)) return [];
+
+  const entries = fs.readdirSync(blogDir, { withFileTypes: true });
+
+  return entries
+    .filter((e) => e.isDirectory())
+    .map((e) => {
+      const slug = e.name;
+      const pageFile = path.join(blogDir, slug, "page.jsx");
+
+      let lastMod = NOW_ISO;
+      try {
+        const stats = fs.statSync(pageFile);
+        lastMod = stats.mtime.toISOString();
+      } catch {}
+
+      return {
+        path: clean(`/blog/${slug}`),
+        lastMod,
+        change: "weekly",
+        pr: 0.85,
+        images: [`${SITE}/img/blog/${slug}-hero.webp`],
+      };
+    })
+    .filter(({ path }) => Boolean(path));
+}
+
+// --- EXPORT ---
 export default function sitemap() {
   const base = [...STATIC_PAGES, ...dynamicFromServices()];
-  const proj = dynamicFromProjects();
 
-  // duplicate temizliği
   const uniq = new Map();
   for (const item of base) {
     const path = clean(item.path);
@@ -157,7 +170,7 @@ export default function sitemap() {
     images: (IMAGE_MAP[path] ?? []).map(abs),
   }));
 
-  const projectItems = proj.map(({ path, lastMod, change, pr, images }) => ({
+  const projectItems = dynamicFromProjects().map(({ path, lastMod, change, pr, images }) => ({
     url: abs(path),
     lastModified: new Date(lastMod).toISOString(),
     changeFrequency: change,
@@ -165,5 +178,13 @@ export default function sitemap() {
     images,
   }));
 
-  return [...baseWithImages, ...projectItems];
+  const blogItems = dynamicFromBlog().map(({ path, lastMod, change, pr, images }) => ({
+    url: abs(path),
+    lastModified: new Date(lastMod).toISOString(),
+    changeFrequency: change,
+    priority: pr,
+    images,
+  }));
+
+  return [...baseWithImages, ...projectItems, ...blogItems];
 }
