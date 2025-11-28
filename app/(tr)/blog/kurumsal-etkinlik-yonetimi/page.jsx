@@ -15,6 +15,7 @@ export const metadata = {
   alternates: {
     canonical: BLOG_URL,
   },
+  image: "/img/blog/kurumsal-etkinlik-hero.webp",
   openGraph: {
     title: "Kurumsal Etkinlik Yönetimi: Teknik Kiralama Rehberi",
     description:
