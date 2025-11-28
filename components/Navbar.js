@@ -4,13 +4,22 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useState, useEffect, useRef, useCallback } from "react";
+import {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+} from "react";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 
-const focusRingClass = "focus-ring";
+// Tek yerde tanımlı focus ring helper
+const FOCUS_RING_CLASS =
+  "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white";
 const MOBILE_MENU_HEADING_ID = "navbar-mobile-menu-heading";
 
-const serviceLinks = [
+// Tüm hizmet linkleri (bileşen dışı, re-render'da değişmez)
+const SERVICE_LINKS = [
   {
     href: "/podyum-kiralama",
     label: "Podyum Kiralama",
@@ -57,13 +66,20 @@ const serviceLinks = [
 
 export default function Navbar() {
   const pathname = usePathname();
-  // Safe access for localization
-  const headerStrings = LOCALE_CONTENT?.tr?.header || {};
 
+  // Lokalizasyon fallback
+  const headerStrings = LOCALE_CONTENT?.tr?.header || {
+    navLabel: "Ana gezinme",
+    mobileToggleOpenLabel: "Menüyü aç",
+    mobileToggleCloseLabel: "Menüyü kapat",
+  };
+
+  // State
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
 
+  // Refs
   const dropdownRef = useRef(null);
   const hoverTimer = useRef(null);
   const mobileMenuRef = useRef(null);
@@ -71,119 +87,52 @@ export default function Navbar() {
   const servicesButtonRef = useRef(null);
   const serviceItemRefs = useRef([]);
   const previouslyFocusedElement = useRef(null);
-  const previousOverflow = useRef("");
 
+  // ARIA id'leri
   const mobileMenuId = "mobile_menu";
-  const mobileMenuHeadingId = MOBILE_MENU_HEADING_ID;
   const servicesBtnId = "nav-services-button";
   const servicesMenuId = "nav-services-menu";
 
-  const mobileToggleOpenLabel = headerStrings?.mobileToggleOpenLabel ?? "Menüyü aç";
-  const mobileToggleCloseLabel = headerStrings?.mobileToggleCloseLabel ?? "Menüyü kapat";
+  // Aktif link helper
+  const active = useCallback(
+    (href) =>
+      pathname === href ||
+      (href !== "/" && pathname?.startsWith(href)),
+    [pathname]
+  );
 
-  /* =============== ESC ile kapatma =============== */
-  useEffect(() => {
-    const onKey = (e) => {
-      if (e.key !== "Escape") return;
-
-      const wasMobileOpen = mobileOpen;
-      const wasServicesOpen = servicesOpen;
-
-      setMobileOpen(false);
-      setServicesOpen(false);
-      setMobileServicesOpen(false);
-
-      if (wasMobileOpen) {
-        toggleButtonRef.current?.focus();
-      } else if (wasServicesOpen) {
-        servicesButtonRef.current?.focus();
-      }
-    };
-
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [mobileOpen, servicesOpen]);
-
-  /* =============== Rota değişince hepsini kapat =============== */
-  useEffect(() => {
-    setMobileOpen(false);
-    setServicesOpen(false);
-    setMobileServicesOpen(false);
-  }, [pathname]);
-
-  /* =============== Mobil açıkken body scroll kilidi =============== */
-  useEffect(() => {
-    if (mobileOpen) {
-      previousOverflow.current = document.body.style.overflow;
-      previouslyFocusedElement.current = document.activeElement;
-      document.body.style.overflow = "hidden";
-      document.body.classList.add("overflow-hidden");
-    } else {
-      document.body.style.overflow = previousOverflow.current || "";
-      document.body.classList.remove("overflow-hidden");
-      // Focus restoration only if we explicitly locked it
-      if (previouslyFocusedElement.current instanceof HTMLElement) {
-        // Optional: restore focus
-      }
-    }
-
-    return () => {
-      document.body.style.overflow = previousOverflow.current || "";
-      document.body.classList.remove("overflow-hidden");
-    };
-  }, [mobileOpen]);
-
-  /* =============== Hizmetler dropdown dış tıklama =============== */
-  useEffect(() => {
-    function onClickOutside(e) {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setServicesOpen(false);
-      }
-    }
-    if (servicesOpen) document.addEventListener("mousedown", onClickOutside);
-    return () => document.removeEventListener("mousedown", onClickOutside);
-  }, [servicesOpen]);
-
-  /* =============== Mobil menü odak tuzağı (Focus Trap) =============== */
-  useEffect(() => {
-    if (!mobileOpen) return undefined;
-
-    const menuNode = mobileMenuRef.current;
-    if (!menuNode) return undefined;
-
-    const focusableSelectors =
-      'a[href]:not([tabindex="-1"]), button:not([disabled]), [tabindex="0"]';
-    const focusable = menuNode.querySelectorAll(focusableSelectors);
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-
-    if (first instanceof HTMLElement) {
-      // Small delay to ensure transition doesn't mess up focus
-      setTimeout(() => first.focus(), 50);
-    }
-
-    const handleKeyDown = (event) => {
-      if (event.key === "Tab" && focusable.length > 0) {
-        if (event.shiftKey) {
-          if (document.activeElement === first) {
-            event.preventDefault();
-            last.focus();
-          }
-        } else if (document.activeElement === last) {
-          event.preventDefault();
-          first.focus();
-        }
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [mobileOpen]);
-
-  useEffect(
-    () => () => hoverTimer.current && clearTimeout(hoverTimer.current),
+  // Class memo'ları
+  const whatsappBtnClass = useMemo(
+    () =>
+      `ml-2 inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-white text-sm font-bold 
+       bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 
+       transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 
+       min-h-[44px] border border-green-600/20 ${FOCUS_RING_CLASS}`,
     []
   );
+
+  const mobileWhatsappBtnClass = useMemo(
+    () =>
+      `block text-center mt-4 rounded-xl px-5 py-3 text-white text-sm font-bold 
+       bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 
+       transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 
+       min-h-[44px] flex items-center justify-center gap-2 border border-green-600/20 ${FOCUS_RING_CLASS}`,
+    []
+  );
+
+  /* =============== Hover helper (Hizmetler) =============== */
+  const openNow = useCallback(() => {
+    if (hoverTimer.current) clearTimeout(hoverTimer.current);
+    setServicesOpen(true);
+  }, []);
+
+  const closeWithDelay = useCallback(() => {
+    if (hoverTimer.current) clearTimeout(hoverTimer.current);
+    hoverTimer.current = setTimeout(
+      () => setServicesOpen(false),
+      200
+    );
+  }, []);
 
   /* =============== Hizmetler klavye navigasyonu =============== */
   const focusServiceItem = useCallback((index) => {
@@ -197,122 +146,302 @@ export default function Navbar() {
   const openServicesMenuAndFocus = useCallback(
     (index = 0) => {
       setServicesOpen(true);
-      setTimeout(() => focusServiceItem(index), 0);
+      requestAnimationFrame(() => focusServiceItem(index));
     },
     [focusServiceItem]
   );
 
   const handleServicesButtonKeyDown = useCallback(
     (event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        setServicesOpen((prev) => {
-          const next = !prev;
-          if (!prev && next) {
-            setTimeout(() => focusServiceItem(0), 0);
-          }
-          return next;
-        });
-        return;
-      }
-
-      if (event.key === "ArrowDown") {
-        event.preventDefault();
-        if (servicesOpen) {
-          focusServiceItem(0);
-        } else {
-          openServicesMenuAndFocus(0);
-        }
-        return;
-      }
-
-      if (event.key === "ArrowUp") {
-        event.preventDefault();
-        if (servicesOpen) {
-          focusServiceItem(serviceLinks.length - 1);
-        } else {
-          openServicesMenuAndFocus(serviceLinks.length - 1);
-        }
+      switch (event.key) {
+        case "Enter":
+        case " ":
+          event.preventDefault();
+          setServicesOpen((prev) => {
+            const next = !prev;
+            if (next) {
+              requestAnimationFrame(() => focusServiceItem(0));
+            }
+            return next;
+          });
+          break;
+        case "ArrowDown":
+          event.preventDefault();
+          servicesOpen
+            ? focusServiceItem(0)
+            : openServicesMenuAndFocus(0);
+          break;
+        case "ArrowUp":
+          event.preventDefault();
+          servicesOpen
+            ? focusServiceItem(SERVICE_LINKS.length - 1)
+            : openServicesMenuAndFocus(
+                SERVICE_LINKS.length - 1
+              );
+          break;
       }
     },
-    [focusServiceItem, openServicesMenuAndFocus, servicesOpen]
+    [
+      focusServiceItem,
+      openServicesMenuAndFocus,
+      servicesOpen,
+    ]
   );
 
   const handleServiceItemKeyDown = useCallback(
     (event, index) => {
-      if (event.key === "ArrowDown") {
-        event.preventDefault();
-        focusServiceItem(index + 1);
-        return;
-      }
-
-      if (event.key === "ArrowUp") {
-        event.preventDefault();
-        focusServiceItem(index - 1);
-        return;
-      }
-
-      if (event.key === "Home") {
-        event.preventDefault();
-        focusServiceItem(0);
-        return;
-      }
-
-      if (event.key === "End") {
-        event.preventDefault();
-        focusServiceItem(serviceLinks.length - 1);
-        return;
-      }
-
-      if (event.key === "Escape") {
-        event.preventDefault();
-        setServicesOpen(false);
-        servicesButtonRef.current?.focus();
+      switch (event.key) {
+        case "ArrowDown":
+          event.preventDefault();
+          focusServiceItem(index + 1);
+          break;
+        case "ArrowUp":
+          event.preventDefault();
+          focusServiceItem(index - 1);
+          break;
+        case "Home":
+          event.preventDefault();
+          focusServiceItem(0);
+          break;
+        case "End":
+          event.preventDefault();
+          focusServiceItem(SERVICE_LINKS.length - 1);
+          break;
+        case "Escape":
+          event.preventDefault();
+          setServicesOpen(false);
+          servicesButtonRef.current?.focus();
+          break;
       }
     },
     [focusServiceItem]
   );
 
+  /* =============== ESC ile global kapatma =============== */
   useEffect(() => {
-    if (servicesOpen && document.activeElement === servicesButtonRef.current) {
-      setTimeout(() => focusServiceItem(0), 0);
-    }
-  }, [focusServiceItem, servicesOpen]);
+    const handleEscape = (e) => {
+      if (e.key !== "Escape") return;
 
-  const active = useCallback(
-    (href) => pathname === href || (href !== "/" && pathname?.startsWith(href)),
-    [pathname]
+      const wasMobileOpen = mobileOpen;
+      const wasServicesOpen = servicesOpen;
+
+      setMobileOpen(false);
+      setServicesOpen(false);
+      setMobileServicesOpen(false);
+
+      requestAnimationFrame(() => {
+        if (wasMobileOpen) {
+          toggleButtonRef.current?.focus();
+        } else if (wasServicesOpen) {
+          servicesButtonRef.current?.focus();
+        }
+      });
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () =>
+      document.removeEventListener("keydown", handleEscape);
+  }, [mobileOpen, servicesOpen]);
+
+  /* =============== Rota değişince hepsini kapat =============== */
+  useEffect(() => {
+    setMobileOpen(false);
+    setServicesOpen(false);
+    setMobileServicesOpen(false);
+  }, [pathname]);
+
+  /* =============== Mobil açıkken body scroll kilidi =============== */
+  useEffect(() => {
+    if (mobileOpen) {
+      previouslyFocusedElement.current =
+        document.activeElement;
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+
+      requestAnimationFrame(() => {
+        if (
+          previouslyFocusedElement.current instanceof
+          HTMLElement
+        ) {
+          previouslyFocusedElement.current?.focus();
+        }
+      });
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
+  /* =============== Hizmetler dropdown dış tıklama =============== */
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target)
+      ) {
+        setServicesOpen(false);
+      }
+    };
+
+    if (servicesOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () =>
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside
+      );
+  }, [servicesOpen]);
+
+  /* =============== Mobil menü odak tuzağı (Focus Trap) =============== */
+  useEffect(() => {
+    if (!mobileOpen) return;
+
+    const menuNode = mobileMenuRef.current;
+    if (!menuNode) return;
+
+    const focusableSelectors =
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    const focusable = Array.from(
+      menuNode.querySelectorAll(focusableSelectors)
+    );
+
+    if (!focusable.length) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    requestAnimationFrame(() => {
+      first instanceof HTMLElement && first.focus();
+    });
+
+    const handleKeyDown = (event) => {
+      if (event.key !== "Tab") return;
+
+      const activeEl = document.activeElement;
+
+      if (event.shiftKey) {
+        if (activeEl === first) {
+          event.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (activeEl === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () =>
+      document.removeEventListener("keydown", handleKeyDown);
+  }, [mobileOpen]);
+
+  /* =============== Hizmetler menü açıldığında ilk iteme fokus =============== */
+  useEffect(() => {
+    if (
+      servicesOpen &&
+      document.activeElement === servicesButtonRef.current
+    ) {
+      requestAnimationFrame(() => focusServiceItem(0));
+    }
+  }, [servicesOpen, focusServiceItem]);
+
+  /* =============== Hover timer cleanup =============== */
+  useEffect(() => {
+    return () => {
+      if (hoverTimer.current)
+        clearTimeout(hoverTimer.current);
+    };
+  }, []);
+
+  /* =============== Tekrarlı NavLink helper =============== */
+  const NavLink = useCallback(
+    ({ href, children, title, className = "" }) => (
+      <Link
+        href={href}
+        className={`
+          relative text-[15px] font-bold transition-all duration-200 px-4 py-2.5 rounded-xl
+          ${
+            active(href)
+              ? "text-blue-700 bg-blue-50 border border-blue-200"
+              : "text-neutral-900 hover:text-blue-700 hover:bg-neutral-50 hover:border hover:border-neutral-200"
+          }
+          ${FOCUS_RING_CLASS} ${className}
+        `}
+        aria-current={active(href) ? "page" : undefined}
+        title={title}
+      >
+        {children}
+      </Link>
+    ),
+    [active]
   );
 
-  /* =============== Hover helper =============== */
-  const openNow = () => {
-    if (hoverTimer.current) clearTimeout(hoverTimer.current);
-    setServicesOpen(true);
-  };
-
-  const closeWithDelay = () => {
-    if (hoverTimer.current) clearTimeout(hoverTimer.current);
-    hoverTimer.current = setTimeout(() => setServicesOpen(false), 200);
-  };
-
-  const whatsappBtnClass = `ml-2 inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-white text-sm font-bold bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 min-h-[44px] border border-green-600/20 ${focusRingClass}`;
-
-  const mobileWhatsappBtnClass = `block text-center mt-4 rounded-xl px-5 py-3 text-white text-sm font-bold bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 min-h-[44px] flex items-center justify-center gap-2 border border-green-600/20 ${focusRingClass}`;
-
-  serviceItemRefs.current.length = serviceLinks.length;
+  /* =============== ServiceLink helper =============== */
+  const ServiceLink = useCallback(
+    ({
+      href,
+      label,
+      title,
+      icon,
+      description,
+      index,
+    }) => (
+      <Link
+        href={href}
+        ref={(node) => {
+          serviceItemRefs.current[index] = node;
+        }}
+        className={`
+          group flex items-start gap-3 px-3 py-2 text-sm text-neutral-700
+          hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all duration-200
+          w-full transform hover:scale-[1.02] ${FOCUS_RING_CLASS}
+        `}
+        onClick={() => setServicesOpen(false)}
+        onKeyDown={(event) =>
+          handleServiceItemKeyDown(event, index)
+        }
+        aria-current={active(href) ? "page" : undefined}
+        title={title}
+      >
+        <span
+          className="text-lg opacity-70 group-hover:opacity-100 transition-opacity mt-0.5 flex-shrink-0"
+          aria-hidden="true"
+        >
+          {icon}
+        </span>
+        <div className="flex-1 min-w-0">
+          <div className="font-medium text-neutral-900 group-hover:text-blue-600">
+            {label}
+          </div>
+          <div className="text-xs text-neutral-500 mt-0.5">
+            {description}
+          </div>
+        </div>
+      </Link>
+    ),
+    [active, handleServiceItemKeyDown]
+  );
 
   return (
     <>
       <nav
-        aria-label={headerStrings?.navLabel ?? "Ana gezinme"}
-        className="fixed top-0 inset-x-0 z-50 bg-white border-b border-neutral-200/80 shadow-lg"
+        aria-label={headerStrings.navLabel}
+        className="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur border-b border-neutral-200/80 shadow-lg"
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
             <Link
               href="/"
-              className={`flex items-center gap-3 group ${focusRingClass}`}
+              className={`flex items-center gap-3 group ${FOCUS_RING_CLASS}`}
               aria-label="Sahneva - Profesyonel sahne ve etkinlik ekipmanları kiralama"
               title="Sahneva Ana Sayfa - Etkinlik ekipmanları kiralama"
             >
@@ -328,35 +457,23 @@ export default function Navbar() {
               />
             </Link>
 
-            {/* Masaüstü menü */}
+            {/* Desktop Menu */}
             <div className="hidden lg:flex items-center gap-4">
-              <Link
+              <NavLink
                 href="/hakkimizda"
-                className={
-                  active("/hakkimizda")
-                    ? `relative text-[15px] font-bold transition-all duration-200 px-4 py-2.5 rounded-xl text-blue-700 bg-blue-50 border border-blue-200 ${focusRingClass}`
-                    : `relative text-[15px] font-bold transition-all duration-200 px-4 py-2.5 rounded-xl text-neutral-800 hover:text-blue-700 hover:bg-neutral-50 hover:border hover:border-neutral-200 ${focusRingClass}`
-                }
-                aria-current={active("/hakkimizda") ? "page" : undefined}
                 title="Sahneva Hakkında - Şirket bilgileri ve referanslar"
               >
                 Hakkımızda
-              </Link>
+              </NavLink>
 
-              <Link
+              <NavLink
                 href="/blog"
-                className={
-                  active("/blog")
-                    ? `relative text-[15px] font-bold transition-all duration-200 px-4 py-2.5 rounded-xl text-blue-700 bg-blue-50 border border-blue-200 ${focusRingClass}`
-                    : `relative text-[15px] font-bold transition-all duration-200 px-4 py-2.5 rounded-xl text-neutral-800 hover:text-blue-700 hover:bg-neutral-50 hover:border hover:border-neutral-200 ${focusRingClass}`
-                }
-                aria-current={active("/blog") ? "page" : undefined}
                 title="Sahneva Blog - Etkinlik planlama rehberleri ve ipuçları"
               >
                 Blog
-              </Link>
+              </NavLink>
 
-              {/* Hizmetler açılır menü */}
+              {/* Hizmetler Dropdown */}
               <div
                 className="relative"
                 ref={dropdownRef}
@@ -368,15 +485,21 @@ export default function Navbar() {
                 <button
                   id={servicesBtnId}
                   type="button"
-                  className={
-                    active("/hizmetler") || servicesOpen
-                      ? `relative text-[15px] font-bold px-4 py-2.5 rounded-xl transition-all duration-200 group border text-blue-700 bg-blue-50 border-blue-200 ${focusRingClass}`
-                      : `relative text-[15px] font-bold px-4 py-2.5 rounded-xl transition-all duration-200 group border text-neutral-800 hover:text-blue-700 hover:bg-neutral-50 border-transparent hover:border-neutral-200 ${focusRingClass}`
-                  }
+                  className={`
+                    relative text-[15px] font-bold px-4 py-2.5 rounded-xl transition-all duration-200 group border
+                    ${
+                      active("/hizmetler") || servicesOpen
+                        ? "text-blue-700 bg-blue-50 border-blue-200"
+                        : "text-neutral-900 hover:text-blue-700 hover:bg-neutral-50 border-transparent hover:border-neutral-200"
+                    }
+                    ${FOCUS_RING_CLASS}
+                  `}
                   aria-haspopup="true"
                   aria-expanded={servicesOpen}
                   aria-controls={servicesMenuId}
-                  onClick={() => setServicesOpen((s) => !s)}
+                  onClick={() =>
+                    setServicesOpen((s) => !s)
+                  }
                   onKeyDown={handleServicesButtonKeyDown}
                   ref={servicesButtonRef}
                   title="Sahneva Hizmetler - Tüm ekipman kiralama hizmetlerimiz"
@@ -402,77 +525,47 @@ export default function Navbar() {
                   </span>
                 </button>
 
-                {/* Hover kaybında boşluk köprüsü */}
+                {/* Hover boşluk köprüsü */}
                 <span
                   aria-hidden="true"
                   className="absolute left-0 right-0 top-full h-2"
                   onMouseEnter={openNow}
                 />
 
-                <div
+                <ul
                   id={servicesMenuId}
                   aria-labelledby={servicesBtnId}
-                  role="menu"
-                  // hidden={!servicesOpen} -> Kaldırıldı: Animasyonun çalışması için pointer-events ve opacity kullanıyoruz
-                  className={`absolute left-0 top-full mt-2 w-80 bg-white border border-neutral-200 rounded-xl shadow-xl z-[60] overflow-hidden transition-all duration-200 ${
-                    servicesOpen
-                      ? "opacity-100 translate-y-0"
-                      : "opacity-0 translate-y-2 pointer-events-none"
-                  } flex flex-col p-2`}
+                  className={`
+                    absolute left-0 top-full mt-2 w-80 bg-white border border-neutral-200 rounded-xl shadow-xl
+                    z-[60] overflow-hidden transition-all duration-200 flex flex-col p-2
+                    ${
+                      servicesOpen
+                        ? "opacity-100 translate-y-0 pointer-events-auto"
+                        : "opacity-0 translate-y-2 pointer-events-none"
+                    }
+                  `}
                   onMouseEnter={openNow}
                   onMouseLeave={closeWithDelay}
                 >
-                  {serviceLinks.map(
-                    ({ href, label, title, icon, description }, index) => (
-                      <Link
-                        key={href}
-                        href={href}
-                        role="menuitem"
-                        ref={(node) => {
-                          serviceItemRefs.current[index] = node;
-                        }}
-                        className={`group flex items-start gap-3 px-3 py-2 text-sm text-neutral-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all duration-200 w-full transform hover:scale-[1.02] ${focusRingClass}`}
-                        onClick={() => setServicesOpen(false)}
-                        onKeyDown={(event) =>
-                          handleServiceItemKeyDown(event, index)
-                        }
-                        aria-current={active(href) ? "page" : undefined}
-                        title={title}
-                      >
-                        <span
-                          className="text-lg opacity-70 group-hover:opacity-100 transition-opacity mt-0.5 flex-shrink-0"
-                          aria-hidden="true"
-                        >
-                          {icon}
-                        </span>
-                        <div className="flex-1 min-w-0">
-                          <div className="font-medium text-neutral-800 group-hover:text-blue-600">
-                            {label}
-                          </div>
-                          <div className="text-xs text-neutral-500 mt-0.5">
-                            {description}
-                          </div>
-                        </div>
-                      </Link>
-                    )
-                  )}
-                </div>
+                  {SERVICE_LINKS.map((service, index) => (
+                    <li key={service.href} className="list-none">
+                      <ServiceLink
+                        index={index}
+                        {...service}
+                      />
+                    </li>
+                  ))}
+                </ul>
               </div>
 
-              <Link
+              <NavLink
                 href="/iletisim"
-                className={
-                  active("/iletisim")
-                    ? `relative text-[15px] font-bold transition-all duration-200 px-4 py-2.5 rounded-xl text-blue-700 bg-blue-50 border border-blue-200 ${focusRingClass}`
-                    : `relative text-[15px] font-bold transition-all duration-200 px-4 py-2.5 rounded-xl text-neutral-800 hover:text-blue-700 hover:bg-neutral-50 hover:border hover:border-neutral-200 ${focusRingClass}`
-                }
-                aria-current={active("/iletisim") ? "page" : undefined}
                 title="Sahneva İletişim - Bize ulaşın ve teklif alın"
               >
                 İletişim
-              </Link>
+              </NavLink>
 
-              {/* Masaüstü WhatsApp CTA */}
+              {/* Desktop WhatsApp CTA */}
               <a
                 href="https://wa.me/905453048671?text=Merhaba%2C+sahne+ve+etkinlik+ekipmanları+için+teklif+almak+istiyorum."
                 target="_blank"
@@ -481,81 +574,114 @@ export default function Navbar() {
                 className={whatsappBtnClass}
                 title="WhatsApp'tan teklif alın"
               >
-                <span aria-hidden="true" className="text-base">
+                <span
+                  aria-hidden="true"
+                  className="text-base"
+                >
                   💬
                 </span>
                 <span>WhatsApp Teklif</span>
-                <span className="sr-only"> — yeni sekmede açılır</span>
+                <span className="sr-only">
+                  {" "}
+                  — yeni sekmede açılır
+                </span>
               </a>
             </div>
 
-            {/* Mobil menü butonu */}
+            {/* Mobile menu button */}
             <button
               type="button"
               ref={toggleButtonRef}
-              onClick={() => setMobileOpen((s) => !s)}
-              className={`lg:hidden inline-flex items-center justify-center p-3 rounded-xl bg-white border border-neutral-200 hover:bg-neutral-50 transition-all duration-200 min-h-[44px] min-w-[44px] transform hover:scale-105 ${focusRingClass}`}
+              onClick={() =>
+                setMobileOpen((s) => !s)
+              }
+              className={`
+                lg:hidden inline-flex items-center justify-center p-3 rounded-xl bg-white border 
+                border-neutral-200 hover:bg-neutral-50 transition-all duration-200 
+                min-h-[44px] min-w-[44px] transform hover:scale-105 ${FOCUS_RING_CLASS}
+              `}
               aria-label={
-                mobileOpen ? mobileToggleCloseLabel : mobileToggleOpenLabel
+                mobileOpen
+                  ? headerStrings.mobileToggleCloseLabel
+                  : headerStrings.mobileToggleOpenLabel
               }
               aria-expanded={mobileOpen}
               aria-controls={mobileMenuId}
               aria-haspopup="true"
               title="Mobil menü"
             >
-              <span className="relative w-6 h-6" aria-hidden="true">
+              <span
+                className="relative w-6 h-6 flex flex-col justify-center items-center gap-1.5"
+                aria-hidden="true"
+              >
                 <span
-                  className={`absolute top-1/2 left-1/2 w-5 h-0.5 bg-neutral-800 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-200 ${
-                    mobileOpen ? "-translate-y-2 opacity-0" : "-translate-y-2"
-                  } ${mobileOpen ? "rotate-45 opacity-0" : ""}`}
-                  // Not: Yukarıdaki mantık, 3 çizgili hamburgeri X'e çevirmek içindi,
-                  // sadeleştirmek adına aşağıda daha temiz bir versiyon:
+                  className={`w-5 h-0.5 bg-neutral-900 rounded-full transition-all duration-300 origin-center ${
+                    mobileOpen
+                      ? "rotate-45 translate-y-2"
+                      : ""
+                  }`}
                 />
-                 {/* Çizgi 1 */}
-                 <span className={`absolute top-1/2 left-1/2 w-5 h-0.5 bg-neutral-800 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-200 ${
-                    mobileOpen ? "rotate-45" : "-translate-y-2"
-                 }`}></span>
-                 {/* Çizgi 2 (Orta) */}
-                 <span className={`absolute top-1/2 left-1/2 w-5 h-0.5 bg-neutral-800 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-200 ${
+                <span
+                  className={`w-5 h-0.5 bg-neutral-900 rounded-full transition-all duration-300 ${
                     mobileOpen ? "opacity-0" : "opacity-100"
-                 }`}></span>
-                 {/* Çizgi 3 */}
-                 <span className={`absolute top-1/2 left-1/2 w-5 h-0.5 bg-neutral-800 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-200 ${
-                    mobileOpen ? "-rotate-45" : "translate-y-2"
-                 }`}></span>
+                  }`}
+                />
+                <span
+                  className={`w-5 h-0.5 bg-neutral-900 rounded-full transition-all duration-300 origin-center ${
+                    mobileOpen
+                      ? "-rotate-45 -translate-y-2"
+                      : ""
+                  }`}
+                />
               </span>
             </button>
           </div>
         </div>
       </nav>
 
-      {/* Mobil menü */}
+      {/* Mobile Menu */}
       <div
         id={mobileMenuId}
         ref={mobileMenuRef}
         role="dialog"
         aria-modal={mobileOpen || undefined}
-        aria-labelledby={mobileMenuHeadingId}
-        hidden={!mobileOpen}
-        className="lg:hidden fixed z-50 left-0 right-0 top-16 bg-white border-t border-neutral-200 shadow-2xl max-h-[80vh] opacity-100 transition-all duration-300 overflow-hidden"
+        aria-labelledby={MOBILE_MENU_HEADING_ID}
+        className={`
+          lg:hidden fixed z-50 left-0 right-0 top-16 bg-white border-t border-neutral-200 
+          shadow-2xl overflow-hidden transition-all duration-300 ease-in-out
+          ${
+            mobileOpen
+              ? "max-h-[85vh] opacity-100 pointer-events-auto visible"
+              : "max-h-0 opacity-0 pointer-events-none invisible"
+          }
+        `}
       >
-        <h2 id={mobileMenuHeadingId} className="sr-only">
-          {headerStrings?.navLabel ?? "Ana gezinme menüsü"}
+        <h2
+          id={MOBILE_MENU_HEADING_ID}
+          className="sr-only"
+        >
+          {headerStrings.navLabel}
         </h2>
 
-        <nav
-          id="primary-navigation-mobile"
-          aria-label={headerStrings?.navLabel ?? "Ana gezinme"}
-        >
+        <nav aria-label={headerStrings.navLabel}>
           <div className="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
             <Link
               href="/hakkimizda"
               onClick={() => setMobileOpen(false)}
-              className={`flex items-center gap-3 py-3.5 px-4 text-neutral-800 font-bold text-[15px] rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 transform hover:scale-[1.02] ${focusRingClass}`}
-              aria-current={active("/hakkimizda") ? "page" : undefined}
+              className={`
+                flex items-center gap-3 py-3.5 px-4 text-neutral-900 font-bold text-[15px] rounded-xl
+                hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent
+                hover:border-blue-200 transform hover:scale-[1.02] ${FOCUS_RING_CLASS}
+              `}
+              aria-current={
+                active("/hakkimizda") ? "page" : undefined
+              }
               title="Sahneva Hakkında"
             >
-              <span className="text-lg" aria-hidden="true">
+              <span
+                className="text-lg"
+                aria-hidden="true"
+              >
                 👥
               </span>
               Hakkımızda
@@ -564,27 +690,47 @@ export default function Navbar() {
             <Link
               href="/blog"
               onClick={() => setMobileOpen(false)}
-              className={`flex items-center gap-3 py-3.5 px-4 text-neutral-800 font-bold text-[15px] rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 transform hover:scale-[1.02] ${focusRingClass}`}
-              aria-current={active("/blog") ? "page" : undefined}
+              className={`
+                flex items-center gap-3 py-3.5 px-4 text-neutral-900 font-bold text-[15px] rounded-xl
+                hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent
+                hover:border-blue-200 transform hover:scale-[1.02] ${FOCUS_RING_CLASS}
+              `}
+              aria-current={
+                active("/blog") ? "page" : undefined
+              }
               title="Sahneva Blog - Etkinlik planlama rehberleri"
             >
-              <span className="text-lg" aria-hidden="true">
+              <span
+                className="text-lg"
+                aria-hidden="true"
+              >
                 📝
               </span>
               Blog
             </Link>
 
+            {/* Mobil Hizmetler akordeon */}
             <div className="py-1">
               <button
                 type="button"
-                onClick={() => setMobileServicesOpen((s) => !s)}
+                onClick={() =>
+                  setMobileServicesOpen((s) => !s)
+                }
                 aria-expanded={mobileServicesOpen}
                 aria-controls="mobile-services-list"
-                className={`w-full flex items-center justify-between gap-3 py-3.5 px-4 text-[15px] font-bold text-neutral-900 rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 min-h-[44px] transform hover:scale-[1.02] ${focusRingClass}`}
+                className={`
+                  w-full flex items-center justify-between gap-3 py-3.5 px-4 text-[15px] font-bold 
+                  text-neutral-900 rounded-xl hover:bg-blue-50 hover:text-blue-700 
+                  transition-all duration-200 border border-transparent hover:border-blue-200 
+                  min-h-[44px] transform hover:scale-[1.02] ${FOCUS_RING_CLASS}
+                `}
                 title="Sahneva Hizmetler Menüsü"
               >
                 <span className="flex items-center gap-3">
-                  <span className="text-lg" aria-hidden="true">
+                  <span
+                    className="text-lg"
+                    aria-hidden="true"
+                  >
                     🎯
                   </span>
                   <span>Hizmetler</span>
@@ -607,21 +753,39 @@ export default function Navbar() {
 
               <div
                 id="mobile-services-list"
-                className={`overflow-hidden transition-all duration-200 ${
-                  mobileServicesOpen
-                    ? "max-h-[600px] opacity-100"
-                    : "max-h-0 opacity-0"
-                }`}
+                className={`
+                  overflow-hidden transition-all duration-300 ease-in-out
+                  ${
+                    mobileServicesOpen
+                      ? "max-h-[600px] opacity-100 py-2"
+                      : "max-h-0 opacity-0 py-0"
+                  }
+                `}
               >
                 <div className="ml-4 rounded-lg border border-neutral-200 bg-white p-2 space-y-1">
-                  {serviceLinks.map(
-                    ({ href, label, title, icon, description }) => (
+                  {SERVICE_LINKS.map(
+                    ({
+                      href,
+                      label,
+                      title,
+                      icon,
+                      description,
+                    }) => (
                       <Link
                         key={href}
                         href={href}
-                        onClick={() => setMobileOpen(false)}
-                        className={`flex items-start gap-3 px-3 py-2 text-sm text-neutral-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition-all duration-200 w-full transform hover:scale-[1.01] ${focusRingClass}`}
-                        aria-current={active(href) ? "page" : undefined}
+                        onClick={() =>
+                          setMobileOpen(false)
+                        }
+                        className={`
+                          flex items-start gap-3 px-3 py-2 text-sm text-neutral-700 
+                          hover:bg-blue-50 hover:text-blue-600 rounded-md 
+                          transition-all duration-200 w-full transform hover:scale-[1.01] 
+                          ${FOCUS_RING_CLASS}
+                        `}
+                        aria-current={
+                          active(href) ? "page" : undefined
+                        }
                         title={title}
                       >
                         <span
@@ -631,7 +795,7 @@ export default function Navbar() {
                           {icon}
                         </span>
                         <div className="flex-1 min-w-0">
-                          <div className="font-medium text-neutral-800">
+                          <div className="font-medium text-neutral-900">
                             {label}
                           </div>
                           <div className="text-xs text-neutral-500 mt-0.5">
@@ -648,11 +812,20 @@ export default function Navbar() {
             <Link
               href="/iletisim"
               onClick={() => setMobileOpen(false)}
-              className={`flex items-center gap-3 py-3.5 px-4 text-neutral-800 font-bold text-[15px] rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 transform hover:scale-[1.02] ${focusRingClass}`}
-              aria-current={active("/iletisim") ? "page" : undefined}
+              className={`
+                flex items-center gap-3 py-3.5 px-4 text-neutral-900 font-bold text-[15px] rounded-xl
+                hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent
+                hover:border-blue-200 transform hover:scale-[1.02] ${FOCUS_RING_CLASS}
+              `}
+              aria-current={
+                active("/iletisim") ? "page" : undefined
+              }
               title="Sahneva İletişim"
             >
-              <span className="text-lg" aria-hidden="true">
+              <span
+                className="text-lg"
+                aria-hidden="true"
+              >
                 📞
               </span>
               İletişim
@@ -668,15 +841,35 @@ export default function Navbar() {
               onClick={() => setMobileOpen(false)}
               title="WhatsApp'tan teklif alın"
             >
-              <span aria-hidden="true" className="text-base">
+              <span
+                aria-hidden="true"
+                className="text-base"
+              >
                 💬
               </span>
               <span>WhatsApp Teklif</span>
-              <span className="sr-only"> — yeni sekmede açılır</span>
+              <span className="sr-only">
+                {" "}
+                — yeni sekmede açılır
+              </span>
             </a>
           </div>
         </nav>
       </div>
+
+      {/* Mobil Backdrop */}
+      <div
+        className={`
+          lg:hidden fixed inset-0 z-40 bg-black/40 backdrop-blur-sm transition-opacity duration-300
+          ${
+            mobileOpen
+              ? "opacity-100 pointer-events-auto visible"
+              : "opacity-0 pointer-events-none invisible"
+          }
+        `}
+        onClick={() => setMobileOpen(false)}
+        aria-hidden="true"
+      />
     </>
   );
 }
