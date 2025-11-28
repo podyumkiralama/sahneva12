@@ -7,22 +7,26 @@ import StickyVideoRailclient from "@/components/StickyVideoRail.client";
 import CriticalAssets from "@/components/CriticalAssets";
 
 const inter = Inter({
-  subsets: ["latin", "latin-ext", "arabic"],
+  subsets: ["latin", "latin-ext"], // Arapça gerekli değilse çıkarıldı, yükü azaltır
   preload: true,
   display: "swap",
   adjustFontFallback: false,
 });
 
-/* ========================= JSON-LD: ORGANIZATION ========================= */
+// Site URL'ini güvenli bir şekilde al
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL 
+  ? process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "") 
+  : "https://www.sahneva.com";
+
+/* ========================= JSON-LD DATA ========================= */
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "@id": "https://www.sahneva.com/#org",
+  "@id": `${SITE_URL}/#org`,
   name: "Sahneva",
-  url: "https://www.sahneva.com",
-  logo: "https://www.sahneva.com/img/logo.png",
-  description:
-    "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri kiralama hizmetleri",
+  url: SITE_URL,
+  logo: `${SITE_URL}/img/logo.png`,
+  description: "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri kiralama hizmetleri",
   contactPoint: {
     "@type": "ContactPoint",
     telephone: "+90-545-304-8671",
@@ -36,14 +40,13 @@ const organizationJsonLd = {
   ],
 };
 
-/* ========================= JSON-LD: LOCAL BUSINESS ========================= */
 const localBusinessJsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  "@id": "https://www.sahneva.com/#localbiz",
+  "@id": `${SITE_URL}/#localbiz`,
   name: "Sahneva",
-  image: "https://www.sahneva.com/img/logo.png",
-  url: "https://www.sahneva.com",
+  image: `${SITE_URL}/img/logo.png`,
+  url: SITE_URL,
   telephone: "+90-545-304-8671",
   address: {
     "@type": "PostalAddress",
@@ -60,68 +63,57 @@ const localBusinessJsonLd = {
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday",
-      ],
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
       opens: "09:00",
       closes: "23:00",
     },
   ],
 };
 
-/* ========================= JSON-LD: WEBSITE ========================= */
 const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "@id": "https://www.sahneva.com/#website",
-  url: "https://www.sahneva.com",
+  "@id": `${SITE_URL}/#website`,
+  url: SITE_URL,
   name: "Sahneva",
   inLanguage: "tr-TR",
-  publisher: {
-    "@id": "https://www.sahneva.com/#org",
-  },
+  publisher: { "@id": `${SITE_URL}/#org` },
   potentialAction: {
     "@type": "SearchAction",
-    target: "https://www.sahneva.com/arama?q={search_term}",
+    target: `${SITE_URL}/arama?q={search_term}`,
     "query-input": "required name=search_term",
   },
 };
 
+// Viewport ve Theme Color (Next.js 14+ Standart)
 export const viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: "#6d28d9",
 };
 
+// Metadata (SEO)
 export const metadata = {
-  metadataBase: new URL("https://www.sahneva.com"),
+  metadataBase: new URL(SITE_URL), // Göreceli URL'ler için kritik
   title: {
     default: "Sahne, Podyum, LED Ekran & Ses-Işık Kiralama | Sahneva",
     template: "%s | Sahneva",
   },
-  description:
-    "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı kurulum, profesyonel teknik ekip, uygun fiyat. Hemen teklif alın!",
+  description: "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı kurulum, profesyonel teknik ekip, uygun fiyat. Hemen teklif alın!",
   manifest: "/site.webmanifest",
   alternates: {
-    canonical: "https://www.sahneva.com",
+    canonical: SITE_URL,
     languages: {
-      "tr-TR": "https://www.sahneva.com",
-      en: "https://www.sahneva.com/en",
-      ar: "https://www.sahneva.com/ar",
-      "x-default": "https://www.sahneva.com",
+      "tr-TR": SITE_URL,
+      en: `${SITE_URL}/en`,
+      ar: `${SITE_URL}/ar`,
+      "x-default": SITE_URL,
     },
   },
   openGraph: {
     title: "Sahneva – Etkinlik Prodüksiyon & Organizasyon",
-    description:
-      "Sahne, podyum, LED ekran, ses-ışık ve kurulum hizmetleri. Türkiye geneli.",
-    url: "https://www.sahneva.com",
+    description: "Sahne, podyum, LED ekran, ses-ışık ve kurulum hizmetleri. Türkiye geneli.",
+    url: SITE_URL,
     siteName: "Sahneva",
     images: [
       {
@@ -137,6 +129,13 @@ export const metadata = {
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
   icons: {
     icon: [
@@ -150,6 +149,7 @@ export const metadata = {
   },
 };
 
+// Kritik CSS (Layout Shift'i önlemek için)
 const criticalCSS = `
 .pt-16{padding-top:4rem}
 @media (min-width:768px){.md\\:pt-20{padding-top:5rem}}
@@ -160,8 +160,7 @@ const criticalCSS = `
 `;
 
 const DEFAULT_GA_MEASUREMENT_ID = "G-J5YK10YLLC";
-const GA_MEASUREMENT_ID =
-  process.env.NEXT_PUBLIC_GA_ID?.trim() || DEFAULT_GA_MEASUREMENT_ID;
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID?.trim() || DEFAULT_GA_MEASUREMENT_ID;
 const isProd = process.env.NODE_ENV === "production";
 const gaEnabled = isProd && Boolean(GA_MEASUREMENT_ID);
 
@@ -171,16 +170,14 @@ export default function RootLayout({ children }) {
       lang="tr"
       dir="ltr"
       className={inter.className}
-      suppressHydrationWarning
+      suppressHydrationWarning // Next.js hydration hatalarını önler (ör: eklentilerden kaynaklı)
     >
       <head>
         <CriticalAssets />
-        {/* Critical CSS */}
         <style
           id="critical-css"
           dangerouslySetInnerHTML={{ __html: criticalCSS }}
         />
-        {/* DNS Prefetch */}
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.google-analytics.com" />
@@ -192,44 +189,44 @@ export default function RootLayout({ children }) {
 
         {children}
 
-        {/* GLOBAL SCHEMA (JSON-LD) */}
+        {/* Global Schema Scripts */}
         <script
           id="ld-org"
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationJsonLd),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
         <script
           id="ld-local"
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(localBusinessJsonLd),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
         />
         <script
           id="ld-website"
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(websiteJsonLd),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
 
-        {/* GA4 */}
+        {/* Google Analytics 4 */}
         {gaEnabled && (
           <>
             <Script
               id="ga4-lib"
-              data-ga-id={GA_MEASUREMENT_ID}
               src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-              strategy="lazyOnload"
+              strategy="afterInteractive" // lazyOnload yerine afterInteractive daha doğru ölçüm sağlar
             />
             <Script
               id="ga4-init"
-              src="/ga-init.js"
-              strategy="lazyOnload"
-              data-ga-id={GA_MEASUREMENT_ID}
-            />
+              strategy="afterInteractive"
+            >
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_MEASUREMENT_ID}', {
+                  page_path: window.location.pathname,
+                });
+              `}
+            </Script>
           </>
         )}
       </body>
