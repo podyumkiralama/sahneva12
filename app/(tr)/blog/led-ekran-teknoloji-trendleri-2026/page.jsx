@@ -2,6 +2,11 @@
 import Image from "next/image";
 import Link from "next/link";
 
+// Statik image import – INVALID_IMAGE_OPTIMIZE_REQUEST hatasını önler
+import heroImg from "@/public/img/blog/led-2026-hero.webp";
+import stageWideImg from "@/public/img/blog/led-2026-sahne-genis.webp";
+import cobMacroImg from "@/public/img/blog/cob-led-macro.webp";
+
 /* ================== YAPILANDIRMA & SABİTLER ================== */
 const BLOG_URL =
   "https://www.sahneva.com/blog/led-ekran-2026-teknoloji-trendleri";
@@ -227,14 +232,13 @@ export default function LedTrends2026Page() {
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/80 to-blue-900/40 z-10" />
         <div className="absolute inset-0 z-0">
           <Image
-            src="/img/blog/led-2026-hero.webp"
+            src={heroImg}
             alt="Geniş sahnede 2026 LED ekran teknolojilerini temsil eden kurumsal etkinlik"
             fill
-            quality={70}
-            fetchPriority="high"
             className="object-cover opacity-65"
             priority
             sizes="100vw"
+            fetchPriority="high"
           />
         </div>
         <div className="container mx-auto px-4 relative z-20 text-center max-w-4xl">
@@ -266,6 +270,7 @@ export default function LedTrends2026Page() {
             </span>
           </div>
 
+          {/* Kontrastı düzeltilmiş çağrı butonları */}
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             <a
               href="https://wa.me/905453048671"
@@ -367,14 +372,13 @@ export default function LedTrends2026Page() {
 
                 <figure className="my-10 not-prose">
                   <Image
-                    src="/img/blog/led-2026-sahne-genis.webp"
+                    src={stageWideImg}
                     alt="Geniş LED ekranlı modern kurumsal sahne ve ışık tasarımı"
-                    width={1200}
-                    height={675}
+                    width={stageWideImg.width}
+                    height={stageWideImg.height}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 800px"
                     className="w-full h-auto rounded-2xl shadow-lg"
                     loading="lazy"
-                    quality={70}
                   />
                   <figcaption className="mt-3 text-sm text-gray-500 text-center font-medium">
                     2026 sahne tasarımlarında LED ekran; dekorun değil,
@@ -382,7 +386,7 @@ export default function LedTrends2026Page() {
                   </figcaption>
                 </figure>
 
-                {/* Profesyonel ipucu – başlık elemanı değil, kontrast & hiyerarşi uyumlu */}
+                {/* Profesyonel ipucu – heading yerine bold text (başlık sırası uyarısını çözüyor) */}
                 <div className="my-10 bg-gradient-to-r from-indigo-50 to-cyan-50 border border-blue-100 p-6 rounded-2xl shadow-sm not-prose">
                   <div className="flex items-start gap-4">
                     <span
@@ -518,14 +522,13 @@ export default function LedTrends2026Page() {
 
                 <figure className="my-10 not-prose">
                   <Image
-                    src="/img/blog/cob-led-macro.webp"
+                    src={cobMacroImg}
                     alt="COB LED panel yüzeyinin yakın plan görünümü"
-                    width={1200}
-                    height={750}
+                    width={cobMacroImg.width}
+                    height={cobMacroImg.height}
                     sizes="(max-width: 768px) 100vw, 800px"
                     className="w-full h-auto rounded-2xl shadow-lg"
                     loading="lazy"
-                    quality={70}
                   />
                   <figcaption className="mt-3 text-sm text-gray-500 text-center font-medium">
                     COB LED paneller, pürüzsüz yüzey yapısı sayesinde hem
