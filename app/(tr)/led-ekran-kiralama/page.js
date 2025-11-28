@@ -110,7 +110,7 @@ export const metadata = {
     siteName: "Sahneva",
     locale: "tr_TR",
     images: [{
-      url: `${ORIGIN}/img/og.jpg`,
+      url: `${ORIGIN}/img/hizmet-led-ekran.jpg`,
       width: 1200,
       height: 630,
       alt: "Sahneva LED Ekran Kiralama - Profesyonel Görsel Çözümler"
@@ -120,7 +120,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "LED Ekran Kiralama | Profesyonel Çözümler | Sahneva",
     description: "P2-P6 piksel aralığı, 4K çözünürlük, yüksek parlaklık LED ekran kiralama. Konser, fuar ve kurumsal etkinlikler.",
-    images: [`${ORIGIN}/img/og.jpg`],
+    images: [`${ORIGIN}/img/hizmet-led-ekran.jpg`],
   },
   robots: {
     index: true,
