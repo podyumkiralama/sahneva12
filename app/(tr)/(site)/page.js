@@ -170,9 +170,6 @@ function StructuredData() {
   const ORGANIZATION_ID = `${SITE_URL}/#org`;
   const WEBSITE_ID = `${SITE_URL}/#website`;
   const WEBPAGE_ID = `${HOME_URL}#webpage`;
-  const SERVICE_ID = `${HOME_URL}#primary-service`;
-  const CATALOG_ID = `${HOME_URL}#catalog`;
-  const FAQ_ID = `${HOME_URL}#faq`;
   const IMAGE_ID = `${HOME_URL}#og`;
 
   const data = {

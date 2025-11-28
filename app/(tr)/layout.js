@@ -9,7 +9,6 @@ export default function TurkishLayout({ children }) {
       {/* ---- HEADER ---- */}
       <header
         id="_main_header"
-        role="banner"
         aria-label="Sahneva ana site başlığı"
         className="w-full"
         tabIndex={-1}
@@ -20,7 +19,6 @@ export default function TurkishLayout({ children }) {
       {/* ---- MAIN CONTENT ---- */}
       <main
         id="_main_content"
-        role="main"
         className="flex-1 pt-6 pb-10 lg:pb-12 focus-ring scroll-mt-4"
         tabIndex={-1}
       >
@@ -28,14 +26,9 @@ export default function TurkishLayout({ children }) {
       </main>
 
       {/* ---- FOOTER ---- */}
-      <footer
-        id="site-footer"
-        role="contentinfo"
-        className="w-full mt-auto"
-        aria-label="Sahneva alt bilgi alanı"
-      >
+      <div id="site-footer" className="w-full mt-auto">
         <Footer />
-      </footer>
+      </div>
 
       {/* Vercel Analytics */}
       <SpeedInsights />
