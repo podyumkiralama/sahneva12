@@ -6,6 +6,7 @@ import SkipLinks from "@/components/SkipLinks";
 import UtilityBar from "@/components/UtilityBar.client";
 import StickyVideoRailclient from "@/components/StickyVideoRail.client";
 import CriticalAssets from "@/components/CriticalAssets";
+import { headers } from "next/headers";
 
 // ================== FONT ==================
 const inter = Inter({
@@ -181,12 +182,42 @@ const GA_MEASUREMENT_ID =
 const isProd = process.env.NODE_ENV === "production";
 const gaEnabled = isProd && Boolean(GA_MEASUREMENT_ID);
 
+const LOCALE_DIRECTIONS = {
+  ar: "rtl",
+  en: "ltr",
+  tr: "ltr",
+};
+
+export const dynamic = "force-dynamic";
+
+function getLocaleFromPath(pathname) {
+  const [firstSegment] = pathname.split("/").filter(Boolean);
+  if (firstSegment === "ar" || firstSegment === "en") {
+    return firstSegment;
+  }
+  return "tr";
+}
+
+function getLocaleFromHeaders() {
+  try {
+    const headerList = headers();
+    const pathname = headerList.get("next-url") ?? "/";
+    return getLocaleFromPath(pathname);
+  } catch (error) {
+    console.error("Falling back to default locale after headers() failure", error);
+    return "tr";
+  }
+}
+
 // ================== ROOT LAYOUT ==================
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const locale = getLocaleFromHeaders();
+  const direction = LOCALE_DIRECTIONS[locale] ?? "ltr";
+
   return (
     <html
-      lang="tr"
-      dir="ltr"
+      lang={locale}
+      dir={direction}
       className={inter.className}
       suppressHydrationWarning
     >
