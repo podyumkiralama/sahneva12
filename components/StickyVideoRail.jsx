@@ -445,7 +445,6 @@ function StickyVideoRailInner() {
               onClick={handleExpand}
               aria-label="Videoyu büyüt"
               className="p-2 rounded-lg hover:bg-blue-600 transition-colors text-white bg-blue-500/80 group font-medium"
-              title="Tam Ekran"
             >
               <span className="group-hover:scale-110 transition-transform text-sm">
                 ⤢ BÜYÜT
@@ -456,7 +455,6 @@ function StickyVideoRailInner() {
               onClick={handleToggleMinimize}
               aria-label="Simge durumuna küçült"
               className="p-2 rounded-lg hover:bg-gray-600 transition-colors text-slate-100 group"
-              title="Simge Yap"
             >
               <span className="group-hover:scale-110 transition-transform">
                 🗕
@@ -467,7 +465,6 @@ function StickyVideoRailInner() {
               onClick={handleClose}
               aria-label="Kapat"
               className="p-2 rounded-lg hover:bg-red-600 transition-colors text-slate-100 group"
-              title="Kapat"
             >
               <span className="group-hover:scale-110 transition-transform">
                 ✕

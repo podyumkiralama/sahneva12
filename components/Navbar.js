@@ -444,7 +444,6 @@ export default function Navbar() {
               href="/"
               className={`flex items-center gap-3 group ${FOCUS_RING_CLASS}`}
               aria-label="Sahneva - Profesyonel sahne ve etkinlik ekipmanları kiralama"
-              title="Sahneva Ana Sayfa - Etkinlik ekipmanları kiralama"
             >
               <Image
                 src="/img/logo.png"
@@ -462,14 +461,12 @@ export default function Navbar() {
             <div className="hidden lg:flex items-center gap-4">
               <NavLink
                 href="/hakkimizda"
-                title="Sahneva Hakkında - Şirket bilgileri ve referanslar"
               >
                 Hakkımızda
               </NavLink>
 
               <NavLink
                 href="/blog"
-                title="Sahneva Blog - Etkinlik planlama rehberleri ve ipuçları"
               >
                 Blog
               </NavLink>
@@ -503,7 +500,6 @@ export default function Navbar() {
                   }
                   onKeyDown={handleServicesButtonKeyDown}
                   ref={servicesButtonRef}
-                  title="Sahneva Hizmetler - Tüm ekipman kiralama hizmetlerimiz"
                 >
                   <span className="flex items-center gap-2">
                     Hizmetler
@@ -561,7 +557,6 @@ export default function Navbar() {
 
               <NavLink
                 href="/iletisim"
-                title="Sahneva İletişim - Bize ulaşın ve teklif alın"
               >
                 İletişim
               </NavLink>
@@ -573,7 +568,6 @@ export default function Navbar() {
                 rel="noopener noreferrer"
                 aria-label="WhatsApp Teklif — yeni sekmede açılır"
                 className={whatsappBtnClass}
-                title="WhatsApp'tan teklif alın"
               >
                 <span
                   aria-hidden="true"
@@ -609,7 +603,6 @@ export default function Navbar() {
               aria-expanded={mobileOpen}
               aria-controls={mobileMenuId}
               aria-haspopup="true"
-              title="Mobil menü"
             >
               <span
                 className="relative w-6 h-6 flex flex-col justify-center items-center gap-1.5"
@@ -677,7 +670,6 @@ export default function Navbar() {
               aria-current={
                 active("/hakkimizda") ? "page" : undefined
               }
-              title="Sahneva Hakkında"
             >
               <span
                 className="text-lg"
@@ -699,7 +691,6 @@ export default function Navbar() {
               aria-current={
                 active("/blog") ? "page" : undefined
               }
-              title="Sahneva Blog - Etkinlik planlama rehberleri"
             >
               <span
                 className="text-lg"
@@ -720,12 +711,11 @@ export default function Navbar() {
                 aria-expanded={mobileServicesOpen}
                 aria-controls="mobile-services-list"
                 className={`
-                  w-full flex items-center justify-between gap-3 py-3.5 px-4 text-[15px] font-bold 
-                  text-neutral-900 rounded-xl hover:bg-blue-50 hover:text-blue-700 
-                  transition-all duration-200 border border-transparent hover:border-blue-200 
+                  w-full flex items-center justify-between gap-3 py-3.5 px-4 text-[15px] font-bold
+                  text-neutral-900 rounded-xl hover:bg-blue-50 hover:text-blue-700
+                  transition-all duration-200 border border-transparent hover:border-blue-200
                   min-h-[44px] transform hover:scale-[1.02] ${FOCUS_RING_CLASS}
                 `}
-                title="Sahneva Hizmetler Menüsü"
               >
                 <span className="flex items-center gap-3">
                   <span
@@ -779,15 +769,15 @@ export default function Navbar() {
                           setMobileOpen(false)
                         }
                         className={`
-                          flex items-start gap-3 px-3 py-2 text-sm text-neutral-700 
-                          hover:bg-blue-50 hover:text-blue-700 rounded-md 
-                          transition-all duration-200 w-full transform hover:scale-[1.01] 
+                          flex items-start gap-3 px-3 py-2 text-sm text-neutral-700
+                          hover:bg-blue-50 hover:text-blue-700 rounded-md
+                          transition-all duration-200 w-full transform hover:scale-[1.01]
                           ${FOCUS_RING_CLASS}
                         `}
+                        title={title}
                         aria-current={
                           active(href) ? "page" : undefined
                         }
-                        title={title}
                       >
                         <span
                           className="text-base opacity-70 mt-0.5 flex-shrink-0"
@@ -821,7 +811,6 @@ export default function Navbar() {
               aria-current={
                 active("/iletisim") ? "page" : undefined
               }
-              title="Sahneva İletişim"
             >
               <span
                 className="text-lg"
@@ -840,7 +829,6 @@ export default function Navbar() {
               aria-label="WhatsApp Teklif — yeni sekmede açılır"
               className={mobileWhatsappBtnClass}
               onClick={() => setMobileOpen(false)}
-              title="WhatsApp'tan teklif alın"
             >
               <span
                 aria-hidden="true"
