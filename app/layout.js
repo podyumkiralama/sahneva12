@@ -188,8 +188,6 @@ const LOCALE_DIRECTIONS = {
   tr: "ltr",
 };
 
-export const dynamic = "force-dynamic";
-
 function getLocaleFromPath(pathname) {
   const [firstSegment] = pathname.split("/").filter(Boolean);
   if (firstSegment === "ar" || firstSegment === "en") {
@@ -198,20 +196,11 @@ function getLocaleFromPath(pathname) {
   return "tr";
 }
 
-function getLocaleFromHeaders() {
-  try {
-    const headerList = headers();
-    const pathname = headerList.get("next-url") ?? "/";
-    return getLocaleFromPath(pathname);
-  } catch (error) {
-    console.error("Falling back to default locale after headers() failure", error);
-    return "tr";
-  }
-}
-
 // ================== ROOT LAYOUT ==================
-export default async function RootLayout({ children }) {
-  const locale = getLocaleFromHeaders();
+export default function RootLayout({ children }) {
+  const headerList = headers();
+  const pathname = headerList.get("next-url") ?? "/";
+  const locale = getLocaleFromPath(pathname);
   const direction = LOCALE_DIRECTIONS[locale] ?? "ltr";
 
   return (
