@@ -24,13 +24,9 @@ export default function TurkishLayout({ children }) {
          Mobil: h-16 -> pt-16
          Desktop: h-20 -> lg:pt-20
       */}
-      <main
-        id="_main_content"
-        className="flex-1 pt-16 lg:pt-20 focus:outline-none scroll-mt-24"
-        tabIndex={-1} // Skip link odak hedefi
-      >
+      <div className="flex-1 pt-16 lg:pt-20 focus:outline-none scroll-mt-24">
         {children}
-      </main>
+      </div>
 
       {/* ---- FOOTER ---- */}
       <div id="site-footer-wrapper" className="w-full mt-auto">

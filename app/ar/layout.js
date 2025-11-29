@@ -14,14 +14,9 @@ export default function ArabicLayout({ children }) {
         locale="ar"
         strings={{ ...content.header, direction: content.direction }}
       />
-      <main
-        id="_main_content"
-        tabIndex={-1}
-        aria-label="المحتوى الرئيسي"
-        className="flex-1 pb-16 pt-0 focus-ring scroll-mt-4"
-      >
+      <div className="flex-1 pb-16 pt-0 focus-ring scroll-mt-4" aria-label="المحتوى الرئيسي">
         {children}
-      </main>
+      </div>
 
       <SiteFooter strings={content.footer} />
       <SpeedInsights />
