@@ -276,6 +276,7 @@ export default function LedTrends2026Page() {
               href="https://wa.me/905453048671"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="LED projeniz için WhatsApp üzerinden yazın — yeni sekmede açılır"
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-semibold px-7 py-3.5 shadow-lg shadow-emerald-900/40 transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-500"
             >
               <span>💬</span>
@@ -630,6 +631,7 @@ export default function LedTrends2026Page() {
                       <summary
                         className="flex items-center justify-between p-4 md:p-5 cursor-pointer font-semibold text-gray-800 select-none bg-gray-50/50 hover:bg-gray-50 transition-colors"
                         role="button"
+                        tabIndex={0}
                       >
                         {item.question}
                         <span className="ml-4 flex-shrink-0 transition-transform group-open:rotate-180 text-gray-400">
@@ -660,6 +662,7 @@ export default function LedTrends2026Page() {
                       href="https://wa.me/905453048671"
                       target="_blank"
                       rel="noopener noreferrer"
+                      aria-label="WhatsApp üzerinden hızlı teklif alın — yeni sekmede açılır"
                       className="inline-flex items-center justify-center gap-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-4 px-8 rounded-xl transition-transform hover:-translate-y-1 shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-500"
                     >
                       <span>💬</span> WhatsApp&apos;tan Yazın

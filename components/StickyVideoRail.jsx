@@ -517,11 +517,15 @@ function StickyVideoRailInner() {
                 key={video.id}
                 type="button"
                 onClick={() => handleChangeVideo(idx)}
+                aria-pressed={idx === activeIndex}
+                aria-label={`${video.title} videosunu ${
+                  idx === activeIndex ? "oynatılıyor" : "oynatmak için"
+                } seç`}
                 className={`w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-slate-700/50 transition-colors ${
                   idx === activeIndex
                     ? "bg-blue-500/20 border-r-2 border-blue-500"
                     : "border-r-2 border-transparent"
-                }`}
+                } focus-ring`}
               >
                 <div className="relative w-12 h-8 rounded-md overflow-hidden bg-black flex-shrink-0">
                   <img
