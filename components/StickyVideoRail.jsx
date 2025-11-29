@@ -495,7 +495,10 @@ function StickyVideoRailInner() {
 
         {/* Açılır mini liste */}
         <details className="group border-t border-white/10">
-          <summary className="flex items-center justify-between px-4 py-3 text-sm text-slate-200 cursor-pointer select-none hover:bg-white/5 transition-colors">
+          <summary
+            role="button"
+            className="flex items-center justify-between px-4 py-3 text-sm text-slate-200 cursor-pointer select-none hover:bg-white/5 transition-colors"
+          >
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
               <span className="font-medium">Diğer Videolar</span>

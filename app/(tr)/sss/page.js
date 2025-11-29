@@ -288,7 +288,10 @@ function FaqSection({ id, icon, title, items }) {
           {items.map((it, i) => (
             <ScrollReveal key={`${id}-${i}`} delay={String(i % 3)} direction="up">
               <details className="faq-card group rounded-xl bg-white p-4">
-                <summary className="cursor-pointer select-none list-none font-semibold leading-7 flex items-center justify-between">
+                <summary
+                  className="cursor-pointer select-none list-none font-semibold leading-7 flex items-center justify-between"
+                  role="button"
+                >
                   <span className="pr-3">{it.q}</span>
                   <svg
                     className="ml-2 h-5 w-5 text-slate-500 transition-transform group-open:rotate-90"

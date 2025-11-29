@@ -627,7 +627,10 @@ export default function LedTrends2026Page() {
                       key={index}
                       className="group bg-white border border-gray-200 rounded-xl overflow-hidden open:ring-2 open:ring-blue-100 open:border-blue-300 transition-all duration-200"
                     >
-                      <summary className="flex items-center justify-between p-4 md:p-5 cursor-pointer font-semibold text-gray-800 select-none bg-gray-50/50 hover:bg-gray-50 transition-colors">
+                      <summary
+                        className="flex items-center justify-between p-4 md:p-5 cursor-pointer font-semibold text-gray-800 select-none bg-gray-50/50 hover:bg-gray-50 transition-colors"
+                        role="button"
+                      >
                         {item.question}
                         <span className="ml-4 flex-shrink-0 transition-transform group-open:rotate-180 text-gray-400">
                           ▼

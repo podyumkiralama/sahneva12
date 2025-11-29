@@ -1001,7 +1001,10 @@ function FAQ() {
               key={item.question}
               className="group bg-white border border-gray-100 rounded-2xl shadow-lg overflow-hidden"
               aria-labelledby={`faq-${index}`}>
-              <summary className="flex items-center justify-between gap-4 p-6 cursor-pointer">
+              <summary
+                className="flex items-center justify-between gap-4 p-6 cursor-pointer"
+                role="button"
+              >
                 <h3 id={`faq-${index}`} className="text-lg md:text-xl font-bold text-gray-900">
                   {item.question}
                 </h3>
