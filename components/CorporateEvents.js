@@ -148,7 +148,7 @@ function mergeDictionary(base, override = {}) {
   return result;
 }
 
-// Client Component olarak ayrı Image bileşeni
+// Image optimize helper
 function OptimizedImage({ src, alt, sizes, className }) {
   return (
     <Image
@@ -177,8 +177,12 @@ export default function CorporateEvents({
   const supportStats = Array.isArray(dictionary.supportStats)
     ? dictionary.supportStats
     : DEFAULT_DICTIONARY.supportStats;
+
   const phoneHintId = useId();
   const whatsappHintId = useId();
+  const bannerTitleId = useId();
+  const bannerDescId = useId();
+
   const phoneDescription = dictionary.phoneCtaAria?.trim();
   const whatsappDescription = [
     dictionary.whatsappCtaAria?.trim(),
@@ -186,9 +190,11 @@ export default function CorporateEvents({
   ]
     .filter(Boolean)
     .join(" — ");
-  const phoneAriaDescribedBy = phoneDescription ? phoneHintId : undefined;
-  const whatsappAriaDescribedBy = whatsappDescription ? whatsappHintId : undefined;
 
+  const phoneAriaDescribedBy = phoneDescription ? phoneHintId : undefined;
+  const whatsappAriaDescribedBy = whatsappDescription
+    ? whatsappHintId
+    : undefined;
 
   return (
     <section
@@ -206,10 +212,8 @@ export default function CorporateEvents({
           {dictionary.sectionTitleSr}
         </h2>
 
-        {/* KART LİSTESİ: contain özelliği kaldırıldı */}
-        <ul
-          className="grid gap-8 md:grid-cols-3 mb-16"
-        >
+        {/* Kart listesi */}
+        <ul className="grid gap-8 md:grid-cols-3 mb-16">
           {cards.map((card, i) => (
             <li key={card.slug}>
               <article
@@ -254,7 +258,7 @@ export default function CorporateEvents({
                     <Link
                       href={dictionary.cardCtaHref}
                       prefetch={false}
-                      className="inline-flex items-center gap-2 font-semibold text-gray-700 hover:text-blue-600 transition-colors duration-200 group/link"
+                      className="inline-flex items-center gap-2 font-semibold text-gray-700 hover:text-blue-600 transition-colors duration-200 group/link focus-ring"
                       aria-label={resolveTitleTemplate(
                         cardCtaAriaTemplate,
                         card.title
@@ -278,31 +282,33 @@ export default function CorporateEvents({
           ))}
         </ul>
 
+        {/* Neden Sahneva / avantajlar */}
         <div className="mb-16">
-            <div className="text-center mb-10">
-              <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-full px-6 py-3 shadow-sm mb-4">
-                <div
-                  className="w-2 h-2 bg-green-500 rounded-full animate-pulse"
-                  aria-hidden="true"
-                />
-                <span className="text-sm font-medium text-gray-700">
-                  {dictionary.highlightPill}
-                </span>
-              </div>
-              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-                {dictionary.highlightTitlePrefix}{" "}
-                <span className="text-blue-600">{dictionary.highlightTitleAccent}</span>
-              </h3>
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-full px-6 py-3 shadow-sm mb-4">
+              <div
+                className="w-2 h-2 bg-green-500 rounded-full animate-pulse motion-reduce:animate-none"
+                aria-hidden="true"
+              />
+              <span className="text-sm font-medium text-gray-700">
+                {dictionary.highlightPill}
+              </span>
             </div>
+            <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+              {dictionary.highlightTitlePrefix}{" "}
+              <span className="text-blue-600">
+                {dictionary.highlightTitleAccent}
+              </span>
+            </h3>
+          </div>
 
-            {/* AVANTAJ LİSTESİ: contain özelliği kaldırıldı */}
-            <ul
-              className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
-              aria-label={dictionary.advantagesAriaLabel}
-            >
-              {advantages.map((item, i) => (
-                <li
-                  key={i}
+          <ul
+            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+            aria-label={dictionary.advantagesAriaLabel}
+          >
+            {advantages.map((item, i) => (
+              <li
+                key={i}
                 className={`group relative ${item.bg} ${item.border} rounded-2xl border-2 p-6 transition-all duration-300 hover:shadow-lg hover:scale-105 hover:border-blue-300/50`}
                 style={{ minHeight: "120px" }}
               >
@@ -327,9 +333,13 @@ export default function CorporateEvents({
           </ul>
         </div>
 
+        {/* Banner / CTA */}
         <div
           className="relative rounded-3xl bg-gradient-to-r from-blue-600 to-purple-600 p-8 md:p-12 text-center text-white overflow-hidden"
           style={{ contain: "layout style paint" }}
+          role="region"
+          aria-labelledby={bannerTitleId}
+          aria-describedby={bannerDescId}
         >
           <div className="absolute inset-0 opacity-10" aria-hidden="true">
             <div className="absolute -top-20 -right-20 w-40 h-40 bg-white rounded-full" />
@@ -337,12 +347,17 @@ export default function CorporateEvents({
           </div>
 
           <div className="relative z-10">
-            <h3 className="text-2xl md:text-3xl font-bold mb-4">
+            <h3 id={bannerTitleId} className="text-2xl md:text-3xl font-bold mb-4">
               {dictionary.bannerTitlePrefix}{" "}
-              <span className="text-yellow-300">{dictionary.bannerTitleHighlight}</span>{" "}
+              <span className="text-yellow-300">
+                {dictionary.bannerTitleHighlight}
+              </span>{" "}
               {dictionary.bannerTitleSuffix}
             </h3>
-            <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
+            <p
+              id={bannerDescId}
+              className="text-white/90 text-lg mb-8 max-w-2xl mx-auto leading-relaxed"
+            >
               {dictionary.bannerDescription}
             </p>
 
@@ -375,7 +390,9 @@ export default function CorporateEvents({
                 <span className="text-xl" aria-hidden="true">
                   💬
                 </span>
-                <span className="text-sm font-bold">{dictionary.whatsappCtaLabel}</span>
+                <span className="text-sm font-bold">
+                  {dictionary.whatsappCtaLabel}
+                </span>
                 {whatsappDescription ? (
                   <span id={whatsappHintId} className="sr-only">
                     {whatsappDescription}
@@ -389,7 +406,7 @@ export default function CorporateEvents({
                 <Fragment key={label}>
                   <div className="flex items-center gap-2">
                     <div
-                      className="w-2 h-2 bg-green-400 rounded-full animate-pulse"
+                      className="w-2 h-2 bg-green-400 rounded-full animate-pulse motion-reduce:animate-none"
                       aria-hidden="true"
                     />
                     <span>{label}</span>
