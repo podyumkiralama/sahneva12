@@ -1,0 +1,30 @@
+<svg viewBox="0 0 1440 240" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="footerWave" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(12,16,32,0.98)" />
+      <stop offset="45%" stop-color="rgba(35,21,76,0.94)" />
+      <stop offset="100%" stop-color="rgba(36,33,90,0.92)" />
+    </linearGradient>
+    <linearGradient id="footerWaveHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(132,148,245,0.35)" />
+      <stop offset="55%" stop-color="rgba(98,104,219,0.16)" />
+      <stop offset="100%" stop-color="rgba(64,82,186,0.05)" />
+    </linearGradient>
+    <linearGradient id="footerWaveShadow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(10,12,28,0.6)" />
+      <stop offset="100%" stop-color="rgba(30,40,110,0.3)" />
+    </linearGradient>
+  </defs>
+  <path
+    d="M0,160 C180,110 320,20 520,70 C720,120 900,220 1100,170 C1260,130 1320,90 1440,130 L1440,240 L0,240 Z"
+    fill="url(#footerWave)"
+  />
+  <path
+    d="M0,170 C220,120 360,30 560,80 C760,130 940,220 1140,170 C1300,130 1355,100 1440,130 L1440,240 L0,240 Z"
+    fill="url(#footerWaveHighlight)"
+  />
+  <path
+    d="M0,190 C210,150 360,70 560,110 C760,150 940,230 1140,190 C1300,150 1355,120 1440,150 L1440,240 L0,240 Z"
+    fill="url(#footerWaveShadow)"
+  />
+</svg>
