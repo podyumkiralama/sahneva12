@@ -57,6 +57,7 @@ function FAQ() {
                   <summary
                     id={headingId}
                     className="cursor-pointer w-full list-none text-left flex items-center justify-between gap-4 px-8 py-6 text-xl font-bold text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-3xl"
+                    role="button"
                   >
                     <span className="pr-4 flex-1">{faq.q}</span>
                     <span
