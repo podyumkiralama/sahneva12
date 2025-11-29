@@ -3,6 +3,8 @@
 
 import { useId, useMemo, useState } from "react";
 
+import ExternalLink from "@/components/ExternalLink";
+
 export default function PriceEstimatorPodyum({ unitPrices, className = "" }) {
   const [w, setW] = useState(4);
   const [d, setD] = useState(6);
@@ -141,14 +143,13 @@ export default function PriceEstimatorPodyum({ unitPrices, className = "" }) {
           <span className="text-xs text-neutral-500">
             *İstanbul içi ≤200 m² projelerde sabit ₺8.000 uygulanır. Üzeri ve şehir dışı projelerde keşfe/rota ve vardiyaya göre hesaplanır.
           </span>
-          <a
+          <ExternalLink
             href="https://wa.me/905453048671?text=Merhaba%20Sahneva%2C%20Podyum%20fiyat%20hesaplay%C4%B1c%C4%B1s%C4%B1ndan%20yaz%C4%B1yorum."
             className="inline-flex items-center rounded-lg border border-primary/30 bg-white px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/10"
-            target="_blank"
-            rel="noopener noreferrer"
+            ariaLabel="WhatsApp’tan Sor — yeni sekmede açılır"
           >
             WhatsApp’tan Sor
-          </a>
+          </ExternalLink>
         </div>
       </div>
     </div>

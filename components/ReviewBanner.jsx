@@ -3,6 +3,8 @@
 
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import ExternalLink from "@/components/ExternalLink";
+
 const REVIEW_URL = "https://g.page/r/CZhkMzkNOdgnEBI/review";
 const LS_KEY = "rvb.dismissed.v1";
 
@@ -53,15 +55,13 @@ const BannerContent = memo(function BannerContent({
 
       <div className="flex-1" />
 
-      <a
+      <ExternalLink
         href={REVIEW_URL}
-        target="_blank"
-        rel="noopener noreferrer"
         className="shrink-0 inline-flex items-center gap-2 rounded-full bg-[#b45309] hover:bg-[#92400e] text-white text-sm font-semibold px-4 py-2 transition-colors focus-ring"
-        aria-label={ctaAriaLabel}
+        ariaLabel={ctaAriaLabel}
       >
         ⭐ {ctaLabel}
-      </a>
+      </ExternalLink>
 
       <button
         type="button"
