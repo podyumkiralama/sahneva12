@@ -1,31 +1,19 @@
 import { NextResponse } from "next/server";
 
-const ASSET_PREFIXES = ["/_next/", "/favicon", "/robots", "/sitemap", "/manifest", "/icon"];
-
 export const config = {
   matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };
 
-export function middleware(request) {
-  try {
-    const pathname = request.nextUrl?.pathname || "/";
+export default function middleware(request) {
+  const requestHeaders = new Headers(request.headers);
+  const firstSegment = pathname.split("/")[1]?.toLowerCase();
+  const locale = ["en", "ar"].includes(firstSegment) ? firstSegment : "tr";
+  const direction = locale === "ar" ? "rtl" : "ltr";
 
-    // Skip assets and auto-generated files entirely
-    if (ASSET_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
-      return NextResponse.next();
-    }
+  requestHeaders.set("x-locale", locale);
+  requestHeaders.set("x-direction", direction);
 
-    const requestHeaders = new Headers(request.headers);
-    const firstSegment = pathname.split("/")[1]?.toLowerCase();
-    const locale = ["en", "ar"].includes(firstSegment) ? firstSegment : "tr";
-    const direction = locale === "ar" ? "rtl" : "ltr";
-
-    requestHeaders.set("x-locale", locale);
-    requestHeaders.set("x-direction", direction);
-
-    return NextResponse.next({ request: { headers: requestHeaders } });
-  } catch (error) {
-    console.error("middleware: failed to decorate request headers", error);
-    return NextResponse.next();
-  }
+  return NextResponse.next({
+    request: { headers: requestHeaders },
+  });
 }
