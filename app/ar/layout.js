@@ -17,6 +17,7 @@ export default function ArabicLayout({ children }) {
       <main
         id="_main_content"
         tabIndex={-1}
+        aria-label="المحتوى الرئيسي"
         className="flex-1 pb-16 pt-0 focus-ring scroll-mt-4"
       >
         {children}

@@ -212,9 +212,7 @@ export default function RootLayout({ children }) {
           Bu, ekran okuyucuların içeriği doğru ayrıştırmasını sağlar.
           flex-auto: Footer'ı (varsa) sayfanın altına iter (Sticky Footer).
         */}
-        <main id="main_content" className="flex-auto w-full">
-          {children}
-        </main>
+        <div className="flex-auto w-full">{children}</div>
 
         {/* GLOBAL JSON-LD SCHEMA */}
         <script

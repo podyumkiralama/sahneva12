@@ -258,7 +258,7 @@ export default function BlogPostCorporate() {
 
           <div className="flex flex-col lg:flex-row gap-12 relative">
             {/* SOL KOLON (MAKALE) */}
-            <main className="lg:w-2/3">
+            <div className="lg:w-2/3">
               <article className="prose prose-lg prose-headings:font-bold prose-headings:text-gray-900 prose-headings:scroll-mt-32 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-img:rounded-2xl max-w-none">
                 
                 <div className="bg-blue-50/50 p-6 rounded-xl border-l-4 border-blue-500 mb-8">
@@ -548,7 +548,7 @@ export default function BlogPostCorporate() {
                 </div>
 
               </article>
-            </main>
+            </div>
 
             {/* --- SAĞ KOLON (STICKY SIDEBAR) --- */}
             <aside className="lg:w-1/3 relative">

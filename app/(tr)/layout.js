@@ -28,6 +28,7 @@ export default function TurkishLayout({ children }) {
       */}
       <main
         id="_main_content"
+        aria-label="Ana içerik"
         className="flex-1 pt-16 lg:pt-20 focus:outline-none scroll-mt-24"
         tabIndex={-1}
       >

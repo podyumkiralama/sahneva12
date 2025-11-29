@@ -207,7 +207,7 @@ export default async function BlogPage() {
   const hasPosts = posts.length > 0;
 
   return (
-    <main className="bg-gray-50 min-h-screen">
+    <div className="bg-gray-50 min-h-screen">
       <BlogJsonLd posts={posts} />
 
       {/* HERO SECTION */}
@@ -284,6 +284,6 @@ export default async function BlogPage() {
             </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
