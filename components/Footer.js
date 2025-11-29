@@ -294,9 +294,10 @@ export default function Footer() {
 </span>
 
 
-                <span className="text-slate-200 text-xs">
+               <span className="text-slate-700 text-xs">
   Türkiye geneli hizmet
 </span>
+
 
               </div>
             </div>
