@@ -109,13 +109,15 @@ export default function Footer() {
   };
 
   return (
-    <footer
-      id="_main_footer"
-      className="relative w-full flex-shrink-0 bg-gradient-to-br from-[#0b1120] via-[#1a1038] to-[#1b1f4a] border-t border-white/10"
-      aria-labelledby="site-footer-heading"
-      itemScope
-      itemType="https://schema.org/LocalBusiness"
-    >
+    <div id="site-footer-wrapper" className="w-full mt-auto">
+      <footer
+        id="_main_footer"
+        role="contentinfo"
+        aria-labelledby="site-footer-heading"
+        className="relative w-full flex-shrink-0 bg-gradient-to-br from-[#0b1120] via-[#1a1038] to-[#1b1f4a] border-t border-white/10"
+        itemScope
+        itemType="https://schema.org/LocalBusiness"
+      >
       {/* Üst Dalga (Wave) Efekti */}
       <div
         className="absolute inset-x-0 -top-24 h-24 pointer-events-none w-full overflow-hidden"
@@ -169,9 +171,9 @@ export default function Footer() {
       </div>
 
       {/* Başlık (Screen Reader Only) */}
-      <h2 id="site-footer-heading" className="sr-only">
-        {footerStrings.ariaLabel}
-      </h2>
+        <h2 id="site-footer-heading" className="sr-only">
+          {footerStrings.ariaLabel}
+        </h2>
 
       <div className="relative z-10 container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pt-24 pb-14 px-6">
         {/* 1. SÜTUN: Marka & Sosyal */}
@@ -402,6 +404,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
-    </footer>
+      </footer>
+    </div>
   );
 }

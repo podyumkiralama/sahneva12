@@ -85,8 +85,8 @@ export default function SiteHeader({ locale, strings }) {
   }, [open]);
 
   return (
-    <header
-      id="_main_header"
+    <div
+      role="region"
       tabIndex={-1}
       aria-label={ariaStrings.header}
       className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-200/70"
@@ -192,6 +192,6 @@ export default function SiteHeader({ locale, strings }) {
           </div>
         </nav>
       </div>
-    </header>
+    </div>
   );
 }

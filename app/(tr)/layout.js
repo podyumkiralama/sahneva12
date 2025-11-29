@@ -9,14 +9,13 @@ export default function TurkishLayout({ children }) {
       {/* ---- HEADER ----
          Navbar 'fixed' olduğu için header container'ı semantik amaçlı.
       */}
-      <header
-        id="_main_header"
-        aria-label="Sahneva ana site başlığı"
-        role="banner"
+      <div
+        role="region"
+        aria-label="Sahneva site navigasyonu"
         className="w-full relative z-50"
       >
         <Navbar />
-      </header>
+      </div>
 
       {/* ---- MAIN CONTENT ----
          Navbar fixed olduğu için içerik altında kalmaması adına
@@ -24,14 +23,10 @@ export default function TurkishLayout({ children }) {
          Mobil: h-16 -> pt-16
          Desktop: h-20 -> lg:pt-20
       */}
-      <div className="flex-1 pt-16 lg:pt-20 focus:outline-none scroll-mt-24">
-        {children}
-      </div>
+      <div className="flex-1">{children}</div>
 
       {/* ---- FOOTER ---- */}
-      <div id="site-footer-wrapper" className="w-full mt-auto">
-        <Footer />
-      </div>
+      <Footer />
 
       {/* Vercel Speed Insights */}
       <SpeedInsights />

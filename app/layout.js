@@ -204,16 +204,25 @@ export default function RootLayout({ children }) {
         {/* Erişilebilirlik: "Skip to Content" linki */}
         <SkipLinks />
 
-        <StickyVideoRailclient />
         <UtilityBar />
+        <header
+          id="_main_header"
+          aria-label="Sahneva site başlığı"
+          role="banner"
+          className="w-full relative z-50"
+        >
+          <StickyVideoRailclient />
+        </header>
 
         {/* ANA İÇERİK LANDMARK (WCAG için <main>) */}
         <main
           id="_main_content"
-          className="flex-auto w-full outline-none"
+          role="main"
+          aria-label="Sahneva ana içerik bölgesi"
           tabIndex={-1}
+          className="flex-1 pt-16 lg:pt-20 focus:outline-none scroll-mt-24"
         >
-          {children}
+          <div className="overflow-x-hidden">{children}</div>
         </main>
 
         {/* GLOBAL JSON-LD SCHEMA */}
