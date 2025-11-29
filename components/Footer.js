@@ -289,12 +289,10 @@ export default function Footer() {
                 <span className="block text-white font-medium mb-0.5">
                   Merkez Ofis
                 </span>
-                <span
-  className="text-slate-100 block"
-  itemProp="addressLocality"
->
+               <span className="text-slate-800 block" itemProp="addressLocality">
   Kağıthane, İstanbul
 </span>
+
 
                 <span className="text-slate-200 text-xs">
   Türkiye geneli hizmet
