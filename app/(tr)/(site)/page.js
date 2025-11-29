@@ -469,7 +469,14 @@ function KeywordPills() {
   );
 }
 
-function CTAButton({ href, label, icon, gradient = "from-blue-600 to-purple-600", srHint, ...rest }) {
+function CTAButton({
+  href,
+  label,
+  icon,
+  gradient = "from-blue-600 to-purple-600",
+  srHint,
+  ...rest
+}) {
   return (
     <a
       href={href}
@@ -507,7 +514,12 @@ function HeroFeatureGrid() {
   return (
     <ul className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12 list-none p-0 m-0">
       {HERO_FEATURES.map((item, index) => (
-        <ScrollReveal asChild key={item.title} delay={String(index + 1)} direction="scale">
+        <ScrollReveal
+          asChild
+          key={item.title}
+          delay={String(index + 1)}
+          direction="scale"
+        >
           <li className="m-0 p-0">
             <div className="group bg-slate-900/60 backdrop-blur-lg rounded-xl p-4 border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-105">
               <div
@@ -519,7 +531,9 @@ function HeroFeatureGrid() {
               <div className="text-white font-bold text-base mb-1">
                 {item.title}
               </div>
-              <div className="text-gray-200 text-xs">{item.description}</div> {/* text-white/70 -> text-gray-200 */}
+              <div className="text-gray-200 text-xs">
+                {item.description}
+              </div>
             </div>
           </li>
         </ScrollReveal>
@@ -544,11 +558,13 @@ function ConsultationCard() {
           <h2 className="text-white text-xl md:text-2xl font-bold mb-2">
             Ücretsiz Profesyonel Danışmanlık
           </h2>
-          <p className="text-slate-100 text-base leading-relaxed"> {/* text-white/90 -> text-slate-100 */}
+          <p className="text-slate-100 text-base leading-relaxed">
+            {/* text-white/90 -> text-slate-100 */}
             Etkinliğiniz için <strong>en uygun sahne çözümleri</strong>, LED
             ekran seçenekleri ve ses-ışık sistemlerini ücretsiz teknik
             danışmanlık ile planlayalım.{" "}
-            <strong className="text-yellow-200"> {/* yellow-300 -> yellow-200 (Kontrast) */}
+            <strong className="text-yellow-200">
+              {/* yellow-300 -> yellow-200 (Kontrast) */}
               2 saat içinde detaylı teklif
             </strong>{" "}
             sunuyoruz.
@@ -576,7 +592,7 @@ function HeroBackgroundImage({
 }) {
   return (
     <Image
-      alt={alt}
+      alt={ariaHidden ? "" : alt}
       src={heroImg}
       fill
       sizes="100vw"
@@ -605,9 +621,9 @@ export default function HomePage() {
         className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950 pt-16 lg:pt-20"
         aria-labelledby="hero-title"
       >
-        {/* Arka plan görseli */}
+        {/* Arka plan görseli (dekoratif) */}
         <div className="absolute inset-0" aria-hidden="true">
-          <HeroBackgroundImage />
+          <HeroBackgroundImage ariaHidden />
         </div>
 
         {/* Overlay katmanları - Kontrast için koyulaştırıldı */}
@@ -641,7 +657,6 @@ export default function HomePage() {
               <h1
                 id="hero-title"
                 className="text-white text-3xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight tracking-tight drop-shadow-md"
-                aria-label="Profesyonel Sahne Sistemleri"
               >
                 <span className="block mb-2">Profesyonel</span>
                 <span
@@ -650,18 +665,21 @@ export default function HomePage() {
                 >
                   Sahne Sistemleri
                 </span>
+                <span className="sr-only">Sahne Sistemleri</span>
               </h1>
             </ScrollReveal>
 
             <ScrollReveal delay="2">
-              {/* Anahtar kelimeler */}
-              <KeywordPills />
+              <>
+                {/* Anahtar kelimeler */}
+                <KeywordPills />
 
-              {/* FIX: Kontrast için text-white/80 yerine text-slate-100 */}
-              <p className="text-slate-100 text-base md:text-lg mb-8 max-w-3xl mx-auto drop-shadow-sm font-medium">
-                500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli
-                hızlı kurulum ile yanınızdayız
-              </p>
+                {/* FIX: Kontrast için text-white/80 yerine text-slate-100 */}
+                <p className="text-slate-100 text-base md:text-lg mb-8 max-w-3xl mx-auto drop-shadow-sm font-medium">
+                  500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli
+                  hızlı kurulum ile yanınızdayız
+                </p>
+              </>
             </ScrollReveal>
 
             {/* CTA Butonları */}
@@ -671,8 +689,12 @@ export default function HomePage() {
 
             {/* Öne çıkanlar */}
             <ScrollReveal delay="4">
-              <h2 className="sr-only">Öne çıkan özellikler</h2>
-              <HeroFeatureGrid />
+              <section aria-labelledby="hero-features-heading">
+                <h2 id="hero-features-heading" className="sr-only">
+                  Öne çıkan özellikler
+                </h2>
+                <HeroFeatureGrid />
+              </section>
             </ScrollReveal>
 
             {/* Danışmanlık kutusu */}
