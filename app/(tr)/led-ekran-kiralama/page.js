@@ -47,13 +47,6 @@ function FAQ() {
             const panelId = `faq-panel-${index}`;
             const headingId = `faq-heading-${index}`;
 
-            const handleSummaryKeyDown = (event) => {
-              if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                event.currentTarget.click();
-              }
-            };
-
             return (
               <article key={faq.q} role="listitem">
                 <details
@@ -66,7 +59,6 @@ function FAQ() {
                     className="cursor-pointer w-full list-none text-left flex items-center justify-between gap-4 px-8 py-6 text-xl font-bold text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-3xl"
                     role="button"
                     tabIndex={0}
-                    onKeyDown={handleSummaryKeyDown}
                   >
                     <span className="pr-4 flex-1">{faq.q}</span>
                     <span

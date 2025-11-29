@@ -831,13 +831,6 @@ function FAQ() {
 
         <ul className="space-y-6 list-none" aria-label="Frequently asked questions">
           {faqs.map((faq, index) => {
-            const handleSummaryKeyDown = (event) => {
-              if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                event.currentTarget.click();
-              }
-            };
-
             return (
               <li key={index}>
                 <details
@@ -847,7 +840,6 @@ function FAQ() {
                     className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900"
                     role="button"
                     tabIndex={0}
-                    onKeyDown={handleSummaryKeyDown}
                   >
                     <span className="pr-4">{faq.q}</span>
                     <span
