@@ -775,10 +775,10 @@ export default function Navbar() {
                           ${FOCUS_RING_CLASS}
                         `}
                         title={title}
-                        aria-current={
-                          active(href) ? "page" : undefined
-                        }
-                      >
+                    aria-current={
+                      active(href) ? "page" : undefined
+                    }
+                  >
                         <span
                           className="text-base opacity-70 mt-0.5 flex-shrink-0"
                           aria-hidden="true"
