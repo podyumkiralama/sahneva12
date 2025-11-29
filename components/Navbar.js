@@ -15,7 +15,7 @@ import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 
 // Tek yerde tanımlı focus ring helper
 const FOCUS_RING_CLASS =
-  "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white";
+  "focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white";
 const MOBILE_MENU_HEADING_ID = "navbar-mobile-menu-heading";
 
 // Tüm hizmet linkleri (bileşen dışı, re-render'da değişmez)
@@ -105,18 +105,18 @@ export default function Navbar() {
   const whatsappBtnClass = useMemo(
     () =>
       `ml-2 inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-white text-sm font-bold 
-       bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 
+       bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 
        transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 
-       min-h-[44px] border border-green-600/20 ${FOCUS_RING_CLASS}`,
+       min-h-[44px] border border-green-700/20 ${FOCUS_RING_CLASS}`,
     []
   );
 
   const mobileWhatsappBtnClass = useMemo(
     () =>
       `block text-center mt-4 rounded-xl px-5 py-3 text-white text-sm font-bold 
-       bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 
+       bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 
        transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 
-       min-h-[44px] flex items-center justify-center gap-2 border border-green-600/20 ${FOCUS_RING_CLASS}`,
+       min-h-[44px] flex items-center justify-center gap-2 border border-green-700/20 ${FOCUS_RING_CLASS}`,
     []
   );
 
@@ -371,7 +371,7 @@ export default function Navbar() {
           ${
             active(href)
               ? "text-blue-700 bg-blue-50 border border-blue-200"
-              : "text-neutral-900 hover:text-blue-700 hover:bg-neutral-50 hover:border hover:border-neutral-200"
+              : "text-neutral-800 hover:text-blue-700 hover:bg-neutral-50 hover:border hover:border-neutral-200"
           }
           ${FOCUS_RING_CLASS} ${className}
         `}
@@ -385,6 +385,7 @@ export default function Navbar() {
   );
 
   /* =============== ServiceLink helper =============== */
+  // GÜNCELLEME: text-neutral-500 -> text-neutral-600 (Kontrast iyileştirmesi)
   const ServiceLink = useCallback(
     ({
       href,
@@ -401,7 +402,7 @@ export default function Navbar() {
         }}
         className={`
           group flex items-start gap-3 px-3 py-2 text-sm text-neutral-700
-          hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all duration-200
+          hover:bg-blue-50 hover:text-blue-700 rounded-lg transition-all duration-200
           w-full transform hover:scale-[1.02] ${FOCUS_RING_CLASS}
         `}
         onClick={() => setServicesOpen(false)}
@@ -412,16 +413,16 @@ export default function Navbar() {
         title={title}
       >
         <span
-          className="text-lg opacity-70 group-hover:opacity-100 transition-opacity mt-0.5 flex-shrink-0"
+          className="text-lg opacity-80 group-hover:opacity-100 transition-opacity mt-0.5 flex-shrink-0"
           aria-hidden="true"
         >
           {icon}
         </span>
         <div className="flex-1 min-w-0">
-          <div className="font-medium text-neutral-900 group-hover:text-blue-600">
+          <div className="font-bold text-neutral-900 group-hover:text-blue-700">
             {label}
           </div>
-          <div className="text-xs text-neutral-500 mt-0.5">
+          <div className="text-xs text-neutral-600 font-medium mt-0.5">
             {description}
           </div>
         </div>
@@ -490,7 +491,7 @@ export default function Navbar() {
                     ${
                       active("/hizmetler") || servicesOpen
                         ? "text-blue-700 bg-blue-50 border-blue-200"
-                        : "text-neutral-900 hover:text-blue-700 hover:bg-neutral-50 border-transparent hover:border-neutral-200"
+                        : "text-neutral-800 hover:text-blue-700 hover:bg-neutral-50 border-transparent hover:border-neutral-200"
                     }
                     ${FOCUS_RING_CLASS}
                   `}
@@ -779,7 +780,7 @@ export default function Navbar() {
                         }
                         className={`
                           flex items-start gap-3 px-3 py-2 text-sm text-neutral-700 
-                          hover:bg-blue-50 hover:text-blue-600 rounded-md 
+                          hover:bg-blue-50 hover:text-blue-700 rounded-md 
                           transition-all duration-200 w-full transform hover:scale-[1.01] 
                           ${FOCUS_RING_CLASS}
                         `}
@@ -795,10 +796,10 @@ export default function Navbar() {
                           {icon}
                         </span>
                         <div className="flex-1 min-w-0">
-                          <div className="font-medium text-neutral-900">
+                          <div className="font-bold text-neutral-900">
                             {label}
                           </div>
-                          <div className="text-xs text-neutral-500 mt-0.5">
+                          <div className="text-xs text-neutral-600 mt-0.5 font-medium">
                             {description}
                           </div>
                         </div>
