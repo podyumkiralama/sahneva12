@@ -326,7 +326,7 @@ function Hero() {
             href={WHATSAPP}
             target="_blank"
             rel="noopener noreferrer"
-            title="WhatsApp üzerinden hemen teklif alın"
+            aria-label="WhatsApp üzerinden hemen teklif alın"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring shadow-lg"
             role="button"
           >
@@ -338,7 +338,7 @@ function Hero() {
 
           <Link
             href="#paketler"
-            title="Paketlerimiz hakkında daha fazla bilgi edinin"
+            aria-label="Paketlerimiz hakkında daha fazla bilgi edinin"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-white text-white/95 bg-white/10 backdrop-blur-lg hover:bg-white/20 hover:scale-105 transform transition-all duration-300 focus-ring shadow-lg"
             role="button"
           >
@@ -1385,7 +1385,7 @@ function FAQ() {
           <Link
             href="/sss"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring"
-            title="Sık Sorulan Sorular sayfasındaki tüm soruları görüntüle"
+            aria-label="Sık Sorulan Sorular sayfasındaki tüm soruları görüntüle"
             role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">
