@@ -12,7 +12,7 @@ const LINK_CLASSNAME =
 const SKIP_TARGETS = [
   { id: "_main_content", key: "toMain" },
   { id: "_main_header", key: "toHeader" },
-  { id: "_site_footer", key: "toFooter" },
+  { id: "_main_footer", key: "toFooter" }
 ];
 
 function normalizeLocale(value) {
