@@ -769,15 +769,16 @@ export default function Navbar() {
                           setMobileOpen(false)
                         }
                         className={`
-                          flex items-start gap-3 px-3 py-2 text-sm text-neutral-700 
-                          hover:bg-blue-50 hover:text-blue-700 rounded-md 
-                          transition-all duration-200 w-full transform hover:scale-[1.01] 
+                          flex items-start gap-3 px-3 py-2 text-sm text-neutral-700
+                          hover:bg-blue-50 hover:text-blue-700 rounded-md
+                          transition-all duration-200 w-full transform hover:scale-[1.01]
                           ${FOCUS_RING_CLASS}
                         `}
-                    aria-current={
-                      active(href) ? "page" : undefined
-                    }
-                  >
+                        title={title}
+                        aria-current={
+                          active(href) ? "page" : undefined
+                        }
+                      >
                         <span
                           className="text-base opacity-70 mt-0.5 flex-shrink-0"
                           aria-hidden="true"
