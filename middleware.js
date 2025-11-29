@@ -119,7 +119,7 @@ export default function middleware(request) {
     rewriter.on(tag, new VoidElementFormatter());
   }
 
-  const transformed = rewriter.transform(response);
-  transformed.headers.set("content-type", "text/html; charset=utf-8");
-  return transformed;
+  return NextResponse.next({
+    request: { headers: requestHeaders },
+  });
 }
