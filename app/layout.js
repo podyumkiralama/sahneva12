@@ -9,7 +9,7 @@ import CriticalAssets from "@/components/CriticalAssets";
 
 // ================== FONT ==================
 const inter = Inter({
-  subsets: ["latin", "latin-ext"],
+  subsets: ["latin", "latin-ext", "arabic"],
   preload: true,
   display: "swap",
   adjustFontFallback: false,
@@ -203,16 +203,18 @@ export default function RootLayout({ children }) {
       <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
         {/* Erişilebilirlik: "Skip to Content" linki */}
         <SkipLinks />
-        
+
         <StickyVideoRailclient />
         <UtilityBar />
 
-        {/* Erişilebilirlik Düzeltmesi (Landmark): 
-          Sayfanın ana içeriğini <main> etiketi içine aldık.
-          Bu, ekran okuyucuların içeriği doğru ayrıştırmasını sağlar.
-          flex-auto: Footer'ı (varsa) sayfanın altına iter (Sticky Footer).
-        */}
-        <div className="flex-auto w-full">{children}</div>
+        {/* ANA İÇERİK LANDMARK (WCAG için <main>) */}
+        <main
+          id="_main_content"
+          className="flex-auto w-full outline-none"
+          tabIndex={-1}
+        >
+          {children}
+        </main>
 
         {/* GLOBAL JSON-LD SCHEMA */}
         <script
