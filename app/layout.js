@@ -9,18 +9,18 @@ import CriticalAssets from "@/components/CriticalAssets";
 
 // ================== FONT ==================
 const inter = Inter({
-  subsets: ["latin", "latin-ext"], // Bu layout TR odaklı, Arapça ayrı layout'ta çözülebilir
+  subsets: ["latin", "latin-ext"],
   preload: true,
   display: "swap",
   adjustFontFallback: false,
 });
 
-// ================== SITE URL (ENV DESTEKLİ) ==================
+// ================== SITE URL ==================
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL
   ? process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "")
   : "https://www.sahneva.com";
 
-// ================== JSON-LD: ORGANIZATION ==================
+// ================== JSON-LD VERİLERİ ==================
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -43,7 +43,6 @@ const organizationJsonLd = {
   ],
 };
 
-// ================== JSON-LD: LOCAL BUSINESS ==================
 const localBusinessJsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
@@ -82,7 +81,6 @@ const localBusinessJsonLd = {
   ],
 };
 
-// ================== JSON-LD: WEBSITE ==================
 const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
@@ -107,7 +105,7 @@ export const viewport = {
   themeColor: "#6d28d9",
 };
 
-// ================== METADATA (SEO) ==================
+// ================== METADATA ==================
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
@@ -176,7 +174,7 @@ const criticalCSS = `
 .container{max-width:1280px;margin:0 auto;padding:0 1rem}
 `;
 
-// ================== GA4 ==================
+// ================== GA4 AYARLARI ==================
 const DEFAULT_GA_MEASUREMENT_ID = "G-J5YK10YLLC";
 const GA_MEASUREMENT_ID =
   process.env.NEXT_PUBLIC_GA_ID?.trim() || DEFAULT_GA_MEASUREMENT_ID;
@@ -203,11 +201,20 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://www.google-analytics.com" />
       </head>
       <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
+        {/* Erişilebilirlik: "Skip to Content" linki */}
         <SkipLinks />
+        
         <StickyVideoRailclient />
         <UtilityBar />
 
-        {children}
+        {/* Erişilebilirlik Düzeltmesi (Landmark): 
+          Sayfanın ana içeriğini <main> etiketi içine aldık.
+          Bu, ekran okuyucuların içeriği doğru ayrıştırmasını sağlar.
+          flex-auto: Footer'ı (varsa) sayfanın altına iter (Sticky Footer).
+        */}
+        <main id="main_content" className="flex-auto w-full">
+          {children}
+        </main>
 
         {/* GLOBAL JSON-LD SCHEMA */}
         <script
