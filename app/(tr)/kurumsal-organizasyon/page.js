@@ -1134,7 +1134,10 @@ function FAQ() {
               key={index}
               className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border"
             >
-              <summary className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900">
+              <summary
+                className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900"
+                role="button"
+              >
                 <span className="pr-4">{faq.q}</span>
                 <span
                   aria-hidden="true"

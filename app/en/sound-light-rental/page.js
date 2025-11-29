@@ -836,9 +836,10 @@ function FAQ() {
             >
               <summary
                 className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900"
-               
+
                 aria-expanded="false"
                 tabIndex={0}
+                role="button"
               >
                 <span className="pr-4">{faq.q}</span>
                 <span
