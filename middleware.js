@@ -1,19 +1,10 @@
 import { NextResponse } from "next/server";
 
-const ASSET_PREFIXES = ["/_next/", "/favicon", "/robots", "/sitemap", "/manifest", "/icon"];
-
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/:path*"],
 };
 
-export function middleware(request) {
-  const pathname = request.nextUrl.pathname || "/";
-
-  // Skip assets and auto-generated files entirely
-  if (ASSET_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
-    return NextResponse.next();
-  }
-
+export default function middleware(request) {
   const requestHeaders = new Headers(request.headers);
   const firstSegment = pathname.split("/")[1]?.toLowerCase();
   const locale = ["en", "ar"].includes(firstSegment) ? firstSegment : "tr";
@@ -22,5 +13,7 @@ export function middleware(request) {
   requestHeaders.set("x-locale", locale);
   requestHeaders.set("x-direction", direction);
 
-  return NextResponse.next({ request: { headers: requestHeaders } });
+  return NextResponse.next({
+    request: { headers: requestHeaders },
+  });
 }
