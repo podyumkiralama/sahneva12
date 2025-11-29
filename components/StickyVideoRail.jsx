@@ -497,6 +497,7 @@ function StickyVideoRailInner() {
         <details className="group border-t border-white/10">
           <summary
             role="button"
+            tabIndex={0}
             className="flex items-center justify-between px-4 py-3 text-sm text-slate-200 cursor-pointer select-none hover:bg-white/5 transition-colors"
           >
             <div className="flex items-center gap-2">
