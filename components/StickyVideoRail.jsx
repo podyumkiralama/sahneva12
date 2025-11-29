@@ -307,9 +307,9 @@ function StickyVideoRailInner() {
             </div>
           </div>
 
-          {/* Playlist */}
+          {/* Playlist (GENİŞ) */}
           <aside className="w-full md:w-64 lg:w-72 bg-slate-900/90 border border-white/10 rounded-2xl shadow-xl flex flex-col overflow-hidden">
-            <div className="px-4 py-3 border-b border-white/10 flex itemscenter justify-between">
+            <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                 <div>
@@ -325,21 +325,38 @@ function StickyVideoRailInner() {
                 {playlistForExpanded.length}
               </span>
             </div>
-            <div className="flex-1 overflow-y-auto custom-scroll">
+
+            <div
+              className="flex-1 overflow-y-auto custom-scroll px-1 py-1"
+              role="radiogroup"
+              aria-label="Video seçimi"
+            >
               {playlistForExpanded.length === 0 && (
                 <p className="px-4 py-3 text-xs text-slate-400">
                   Şu anda sadece tek video var.
                 </p>
               )}
+
               {playlistForExpanded.map((video) => {
                 const index = VIDEOS.findIndex((v) => v.id === video.id);
+                const isActive = index === activeIndex;
+
                 return (
-                  <button
+                  <label
                     key={video.id}
-                    type="button"
-                    onClick={() => handleChangeVideo(index)}
-                    className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800/80 text-left text-slate-100 text-sm transition-colors border-b border-white/5 last:border-b-0"
+                    className={`w-full flex items-center gap-3 px-3 py-2.5 text-left text-slate-100 text-sm transition-colors border-b border-white/5 last:border-b-0 cursor-pointer ${
+                      isActive
+                        ? "bg-blue-500/20 border-r-2 border-blue-500"
+                        : "hover:bg-slate-800/80 border-r-2 border-transparent"
+                    }`}
                   >
+                    <input
+                      type="radio"
+                      name="sticky-video-expanded"
+                      className="sr-only"
+                      checked={isActive}
+                      onChange={() => handleChangeVideo(index)}
+                    />
                     <div className="relative w-14 h-9 flex-shrink-0 rounded-md overflow-hidden bg-black">
                       <img
                         src={video.thumbnail}
@@ -363,7 +380,7 @@ function StickyVideoRailInner() {
                         {video.description}
                       </p>
                     </div>
-                  </button>
+                  </label>
                 );
               })}
             </div>
@@ -496,11 +513,9 @@ function StickyVideoRailInner() {
           )}
         </div>
 
-        {/* Açılır mini liste */}
+        {/* Açılır mini liste (RADIO GROUP) */}
         <details className="group border-t border-white/10">
-          <summary
-            className="flex items-center justify-between px-4 py-3 text-sm text-slate-200 cursor-pointer select-none hover:bg-white/5 transition-colors"
-          >
+          <summary className="flex items-center justify-between px-4 py-3 text-sm text-slate-200 cursor-pointer select-none hover:bg-white/5 transition-colors">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
               <span className="font-medium">Diğer Videolar</span>
@@ -512,38 +527,49 @@ function StickyVideoRailInner() {
               ⌄
             </span>
           </summary>
-          <div className="max-h-48 overflow-y-auto custom-scroll pb-2 bg-slate-800/50">
-            {VIDEOS.map((video, idx) => (
-              <button
-                key={video.id}
-                type="button"
-                role="button"
-                onClick={() => handleChangeVideo(idx)}
-                aria-current={idx === activeIndex ? "true" : undefined}
-                className={`w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-slate-700/50 transition-colors ${
-                  idx === activeIndex
-                    ? "bg-blue-500/20 border-r-2 border-blue-500"
-                    : "border-r-2 border-transparent"
-                } focus-ring`}
-              >
-                <div className="relative w-12 h-8 rounded-md overflow-hidden bg-black flex-shrink-0">
-                  <img
-                    src={video.thumbnail}
-                    alt={video.title}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
+
+          <div
+            className="max-h-48 overflow-y-auto custom-scroll pb-2 bg-slate-800/50 px-1"
+            role="radiogroup"
+            aria-label="Video seçimi"
+          >
+            {VIDEOS.map((video, idx) => {
+              const isActive = idx === activeIndex;
+              return (
+                <label
+                  key={video.id}
+                  className={`w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors border-r-2 cursor-pointer ${
+                    isActive
+                      ? "bg-blue-500/20 border-blue-500"
+                      : "hover:bg-slate-700/50 border-transparent"
+                  } focus-ring`}
+                >
+                  <input
+                    type="radio"
+                    name="sticky-video-mini"
+                    className="sr-only"
+                    checked={isActive}
+                    onChange={() => handleChangeVideo(idx)}
                   />
-                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                    <span className="text-white text-[10px]">▶</span>
+                  <div className="relative w-12 h-8 rounded-md overflow-hidden bg-black flex-shrink-0">
+                    <img
+                      src={video.thumbnail}
+                      alt={video.title}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                      <span className="text-white text-[10px]">▶</span>
+                    </div>
                   </div>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs text-slate-100 font-medium line-clamp-2 text-left">
-                    {video.title}
-                  </p>
-                </div>
-              </button>
-            ))}
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs text-slate-100 font-medium line-clamp-2 text-left">
+                      {video.title}
+                    </p>
+                  </div>
+                </label>
+              );
+            })}
           </div>
         </details>
       </div>
@@ -559,8 +585,8 @@ function StickyVideoRailInner() {
 export default function StickyVideoRail(props) {
   return (
     <DeferredHydration
-      rootMargin="600px"   // sayfanın ortalarına yaklaştığında
-      idleTimeout={5000}   // ya da en geç 5 sn sonra
+      rootMargin="600px"
+      idleTimeout={5000}
       fallback={null}
       as="div"
       {...props}
