@@ -101,6 +101,7 @@ function StickyVideoRailInner() {
   const dragRef = useRef(null);
   const startPosRef = useRef({ mouseX: 0, mouseY: 0, x: 0, y: 0 });
 
+  // İlk mount + mobile tespiti
   useEffect(() => {
     setIsMounted(true);
     if (typeof window !== "undefined") {
@@ -108,6 +109,7 @@ function StickyVideoRailInner() {
     }
   }, []);
 
+  // Scroll ile otomatik gösterme
   useEffect(() => {
     if (!isMounted || hasAutoShown) return;
 
@@ -128,6 +130,7 @@ function StickyVideoRailInner() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [isMounted, hasAutoShown, isMobile]);
 
+  // Drag hareketi
   useEffect(() => {
     if (!dragging || !dragRef.current) return;
 
@@ -306,7 +309,7 @@ function StickyVideoRailInner() {
 
           {/* Playlist */}
           <aside className="w-full md:w-64 lg:w-72 bg-slate-900/90 border border-white/10 rounded-2xl shadow-xl flex flex-col overflow-hidden">
-            <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between">
+            <div className="px-4 py-3 border-b border-white/10 flex itemscenter justify-between">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                 <div>
@@ -496,8 +499,6 @@ function StickyVideoRailInner() {
         {/* Açılır mini liste */}
         <details className="group border-t border-white/10">
           <summary
-            role="button"
-            tabIndex={0}
             className="flex items-center justify-between px-4 py-3 text-sm text-slate-200 cursor-pointer select-none hover:bg-white/5 transition-colors"
           >
             <div className="flex items-center gap-2">
@@ -517,10 +518,7 @@ function StickyVideoRailInner() {
                 key={video.id}
                 type="button"
                 onClick={() => handleChangeVideo(idx)}
-                aria-pressed={idx === activeIndex}
-                aria-label={`${video.title} videosunu ${
-                  idx === activeIndex ? "oynatılıyor" : "oynatmak için"
-                } seç`}
+                aria-current={idx === activeIndex ? "true" : undefined}
                 className={`w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-slate-700/50 transition-colors ${
                   idx === activeIndex
                     ? "bg-blue-500/20 border-r-2 border-blue-500"
