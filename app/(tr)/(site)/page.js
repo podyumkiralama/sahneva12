@@ -459,8 +459,6 @@ function KeywordPills() {
     <div className="flex flex-wrap justify-center gap-2 mb-8 max-w-4xl mx-auto">
       {HERO_KEYWORDS.map(({ text, gradient }) => (
         <span
-          role="heading"
-          aria-level="3"
           key={text}
           className={`text-lg md:text-xl font-bold px-3 py-1 ${gradient} bg-white/10 rounded-lg backdrop-blur-sm border border-white/5`}
         >

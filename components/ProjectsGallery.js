@@ -139,24 +139,12 @@ const GalleryCard = memo(function GalleryCard({
 }) {
   const {
     cardAltTemplate,
-    exploreAriaTemplate,
     exploreHiddenLabelTemplate,
     seeAllSrTemplate,
   } = templates;
 
   const images = galleryData.images;
   const cover = images[0];
-
-  const exploreAria = useMemo(
-    () =>
-      formatWithParams(
-        exploreAriaTemplate,
-        DEFAULT_DICTIONARY.exploreAria,
-        { title: groupTitle, count: images.length },
-        ["title", "count"]
-      ),
-    [exploreAriaTemplate, groupTitle, images.length]
-  );
 
   const exploreHiddenLabel = useMemo(
     () =>
@@ -323,7 +311,6 @@ export default function ProjectsGallery({
   const liveRef = useRef(null);
   const portalRef = useRef(null);
 
-  const exploreAriaTemplate = dictionary.exploreAria;
   const exploreHiddenLabelTemplate = dictionary.exploreHiddenLabel;
   const cardAltTemplate = dictionary.cardAlt;
   const seeAllSrTemplate = dictionary.seeAllSr;
@@ -335,13 +322,11 @@ export default function ProjectsGallery({
   const templates = useMemo(
     () => ({
       cardAltTemplate,
-      exploreAriaTemplate,
       exploreHiddenLabelTemplate,
       seeAllSrTemplate,
     }),
     [
       cardAltTemplate,
-      exploreAriaTemplate,
       exploreHiddenLabelTemplate,
       seeAllSrTemplate,
     ]
