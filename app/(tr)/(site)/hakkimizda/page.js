@@ -195,10 +195,10 @@ export default function HakkimizdaPage() {
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-8">
             <Link
-              href={WHATSAPP}
-              target="_blank"
-              rel="noopener noreferrer"
-              title="WhatsApp üzerinden hemen iletişime geçin"
+            href={WHATSAPP}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="WhatsApp üzerinden hemen iletişime geçin"
               className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring shadow-lg"
               role="button"
             >
@@ -207,8 +207,8 @@ export default function HakkimizdaPage() {
             </Link>
 
             <Link
-              href="#tarihce"
-              title="Şirket tarihçemizi öğrenin"
+            href="#tarihce"
+            aria-label="Şirket tarihçemizi öğrenin"
               className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-white text-white/95 bg-white/10 backdrop-blur-lg hover:bg-white/20 hover:scale-105 transform transition-all duration-300 focus-ring shadow-lg"
               role="button"
             >

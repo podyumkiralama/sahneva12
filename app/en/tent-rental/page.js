@@ -204,7 +204,7 @@ function Hero() {
             href={WHATSAPP}
             target="_blank"
             rel="noopener noreferrer"
-            title="Request a quote instantly over WhatsApp"
+            aria-label="Request a quote instantly over WhatsApp"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring shadow-lg"
             role="button"
           >
@@ -214,7 +214,7 @@ function Hero() {
 
           <Link
             href="#services"
-            title="Discover our tent rental services"
+            aria-label="Discover our tent rental services"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-white text-white/95 bg-white/10 backdrop-blur-lg hover:bg-white/20 hover:scale-105 transform transition-all duration-300 focus-ring shadow-lg"
             role="button"
           >
@@ -859,7 +859,7 @@ function FAQ() {
           <Link
             href="/en/contact"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring"
-            title="Contact Sahneva for tent rental support"
+            aria-label="Contact Sahneva for tent rental support"
             role="button"
           >
             <span aria-hidden="true" className="text-xl mr-3">📚</span>

@@ -87,7 +87,7 @@ function FAQ() {
           <Link
             href="/sss"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-500"
-            title="Sık Sorulan Sorular sayfasındaki tüm soruları görüntüle"
+            aria-label="Sık Sorulan Sorular sayfasındaki tüm soruları görüntüle"
           >
             <span aria-hidden="true" className="text-xl mr-3">📚</span>
             <span className="text-lg">Tüm SSS'yi Görüntüle</span>
@@ -299,7 +299,7 @@ function Hero() {
             href={WHATSAPP}
             target="_blank"
             rel="noopener noreferrer"
-            title="WhatsApp üzerinden hemen teklif alın"
+            aria-label="WhatsApp üzerinden hemen teklif alın"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-green-600 shadow-lg"
           >
             <span aria-hidden="true" className="text-xl mr-2">💬</span> 
@@ -308,7 +308,7 @@ function Hero() {
 
           <Link
             href="#hizmetler"
-            title="Hizmetlerimiz hakkında daha fazla bilgi edinin"
+            aria-label="Hizmetlerimiz hakkında daha fazla bilgi edinin"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-white text-white/95 bg-white/10 backdrop-blur-lg hover:bg-white/20 hover:scale-105 transform transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 shadow-lg"
           >
             <span aria-hidden="true" className="text-xl mr-2">🎯</span> 
