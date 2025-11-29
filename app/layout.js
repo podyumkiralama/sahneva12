@@ -2,12 +2,10 @@
 import "../styles/globals.css";
 import Script from "next/script";
 import { Inter } from "next/font/google";
-import { headers } from "next/headers";
 import SkipLinks from "@/components/SkipLinks";
 import UtilityBar from "@/components/UtilityBar.client";
 import StickyVideoRailclient from "@/components/StickyVideoRail.client";
 import CriticalAssets from "@/components/CriticalAssets";
-import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 
 // ================== FONT ==================
 const inter = Inter({
@@ -183,29 +181,12 @@ const GA_MEASUREMENT_ID =
 const isProd = process.env.NODE_ENV === "production";
 const gaEnabled = isProd && Boolean(GA_MEASUREMENT_ID);
 
-// ================== LOCALE HELPERS ==================
-const SUPPORTED_LOCALES = ["tr", "en", "ar"];
-
-function resolveRequestLocale() {
-  const headersList = headers();
-  const localeHeader = headersList.get("x-locale")?.toLowerCase();
-  const directionHeader = headersList.get("x-direction");
-
-  const locale = SUPPORTED_LOCALES.includes(localeHeader) ? localeHeader : "tr";
-  const directionFromLocale = LOCALE_CONTENT[locale]?.direction ?? "ltr";
-  const direction = directionHeader === "rtl" ? "rtl" : directionFromLocale;
-
-  return { locale, direction };
-}
-
 // ================== ROOT LAYOUT ==================
 export default function RootLayout({ children }) {
-  const { locale, direction } = resolveRequestLocale();
-
   return (
     <html
-      lang={locale}
-      dir={direction}
+      lang="tr"
+      dir="ltr"
       className={inter.className}
       suppressHydrationWarning
     >

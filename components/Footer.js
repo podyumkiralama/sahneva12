@@ -124,10 +124,11 @@ export default function Footer() {
         aria-hidden="true"
       >
         <img
-          src="/img/footer-wave.svg"
+          src="/footer-wave.svg"
           alt=""
           loading="lazy"
           className="w-full h-full drop-shadow-[0_-20px_50px_rgba(24,24,72,0.32)]"
+          aria-hidden="true"
         />
       </div>
 
