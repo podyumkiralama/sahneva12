@@ -18,10 +18,15 @@ function clean(pathStr) {
   if (!pathStr) return null;
   let p = String(pathStr).trim();
 
+  let parsedPath = p;
   try {
     const u = new URL(p, SITE);
-    p = u.pathname;
-  } catch {}
+    parsedPath = u.pathname;
+  } catch {
+    parsedPath = p;
+  }
+
+  p = parsedPath;
 
   if (!p.startsWith("/")) p = `/${p}`;
 
@@ -138,7 +143,9 @@ function dynamicFromBlog() {
       try {
         const stats = fs.statSync(pageFile);
         lastMod = stats.mtime.toISOString();
-      } catch {}
+      } catch {
+        lastMod = NOW_ISO;
+      }
 
       return {
         path: clean(`/blog/${slug}`),
