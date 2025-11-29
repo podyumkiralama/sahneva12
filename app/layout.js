@@ -197,8 +197,8 @@ function getLocaleFromPath(pathname) {
 }
 
 // ================== ROOT LAYOUT ==================
-export default async function RootLayout({ children }) {
-  const headerList = await headers();
+export default function RootLayout({ children }) {
+  const headerList = headers();
   const pathname = headerList.get("next-url") ?? "/";
   const locale = getLocaleFromPath(pathname);
   const direction = LOCALE_DIRECTIONS[locale] ?? "ltr";
