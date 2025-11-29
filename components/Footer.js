@@ -21,6 +21,7 @@ const SOCIAL_LINKS = [
     icon: "▶",
     gradient: "from-purple-500/20 to-cyan-500/20",
   },
+  // İhtiyaç halinde Facebook veya LinkedIn eklenebilir
 ];
 
 const SERVICES = [
@@ -61,7 +62,7 @@ const FooterLink = ({ href, children, hoverColorClass = "hover:text-blue-400 hov
       className={`
         group flex items-center py-1 pl-2 border-l-2 border-transparent 
         transition-all duration-200 rounded-sm text-gray-300 
-        hover:pl-3 hover:border-current ${hoverColorClass} ${FOCUS_RING_CLASS}
+        hover:pl-3 hover:border-current hover:text-white ${hoverColorClass} ${FOCUS_RING_CLASS}
       `}
     >
       <span>{children}</span>
