@@ -528,49 +528,49 @@ function StickyVideoRailInner() {
             </span>
           </summary>
 
-          <div
-            className="max-h-48 overflow-y-auto custom-scroll pb-2 bg-slate-800/50 px-1"
-            role="radiogroup"
-            aria-label="Video seçimi"
-          >
-            {VIDEOS.map((video, idx) => {
-              const isActive = idx === activeIndex;
-              return (
-                <label
-                  key={video.id}
-                  className={`w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors border-r-2 cursor-pointer ${
-                    isActive
-                      ? "bg-blue-500/20 border-blue-500"
-                      : "hover:bg-slate-700/50 border-transparent"
-                  } focus-ring`}
-                >
-                  <input
-                    type="radio"
-                    name="sticky-video-mini"
-                    className="sr-only"
-                    checked={isActive}
-                    onChange={() => handleChangeVideo(idx)}
-                  />
-                  <div className="relative w-12 h-8 rounded-md overflow-hidden bg-black flex-shrink-0">
-                    <img
-                      src={video.thumbnail}
-                      alt={video.title}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                      <span className="text-white text-[10px]">▶</span>
-                    </div>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs text-slate-100 font-medium line-clamp-2 text-left">
-                      {video.title}
-                    </p>
-                  </div>
-                </label>
-              );
-            })}
-          </div>
+         <div
+  className="max-h-48 overflow-y-auto custom-scroll pb-2 bg-slate-800/50 px-1"
+  role="radiogroup"
+  aria-label="Video seçimi"
+>
+  {VIDEOS.map((video, idx) => {
+    const isActive = idx === activeIndex;
+    return (
+      <label
+        key={video.id}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            handleChangeVideo(idx);
+          }
+        }}
+        className={`w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors border-r-2 cursor-pointer ${
+          isActive
+            ? "bg-blue-500/20 border-blue-500"
+            : "hover:bg-slate-700/50 border-transparent"
+        } focus-ring`}
+      >
+        <input
+          type="radio"
+          name="sticky-video-mini"
+          className="sr-only"
+          checked={isActive}
+          onChange={() => handleChangeVideo(idx)}
+        />
+        <div className="relative w-12 h-8 rounded-md overflow-hidden bg-black flex-shrink-0">
+          {/* ... thumbnail ... */}
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-xs text-slate-100 font-medium line-clamp-2 text-left">
+            {video.title}
+          </p>
+        </div>
+      </label>
+    );
+  })}
+</div>
         </details>
       </div>
     </div>
