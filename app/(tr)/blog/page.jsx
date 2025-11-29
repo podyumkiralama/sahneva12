@@ -173,11 +173,11 @@ function BlogCard({ post, isFeatured = false }) {
 
         {/* İçerik Alanı */}
         <div className="flex flex-col flex-1 p-6">
-          <div className="flex items-center gap-3 text-xs text-gray-500 mb-3">
+          <div className="flex items-center gap-3 text-xs text-gray-600 mb-3">
             <time dateTime={post.date} className="flex items-center gap-1">
               📅 {formattedDate}
             </time>
-            <span className="w-1 h-1 bg-gray-300 rounded-full" />
+            <span className="w-1 h-1 bg-gray-400 rounded-full" />
             <span className="flex items-center gap-1">⏱️ {post.readTime}</span>
           </div>
 
@@ -193,7 +193,7 @@ function BlogCard({ post, isFeatured = false }) {
             <span className="text-blue-600 text-sm font-semibold group-hover:underline">
               Devamını Oku
             </span>
-            <span className="text-gray-400 text-lg transition-transform group-hover:translate-x-1">→</span>
+            <span className="text-gray-600 text-lg transition-transform group-hover:translate-x-1">→</span>
           </div>
         </div>
       </Link>
@@ -220,7 +220,7 @@ export default async function BlogPage() {
           <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tight">
             Sahneva <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Blog</span>
           </h1>
-          <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto font-light leading-relaxed">
+          <p className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto font-light leading-relaxed">
             Etkinlik teknolojileri dünyasındaki son trendler, teknik rehberler ve organizasyon ipuçları.
           </p>
         </div>
@@ -232,14 +232,14 @@ export default async function BlogPage() {
         <div className="bg-white rounded-xl shadow-lg p-4 mb-12 max-w-4xl mx-auto flex flex-wrap items-center justify-center gap-6 md:gap-12 border border-gray-100">
           <div className="text-center">
             <span className="block text-2xl font-bold text-blue-600">{posts.length}</span>
-            <span className="text-xs text-gray-500 uppercase tracking-wider font-semibold">Makale</span>
+            <span className="text-xs text-gray-600 uppercase tracking-wider font-semibold">Makale</span>
           </div>
           <div className="hidden md:block w-px h-10 bg-gray-200" />
           <div className="text-center">
             <span className="block text-2xl font-bold text-purple-600">
               {hasPosts ? "Aktif" : "-"}
             </span>
-            <span className="text-xs text-gray-500 uppercase tracking-wider font-semibold">Durum</span>
+            <span className="text-xs text-gray-600 uppercase tracking-wider font-semibold">Durum</span>
           </div>
         </div>
 
@@ -254,7 +254,7 @@ export default async function BlogPage() {
           <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl border border-dashed border-gray-300 text-center">
             <div className="text-6xl mb-4 opacity-50">📝</div>
             <h3 className="text-xl font-semibold text-gray-900">Henüz Yazı Yok</h3>
-            <p className="text-gray-500 mt-2">Blog içerikleri hazırlanıyor, lütfen daha sonra tekrar ziyaret edin.</p>
+            <p className="text-gray-600 mt-2">Blog içerikleri hazırlanıyor, lütfen daha sonra tekrar ziyaret edin.</p>
             <Link href="/" className="mt-6 text-blue-600 hover:underline">Anasayfaya Dön</Link>
           </div>
         )}
