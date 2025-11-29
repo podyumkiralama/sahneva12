@@ -194,8 +194,6 @@ export default function Footer() {
               </span>
             </div>
             <p
-              role="heading"
-              aria-level="3"
               itemProp="name"
               className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent tracking-wide"
             >
