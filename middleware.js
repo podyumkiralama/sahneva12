@@ -53,23 +53,6 @@ class VoidElementFormatter {
   }
 }
 
-class HtmlLangDirRewriter {
-  constructor(locale, direction) {
-    this.locale = locale;
-    this.direction = direction;
-  }
-
-  element(element) {
-    if (this.locale) {
-      element.setAttribute("lang", this.locale);
-    }
-
-    if (this.direction) {
-      element.setAttribute("dir", this.direction);
-    }
-  }
-}
-
 function escapeAttribute(value) {
   return value
     .replace(/&/g, "&amp;")
@@ -84,42 +67,24 @@ export const config = {
 };
 
 export default function middleware(request) {
-  const requestHeaders = new Headers(request.headers);
-
-  const pathname = request.nextUrl.pathname || "/";
-  const firstSegment = pathname.split("/")[1]?.toLowerCase();
-  const locale = ["en", "ar"].includes(firstSegment) ? firstSegment : "tr";
-  const direction = locale === "ar" ? "rtl" : "ltr";
-
-  requestHeaders.set("x-locale", locale);
-  requestHeaders.set("x-direction", direction);
-
   const accept = request.headers.get("accept");
 
   if (!accept || !accept.includes(HTML_ACCEPT_HEADER)) {
-    return NextResponse.next({
-      request: { headers: requestHeaders },
-    });
+    return NextResponse.next();
   }
 
   if (!EdgeHTMLRewriter) {
-    return NextResponse.next({
-      request: { headers: requestHeaders },
-    });
+    return NextResponse.next();
   }
 
-  const response = NextResponse.next({
-    request: { headers: requestHeaders },
-  });
+  const response = NextResponse.next();
   const rewriter = new EdgeHTMLRewriter();
-
-  rewriter.on("html", new HtmlLangDirRewriter(locale, direction));
 
   for (const tag of VOID_TAGS) {
     rewriter.on(tag, new VoidElementFormatter());
   }
 
-  return NextResponse.next({
-    request: { headers: requestHeaders },
-  });
+  const transformed = rewriter.transform(response);
+  transformed.headers.set("content-type", "text/html; charset=utf-8");
+  return transformed;
 }
