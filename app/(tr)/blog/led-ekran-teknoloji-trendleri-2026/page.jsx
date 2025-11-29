@@ -166,14 +166,14 @@ function ArticleSchema() {
 
 /* ================== BİLEŞENLER ================== */
 const Breadcrumbs = () => (
-  <nav aria-label="Breadcrumb" className="mb-6 text-sm text-gray-500">
+  <nav aria-label="Breadcrumb" className="mb-6 text-sm text-gray-600">
     <ol className="flex items-center space-x-2 flex-wrap">
       <li>
         <Link href="/" className="hover:text-blue-600 transition-colors">
           Anasayfa
         </Link>
       </li>
-      <li aria-hidden="true" className="text-gray-300">
+      <li aria-hidden="true" className="text-gray-500">
         /
       </li>
       <li>
@@ -181,7 +181,7 @@ const Breadcrumbs = () => (
           Blog
         </Link>
       </li>
-      <li aria-hidden="true" className="text-gray-300">
+      <li aria-hidden="true" className="text-gray-500">
         /
       </li>
       <li
@@ -381,7 +381,7 @@ export default function LedTrends2026Page() {
                     className="w-full h-auto rounded-2xl shadow-lg"
                     loading="lazy"
                   />
-                  <figcaption className="mt-3 text-sm text-gray-500 text-center font-medium">
+                  <figcaption className="mt-3 text-sm text-gray-600 text-center font-medium">
                     2026 sahne tasarımlarında LED ekran; dekorun değil,
                     hikâyenin merkezinde konumlanıyor.
                   </figcaption>
@@ -475,7 +475,7 @@ export default function LedTrends2026Page() {
                         <td className="p-4">
                           Stüdyo, premium kurumsal sahne
                         </td>
-                        <td className="p-4 text-gray-500">
+                        <td className="p-4 text-gray-600">
                           Kamera çekimi yoğun çalışmalarda ideal
                         </td>
                       </tr>
@@ -490,7 +490,7 @@ export default function LedTrends2026Page() {
                         <td className="p-4">
                           Lansman, konferans, kongre
                         </td>
-                        <td className="p-4 text-gray-500">
+                        <td className="p-4 text-gray-600">
                           Fiyat / performans dengesi en iyi seviye
                         </td>
                       </tr>
@@ -503,7 +503,7 @@ export default function LedTrends2026Page() {
                         </th>
                         <td className="p-4">4–25 m</td>
                         <td className="p-4">Büyük salon, fuar sahnesi</td>
-                        <td className="p-4 text-gray-500">
+                        <td className="p-4 text-gray-600">
                           Bütçe dostu ancak kamera için iyi kalibrasyon
                           ister
                         </td>
@@ -531,7 +531,7 @@ export default function LedTrends2026Page() {
                     className="w-full h-auto rounded-2xl shadow-lg"
                     loading="lazy"
                   />
-                  <figcaption className="mt-3 text-sm text-gray-500 text-center font-medium">
+                  <figcaption className="mt-3 text-sm text-gray-600 text-center font-medium">
                     COB LED paneller, pürüzsüz yüzey yapısı sayesinde hem
                     daha koyu siyah seviyeleri hem de daha iyi yansıma
                     kontrolü sunar.
@@ -634,7 +634,7 @@ export default function LedTrends2026Page() {
                         tabIndex={0}
                       >
                         {item.question}
-                        <span className="ml-4 flex-shrink-0 transition-transform group-open:rotate-180 text-gray-400">
+                        <span className="ml-4 flex-shrink-0 transition-transform group-open:rotate-180 text-gray-600">
                           ▼
                         </span>
                       </summary>
@@ -715,7 +715,7 @@ export default function LedTrends2026Page() {
                   className="bg-gray-50 rounded-2xl p-6 border border-gray-200"
                   aria-label="İlgili Hizmetler"
                 >
-                  <h4 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wider text-gray-500">
+                  <h4 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wider text-gray-700">
                     Hizmetlerimiz
                   </h4>
                   <ul className="space-y-1">

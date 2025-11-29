@@ -1049,7 +1049,7 @@ function SearchModal({ searchQuery, setSearchQuery, results, onClose }) {
               <p className="font-semibold text-gray-900 text-sm">
                 Site içi arama
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-600">
                 Sayfalarda hızlıca arama yapın
               </p>
             </div>
@@ -1069,7 +1069,7 @@ function SearchModal({ searchQuery, setSearchQuery, results, onClose }) {
             <label htmlFor="site-search-input" className="sr-only">
               Site içinde arama yapın
             </label>
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" aria-hidden="true">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600" aria-hidden="true">
               🔍
             </span>
             <input
@@ -1086,11 +1086,11 @@ function SearchModal({ searchQuery, setSearchQuery, results, onClose }) {
 
         {/* Sonuçlar */}
         <div className="flex-1 overflow-y-auto">
-          {results.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-10 text-gray-500 text-sm">
-              <div className="text-3xl mb-2">😕</div>
-              <p>Eşleşen bir sayfa bulunamadı.</p>
-            </div>
+            {results.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-10 text-gray-600 text-sm">
+                <div className="text-3xl mb-2">😕</div>
+                <p>Eşleşen bir sayfa bulunamadı.</p>
+              </div>
           ) : (
             <ul className="divide-y divide-gray-100">
               {results.map((route) => (

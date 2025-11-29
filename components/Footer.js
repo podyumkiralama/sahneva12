@@ -315,7 +315,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer nofollow"
                   className={`
-                    group inline-flex items-center gap-2 text-xs text-gray-400 
+                    group inline-flex items-center gap-2 text-xs text-gray-300
                     hover:text-white transition-all duration-300 ${FOCUS_RING_CLASS}
                   `}
                   title={title}
@@ -335,9 +335,9 @@ export default function Footer() {
       </div>
 
       {/* Alt Telif Satırı */}
-      <div className="relative border-t border-white/5 text-center text-sm text-gray-400 py-6 bg-black/20 backdrop-blur-md">
+      <div className="relative border-t border-white/5 text-center text-sm text-gray-300 py-6 bg-black/20 backdrop-blur-md">
         <div className="container mx-auto px-6 relative z-10">
-          <p className="mb-3 text-gray-400 max-w-2xl mx-auto">
+          <p className="mb-3 text-gray-300 max-w-2xl mx-auto">
             Türkiye genelinde profesyonel sahne, podyum, LED ekran,
             ses-ışık sistemleri ve kurulum hizmetleri.
           </p>

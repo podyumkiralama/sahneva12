@@ -143,12 +143,12 @@ function ArticleSchema() {
 
 /* ================== BİLEŞENLER ================== */
 const Breadcrumbs = () => (
-  <nav aria-label="Breadcrumb" className="mb-6 text-sm text-gray-500">
+  <nav aria-label="Breadcrumb" className="mb-6 text-sm text-gray-600">
     <ol className="flex items-center space-x-2 flex-wrap">
       <li><Link href="/" className="hover:text-blue-600 transition-colors">Anasayfa</Link></li>
-      <li aria-hidden="true" className="text-gray-300">/</li>
+      <li aria-hidden="true" className="text-gray-500">/</li>
       <li><Link href="/blog" className="hover:text-blue-600 transition-colors">Blog</Link></li>
-      <li aria-hidden="true" className="text-gray-300">/</li>
+      <li aria-hidden="true" className="text-gray-500">/</li>
       <li className="text-gray-900 font-medium truncate" aria-current="page">Kurumsal Etkinlik Yönetimi</li>
     </ol>
   </nav>
@@ -216,7 +216,7 @@ export default function BlogPostCorporate() {
             Lansman, bayi toplantısı ve şirket içi etkinliklerde markanızın prestijini yansıtacak teknik kurguyu nasıl planlamalısınız?
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-gray-400 mt-8 pt-8 border-t border-white/10">
+          <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-gray-300 mt-8 pt-8 border-t border-white/10">
             <time dateTime={PUBLISH_DATE} className="flex items-center gap-2">
               <span>📅</span> 20 Mayıs 2025
             </time>
@@ -280,7 +280,7 @@ export default function BlogPostCorporate() {
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 800px"
                     className="w-full h-auto rounded-2xl shadow-lg"
                   />
-                  <figcaption className="mt-3 text-sm text-gray-500 text-center font-medium">
+                  <figcaption className="mt-3 text-sm text-gray-600 text-center font-medium">
                     Kurumsal lansmanda bütüncül sahne tasarımı marka algısını güçlendirir.
                   </figcaption>
                 </figure>
@@ -357,19 +357,19 @@ export default function BlogPostCorporate() {
                         <th scope="row" className="p-4 font-bold text-blue-600">P2.9</th>
                         <td className="p-4">3m+</td>
                         <td className="p-4">İç Mekan (Lansman)</td>
-                        <td className="p-4 text-gray-500">$$$</td>
+                        <td className="p-4 text-gray-600">$$$</td>
                       </tr>
                       <tr className="hover:bg-gray-50 transition-colors">
                         <th scope="row" className="p-4 font-bold text-blue-600">P3.9</th>
                         <td className="p-4">4m+</td>
                         <td className="p-4">İç Mekan (Konferans)</td>
-                        <td className="p-4 text-gray-500">$$</td>
+                        <td className="p-4 text-gray-600">$$</td>
                       </tr>
                       <tr className="hover:bg-gray-50 transition-colors">
                         <th scope="row" className="p-4 font-bold text-blue-600">P4.8</th>
                         <td className="p-4">5m+</td>
                         <td className="p-4">İç/Dış Mekan</td>
-                        <td className="p-4 text-gray-500">$</td>
+                        <td className="p-4 text-gray-600">$</td>
                       </tr>
                     </tbody>
                   </table>
@@ -524,7 +524,7 @@ export default function BlogPostCorporate() {
                       tabIndex={0}
                     >
                       {item.question}
-                      <span className="ml-4 flex-shrink-0 transition-transform group-open:rotate-180 text-gray-400">▼</span>
+                      <span className="ml-4 flex-shrink-0 transition-transform group-open:rotate-180 text-gray-600">▼</span>
                     </summary>
                       <div className="px-5 pb-5 pt-2 text-gray-600 text-sm leading-relaxed border-t border-gray-100">
                         {item.answer}
@@ -599,7 +599,7 @@ export default function BlogPostCorporate() {
 
                 {/* HİZMETLER MENÜSÜ */}
                 <nav className="bg-gray-50 rounded-2xl p-6 border border-gray-200" aria-label="İlgili Hizmetler">
-                  <h4 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wider text-gray-500">Hizmetlerimiz</h4>
+                  <h4 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wider text-gray-700">Hizmetlerimiz</h4>
                   <ul className="space-y-1">
                     {[
                       { href: "/kurumsal-organizasyon", icon: "🏢", label: "Kurumsal Organizasyon" },
