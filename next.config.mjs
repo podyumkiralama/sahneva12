@@ -71,7 +71,7 @@ const securityHeaders = (() => {
     object-src 'none';
     upgrade-insecure-requests;
     img-src 'self' data: blob: https:;
-    font-src 'self' data: https://fonts.gstatic.com https://vercel.live https://*.vercel.live;
+    font-src 'self' data: https://fonts.gstatic.com;
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
     script-src ${SCRIPT_SRC};
     script-src-elem ${SCRIPT_SRC_ELEM};
@@ -123,6 +123,7 @@ const nextConfig = {
   generateEtags: true,
   productionBrowserSourceMaps: false,
   trailingSlash: false,
+  swcMinify: true,
 
   // ❌ Webpack config KALDIRILDI - Turbopack ile çakışıyor
   // webpack: (config, { isServer }) => { ... }
@@ -143,6 +144,8 @@ const nextConfig = {
   experimental: {
     scrollRestoration: true,
     optimizePackageImports: ["lucide-react", "@headlessui/react"],
+    legacyBrowsers: false,
+    browsersListForSwc: true,
   },
 
   modularizeImports: {
