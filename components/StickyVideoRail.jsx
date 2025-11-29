@@ -101,11 +101,6 @@ function StickyVideoRailInner() {
   const dragRef = useRef(null);
   const startPosRef = useRef({ mouseX: 0, mouseY: 0, x: 0, y: 0 });
 
-  // A11Y: dialog odak yönetimi
-  const dialogRef = useRef(null);
-  const firstDialogButtonRef = useRef(null);
-  const lastFocusedRef = useRef(null);
-
   useEffect(() => {
     setIsMounted(true);
     if (typeof window !== "undefined") {
@@ -197,26 +192,18 @@ function StickyVideoRailInner() {
   };
 
   const handleExpand = () => {
-    lastFocusedRef.current = document.activeElement;
     setIsExpanded(true);
     setIsMinimized(false);
   };
 
   const handleCollapseFromExpanded = () => {
     setIsExpanded(false);
-    // genişlemiş dialog kapanınca önceki odağa dön
-    if (lastFocusedRef.current && typeof lastFocusedRef.current.focus === "function") {
-      lastFocusedRef.current.focus();
-    }
   };
 
   const handleClose = () => {
     setIsOpen(false);
     setIsExpanded(false);
     setIsMinimized(false);
-    if (lastFocusedRef.current && typeof lastFocusedRef.current.focus === "function") {
-      lastFocusedRef.current.focus();
-    }
   };
 
   const handleToggleMinimize = () => {
@@ -228,39 +215,19 @@ function StickyVideoRailInner() {
     setIsMinimized((v) => !v);
   };
 
-  // Expanded mod açıldığında odağı ilk butona taşı
-  useEffect(() => {
-    if (isExpanded && isOpen && firstDialogButtonRef.current) {
-      firstDialogButtonRef.current.focus();
-    }
-  }, [isExpanded, isOpen]);
-
-  const handleDialogKeyDown = (event) => {
-    if (event.key === "Escape") {
-      event.stopPropagation();
-      handleCollapseFromExpanded();
-    }
-  };
-
   // =============== Tam ekran / sinema modu ===============
   if (isExpanded && isOpen) {
     return (
       <div
-        ref={dialogRef}
         className="fixed inset-0 z-[80] bg-black/90 backdrop-blur-sm flex flex-col items-center px-2 sm:px-6 py-2"
         aria-modal="true"
         role="dialog"
-        aria-labelledby="video-dialog-title"
-        aria-describedby="video-dialog-description"
-        onKeyDown={handleDialogKeyDown}
+        aria-label="Video oynatıcı"
       >
         {/* ÜST BAR */}
         <div className="w-full max-w-6xl flex justify-between items-center mb-4 bg-black/80 rounded-xl px-4 py-3 border border-white/20">
           <div className="flex items-center gap-2">
-            <span
-              id="video-dialog-title"
-              className="text-white font-semibold text-sm sm:text-base"
-            >
+            <span className="text-white font-semibold text-sm sm:text-base">
               Sahneva Video Galerisi
             </span>
           </div>
@@ -268,12 +235,9 @@ function StickyVideoRailInner() {
             <button
               type="button"
               onClick={handleCollapseFromExpanded}
-              ref={firstDialogButtonRef}
               className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700 transition-colors flex items-center gap-2 font-medium"
             >
-              <span className="text-lg" aria-hidden="true">
-                ↘️
-              </span>
+              <span className="text-lg">↘️</span>
               <span className="hidden sm:inline">Küçült</span>
             </button>
             <button
@@ -281,9 +245,7 @@ function StickyVideoRailInner() {
               onClick={handleToggleMinimize}
               className="px-4 py-2 rounded-lg bg-gray-600 text-white text-sm hover:bg-gray-700 transition-colors flex items-center gap-2 font-medium"
             >
-              <span className="text-lg" aria-hidden="true">
-                🗕
-              </span>
+              <span className="text-lg">🗕</span>
               <span className="hidden sm:inline">Simge</span>
             </button>
             <button
@@ -291,28 +253,16 @@ function StickyVideoRailInner() {
               onClick={handleClose}
               className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm hover:bg-red-700 transition-colors flex items-center gap-2 font-medium"
             >
-              <span className="text-lg" aria-hidden="true">
-                ✕
-              </span>
+              <span className="text-lg">✕</span>
               <span className="hidden sm:inline">Kapat</span>
             </button>
           </div>
         </div>
 
-        <p
-          id="video-dialog-description"
-          className="sr-only"
-        >
-          Sahneva etkinlik prodüksiyonları için video oynatıcı ve oynatma listesi.
-        </p>
-
         {/* İÇERİK ALANI */}
         <div className="relative w-full max-w-6xl flex-1 flex flex-col md:flex-row gap-4 md:gap-6">
           {/* Ana video */}
-          <section
-            aria-label="Seçili video oynatıcı"
-            className="flex-1 bg-black rounded-2xl overflow-hidden shadow-2xl border border-white/10"
-          >
+          <div className="flex-1 bg-black rounded-2xl overflow-hidden shadow-2xl border border-white/10">
             <div className="relative w-full aspect-video">
               {!hasStarted && (
                 <button
@@ -331,9 +281,7 @@ function StickyVideoRailInner() {
                     className="absolute inset-0 w-full h-full object-cover -z-10"
                   />
                   <div className="flex items-center justify-center w-20 h-20 rounded-full bg-white/90 shadow-xl mb-4 group-hover:scale-110 transition-transform">
-                    <span className="ml-1 text-3xl text-red-500" aria-hidden="true">
-                      ▶
-                    </span>
+                    <span className="ml-1 text-3xl text-red-500">▶</span>
                   </div>
                   <p className="text-lg sm:text-xl font-semibold px-4 text-center">
                     {currentVideo.title}
@@ -354,19 +302,13 @@ function StickyVideoRailInner() {
                 />
               )}
             </div>
-          </section>
+          </div>
 
           {/* Playlist */}
-          <aside
-            className="w-full md:w-64 lg:w-72 bg-slate-900/90 border border-white/10 rounded-2xl shadow-xl flex flex-col overflow-hidden"
-            aria-label="Diğer videolar oynatma listesi"
-          >
+          <aside className="w-full md:w-64 lg:w-72 bg-slate-900/90 border border-white/10 rounded-2xl shadow-xl flex flex-col overflow-hidden">
             <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span
-                  className="w-2 h-2 bg-green-500 rounded-full animate-pulse"
-                  aria-hidden="true"
-                />
+                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                 <div>
                   <p className="text-xs uppercase tracking-wide text-slate-400">
                     Oynatma Listesi
@@ -388,15 +330,12 @@ function StickyVideoRailInner() {
               )}
               {playlistForExpanded.map((video) => {
                 const index = VIDEOS.findIndex((v) => v.id === video.id);
-                const isCurrent = index === activeIndex;
                 return (
                   <button
                     key={video.id}
                     type="button"
                     onClick={() => handleChangeVideo(index)}
                     className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800/80 text-left text-slate-100 text-sm transition-colors border-b border-white/5 last:border-b-0"
-                    aria-current={isCurrent ? "true" : undefined}
-                    aria-label={`Videoyu aç: ${video.title}`}
                   >
                     <div className="relative w-14 h-9 flex-shrink-0 rounded-md overflow-hidden bg-black">
                       <img
@@ -410,9 +349,7 @@ function StickyVideoRailInner() {
                         fetchPriority="low"
                       />
                       <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                        <span className="text-white text-xs" aria-hidden="true">
-                          ▶
-                        </span>
+                        <span className="text-white text-xs">▶</span>
                       </div>
                     </div>
                     <div className="flex-1 min-w-0">
@@ -447,7 +384,7 @@ function StickyVideoRailInner() {
         aria-label="Video oynatıcıyı aç"
       >
         <span className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-xs group-hover:scale-110 transition-transform">
-          <span aria-hidden="true">▶</span>
+          ▶
         </span>
         <span className="hidden sm:inline font-medium">
           Videoları Görüntüle
@@ -462,14 +399,12 @@ function StickyVideoRailInner() {
 
   // =============== Küçük sticky mod ===============
   return (
-    <section
+    <div
       ref={dragRef}
       className="fixed z-[60] bottom-0 right-0"
       style={{
         transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
       }}
-      role="complementary"
-      aria-label="Sahneva video oynatıcı"
     >
       <div className="mb-4 w-[280px] sm:w-[340px] bg-slate-900/95 border border-white/20 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-lg">
         {/* Başlık + drag alanı */}
@@ -480,10 +415,7 @@ function StickyVideoRailInner() {
         >
           <div className="flex items-center gap-2">
             <span className="text-sm font-semibold text-slate-100 flex items-center gap-2">
-              <span
-                className="w-2 h-2 bg-green-500 rounded-full animate-pulse"
-                aria-hidden="true"
-              />
+              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
               Sahneva Video Galerisi
             </span>
           </div>
@@ -495,10 +427,7 @@ function StickyVideoRailInner() {
               className="p-2 rounded-lg hover:bg-blue-600 transition-colors text-white bg-blue-500/80 group font-medium"
               title="Tam Ekran"
             >
-              <span
-                className="group-hover:scale-110 transition-transform text-sm"
-                aria-hidden="true"
-              >
+              <span className="group-hover:scale-110 transition-transform text-sm">
                 ⤢ BÜYÜT
               </span>
             </button>
@@ -509,10 +438,7 @@ function StickyVideoRailInner() {
               className="p-2 rounded-lg hover:bg-gray-600 transition-colors text-slate-100 group"
               title="Simge Yap"
             >
-              <span
-                className="group-hover:scale-110 transition-transform"
-                aria-hidden="true"
-              >
+              <span className="group-hover:scale-110 transition-transform">
                 🗕
               </span>
             </button>
@@ -523,10 +449,7 @@ function StickyVideoRailInner() {
               className="p-2 rounded-lg hover:bg-red-600 transition-colors text-slate-100 group"
               title="Kapat"
             >
-              <span
-                className="group-hover:scale-110 transition-transform"
-                aria-hidden="true"
-              >
+              <span className="group-hover:scale-110 transition-transform">
                 ✕
               </span>
             </button>
@@ -540,7 +463,6 @@ function StickyVideoRailInner() {
               type="button"
               onClick={handlePlay}
               className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 text-white z-10 hover:bg-black/30 transition-colors group"
-              aria-label={`Videoyu oynat: ${currentVideo.title}`}
             >
               <img
                 src={currentVideo.thumbnail}
@@ -549,9 +471,7 @@ function StickyVideoRailInner() {
                 loading="lazy"
               />
               <div className="flex items-center justify-center w-16 h-16 rounded-full bg-white/90 shadow-xl mb-3 group-hover:scale-110 transition-transform">
-                <span className="ml-1 text-2xl text-red-500" aria-hidden="true">
-                  ▶
-                </span>
+                <span className="ml-1 text-2xl text-red-500">▶</span>
               </div>
               <p className="text-sm font-semibold px-4 text-center line-clamp-2">
                 {currentVideo.title}
@@ -577,19 +497,13 @@ function StickyVideoRailInner() {
         <details className="group border-t border-white/10">
           <summary className="flex items-center justify-between px-4 py-3 text-sm text-slate-200 cursor-pointer select-none hover:bg-white/5 transition-colors">
             <div className="flex items-center gap-2">
-              <span
-                className="w-2 h-2 bg-green-500 rounded-full animate-pulse"
-                aria-hidden="true"
-              />
+              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
               <span className="font-medium">Diğer Videolar</span>
               <span className="text-xs bg-blue-500 text-white px-2 py-1 rounded-full">
                 {VIDEOS.length - 1}
               </span>
             </div>
-            <span
-              className="text-lg group-open:rotate-180 transition-transform duration-200"
-              aria-hidden="true"
-            >
+            <span className="text-lg group-open:rotate-180 transition-transform duration-200">
               ⌄
             </span>
           </summary>
@@ -604,8 +518,6 @@ function StickyVideoRailInner() {
                     ? "bg-blue-500/20 border-r-2 border-blue-500"
                     : "border-r-2 border-transparent"
                 }`}
-                aria-current={idx === activeIndex ? "true" : undefined}
-                aria-label={`Videoyu aç: ${video.title}`}
               >
                 <div className="relative w-12 h-8 rounded-md overflow-hidden bg-black flex-shrink-0">
                   <img
@@ -615,9 +527,7 @@ function StickyVideoRailInner() {
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                    <span className="text-white text-[10px]" aria-hidden="true">
-                      ▶
-                    </span>
+                    <span className="text-white text-[10px]">▶</span>
                   </div>
                 </div>
                 <div className="flex-1 min-w-0">
@@ -630,7 +540,7 @@ function StickyVideoRailInner() {
           </div>
         </details>
       </div>
-    </section>
+    </div>
   );
 }
 
@@ -642,8 +552,8 @@ function StickyVideoRailInner() {
 export default function StickyVideoRail(props) {
   return (
     <DeferredHydration
-      rootMargin="600px" // sayfanın ortalarına yaklaştığında
-      idleTimeout={5000} // ya da en geç 5 sn sonra
+      rootMargin="600px"   // sayfanın ortalarına yaklaştığında
+      idleTimeout={5000}   // ya da en geç 5 sn sonra
       fallback={null}
       as="div"
       {...props}
