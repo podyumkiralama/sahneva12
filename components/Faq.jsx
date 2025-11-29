@@ -98,7 +98,6 @@ const FaqRow = React.memo(function FaqRow({ question, answer, slug }) {
 
   useEffect(() => {
     if (open && contentRef.current) {
-      // içeriği ölçüp yüksekliği ayarla
       requestAnimationFrame(() => {
         setContentHeight(`${contentRef.current.scrollHeight}px`);
       });
@@ -161,7 +160,10 @@ const FaqRow = React.memo(function FaqRow({ question, answer, slug }) {
   );
 });
 
-export default function Faq({ items = FAQ_ITEMS, dictionary: dictionaryOverride } = {}) {
+export default function Faq({
+  items = FAQ_ITEMS,
+  dictionary: dictionaryOverride,
+} = {}) {
   const dictionary = useMemo(
     () => mergeDictionary(DEFAULT_DICTIONARY, dictionaryOverride),
     [dictionaryOverride]
@@ -326,7 +328,7 @@ export default function Faq({ items = FAQ_ITEMS, dictionary: dictionaryOverride 
                 {quickContactStats.map((stat, index) => (
                   <span key={stat} className="flex items-center gap-2">
                     <span
-                      className="w-2 h-2 bg-green-600 rounded-full animate-pulse inline-block"
+                      className="w-2 h-2 bg-green-600 rounded-full animate-pulse motion-reduce:animate-none inline-block"
                       aria-hidden="true"
                     />
                     <span className="font-semibold">{stat}</span>
@@ -343,7 +345,6 @@ export default function Faq({ items = FAQ_ITEMS, dictionary: dictionaryOverride 
           </ScrollReveal>
         </div>
 
-        {/* Footer boşluğu */}
         <div className="h-0 p-0 m-0" />
       </div>
     </section>
