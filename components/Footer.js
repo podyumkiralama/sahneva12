@@ -193,12 +193,14 @@ export default function Footer() {
                 ⭐
               </span>
             </div>
-            <span
+            <p
+              role="heading"
+              aria-level="3"
               itemProp="name"
               className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent tracking-wide"
             >
               SAHNEVA
-            </span>
+            </p>
           </div>
 
           <p className="text-sm leading-7 text-gray-300 mb-6" itemProp="description">

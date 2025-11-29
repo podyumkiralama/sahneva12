@@ -518,13 +518,20 @@ export default function BlogPostCorporate() {
                   <h3 id="faq-heading" className="sr-only">Sıkça Sorulan Sorular</h3>
                   {FAQ_ITEMS.map((item, index) => (
                     <details key={index} className="group bg-white border border-gray-200 rounded-xl overflow-hidden open:ring-2 open:ring-blue-100 open:border-blue-300 transition-all duration-200">
-                      <summary
-                        className="flex items-center justify-between p-4 md:p-5 cursor-pointer font-semibold text-gray-800 select-none bg-gray-50/50 hover:bg-gray-50 transition-colors"
-                        role="button"
-                      >
-                        {item.question}
-                        <span className="ml-4 flex-shrink-0 transition-transform group-open:rotate-180 text-gray-400">▼</span>
-                      </summary>
+                    <summary
+                      className="flex items-center justify-between p-4 md:p-5 cursor-pointer font-semibold text-gray-800 select-none bg-gray-50/50 hover:bg-gray-50 transition-colors"
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          event.currentTarget.click();
+                        }
+                      }}
+                    >
+                      {item.question}
+                      <span className="ml-4 flex-shrink-0 transition-transform group-open:rotate-180 text-gray-400">▼</span>
+                    </summary>
                       <div className="px-5 pb-5 pt-2 text-gray-600 text-sm leading-relaxed border-t border-gray-100">
                         {item.answer}
                       </div>
@@ -541,7 +548,13 @@ export default function BlogPostCorporate() {
                     Profesyonel kurumsal etkinlik çözümlerimizle markanızı en iyi şekilde temsil edelim. Ücretsiz keşif için hemen ulaşın.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
-                    <a href="https://wa.me/905453048671" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-xl transition-transform hover:-translate-y-1 shadow-lg">
+                    <a
+                      href="https://wa.me/905453048671"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="WhatsApp üzerinden teklif isteyin — yeni sekmede açılır"
+                      className="inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-xl transition-transform hover:-translate-y-1 shadow-lg"
+                    >
                       <span>💬</span> WhatsApp'tan Yazın
                     </a>
                     <a href="tel:+905453048671" className="inline-flex items-center justify-center gap-2 bg-white text-blue-900 hover:bg-blue-50 font-bold py-4 px-8 rounded-xl transition-transform hover:-translate-y-1 shadow-lg">
