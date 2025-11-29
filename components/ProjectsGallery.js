@@ -5,6 +5,7 @@ import {
   memo,
   useCallback,
   useEffect,
+  useId,
   useMemo,
   useRef,
   useState,
@@ -195,6 +196,9 @@ const GalleryCard = memo(function GalleryCard({
     [groupTitle, images, open]
   );
 
+  const exploreLabelId = useId();
+  const exploreHiddenId = useId();
+
   const handleCoverError = useCallback(
     () => handleImageError(cover),
     [cover, handleImageError]
@@ -207,10 +211,10 @@ const GalleryCard = memo(function GalleryCard({
           <button
             type="button"
             onClick={openFirst}
-            aria-label={exploreAria}
+            aria-labelledby={`${exploreLabelId} ${exploreHiddenId}`}
             className="absolute inset-0 w-full h-full focus-ring rounded-t-2xl"
           >
-            <span className="absolute opacity-0 pointer-events-none">
+            <span id={exploreHiddenId} className="sr-only">
               {exploreHiddenLabel}
             </span>
 
@@ -242,7 +246,10 @@ const GalleryCard = memo(function GalleryCard({
               aria-hidden="true"
             >
               <div className="bg-white/90 backdrop-blur-sm rounded-full px-5 py-2.5 transform -translate-y-3 group-hover:translate-y-0 transition-transform duration-500">
-                <span className="font-semibold text-gray-900 text-sm flex items-center gap-2">
+                <span
+                  id={exploreLabelId}
+                  className="font-semibold text-gray-900 text-sm flex items-center gap-2"
+                >
                   <span aria-hidden="true">🔍</span>
                   {dictionary.hoverCta}
                 </span>
