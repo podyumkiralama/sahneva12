@@ -6,8 +6,6 @@ export const config = {
 
 export default function middleware(request) {
   const requestHeaders = new Headers(request.headers);
-
-  const pathname = request.nextUrl.pathname || "/";
   const firstSegment = pathname.split("/")[1]?.toLowerCase();
   const locale = ["en", "ar"].includes(firstSegment) ? firstSegment : "tr";
   const direction = locale === "ar" ? "rtl" : "ltr";

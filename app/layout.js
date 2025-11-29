@@ -186,8 +186,8 @@ const gaEnabled = isProd && Boolean(GA_MEASUREMENT_ID);
 // ================== LOCALE HELPERS ==================
 const SUPPORTED_LOCALES = ["tr", "en", "ar"];
 
-function resolveRequestLocale() {
-  const headersList = headers();
+async function resolveRequestLocale() {
+  const headersList = await headers();
   const localeHeader = headersList.get("x-locale")?.toLowerCase();
   const directionHeader = headersList.get("x-direction");
 
@@ -199,8 +199,8 @@ function resolveRequestLocale() {
 }
 
 // ================== ROOT LAYOUT ==================
-export default function RootLayout({ children }) {
-  const { locale, direction } = resolveRequestLocale();
+export default async function RootLayout({ children }) {
+  const { locale, direction } = await resolveRequestLocale();
 
   return (
     <html
