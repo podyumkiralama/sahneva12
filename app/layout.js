@@ -6,6 +6,8 @@ import SkipLinks from "@/components/SkipLinks";
 import UtilityBar from "@/components/UtilityBar.client";
 import StickyVideoRailclient from "@/components/StickyVideoRail.client";
 import CriticalAssets from "@/components/CriticalAssets";
+import DocumentDirection from "@/components/i18n/DocumentDirection.client";
+import { cookies, headers } from "next/headers";
 
 // ================== FONT ==================
 const inter = Inter({
@@ -181,12 +183,92 @@ const GA_MEASUREMENT_ID =
 const isProd = process.env.NODE_ENV === "production";
 const gaEnabled = isProd && Boolean(GA_MEASUREMENT_ID);
 
+const LOCALE_DIRECTIONS = {
+  ar: "rtl",
+  en: "ltr",
+  tr: "ltr",
+};
+
+export const dynamic = "force-dynamic";
+
+function getLocaleFromPath(pathname) {
+  const [firstSegment] = pathname.split("/").filter(Boolean);
+  if (firstSegment === "ar" || firstSegment === "en") {
+    return firstSegment;
+  }
+  return "tr";
+}
+
+function normalizePathname(pathname) {
+  if (!pathname) return "/";
+  try {
+    const url = new URL(pathname, "http://localhost");
+    return url.pathname || "/";
+  } catch (error) {
+    console.error("Failed to parse pathname", pathname, error);
+    return "/";
+  }
+}
+
+function getPreferredLocaleFromAcceptLanguage(headerValue) {
+  if (!headerValue || typeof headerValue !== "string") return null;
+
+  const preferred = headerValue
+    .split(",")
+    .map((entry) => entry.split(";")[0]?.trim())
+    .filter(Boolean);
+
+  for (const candidate of preferred) {
+    const [base] = candidate.split("-");
+    if (base === "ar" || base === "en" || base === "tr") {
+      return base;
+    }
+  }
+
+  return null;
+}
+
+function getLocaleFromHeaders() {
+  try {
+    const headerList = headers();
+    const pathname =
+      headerList.get("x-invoke-path") ||
+      headerList.get("x-pathname") ||
+      headerList.get("x-middleware-pathname") ||
+      headerList.get("next-url") ||
+      headerList.get("referer") ||
+      "/";
+
+    const parsedPathname = normalizePathname(pathname);
+    const localeFromPath = getLocaleFromPath(parsedPathname);
+    if (localeFromPath) return localeFromPath;
+
+    const localeFromCookie = cookies().get("NEXT_LOCALE")?.value;
+    if (localeFromCookie && LOCALE_DIRECTIONS[localeFromCookie]) {
+      return localeFromCookie;
+    }
+
+    const localeFromHeader = getPreferredLocaleFromAcceptLanguage(
+      headerList.get("accept-language"),
+    );
+    if (localeFromHeader) return localeFromHeader;
+
+    return "tr";
+  } catch (error) {
+    console.error("Falling back to default locale after headers() failure", error);
+    return "tr";
+  }
+}
+
 // ================== ROOT LAYOUT ==================
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const locale = getLocaleFromHeaders();
+  const direction = LOCALE_DIRECTIONS[locale] ?? "ltr";
+
   return (
     <html
-      lang="tr"
-      dir="ltr"
+      lang={locale}
+      dir={direction}
       className={inter.className}
       suppressHydrationWarning
     >

@@ -491,11 +491,24 @@ function StatsSection() {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
           {stats.map((stat, idx) => (
-            <div key={idx} className="text-center group bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 hover:bg-white/20 transition-all duration-500 hover:scale-105">
-              <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">{stat.icon}</div>
-              <p className="text-4xl md:text-5xl font-black mb-1 text-white drop-shadow-lg">{stat.value}</p>
-              <p className="text-blue-100 text-lg font-semibold mb-0">{stat.label}</p>
-            </div>
+            <article
+              key={stat.label}
+              className="text-center group bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 hover:bg-white/20 transition-all duration-500 hover:scale-105"
+              role="group"
+              aria-labelledby={`podyum-stat-${idx}-value`}
+              aria-describedby={`podyum-stat-${idx}-label`}
+            >
+              <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300" aria-hidden="true">{stat.icon}</div>
+              <h3
+                id={`podyum-stat-${idx}-value`}
+                className="text-4xl md:text-5xl font-black mb-1 text-white drop-shadow-lg"
+              >
+                {stat.value}
+              </h3>
+              <p id={`podyum-stat-${idx}-label`} className="text-blue-100 text-lg font-semibold mb-0">
+                {stat.label}
+              </p>
+            </article>
           ))}
         </div>
       </div>
