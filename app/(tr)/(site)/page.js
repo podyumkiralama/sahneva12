@@ -29,7 +29,7 @@ const HERO_FEATURES = [
     icon: "⭐",
     title: "4.9/5 Puan",
     description: "500+ Mutlu Müşteri",
-    color: "text-yellow-400", // Gradient yerine solid renk (Kontrast için)
+    color: "text-yellow-400",
   },
   {
     icon: "⚡",
@@ -65,7 +65,7 @@ const CTA_BUTTONS = [
     target: "_blank",
     rel: "noopener noreferrer",
     srHint: "(yeni sekmede açılır)",
-    gradient: "from-green-600 to-emerald-700", // Biraz daha koyu yeşil (Kontrast için)
+    gradient: "from-green-600 to-emerald-700",
   },
 ];
 
@@ -78,16 +78,16 @@ const CTA_OVERLAY_CLASS =
 const SECTION_THEMES = {
   light: {
     title: "text-neutral-900",
-    description: "text-neutral-700", // 600 yerine 700 (Daha koyu gri)
+    description: "text-neutral-700",
   },
   dark: {
     title: "text-white",
-    description: "text-slate-100", // white/80 yerine tam opak slate-100
+    description: "text-slate-100",
   },
 };
 
 const HERO_IMAGE_STYLE = Object.freeze({
-  filter: "brightness(0.6) contrast(1.1) saturate(1.05)", // Brightness 0.7 -> 0.6 (Yazı okunabilirliği için)
+  filter: "brightness(0.6) contrast(1.1) saturate(1.05)",
 });
 
 const HERO_OVERLAY_ANIMATION_STYLE = Object.freeze({
@@ -453,7 +453,6 @@ function SectionHeader({
   );
 }
 
-// FIX: <p> yerine <div> veya <ul> kullanıldı (Fake Heading hatası için)
 function KeywordPills() {
   return (
     <div className="flex flex-wrap justify-center gap-2 mb-8 max-w-4xl mx-auto">
@@ -509,7 +508,6 @@ function CTAGroup() {
   );
 }
 
-// FIX: Renk kontrastı için bg-white/10 yerine bg-slate-900/60 kullanıldı
 function HeroFeatureGrid() {
   return (
     <ul className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12 list-none p-0 m-0">
@@ -523,7 +521,7 @@ function HeroFeatureGrid() {
           <li className="m-0 p-0">
             <div className="group bg-slate-900/60 backdrop-blur-lg rounded-xl p-4 border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-105">
               <div
-                className={`text-2xl mb-2 ${item.color}`} // Gradient yerine solid renk
+                className={`text-2xl mb-2 ${item.color}`}
                 aria-hidden="true"
               >
                 {item.icon}
@@ -559,12 +557,10 @@ function ConsultationCard() {
             Ücretsiz Profesyonel Danışmanlık
           </h2>
           <p className="text-slate-100 text-base leading-relaxed">
-            {/* text-white/90 -> text-slate-100 */}
             Etkinliğiniz için <strong>en uygun sahne çözümleri</strong>, LED
             ekran seçenekleri ve ses-ışık sistemlerini ücretsiz teknik
             danışmanlık ile planlayalım.{" "}
             <strong className="text-yellow-200">
-              {/* yellow-300 -> yellow-200 (Kontrast) */}
               2 saat içinde detaylı teklif
             </strong>{" "}
             sunuyoruz.
@@ -618,7 +614,7 @@ export default function HomePage() {
 
       {/* HERO SECTION */}
       <section
-        className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950 pt-16 lg:pt-20"
+        className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950"
         aria-labelledby="hero-title"
       >
         {/* Arka plan görseli (dekoratif) */}
@@ -626,7 +622,7 @@ export default function HomePage() {
           <HeroBackgroundImage ariaHidden />
         </div>
 
-        {/* Overlay katmanları - Kontrast için koyulaştırıldı */}
+        {/* Overlay katmanları */}
         <div
           className="absolute inset-0 bg-gradient-to-br from-slate-950/90 via-blue-950/80 to-purple-950/80"
           aria-hidden="true"
@@ -671,10 +667,7 @@ export default function HomePage() {
 
             <ScrollReveal delay="2">
               <>
-                {/* Anahtar kelimeler */}
                 <KeywordPills />
-
-                {/* FIX: Kontrast için text-white/80 yerine text-slate-100 */}
                 <p className="text-slate-100 text-base md:text-lg mb-8 max-w-3xl mx-auto drop-shadow-sm font-medium">
                   500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli
                   hızlı kurulum ile yanınızdayız
@@ -719,10 +712,10 @@ export default function HomePage() {
 
       {/* Ana içerik başlangıcı */}
       <div id="main" className="relative">
-        {/* #teklif-al hedefi (Erişilebilir) */}
+        {/* #teklif-al hedefi */}
         <div id="teklif-al" className="sr-only" aria-hidden="true" />
 
-        {/* Google review banner – deferred + sticky bottom */}
+        {/* Google review banner – deferred */}
         <ReviewBannerDeferred idleTimeout={2000} rootMargin="0px" />
 
         {/* Hizmetler */}
