@@ -32,6 +32,14 @@ export default function SiteHeader({ locale, strings }) {
         strings?.mobileToggleLabel ??
         strings?.mobileToggle ??
         "Close navigation menu",
+      mobileMenuOpenStatus:
+        strings?.mobileMenuOpenStatus ??
+        strings?.mobileMenuStatusOpen ??
+        "Navigation menu expanded",
+      mobileMenuClosedStatus:
+        strings?.mobileMenuClosedStatus ??
+        strings?.mobileMenuStatusClosed ??
+        "Navigation menu collapsed",
     }),
     [strings]
   );
@@ -85,13 +93,22 @@ export default function SiteHeader({ locale, strings }) {
   }, [open]);
 
   return (
-    <div
-      role="region"
+    <header
+      role="banner"
       tabIndex={-1}
       aria-label={ariaStrings.header}
       className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-200/70"
       dir={direction}
     >
+      <div
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"
+      >
+        {open
+          ? ariaStrings.mobileMenuOpenStatus
+          : ariaStrings.mobileMenuClosedStatus}
+      </div>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           <Link href={homeHref} className={`flex items-center gap-3 ${focusRingClass}`}>
@@ -192,6 +209,6 @@ export default function SiteHeader({ locale, strings }) {
           </div>
         </nav>
       </div>
-    </div>
+    </header>
   );
 }

@@ -23,7 +23,15 @@ export default function TurkishLayout({ children }) {
          Mobil: h-16 -> pt-16
          Desktop: h-20 -> lg:pt-20
       */}
-      <div className="flex-1">{children}</div>
+      <div
+        className="flex-1"
+        role="region"
+        aria-label="Sahneva ana içerik alanı"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {children}
+      </div>
 
       {/* ---- FOOTER ---- */}
       <Footer />
