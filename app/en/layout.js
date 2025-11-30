@@ -36,15 +36,17 @@ export default function EnglishLayout({ children }) {
         locale="en"
         strings={{ ...content.header, direction: content.direction }}
       />
-      <div
+      <main
+        id="_main_content"
         className="flex-1 pb-16 pt-0 focus-ring scroll-mt-4"
-        role="region"
+        role="main"
         aria-label="Main content"
         aria-live="polite"
         aria-atomic="true"
+        tabIndex={-1}
       >
         {children}
-      </div>
+      </main>
 
       <SiteFooter strings={content.footer} />
       <SpeedInsights />
