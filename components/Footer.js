@@ -123,14 +123,12 @@ export default function Footer() {
         className="absolute inset-x-0 -top-24 h-24 pointer-events-none w-full overflow-hidden"
         aria-hidden="true"
       >
-<img
-  src="/footer-wave.svg"
-  alt=""
-  loading="lazy"
-  aria-hidden="true"
-  role="presentation"
-  className="w-full h-full drop-shadow-[0_-20px_50px_rgba(24,24,72,0.32)]"
-/>
+        <img
+          src="/footer-wave.svg"
+          alt="Sahneva footer arka planında dalga efekti"
+          loading="lazy"
+          className="w-full h-full drop-shadow-[0_-20px_50px_rgba(24,24,72,0.32)]"
+        />
       </div>
 
       {/* Arka plan glow efektleri */}
