@@ -201,6 +201,7 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://www.google-analytics.com" />
       </head>
       <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
+        <DocumentDirection lang={locale} dir={direction} />
         {/* Erişilebilirlik: "Skip to Content" linki */}
         <SkipLinks />
 
