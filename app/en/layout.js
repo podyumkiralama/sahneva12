@@ -14,7 +14,13 @@ export default function EnglishLayout({ children }) {
         locale="en"
         strings={{ ...content.header, direction: content.direction }}
       />
-      <div className="flex-1 pb-16 pt-0 focus-ring scroll-mt-4" aria-label="Main content">
+      <div
+        className="flex-1 pb-16 pt-0 focus-ring scroll-mt-4"
+        role="region"
+        aria-label="Main content"
+        aria-live="polite"
+        aria-atomic="true"
+      >
         {children}
       </div>
 
