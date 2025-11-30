@@ -35,13 +35,28 @@ export default function PriceEstimatorPodyum({ unitPrices, className = "" }) {
     return { area, perimeter, base, carpet, skirt, paketToplam, lojistikTL, genelToplam };
   }, [w, d, loc, unitPrices]);
 
+  const liveTotalText = useMemo(() => {
+    const lojistikMetni =
+      loc === "istanbul"
+        ? area <= 200
+          ? `Nakliye ve kurulum dahil ${formatTRY(lojistikTL ?? 0)}`
+          : "200 metrekare üzeri projelerde nakliye ve kurulum teklife göre"
+        : "Şehir dışı projelerde nakliye ve kurulum teklife göre";
+
+    const genelToplamMetni = lojistikTL ? formatTRY(genelToplam) : "Belirtilmedi";
+
+    return `Önerilen paket toplamı ${formatTRY(paketToplam)}. ${lojistikMetni}. Genel toplam: ${genelToplamMetni}.`;
+  }, [area, genelToplam, loc, lojistikTL, paketToplam]);
+
   return (
     <div
       className={[
         "mx-auto w-full max-w-2xl rounded-2xl border bg-white/90 shadow-sm ring-1 ring-black/5 backdrop-blur",
         className,
       ].join(" ")}
+      role="region"
       aria-labelledby="podyum-fiyat-hesaplayici"
+      aria-describedby="podyum-fiyat-hesaplayici-aciklama"
     >
       {/* Üst şerit */}
       <div className="rounded-t-2xl bg-gradient-to-r from-primary/10 via-primary/5 to-transparent px-4 py-3 sm:px-6">
@@ -78,6 +93,10 @@ export default function PriceEstimatorPodyum({ unitPrices, className = "" }) {
 
       {/* Gövde */}
       <div className="px-4 py-4 sm:px-6 sm:py-6">
+        <p id="podyum-fiyat-hesaplayici-aciklama" className="sr-only">
+          Ölçüleri, konumu ve paket seçeneklerini güncellediğinizde toplam maliyetler otomatik olarak hesaplanır.
+        </p>
+
         {/* Konum seçimi */}
         <div className="mb-4 grid gap-3 sm:grid-cols-3">
           <SelectField
@@ -126,16 +145,19 @@ export default function PriceEstimatorPodyum({ unitPrices, className = "" }) {
             }
           />
           <div className="my-3 h-px w-full bg-primary/10" />
-          <div className="flex items-baseline justify-between">
+          <div className="flex items-baseline justify-between" aria-live="polite" aria-atomic="true">
             <span className="text-[13px] text-neutral-700">Önerilen Paket (Halı + Skört)</span>
             <span className="text-base font-semibold tracking-tight">{formatTRY(paketToplam)}</span>
           </div>
-          <div className="mt-1 flex items-baseline justify-between">
+          <div className="mt-1 flex items-baseline justify-between" aria-live="polite" aria-atomic="true">
             <span className="text-[13px] text-neutral-700">Genel Toplam (Paket + Nakliye/Kurulum)</span>
             <span className="text-lg font-semibold tracking-tight text-primary">
               {lojistikTL ? formatTRY(genelToplam) : "—"}
             </span>
           </div>
+          <p className="sr-only" aria-live="polite" aria-atomic="true">
+            {liveTotalText}
+          </p>
         </div>
 
         {/* Alt satır */}

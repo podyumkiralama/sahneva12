@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 function StatsCounter() {
@@ -60,15 +60,31 @@ function StatsCounter() {
     },
   ], [counters.cities, counters.experience, counters.projects]);
 
+  const sectionTitleId = useId();
+
   return (
-    <div ref={ref} className="container -mt-16 relative z-10">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+    <section
+      ref={ref}
+      className="container -mt-16 relative z-10"
+      role="region"
+      aria-labelledby={sectionTitleId}
+    >
+      <h2 id={sectionTitleId} className="sr-only">
+        Sahneva performans istatistikleri
+      </h2>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto" role="list">
         {stats.map((stat, index) => (
           <div
             key={index}
             className="bg-white/90 backdrop-blur-lg rounded-2xl p-8 border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105"
-          >
-            <div className={`text-4xl font-black bg-gradient-to-r ${stat.color} text-transparent bg-clip-text mb-2`}>
+            role="listitem"
+            >
+            <div
+              className={`text-4xl font-black bg-gradient-to-r ${stat.color} text-transparent bg-clip-text mb-2`}
+              aria-live="polite"
+              aria-atomic="true"
+            >
               {stat.number}
             </div>
             <div className="text-lg font-semibold text-neutral-700">
@@ -77,7 +93,7 @@ function StatsCounter() {
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 }
 
