@@ -534,7 +534,7 @@ export default function Navbar() {
                   aria-labelledby={servicesBtnId}
                   className={`
                     absolute left-0 top-full mt-2 w-80 bg-white border border-neutral-200 rounded-xl shadow-xl
-                    z-[60] overflow-hidden transition-all duration-200 flex flex-col p-2
+                    z-[60] transition-all duration-200 flex flex-col p-2
                     ${
                       servicesOpen
                         ? "opacity-100 translate-y-0 pointer-events-auto"
