@@ -109,7 +109,7 @@ export const viewport = {
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Sahne, Podyum, LED Ekran & Ses-Işık Kiralama | Sahneva",
+    default: "Sahne, Podyum, LED Ekran & Ses-Işık Kiralama",
     template: "%s | Sahneva",
   },
   description:
