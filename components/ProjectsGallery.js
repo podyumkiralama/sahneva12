@@ -5,7 +5,6 @@ import {
   memo,
   useCallback,
   useEffect,
-  useId,
   useMemo,
   useRef,
   useState,
@@ -20,30 +19,21 @@ const LIGHTBOX_SIZES =
 
 const DEFAULT_GALLERIES = {
   "LED Ekran Kiralama": {
-    images: Array.from(
-      { length: 36 },
-      (_, i) => `/img/galeri/led-ekran-kiralama-${i + 1}.webp`
-    ),
+    images: Array.from({ length: 36 }, (_, i) => `/img/galeri/led-ekran-kiralama-${i + 1}.webp`),
     description:
       "Yüksek çözünürlüklü LED ekran kurulumları ve profesyonel etkinlik prodüksiyonları",
     stats: "50+ Kurumsal Etkinlik",
     icon: "🖥️",
   },
   "Çadır Kiralama": {
-    images: Array.from(
-      { length: 19 },
-      (_, i) => `/img/galeri/cadir-kiralama-${i + 1}.webp`
-    ),
+    images: Array.from({ length: 19 }, (_, i) => `/img/galeri/cadir-kiralama-${i + 1}.webp`),
     description:
       "Açık hava etkinlikleri için premium çadır kurulumları ve profesyonel çözümler",
     stats: "100+ Açık Hava Organizasyonu",
     icon: "⛺",
   },
   "Podyum Kiralama": {
-    images: Array.from(
-      { length: 36 },
-      (_, i) => `/img/galeri/podyum-kiralama-${i + 1}.webp`
-    ),
+    images: Array.from({ length: 36 }, (_, i) => `/img/galeri/podyum-kiralama-${i + 1}.webp`),
     description:
       "Profesyonel podyum kurulumları ve modüler podyum sistemleri",
     stats: "200+ Profesyonel Kurulum",
@@ -139,12 +129,24 @@ const GalleryCard = memo(function GalleryCard({
 }) {
   const {
     cardAltTemplate,
+    exploreAriaTemplate,
     exploreHiddenLabelTemplate,
     seeAllSrTemplate,
   } = templates;
 
   const images = galleryData.images;
   const cover = images[0];
+
+  const exploreAria = useMemo(
+    () =>
+      formatWithParams(
+        exploreAriaTemplate,
+        DEFAULT_DICTIONARY.exploreAria,
+        { title: groupTitle, count: images.length },
+        ["title", "count"]
+      ),
+    [exploreAriaTemplate, groupTitle, images.length]
+  );
 
   const exploreHiddenLabel = useMemo(
     () =>
@@ -184,9 +186,6 @@ const GalleryCard = memo(function GalleryCard({
     [groupTitle, images, open]
   );
 
-  const exploreLabelId = useId();
-  const exploreHiddenId = useId();
-
   const handleCoverError = useCallback(
     () => handleImageError(cover),
     [cover, handleImageError]
@@ -199,10 +198,10 @@ const GalleryCard = memo(function GalleryCard({
           <button
             type="button"
             onClick={openFirst}
-            aria-labelledby={`${exploreLabelId} ${exploreHiddenId}`}
+            aria-label={exploreAria}
             className="absolute inset-0 w-full h-full focus-ring rounded-t-2xl"
           >
-            <span id={exploreHiddenId} className="sr-only">
+            <span className="absolute opacity-0 pointer-events-none">
               {exploreHiddenLabel}
             </span>
 
@@ -234,10 +233,7 @@ const GalleryCard = memo(function GalleryCard({
               aria-hidden="true"
             >
               <div className="bg-white/90 backdrop-blur-sm rounded-full px-5 py-2.5 transform -translate-y-3 group-hover:translate-y-0 transition-transform duration-500">
-                <span
-                  id={exploreLabelId}
-                  className="font-semibold text-gray-900 text-sm flex items-center gap-2"
-                >
+                <span className="font-semibold text-gray-900 text-sm flex items-center gap-2">
                   <span aria-hidden="true">🔍</span>
                   {dictionary.hoverCta}
                 </span>
@@ -264,7 +260,6 @@ const GalleryCard = memo(function GalleryCard({
             </span>
 
             <button
-              type="button"
               onClick={openFirst}
               className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 flex items-center gap-1 group/btn focus-ring"
             >
@@ -312,6 +307,7 @@ export default function ProjectsGallery({
   const liveRef = useRef(null);
   const portalRef = useRef(null);
 
+  const exploreAriaTemplate = dictionary.exploreAria;
   const exploreHiddenLabelTemplate = dictionary.exploreHiddenLabel;
   const cardAltTemplate = dictionary.cardAlt;
   const seeAllSrTemplate = dictionary.seeAllSr;
@@ -323,14 +319,11 @@ export default function ProjectsGallery({
   const templates = useMemo(
     () => ({
       cardAltTemplate,
+      exploreAriaTemplate,
       exploreHiddenLabelTemplate,
       seeAllSrTemplate,
     }),
-    [
-      cardAltTemplate,
-      exploreHiddenLabelTemplate,
-      seeAllSrTemplate,
-    ]
+    [cardAltTemplate, exploreAriaTemplate, exploreHiddenLabelTemplate, seeAllSrTemplate]
   );
 
   useEffect(() => {
@@ -359,9 +352,7 @@ export default function ProjectsGallery({
 
   const open = useCallback(
     (groupTitle, images, startIndex = 0) => {
-      if (typeof document !== "undefined") {
-        lastFocus.current = document.activeElement;
-      }
+      lastFocus.current = document.activeElement;
       setTitle(groupTitle);
       setItems(images);
       setIndex(startIndex);
@@ -483,6 +474,15 @@ export default function ProjectsGallery({
   const regionHeading =
     dictionary.regionTitleSr ?? DEFAULT_DICTIONARY.regionTitleSr;
 
+  const handleOverlayClick = useCallback(
+    (event) => {
+      if (event.target === event.currentTarget) {
+        close();
+      }
+    },
+    [close]
+  );
+
   const galleryEntries = useMemo(
     () => Object.entries(galleries),
     [galleries]
@@ -553,131 +553,117 @@ export default function ProjectsGallery({
       {isOpen && mounted && portalRef.current
         ? createPortal(
             <div
-              className={`relative fixed inset-0 z-[999] flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-black/95 backdrop-blur-md${
+              className={`fixed inset-0 z-[999] flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-black/95 backdrop-blur-md${
                 prefersReducedMotion ? "" : " transition-all duration-500"
               } ${anim ? "opacity-100" : "opacity-0"}`}
               role="dialog"
               aria-modal="true"
-              aria-label={formatWithParams(
-                dialogAriaTemplate,
-                DEFAULT_DICTIONARY.dialogAria,
-                { title },
-                ["title"]
-              )}
-              ref={dialogRef}
+            aria-label={formatWithParams(
+              dialogAriaTemplate,
+              DEFAULT_DICTIONARY.dialogAria,
+              { title },
+              ["title"]
+            )}
+              onClick={handleOverlayClick}
               onTouchStart={onTouchStart}
               onTouchEnd={onTouchEnd}
             >
               <button
-                type="button"
+                ref={closeBtnRef}
+                className="absolute top-6 right-6 z-10 text-white/90 hover:text-white bg-white/10 hover:bg-white/20 rounded-2xl p-4 focus-ring transition-all duration-300 min-h-[52px] min-w-[52px] flex items-center justify-center backdrop-blur-sm border border-white/20"
                 onClick={close}
-                className="absolute inset-0 z-0 bg-transparent focus-visible:outline focus-visible:outline-2 focus-visible:outline-white/40"
-                aria-label={dictionary.closeLabel}
-              />
+              >
+                <span className="text-lg font-bold">✕</span>
+                <span className="sr-only">{dictionary.closeLabel}</span>
+              </button>
 
-              <div className="relative z-10 flex w-full h-full items-center justify-center">
-                <button
-                  type="button"
-                  ref={closeBtnRef}
-                  className="absolute top-6 right-6 z-10 text-white/90 hover:text-white bg-white/10 hover:bg-white/20 rounded-2xl p-4 focus-ring transition-all duration-300 min-h-[52px] min-w-[52px] flex items-center justify-center backdrop-blur-sm border border-white/20"
-                  onClick={close}
-                >
-                  <span className="text-lg font-bold">✕</span>
-                  <span className="sr-only">{dictionary.closeLabel}</span>
-                </button>
-
-                {items.length > 1 && (
-                  <>
-                    <button
-                      type="button"
-                      className="hidden md:flex absolute left-6 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-2xl w-14 h-14 items-center justify-center text-2xl transition-all duration-300 focus-ring backdrop-blur-sm border border-white/20"
-                      onClick={prev}
-                    >
-                      {dictionary.prevLabel}
-                      <span className="sr-only">{dictionary.prevSr}</span>
-                    </button>
-                    <button
-                      type="button"
-                      className="hidden md:flex absolute right-6 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-2xl w-14 h-14 items-center justify-center text-2xl transition-all duration-300 focus-ring backdrop-blur-sm border border-white/20"
-                      onClick={next}
-                    >
-                      {dictionary.nextLabel}
-                      <span className="sr-only">{dictionary.nextSr}</span>
-                    </button>
-                  </>
-                )}
-
-                <div className="relative flex w-full h-full items-center justify-center">
-                  <div
-                    className={`relative w-full max-w-6xl h-full max-h-[calc(100vh-220px)] sm:max-h-[calc(100vh-200px)] md:max-h-[calc(100vh-180px)] lg:max-h-[calc(100vh-160px)] ${
-                      prefersReducedMotion ? "" : " transition-all duration-500"
-                    } ${anim ? "scale-100 opacity-100" : "scale-90 opacity-0"}`}
+              {items.length > 1 && (
+                <>
+                  <button
+                    className="hidden md:flex absolute left-6 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-2xl w-14 h-14 items-center justify-center text-2xl transition-all duration-300 focus-ring backdrop-blur-sm border border-white/20"
+                    onClick={prev}
                   >
-                    <Image
-                      key={items[index]}
-                      src={getImageSrc(items[index])}
-                      alt={formatWithParams(
-                        lightboxAltTemplate,
-                        DEFAULT_DICTIONARY.lightboxAlt,
-                        { title, index: index + 1 },
-                        ["title", "index"]
-                      )}
-                      fill
-                      className="object-contain rounded-xl"
-                      sizes={LIGHTBOX_SIZES}
-                      quality={70}
-                      priority
-                      loading="eager"
-                      decoding="sync"
-                      onError={() => handleImageError(items[index])}
-                    />
-                  </div>
+                    {dictionary.prevLabel}
+                    <span className="sr-only">{dictionary.prevSr}</span>
+                  </button>
+                  <button
+                    className="hidden md:flex absolute right-6 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-2xl w-14 h-14 items-center justify-center text-2xl transition-all duration-300 focus-ring backdrop-blur-sm border border-white/20"
+                    onClick={next}
+                  >
+                    {dictionary.nextLabel}
+                    <span className="sr-only">{dictionary.nextSr}</span>
+                  </button>
+                </>
+              )}
+
+              <div className="relative flex w-full h-full items-center justify-center">
+                <div
+                  className={`relative w-full max-w-6xl h-full max-h-[calc(100vh-220px)] sm:max-h-[calc(100vh-200px)] md:max-h-[calc(100vh-180px)] lg:max-h-[calc(100vh-160px)] ${
+                    prefersReducedMotion ? "" : " transition-all duration-500"
+                  } ${anim ? "scale-100 opacity-100" : "scale-90 opacity-0"}`}
+                >
+                  <Image
+                    key={items[index]}
+                    src={getImageSrc(items[index])}
+                    alt={formatWithParams(
+                      lightboxAltTemplate,
+                      DEFAULT_DICTIONARY.lightboxAlt,
+                      { title, index: index + 1 },
+                      ["title", "index"]
+                    )}
+                    fill
+                    className="object-contain rounded-xl"
+                    sizes={LIGHTBOX_SIZES}
+                    quality={70}
+                    priority
+                    loading="eager"
+                    decoding="sync"
+                    onError={() => handleImageError(items[index])}
+                  />
                 </div>
-
-                {items.length > 1 && (
-                  <>
-                    <div className="md:hidden fixed inset-x-0 bottom-0 z-[1000] bg-black/80 backdrop-blur-lg border-t border-white/20 py-4">
-                      <div className="mx-auto max-w-sm flex items-center justify-between gap-3 px-4">
-                        <button
-                          type="button"
-                          onClick={prev}
-                          className="flex-1 rounded-xl bg-white/20 text-white py-4 font-semibold text-sm transition-all duration-300 hover:bg-white/30 focus-ring min-h-[52px] backdrop-blur-sm border border-white/20"
-                        >
-                          {dictionary.mobilePrevLabel}
-                        </button>
-                        <span className="text-white text-sm font-medium px-2">
-                          {formatWithParams(
-                            counterLabelTemplate,
-                            DEFAULT_DICTIONARY.counterLabel,
-                            { index: index + 1, total: items.length },
-                            ["index", "total"]
-                          )}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={next}
-                          className="flex-1 rounded-xl bg-white/20 text-white py-4 font-semibold text-sm transition-all duration-300 hover:bg-white/30 focus-ring min-h-[52px] backdrop-blur-sm border border-white/20"
-                        >
-                          {dictionary.mobileNextLabel}
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden md:block">
-                      <div className="bg-black/50 backdrop-blur-sm rounded-full px-4 py-2 border border-white/20">
-                        <span className="text-white text-sm font-medium">
-                          {formatWithParams(
-                            counterLabelTemplate,
-                            DEFAULT_DICTIONARY.counterLabel,
-                            { index: index + 1, total: items.length },
-                            ["index", "total"]
-                          )}
-                        </span>
-                      </div>
-                    </div>
-                  </>
-                )}
               </div>
+
+              {items.length > 1 && (
+                <>
+                  <div className="md:hidden fixed inset-x-0 bottom-0 z-[1000] bg-black/80 backdrop-blur-lg border-t border-white/20 py-4">
+                    <div className="mx-auto max-w-sm flex items-center justify-between gap-3 px-4">
+                      <button
+                        onClick={prev}
+                        className="flex-1 rounded-xl bg-white/20 text-white py-4 font-semibold text-sm transition-all duration-300 hover:bg-white/30 focus-ring min-h-[52px] backdrop-blur-sm border border-white/20"
+                      >
+                        {dictionary.mobilePrevLabel}
+                      </button>
+                      <span className="text-white text-sm font-medium px-2">
+                        {formatWithParams(
+                          counterLabelTemplate,
+                          DEFAULT_DICTIONARY.counterLabel,
+                          { index: index + 1, total: items.length },
+                          ["index", "total"]
+                        )}
+                      </span>
+                      <button
+                        onClick={next}
+                        className="flex-1 rounded-xl bg-white/20 text-white py-4 font-semibold text-sm transition-all duration-300 hover:bg-white/30 focus-ring min-h-[52px] backdrop-blur-sm border border-white/20"
+                      >
+                        {dictionary.mobileNextLabel}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden md:block">
+                    <div className="bg-black/50 backdrop-blur-sm rounded-full px-4 py-2 border border-white/20">
+                      <span className="text-white text-sm font-medium">
+                        {formatWithParams(
+                          counterLabelTemplate,
+                          DEFAULT_DICTIONARY.counterLabel,
+                          { index: index + 1, total: items.length },
+                          ["index", "total"]
+                        )}
+                      </span>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>,
             portalRef.current
           )
