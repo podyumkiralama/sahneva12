@@ -897,8 +897,14 @@ function StatsBand() {
     >
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-          {stats.map((stat) => (
-            <div key={stat.label} className="text-center group">
+          {stats.map((stat, index) => (
+            <article
+              key={stat.label}
+              className="text-center group"
+              role="group"
+              aria-labelledby={`masa-stat-${index}-value`}
+              aria-describedby={`masa-stat-${index}-label`}
+            >
               <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 group-hover:bg-white/20 transition-all duration-500 group-hover:scale-105">
                 <div
                   className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300"
@@ -906,14 +912,20 @@ function StatsBand() {
                 >
                   {stat.icon}
                 </div>
-                <div className="text-4xl md:text-5xl font-black mb-2 text-white drop-shadow-lg">
+                <h3
+                  id={`masa-stat-${index}-value`}
+                  className="text-4xl md:text-5xl font-black mb-2 text-white drop-shadow-lg"
+                >
                   {stat.value}
-                </div>
-                <div className="text-blue-100 text-lg font-semibold">
+                </h3>
+                <p
+                  id={`masa-stat-${index}-label`}
+                  className="text-blue-100 text-lg font-semibold"
+                >
                   {stat.label}
-                </div>
+                </p>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>
