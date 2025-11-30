@@ -537,7 +537,7 @@ export default function EnglishHomePage() {
               >
                 <span className="block">Turnkey event technology</span>
                 <span
-                  className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-purple-300 to-cyan-300 bg-[length:300%_100%] animate-[gradient_8s_ease_infinite] motion-reduce:animate-none"
+                  className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-purple-700 to-cyan-600 bg-[length:300%_100%] animate-[gradient_8s_ease_infinite] motion-reduce:animate-none"
                   aria-hidden="true"
                 >
                   anywhere in Türkiye

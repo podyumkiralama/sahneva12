@@ -318,7 +318,7 @@ export default function EnglishServicesPage() {
               className="text-4xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight"
             >
               <span className="block">PROFESSIONAL</span>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-purple-300 to-cyan-300">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-purple-700 to-cyan-600">
                 Services
               </span>
             </h1>
