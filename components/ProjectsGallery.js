@@ -302,6 +302,7 @@ export default function ProjectsGallery({
   const touchEndX = useRef(0);
   const lastFocus = useRef(null);
   const closeBtnRef = useRef(null);
+  const dialogRef = useRef(null);
   const scrollYRef = useRef(0);
   const liveRef = useRef(null);
   const portalRef = useRef(null);
@@ -421,6 +422,41 @@ export default function ProjectsGallery({
       window.removeEventListener("keydown", onKey);
     };
   }, [isOpen, close, prev, next]);
+
+  useEffect(() => {
+    if (!isOpen || !dialogRef.current) return;
+
+    const dialogNode = dialogRef.current;
+    const focusableSelectors =
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    const focusableEls = Array.from(
+      dialogNode.querySelectorAll(focusableSelectors)
+    ).filter((el) => !el.hasAttribute("aria-hidden"));
+
+    if (!focusableEls.length) return;
+
+    const first = focusableEls[0];
+    const last = focusableEls[focusableEls.length - 1];
+
+    const handleKeyDown = (event) => {
+      if (event.key !== "Tab") return;
+
+      const active = document.activeElement;
+
+      if (event.shiftKey) {
+        if (active === first) {
+          event.preventDefault();
+          last.focus();
+        }
+      } else if (active === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    dialogNode.addEventListener("keydown", handleKeyDown);
+    return () => dialogNode.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen]);
 
   const onTouchStart = useCallback((e) => {
     touchStartX.current = e.touches[0].clientX;
