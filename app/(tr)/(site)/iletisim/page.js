@@ -329,6 +329,15 @@ export default function ContactPage() {
                     acceptCharset="UTF-8"
                     className="space-y-6"
                   >
+                    <div
+                      className="p-4 bg-blue-50 border border-blue-100 rounded-xl text-sm text-blue-900"
+                      role="status"
+                      aria-live="polite"
+                    >
+                      * ile işaretli alanlar zorunludur. Lütfen telefon numaranıza ülke kodunu ekleyin ve geçerli bir
+                      e-posta adresi yazın ki size hızlıca dönüş yapabilelim.
+                    </div>
+
                     <div className="grid md:grid-cols-2 gap-6">
                       <div>
                         <label
@@ -342,11 +351,16 @@ export default function ContactPage() {
                           id="name"
                           name="name"
                           placeholder="Adınız ve soyadınız"
+                          aria-describedby="name-help"
                           className="w-full border border-neutral-300 rounded-xl p-4 transition-all duration-200 focus-ring focus-visible:border-blue-500/60"
                           required
                           autoComplete="name"
                           inputMode="text"
+                          title="Teklif hazırlarken sizi doğru hitapla arayabilmemiz için adınızı yazın."
                         />
+                        <p id="name-help" className="mt-2 text-xs text-neutral-500">
+                          Teklifi hangi kişiyle paylaşacağımızı ve gerektiğinde kimi arayacağımızı belirtin.
+                        </p>
                       </div>
                       <div>
                         <label
@@ -360,11 +374,16 @@ export default function ContactPage() {
                           id="phone"
                           name="phone"
                           placeholder="+90 ___ ___ __ __"
+                          aria-describedby="phone-help"
                           className="w-full border border-neutral-300 rounded-xl p-4 transition-all duration-200 focus-ring focus-visible:border-blue-500/60"
                           required
                           autoComplete="tel"
                           inputMode="tel"
+                          title="Ülke kodu dahil ulaşılabilir bir numara yazın."
                         />
+                        <p id="phone-help" className="mt-2 text-xs text-neutral-500">
+                          Ülke koduyla birlikte yazarsanız ekibimiz sizi arayarak detayları hızla netleştirebilir.
+                        </p>
                       </div>
                     </div>
 
@@ -380,11 +399,16 @@ export default function ContactPage() {
                         id="email"
                         name="email"
                         placeholder="email@example.com"
+                        aria-describedby="email-help"
                         className="w-full border border-neutral-300 rounded-xl p-4 transition-all duration-200 focus-ring focus-visible:border-blue-500/60"
                         required
                         autoComplete="email"
                         inputMode="email"
+                        title="Teklif ve çizimleri gönderebileceğimiz geçerli bir e-posta yazın."
                       />
+                      <p id="email-help" className="mt-2 text-xs text-neutral-500">
+                        Teklif, teknik çizimler ve onay süreçleri için bu adresi kullanacağız.
+                      </p>
                     </div>
 
                     <div>
@@ -397,6 +421,7 @@ export default function ContactPage() {
                       <select
                         id="eventType"
                         name="eventType"
+                        aria-describedby="event-type-help"
                         className="w-full border border-neutral-300 rounded-xl p-4 transition-all duration-200 focus-ring focus-visible:border-blue-500/60"
                         required
                         autoComplete="off"
@@ -412,6 +437,9 @@ export default function ContactPage() {
                         <option value="Sergi">Sergi</option>
                         <option value="Diğer">Diğer</option>
                       </select>
+                      <p id="event-type-help" className="mt-2 text-xs text-neutral-500">
+                        En yakın seçeneği belirtmek, sahne, ekran ve ses sistemi önerilerimizi netleştirir.
+                      </p>
                     </div>
 
                     <div>
@@ -426,10 +454,15 @@ export default function ContactPage() {
                         name="message"
                         placeholder="Etkinlik tarihi, konumu, tahmini katılımcı sayısı ve ihtiyaç duyduğunuz ekipmanlar..."
                         rows={5}
+                        aria-describedby="message-help"
                         className="w-full border border-neutral-300 rounded-xl p-4 transition-all duration-200 focus-ring focus-visible:border-blue-500/60 resize-none"
                         required
                         autoComplete="off"
+                        title="Tarih, konum, kitle büyüklüğü ve teknik ihtiyaçları paylaşın."
                       />
+                      <p id="message-help" className="mt-2 text-xs text-neutral-500">
+                        Tarih, mekan, hedef kitle ve ihtiyaç duyduğunuz ekipmanları yazdığınızda teklif süreci hızlanır.
+                      </p>
                     </div>
 
                     {/* Formspree hidden fields */}
