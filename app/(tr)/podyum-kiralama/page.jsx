@@ -494,7 +494,6 @@ function StatsSection() {
             <article
               key={stat.label}
               className="text-center group bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 hover:bg-white/20 transition-all duration-500 hover:scale-105"
-              role="group"
               aria-labelledby={`podyum-stat-${idx}-value`}
               aria-describedby={`podyum-stat-${idx}-label`}
             >
@@ -690,7 +689,6 @@ function FAQSection() {
             <details key={index} className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border">
               <summary
                 className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900"
-                role="button"
               >
                 <span className="pr-4">{faq.q}</span>
                 <span className="ml-4 transition-transform duration-500 group-open:rotate-180 text-blue-600 bg-blue-100 rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0">⌄</span>
