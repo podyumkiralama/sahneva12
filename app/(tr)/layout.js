@@ -3,6 +3,28 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL
+  ? process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "")
+  : "https://www.sahneva.com";
+
+export const metadata = {
+  title: {
+    default: "Sahne, LED Ekran, Ses & Işık Kiralama | Sahneva",
+    template: "%s | Sahneva",
+  },
+  description:
+    "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama hizmetleri. Hızlı kurulum ve profesyonel teknik ekip.",
+  alternates: {
+    canonical: SITE_URL,
+    languages: {
+      "tr-TR": SITE_URL,
+      en: `${SITE_URL}/en`,
+      ar: `${SITE_URL}/ar`,
+      "x-default": SITE_URL,
+    },
+  },
+};
+
 export default function TurkishLayout({ children }) {
   return (
     <div className="flex flex-col min-h-screen bg-white text-neutral-900">
