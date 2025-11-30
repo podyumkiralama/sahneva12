@@ -116,7 +116,7 @@ export default function ContactPage() {
                 className="text-4xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight"
               >
                 <span className="block">GET IN</span>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-purple-300 to-cyan-300">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-purple-700 to-cyan-600">
                   Touch
                 </span>
               </h1>
@@ -161,7 +161,11 @@ export default function ContactPage() {
             </ScrollReveal>
 
             <ScrollRevealGroup>
-              <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              <div
+                className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto"
+                role="list"
+                aria-label="Quick contact options"
+              >
                 <ScrollReveal direction="up">
                   <ContactCard
                     icon="📞"
@@ -169,7 +173,7 @@ export default function ContactPage() {
                     info="+90 545 304 86 71"
                     description="Speak immediately with our production specialists."
                     href={`tel:${PHONE}`}
-                    color="from-blue-500 to-cyan-500"
+                    color="from-blue-700 to-cyan-700"
                     buttonText="Call Now"
                   />
                 </ScrollReveal>
@@ -181,7 +185,7 @@ export default function ContactPage() {
                     info="Instant Messaging"
                     description="Send us a message and get a rapid response."
                     href={WHATSAPP_URL}
-                    color="from-green-500 to-emerald-500"
+                    color="from-green-700 to-emerald-700"
                     buttonText="Message on WhatsApp"
                   />
                 </ScrollReveal>
@@ -193,7 +197,7 @@ export default function ContactPage() {
                     info={MAIL}
                     description="Share technical drawings or detailed requirements."
                     href={`mailto:${MAIL}?subject=Sahneva Proposal Request&body=Hello, I'd like to receive a detailed quote for my event.`}
-                    color="from-purple-500 to-pink-500"
+                    color="from-purple-700 to-pink-700"
                     buttonText="Send Email"
                   />
                 </ScrollReveal>
@@ -245,7 +249,7 @@ export default function ContactPage() {
                       href={GMB_PROFILE_URL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-6 rounded-xl text-center transition-all duration-300 hover:scale-105 shadow-lg"
+                      className="flex-1 bg-gradient-to-r from-blue-700 to-purple-800 hover:from-blue-800 hover:to-purple-900 text-white font-bold py-4 px-6 rounded-xl text-center transition-all duration-300 hover:scale-105 shadow-lg"
                       aria-label="Open Sahneva on Google Maps"
                     >
                       <span className="flex items-center justify-center gap-2">
@@ -256,7 +260,7 @@ export default function ContactPage() {
                       href={GMB_REVIEW_URL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold py-4 px-6 rounded-xl text-center transition-all duration-300 hover:scale-105 shadow-lg"
+                      className="flex-1 bg-gradient-to-r from-amber-800 to-orange-800 hover:from-amber-900 hover:to-orange-900 text-white font-bold py-4 px-6 rounded-xl text-center transition-all duration-300 hover:scale-105 shadow-lg"
                       aria-label="Leave a Google review for Sahneva"
                     >
                       <span className="flex items-center justify-center gap-2">
@@ -272,7 +276,7 @@ export default function ContactPage() {
                       <span className="text-3xl">🏢</span>
                       Contact Details
                     </h3>
-                    <div className="space-y-4">
+                    <div className="space-y-4" role="list" aria-label="Direct contact methods">
                       <InfoRow label="Phone" icon="📞">
                         <a
                           href={`tel:${PHONE}`}
@@ -328,6 +332,15 @@ export default function ContactPage() {
                     acceptCharset="UTF-8"
                     className="space-y-6"
                   >
+                    <div
+                      className="p-4 bg-blue-50 border border-blue-100 rounded-xl text-sm text-blue-900"
+                      role="status"
+                      aria-live="polite"
+                    >
+                      All fields marked with * are required. Please make sure your phone number includes the
+                      country code and your email address is valid so we can reach you without delay.
+                    </div>
+
                     <div className="grid md:grid-cols-2 gap-6">
                       <div>
                         <label
@@ -341,11 +354,16 @@ export default function ContactPage() {
                           id="name"
                           name="name"
                           placeholder="Your name"
+                          aria-describedby="name-help"
                           className="w-full border border-neutral-300 rounded-xl p-4 transition-all duration-200 focus-ring focus-visible:border-blue-500/60"
                           required
                           autoComplete="name"
                           inputMode="text"
+                          title="Please enter your full name so we can address your proposal."
                         />
+                        <p id="name-help" className="mt-2 text-xs text-neutral-500">
+                          Tell us who to contact for the proposal and follow-up questions.
+                        </p>
                       </div>
                       <div>
                         <label
@@ -359,11 +377,16 @@ export default function ContactPage() {
                           id="phone"
                           name="phone"
                           placeholder="+90 ___ ___ __ __"
+                          aria-describedby="phone-help"
                           className="w-full border border-neutral-300 rounded-xl p-4 transition-all duration-200 focus-ring focus-visible:border-blue-500/60"
                           required
                           autoComplete="tel"
                           inputMode="tel"
+                          title="Add your country code and a reachable number for confirmation calls."
                         />
+                        <p id="phone-help" className="mt-2 text-xs text-neutral-500">
+                          Include the country code so our team can call or message you back promptly.
+                        </p>
                       </div>
                     </div>
 
@@ -379,11 +402,16 @@ export default function ContactPage() {
                         id="email"
                         name="email"
                         placeholder="email@example.com"
+                        aria-describedby="email-help"
                         className="w-full border border-neutral-300 rounded-xl p-4 transition-all duration-200 focus-ring focus-visible:border-blue-500/60"
                         required
                         autoComplete="email"
                         inputMode="email"
+                        title="Use a valid business email so we can send your quote and drawings."
                       />
+                      <p id="email-help" className="mt-2 text-xs text-neutral-500">
+                        We will share your proposal and any technical drawings at this address.
+                      </p>
                     </div>
 
                     <div>
@@ -396,6 +424,7 @@ export default function ContactPage() {
                       <select
                         id="eventType"
                         name="eventType"
+                        aria-describedby="event-type-help"
                         className="w-full border border-neutral-300 rounded-xl p-4 transition-all duration-200 focus-ring focus-visible:border-blue-500/60"
                         required
                         autoComplete="off"
@@ -409,6 +438,9 @@ export default function ContactPage() {
                         <option value="Exhibition">Exhibition</option>
                         <option value="Other">Other</option>
                       </select>
+                      <p id="event-type-help" className="mt-2 text-xs text-neutral-500">
+                        Choosing the closest match helps us suggest the right stage, screen and sound setup.
+                      </p>
                     </div>
 
                     <div>
@@ -423,10 +455,15 @@ export default function ContactPage() {
                         name="message"
                         placeholder="Event date, location, estimated audience and equipment requirements..."
                         rows={5}
+                        aria-describedby="message-help"
                         className="w-full border border-neutral-300 rounded-xl p-4 transition-all duration-200 focus-ring focus-visible:border-blue-500/60 resize-none"
                         required
                         autoComplete="off"
+                        title="Share timing, location, audience size and any technical requirements."
                       />
+                      <p id="message-help" className="mt-2 text-xs text-neutral-500">
+                        Include the date, venue, audience size and any specific equipment so we can tailor your quote.
+                      </p>
                     </div>
 
                     {/* Formspree hidden fields */}
@@ -450,7 +487,7 @@ export default function ContactPage() {
 
                     <button
                       type="submit"
-                      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg"
+                      className="w-full bg-gradient-to-r from-blue-700 to-purple-800 hover:from-blue-800 hover:to-purple-900 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg"
                     >
                       <span className="flex items-center justify-center gap-2">
                         🚀 Get My Proposal
@@ -534,6 +571,7 @@ export default function ContactPage() {
         <a
           href={`tel:${PHONE}`}
           className="flex flex-col items-center text-blue-600 font-bold text-sm"
+          aria-label="Call Sahneva"
         >
           <span className="text-lg">📞</span>
           <span>Call</span>
@@ -543,6 +581,7 @@ export default function ContactPage() {
           target="_blank"
           rel="noopener noreferrer"
           className="flex flex-col items-center text-green-600 font-bold text-sm"
+          aria-label="Message Sahneva on WhatsApp"
         >
           <span className="text-lg">💬</span>
           <span>WhatsApp</span>
@@ -550,6 +589,7 @@ export default function ContactPage() {
         <a
           href="#proposal-form"
           className="flex flex-col items-center text-purple-600 font-bold text-sm"
+          aria-label="Open the proposal form"
         >
           <span className="text-lg">📝</span>
           <span>Proposal</span>
@@ -561,36 +601,54 @@ export default function ContactPage() {
 
 /* ──── Helper Components ───── */
 function ContactCard({ icon, title, info, description, href, color, buttonText }) {
+  const headingId = `contact-card-${title.toLowerCase().replace(/[^a-z0-9]+/gi, "-")}`;
+  const descriptionId = `${headingId}-description`;
+
   return (
-    <div className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl border border-neutral-100 hover:border-blue-200 transition-all duration-500 hover:scale-105 text-center">
-      <div className={`text-5xl mb-4 bg-gradient-to-r ${color} text-transparent bg-clip-text`}>
+    <article
+      className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl border border-neutral-100 hover:border-blue-200 transition-all duration-500 hover:scale-105 text-center"
+      role="listitem"
+      aria-labelledby={headingId}
+      aria-describedby={descriptionId}
+    >
+      <div className={`text-5xl mb-4 bg-gradient-to-r ${color} text-transparent bg-clip-text`} aria-hidden="true">
         {icon}
       </div>
-      <h3 className="text-xl font-black text-neutral-900 mb-3 group-hover:text-blue-600 transition-colors">
+      <h3
+        id={headingId}
+        className="text-xl font-black text-neutral-900 mb-3 group-hover:text-blue-600 transition-colors"
+      >
         {title}
       </h3>
       <div className="text-2xl font-bold text-neutral-800 mb-2">{info}</div>
-      <p className="text-neutral-600 mb-6 leading-relaxed">{description}</p>
+      <p id={descriptionId} className="text-neutral-600 mb-6 leading-relaxed">
+        {description}
+      </p>
       <a
         href={href}
         target="_blank"
         rel="noopener noreferrer"
+        aria-describedby={`${headingId} ${descriptionId}`}
         className={`inline-flex items-center justify-center bg-gradient-to-r ${color} hover:shadow-xl text-white font-bold px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg`}
       >
         <span className="flex items-center gap-2">{buttonText}</span>
       </a>
-    </div>
+    </article>
   );
 }
 
 function InfoRow({ label, icon, children }) {
+  const labelId = `${label.toLowerCase().replace(/[^a-z0-9]+/gi, "-")}-label`;
+
   return (
-    <div className="flex items-center gap-4">
-      <div className="w-12 h-12 bg-neutral-100 rounded-xl flex items-center justify-center">
+    <div className="flex items-center gap-4" role="listitem" aria-labelledby={labelId}>
+      <div className="w-12 h-12 bg-neutral-100 rounded-xl flex items-center justify-center" aria-hidden="true">
         <span className="text-2xl">{icon}</span>
       </div>
       <div>
-        <div className="font-semibold text-neutral-900">{label}</div>
+        <div id={labelId} className="font-semibold text-neutral-900">
+          {label}
+        </div>
         <div className="text-neutral-800">{children}</div>
       </div>
     </div>

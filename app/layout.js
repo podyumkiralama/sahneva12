@@ -7,7 +7,7 @@ import UtilityBar from "@/components/UtilityBar.client";
 import StickyVideoRailclient from "@/components/StickyVideoRail.client";
 import CriticalAssets from "@/components/CriticalAssets";
 import DocumentDirection from "@/components/i18n/DocumentDirection.client";
-import { cookies, headers } from "next/headers";
+import { headers } from "next/headers";
 
 // ================== FONT ==================
 const inter = Inter({
@@ -210,24 +210,6 @@ function normalizePathname(pathname) {
   }
 }
 
-function getPreferredLocaleFromAcceptLanguage(headerValue) {
-  if (!headerValue || typeof headerValue !== "string") return null;
-
-  const preferred = headerValue
-    .split(",")
-    .map((entry) => entry.split(";")[0]?.trim())
-    .filter(Boolean);
-
-  for (const candidate of preferred) {
-    const [base] = candidate.split("-");
-    if (base === "ar" || base === "en" || base === "tr") {
-      return base;
-    }
-  }
-
-  return null;
-}
-
 function getLocaleFromHeaders() {
   try {
     const headerList = headers();
@@ -240,20 +222,7 @@ function getLocaleFromHeaders() {
       "/";
 
     const parsedPathname = normalizePathname(pathname);
-    const localeFromPath = getLocaleFromPath(parsedPathname);
-    if (localeFromPath) return localeFromPath;
-
-    const localeFromCookie = cookies().get("NEXT_LOCALE")?.value;
-    if (localeFromCookie && LOCALE_DIRECTIONS[localeFromCookie]) {
-      return localeFromCookie;
-    }
-
-    const localeFromHeader = getPreferredLocaleFromAcceptLanguage(
-      headerList.get("accept-language"),
-    );
-    if (localeFromHeader) return localeFromHeader;
-
-    return "tr";
+    return getLocaleFromPath(parsedPathname);
   } catch (error) {
     console.error("Falling back to default locale after headers() failure", error);
     return "tr";
