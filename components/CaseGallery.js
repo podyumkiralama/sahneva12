@@ -149,6 +149,42 @@ function CaseGallery({ images = [], visibleCount = 4 }) {
     return () => dialogNode.removeEventListener("keydown", handleKeyDown);
   }, [open]);
 
+  // Lightbox açıkken odağı içeride tut
+  useEffect(() => {
+    if (!open || !dialogRef.current) return;
+
+    const dialogNode = dialogRef.current;
+    const focusableSelectors =
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    const focusableEls = Array.from(
+      dialogNode.querySelectorAll(focusableSelectors)
+    ).filter((el) => !el.hasAttribute("aria-hidden"));
+
+    if (!focusableEls.length) return;
+
+    const first = focusableEls[0];
+    const last = focusableEls[focusableEls.length - 1];
+
+    const handleKeyDown = (event) => {
+      if (event.key !== "Tab") return;
+
+      const active = document.activeElement;
+
+      if (event.shiftKey) {
+        if (active === first) {
+          event.preventDefault();
+          last.focus();
+        }
+      } else if (active === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    dialogNode.addEventListener("keydown", handleKeyDown);
+    return () => dialogNode.removeEventListener("keydown", handleKeyDown);
+  }, [open]);
+
   // Görüntülenecek thumbnail'leri belirle
   const displayImages = useMemo(
     () => (visibleCount ? images.slice(0, visibleCount) : images),
