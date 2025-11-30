@@ -328,6 +328,15 @@ export default function ContactPage() {
                     acceptCharset="UTF-8"
                     className="space-y-6"
                   >
+                    <div
+                      className="p-4 bg-blue-50 border border-blue-100 rounded-xl text-sm text-blue-900"
+                      role="status"
+                      aria-live="polite"
+                    >
+                      All fields marked with * are required. Please make sure your phone number includes the
+                      country code and your email address is valid so we can reach you without delay.
+                    </div>
+
                     <div className="grid md:grid-cols-2 gap-6">
                       <div>
                         <label
@@ -341,11 +350,16 @@ export default function ContactPage() {
                           id="name"
                           name="name"
                           placeholder="Your name"
+                          aria-describedby="name-help"
                           className="w-full border border-neutral-300 rounded-xl p-4 transition-all duration-200 focus-ring focus-visible:border-blue-500/60"
                           required
                           autoComplete="name"
                           inputMode="text"
+                          title="Please enter your full name so we can address your proposal."
                         />
+                        <p id="name-help" className="mt-2 text-xs text-neutral-500">
+                          Tell us who to contact for the proposal and follow-up questions.
+                        </p>
                       </div>
                       <div>
                         <label
@@ -359,11 +373,16 @@ export default function ContactPage() {
                           id="phone"
                           name="phone"
                           placeholder="+90 ___ ___ __ __"
+                          aria-describedby="phone-help"
                           className="w-full border border-neutral-300 rounded-xl p-4 transition-all duration-200 focus-ring focus-visible:border-blue-500/60"
                           required
                           autoComplete="tel"
                           inputMode="tel"
+                          title="Add your country code and a reachable number for confirmation calls."
                         />
+                        <p id="phone-help" className="mt-2 text-xs text-neutral-500">
+                          Include the country code so our team can call or message you back promptly.
+                        </p>
                       </div>
                     </div>
 
@@ -379,11 +398,16 @@ export default function ContactPage() {
                         id="email"
                         name="email"
                         placeholder="email@example.com"
+                        aria-describedby="email-help"
                         className="w-full border border-neutral-300 rounded-xl p-4 transition-all duration-200 focus-ring focus-visible:border-blue-500/60"
                         required
                         autoComplete="email"
                         inputMode="email"
+                        title="Use a valid business email so we can send your quote and drawings."
                       />
+                      <p id="email-help" className="mt-2 text-xs text-neutral-500">
+                        We will share your proposal and any technical drawings at this address.
+                      </p>
                     </div>
 
                     <div>
@@ -396,6 +420,7 @@ export default function ContactPage() {
                       <select
                         id="eventType"
                         name="eventType"
+                        aria-describedby="event-type-help"
                         className="w-full border border-neutral-300 rounded-xl p-4 transition-all duration-200 focus-ring focus-visible:border-blue-500/60"
                         required
                         autoComplete="off"
@@ -409,6 +434,9 @@ export default function ContactPage() {
                         <option value="Exhibition">Exhibition</option>
                         <option value="Other">Other</option>
                       </select>
+                      <p id="event-type-help" className="mt-2 text-xs text-neutral-500">
+                        Choosing the closest match helps us suggest the right stage, screen and sound setup.
+                      </p>
                     </div>
 
                     <div>
@@ -423,10 +451,15 @@ export default function ContactPage() {
                         name="message"
                         placeholder="Event date, location, estimated audience and equipment requirements..."
                         rows={5}
+                        aria-describedby="message-help"
                         className="w-full border border-neutral-300 rounded-xl p-4 transition-all duration-200 focus-ring focus-visible:border-blue-500/60 resize-none"
                         required
                         autoComplete="off"
+                        title="Share timing, location, audience size and any technical requirements."
                       />
+                      <p id="message-help" className="mt-2 text-xs text-neutral-500">
+                        Include the date, venue, audience size and any specific equipment so we can tailor your quote.
+                      </p>
                     </div>
 
                     {/* Formspree hidden fields */}
