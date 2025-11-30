@@ -6,8 +6,6 @@ import SkipLinks from "@/components/SkipLinks";
 import UtilityBar from "@/components/UtilityBar.client";
 import StickyVideoRailclient from "@/components/StickyVideoRail.client";
 import CriticalAssets from "@/components/CriticalAssets";
-import DocumentDirection from "@/components/i18n/DocumentDirection.client";
-import { headers } from "next/headers";
 
 // ================== FONT ==================
 const inter = Inter({
@@ -183,61 +181,12 @@ const GA_MEASUREMENT_ID =
 const isProd = process.env.NODE_ENV === "production";
 const gaEnabled = isProd && Boolean(GA_MEASUREMENT_ID);
 
-const LOCALE_DIRECTIONS = {
-  ar: "rtl",
-  en: "ltr",
-  tr: "ltr",
-};
-
-export const dynamic = "force-dynamic";
-
-function getLocaleFromPath(pathname) {
-  const [firstSegment] = pathname.split("/").filter(Boolean);
-  if (firstSegment === "ar" || firstSegment === "en") {
-    return firstSegment;
-  }
-  return "tr";
-}
-
-function normalizePathname(pathname) {
-  if (!pathname) return "/";
-  try {
-    const url = new URL(pathname, "http://localhost");
-    return url.pathname || "/";
-  } catch (error) {
-    console.error("Failed to parse pathname", pathname, error);
-    return "/";
-  }
-}
-
-function getLocaleFromHeaders() {
-  try {
-    const headerList = headers();
-    const pathname =
-      headerList.get("x-invoke-path") ||
-      headerList.get("x-pathname") ||
-      headerList.get("x-middleware-pathname") ||
-      headerList.get("next-url") ||
-      headerList.get("referer") ||
-      "/";
-
-    const parsedPathname = normalizePathname(pathname);
-    return getLocaleFromPath(parsedPathname);
-  } catch (error) {
-    console.error("Falling back to default locale after headers() failure", error);
-    return "tr";
-  }
-}
-
 // ================== ROOT LAYOUT ==================
-export default async function RootLayout({ children }) {
-  const locale = getLocaleFromHeaders();
-  const direction = LOCALE_DIRECTIONS[locale] ?? "ltr";
-
+export default function RootLayout({ children }) {
   return (
     <html
-      lang={locale}
-      dir={direction}
+      lang="tr"
+      dir="ltr"
       className={inter.className}
       suppressHydrationWarning
     >
@@ -252,7 +201,6 @@ export default async function RootLayout({ children }) {
         <link rel="preconnect" href="https://www.google-analytics.com" />
       </head>
       <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
-        <DocumentDirection lang={locale} dir={direction} />
         {/* Erişilebilirlik: "Skip to Content" linki */}
         <SkipLinks />
 
