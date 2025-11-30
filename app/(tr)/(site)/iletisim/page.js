@@ -160,7 +160,11 @@ export default function ContactPage() {
             </ScrollReveal>
 
             <ScrollRevealGroup>
-              <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              <div
+                className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto"
+                role="list"
+                aria-label="Hızlı iletişim seçenekleri"
+              >
                 <ScrollReveal direction="up">
                   <ContactCard
                     icon="📞"
@@ -168,7 +172,7 @@ export default function ContactPage() {
                     info="+90 545 304 86 71"
                     description="Hemen arayın, uzman ekibimizle görüşün"
                     href={`tel:${PHONE}`}
-                    color="from-blue-500 to-cyan-500"
+                    color="from-blue-700 to-cyan-700"
                     buttonText="Hemen Ara"
                   />
                 </ScrollReveal>
@@ -180,7 +184,7 @@ export default function ContactPage() {
                     info="Hızlı Mesaj"
                     description="WhatsApp'tan yazın, anında yanıt verelim"
                     href={WHATSAPP_URL}
-                    color="from-green-500 to-emerald-500"
+                    color="from-green-700 to-emerald-700"
                     buttonText="WhatsApp'tan Yaz"
                   />
                 </ScrollReveal>
@@ -192,7 +196,7 @@ export default function ContactPage() {
                     info={MAIL}
                     description="Detaylı teklif için e-posta gönderin"
                     href={`mailto:${MAIL}?subject=Sahneva Teklif Talebi&body=Merhaba, etkinliğim hakkında detaylı teklif almak istiyorum.`}
-                    color="from-purple-500 to-pink-500"
+                    color="from-purple-700 to-pink-700"
                     buttonText="E-posta Gönder"
                   />
                 </ScrollReveal>
@@ -245,7 +249,7 @@ export default function ContactPage() {
                       href={GMB_PROFILE_URL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-6 rounded-xl text-center transition-all duration-300 hover:scale-105 shadow-lg"
+                      className="flex-1 bg-gradient-to-r from-blue-700 to-purple-800 hover:from-blue-800 hover:to-purple-900 text-white font-bold py-4 px-6 rounded-xl text-center transition-all duration-300 hover:scale-105 shadow-lg"
                       aria-label="Google Haritalar'da Sahneva profilini aç"
                     >
                       <span className="flex items-center justify-center gap-2">
@@ -256,7 +260,7 @@ export default function ContactPage() {
                       href={GMB_REVIEW_URL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold py-4 px-6 rounded-xl text-center transition-all duration-300 hover:scale-105 shadow-lg"
+                      className="flex-1 bg-gradient-to-r from-amber-800 to-orange-800 hover:from-amber-900 hover:to-orange-900 text-white font-bold py-4 px-6 rounded-xl text-center transition-all duration-300 hover:scale-105 shadow-lg"
                       aria-label="Google üzerinde Sahneva için yorum yaz"
                     >
                       <span className="flex items-center justify-center gap-2">
@@ -272,7 +276,7 @@ export default function ContactPage() {
                       <span className="text-3xl">🏢</span>
                       İletişim Bilgileri
                     </h3>
-                    <div className="space-y-4">
+                    <div className="space-y-4" role="list" aria-label="Doğrudan iletişim yöntemleri">
                       <InfoRow label="Telefon" icon="📞">
                         <a
                           href={`tel:${PHONE}`}
@@ -486,7 +490,7 @@ export default function ContactPage() {
 
                     <button
                       type="submit"
-                      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg"
+                      className="w-full bg-gradient-to-r from-blue-700 to-purple-800 hover:from-blue-800 hover:to-purple-900 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg"
                     >
                       <span className="flex items-center justify-center gap-2">
                         🚀 Hemen Teklif Al
@@ -572,6 +576,7 @@ export default function ContactPage() {
         <a
           href={`tel:${PHONE}`}
           className="flex flex-col items-center text-blue-600 font-bold text-sm"
+          aria-label="Sahneva'yı ara"
         >
           <span className="text-lg">📞</span>
           <span>Ara</span>
@@ -581,6 +586,7 @@ export default function ContactPage() {
           target="_blank"
           rel="noopener noreferrer"
           className="flex flex-col items-center text-green-600 font-bold text-sm"
+          aria-label="WhatsApp üzerinden Sahneva'ya yaz"
         >
           <span className="text-lg">💬</span>
           <span>WhatsApp</span>
@@ -588,6 +594,7 @@ export default function ContactPage() {
         <a
           href="#teklif-formu"
           className="flex flex-col items-center text-purple-600 font-bold text-sm"
+          aria-label="Teklif formuna git"
         >
           <span className="text-lg">📝</span>
           <span>Teklif Al</span>
@@ -599,36 +606,54 @@ export default function ContactPage() {
 
 /* ───── YARDIMCI BİLEŞENLER ───── */
 function ContactCard({ icon, title, info, description, href, color, buttonText }) {
+  const headingId = `iletisim-kart-${title.toLowerCase().replace(/[^a-z0-9çğıöşü]+/gi, "-")}`;
+  const descriptionId = `${headingId}-aciklama`;
+
   return (
-    <div className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl border border-neutral-100 hover:border-blue-200 transition-all duration-500 hover:scale-105 text-center">
-      <div className={`text-5xl mb-4 bg-gradient-to-r ${color} text-transparent bg-clip-text`}>
+    <article
+      className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl border border-neutral-100 hover:border-blue-200 transition-all duration-500 hover:scale-105 text-center"
+      role="listitem"
+      aria-labelledby={headingId}
+      aria-describedby={descriptionId}
+    >
+      <div className={`text-5xl mb-4 bg-gradient-to-r ${color} text-transparent bg-clip-text`} aria-hidden="true">
         {icon}
       </div>
-      <h3 className="text-xl font-black text-neutral-900 mb-3 group-hover:text-blue-600 transition-colors">
+      <h3
+        id={headingId}
+        className="text-xl font-black text-neutral-900 mb-3 group-hover:text-blue-600 transition-colors"
+      >
         {title}
       </h3>
       <div className="text-2xl font-bold text-neutral-800 mb-2">{info}</div>
-      <p className="text-neutral-600 mb-6 leading-relaxed">{description}</p>
+      <p id={descriptionId} className="text-neutral-600 mb-6 leading-relaxed">
+        {description}
+      </p>
       <a
         href={href}
         target="_blank"
         rel="noopener noreferrer"
+        aria-describedby={`${headingId} ${descriptionId}`}
         className={`inline-flex items-center justify-center bg-gradient-to-r ${color} hover:shadow-xl text-white font-bold px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg`}
       >
         <span className="flex items-center gap-2">{buttonText}</span>
       </a>
-    </div>
+    </article>
   );
 }
 
 function InfoRow({ label, icon, children }) {
+  const labelId = `${label.toLowerCase().replace(/[^a-z0-9çğıöşü]+/gi, "-")}-etiket`;
+
   return (
-    <div className="flex items-center gap-4">
-      <div className="w-12 h-12 bg-neutral-100 rounded-xl flex items-center justify-center">
+    <div className="flex items-center gap-4" role="listitem" aria-labelledby={labelId}>
+      <div className="w-12 h-12 bg-neutral-100 rounded-xl flex items-center justify-center" aria-hidden="true">
         <span className="text-2xl">{icon}</span>
       </div>
       <div>
-        <div className="font-semibold text-neutral-900">{label}</div>
+        <div id={labelId} className="font-semibold text-neutral-900">
+          {label}
+        </div>
         <div className="text-neutral-800">{children}</div>
       </div>
     </div>
