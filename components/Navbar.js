@@ -12,6 +12,7 @@ import {
   useMemo,
 } from "react";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
+import { NAVBAR_A11Y_IDS } from "@/lib/accessibility/constants";
 
 // Tek yerde tanımlı focus ring helper
 const FOCUS_RING_CLASS =
