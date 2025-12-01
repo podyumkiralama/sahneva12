@@ -56,7 +56,7 @@ const CTA_BUTTONS = [
     href: "tel:+905453048671",
     label: "Hemen Ara",
     icon: "📞",
-    srHint: "",
+    srHint: "Sahneva ile telefonla hemen iletişime geç",
   },
   {
     href: "https://wa.me/905453048671?text=Merhaba%2C+web+sitenizden+ula%C5%9F%C4%B1yorum.+Sahne+kiralama+ve+LED+ekran+fiyatlar%C4%B1+hakk%C4%B1nda+detayl%C4%B1+teklif+almak+istiyorum.&utm_source=homepage&utm_medium=hero_cta&utm_campaign=whatsapp",
@@ -64,7 +64,7 @@ const CTA_BUTTONS = [
     icon: "💬",
     target: "_blank",
     rel: "noopener noreferrer",
-    srHint: "(yeni sekmede açılır)",
+    srHint: "Sahneva ile WhatsApp üzerinden yeni sekmede yazışma başlat",
     gradient: "from-green-600 to-emerald-700",
   },
 ];
@@ -476,10 +476,13 @@ function CTAButton({
   srHint,
   ...rest
 }) {
+  const ariaLabel = srHint ? `${label} – ${srHint}` : label;
+
   return (
     <a
       href={href}
       className={`${CTA_BASE_CLASS} bg-gradient-to-r ${gradient}`}
+      aria-label={ariaLabel}
       {...rest}
     >
       <span className="relative z-10 flex items-center justify-center gap-2">
@@ -717,8 +720,13 @@ export default function HomePage() {
         aria-label="Sahneva ana sayfa ana içerik"
         className="relative"
       >
-        {/* #teklif-al hedefi – ekran okuyucular için anlamlı hale getirildi */}
-        <div id="teklif-al" className="sr-only">
+        {/* #teklif-al hedefi */}
+        <div
+          id="teklif-al"
+          className="sr-only"
+          tabIndex={-1}
+          aria-label="Teklif formu ve iletişim bölümü başlangıcı"
+        >
           Teklif formu ve iletişim bölümü başlangıcı
         </div>
 
