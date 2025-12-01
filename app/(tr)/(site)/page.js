@@ -614,7 +614,7 @@ export default function HomePage() {
 
       {/* HERO SECTION */}
       <section
-        className="relative -mt-16 lg:-mt-20 pt-16 lg:pt-20 min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950"
+        className="relative pt-16 lg:pt-20 min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950"
         aria-labelledby="hero-title"
       >
         {/* Arka plan görseli (dekoratif) */}
