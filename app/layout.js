@@ -6,6 +6,7 @@ import SkipLinks from "@/components/SkipLinks";
 import UtilityBar from "@/components/UtilityBar.client";
 import StickyVideoRailclient from "@/components/StickyVideoRail.client";
 import CriticalAssets from "@/components/CriticalAssets";
+import Footer from "@/components/Footer";
 
 // ================== FONT ==================
 const inter = Inter({
@@ -201,9 +202,10 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://www.google-analytics.com" />
       </head>
       <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
-        {/* Erişilebilirlik: Skip to Content linkleri */}
+        {/* Erişilebilirlik: "Skip to Content" linkleri */}
         <SkipLinks />
 
+        {/* Üst yardımcı çubuk + header */}
         <UtilityBar />
 
         <header
@@ -215,14 +217,24 @@ export default function RootLayout({ children }) {
           <StickyVideoRailclient />
         </header>
 
-        {/* Ana içerik alanı: her sayfada tek bir main landmark (sayfa içinde id="main" ile eşleşiyor) */}
-        <div className="flex-1 overflow-x-hidden">{children}</div>
+        {/* ANA İÇERİK LANDMARK’I – SkipLinks buraya atlıyor */}
+        <main
+          id="_main_content"
+          role="main"
+          aria-label="Ana içerik"
+          tabIndex={-1}
+          className="flex-1 overflow-x-hidden focus:outline-none"
+        >
+          {children}
+        </main>
+
+        {/* SİTE FOOTER */}
+        <Footer />
 
         {/* GLOBAL JSON-LD SCHEMA */}
         <script
           id="ld-org"
           type="application/ld+json"
-          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(organizationJsonLd),
           }}
@@ -230,7 +242,6 @@ export default function RootLayout({ children }) {
         <script
           id="ld-local"
           type="application/ld+json"
-          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(localBusinessJsonLd),
           }}
@@ -238,7 +249,6 @@ export default function RootLayout({ children }) {
         <script
           id="ld-website"
           type="application/ld+json"
-          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(websiteJsonLd),
           }}
