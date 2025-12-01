@@ -109,7 +109,7 @@ export default function Footer() {
   };
 
   return (
-    <div id="site-footer-wrapper" className="w-full mt-auto">
+    <div id="site-footer-wrapper" className="w-full">
       <footer
         id="_main_footer"
         role="contentinfo"
