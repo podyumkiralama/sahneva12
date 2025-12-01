@@ -214,7 +214,16 @@ export default function RootLayout({ children }) {
           <StickyVideoRailclient />
         </header>
 
-        <div className="flex-1 overflow-x-hidden">{children}</div>
+        {/* ANA İÇERİK LANDMARK (WCAG için <main>) */}
+        <main
+          id="_main_content"
+          role="main"
+          aria-label="Sahneva ana içerik bölgesi"
+          tabIndex={-1}
+          className="flex-1 pt-16 lg:pt-20 focus:outline-none scroll-mt-24"
+        >
+          <div className="overflow-x-hidden">{children}</div>
+        </main>
 
         {/* GLOBAL JSON-LD SCHEMA */}
         <script
