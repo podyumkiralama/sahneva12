@@ -17,11 +17,23 @@ function CaseGallery({ images = [], visibleCount = 4 }) {
   const scrollYRef = useRef(0);
   const dialogRef = useRef(null);
   const closeBtnRef = useRef(null);
-  const openLightbox = useCallback((index) => {
-    lastFocus.current = document.activeElement;
-    setCurrentIndex(index);
-    setOpen(true);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Component mount kontrolü
+  useEffect(() => {
+    setIsMounted(true);
   }, []);
+
+  const openLightbox = useCallback(
+    (index) => {
+      if (!isMounted) return;
+
+      lastFocus.current = document.activeElement;
+      setCurrentIndex(index);
+      setOpen(true);
+    },
+    [isMounted]
+  );
 
   const closeLightbox = useCallback(() => {
     setOpen(false);
@@ -41,12 +53,21 @@ function CaseGallery({ images = [], visibleCount = 4 }) {
     [images.length]
   );
 
+  const handleBackdropClick = useCallback(
+    (event) => {
+      if (event.target === event.currentTarget) {
+        closeLightbox();
+      }
+    },
+    [closeLightbox]
+  );
+
   const handlePrev = useCallback(() => navigate("prev"), [navigate]);
   const handleNext = useCallback(() => navigate("next"), [navigate]);
 
   // Lightbox açıkken body scroll kilidi + klavye kontrolleri
   useEffect(() => {
-    if (!open) return;
+    if (!open || !isMounted) return;
 
     const body = document.body;
     scrollYRef.current = window.scrollY;
@@ -111,85 +132,26 @@ function CaseGallery({ images = [], visibleCount = 4 }) {
         setTimeout(() => lastFocus.current.focus(), 50);
       }
     };
-  }, [closeLightbox, navigate, open, images.length]);
-
-  // Lightbox açıkken odağı içeride tut
-  useEffect(() => {
-    if (!open || !dialogRef.current) return;
-
-    const dialogNode = dialogRef.current;
-    const focusableSelectors =
-      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
-    const focusableEls = Array.from(
-      dialogNode.querySelectorAll(focusableSelectors)
-    ).filter((el) => !el.hasAttribute("aria-hidden"));
-
-    if (!focusableEls.length) return;
-
-    const first = focusableEls[0];
-    const last = focusableEls[focusableEls.length - 1];
-
-    const handleKeyDown = (event) => {
-      if (event.key !== "Tab") return;
-
-      const active = document.activeElement;
-
-      if (event.shiftKey) {
-        if (active === first) {
-          event.preventDefault();
-          last.focus();
-        }
-      } else if (active === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    };
-
-    dialogNode.addEventListener("keydown", handleKeyDown);
-    return () => dialogNode.removeEventListener("keydown", handleKeyDown);
-  }, [open]);
-
-  // Lightbox açıkken odağı içeride tut
-  useEffect(() => {
-    if (!open || !dialogRef.current) return;
-
-    const dialogNode = dialogRef.current;
-    const focusableSelectors =
-      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
-    const focusableEls = Array.from(
-      dialogNode.querySelectorAll(focusableSelectors)
-    ).filter((el) => !el.hasAttribute("aria-hidden"));
-
-    if (!focusableEls.length) return;
-
-    const first = focusableEls[0];
-    const last = focusableEls[focusableEls.length - 1];
-
-    const handleKeyDown = (event) => {
-      if (event.key !== "Tab") return;
-
-      const active = document.activeElement;
-
-      if (event.shiftKey) {
-        if (active === first) {
-          event.preventDefault();
-          last.focus();
-        }
-      } else if (active === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    };
-
-    dialogNode.addEventListener("keydown", handleKeyDown);
-    return () => dialogNode.removeEventListener("keydown", handleKeyDown);
-  }, [open]);
+  }, [closeLightbox, navigate, open, isMounted, images.length]);
 
   // Görüntülenecek thumbnail'leri belirle
   const displayImages = useMemo(
     () => (visibleCount ? images.slice(0, visibleCount) : images),
     [images, visibleCount]
   );
+
+  if (!isMounted) {
+    return (
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        {displayImages.map((_, i) => (
+          <div
+            key={i}
+            className="relative aspect-[16/9] overflow-hidden rounded-xl border bg-gray-200 animate-pulse"
+          />
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">
@@ -249,61 +211,54 @@ function CaseGallery({ images = [], visibleCount = 4 }) {
       )}
 
       {/* Lightbox/Modal */}
-      {open && (
+      {open && isMounted && (
         <div
           ref={dialogRef}
           role="dialog"
           aria-modal="true"
           aria-labelledby="lightbox-title"
-          aria-describedby="lightbox-description"
-          className="relative fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm p-4"
-          style={{
-            overscrollBehavior: "contain",
-            paddingBottom: "env(safe-area-inset-bottom)",
+            aria-describedby="lightbox-description"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm p-4"
+            onClick={handleBackdropClick}
+            style={{
+              overscrollBehavior: "contain",
+              paddingBottom: "env(safe-area-inset-bottom)",
             paddingTop: "env(safe-area-inset-top)",
           }}
         >
+          {/* Erişilebilir başlık ve açıklama */}
+          <h2 id="lightbox-title" className="sr-only">
+            Görsel Galerisi
+          </h2>
+          <p id="lightbox-description" className="sr-only">
+            {images[currentIndex]?.alt || "Görsel"}.
+            {images.length > 1
+              ? ` ${currentIndex + 1} / ${images.length}. `
+              : " "}
+            Esc tuşuyla kapatabilir, sol ve sağ ok tuşlarıyla gezinebilirsiniz.
+          </p>
+
+          {/* Kapat butonu */}
           <button
+            ref={closeBtnRef}
             type="button"
+            className="absolute top-4 right-4 z-10 bg-white/10 hover:bg-white/20 text-white rounded-full w-10 h-10 flex items-center justify-center transition-all duration-200 focus-ring backdrop-blur-sm"
             onClick={closeLightbox}
-            className="absolute inset-0 z-0 bg-transparent focus-visible:outline focus-visible:outline-2 focus-visible:outline-white/40"
             aria-label="Galeriyi kapat"
-          />
+          >
+            <span aria-hidden="true">✕</span>
+          </button>
 
-          <div className="relative z-10 w-full max-w-6xl h-full flex items-center justify-center">
-            {/* Erişilebilir başlık ve açıklama */}
-            <h2 id="lightbox-title" className="sr-only">
-              Görsel Galerisi
-            </h2>
-            <p id="lightbox-description" className="sr-only">
-              {images[currentIndex]?.alt || "Görsel"}.
-              {images.length > 1
-                ? ` ${currentIndex + 1} / ${images.length}. `
-                : " "}
-              Esc tuşuyla kapatabilir, sol ve sağ ok tuşlarıyla gezinebilirsiniz.
-            </p>
+          {/* Görsel sayacı */}
+          {images.length > 1 && (
+            <div className="absolute top-4 left-4 z-10 bg-black/50 text-white px-3 py-1 rounded-full text-sm backdrop-blur-sm">
+              <span className="font-medium">{currentIndex + 1}</span>
+              <span className="mx-1">/</span>
+              <span>{images.length}</span>
+            </div>
+          )}
 
-            {/* Kapat butonu */}
-            <button
-              ref={closeBtnRef}
-              type="button"
-              className="absolute top-4 right-4 z-10 bg-white/10 hover:bg-white/20 text-white rounded-full w-10 h-10 flex items-center justify-center transition-all duration-200 focus-ring backdrop-blur-sm"
-              onClick={closeLightbox}
-              aria-label="Galeriyi kapat"
-            >
-              <span aria-hidden="true">✕</span>
-            </button>
-
-            {/* Görsel sayacı */}
-            {images.length > 1 && (
-              <div className="absolute top-4 left-4 z-10 bg-black/50 text-white px-3 py-1 rounded-full text-sm backdrop-blur-sm">
-                <span className="font-medium">{currentIndex + 1}</span>
-                <span className="mx-1">/</span>
-                <span>{images.length}</span>
-              </div>
-            )}
-
-            {/* Önceki butonu */}
+          {/* Önceki butonu */}
             {images.length > 1 && (
               <button
                 type="button"
@@ -312,32 +267,32 @@ function CaseGallery({ images = [], visibleCount = 4 }) {
                 aria-label="Önceki görsel"
               >
                 <span aria-hidden="true" className="text-2xl">
-                  ‹
-                </span>
-              </button>
-            )}
+                ‹
+              </span>
+            </button>
+          )}
 
-            {/* Ana görsel container */}
-            <div className="relative w-full max-w-6xl h-full flex items-center justify-center">
-              <div className="relative w-full h-full max-h-[80vh] flex items-center justify-center">
-                <Image
-                  key={images[currentIndex]?.src}
-                  src={images[currentIndex]?.src || ""}
-                  alt={
-                    images[currentIndex]?.alt ||
-                    `Galerideki ${currentIndex + 1}. görsel`
-                  }
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 80vw"
-                  className="object-contain"
-                  quality={90}
-                  loading="eager"
-                  decoding="async"
-                />
-              </div>
+          {/* Ana görsel container */}
+          <div className="relative w-full max-w-6xl h-full flex items-center justify-center">
+            <div className="relative w-full h-full max-h-[80vh] flex items-center justify-center">
+              <Image
+                key={images[currentIndex]?.src}
+                src={images[currentIndex]?.src || ""}
+                alt={
+                  images[currentIndex]?.alt ||
+                  `Galerideki ${currentIndex + 1}. görsel`
+                }
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 80vw"
+                className="object-contain"
+                quality={90}
+                loading="eager"
+                decoding="async"
+              />
             </div>
+          </div>
 
-            {/* Sonraki butonu */}
+          {/* Sonraki butonu */}
             {images.length > 1 && (
               <button
                 type="button"
@@ -346,22 +301,22 @@ function CaseGallery({ images = [], visibleCount = 4 }) {
                 aria-label="Sonraki görsel"
               >
                 <span aria-hidden="true" className="text-2xl">
-                  ›
-                </span>
-              </button>
-            )}
+                ›
+              </span>
+            </button>
+          )}
 
-            {/* Görsel açıklaması */}
-            {images[currentIndex]?.alt && (
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 bg-black/70 text-white px-4 py-2 rounded-lg max-w-2xl text-center backdrop-blur-sm">
-                <p className="text-sm font-medium">
-                  {images[currentIndex].alt}
-                </p>
-              </div>
-            )}
+          {/* Görsel açıklaması */}
+          {images[currentIndex]?.alt && (
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 bg-black/70 text-white px-4 py-2 rounded-lg max-w-2xl text-center backdrop-blur-sm">
+              <p className="text-sm font-medium">
+                {images[currentIndex].alt}
+              </p>
+            </div>
+          )}
 
-            {/* Mobil navigasyon */}
-            {images.length > 1 && (
+          {/* Mobil navigasyon */}
+          {images.length > 1 && (
               <div className="md:hidden absolute bottom-4 inset-x-4 flex justify-between">
                 <button
                   type="button"
@@ -378,44 +333,43 @@ function CaseGallery({ images = [], visibleCount = 4 }) {
                   aria-label="Sonraki görsel"
                 >
                   Sonraki
-                </button>
-              </div>
-            )}
+              </button>
+            </div>
+          )}
 
-            {/* Küçük resim önizlemeleri (desktop) */}
-            {images.length > 1 && (
-              <div className="hidden md:flex absolute bottom-4 left-1/2 -translate-x-1/2 gap-2 max-w-full overflow-x-auto px-4 py-2">
-                {images.map((img, index) => (
-                  <button
-                    key={`thumb-${index}`}
-                    type="button"
-                    className={`flex-shrink-0 w-16 h-12 relative rounded border-2 transition-all duration-200 focus-ring ${
-                      index === currentIndex
-                        ? "border-white scale-110"
-                        : "border-white/30 hover:border-white/60"
-                    }`}
-                    onClick={() => setCurrentIndex(index)}
-                    aria-label={`${
-                      index + 1
-                    }. görsele git: ${
-                      img.alt || `Galerideki ${index + 1}. görsel`
-                    }`}
-                  >
-                    <Image
-                      src={img.src}
-                      alt={img.alt || `Galerideki ${index + 1}. görsel küçük önizleme`}
-                      fill
-                      sizes="64px"
-                      className="object-cover rounded"
-                      quality={50}
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+          {/* Küçük resim önizlemeleri (desktop) */}
+          {images.length > 1 && (
+            <div className="hidden md:flex absolute bottom-4 left-1/2 -translate-x-1/2 gap-2 max-w-full overflow-x-auto px-4 py-2">
+              {images.map((img, index) => (
+                <button
+                  key={`thumb-${index}`}
+                  type="button"
+                  className={`flex-shrink-0 w-16 h-12 relative rounded border-2 transition-all duration-200 focus-ring ${
+                    index === currentIndex
+                      ? "border-white scale-110"
+                      : "border-white/30 hover:border-white/60"
+                  }`}
+                  onClick={() => setCurrentIndex(index)}
+                  aria-label={`${
+                    index + 1
+                  }. görsele git: ${
+                    img.alt || `Galerideki ${index + 1}. görsel`
+                  }`}
+                >
+                  <Image
+                    src={img.src}
+                    alt={img.alt || `Galerideki ${index + 1}. görsel küçük önizleme`}
+                    fill
+                    sizes="64px"
+                    className="object-cover rounded"
+                    quality={50}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>
