@@ -847,7 +847,7 @@ export default function Navbar() {
       </div>
 
       {/* Mobil Backdrop */}
-           <div
+      <div
         className={`
           lg:hidden fixed inset-0 z-40 bg-black/40 backdrop-blur-sm transition-opacity duration-300
           ${
@@ -856,6 +856,7 @@ export default function Navbar() {
               : "opacity-0 pointer-events-none invisible"
           }
         `}
+        onClick={() => setMobileOpen(false)}
         aria-hidden="true"
       />
     </>
