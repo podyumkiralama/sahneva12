@@ -612,172 +612,88 @@ export default function HomePage() {
     <div className="overflow-x-hidden">
       <StructuredData />
 
-      {/* YENİ HERO SECTION */}
+      {/* HERO SECTION */}
       <section
-        id="hero"
+        className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950"
         aria-labelledby="hero-title"
-        className="relative overflow-hidden bg-gradient-to-br from-[#020617] via-slate-950 to-indigo-900 text-slate-50 min-h-[80vh] flex items-center"
       >
-        {/* Dekoratif arka plan görseli */}
-        <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-          <div className="absolute inset-0 opacity-40 mix-blend-screen">
-            <HeroBackgroundImage ariaHidden />
-          </div>
-          {/* Gradient overlay + noise */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(129,140,248,0.35),_transparent_55%),radial-gradient(circle_at_bottom,_rgba(14,165,233,0.3),_transparent_55%)] opacity-90" />
-          <div className="pointer-events-none absolute inset-0 opacity-[0.16] mix-blend-soft-light [background-image:radial-gradient(circle_at_1px_1px,_rgba(148,163,184,0.35)_1px,_transparent_0)] [background-size:28px_28px]" />
+        {/* Arka plan görseli (dekoratif) */}
+        <div className="absolute inset-0" aria-hidden="true">
+          <HeroBackgroundImage ariaHidden />
         </div>
 
+        {/* Overlay katmanları */}
+        <div
+          className="absolute inset-0 bg-gradient-to-br from-slate-950/90 via-blue-950/80 to-purple-950/80"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse motion-reduce:animate-none"
+          style={HERO_OVERLAY_ANIMATION_STYLE}
+          aria-hidden="true"
+        />
+
         {/* İçerik */}
-        <div className="relative container py-16 md:py-24">
-          <div className="mx-auto flex max-w-6xl flex-col gap-10 lg:flex-row lg:items-center lg:gap-12">
-            {/* Sol taraf: metin + CTA */}
-            <div className="max-w-xl lg:max-w-2xl">
-              {/* Eyebrow + rozetler */}
-              <div className="mb-4 flex flex-wrap items-center gap-3 text-xs sm:text-sm">
-                <span className="inline-flex items-center gap-2 rounded-full bg-slate-900/70 px-3 py-1 ring-1 ring-sky-500/60">
-                  <span className="inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse motion-reduce:animate-none" />
-                  <span className="font-medium tracking-wide text-emerald-100">
-                    Canlı teknik destek — İstanbul merkezli
-                  </span>
-                </span>
-                <span className="rounded-full bg-slate-900/60 px-3 py-1 font-medium text-slate-200 ring-1 ring-slate-700/70">
-                  500+ tamamlanan etkinlik
+        <div className="relative z-10 container py-12 md:py-16">
+          <div className="max-w-6xl mx-auto text-center mb-10">
+            <ScrollReveal asChild>
+              <div className="inline-flex items-center gap-3 bg-slate-900/60 backdrop-blur-md rounded-full px-6 py-3 border border-white/20 mb-6">
+                <span
+                  className="w-2 h-2 bg-green-400 rounded-full animate-pulse motion-reduce:animate-none"
+                  aria-hidden="true"
+                />
+                <span className="text-white text-sm font-medium">
+                  Türkiye Geneli Profesyonel Hizmet
                 </span>
               </div>
+            </ScrollReveal>
 
-              {/* Başlık */}
+            {/* Başlık */}
+            <ScrollReveal delay="1" asChild>
               <h1
                 id="hero-title"
-                className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl"
+                className="text-white text-3xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight tracking-tight drop-shadow-md"
               >
-                Kurumsal etkinlikleriniz için
-                <span className="block bg-gradient-to-r from-sky-400 via-emerald-300 to-indigo-400 bg-clip-text text-transparent">
-                  sahne, podyum ve LED ekran
+                <span className="block mb-2">Profesyonel</span>
+                <span
+                  className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-purple-700 to-cyan-600 bg-[length:300%_100%] animate-[gradient_8s_ease_infinite] motion-reduce:animate-none"
+                  aria-hidden="true"
+                >
+                  Sahne Sistemleri
                 </span>
-                tek noktadan kiralama.
+                <span className="sr-only">Sahne Sistemleri</span>
               </h1>
+            </ScrollReveal>
 
-              {/* Açıklama */}
-              <p className="mt-4 max-w-xl text-pretty text-sm leading-relaxed text-slate-200 sm:text-base">
-                Lansman, konferans, fuar, festival ve mezuniyet törenleriniz için
-                sahne, podyum, LED ekran, ses &amp; ışık, çadır ve tüm teknik
-                ihtiyaçları tek ekip ile kuruyoruz. Türkiye genelinde, zamanında
-                kurulum ve güvenli altyapı garantisiyle.
-              </p>
-
-              {/* CTA butonlar (mevcut CTAGroup stilinizle uyumlu) */}
-              <div className="mt-6">
-                <CTAGroup />
-                <p className="mt-2 text-xs text-slate-300/90 sm:text-[13px]">
-                  <span className="font-semibold text-emerald-300">Ücretsiz</span>{" "}
-                  keşif ve projelendirme ile en uygun teknik çözümü öneriyoruz.
+            <ScrollReveal delay="2">
+              <>
+                <KeywordPills />
+                <p className="text-slate-100 text-base md:text-lg mb-8 max-w-3xl mx-auto drop-shadow-sm font-medium">
+                  500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli
+                  hızlı kurulum ile yanınızdayız
                 </p>
-              </div>
+              </>
+            </ScrollReveal>
 
-              {/* Güven rozetleri (mevcut HERO_FEATURES gridini kullanıyoruz) */}
-              <section aria-labelledby="hero-features-heading" className="mt-6">
+            {/* CTA Butonları */}
+            <ScrollReveal delay="3">
+              <CTAGroup />
+            </ScrollReveal>
+
+            {/* Öne çıkanlar */}
+            <ScrollReveal delay="4">
+              <section aria-labelledby="hero-features-heading">
                 <h2 id="hero-features-heading" className="sr-only">
                   Öne çıkan özellikler
                 </h2>
                 <HeroFeatureGrid />
               </section>
+            </ScrollReveal>
 
-              {/* Mini “İçindekiler” nav */}
-              <nav
-                aria-labelledby="home-quick-nav-heading"
-                className="mt-4 hidden text-xs text-slate-200/90 sm:block"
-              >
-                <h2 id="home-quick-nav-heading" className="sr-only">
-                  Anasayfa içeriği hızlı gezinme bağlantıları
-                </h2>
-                <ul className="flex flex-wrap gap-3">
-                  <li>
-                    <a
-                      href="#services"
-                      className="inline-flex items-center gap-1 rounded-full bg-slate-900/60 px-3 py-1 ring-1 ring-slate-700/80 transition hover:bg-slate-900 hover:ring-sky-400/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 focus-visible:ring-sky-300"
-                    >
-                      <span aria-hidden="true">🎛️</span>
-                      <span>Hizmetler</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#projects"
-                      className="inline-flex items-center gap-1 rounded-full bg-slate-900/60 px-3 py-1 ring-1 ring-slate-700/80 transition hover:bg-slate-900 hover:ring-sky-400/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 focus-visible:ring-sky-300"
-                    >
-                      <span aria-hidden="true">📸</span>
-                      <span>Projeler</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#corporate-events"
-                      className="inline-flex items-center gap-1 rounded-full bg-slate-900/60 px-3 py-1 ring-1 ring-slate-700/80 transition hover:bg-slate-900 hover:ring-sky-400/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 focus-visible:ring-sky-300"
-                    >
-                      <span aria-hidden="true">🏢</span>
-                      <span>Kurumsal organizasyon</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#faq"
-                      className="inline-flex items-center gap-1 rounded-full bg-slate-900/60 px-3 py-1 ring-1 ring-slate-700/80 transition hover:bg-slate-900 hover:ring-sky-400/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 focus-visible:ring-sky-300"
-                    >
-                      <span aria-hidden="true">❓</span>
-                      <span>SSS</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#teklif-al"
-                      className="inline-flex items-center gap-1 rounded-full bg-sky-500/10 px-3 py-1 ring-1 ring-sky-400/60 transition hover:bg-sky-500/20 hover:ring-sky-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 focus-visible:ring-sky-300"
-                    >
-                      <span aria-hidden="true">📝</span>
-                      <span>Teklif formu</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-
-            {/* Sağ taraf: info panel */}
-            <aside
-              aria-label="Sahneva teknik öne çıkanlar"
-              className="mt-4 w-full max-w-sm self-stretch rounded-3xl border border-slate-800/80 bg-slate-950/60 p-4 text-sm text-slate-100 shadow-[0_18px_80px_rgba(15,23,42,0.9)] backdrop-blur lg:mt-0"
-            >
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-sky-300">
-                TEKNİK ALTYAPI ÖZETİ
-              </p>
-              <dl className="space-y-3 text-sm">
-                <div className="flex items-start justify-between gap-4">
-                  <dt className="text-slate-200">LED ekran çözünürlükleri</dt>
-                  <dd className="text-right text-sky-200">
-                    P2.6 – P3.9 <br />
-                    İç / dış mekan
-                  </dd>
-                </div>
-                <div className="flex items-start justify-between gap-4">
-                  <dt className="text-slate-200">Sahne &amp; podyum yükseklikleri</dt>
-                  <dd className="text-right text-sky-200">
-                    20 – 120 cm <br />
-                    Modüler sistem
-                  </dd>
-                </div>
-                <div className="flex items-start justify-between gap-4">
-                  <dt className="text-slate-200">Ses &amp; ışık sistemleri</dt>
-                  <dd className="text-right text-sky-200">
-                    Line array, hareketli robot <br />
-                    DMX kontrol
-                  </dd>
-                </div>
-              </dl>
-              <p className="mt-4 text-xs leading-relaxed text-slate-300">
-                Her etkinlik için proje bazlı teknik çizim ve yük hesapları
-                hazırlıyor, sahne statiklerini standartlara uygun şekilde
-                oluşturuyoruz.
-              </p>
-            </aside>
+            {/* Danışmanlık kutusu */}
+            <ScrollReveal delay="5">
+              <ConsultationCard />
+            </ScrollReveal>
           </div>
         </div>
 
@@ -795,16 +711,22 @@ export default function HomePage() {
       </section>
 
       {/* Ana içerik başlangıcı */}
-      <div id="main" className="relative">
-        {/* #teklif-al hedefi */}
-        <div id="teklif-al" className="sr-only" aria-hidden="true" />
+      <main
+        id="main"
+        role="main"
+        aria-label="Sahneva ana sayfa ana içerik"
+        className="relative"
+      >
+        {/* #teklif-al hedefi – ekran okuyucular için anlamlı hale getirildi */}
+        <div id="teklif-al" className="sr-only">
+          Teklif formu ve iletişim bölümü başlangıcı
+        </div>
 
         {/* Google review banner – deferred */}
         <ReviewBannerDeferred idleTimeout={2000} rootMargin="0px" />
 
         {/* Hizmetler */}
         <section
-          id="services"
           className="relative py-12 bg-gradient-to-b from-white to-neutral-50/80"
           aria-labelledby="hizmetler-title"
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
@@ -828,7 +750,6 @@ export default function HomePage() {
 
         {/* Projeler */}
         <section
-          id="projects"
           className="py-12 bg-gradient-to-br from-neutral-900 to-blue-900/95"
           aria-labelledby="projeler-title"
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
@@ -849,7 +770,6 @@ export default function HomePage() {
 
         {/* Kurumsal Organizasyon */}
         <section
-          id="corporate-events"
           className="py-12 bg-white"
           aria-labelledby="kurumsal-title"
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
@@ -990,7 +910,10 @@ export default function HomePage() {
                     </p>
                     <ul className="mt-4 space-y-2 text-neutral-700">
                       {SEO_TECH_FEATURES.map((item, i) => (
-                        <li key={i} className="flex items-center gap-3">
+                        <li
+                          key={i}
+                          className="flex items-center gap-3"
+                        >
                           <div
                             className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"
                             aria-hidden="true"
@@ -1024,7 +947,10 @@ export default function HomePage() {
                     </p>
                     <ul className="mt-4 space-y-2 text-neutral-700">
                       {SEO_INFRA_FEATURES.map((item, i) => (
-                        <li key={i} className="flex items-center gap-3">
+                        <li
+                          key={i}
+                          className="flex items-center gap-3"
+                        >
                           <div
                             className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0"
                             aria-hidden="true"
@@ -1042,7 +968,6 @@ export default function HomePage() {
 
         {/* SSS */}
         <section
-          id="faq"
           className="py-12 bg-gradient-to-br from-neutral-900 to-blue-900/95"
           aria-labelledby="sss-title"
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
@@ -1060,7 +985,7 @@ export default function HomePage() {
             <FaqDeferred idleTimeout={3600} rootMargin="400px" />
           </div>
         </section>
-      </div>
+      </main>
     </div>
   );
 }
