@@ -201,10 +201,11 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://www.google-analytics.com" />
       </head>
       <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
-        {/* Erişilebilirlik: "Skip to Content" linki */}
+        {/* Erişilebilirlik: Skip to Content linkleri */}
         <SkipLinks />
 
         <UtilityBar />
+
         <header
           id="_main_header"
           aria-label="Sahneva site başlığı"
@@ -214,12 +215,14 @@ export default function RootLayout({ children }) {
           <StickyVideoRailclient />
         </header>
 
+        {/* Ana içerik alanı: her sayfada tek bir main landmark (sayfa içinde id="main" ile eşleşiyor) */}
         <div className="flex-1 overflow-x-hidden">{children}</div>
 
         {/* GLOBAL JSON-LD SCHEMA */}
         <script
           id="ld-org"
           type="application/ld+json"
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(organizationJsonLd),
           }}
@@ -227,6 +230,7 @@ export default function RootLayout({ children }) {
         <script
           id="ld-local"
           type="application/ld+json"
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(localBusinessJsonLd),
           }}
@@ -234,6 +238,7 @@ export default function RootLayout({ children }) {
         <script
           id="ld-website"
           type="application/ld+json"
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(websiteJsonLd),
           }}
