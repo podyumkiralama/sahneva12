@@ -6,7 +6,6 @@ import SkipLinks from "@/components/SkipLinks";
 import UtilityBar from "@/components/UtilityBar.client";
 import StickyVideoRailclient from "@/components/StickyVideoRail.client";
 import CriticalAssets from "@/components/CriticalAssets";
-import Footer from "@/components/Footer";
 
 // ================== FONT ==================
 const inter = Inter({
@@ -202,12 +201,10 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://www.google-analytics.com" />
       </head>
       <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
-        {/* Erişilebilirlik: "Skip to Content" linkleri */}
+        {/* Erişilebilirlik: "Skip to Content" linki */}
         <SkipLinks />
 
-        {/* Üst yardımcı çubuk + header */}
         <UtilityBar />
-
         <header
           id="_main_header"
           aria-label="Sahneva site başlığı"
@@ -217,19 +214,7 @@ export default function RootLayout({ children }) {
           <StickyVideoRailclient />
         </header>
 
-        {/* ANA İÇERİK LANDMARK’I – SkipLinks buraya atlıyor */}
-        <main
-          id="_main_content"
-          role="main"
-          aria-label="Ana içerik"
-          tabIndex={-1}
-          className="flex-1 overflow-x-hidden focus:outline-none"
-        >
-          {children}
-        </main>
-
-        {/* SİTE FOOTER */}
-        <Footer />
+        <div className="flex-1 overflow-x-hidden">{children}</div>
 
         {/* GLOBAL JSON-LD SCHEMA */}
         <script
