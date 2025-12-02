@@ -116,7 +116,7 @@ export default function RootLayout({ children }) {
       <head>
         <CriticalAssets />
 
-        {/* JSON-LD: Organization & Website */}
+        {/* JSON-LD */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
@@ -126,28 +126,23 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
 
-        {/* HERO LCP görseli için preload */}
+        {/* --- LCP HERO PRELOAD —-- */}
         <link
           rel="preload"
           as="image"
           href="/img/hero-bg.webp"
-          // Eğer farklı boyutlar üretirsen bunları güncellersin
-          imagesrcset="/img/hero-bg.webp 1600w"
-          imagesizes="100vw"
           type="image/webp"
+          fetchpriority="high"
         />
 
-        {/* GA / GTM bağlantıları */}
+        {/* GA bağlantıları */}
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.google-analytics.com" />
       </head>
 
       <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
-        {/* Skip to content linkleri - Body'nin en başında */}
         <SkipLinks />
-
-        {/* Sayfa içerikleri */}
         {children}
 
         {gaEnabled && (
