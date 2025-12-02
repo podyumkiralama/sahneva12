@@ -123,7 +123,7 @@ const FaqLazy = dynamic(() => import("@/components/Faq"), {
 
 export function ReviewBannerDeferred(props) {
   return (
-    <div style={{ minHeight: "80px" }}>
+    <div>
       <DeferredHydration
         fallback={<ReviewBannerSkeleton />}
         {...props} // idleTimeout, rootMargin vs buraya
