@@ -1,10 +1,10 @@
 // app/(tr)/(site)/layout.jsx
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import UtilityBar from "@/components/UtilityBar.client";
 import StickyVideoRailclient from "@/components/StickyVideoRail.client";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
+import DeferredSpeedInsights from "@/components/DeferredSpeedInsights.client";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
@@ -70,7 +70,7 @@ export default function TurkishLayout({ children }) {
         <Footer />
       </footer>
 
-      <SpeedInsights />
+      <DeferredSpeedInsights />
     </div>
   );
 }
