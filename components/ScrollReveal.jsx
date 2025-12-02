@@ -1,105 +1,101 @@
-'use client';
+// components/ScrollReveal.jsx
+"use client";
 
-import { cloneElement, isValidElement, memo, useMemo } from 'react';
-import { useScrollAnimation } from '@/components/hooks/useScrollAnimation';
+import React, { useRef, useEffect } from "react";
+import clsx from "clsx";
 
-const ANIMATION_CLASSES = {
-  left: 'reveal-left',
-  right: 'reveal-right',
-  scale: 'reveal-scale',
-  default: 'reveal'
-};
+/**
+ * Tek bir IntersectionObserver ile çalışan hafif reveal sistemi.
+ * Her eleman sadece BİR KEZ animasyon yapar ve sonra observer'dan çıkar.
+ */
 
-function getAnimationClass(direction) {
-  return ANIMATION_CLASSES[direction] ?? ANIMATION_CLASSES.default;
-}
+let sharedObserver: IntersectionObserver | null = null;
 
-function mergeRefs(...refs) {
-  return (node) => {
-    refs.forEach((ref) => {
-      if (!ref) return;
+function getObserver() {
+  if (typeof window === "undefined") return null;
+  if (sharedObserver) return sharedObserver;
 
-      if (typeof ref === 'function') {
-        ref(node);
-      } else {
-        ref.current = node;
+  sharedObserver = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("reveal-in");
+          sharedObserver?.unobserve(entry.target);
+        }
       }
-    });
-  };
+    },
+    {
+      // Biraz görünür olduğunda tetiklensin
+      threshold: 0.2,
+      rootMargin: "0px 0px -10% 0px",
+    }
+  );
+
+  return sharedObserver;
 }
 
-const ScrollReveal = memo(function ScrollReveal({
+function useScrollReveal(ref: React.RefObject<HTMLElement>) {
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    // JS desteklenmiyorsa direkt göster
+    if (typeof window === "undefined" || !("IntersectionObserver" in window)) {
+      node.classList.add("reveal-in");
+      return;
+    }
+
+    const observer = getObserver();
+    if (!observer) {
+      node.classList.add("reveal-in");
+      return;
+    }
+
+    observer.observe(node);
+
+    return () => {
+      observer.unobserve(node);
+    };
+  }, [ref]);
+}
+
+/**
+ * variant:
+ *  - "up" (varsayılan)
+ *  - "left"
+ *  - "right"
+ *  - "scale"
+ */
+export function ScrollReveal({
+  as: Component = "div",
   children,
-  className = '',
-  delay = '',
-  direction = 'up',
-  asChild = false,
-  ...props
+  className,
+  variant = "up",
+  ...rest
 }) {
-  const ref = useScrollAnimation();
+  const ref = useRef(null);
 
-  const animationClass = useMemo(
-    () => getAnimationClass(direction),
-    [direction]
-  );
+  useScrollReveal(ref);
 
-  const delayClass = useMemo(
-    () => (delay ? `delay-${delay}` : ''),
-    [delay]
-  );
-
-  const composedClassName = useMemo(() => {
-    const classNames = [animationClass];
-
-    if (delayClass) {
-      classNames.push(delayClass);
-    }
-
-    if (className) {
-      classNames.push(className);
-    }
-
-    return classNames.join(' ');
-  }, [animationClass, className, delayClass]);
-
-  if (asChild && isValidElement(children)) {
-    const childClass = children.props.className;
-    const mergedClassName = childClass
-      ? `${childClass} ${composedClassName}`.trim()
-      : composedClassName;
-
-    return cloneElement(children, {
-      className: mergedClassName,
-      ref: mergeRefs(children.ref, ref),
-      ...props
-    });
-  }
+  const variantClass =
+    variant === "left"
+      ? "reveal-left"
+      : variant === "right"
+      ? "reveal-right"
+      : variant === "scale"
+      ? "reveal-scale"
+      : "reveal-up";
 
   return (
-    <div
+    <Component
       ref={ref}
-      className={composedClassName}
-      {...props}
+      className={clsx("reveal-base", variantClass, className)}
+      {...rest}
     >
       {children}
-    </div>
+    </Component>
   );
-});
+}
 
-ScrollReveal.displayName = 'ScrollReveal';
-
-// Grup halinde animasyon için bileşen
-const ScrollRevealGroup = memo(function ScrollRevealGroup({
-  children,
-  className = ''
-}) {
-  return (
-    <div className={className}>
-      {children}
-    </div>
-  );
-});
-
-ScrollRevealGroup.displayName = 'ScrollRevealGroup';
-
-export { ScrollReveal, ScrollRevealGroup };
+// Backwards-compat: diğer dosyalar default import kullanıyorsa
+export default ScrollReveal;
