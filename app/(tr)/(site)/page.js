@@ -711,16 +711,21 @@ export default function HomePage() {
           className="absolute inset-0 bg-[linear-gradient(#e5e7eb_1px,transparent_1px),linear-gradient(90deg,#e5e7eb_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:radial-gradient(ellipse_at_center,transparent_20%,white)]"
           aria-hidden="true"
         />
-        <div className="container relative z-10">
-          <ScrollReveal>
-            <SectionHeader
-              id="hizmetler-title"
-              title="Profesyonel "
-              highlight="Hizmetlerimiz"
-              description="Türkiye geneli sahne, podyum, LED ekran kiralama ve ses-ışık sistemleri kurulumu"
-            />
-          </ScrollReveal>
-          <ServicesTabsDeferred idleTimeout={2800} rootMargin="320px" />
+        <div className="relative z-10 space-y-8">
+          <div className="container">
+            <ScrollReveal>
+              <SectionHeader
+                id="hizmetler-title"
+                title="Profesyonel "
+                highlight="Hizmetlerimiz"
+                description="Türkiye geneli sahne, podyum, LED ekran kiralama ve ses-ışık sistemleri kurulumu"
+              />
+            </ScrollReveal>
+          </div>
+
+          <div className="-mx-4 sm:-mx-6 lg:-mx-8 xl:-mx-12 px-4 sm:px-6 lg:px-8 xl:px-12">
+            <ServicesTabsDeferred idleTimeout={2800} rootMargin="320px" />
+          </div>
         </div>
       </section>
 

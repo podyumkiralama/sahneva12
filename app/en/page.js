@@ -659,24 +659,29 @@ export default function EnglishHomePage() {
             className="absolute inset-0 bg-[linear-gradient(#e5e7eb_1px,transparent_1px),linear-gradient(90deg,#e5e7eb_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:radial-gradient(ellipse_at_center,transparent_20%,white)]"
             aria-hidden="true"
           />
-          <div className="container relative z-10">
-            <ScrollReveal>
-              <div className="text-center mb-12">
-                <h2 id="services-title" className="text-3xl md:text-4xl font-black text-neutral-900 mb-4">
-                  Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">event services</span>
-                </h2>
-                <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
-                  Turnkey stage, LED wall, sound, lighting and tent solutions available across Türkiye
-                </p>
-              </div>
-            </ScrollReveal>
-            <ServicesTabsDeferred
-              servicesData={SERVICES_EN}
-              dictionary={SERVICES_DICTIONARY_EN}
-              idleTimeout={2800}
-              rootMargin="320px"
-              loadingSrLabel="Loading service tabs"
-            />
+          <div className="relative z-10 space-y-8">
+            <div className="container">
+              <ScrollReveal>
+                <div className="text-center mb-12">
+                  <h2 id="services-title" className="text-3xl md:text-4xl font-black text-neutral-900 mb-4">
+                    Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">event services</span>
+                  </h2>
+                  <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
+                    Turnkey stage, LED wall, sound, lighting and tent solutions available across Türkiye
+                  </p>
+                </div>
+              </ScrollReveal>
+            </div>
+
+            <div className="-mx-4 sm:-mx-6 lg:-mx-8 xl:-mx-12 px-4 sm:px-6 lg:px-8 xl:px-12">
+              <ServicesTabsDeferred
+                servicesData={SERVICES_EN}
+                dictionary={SERVICES_DICTIONARY_EN}
+                idleTimeout={2800}
+                rootMargin="320px"
+                loadingSrLabel="Loading service tabs"
+              />
+            </div>
           </div>
         </section>
 
