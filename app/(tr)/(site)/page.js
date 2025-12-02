@@ -546,19 +546,15 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
       sizes="100vw"
       priority
       fetchPriority="high"
-      quality={55}
-      placeholder="empty"
-      className="absolute inset-0 object-cover object-center"
+      placeholder="empty"      // blur kaldırıldı – LCP hızlanır
+      quality={50}             // LCP için ideal kalite
+      loading="eager"          // Mutlaka hemen yükle
+      decoding="sync"          // LCP için en hızlı yöntem
+      className="absolute inset-0 w-full h-full object-cover object-center"
       aria-hidden={ariaHidden}
-      style={{
-        minHeight: "80vh",      // ⭐ LCP ELEMENT BOYUT GARANTİSİ
-        width: "100%",
-      }}
     />
   );
 }
-
-
 // —————————————————————————————————————————
 // SAYFA
 // —————————————————————————————————————————
