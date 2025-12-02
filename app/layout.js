@@ -1,5 +1,5 @@
 // app/layout.jsx
-import "./styles/globals.css";
+import "../styles/globals.css";
 import Script from "next/script";
 import { Inter } from "next/font/google";
 
