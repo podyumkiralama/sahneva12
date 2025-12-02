@@ -2,7 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
 
-  // 🚀 Modern JS only – polyfill / legacy JS tamamen kaldırıldı
   experimental: {
     legacyBrowsers: false,
     browsersListForSwc: true,
@@ -12,16 +11,12 @@ const nextConfig = {
     },
   },
 
-  // ⚡ Build optimizasyonları
   swcMinify: true,
   poweredByHeader: false,
   compress: true,
-
-  // 🔧 LCP için kritik
   productionBrowserSourceMaps: false,
   devIndicators: { buildActivity: true },
 
-  // 📦 Static image optimization
   images: {
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 60 * 60 * 24, // 24 saat
@@ -33,8 +28,32 @@ const nextConfig = {
     ],
   },
 
-  // 🔐 FULL SECURITY HEADERS (CSP dahil)
   async headers() {
+    // Not: Eğer yeni bir domain kullanırsan (örn. başka bir CDN),
+    // ilgili direktife eklemen yeterli: script-src / img-src / connect-src / frame-src
+    const csp = [
+      "default-src 'self';",
+      // GA, GTM, Next inline scriptler için:
+      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://vercel.live;",
+      // Tailwind inline style + olası font stylesheet’leri:
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;",
+      // Görseller: kendi domainin + YouTube thumb + data/blob:
+      "img-src 'self' data: blob: https://www.sahneva.com https://img.youtube.com https://i.ytimg.com;",
+      // Fontlar local veya data:
+      "font-src 'self' data: https://fonts.gstatic.com;",
+      // XHR / fetch / analytics endpointleri:
+      "connect-src 'self' https://www.google-analytics.com https://vitals.vercel-insights.com https://vercel.live;",
+      // Video / ses:
+      "media-src 'self' blob:;",
+      // YouTube embed:
+      "frame-src https://www.youtube.com https://www.youtube-nocookie.com;",
+      // Güvenlik sıkılaştırma:
+      "object-src 'none';",
+      "base-uri 'self';",
+      "form-action 'self';",
+      "frame-ancestors 'none';"
+    ].join(" ");
+
     return [
       // GLOBAL SECURITY
       {
@@ -61,26 +80,14 @@ const nextConfig = {
             value:
               "camera=(), microphone=(), geolocation=(), interest-cohort=()",
           },
-          // 🛡 CSP → tam optimize edilmiş
           {
             key: "Content-Security-Policy",
-            value: [
-              "default-src 'self';",
-              "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com;",
-              "style-src 'self' 'unsafe-inline';",
-              "img-src 'self' data: blob: https://www.sahneva.com https://img.youtube.com https://i.ytimg.com;",
-              "font-src 'self' data:;",
-              "connect-src 'self' https://www.google-analytics.com;",
-              "media-src 'self';",
-              "frame-src https://www.youtube.com;",
-              "object-src 'none';",
-              "base-uri 'self';",
-            ].join(" "),
+            value: csp,
           },
         ],
       },
 
-      // 🖼 Görseller — 1 yıl immutable cache
+      // Görseller – 1 yıl immutable cache
       {
         source: "/:all*(png|jpg|jpeg|webp|avif|svg|gif)",
         headers: [
@@ -91,7 +98,7 @@ const nextConfig = {
         ],
       },
 
-      // JS/CSS bundler — immutable cache
+      // Next static build çıktıları
       {
         source: "/_next/static/:path*",
         headers: [
@@ -102,7 +109,7 @@ const nextConfig = {
         ],
       },
 
-      // Font cache
+      // Fontlar
       {
         source: "/fonts/:path*",
         headers: [
@@ -115,23 +122,23 @@ const nextConfig = {
     ];
   },
 
-  // 🧠 Webpack prod ayarları
-  webpack: (config, { dev, isServer }) => {
+  webpack: (config, { dev }) => {
     if (!dev) {
       config.devtool = false;
 
-      // Bundle küçültme → gereksiz locale dosyalarını kaldır
       const { IgnorePlugin } = require("webpack");
-      config.plugins.push(new IgnorePlugin({ resourceRegExp: /^\.\/locale$/, contextRegExp: /moment$/ }));
+      config.plugins.push(
+        new IgnorePlugin({
+          resourceRegExp: /^\.\/locale$/,
+          contextRegExp: /moment$/,
+        })
+      );
     }
     return config;
   },
 
-  // 🧭 Routing stabilizasyonu
   skipMiddlewareUrlNormalize: true,
   skipTrailingSlashRedirect: true,
-
-  // 🚀 Output stabilization
   trailingSlash: false,
 };
 
