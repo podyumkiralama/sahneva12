@@ -1,6 +1,5 @@
 // app/(site)/iletisim/page.jsx
 import Link from "next/link";
-import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
 
 export const metadata = {
   title: "İletişim | Sahneva - Profesyonel Etkinlik Çözümleri",
@@ -97,7 +96,7 @@ export default function ContactPage() {
         </div>
 
         <div className="relative z-10 container text-center text-white">
-          <ScrollReveal>
+          
             <div className="max-w-4xl mx-auto">
               <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20 mb-6">
                 <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
@@ -127,7 +126,7 @@ export default function ContactPage() {
                 hazırlıyoruz
               </p>
             </div>
-          </ScrollReveal>
+          
         </div>
 
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2" aria-hidden="true">
@@ -143,7 +142,7 @@ export default function ContactPage() {
         {/* Hızlı İletişim Kartları */}
         <section className="py-20 bg-gradient-to-br from-white to-blue-50/50">
           <div className="container max-w-6xl mx-auto px-4">
-            <ScrollReveal>
+            
               <div className="text-center mb-16">
                 <h2 className="text-4xl md:text-5xl font-black text-neutral-900 mb-6">
                   Hızlı{" "}
@@ -157,15 +156,15 @@ export default function ContactPage() {
                 </p>
                 <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mt-8" />
               </div>
-            </ScrollReveal>
+            
 
-            <ScrollRevealGroup>
+            
               <div
                 className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto"
                 role="list"
                 aria-label="Hızlı iletişim seçenekleri"
               >
-                <ScrollReveal direction="up">
+                
                   <ContactCard
                     icon="📞"
                     title="Telefon ile Ara"
@@ -175,9 +174,9 @@ export default function ContactPage() {
                     color="from-blue-700 to-cyan-700"
                     buttonText="Hemen Ara"
                   />
-                </ScrollReveal>
+                
 
-                <ScrollReveal direction="up" delay="1">
+                
                   <ContactCard
                     icon="💬"
                     title="WhatsApp"
@@ -187,9 +186,9 @@ export default function ContactPage() {
                     color="from-green-700 to-emerald-700"
                     buttonText="WhatsApp'tan Yaz"
                   />
-                </ScrollReveal>
+                
 
-                <ScrollReveal direction="up" delay="2">
+                
                   <ContactCard
                     icon="✉️"
                     title="E-posta"
@@ -199,9 +198,9 @@ export default function ContactPage() {
                     color="from-purple-700 to-pink-700"
                     buttonText="E-posta Gönder"
                   />
-                </ScrollReveal>
+                
               </div>
-            </ScrollRevealGroup>
+            
           </div>
         </section>
 
@@ -211,7 +210,7 @@ export default function ContactPage() {
             <div className="grid lg:grid-cols-2 gap-12">
               {/* Harita ve Konum */}
               <div className="space-y-8">
-                <ScrollReveal direction="left">
+                
                   <div className="text-center lg:text-left">
                     <h2 className="text-4xl md:text-5xl font-black text-neutral-900 mb-6">
                       Konumumuz ve{" "}
@@ -225,9 +224,9 @@ export default function ContactPage() {
                     </p>
                     <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 lg:mx-0 mx-auto" />
                   </div>
-                </ScrollReveal>
+                
 
-                <ScrollReveal direction="left" delay="1">
+                
                   <div className="rounded-2xl overflow-hidden shadow-2xl border border-neutral-200">
                     <iframe
                       title="Sahneva Konumu - Profesyonel Etkinlik Ekipmanları"
@@ -241,9 +240,9 @@ export default function ContactPage() {
                       className="w-full"
                     />
                   </div>
-                </ScrollReveal>
+                
 
-                <ScrollReveal direction="left" delay="2">
+                
                   <div className="flex flex-col sm:flex-row gap-4">
                     <a
                       href={GMB_PROFILE_URL}
@@ -268,9 +267,9 @@ export default function ContactPage() {
                       </span>
                     </a>
                   </div>
-                </ScrollReveal>
+                
 
-                <ScrollReveal direction="left" delay="3">
+                
                   <div className="bg-white rounded-2xl p-8 shadow-lg border border-neutral-100">
                     <h3 className="text-2xl font-black text-neutral-900 mb-6 flex items-center gap-3">
                       <span className="text-3xl">🏢</span>
@@ -305,11 +304,11 @@ export default function ContactPage() {
                       </InfoRow>
                     </div>
                   </div>
-                </ScrollReveal>
+                
               </div>
 
               {/* Teklif Formu */}
-              <ScrollReveal direction="right">
+              
                 <div
                   className="bg-white rounded-2xl shadow-2xl border border-neutral-200 p-8"
                   id="teklif-formu"
@@ -509,7 +508,7 @@ export default function ContactPage() {
                     </p>
                   </form>
                 </div>
-              </ScrollReveal>
+              
             </div>
           </div>
         </section>
@@ -517,7 +516,7 @@ export default function ContactPage() {
         {/* Acil Destek */}
         <section className="py-20 bg-gradient-to-br from-neutral-900 to-blue-900/95">
           <div className="container max-w-4xl mx-auto px-4 text-center text-white">
-            <ScrollReveal>
+            
               <div className="bg-white/10 backdrop-blur-md rounded-2xl p-12 border border-white/20">
                 <h2 className="text-4xl md:text-5xl font-black mb-6">
                   Acil{" "}
@@ -563,7 +562,7 @@ export default function ContactPage() {
                   </p>
                 </div>
               </div>
-            </ScrollReveal>
+            
           </div>
         </section>
 

@@ -30,9 +30,36 @@ const CONTACT_CHANNELS = [
     href: "tel:+905453048671",
     description: "تحدث مباشرة مع مدير المشروع.",
   },
-];
+].filter(Boolean);
 
 export default function ArabicContactPage() {
+  const contactChannels = Array.isArray(CONTACT_CHANNELS) ? CONTACT_CHANNELS : [];
+  const contactCards = [];
+
+  if (Array.isArray(contactChannels) && contactChannels.length > 0) {
+    for (const channel of contactChannels) {
+      if (!channel) continue;
+
+      const { title, href, value, description } = channel;
+
+      if (!title || !href || !value) continue;
+
+      contactCards.push(
+        <a
+          key={title}
+          href={href}
+          className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg text-right"
+        >
+          <h2 className="text-lg font-semibold text-neutral-900">{title}</h2>
+          <p className="mt-2 text-base font-bold text-indigo-600">{value}</p>
+          {description ? (
+            <p className="mt-3 text-sm leading-6 text-neutral-600">{description}</p>
+          ) : null}
+        </a>
+      );
+    }
+  }
+
   return (
     <div className="container mx-auto space-y-12 px-4 py-10" dir="rtl">
       <header className="space-y-3 text-right">
@@ -42,19 +69,7 @@ export default function ArabicContactPage() {
         </p>
       </header>
 
-      <div className="grid gap-6 md:grid-cols-3">
-        {CONTACT_CHANNELS.map((channel) => (
-          <a
-            key={channel.title}
-            href={channel.href}
-            className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg text-right"
-          >
-            <h2 className="text-lg font-semibold text-neutral-900">{channel.title}</h2>
-            <p className="mt-2 text-base font-bold text-indigo-600">{channel.value}</p>
-            <p className="mt-3 text-sm leading-6 text-neutral-600">{channel.description}</p>
-          </a>
-        ))}
-      </div>
+      <div className="grid gap-6 md:grid-cols-3">{contactCards}</div>
     </div>
   );
 }

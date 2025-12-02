@@ -1,6 +1,7 @@
 // app/(tr)/(site)/page.js
 import Image from "next/image";
 import heroImg from "@/public/img/hero-bg.webp";
+import Link from "next/link"; // A11Y için prose içindeki Link'ler
 
 // Statik bileşenler
 import CorporateEvents from "@/components/CorporateEvents";
@@ -11,8 +12,7 @@ import {
   FaqDeferred,
 } from "@/components/DeferredSections.client";
 
-// Animasyon bileşenleri
-import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
+// Animasyon bileşenleri (hero'da kullanmıyoruz, aşağıdaki bölümlerde kullanıyoruz)
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
@@ -56,7 +56,7 @@ const CTA_BUTTONS = [
     href: "tel:+905453048671",
     label: "Hemen Ara",
     icon: "📞",
-    srHint: "",
+    srHint: "Hemen Ara",
   },
   {
     href: "https://wa.me/905453048671?text=Merhaba%2C+web+sitenizden+ula%C5%9F%C4%B1yorum.+Sahne+kiralama+ve+LED+ekran+fiyatlar%C4%B1+hakk%C4%B1nda+detayl%C4%B1+teklif+almak+istiyorum.&utm_source=homepage&utm_medium=hero_cta&utm_campaign=whatsapp",
@@ -66,14 +66,15 @@ const CTA_BUTTONS = [
     rel: "noopener noreferrer",
     srHint: "(yeni sekmede açılır)",
     gradient: "from-green-600 to-emerald-700",
+    ariaLabel: "WhatsApp Üzerinden Teklif Almak İçin Tıklayın",
   },
 ];
 
 const CTA_BASE_CLASS =
-  "w-full sm:w-auto min-w-[180px] text-center group relative text-white font-bold text-base px-6 py-3 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:brightness-110 border border-white/20 backdrop-blur-sm focus-ring";
+  "w-full sm:w-auto min-w-[180px] min-h-[44px] text-center group relative text-white font-bold text-base px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition-transform duration-200 hover:scale-105 border border-white/20 focus-ring";
 
 const CTA_OVERLAY_CLASS =
-  "absolute inset-0 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300";
+  "absolute inset-0 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200";
 
 const SECTION_THEMES = {
   light: {
@@ -85,14 +86,6 @@ const SECTION_THEMES = {
     description: "text-slate-100",
   },
 };
-
-const HERO_IMAGE_STYLE = Object.freeze({
-  // Filtreler görsele gömüldü; tarayıcı tarafında ek GPU yükü oluşturmamak için burada kaldırıldı.
-});
-
-const HERO_OVERLAY_ANIMATION_STYLE = Object.freeze({
-  animationDuration: "8s",
-});
 
 const WHY_SAHNEVA_FEATURES = [
   {
@@ -133,7 +126,7 @@ const WHY_SAHNEVA_FEATURES = [
   },
 ];
 
-// Katmanlı içerik bölümlerini ilk boyamadan hariç tutarak FCP/LCP'yi iyileştirir
+// PERFORMANS: Off-screen içeriği hızlıca atlamak için
 const BELOW_THE_FOLD_VISIBILITY_STYLE = Object.freeze({
   contentVisibility: "auto",
 });
@@ -152,16 +145,17 @@ const SEO_INFRA_FEATURES = [
   "Jeneratör, UPS ve yedekli enerji altyapısı",
 ];
 
-// ISR
 export const revalidate = 3600;
 
 // —————————————————————————————————————————
-// JSON-LD (Schema.org)
+// JSON-LD (Schema.org) - SADECE SAYFAYA ÖZEL ŞEMALAR
+// Organization ve WebSite şemaları zaten ROOT LAYOUT'ta olduğu için çıkarıldı.
 // —————————————————————————————————————————
 function StructuredData() {
   const HOME_URL = SITE_URL;
   const ORGANIZATION_ID = `${SITE_URL}/#org`;
   const WEBSITE_ID = `${SITE_URL}/#website`;
+
   const WEBPAGE_ID = `${HOME_URL}#webpage`;
   const SERVICE_ID = `${HOME_URL}#primary-service`;
   const CATALOG_ID = `${HOME_URL}#catalog`;
@@ -176,9 +170,9 @@ function StructuredData() {
         "@id": WEBPAGE_ID,
         url: HOME_URL,
         name:
-          "Sahne Sistemleri, LED Ekran, Ses-Işık | Türkiye Geneli | Sahneva",
+          "Sahne Sistemleri, LED Ekran, Ses-Işık Kiralama | Türkiye Geneli | Sahneva",
         description:
-          "Sahneva ile sahne, podyum, LED ekran, ses ve ışık sistemleri kiralama çözümlerini keşfedin. İstanbul merkezli, Türkiye geneli hizmet.",
+          "Sahneva ile profesyonel sahne, podyum, LED ekran, ses ve ışık sistemleri kiralama çözümlerini keşfedin. İstanbul merkezli, Türkiye geneli hızlı kurulum.",
         inLanguage: "tr-TR",
         isPartOf: { "@id": WEBSITE_ID },
         about: { "@id": ORGANIZATION_ID },
@@ -187,7 +181,7 @@ function StructuredData() {
       {
         "@type": "OfferCatalog",
         "@id": CATALOG_ID,
-        name: "Etkinlik Ekipmanları",
+        name: "Etkinlik Ekipmanları Kiralama Kataloğu",
         url: HOME_URL,
         itemListElement: [
           {
@@ -195,7 +189,7 @@ function StructuredData() {
             itemOffered: {
               "@type": "Service",
               name: "Podyum Kiralama",
-              description: "Podyum sahne kiralama hizmeti",
+              description: "Modüler podyum sahne kiralama hizmeti",
             },
             priceSpecification: {
               "@type": "UnitPriceSpecification",
@@ -228,76 +222,35 @@ function StructuredData() {
           },
           {
             "@type": "Offer",
-            itemOffered: {
-              "@type": "Service",
-              name: "Çadır Kiralama",
-              description: "Etkinlik çadırı kiralama",
-            },
-            priceSpecification: {
-              "@type": "UnitPriceSpecification",
-              price: "300.00",
-              priceCurrency: "TRY",
-              unitText: "m²",
-              unitCode: "MTK",
-            },
+            itemOffered: { "@type": "Service", name: "Çadır Kiralama" },
             availability: "https://schema.org/InStock",
             areaServed: { "@type": "Country", name: "Türkiye" },
             seller: { "@id": ORGANIZATION_ID },
           },
           {
             "@type": "Offer",
-            itemOffered: {
-              "@type": "Service",
-              name: "Sandalye Kiralama",
-              description: "Etkinlik sandalyesi kiralama",
-            },
-            priceSpecification: {
-              "@type": "UnitPriceSpecification",
-              price: "200.00",
-              priceCurrency: "TRY",
-              unitText: "günlük",
-              unitCode: "DAY",
-            },
+            itemOffered: { "@type": "Service", name: "Sandalye Kiralama" },
             availability: "https://schema.org/InStock",
             areaServed: { "@type": "Country", name: "Türkiye" },
             seller: { "@id": ORGANIZATION_ID },
           },
           {
             "@type": "Offer",
-            itemOffered: {
-              "@type": "Service",
-              name: "Masa Kiralama",
-              description: "Davet masası kiralama",
-            },
-            priceSpecification: {
-              "@type": "UnitPriceSpecification",
-              price: "800.00",
-              priceCurrency: "TRY",
-              unitText: "günlük",
-              unitCode: "DAY",
-            },
+            itemOffered: { "@type": "Service", name: "Masa Kiralama" },
             availability: "https://schema.org/InStock",
             areaServed: { "@type": "Country", name: "Türkiye" },
             seller: { "@id": ORGANIZATION_ID },
           },
           {
             "@type": "Offer",
-            itemOffered: {
-              "@type": "Service",
-              name: "Sahne Kiralama",
-              description: "Konser ve etkinlik sahnesi kiralama",
-            },
+            itemOffered: { "@type": "Service", name: "Sahne Kiralama" },
             availability: "https://schema.org/InStock",
             areaServed: { "@type": "Country", name: "Türkiye" },
             seller: { "@id": ORGANIZATION_ID },
           },
           {
             "@type": "Offer",
-            itemOffered: {
-              "@type": "Service",
-              name: "Ses-Işık Sistemleri",
-              description: "Profesyonel ses ve ışık ekipmanı",
-            },
+            itemOffered: { "@type": "Service", name: "Ses-Işık Sistemleri" },
             availability: "https://schema.org/InStock",
             areaServed: { "@type": "Country", name: "Türkiye" },
             seller: { "@id": ORGANIZATION_ID },
@@ -314,6 +267,7 @@ function StructuredData() {
         areaServed: { "@type": "Country", name: "Türkiye" },
         provider: { "@id": ORGANIZATION_ID },
         hasOfferCatalog: { "@id": CATALOG_ID },
+        serviceType: "Event Production",
       },
       {
         "@type": "ImageObject",
@@ -329,7 +283,7 @@ function StructuredData() {
         description:
           "Sahneva’nın sahne, podyum, LED ekran ve ses-ışık sistemleriyle gerçekleştirdiği kurulum ve etkinliklerden kısa bir özet.",
         thumbnailUrl: [
-          "https://img.youtube.com/vi/173gBurWSRQ/hqdefault.jpg"
+          "https://img.youtube.com/vi/173gBurWSRQ/hqdefault.jpg",
         ],
         uploadDate: "2024-01-01",
         duration: "PT1M30S",
@@ -347,8 +301,7 @@ function StructuredData() {
             name: "Sahne ve podyum kiralama fiyatları nasıl hesaplanıyor?",
             acceptedAnswer: {
               "@type": "Answer",
-              text:
-                "Sahne ve podyum kiralama fiyatları; kullanılacak alanın m² büyüklüğüne, yüksekliğe, kurulacağı zemine, etkinlik süresine ve şehre göre hesaplanır. Standart paketlerimiz dışında, etkinliğinize özel keşif yaparak net fiyatlandırma sunuyoruz.",
+              text: "Sahne ve podyum kiralama fiyatları; kullanılacak alanın m² büyüklüğüne, yüksekliğe, kurulacağı zemine, etkinlik süresine ve şehre göre hesaplanır. Standart paketlerimiz dışında, etkinliğinize özel keşif yaparak net fiyatlandırma sunuyoruz.",
             },
           },
           {
@@ -356,8 +309,7 @@ function StructuredData() {
             name: "LED ekran kiralama fiyatına neler dahil?",
             acceptedAnswer: {
               "@type": "Answer",
-              text:
-                "LED ekran kiralama fiyatına; LED paneller, taşıyıcı konstrüksiyon, görüntü işlemci, gerekli kablolama, kurulum-söküm ve teknik operasyon desteği dahildir. Gerektiğinde jeneratör ve yayın ekipmanları opsiyonel olarak eklenebilir.",
+              text: "LED ekran kiralama fiyatına; LED paneller, taşıyıcı konstrüksiyon, görüntü işlemci, gerekli kablolama, kurulum-söküm ve teknik operasyon desteği dahildir. Gerektiğinde jeneratör ve yayın ekipmanları opsiyonel olarak eklenebilir.",
             },
           },
           {
@@ -365,8 +317,7 @@ function StructuredData() {
             name: "İstanbul dışındaki şehirlere de hizmet veriyor musunuz?",
             acceptedAnswer: {
               "@type": "Answer",
-              text:
-                "Evet. İstanbul merkezli olmamıza rağmen Türkiye genelinde 81 ile hizmet veriyoruz. Lojistik, konaklama ve yol maliyetleri etkinlik şehrine göre tekliflendirilir.",
+              text: "Evet. İstanbul merkezli olmamıza rağmen Türkiye genelinde 81 ile hizmet veriyoruz. Lojistik, konaklama ve yol maliyetleri etkinlik şehrine göre tekliflendirilir.",
             },
           },
           {
@@ -374,8 +325,7 @@ function StructuredData() {
             name: "Kurulum ne kadar sürüyor?",
             acceptedAnswer: {
               "@type": "Answer",
-              text:
-                "Kurulum süresi sahne/LED ekran ve ses-ışık altyapısının büyüklüğüne göre değişmekle birlikte çoğu kurulumumuz 2–6 saat arasında tamamlanır. Büyük konser ve miting sahnelerinde bu süre 1 güne kadar uzayabilir.",
+              text: "Kurulum süresi sahne/LED ekran ve ses-ışık altyapısının büyüklüğüne göre değişmekle birlikte çoğu kurulumumuz 2–6 saat arasında tamamlanır. Büyük konser ve miting sahnelerinde bu süre 1 güne kadar uzayabilir.",
             },
           },
           {
@@ -383,8 +333,7 @@ function StructuredData() {
             name: "Tek günlük veya kısa süreli etkinlikler için kiralama yapabilir miyim?",
             acceptedAnswer: {
               "@type": "Answer",
-              text:
-                "Evet, tek günlük, birkaç saatlik veya çok günlü etkinlikler için esnek kiralama seçenekleri sunuyoruz. Minimum kiralama süresi ve fiyatlandırma, kurulum yapılacak ekipmana göre değişir.",
+              text: "Evet, tek günlük, birkaç saatlik veya çok günlü etkinlikler için esnek kiralama seçenekleri sunuyoruz. Minimum kiralama süresi ve fiyatlandırma, kurulum yapılacak ekipmana göre değişir.",
             },
           },
           {
@@ -392,8 +341,7 @@ function StructuredData() {
             name: "Teklif süreci nasıl işliyor?",
             acceptedAnswer: {
               "@type": "Answer",
-              text:
-                "Web sitemiz, telefon veya WhatsApp üzerinden bize ulaştıktan sonra etkinlik detaylarınızı alıyor, gerekirse keşif yapıyor ve maksimum 2 saat içinde size net, kalem kalem açıklanmış bir teklif iletiyoruz.",
+              text: "Web sitemiz, telefon veya WhatsApp üzerinden bize ulaştıktan sonra etkinlik detaylarınızı alıyor, gerekirse keşif yapıyor ve maksimum 2 saat içinde size net, kalem kalem açıklanmış bir teklif iletiyoruz.",
             },
           },
           {
@@ -401,8 +349,7 @@ function StructuredData() {
             name: "Ses-ışık sistemi için keşif yapıyor musunuz?",
             acceptedAnswer: {
               "@type": "Answer",
-              text:
-                "Büyük ölçekli etkinlikler, açık alan konserleri ve kurumsal lansmanlarda alanın akustiğini ve seyirci kapasitesini doğru hesaplamak için ücretsiz veya düşük maliyetli keşif hizmeti sunuyoruz.",
+              text: "Büyük ölçekli etkinlikler, açık alan konserleri ve kurumsal lansmanlarda alanın akustiğini ve seyirci kapasitesini doğru hesaplamak için ücretsiz veya düşük maliyetli keşif hizmeti sunuyoruz.",
             },
           },
           {
@@ -410,8 +357,7 @@ function StructuredData() {
             name: "Teknik ekip etkinlik boyunca sahada kalıyor mu?",
             acceptedAnswer: {
               "@type": "Answer",
-              text:
-                "Evet. LED ekran operatörü, ses mühendisi, ışıkçı ve sahne teknisyenlerinden oluşan ekibimiz, etkinlik boyunca sahada kalarak tüm teknik süreci yönetir ve olası problemlere anında müdahale eder.",
+              text: "Evet. LED ekran operatörü, ses mühendisi, ışıkçı ve sahne teknisyenlerinden oluşan ekibimiz, etkinlik boyunca sahada kalarak tüm teknik süreci yönetir ve olası problemlere anında müdahale eder.",
             },
           },
         ],
@@ -431,6 +377,7 @@ function StructuredData() {
 // —————————————————————————————————————————
 // PARÇALI BİLEŞENLER
 // —————————————————————————————————————————
+
 function SectionHeader({
   id,
   title,
@@ -470,11 +417,11 @@ function SectionHeader({
 
 function KeywordPills() {
   return (
-    <div className="flex flex-wrap justify-center gap-2 mb-8 max-w-4xl mx-auto">
+    <div className="flex flex-wrap justify-center gap-2 mt-4 mb-6 max-w-4xl mx-auto">
       {HERO_KEYWORDS.map(({ text, gradient }) => (
         <span
           key={text}
-          className={`text-lg md:text-xl font-bold px-3 py-1 ${gradient} bg-white/10 rounded-lg backdrop-blur-sm border border-white/5`}
+          className={`text-sm md:text-base font-semibold px-3 py-1 ${gradient} bg-black/40 rounded-lg border border-white/10`}
         >
           {text}
         </span>
@@ -489,18 +436,19 @@ function CTAButton({
   icon,
   gradient = "from-blue-600 to-purple-600",
   srHint,
+  ariaLabel,
   ...rest
 }) {
   return (
     <a
       href={href}
       className={`${CTA_BASE_CLASS} bg-gradient-to-r ${gradient}`}
+      aria-label={ariaLabel || (srHint ? `${label} ${srHint}` : label)}
       {...rest}
     >
       <span className="relative z-10 flex items-center justify-center gap-2">
         <span aria-hidden="true">{icon}</span> {label}
       </span>
-      {srHint ? <span className="sr-only">{srHint}</span> : null}
       <div className={CTA_OVERLAY_CLASS} aria-hidden="true" />
     </a>
   );
@@ -508,48 +456,41 @@ function CTAButton({
 
 function CTAGroup() {
   return (
-    <div className="flex flex-col sm:flex-row justify-center items-center gap-3 md:gap-4 mb-12">
-      {CTA_BUTTONS.map(
-        ({ srHint, gradient = "from-blue-600 to-purple-600", ...cta }) => (
-          <CTAButton
-            key={cta.href}
-            gradient={gradient}
-            srHint={srHint}
-            {...cta}
-          />
-        )
-      )}
+    <div className="mt-6 flex flex-col sm:flex-row justify-center items-center gap-3">
+      {CTA_BUTTONS.map(({ srHint, gradient, ariaLabel, ...cta }) => (
+        <CTAButton
+          key={cta.href}
+          gradient={gradient}
+          srHint={srHint}
+          ariaLabel={ariaLabel}
+          {...cta}
+        />
+      ))}
     </div>
   );
 }
 
 function HeroFeatureGrid() {
   return (
-    <ul className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12 list-none p-0 m-0">
-      {HERO_FEATURES.map((item, index) => (
-        <ScrollReveal
-          asChild
-          key={item.title}
-          delay={String(index + 1)}
-          direction="scale"
-        >
-          <li className="m-0 p-0">
-            <div className="group bg-slate-900/60 backdrop-blur-lg rounded-xl p-4 border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-105">
-              <div
-                className={`text-2xl mb-2 ${item.color}`}
-                aria-hidden="true"
-              >
-                {item.icon}
-              </div>
-              <div className="text-white font-bold text-base mb-1">
-                {item.title}
-              </div>
-              <div className="text-gray-200 text-xs">
-                {item.description}
-              </div>
+    <ul
+      className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto list-none p-0 m-0"
+      role="list"
+    >
+      {HERO_FEATURES.map((item) => (
+        <li key={item.title} className="m-0 p-0">
+          <div className="group bg-slate-900/80 rounded-xl p-4 border border-white/10">
+            <div
+              className={`text-2xl mb-2 ${item.color}`}
+              aria-hidden="true"
+            >
+              {item.icon}
             </div>
-          </li>
-        </ScrollReveal>
+            <div className="text-white font-bold text-base mb-1">
+              {item.title}
+            </div>
+            <div className="text-gray-200 text-xs">{item.description}</div>
+          </div>
+        </li>
       ))}
     </ul>
   );
@@ -557,7 +498,7 @@ function HeroFeatureGrid() {
 
 function ConsultationCard() {
   return (
-    <div className="bg-gradient-to-r from-blue-700/90 to-purple-700/90 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-white/20 shadow-xl max-w-4xl mx-auto">
+    <div className="bg-gradient-to-r from-blue-700/90 to-purple-700/90 rounded-2xl p-6 md:p-8 border border-white/20 max-w-4xl mx-auto">
       <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
         <div className="flex-shrink-0">
           <div
@@ -584,7 +525,8 @@ function ConsultationCard() {
         <div className="flex-shrink-0">
           <a
             href="#teklif-al"
-            className="bg-white text-blue-800 hover:bg-gray-100 font-bold px-5 py-2 rounded-lg transition-all duration-300 hover:scale-105 shadow-lg text-sm focus-ring"
+            className="bg-white text-blue-800 hover:bg-gray-100 font-bold px-5 py-2 rounded-lg transition-colors text-sm focus-ring min-h-[44px] flex items-center justify-center"
+            aria-label="Ücretsiz danışmanlık ve teklif almak için aşağı kaydır"
           >
             Hemen Teklif Al
           </a>
@@ -594,120 +536,71 @@ function ConsultationCard() {
   );
 }
 
-// —————————————————————————————————————————
-// HERO BACKGROUND IMAGE
-// —————————————————————————————————————————
-function HeroBackgroundImage({
-  alt = HERO_IMAGE_ALT,
-  ariaHidden = false,
-}) {
+function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
   return (
     <Image
-      alt={ariaHidden ? "" : alt}
       src={heroImg}
+      alt={ariaHidden ? "" : alt}
       fill
       sizes="100vw"
       priority
       fetchPriority="high"
-      placeholder="blur"
-      quality={70}
-      className="absolute inset-0 h-full w-full object-cover object-center"
-      style={HERO_IMAGE_STYLE}
+      placeholder="empty"      // blur kaldırıldı – LCP hızlanır
+      quality={50}             // LCP için ideal kalite
+      loading="eager"          // Mutlaka hemen yükle
+      decoding="sync"          // LCP için en hızlı yöntem
+      className="absolute inset-0 w-full h-full object-cover object-center"
       aria-hidden={ariaHidden}
     />
   );
 }
-
 // —————————————————————————————————————————
 // SAYFA
 // —————————————————————————————————————————
+
 export default function HomePage() {
   return (
-    <div className="overflow-x-hidden">
+    <>
       <StructuredData />
 
-      {/* HERO SECTION */}
+      {/* HERO – Sade, LCP odaklı */}
       <section
-        className="relative pt-16 lg:pt-20 min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950"
+        className="relative min-h-[75vh] flex items-center justify-center overflow-hidden bg-black"
         aria-labelledby="hero-title"
       >
-        {/* Arka plan görseli (dekoratif) */}
+        {/* LCP görseli */}
         <div className="absolute inset-0" aria-hidden="true">
           <HeroBackgroundImage ariaHidden />
+          {/* Tek katmanlı hafif overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/70" />
         </div>
 
-        {/* Overlay katmanları */}
-        <div
-          className="absolute inset-0 bg-gradient-to-br from-slate-950/90 via-blue-950/80 to-purple-950/80"
-          aria-hidden="true"
-        />
-        <div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse motion-reduce:animate-none"
-          style={HERO_OVERLAY_ANIMATION_STYLE}
-          aria-hidden="true"
-        />
-
         {/* İçerik */}
-        <div className="relative z-10 container py-12 md:py-16">
-          <div className="max-w-6xl mx-auto text-center mb-10">
-            <ScrollReveal asChild>
-              <div className="inline-flex items-center gap-3 bg-slate-900/60 backdrop-blur-md rounded-full px-6 py-3 border border-white/20 mb-6">
-                <span
-                  className="w-2 h-2 bg-green-400 rounded-full animate-pulse motion-reduce:animate-none"
-                  aria-hidden="true"
-                />
-                <span className="text-white text-sm font-medium">
-                  Türkiye Geneli Profesyonel Hizmet
-                </span>
-              </div>
-            </ScrollReveal>
+        <div className="relative z-10 container py-10">
+          <div className="max-w-3xl mx-auto text-center">
+            <p className="inline-flex items-center gap-3 bg-black/50 rounded-full px-4 py-2 border border-white/10 text-xs md:text-sm text-slate-100">
+              <span className="w-2 h-2 bg-green-400 rounded-full" aria-hidden="true" />
+              Türkiye Geneli Profesyonel Hizmet
+            </p>
 
-            {/* Başlık */}
-            <ScrollReveal delay="1" asChild>
-              <h1
-                id="hero-title"
-                className="text-white text-3xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight tracking-tight drop-shadow-md"
-              >
-                <span className="block mb-2">Profesyonel</span>
-                <span
-                  className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-purple-700 to-cyan-600 bg-[length:300%_100%] animate-[gradient_8s_ease_infinite] motion-reduce:animate-none"
-                  aria-hidden="true"
-                >
-                  Sahne Sistemleri
-                </span>
-                <span className="sr-only">Sahne Sistemleri</span>
-              </h1>
-            </ScrollReveal>
+            <h1
+              id="hero-title"
+              className="mt-4 text-white text-3xl md:text-5xl lg:text-6xl font-black leading-tight"
+            >
+              Profesyonel{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400">
+                Sahne Sistemleri
+              </span>
+            </h1>
 
-            <ScrollReveal delay="2">
-              <>
-                <KeywordPills />
-                <p className="text-slate-100 text-base md:text-lg mb-8 max-w-3xl mx-auto drop-shadow-sm font-medium">
-                  500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli
-                  hızlı kurulum ile yanınızdayız
-                </p>
-              </>
-            </ScrollReveal>
+            <KeywordPills />
 
-            {/* CTA Butonları */}
-            <ScrollReveal delay="3">
-              <CTAGroup />
-            </ScrollReveal>
+            <p className="text-slate-100 text-sm md:text-lg mt-2 md:mt-4 max-w-xl mx-auto">
+              500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli hızlı
+              kurulum ile etkinliğinizde yanınızdayız.
+            </p>
 
-            {/* Öne çıkanlar */}
-            <ScrollReveal delay="4">
-              <section aria-labelledby="hero-features-heading">
-                <h2 id="hero-features-heading" className="sr-only">
-                  Öne çıkan özellikler
-                </h2>
-                <HeroFeatureGrid />
-              </section>
-            </ScrollReveal>
-
-            {/* Danışmanlık kutusu */}
-            <ScrollReveal delay="5">
-              <ConsultationCard />
-            </ScrollReveal>
+            <CTAGroup />
           </div>
         </div>
 
@@ -724,275 +617,273 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Ana içerik başlangıcı */}
-      <div id="main" className="relative">
-        {/* #teklif-al hedefi */}
-        <div id="teklif-al" className="sr-only" aria-hidden="true" />
+      {/* Hero altı: feature + danışmanlık (artık LCP dışında) */}
+      <section className="py-10 bg-gradient-to-b from-slate-950 to-slate-900">
+        <div className="container space-y-8">
+          <HeroFeatureGrid />
+          <ConsultationCard />
+        </div>
+      </section>
 
-        {/* Google review banner – deferred */}
-        <ReviewBannerDeferred idleTimeout={2000} rootMargin="0px" />
+      {/* #teklif-al hedefi */}
+      <div id="teklif-al" className="sr-only" />
 
-        {/* Hizmetler */}
-        <section
-          className="relative py-12 bg-gradient-to-b from-white to-neutral-50/80"
-          aria-labelledby="hizmetler-title"
-          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
-        >
-          <div
-            className="absolute inset-0 bg-[linear-gradient(#e5e7eb_1px,transparent_1px),linear-gradient(90deg,#e5e7eb_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:radial-gradient(ellipse_at_center,transparent_20%,white)]"
-            aria-hidden="true"
-          />
-          <div className="container relative z-10">
-            <ScrollReveal>
+      {/* Google review banner – deferred */}
+      <ReviewBannerDeferred idleTimeout={2000} rootMargin="0px" />
+
+      {/* Hizmetler */}
+      <section
+        className="relative py-12 bg-gradient-to-b from-white to-neutral-50/80"
+        aria-labelledby="hizmetler-title"
+        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+      >
+        <div
+          className="absolute inset-0 bg-[linear-gradient(#e5e7eb_1px,transparent_1px),linear-gradient(90deg,#e5e7eb_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:radial-gradient(ellipse_at_center,transparent_20%,white)]"
+          aria-hidden="true"
+        />
+        <div className="relative z-10 space-y-8">
+          <div className="container">
+            
               <SectionHeader
                 id="hizmetler-title"
                 title="Profesyonel "
                 highlight="Hizmetlerimiz"
                 description="Türkiye geneli sahne, podyum, LED ekran kiralama ve ses-ışık sistemleri kurulumu"
               />
-            </ScrollReveal>
+            
+          </div>
+
+          <div className="-mx-4 sm:-mx-6 lg:-mx-8 xl:-mx-12 px-4 sm:px-6 lg:px-8 xl:px-12">
             <ServicesTabsDeferred idleTimeout={2800} rootMargin="320px" />
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Projeler */}
-        <section
-          className="py-12 bg-gradient-to-br from-neutral-900 to-blue-900/95"
-          aria-labelledby="projeler-title"
-          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
-        >
-          <div className="container">
-            <ScrollReveal>
-              <SectionHeader
-                id="projeler-title"
-                title="Başarılı "
-                highlight="Projelerimiz"
-                description="500'den fazla kurumsal etkinlik, konser, fuar ve özel organizasyonda güvenilir çözüm ortağı"
-                theme="dark"
-              />
-            </ScrollReveal>
-            <ProjectsGalleryDeferred idleTimeout={3200} rootMargin="360px" />
-          </div>
-        </section>
+      {/* Projeler */}
+      <section
+        className="py-12 bg-gradient-to-br from-neutral-900 to-blue-900/95"
+        aria-labelledby="projeler-title"
+        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+      >
+        <div className="container">
+          
+            <SectionHeader
+              id="projeler-title"
+              title="Başarılı "
+              highlight="Projelerimiz"
+              description="500'den fazla kurumsal etkinlik, konser, fuar ve özel organizasyonda güvenilir çözüm ortağı"
+              theme="dark"
+            />
+          
+          <ProjectsGalleryDeferred idleTimeout={3200} rootMargin="360px" />
+        </div>
+      </section>
 
-        {/* Kurumsal Organizasyon */}
-        <section
-          className="py-12 bg-white"
-          aria-labelledby="kurumsal-title"
-          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
-        >
-          <div className="container">
-            <ScrollReveal>
-              <SectionHeader
-                id="kurumsal-title"
-                title="Kurumsal "
-                highlight="Organizasyon Çözümlerimiz"
-                description="Lansman, konferans, bayi toplantısı ve kurumsal etkinlikleriniz için sahne, podyum, LED ekran, ses–ışık ve teknik operasyonu tek çatı altında sunuyoruz."
-              />
-            </ScrollReveal>
-            <CorporateEvents />
-          </div>
-        </section>
+      {/* Kurumsal Organizasyon */}
+      <section
+        className="py-12 bg-white"
+        aria-labelledby="kurumsal-title"
+        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+      >
+        <div className="container">
+          
+            <SectionHeader
+              id="kurumsal-title"
+              title="Kurumsal "
+              highlight="Organizasyon Çözümlerimiz"
+              description="Lansman, konferans, bayi toplantısı ve kurumsal etkinlikleriniz için sahne, podyum, LED ekran, ses–ışık ve teknik operasyonu tek çatı altında sunuyoruz."
+            />
+          
+          <CorporateEvents />
+        </div>
+      </section>
 
-        {/* Neden Sahneva? */}
-        <section
-          className="py-12 bg-gradient-to-br from-blue-50/80 to-purple-50/60"
-          aria-labelledby="neden-tercih-heading"
-          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
-        >
-          <div className="container">
-            <ScrollReveal>
-              <SectionHeader
-                id="neden-tercih-heading"
-                title="Neden "
-                highlight="Sahneva"
-                afterText="'yı Tercih Etmelisiniz?"
-                description="10 yılı aşkın deneyimimiz, uzman ekibimiz ve kaliteli ekipmanlarımızla fark yaratıyoruz"
-              />
-            </ScrollReveal>
+      {/* Neden Sahneva? */}
+      <section
+        className="py-12 bg-gradient-to-br from-blue-50/80 to-purple-50/60"
+        aria-labelledby="neden-tercih-heading"
+        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+      >
+        <div className="container">
+          
+            <SectionHeader
+              id="neden-tercih-heading"
+              title="Neden "
+              highlight="Sahneva"
+              afterText="'yı Tercih Etmelisiniz?"
+              description="10 yılı aşkın deneyimimiz, uzman ekibimiz ve kaliteli ekipmanlarımızla fark yaratıyoruz"
+            />
+          
 
-            <ScrollRevealGroup>
-              <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 list-none p-0 m-0">
-                {WHY_SAHNEVA_FEATURES.map(
-                  ({ icon, title, desc, stat }, i) => (
-                    <li key={i} className="m-0 p-0">
-                      <ScrollReveal
-                        asChild
-                        delay={String(i % 3)}
-                        direction="scale"
+          
+            <ul
+              className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 list-none p-0 m-0"
+              role="list"
+            >
+              {WHY_SAHNEVA_FEATURES.map(
+                ({ icon, title, desc, stat }, i) => (
+                  <li key={i} className="m-0 p-0">
+                    
+                      <div className="absolute top-3 right-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                        {stat}
+                      </div>
+                      <div
+                        className="text-3xl mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text"
+                        aria-hidden="true"
                       >
-                        <article
-                          className="group relative bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 p-6 border border-neutral-100 hover:border-blue-200/70 hover:scale-105"
-                          aria-labelledby={`why-card-${i}-title`}
-                        >
-                          <div className="absolute top-3 right-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                            {stat}
-                          </div>
-                          <div
-                            className="text-3xl mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text"
-                            aria-hidden="true"
-                          >
-                            {icon}
-                          </div>
-                          <h3
-                            id={`why-card-${i}-title`}
-                            className="font-black text-lg mb-3 text-neutral-900 group-hover:text-blue-600 transition-colors"
-                          >
-                            {title}
-                          </h3>
-                          <p className="text-neutral-700 leading-relaxed text-sm">
-                            {desc}
-                          </p>
-                        </article>
-                      </ScrollReveal>
-                    </li>
-                  )
-                )}
-              </ul>
-            </ScrollRevealGroup>
-          </div>
-        </section>
+                        {icon}
+                      </div>
+                      <h3
+                        id={`why-card-${i}-title`}
+                        className="font-black text-lg mb-3 text-neutral-900 group-hover:text-blue-600 transition-colors"
+                      >
+                        {title}
+                      </h3>
+                      <p className="text-neutral-700 leading-relaxed text-sm">
+                        {desc}
+                      </p>
+                    
+                  </li>
+                )
+              )}
+            </ul>
+          
+        </div>
+      </section>
 
-        {/* SEO metinleri */}
-        <section
-          className="py-12 bg-white"
-          aria-labelledby="seo-title"
-          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
-        >
-          <div className="container">
-            <ScrollReveal>
-              <SectionHeader
-                id="seo-title"
-                title="Türkiye'nin "
-                highlight="1 Numaralı"
-                afterText=" Etkinlik Teknoloji Partneri"
-                theme="light"
-              />
-            </ScrollReveal>
+      {/* SEO metinleri */}
+      <section
+        className="py-12 bg-white"
+        aria-labelledby="seo-title"
+        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+      >
+        <div className="container">
+          
+            <SectionHeader
+              id="seo-title"
+              title="Türkiye'nin "
+              highlight="1 Numaralı"
+              afterText=" Etkinlik Teknoloji Partneri"
+              theme="light"
+            />
+          
 
-            <div className="grid gap-6 lg:gap-8 lg:grid-cols-2">
-              {/* Sol blok */}
-              <ScrollReveal direction="left" asChild>
-                <article className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 shadow-lg border border-blue-100">
-                  <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
-                    <span
-                      className="bg-blue-500 text-white p-2 rounded-lg"
-                      aria-hidden="true"
+          <div className="grid gap-6 lg:gap-8 lg:grid-cols-2">
+            {/* Sol blok */}
+            
+              <article className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 shadow-lg border border-blue-100">
+                <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
+                  <span
+                    className="bg-blue-500 text-white p-2 rounded-lg"
+                    aria-hidden="true"
+                  >
+                    🚀
+                  </span>
+                  Uçtan Uca Teknik Hizmet ve Profesyonel Çözümler
+                </h3>
+                <div className="prose max-w-none text-neutral-700">
+                  <p className="text-base leading-relaxed">
+                    <strong>Sahneva</strong> olarak Türkiye genelinde{" "}
+                    <Link
+                      href="/sahne-kiralama"
+                      className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
                     >
-                      🚀
-                    </span>
-                    Uçtan Uca Teknik Hizmet ve Profesyonel Çözümler
-                  </h3>
-                  <div className="prose max-w-none text-neutral-700">
-                    <p className="text-base leading-relaxed">
-                      <strong>Sahneva</strong> olarak Türkiye genelinde{" "}
-                      <a
-                        href="/sahne-kiralama"
-                        className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
-                      >
-                        sahne kiralama
-                      </a>
-                      ,{" "}
-                      <a
-                        href="/podyum-kiralama"
-                        className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
-                      >
-                        podyum kurulumu
-                      </a>
-                      ,{" "}
-                      <a
-                        href="/led-ekran-kiralama"
-                        className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
-                      >
-                        LED ekran kiralama
-                      </a>{" "}
-                      ve{" "}
-                      <a
-                        href="/ses-isik-sistemleri"
-                        className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
-                      >
-                        ses ışık sistemi kurulumu
-                      </a>{" "}
-                      hizmetlerinde komple çözümler sunuyoruz.
-                    </p>
-                    <ul className="mt-4 space-y-2 text-neutral-700">
-                      {SEO_TECH_FEATURES.map((item, i) => (
-                        <li
-                          key={i}
-                          className="flex items-center gap-3"
-                        >
-                          <div
-                            className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"
-                            aria-hidden="true"
-                          />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </article>
-              </ScrollReveal>
-
-              {/* Sağ blok */}
-              <ScrollReveal direction="right" asChild>
-                <article className="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-6 shadow-lg border border-purple-100">
-                  <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
-                    <span
-                      className="bg-purple-500 text-white p-2 rounded-lg"
-                      aria-hidden="true"
+                      sahne kiralama
+                    </Link>
+                    ,{" "}
+                    <Link
+                      href="/podyum-kiralama"
+                      className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
                     >
-                      🎤
-                    </span>
-                    Büyük Ölçekli Etkinlikler İçin Güçlü Altyapı
-                  </h3>
-                  <div className="prose max-w-none text-neutral-700">
-                    <p className="text-base leading-relaxed">
-                      Konser, miting, festival, fuar ve açık hava etkinlikleri
-                      için yüksek kapasiteli ekipman altyapımızla hizmet
-                      veriyoruz. 50.000+ kişilik organizasyonlarda aktif rol
-                      alıyoruz.
-                    </p>
-                    <ul className="mt-4 space-y-2 text-neutral-700">
-                      {SEO_INFRA_FEATURES.map((item, i) => (
-                        <li
-                          key={i}
-                          className="flex items-center gap-3"
-                        >
-                          <div
-                            className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0"
-                            aria-hidden="true"
-                          />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </article>
-              </ScrollReveal>
-            </div>
-          </div>
-        </section>
+                      podyum kurulumu
+                    </Link>
+                    ,{" "}
+                    <Link
+                      href="/led-ekran-kiralama"
+                      className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
+                    >
+                      LED ekran kiralama
+                    </Link>{" "}
+                    ve{" "}
+                    <Link
+                      href="/ses-isik-sistemleri"
+                      className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
+                    >
+                      ses ışık sistemi kurulumu
+                    </Link>{" "}
+                    hizmetlerinde komple çözümler sunuyoruz.
+                  </p>
+                  <ul className="mt-4 space-y-2 text-neutral-700" role="list">
+                    {SEO_TECH_FEATURES.map((item, i) => (
+                      <li key={i} className="flex items-center gap-3">
+                        <div
+                          className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"
+                          aria-hidden="true"
+                        />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </article>
+            
 
-        {/* SSS */}
-        <section
-          className="py-12 bg-gradient-to-br from-neutral-900 to-blue-900/95"
-          aria-labelledby="sss-title"
-          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
-        >
-          <div className="container">
-            <ScrollReveal>
-              <SectionHeader
-                id="sss-title"
-                title="Sıkça "
-                highlight="Sorulan Sorular"
-                description="Sahne, LED ekran, ses-ışık sistemleri ve kurulum süreçleri hakkında merak ettikleriniz"
-                theme="dark"
-              />
-            </ScrollReveal>
-            <FaqDeferred idleTimeout={3600} rootMargin="400px" />
+            {/* Sağ blok */}
+            
+              <article className="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-6 shadow-lg border border-purple-100">
+                <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
+                  <span
+                    className="bg-purple-500 text-white p-2 rounded-lg"
+                    aria-hidden="true"
+                  >
+                    🎤
+                  </span>
+                  Büyük Ölçekli Etkinlikler İçin Güçlü Altyapı
+                </h3>
+                <div className="prose max-w-none text-neutral-700">
+                  <p className="text-base leading-relaxed">
+                    Konser, miting, festival, fuar ve açık hava etkinlikleri
+                    için yüksek kapasiteli ekipman altyapımızla hizmet
+                    veriyoruz. 50.000+ kişilik organizasyonlarda aktif rol
+                    alıyoruz.
+                  </p>
+                  <ul className="mt-4 space-y-2 text-neutral-700" role="list">
+                    {SEO_INFRA_FEATURES.map((item, i) => (
+                      <li key={i} className="flex items-center gap-3">
+                        <div
+                          className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0"
+                          aria-hidden="true"
+                        />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </article>
+            
           </div>
-        </section>
-      </div>
-    </div>
+        </div>
+      </section>
+
+      {/* SSS */}
+      <section
+        className="py-12 bg-gradient-to-br from-neutral-900 to-blue-900/95"
+        aria-labelledby="sss-title"
+        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+      >
+        <div className="container">
+          
+            <SectionHeader
+              id="sss-title"
+              title="Sıkça "
+              highlight="Sorulan Sorular"
+              description="Sahne, LED ekran, ses-ışık sistemleri ve kurulum süreçleri hakkında merak ettikleriniz"
+              theme="dark"
+            />
+          
+          <FaqDeferred idleTimeout={3600} rootMargin="400px" />
+        </div>
+      </section>
+    </>
   );
 }

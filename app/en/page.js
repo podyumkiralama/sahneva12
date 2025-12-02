@@ -8,7 +8,7 @@ import {
   ProjectsGalleryDeferred,
   FaqDeferred,
 } from "@/components/DeferredSections.client";
-import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
+
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 import { FAQ_ITEMS_EN } from "@/lib/faqData";
 
@@ -481,6 +481,7 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
     // while still keeping the hero image eagerly loaded on actual visits.
     fetchPriority: "high",
     placeholder: "blur",
+    loading: "eager",
     quality: 70,
     className: "absolute inset-0 h-full w-full object-cover object-center",
     style: {
@@ -519,7 +520,7 @@ export default function EnglishHomePage() {
 
         <div className="relative z-10 container py-12 md:py-16">
           <div className="max-w-6xl mx-auto text-center mb-10">
-            <ScrollReveal>
+            
               <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20 mb-6">
                 <span
                   className="w-2 h-2 bg-green-400 rounded-full animate-pulse motion-reduce:animate-none"
@@ -527,9 +528,9 @@ export default function EnglishHomePage() {
                 />
                 <span className="text-white/90 text-sm font-medium">Nationwide technical production partner</span>
               </div>
-            </ScrollReveal>
+            
 
-            <ScrollReveal delay="1">
+            
               <h1
                 id="hero-title"
                 className="text-white text-3xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight tracking-tight"
@@ -542,15 +543,15 @@ export default function EnglishHomePage() {
                   anywhere in Türkiye
                 </span>
               </h1>
-            </ScrollReveal>
+            
 
-            <ScrollReveal delay="2">
+            
               <p className="text-white/80 text-base md:text-lg mb-8 max-w-3xl mx-auto">
                 {home.hero.subtitle}
               </p>
-            </ScrollReveal>
+            
 
-            <ScrollReveal delay="3">
+            
               <div className="flex flex-col sm:flex-row justify-center items-center gap-3 md:gap-4 mb-12">
                 <a
                   href="tel:+905453048671"
@@ -575,14 +576,14 @@ export default function EnglishHomePage() {
                   <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true" />
                 </a>
               </div>
-            </ScrollReveal>
+            
 
-            <ScrollReveal delay="4">
+            
               <h2 className="sr-only">Key highlights</h2>
               <ul className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12 list-none p-0 m-0">
                 {HERO_FEATURES.map((item, index) => (
                   <li key={item.title} className="m-0 p-0">
-                    <ScrollReveal delay={String(index + 1)} direction="scale">
+                    
                       <div className="group bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20 hover:border-white/40 transition-all duration-500 hover:scale-105 hover:bg-white/15">
                         <div className={`text-2xl mb-2 bg-gradient-to-r ${item.color} text-transparent bg-clip-text`} aria-hidden="true">
                           {item.icon}
@@ -590,13 +591,13 @@ export default function EnglishHomePage() {
                         <div className="text-white font-bold text-base mb-1">{item.title}</div>
                         <div className="text-white/70 text-xs">{item.description}</div>
                       </div>
-                    </ScrollReveal>
+                    
                   </li>
                 ))}
               </ul>
-            </ScrollReveal>
+            
 
-            <ScrollReveal delay="5">
+            
               <div className="bg-gradient-to-r from-blue-600/90 to-purple-600/90 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-white/20 shadow-xl max-w-4xl mx-auto">
                 <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
                   <div className="flex-shrink-0">
@@ -620,7 +621,7 @@ export default function EnglishHomePage() {
                   </div>
                 </div>
               </div>
-            </ScrollReveal>
+            
           </div>
         </div>
 
@@ -659,24 +660,29 @@ export default function EnglishHomePage() {
             className="absolute inset-0 bg-[linear-gradient(#e5e7eb_1px,transparent_1px),linear-gradient(90deg,#e5e7eb_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:radial-gradient(ellipse_at_center,transparent_20%,white)]"
             aria-hidden="true"
           />
-          <div className="container relative z-10">
-            <ScrollReveal>
-              <div className="text-center mb-12">
-                <h2 id="services-title" className="text-3xl md:text-4xl font-black text-neutral-900 mb-4">
-                  Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">event services</span>
-                </h2>
-                <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
-                  Turnkey stage, LED wall, sound, lighting and tent solutions available across Türkiye
-                </p>
-              </div>
-            </ScrollReveal>
-            <ServicesTabsDeferred
-              servicesData={SERVICES_EN}
-              dictionary={SERVICES_DICTIONARY_EN}
-              idleTimeout={2800}
-              rootMargin="320px"
-              loadingSrLabel="Loading service tabs"
-            />
+          <div className="relative z-10 space-y-8">
+            <div className="container">
+              
+                <div className="text-center mb-12">
+                  <h2 id="services-title" className="text-3xl md:text-4xl font-black text-neutral-900 mb-4">
+                    Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">event services</span>
+                  </h2>
+                  <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
+                    Turnkey stage, LED wall, sound, lighting and tent solutions available across Türkiye
+                  </p>
+                </div>
+              
+            </div>
+
+            <div className="-mx-4 sm:-mx-6 lg:-mx-8 xl:-mx-12 px-4 sm:px-6 lg:px-8 xl:px-12">
+              <ServicesTabsDeferred
+                servicesData={SERVICES_EN}
+                dictionary={SERVICES_DICTIONARY_EN}
+                idleTimeout={2800}
+                rootMargin="320px"
+                loadingSrLabel="Loading service tabs"
+              />
+            </div>
           </div>
         </section>
 
@@ -686,7 +692,7 @@ export default function EnglishHomePage() {
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container">
-            <ScrollReveal>
+            
               <div className="text-center mb-12">
                 <h2 id="projects-title" className="text-3xl md:text-4xl font-black text-white mb-4">
                   Recent <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">projects</span>
@@ -695,7 +701,7 @@ export default function EnglishHomePage() {
                   Corporate launches, open-air concerts, government events and branded experiences delivered turnkey by Sahneva
                 </p>
               </div>
-            </ScrollReveal>
+            
             <ProjectsGalleryDeferred
               galleries={PROJECT_GALLERIES_EN}
               dictionary={PROJECTS_DICTIONARY_EN}
@@ -712,7 +718,7 @@ export default function EnglishHomePage() {
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container">
-            <ScrollReveal>
+            
               <div className="text-center mb-12">
                 <h2 id="corporate-title" className="text-3xl md:text-4xl font-black text-neutral-900 mb-4">
                   Corporate <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">event solutions</span>
@@ -721,7 +727,7 @@ export default function EnglishHomePage() {
                   From executive summits to dealer conventions, we coordinate stage design, media production and technical crews end-to-end
                 </p>
               </div>
-            </ScrollReveal>
+            
             <CorporateEvents
               cards={CORPORATE_EVENTS_CARDS_EN}
               advantages={CORPORATE_EVENTS_ADVANTAGES_EN}
@@ -736,7 +742,7 @@ export default function EnglishHomePage() {
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container">
-            <ScrollReveal>
+            
               <div className="text-center mb-12">
                 <h2 id="why-heading" className="text-3xl md:text-4xl font-black text-neutral-900 mb-6">
                   Why choose <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Sahneva</span>
@@ -745,13 +751,13 @@ export default function EnglishHomePage() {
                   Over a decade of experience, premium equipment and detail-obsessed technical teams at your service
                 </p>
               </div>
-            </ScrollReveal>
+            
 
-            <ScrollRevealGroup>
+            
               <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 list-none p-0 m-0">
                 {WHY_SAHNEVA_FEATURES.map(({ icon, title, desc, stat }, i) => (
                   <li key={title} className="m-0 p-0">
-                    <ScrollReveal delay={String(i % 3)} direction="scale">
+                    
                       <article
                         className="group relative bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 p-6 border border-neutral-100 hover:border-blue-200/70 hover:scale-105"
                         aria-labelledby={`why-card-${i}-title`}
@@ -767,11 +773,11 @@ export default function EnglishHomePage() {
                         </h3>
                         <p className="text-neutral-700 leading-relaxed text-sm">{desc}</p>
                       </article>
-                    </ScrollReveal>
+                    
                   </li>
                 ))}
               </ul>
-            </ScrollRevealGroup>
+            
           </div>
         </section>
 
@@ -781,14 +787,14 @@ export default function EnglishHomePage() {
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container">
-            <ScrollReveal>
+            
               <h2 id="seo-title" className="text-3xl md:text-4xl font-black text-center mb-12 text-neutral-900">
                 Türkiye's <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">leading</span> event technology partner
               </h2>
-            </ScrollReveal>
+            
 
             <div className="grid gap-6 lg:gap-8 lg:grid-cols-2">
-              <ScrollReveal direction="left">
+              
                 <article className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 shadow-lg border border-blue-100">
                   <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
                     <span className="bg-blue-500 text-white p-2 rounded-lg" aria-hidden="true">🚀</span>
@@ -834,9 +840,9 @@ export default function EnglishHomePage() {
                     </ul>
                   </div>
                 </article>
-              </ScrollReveal>
+              
 
-              <ScrollReveal direction="right">
+              
                 <article className="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-6 shadow-lg border border-purple-100">
                   <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
                     <span className="bg-purple-500 text-white p-2 rounded-lg" aria-hidden="true">🎤</span>
@@ -861,7 +867,7 @@ export default function EnglishHomePage() {
                     </ul>
                   </div>
                 </article>
-              </ScrollReveal>
+              
             </div>
           </div>
         </section>
@@ -872,7 +878,7 @@ export default function EnglishHomePage() {
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container">
-            <ScrollReveal>
+            
               <div className="text-center mb-12">
                 <h2 id="faq-title" className="text-3xl md:text-4xl font-black text-white mb-4">
                   Frequently <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">asked questions</span>
@@ -881,7 +887,7 @@ export default function EnglishHomePage() {
                   Answers about pricing, logistics, installation times and crew support for stage, LED and AV services
                 </p>
               </div>
-            </ScrollReveal>
+            
             <FaqDeferred
               items={FAQ_ITEMS_EN}
               dictionary={FAQ_DICTIONARY_EN}

@@ -1,9 +1,9 @@
+// components/ServicesTabs.js
 "use client";
 
 import { useRef, useState, useCallback, useMemo, memo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
 
 const DEFAULT_SERVICES = [
   {
@@ -182,17 +182,18 @@ function ServicesTabsComponent({
     () => mergeDictionary(DEFAULT_DICTIONARY, dictionaryOverride),
     [dictionaryOverride]
   );
-
+  
+  // Hata Düzeltme: Opsiyonel Zincirleme (?) ile güvenli erişim
   const imageAltTemplate = useMemo(
-    () => dictionary.imageAlt ?? DEFAULT_DICTIONARY.imageAlt,
+    () => dictionary?.imageAlt ?? DEFAULT_DICTIONARY.imageAlt,
     [dictionary]
   );
   const overlayButtonTitleTemplate = useMemo(
-    () => dictionary.overlayButtonTitle ?? DEFAULT_DICTIONARY.overlayButtonTitle,
+    () => dictionary?.overlayButtonTitle ?? DEFAULT_DICTIONARY.overlayButtonTitle,
     [dictionary]
   );
   const overlayButtonAriaTemplate = useMemo(
-    () => dictionary.overlayButtonAria ?? DEFAULT_DICTIONARY.overlayButtonAria,
+    () => dictionary?.overlayButtonAria ?? DEFAULT_DICTIONARY.overlayButtonAria,
     [dictionary]
   );
 
@@ -204,6 +205,9 @@ function ServicesTabsComponent({
     () => services.find((s) => s.id === activeTab) ?? services[0],
     [activeTab, services]
   );
+  
+  // Performans: İlk servisin ID'si (LCP/Eager loading için)
+  const initialServiceId = useMemo(() => services[0]?.id, [services]);
 
   const handleImageError = useCallback((serviceId) => {
     setImageErrors((prev) => ({ ...prev, [serviceId]: true }));
@@ -226,16 +230,7 @@ function ServicesTabsComponent({
     [imageErrors]
   );
 
-  const tabClickHandlers = useMemo(
-    () =>
-      services.reduce((acc, service) => {
-        acc[service.id] = () => setActiveTab(service.id);
-        return acc;
-      }, {}),
-    [services]
-  );
-
-  // Klavye ile sekmeler arasında gezinme (ArrowLeft/Right, Home/End)
+  // Klavye ile sekmeler arasında gezinme (Aynı kalır, zaten iyi optimize edilmiş)
   const onKeyDownTabs = useCallback((e) => {
     if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) return;
     e.preventDefault();
@@ -269,44 +264,51 @@ function ServicesTabsComponent({
   return (
     <div className="w-full">
       {/* TAB BUTONLARI */}
-      <ScrollReveal asChild>
-        <div className="relative mb-12">
+      
+        {/* mb-8 ile panel ile arasında standart bir boşluk bıraktık */}
+        <div className="relative mb-8"> 
+          
+          {/* 1. Kaydırma Görüntü Alanı (Viewport): Tarayıcı uyumluluğu için -mx-4 burada */}
           <div
             ref={listRef}
-            className="flex overflow-x-auto pb-4 gap-2 scrollbar-hide -mx-4 px-4"
+            // Düzeltme: Kaydırma ve negatif marjı bu katmana ayırdık.
+            className="overflow-x-auto scrollbar-hide -mx-4" 
             role="tablist"
             aria-label={dictionary.tablistLabel}
             onKeyDown={onKeyDownTabs}
           >
-            {services.map((service, index) => (
-              <ScrollReveal asChild key={service.id} delay={String(index)}>
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={activeTab === service.id}
-                  aria-controls={`panel-${service.id}`}
-                  id={`tab-${service.id}`}
-                  onClick={tabClickHandlers[service.id]}
-                  className={`inline-flex items-center gap-2 px-4 py-3 min-h-11 rounded-xl font-semibold text-sm
-                    transition-all duration-300 border-2 whitespace-nowrap flex-shrink-0 focus-ring
-                    ${
-                      activeTab === service.id
-                        ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white border-transparent shadow-lg scale-105"
-                        : "bg-white text-gray-700 border-gray-200 hover:border-blue-300 hover:bg-blue-50 hover:shadow-md"
-                    }`}
-                >
-                  <span className="text-lg" aria-hidden="true">
-                    {service.icon}
-                  </span>
-                  <span className="hidden sm:inline">{service.title}</span>
-                  <span className="sm:hidden">
-                    {service.title.includes("&")
-                      ? service.title.split("&")[0].trim()
-                      : service.title.split(" ")[0]}
-                  </span>
-                </button>
-              </ScrollReveal>
-            ))}
+            {/* 2. İçerik Taşıyıcı: Flex, gap ve padding buraya taşındı */}
+            <div className="flex gap-2 pb-4 px-4 min-w-max"> 
+                
+                {services.map((service) => (
+                    <button
+                        key={service.id} 
+                        type="button"
+                        role="tab"
+                        aria-selected={activeTab === service.id}
+                        aria-controls={`panel-${service.id}`}
+                        id={`tab-${service.id}`}
+                        onClick={() => setActiveTab(service.id)}
+                        className={`inline-flex items-center gap-2 px-4 py-3 min-h-11 rounded-xl font-semibold text-sm
+                            transition-all duration-300 border-2 whitespace-nowrap flex-shrink-0 focus-ring
+                            ${
+                            activeTab === service.id
+                                ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white border-transparent shadow-lg scale-105"
+                                : "bg-white text-gray-700 border-gray-200 hover:border-blue-300 hover:bg-blue-50 hover:shadow-md"
+                            }`}
+                    >
+                        <span className="text-lg" aria-hidden="true">
+                            {service.icon}
+                        </span>
+                        <span className="hidden sm:inline">{service.title}</span>
+                        <span className="sm:hidden">
+                            {service.title.includes("&")
+                                ? service.title.split("&")[0].trim()
+                                : service.title.split(" ")[0]}
+                        </span>
+                    </button>
+                ))}
+            </div>
           </div>
 
           {/* Scroll gradient overlay */}
@@ -315,10 +317,10 @@ function ServicesTabsComponent({
             aria-hidden="true"
           />
         </div>
-      </ScrollReveal>
+      
 
       {/* TAB PANEL */}
-      <ScrollReveal direction="up" asChild>
+      
         <div
           className="bg-white rounded-3xl shadow-2xl p-6 md:p-12 border border-gray-100"
           role="tabpanel"
@@ -329,7 +331,7 @@ function ServicesTabsComponent({
           {activeService && (
             <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-start">
               {/* METİN KISMI */}
-              <ScrollReveal direction="left" asChild>
+              
                 <div className="space-y-6 order-2 lg:order-1">
                   <div className="flex items-center gap-3 mb-4">
                     <span className="text-3xl" aria-hidden="true">
@@ -363,11 +365,10 @@ function ServicesTabsComponent({
                       {dictionary.featuresHeading}
                     </h4>
 
-                    {/* UL/LI semantik + ScrollRevealGroup ile kademeli animasyon */}
-                    <ScrollRevealGroup>
-                      <ul className="space-y-3">
+                    
+                      <ul className="space-y-3" role="list">
                         {activeService.features.map((feature, idx) => (
-                          <ScrollReveal asChild delay={String(idx)} key={idx}>
+                          
                             <li className="flex items-start gap-3 group">
                               <span
                                 className="w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform"
@@ -391,14 +392,14 @@ function ServicesTabsComponent({
                                 {feature}
                               </span>
                             </li>
-                          </ScrollReveal>
+                          
                         ))}
                       </ul>
-                    </ScrollRevealGroup>
+                    
                   </div>
 
                   {/* Detay CTA */}
-                  <ScrollReveal delay="3" asChild>
+                  
                     <div className="pt-4">
                       <Link
                         href={activeService.href}
@@ -406,7 +407,11 @@ function ServicesTabsComponent({
                           bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700
                           text-white font-bold text-lg px-8 py-4 min-h-11 rounded-xl transition-all duration-300
                           hover:scale-105 shadow-lg w-full md:w-auto focus-ring"
-                        title={dictionary.ctaTitle}
+                        title={formatTitleTemplate(
+                          dictionary.ctaTitle,
+                          activeService.title,
+                          DEFAULT_DICTIONARY.ctaTitle
+                        )}
                       >
                         <span>{dictionary.ctaLabel}</span>
                         <svg
@@ -425,12 +430,12 @@ function ServicesTabsComponent({
                         </svg>
                       </Link>
                     </div>
-                  </ScrollReveal>
+                  
                 </div>
-              </ScrollReveal>
+              
 
               {/* GÖRSEL KISMI */}
-              <ScrollReveal direction="right" asChild>
+              
                 <div className="relative h-64 md:h-80 lg:h-96 rounded-2xl overflow-hidden shadow-xl order-1 lg:order-2 group">
                   <Image
                     src={activeService ? getImageSrc(activeService) : ""}
@@ -443,7 +448,7 @@ function ServicesTabsComponent({
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 45vw, 380px"
                     quality={70}
-                    loading="lazy"
+                    loading={activeService?.id === initialServiceId ? "eager" : "lazy"}
                     decoding="async"
                     placeholder="empty"
                     onError={
@@ -501,11 +506,11 @@ function ServicesTabsComponent({
                     </svg>
                   </Link>
                 </div>
-              </ScrollReveal>
+              
             </div>
           )}
         </div>
-      </ScrollReveal>
+      
     </div>
   );
 }

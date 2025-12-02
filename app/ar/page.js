@@ -8,7 +8,7 @@ import {
   ProjectsGalleryDeferred,
   FaqDeferred,
 } from "@/components/DeferredSections.client";
-import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
+
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 import { FAQ_ITEMS_AR } from "@/lib/faqData";
 
@@ -543,7 +543,7 @@ export default function ArabicHomePage() {
 
         <div className="relative z-10 container py-12 md:py-16">
           <div className="max-w-6xl mx-auto text-center mb-10">
-            <ScrollReveal>
+            
               <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20 mb-6">
                 <span
                   className="w-2 h-2 bg-green-400 rounded-full animate-pulse motion-reduce:animate-none"
@@ -551,9 +551,9 @@ export default function ArabicHomePage() {
                 />
                 <span className="text-white/90 text-sm font-medium">شريك الإنتاج التقني في عموم تركيا</span>
               </div>
-            </ScrollReveal>
+            
 
-            <ScrollReveal delay="1">
+            
               <h1
                 id="hero-title"
                 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight mb-6"
@@ -566,15 +566,15 @@ export default function ArabicHomePage() {
                   في جميع أنحاء تركيا
                 </span>
               </h1>
-            </ScrollReveal>
+            
 
-            <ScrollReveal delay="2">
+            
               <p className="text-white/80 text-base md:text-lg mb-8 max-w-3xl mx-auto">
                 {home.hero.subtitle}
               </p>
-            </ScrollReveal>
+            
 
-            <ScrollReveal delay="3">
+            
               <div className="flex flex-col sm:flex-row justify-center items-center gap-3 md:gap-4 mb-12">
                 <a
                   href="tel:+905453048671"
@@ -605,14 +605,14 @@ export default function ArabicHomePage() {
                   />
                 </a>
               </div>
-            </ScrollReveal>
+            
 
-            <ScrollReveal delay="4">
+            
               <h2 className="sr-only">أبرز الميزات</h2>
               <ul className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12 list-none p-0 m-0">
                 {HERO_FEATURES_AR.map((item, index) => (
                   <li key={item.title} className="m-0 p-0">
-                    <ScrollReveal delay={String(index + 1)} direction="scale">
+                    
                       <div className="group bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20 hover:border-white/40 transition-all duration-500 hover:scale-105 hover:bg-white/15">
                         <div className={`text-2xl mb-2 bg-gradient-to-r ${item.color} text-transparent bg-clip-text`} aria-hidden="true">
                           {item.icon}
@@ -620,13 +620,13 @@ export default function ArabicHomePage() {
                         <div className="text-white font-bold text-base mb-1">{item.title}</div>
                         <div className="text-white/70 text-xs">{item.description}</div>
                       </div>
-                    </ScrollReveal>
+                    
                   </li>
                 ))}
               </ul>
-            </ScrollReveal>
+            
 
-            <ScrollReveal delay="5">
+            
               <div className="bg-gradient-to-r from-blue-600/90 to-purple-600/90 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-white/20 shadow-xl max-w-4xl mx-auto">
                 <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
                   <div className="flex-shrink-0">
@@ -651,7 +651,7 @@ export default function ArabicHomePage() {
                   </div>
                 </div>
               </div>
-            </ScrollReveal>
+            
           </div>
         </div>
 
@@ -691,25 +691,30 @@ export default function ArabicHomePage() {
             className="absolute inset-0 bg-[linear-gradient(#e5e7eb_1px,transparent_1px),linear-gradient(90deg,#e5e7eb_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:radial-gradient(ellipse_at_center,transparent_20%,white)]"
             aria-hidden="true"
           />
-          <div className="container relative z-10">
-            <ScrollReveal>
-              <div className="text-center mb-12">
-                <h2 id="services-title" className="text-3xl md:text-4xl font-black text-neutral-900 mb-4">
-                  خدمات فعاليات <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">احترافية</span>
-                </h2>
-                <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
-                  حلول متكاملة للمنصات، شاشات LED، الصوت، الإضاءة والخيام في جميع أنحاء تركيا
-                </p>
-              </div>
-            </ScrollReveal>
-            <ServicesTabsDeferred
-              servicesData={SERVICES_AR}
-              dictionary={SERVICES_DICTIONARY_AR}
-              idleTimeout={2800}
-              rootMargin="320px"
-              loadingSrLabel="جارٍ تحميل تبويبات الخدمات"
-              containerProps={{ dir: "rtl" }}
-            />
+          <div className="relative z-10 space-y-8">
+            <div className="container">
+              
+                <div className="text-center mb-12">
+                  <h2 id="services-title" className="text-3xl md:text-4xl font-black text-neutral-900 mb-4">
+                    خدمات فعاليات <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">احترافية</span>
+                  </h2>
+                  <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
+                    حلول متكاملة للمنصات، شاشات LED، الصوت، الإضاءة والخيام في جميع أنحاء تركيا
+                  </p>
+                </div>
+              
+            </div>
+
+            <div className="-mx-4 sm:-mx-6 lg:-mx-8 xl:-mx-12 px-4 sm:px-6 lg:px-8 xl:px-12">
+              <ServicesTabsDeferred
+                servicesData={SERVICES_AR}
+                dictionary={SERVICES_DICTIONARY_AR}
+                idleTimeout={2800}
+                rootMargin="320px"
+                loadingSrLabel="جارٍ تحميل تبويبات الخدمات"
+                containerProps={{ dir: "rtl" }}
+              />
+            </div>
           </div>
         </section>
 
@@ -719,7 +724,7 @@ export default function ArabicHomePage() {
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container">
-            <ScrollReveal>
+            
               <div className="text-center mb-12">
                 <h2 id="projects-title" className="text-3xl md:text-4xl font-black text-white mb-4">
                   أحدث <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">المشاريع</span>
@@ -728,7 +733,7 @@ export default function ArabicHomePage() {
                   إطلاقات مؤسسية، حفلات في الهواء الطلق، فعاليات حكومية وتجارب علامات تجارية نفذتها سحنيفا بشكل متكامل
                 </p>
               </div>
-            </ScrollReveal>
+            
             <ProjectsGalleryDeferred
               galleries={PROJECT_GALLERIES_AR}
               dictionary={PROJECTS_DICTIONARY_AR}
@@ -746,7 +751,7 @@ export default function ArabicHomePage() {
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container">
-            <ScrollReveal>
+            
               <div className="text-center mb-12">
                 <h2 id="corporate-title" className="text-3xl md:text-4xl font-black text-neutral-900 mb-4">
                   حلول <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">الفعاليات المؤسسية</span>
@@ -755,7 +760,7 @@ export default function ArabicHomePage() {
                   من القمم التنفيذية إلى لقاءات الوكلاء، ندير تصميم المنصات والإنتاج المرئي والدعم التقني من الألف إلى الياء
                 </p>
               </div>
-            </ScrollReveal>
+            
             <CorporateEvents
               cards={CORPORATE_EVENTS_CARDS_AR}
               advantages={CORPORATE_EVENTS_ADVANTAGES_AR}
@@ -770,7 +775,7 @@ export default function ArabicHomePage() {
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container">
-            <ScrollReveal>
+            
               <div className="text-center mb-12">
                 <h2 id="why-heading" className="text-3xl md:text-4xl font-black text-neutral-900 mb-6">
                   لماذا تختار <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">سحنيفا</span>
@@ -779,13 +784,13 @@ export default function ArabicHomePage() {
                   أكثر من عقد من الخبرة، معدات متميزة وفرق تقنية دقيقة التفاصيل في خدمتك
                 </p>
               </div>
-            </ScrollReveal>
+            
 
-            <ScrollRevealGroup>
+            
               <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 list-none p-0 m-0">
                 {WHY_SAHNEVA_FEATURES_AR.map(({ icon, title, desc, stat }, i) => (
                   <li key={title} className="m-0 p-0">
-                    <ScrollReveal delay={String(i % 3)} direction="scale">
+                    
                       <article
                         className="group relative bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 p-6 border border-neutral-100 hover:border-blue-200/70 hover:scale-105"
                         aria-labelledby={`why-card-${i}-title`}
@@ -801,11 +806,11 @@ export default function ArabicHomePage() {
                         </h3>
                         <p className="text-neutral-700 leading-relaxed text-sm">{desc}</p>
                       </article>
-                    </ScrollReveal>
+                    
                   </li>
                 ))}
               </ul>
-            </ScrollRevealGroup>
+            
           </div>
         </section>
 
@@ -815,14 +820,14 @@ export default function ArabicHomePage() {
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container">
-            <ScrollReveal>
+            
               <h2 id="seo-title" className="text-3xl md:text-4xl font-black text-center mb-12 text-neutral-900">
                 شريككم <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">الرائد</span> لتقنيات الفعاليات في تركيا
               </h2>
-            </ScrollReveal>
+            
 
             <div className="grid gap-6 lg:gap-8 lg:grid-cols-2">
-              <ScrollReveal direction="left">
+              
                 <article className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 shadow-lg border border-blue-100">
                   <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
                     <span className="bg-blue-500 text-white p-2 rounded-lg" aria-hidden="true">🚀</span>
@@ -868,9 +873,9 @@ export default function ArabicHomePage() {
                     </ul>
                   </div>
                 </article>
-              </ScrollReveal>
+              
 
-              <ScrollReveal direction="right">
+              
                 <article className="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-6 shadow-lg border border-purple-100">
                   <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
                     <span className="bg-purple-500 text-white p-2 rounded-lg" aria-hidden="true">🎤</span>
@@ -895,7 +900,7 @@ export default function ArabicHomePage() {
                     </ul>
                   </div>
                 </article>
-              </ScrollReveal>
+              
             </div>
           </div>
         </section>
@@ -906,7 +911,7 @@ export default function ArabicHomePage() {
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container">
-            <ScrollReveal>
+            
               <div className="text-center mb-12">
                 <h2 id="faq-title" className="text-3xl md:text-4xl font-black text-white mb-4">
                   الأسئلة <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">الشائعة</span>
@@ -915,7 +920,7 @@ export default function ArabicHomePage() {
                   إجابات حول الأسعار، اللوجستيات، أوقات التركيب ودعم الطاقم لخدمات المنصات، شاشات LED وأنظمة AV
                 </p>
               </div>
-            </ScrollReveal>
+            
             <FaqDeferred
               items={FAQ_ITEMS_AR}
               dictionary={FAQ_DICTIONARY_AR}

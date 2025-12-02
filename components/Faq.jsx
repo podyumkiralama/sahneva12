@@ -9,7 +9,6 @@ import React, {
   useCallback,
 } from "react";
 import { FAQ_ITEMS } from "../lib/faqData";
-import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
 
 const DEFAULT_DICTIONARY = {
   sectionTitle: "Sıkça Sorulan Sorular",
@@ -220,22 +219,22 @@ export default function Faq({
 
         {/* Liste */}
         <div className="mx-auto max-w-3xl mt-0 pt-0">
-          <ScrollRevealGroup>
+          
             <ul className="grid gap-2">
               {items.map((item, index) => (
                 <li key={item.slug}>
-                  <ScrollReveal delay={String(index % 4)}>
+                  
                     <FaqRow {...item} />
-                  </ScrollReveal>
+                  
                 </li>
               ))}
             </ul>
-          </ScrollRevealGroup>
+          
         </div>
 
         {/* CTA */}
         <div className="text-center mt-8 last:mb-0">
-          <ScrollReveal>
+          
             <div className="relative bg-gradient-to-r from-blue-700 to-purple-700 rounded-2xl shadow-xl p-8 max-w-3xl mx-auto overflow-hidden transform-gpu">
               <div className="absolute inset-0 opacity-10" aria-hidden="true">
                 <div className="absolute -top-16 -right-16 w-32 h-32 bg-white rounded-full" />
@@ -279,12 +278,12 @@ export default function Faq({
                 </div>
               </div>
             </div>
-          </ScrollReveal>
+          
         </div>
 
         {/* İletişim kutusu */}
         <div className="mt-8 text-center last:mb-0">
-          <ScrollReveal delay="1">
+          
             <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/60 p-6 max-w-2xl mx-auto">
               <h4 className="text-lg font-bold text-gray-900 mb-3">
                 {quickContact.title}
@@ -342,7 +341,7 @@ export default function Faq({
                 ))}
               </div>
             </div>
-          </ScrollReveal>
+          
         </div>
 
         <div className="h-0 p-0 m-0" />

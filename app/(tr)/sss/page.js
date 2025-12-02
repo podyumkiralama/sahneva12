@@ -1,5 +1,4 @@
 // app/sss/page.js
-import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
 
 /* ——— META ——— */
 export const metadata = {
@@ -276,17 +275,17 @@ function CategoryChips() {
 function FaqSection({ id, icon, title, items }) {
   return (
     <section id={id} className="scroll-mt-28 mb-8 rounded-2xl faq-glass p-5 md:p-7">
-      <ScrollReveal>
+      
         <h2 className="flex items-center gap-2 text-xl md:text-2xl font-bold mb-5">
           <span className="text-lg md:text-xl">{icon}</span>
           {title}
         </h2>
-      </ScrollReveal>
+      
 
-      <ScrollRevealGroup>
+      
         <div className="space-y-3">
           {items.map((it, i) => (
-            <ScrollReveal key={`${id}-${i}`} delay={String(i % 3)} direction="up">
+            
               <details className="faq-card group rounded-xl bg-white p-4">
                 <summary
                   className="cursor-pointer select-none list-none font-semibold leading-7 flex items-center justify-between"
@@ -307,10 +306,10 @@ function FaqSection({ id, icon, title, items }) {
                   {injectLinks(it.a)}
                 </div>
               </details>
-            </ScrollReveal>
+            
           ))}
         </div>
-      </ScrollRevealGroup>
+      
     </section>
   );
 }
@@ -345,15 +344,15 @@ export default function FaqPage() {
       />
 
       <div className="container py-10 md:py-14">
-        <ScrollReveal>
+        
           <h1 className="text-3xl md:text-[34px] font-extrabold tracking-tight text-center mb-6">
             Sık Sorulan Sorular
           </h1>
-        </ScrollReveal>
+        
 
-        <ScrollReveal>
+        
           <CategoryChips />
-        </ScrollReveal>
+        
 
         <div className="space-y-6">
           {FAQ_CATEGORIES.map((c) => (
@@ -361,7 +360,7 @@ export default function FaqPage() {
           ))}
         </div>
 
-        <ScrollReveal delay="1">
+        
           <div className="mt-10 md:mt-12 flex flex-col sm:flex-row items-center justify-center gap-3">
             <a
               href="tel:+905453048671"
@@ -378,7 +377,7 @@ export default function FaqPage() {
               💬 WhatsApp’tan Sor
             </a>
           </div>
-        </ScrollReveal>
+        
       </div>
     </>
   );
