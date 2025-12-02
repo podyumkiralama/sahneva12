@@ -4,7 +4,6 @@
 import { useRef, useState, useCallback, useMemo, memo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-// ScrollRevealGroup hala kullanılıyor, ancak bireysel butonlardan kaldırıldı.
 import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
 
 const DEFAULT_SERVICES = [
@@ -266,47 +265,51 @@ function ServicesTabsComponent({
   return (
     <div className="w-full">
       {/* TAB BUTONLARI */}
-      {/* ScrollReveal'ı sadece dış div'e uyguluyoruz. Her butondan kaldırdık. */}
       <ScrollReveal asChild>
-        <div className="relative mb-0">
+        {/* mb-8 ile panel ile arasında standart bir boşluk bıraktık */}
+        <div className="relative mb-8"> 
+          
+          {/* 1. Kaydırma Görüntü Alanı (Viewport): Tarayıcı uyumluluğu için -mx-4 burada */}
           <div
             ref={listRef}
-            className="flex overflow-x-auto pb-4 gap-2 scrollbar-hide -mx-4 px-4"
+            // Düzeltme: Kaydırma ve negatif marjı bu katmana ayırdık.
+            className="overflow-x-auto scrollbar-hide -mx-4" 
             role="tablist"
             aria-label={dictionary.tablistLabel}
             onKeyDown={onKeyDownTabs}
           >
-            {/* HER BİR BUTON ARTIK DOĞRUDAN role="tablist" ALT ÖĞESİDİR */}
-            {services.map((service) => (
-              // Bireysel ScrollReveal kaldırıldı. key artık button'a aittir.
-              <button
-                key={service.id} 
-                type="button"
-                role="tab" // A11Y: role="tab"
-                aria-selected={activeTab === service.id}
-                aria-controls={`panel-${service.id}`}
-                id={`tab-${service.id}`}
-                // Performans: Inline handler kullanıldı
-                onClick={() => setActiveTab(service.id)}
-                className={`inline-flex items-center gap-2 px-4 py-3 min-h-11 rounded-xl font-semibold text-sm
-                  transition-all duration-300 border-2 whitespace-nowrap flex-shrink-0 focus-ring
-                  ${
-                    activeTab === service.id
-                      ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white border-transparent shadow-lg scale-105"
-                      : "bg-white text-gray-700 border-gray-200 hover:border-blue-300 hover:bg-blue-50 hover:shadow-md"
-                  }`}
-              >
-                <span className="text-lg" aria-hidden="true">
-                  {service.icon}
-                </span>
-                <span className="hidden sm:inline">{service.title}</span>
-                <span className="sm:hidden">
-                  {service.title.includes("&")
-                    ? service.title.split("&")[0].trim()
-                    : service.title.split(" ")[0]}
-                </span>
-              </button>
-            ))}
+            {/* 2. İçerik Taşıyıcı: Flex, gap ve padding buraya taşındı */}
+            <div className="flex gap-2 pb-4 px-4 min-w-max"> 
+                
+                {services.map((service) => (
+                    <button
+                        key={service.id} 
+                        type="button"
+                        role="tab"
+                        aria-selected={activeTab === service.id}
+                        aria-controls={`panel-${service.id}`}
+                        id={`tab-${service.id}`}
+                        onClick={() => setActiveTab(service.id)}
+                        className={`inline-flex items-center gap-2 px-4 py-3 min-h-11 rounded-xl font-semibold text-sm
+                            transition-all duration-300 border-2 whitespace-nowrap flex-shrink-0 focus-ring
+                            ${
+                            activeTab === service.id
+                                ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white border-transparent shadow-lg scale-105"
+                                : "bg-white text-gray-700 border-gray-200 hover:border-blue-300 hover:bg-blue-50 hover:shadow-md"
+                            }`}
+                    >
+                        <span className="text-lg" aria-hidden="true">
+                            {service.icon}
+                        </span>
+                        <span className="hidden sm:inline">{service.title}</span>
+                        <span className="sm:hidden">
+                            {service.title.includes("&")
+                                ? service.title.split("&")[0].trim()
+                                : service.title.split(" ")[0]}
+                        </span>
+                    </button>
+                ))}
+            </div>
           </div>
 
           {/* Scroll gradient overlay */}
@@ -446,7 +449,6 @@ function ServicesTabsComponent({
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 45vw, 380px"
                     quality={70}
-                    // PERFORMANS: Sadece ilk aktif görsel için yükleme önceliği verilir.
                     loading={activeService?.id === initialServiceId ? "eager" : "lazy"}
                     decoding="async"
                     placeholder="empty"
