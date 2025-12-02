@@ -565,7 +565,7 @@ export default function Navbar() {
                 {/* Hover boşluk köprüsü - (Mouse bırakıldığında menüye geçişi kolaylaştırır) */}
                 <span
                   aria-hidden="true"
-                  className="absolute left-0 right-0 top-full h-2 pointer-events-none" // pointer-events-none eklendi
+                  className="absolute left-0 right-0 top-full h-2"
                   onMouseEnter={openNow}
                 />
 
