@@ -187,20 +187,22 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-40 w-full transition-shadow duration-200 ${
-        isScrolled ? "shadow-lg shadow-slate-900/40" : ""
+      className={`sticky top-0 z-40 w-full transition-all duration-200 ${
+        isScrolled
+          ? "bg-slate-950/95 shadow-xl shadow-slate-950/40 backdrop-blur"
+          : "bg-slate-950/90 backdrop-blur"
       }`}
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <nav
-          className="flex items-center justify-between py-3"
+          className="flex items-center justify-between gap-6 py-3"
           aria-label={t.mainNavLabel}
         >
           {/* Logo + marka */}
           <div className="flex items-center gap-3">
             <Link
               href={locale === "tr" ? "/" : `/${locale}`}
-              className={`flex items-center gap-2 rounded-xl px-1 py-1 ${focusRingClass}`}
+              className={`flex items-center gap-2 rounded-xl px-2 py-1 hover:bg-slate-900 ${focusRingClass}`}
             >
               <Image
                 src="/img/logo.png"
@@ -210,7 +212,7 @@ export default function Navbar() {
                 className="h-10 w-10"
                 priority
               />
-              <span className="flex flex-col">
+              <span className="flex flex-col leading-tight">
                 <span className="text-sm font-semibold tracking-tight text-white">
                   Sahneva
                 </span>
@@ -222,57 +224,77 @@ export default function Navbar() {
           </div>
 
           {/* Masaüstü menü */}
-          <div className="hidden items-center gap-6 md:flex">
-            <div className="flex items-center gap-3 text-sm font-medium text-slate-200">
-              {t.primaryLinks.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  title={item.title}
-                  className={`rounded-full px-3 py-2 transition ${
-                    isActiveLink(item.href)
-                      ? "bg-slate-900/80 text-white"
-                      : "text-slate-300 hover:bg-slate-800/60"
-                  } ${focusRingClass}`}
+            <div className="hidden items-center gap-6 md:flex">
+              <div className="flex items-center gap-3 text-sm font-medium text-slate-200">
+                {t.primaryLinks.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    title={item.title}
+                    className={`rounded-full px-3 py-2 transition ${
+                      isActiveLink(item.href)
+                        ? "bg-emerald-500/15 text-white ring-1 ring-emerald-400/60"
+                        : "text-slate-200 hover:bg-slate-900/80"
+                    } ${focusRingClass}`}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+
+              {/* Hizmetler dropdown trigger (desktop) */}
+              <div className="relative group">
+                <button
+                  type="button"
+                  className={`inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium text-slate-200 hover:bg-slate-900/80 ${focusRingClass}`}
+                  aria-haspopup="true"
+                  aria-expanded="false"
                 >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
+                  <span>{t.servicesLabel}</span>
+                  <span aria-hidden="true">▾</span>
+                </button>
+                <div className="pointer-events-none absolute right-0 z-40 mt-3 w-72 translate-y-2 rounded-2xl border border-slate-800/80 bg-slate-900/95 p-3 shadow-2xl shadow-slate-950/40 ring-1 ring-slate-800/70 opacity-0 transition group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100">
+                  <div className="grid grid-cols-1 gap-2">
+                    {serviceLinks.map((service) => (
+                      <Link
+                        key={service.href}
+                        href={service.href}
+                        title={service.title}
+                        className={`flex items-start gap-3 rounded-xl px-3 py-2 text-left text-sm text-slate-100 transition hover:bg-slate-800/80 ${focusRingClass}`}
+                      >
+                        <span className="text-lg" aria-hidden="true">
+                          {service.icon}
+                        </span>
+                        <span className="flex flex-col">
+                          <span className="font-semibold leading-tight">{service.label}</span>
+                          <span className="text-[12px] text-slate-400">
+                            {service.description}
+                          </span>
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
 
-            {/* Hizmetler dropdown trigger (desktop) */}
-            <div className="relative">
-              <button
-                type="button"
-                className={`inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium text-slate-200 hover:bg-slate-800/60 ${focusRingClass}`}
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <span>{t.servicesLabel}</span>
-                <span aria-hidden="true">▾</span>
-              </button>
-              {/* Basit bir hover menü; gelişmiş alt menü bileşenin varsa onunla değiştirirsin */}
-              <div className="pointer-events-none absolute right-0 z-40 mt-2 w-64 translate-y-1 opacity-0 transition group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100" />
-            </div>
-
-            {/* CTA */}
-            <div className="flex items-center gap-3">
-              <a
-                href="tel:+905453048671"
-                className={`rounded-full bg-emerald-500 px-4 py-2 text-sm font-semibold text-slate-900 shadow-sm hover:bg-emerald-400 ${focusRingClass}`}
-              >
-                {t.callNow}
-              </a>
-              <a
-                href="https://wa.me/905453048671?text=Merhaba%2C+etkinliginiz+icin+teklif+almak+isterim."
-                target="_blank"
-                rel="noreferrer"
-                className={`rounded-full border border-emerald-400/60 px-4 py-2 text-sm font-semibold text-emerald-300 hover:bg-emerald-500/10 ${focusRingClass}`}
-                aria-label={`${t.whatsappCta} (WhatsApp yeni sekmede açılır)`}
-              >
-                {t.whatsappCta}
-              </a>
-            </div>
+              {/* CTA */}
+              <div className="flex items-center gap-3">
+                <a
+                  href="tel:+905453048671"
+                  className={`rounded-full bg-gradient-to-r from-emerald-400 to-emerald-500 px-4 py-2 text-sm font-semibold text-slate-950 shadow-sm shadow-emerald-500/30 hover:from-emerald-300 hover:to-emerald-400 ${focusRingClass}`}
+                >
+                  {t.callNow}
+                </a>
+                <a
+                  href="https://wa.me/905453048671?text=Merhaba%2C+etkinliginiz+icin+teklif+almak+isterim."
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`rounded-full border border-emerald-300/70 px-4 py-2 text-sm font-semibold text-emerald-200 hover:bg-emerald-500/10 hover:text-white ${focusRingClass}`}
+                  aria-label={`${t.whatsappCta} (WhatsApp yeni sekmede açılır)`}
+                >
+                  {t.whatsappCta}
+                </a>
+              </div>
           </div>
 
           {/* Mobil menü butonu */}
