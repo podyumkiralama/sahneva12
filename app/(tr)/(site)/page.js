@@ -1,5 +1,5 @@
 // app/(tr)/(site)/page.js
-import Image from "next/image";
+import { getImageProps } from "next/image";
 import Link from "next/link"; // A11Y için prose içindeki Link'ler
 
 // Statik bileşenler
@@ -379,23 +379,23 @@ function StructuredData() {
 // PARÇALI BİLEŞENLER
 // —————————————————————————————————————————
 function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
-  return (
-    <Image
-      alt={alt}
-      src={heroImg}
-      priority
-      sizes="100vw"
-      placeholder="blur"
-      quality={70}
-      fill
-      fetchPriority="high"
-      className="absolute inset-0 h-full w-full object-cover object-center"
-      style={{
-        filter: "brightness(0.7) contrast(1.1) saturate(1.05)",
-      }}
-      aria-hidden={ariaHidden}
-    />
-  );
+  const { props } = getImageProps({
+    alt,
+    src: heroImg,
+    sizes: "100vw",
+    fetchPriority: "high",
+    placeholder: "blur",
+    quality: 70,
+    className: "absolute inset-0 h-full w-full object-cover object-center",
+    style: {
+      filter: "brightness(0.7) contrast(1.1) saturate(1.05)",
+    },
+  });
+
+  const { fetchPriority, ...rest } = props;
+
+  // eslint-disable-next-line react/no-unknown-property -- force lowercase attribute for HTML validators
+  return <img {...rest} fetchpriority={fetchPriority} aria-hidden={ariaHidden} />;
 }
 
 function SectionHeader({
