@@ -126,15 +126,6 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
 
-        {/* --- LCP HERO PRELOAD —-- */}
-        <link
-          rel="preload"
-          as="image"
-          href="/img/hero-bg.webp"
-          type="image/webp"
-          fetchpriority="high"
-        />
-
         {/* GA bağlantıları */}
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
