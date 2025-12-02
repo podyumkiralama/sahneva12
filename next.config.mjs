@@ -1,4 +1,3 @@
-// next.config.mjs - TURBOPACK UYUMLU
 import bundleAnalyzer from "@next/bundle-analyzer";
 
 const withBundleAnalyzer = bundleAnalyzer({ enabled: process.env.ANALYZE === "true" });
@@ -14,10 +13,8 @@ const isPreview =
 
 const siteUrl = process.env.SITE_URL ?? "https://www.sahneva.com";
 
-/* -------------------- Security Headers (CSP dahil) -------------------- */
-
+/* -------------------- Security Headers (CSP) -------------------- */
 const securityHeaders = (() => {
-  // script-src (inline YOK)
   const SCRIPT_SRC = [
     "'self'",
     "https://www.googletagmanager.com",
@@ -26,7 +23,6 @@ const securityHeaders = (() => {
     "https://vercel.live",
   ].join(" ");
 
-  // script-src-elem (JSON-LD vb. için elem seviyesinde inline serbest)
   const SCRIPT_SRC_ELEM = [
     "'self'",
     "'unsafe-inline'",
@@ -45,7 +41,6 @@ const securityHeaders = (() => {
     siteUrl,
   ].join(" ");
 
-  // ✅ Tüm gerekli frame kaynakları
   const FRAME_SRC = [
     "'self'",
     "https://www.google.com",
@@ -91,8 +86,7 @@ const securityHeaders = (() => {
     { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
     {
       key: "Permissions-Policy",
-      value:
-        "camera=(), microphone=(), geolocation=(), browsing-topics=(), payment=(), fullscreen=()",
+      value: "camera=(), microphone=(), geolocation=(), browsing-topics=(), payment=(), fullscreen=()",
     },
     {
       key: "Strict-Transport-Security",
@@ -104,29 +98,23 @@ const securityHeaders = (() => {
   return isPreview ? base : [...base, { key: "X-Frame-Options", value: "DENY" }];
 })();
 
-/* -------------------- Uzun süreli cache başlıkları -------------------- */
-
 const longTermCacheHeaders = [
   { key: "Cache-Control", value: `public, max-age=${ONE_YEAR_IN_SECONDS}, immutable` },
 ];
 
-/* -------------------- Next.js Config -------------------- */
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // ✅ Turbopack config eklendi
-  turbopack: {},
-  
   reactStrictMode: true,
   poweredByHeader: false,
   compress: true,
   generateEtags: true,
   productionBrowserSourceMaps: false,
   trailingSlash: false,
-  swcMinify: true,
+  // swcMinify: true, -> KALDIRILDI (Next.js 16'da varsayılan, ayar gerektirmez)
 
-  // ❌ Webpack config KALDIRILDI - Turbopack ile çakışıyor
-  // webpack: (config, { isServer }) => { ... }
+  compiler: {
+    removeConsole: isProd ? { exclude: ["error", "warn"] } : false,
+  },
 
   images: {
     deviceSizes: [320, 420, 640, 750, 828, 1080, 1200, 1920],
@@ -137,15 +125,10 @@ const nextConfig = {
     dangerouslyAllowSVG: false,
   },
 
-  compiler: {
-    removeConsole: isProd ? { exclude: ["error", "warn"] } : false,
-  },
-
   experimental: {
     scrollRestoration: true,
     optimizePackageImports: ["lucide-react", "@headlessui/react"],
-    legacyBrowsers: false,
-    browsersListForSwc: true,
+    // legacyBrowsers ve browsersListForSwc -> KALDIRILDI (Next.js 16 desteklemiyor)
   },
 
   modularizeImports: {
@@ -159,12 +142,7 @@ const nextConfig = {
     NEXT_PUBLIC_APP_ENV: process.env.NODE_ENV ?? "development",
   },
 
-  typescript: {
-    ignoreBuildErrors: false,
-  },
-
   output: isProd ? "standalone" : undefined,
-
   staticPageGenerationTimeout: 300,
 
   async redirects() {
@@ -179,19 +157,12 @@ const nextConfig = {
       { source: "/sahne-kurulumu", destination: "/sahne-kiralama", permanent: true },
       { source: "/faq", destination: "/en/faq", permanent: true },
       { source: "/faq/", destination: "/en/faq", permanent: true },
-      { source: "/$", destination: "/", permanent: true },
-      { source: "/&", destination: "/", permanent: true },
-      { source: "/%24", destination: "/", permanent: true },
-      { source: "/%26", destination: "/", permanent: true },
     ];
   },
 
   async headers() {
     return [
-      // 🌐 Global güvenlik başlıkları (CSP KORUNDU)
       { source: "/(.*)", headers: securityHeaders },
-
-      // Next statik runtime dosyaları
       {
         source: "/_next/static/(.*)",
         headers: [
@@ -199,14 +170,10 @@ const nextConfig = {
           { key: "X-Robots-Tag", value: "noindex, nofollow" },
         ],
       },
-
-      // Public asset'ler
       {
         source: "/(.*)\\.(ico|png|jpg|jpeg|webp|avif|svg|gif|woff2|css|js)",
         headers: longTermCacheHeaders,
       },
-
-      // Diğer _next yolları
       {
         source: "/_next/(.*)",
         headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
