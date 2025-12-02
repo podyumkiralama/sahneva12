@@ -4,13 +4,22 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useState, useEffect, useRef, useCallback } from "react";
+import {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+} from "react";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 
-const focusRingClass = "focus-ring";
+// Tek yerde tanımlı focus ring helper
+const FOCUS_RING_CLASS =
+  "focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white";
 const MOBILE_MENU_HEADING_ID = "navbar-mobile-menu-heading";
 
-const serviceLinks = [
+// Tüm hizmet linkleri (bileşen dışı, re-render'da değişmez)
+const SERVICE_LINKS = [
   {
     href: "/podyum-kiralama",
     label: "Podyum Kiralama",
@@ -28,411 +37,828 @@ const serviceLinks = [
   {
     href: "/ses-isik-sistemleri",
     label: "Ses & Işık Sistemleri",
-    title: "Profesyonel ses ve ışık sistemleri kiralama - Sahneva",
-    icon: "🎚️",
-    description: "Konser, konferans ve kurumsal etkinlikler için ses ve ışık",
+    title: "Profesyonel ses ve ışık sistemi kiralama - Sahneva",
+    icon: "🎭",
+    description: "Konser kalitesinde ses ve ışık ekipmanları",
   },
   {
     href: "/cadir-kiralama",
     label: "Çadır Kiralama",
-    title: "Etkinlik çadırı kiralama - Sahneva",
+    title: "Etkinlik çadırı kiralama ve kurulum - Sahneva",
     icon: "⛺",
-    description: "Dış mekan etkinlikleri için profesyonel çadır çözümleri",
+    description: "Her türlü etkinlik için çadır çözümleri",
   },
   {
     href: "/masa-sandalye-kiralama",
-    label: "Masa & Sandalye Kiralama",
-    title: "Masa sandalye kiralama - Sahneva",
+    label: "Masa Sandalye Kiralama",
+    title: "Masa sandalye kiralama hizmeti - Sahneva",
     icon: "🪑",
-    description: "Konuk konforu için masa, sandalye ve oturma düzeni",
+    description: "Toplantı ve davetler için masa sandalye",
+  },
+  {
+    href: "/sahne-kiralama",
+    label: "Sahne Kiralama",
+    title: "Profesyonel sahne kiralama ve kurulum - Sahneva",
+    icon: "🎪",
+    description: "Portatif ve modüler sahne sistemleri",
   },
 ];
 
-function getLocaleFromPath(pathname) {
-  if (!pathname) return "tr";
-  if (pathname.startsWith("/en")) return "en";
-  if (pathname.startsWith("/ar")) return "ar";
-  return "tr";
-}
-
 export default function Navbar() {
   const pathname = usePathname();
-  const locale = getLocaleFromPath(pathname);
-  const t = LOCALE_CONTENT[locale]?.navbar ?? LOCALE_CONTENT.tr.navbar;
 
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  const mobileMenuRef = useRef(null);
-  const mobileMenuToggleRef = useRef(null);
-  const lastFocusedElementRef = useRef(null);
-
-  // Scroll durumunu yönet
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 12);
-    };
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const closeMobileMenu = useCallback(() => {
-    setIsMobileMenuOpen(false);
-
-    // Menüyü kapatınca odak tekrar toggle butonuna/önceki elemana dönsün
-    requestAnimationFrame(() => {
-      if (mobileMenuToggleRef.current) {
-        mobileMenuToggleRef.current.focus();
-      } else if (lastFocusedElementRef.current) {
-        try {
-          lastFocusedElementRef.current.focus();
-        } catch {
-          // ignore
-        }
-      }
-    });
-  }, []);
-
-  const openMobileMenu = useCallback(() => {
-    setIsMobileMenuOpen(true);
-
-    // Son odaklanan elemanı kaydet
-    if (typeof document !== "undefined") {
-      lastFocusedElementRef.current = document.activeElement;
-    }
-
-    // İlk odaklanacak elemanı menü içinde bul
-    requestAnimationFrame(() => {
-      if (!mobileMenuRef.current) return;
-      const focusableSelectors =
-        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"]), input, textarea, select';
-      const focusable = mobileMenuRef.current.querySelectorAll(
-        focusableSelectors
-      );
-      if (focusable.length > 0) {
-        focusable[0].focus();
-      }
-    });
-  }, []);
-
-  const handleMobileMenuToggle = () => {
-    if (isMobileMenuOpen) {
-      closeMobileMenu();
-    } else {
-      openMobileMenu();
-    }
+  // Lokalizasyon fallback
+  const headerStrings = LOCALE_CONTENT?.tr?.header || {
+    navLabel: "Ana gezinme",
+    mobileToggleOpenLabel: "Menüyü aç",
+    mobileToggleCloseLabel: "Menüyü kapat",
   };
 
-  // Focus trap: mobil menü açıkken TAB/Shift+TAB sadece menü içinde dönsün
-  const handleMobileMenuKeyDown = useCallback(
+  // State
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+
+  // Refs
+  const dropdownRef = useRef(null);
+  const hoverTimer = useRef(null);
+  const mobileMenuRef = useRef(null);
+  const toggleButtonRef = useRef(null);
+  const servicesButtonRef = useRef(null);
+  const serviceItemRefs = useRef([]);
+  const previouslyFocusedElement = useRef(null);
+
+  // ARIA id'leri
+  const mobileMenuId = "mobile_menu";
+  const servicesBtnId = "nav-services-button";
+  const servicesMenuId = "nav-services-menu";
+
+  // Aktif link helper
+  const active = useCallback(
+    (href) =>
+      pathname === href ||
+      (href !== "/" && pathname?.startsWith(href)),
+    [pathname]
+  );
+
+  // Class memo'ları
+  const whatsappBtnClass = useMemo(
+    () =>
+      `ml-2 inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-white text-sm font-bold 
+       bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 
+       transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 
+       min-h-[44px] border border-green-700/20 ${FOCUS_RING_CLASS}`,
+    []
+  );
+
+  const mobileWhatsappBtnClass = useMemo(
+    () =>
+      `block text-center mt-4 rounded-xl px-5 py-3 text-white text-sm font-bold 
+       bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 
+       transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 
+       min-h-[44px] flex items-center justify-center gap-2 border border-green-700/20 ${FOCUS_RING_CLASS}`,
+    []
+  );
+
+  /* =============== Hover helper (Hizmetler) =============== */
+  const openNow = useCallback(() => {
+    if (hoverTimer.current) clearTimeout(hoverTimer.current);
+    setServicesOpen(true);
+  }, []);
+
+  const closeWithDelay = useCallback(() => {
+    if (hoverTimer.current) clearTimeout(hoverTimer.current);
+    hoverTimer.current = setTimeout(
+      () => setServicesOpen(false),
+      200
+    );
+  }, []);
+
+  /* =============== Hizmetler klavye navigasyonu =============== */
+  const focusServiceItem = useCallback((index) => {
+    const items = serviceItemRefs.current.filter(Boolean);
+    if (!items.length) return;
+    const normalizedIndex =
+      ((index % items.length) + items.length) % items.length;
+    items[normalizedIndex]?.focus();
+  }, []);
+
+  const openServicesMenuAndFocus = useCallback(
+    (index = 0) => {
+      setServicesOpen(true);
+      requestAnimationFrame(() => focusServiceItem(index));
+    },
+    [focusServiceItem]
+  );
+
+  const handleServicesButtonKeyDown = useCallback(
     (event) => {
-      if (!isMobileMenuOpen || !mobileMenuRef.current) return;
-
-      if (event.key === "Escape") {
-        event.preventDefault();
-        closeMobileMenu();
-        return;
+      switch (event.key) {
+        case "Enter":
+        case " ":
+          event.preventDefault();
+          setServicesOpen((prev) => {
+            const next = !prev;
+            if (next) {
+              requestAnimationFrame(() => focusServiceItem(0));
+            }
+            return next;
+          });
+          break;
+        case "ArrowDown":
+          event.preventDefault();
+          servicesOpen
+            ? focusServiceItem(0)
+            : openServicesMenuAndFocus(0);
+          break;
+        case "ArrowUp":
+          event.preventDefault();
+          servicesOpen
+            ? focusServiceItem(SERVICE_LINKS.length - 1)
+            : openServicesMenuAndFocus(
+                SERVICE_LINKS.length - 1
+              );
+          break;
       }
+    },
+    [
+      focusServiceItem,
+      openServicesMenuAndFocus,
+      servicesOpen,
+    ]
+  );
 
+  const handleServiceItemKeyDown = useCallback(
+    (event, index) => {
+      switch (event.key) {
+        case "ArrowDown":
+          event.preventDefault();
+          focusServiceItem(index + 1);
+          break;
+        case "ArrowUp":
+          event.preventDefault();
+          focusServiceItem(index - 1);
+          break;
+        case "Home":
+          event.preventDefault();
+          focusServiceItem(0);
+          break;
+        case "End":
+          event.preventDefault();
+          focusServiceItem(SERVICE_LINKS.length - 1);
+          break;
+        case "Escape":
+          event.preventDefault();
+          setServicesOpen(false);
+          servicesButtonRef.current?.focus();
+          break;
+      }
+    },
+    [focusServiceItem]
+  );
+
+  /* =============== ESC ile global kapatma =============== */
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key !== "Escape") return;
+
+      const wasMobileOpen = mobileOpen;
+      const wasServicesOpen = servicesOpen;
+
+      setMobileOpen(false);
+      setServicesOpen(false);
+      setMobileServicesOpen(false);
+
+      requestAnimationFrame(() => {
+        if (wasMobileOpen) {
+          toggleButtonRef.current?.focus();
+        } else if (wasServicesOpen) {
+          servicesButtonRef.current?.focus();
+        }
+      });
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () =>
+      document.removeEventListener("keydown", handleEscape);
+  }, [mobileOpen, servicesOpen]);
+
+  /* =============== Rota değişince hepsini kapat =============== */
+  useEffect(() => {
+    setMobileOpen(false);
+    setServicesOpen(false);
+    setMobileServicesOpen(false);
+  }, [pathname]);
+
+  /* =============== Mobil açıkken body scroll kilidi =============== */
+  useEffect(() => {
+    if (mobileOpen) {
+      previouslyFocusedElement.current =
+        document.activeElement;
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+
+      requestAnimationFrame(() => {
+        if (
+          previouslyFocusedElement.current instanceof
+          HTMLElement
+        ) {
+          previouslyFocusedElement.current?.focus();
+        }
+      });
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
+  /* =============== Hizmetler dropdown dış tıklama =============== */
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target)
+      ) {
+        setServicesOpen(false);
+      }
+    };
+
+    if (servicesOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () =>
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside
+      );
+  }, [servicesOpen]);
+
+  /* =============== Mobil menü odak tuzağı (Focus Trap) =============== */
+  useEffect(() => {
+    if (!mobileOpen) return;
+
+    const menuNode = mobileMenuRef.current;
+    if (!menuNode) return;
+
+    const focusableSelectors =
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    const focusable = Array.from(
+      menuNode.querySelectorAll(focusableSelectors)
+    );
+
+    if (!focusable.length) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    requestAnimationFrame(() => {
+      first instanceof HTMLElement && first.focus();
+    });
+
+    const handleKeyDown = (event) => {
       if (event.key !== "Tab") return;
 
-      const focusableSelectors =
-        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"]), input, textarea, select';
-      const focusable = mobileMenuRef.current.querySelectorAll(
-        focusableSelectors
-      );
-      if (focusable.length === 0) return;
-
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
+      const activeEl = document.activeElement;
 
       if (event.shiftKey) {
-        // Shift + Tab
-        if (document.activeElement === first) {
+        if (activeEl === first) {
           event.preventDefault();
           last.focus();
         }
       } else {
-        // Tab
-        if (document.activeElement === last) {
+        if (activeEl === last) {
           event.preventDefault();
           first.focus();
         }
       }
-    },
-    [isMobileMenuOpen, closeMobileMenu]
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () =>
+      document.removeEventListener("keydown", handleKeyDown);
+  }, [mobileOpen]);
+
+  /* =============== Hizmetler menü açıldığında ilk iteme fokus =============== */
+  useEffect(() => {
+    if (
+      servicesOpen &&
+      document.activeElement === servicesButtonRef.current
+    ) {
+      requestAnimationFrame(() => focusServiceItem(0));
+    }
+  }, [servicesOpen, focusServiceItem]);
+
+  /* =============== Hover timer cleanup =============== */
+  useEffect(() => {
+    return () => {
+      if (hoverTimer.current)
+        clearTimeout(hoverTimer.current);
+    };
+  }, []);
+
+  /* =============== Tekrarlı NavLink helper =============== */
+  const NavLink = useCallback(
+    ({ href, children, title, className = "" }) => (
+      <Link
+        href={href}
+        className={`
+          relative text-[15px] font-bold transition-all duration-200 px-4 py-2.5 rounded-xl
+          ${
+            active(href)
+              ? "text-blue-700 bg-blue-50 border border-blue-200"
+              : "text-neutral-800 hover:text-blue-700 hover:bg-neutral-50 hover:border hover:border-neutral-200"
+          }
+          ${FOCUS_RING_CLASS} ${className}
+        `}
+        aria-current={active(href) ? "page" : undefined}
+        title={title}
+      >
+        {children}
+      </Link>
+    ),
+    [active]
   );
 
-  // Body scroll kilidi (mobil menü açıkken)
-  useEffect(() => {
-    if (typeof document === "undefined") return;
-    if (isMobileMenuOpen) {
-      const original = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-      return () => {
-        document.body.style.overflow = original;
-      };
-    }
-  }, [isMobileMenuOpen]);
-
-  const isActiveLink = useCallback(
-    (href) => {
-      if (!pathname) return false;
-      if (href === "/") return pathname === "/" || pathname === "/tr";
-      return pathname.startsWith(href);
-    },
-    [pathname]
+  /* =============== ServiceLink helper =============== */
+  // GÜNCELLEME: text-neutral-500 -> text-neutral-600 (Kontrast iyileştirmesi)
+  const ServiceLink = useCallback(
+    ({
+      href,
+      label,
+      title,
+      icon,
+      description,
+      index,
+    }) => (
+      <Link
+        href={href}
+        ref={(node) => {
+          serviceItemRefs.current[index] = node;
+        }}
+        className={`
+          group flex items-start gap-3 px-3 py-2 text-sm text-neutral-700
+          hover:bg-blue-50 hover:text-blue-700 rounded-lg transition-all duration-200
+          w-full transform hover:scale-[1.02] ${FOCUS_RING_CLASS}
+        `}
+        onClick={() => setServicesOpen(false)}
+        onKeyDown={(event) =>
+          handleServiceItemKeyDown(event, index)
+        }
+        aria-current={active(href) ? "page" : undefined}
+        title={title}
+      >
+        <span
+          className="text-lg opacity-80 group-hover:opacity-100 transition-opacity mt-0.5 flex-shrink-0"
+          aria-hidden="true"
+        >
+          {icon}
+        </span>
+        <div className="flex-1 min-w-0">
+          <div className="font-bold text-neutral-900 group-hover:text-blue-700">
+            {label}
+          </div>
+          <div className="text-xs text-neutral-600 font-medium mt-0.5">
+            {description}
+          </div>
+        </div>
+      </Link>
+    ),
+    [active, handleServiceItemKeyDown]
   );
 
   return (
-    <header
-      className={`sticky top-0 z-40 w-full transition-all duration-200 ${
-        isScrolled
-          ? "bg-slate-950/95 shadow-xl shadow-slate-950/40 backdrop-blur"
-          : "bg-slate-950/90 backdrop-blur"
-      }`}
-    >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <nav
-          className="flex items-center justify-between gap-6 py-3"
-          aria-label={t.mainNavLabel}
-        >
-          {/* Logo + marka */}
-          <div className="flex items-center gap-3">
+    <>
+      <nav
+        aria-label={headerStrings.navLabel}
+        className="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur border-b border-neutral-200/80 shadow-lg"
+      >
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 lg:h-20">
+            {/* Logo */}
             <Link
-              href={locale === "tr" ? "/" : `/${locale}`}
-              className={`flex items-center gap-2 rounded-xl px-2 py-1 hover:bg-slate-900 ${focusRingClass}`}
+              href="/"
+              className={`flex items-center gap-3 group ${FOCUS_RING_CLASS}`}
+              aria-label="Sahneva - Profesyonel sahne ve etkinlik ekipmanları kiralama"
             >
               <Image
                 src="/img/logo.png"
-                alt="Sahneva Organizasyon logo"
-                width={40}
+                alt="Sahneva Logo - Profesyonel sahne, podyum, LED ekran kiralama"
+                width={160}
                 height={40}
-                className="h-10 w-10"
-                priority
+                priority={pathname === "/"}
+                sizes="(max-width: 768px) 120px, 160px"
+                className="h-8 lg:h-10 w-auto transition-transform duration-200 group-hover:scale-105"
+                style={{ color: "transparent" }}
               />
-              <span className="flex flex-col leading-tight">
-                <span className="text-sm font-semibold tracking-tight text-white">
-                  Sahneva
-                </span>
-                <span className="text-[11px] font-medium text-slate-300">
-                  {t.tagline}
-                </span>
-              </span>
             </Link>
-          </div>
 
-          {/* Masaüstü menü */}
-            <div className="hidden items-center gap-6 md:flex">
-              <div className="flex items-center gap-3 text-sm font-medium text-slate-200">
-                {t.primaryLinks.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    title={item.title}
-                    className={`rounded-full px-3 py-2 transition ${
-                      isActiveLink(item.href)
-                        ? "bg-emerald-500/15 text-white ring-1 ring-emerald-400/60"
-                        : "text-slate-200 hover:bg-slate-900/80"
-                    } ${focusRingClass}`}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
+            {/* Desktop Menu */}
+            <div className="hidden lg:flex items-center gap-4">
+              <NavLink
+                href="/hakkimizda"
+              >
+                Hakkımızda
+              </NavLink>
 
-              {/* Hizmetler dropdown trigger (desktop) */}
-              <div className="relative group">
+              <NavLink
+                href="/blog"
+              >
+                Blog
+              </NavLink>
+
+              {/* Hizmetler Dropdown */}
+              <div
+                className="relative"
+                ref={dropdownRef}
+                onMouseEnter={openNow}
+                onMouseLeave={closeWithDelay}
+                onFocus={openNow}
+                onBlur={closeWithDelay}
+              >
                 <button
+                  id={servicesBtnId}
                   type="button"
-                  className={`inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium text-slate-200 hover:bg-slate-900/80 ${focusRingClass}`}
+                  className={`
+                    relative text-[15px] font-bold px-4 py-2.5 rounded-xl transition-all duration-200 group border
+                    ${
+                      active("/hizmetler") || servicesOpen
+                        ? "text-blue-700 bg-blue-50 border-blue-200"
+                        : "text-neutral-800 hover:text-blue-700 hover:bg-neutral-50 border-transparent hover:border-neutral-200"
+                    }
+                    ${FOCUS_RING_CLASS}
+                  `}
                   aria-haspopup="true"
-                  aria-expanded="false"
+                  aria-expanded={servicesOpen}
+                  aria-controls={servicesMenuId}
+                  onClick={() =>
+                    setServicesOpen((s) => !s)
+                  }
+                  onKeyDown={handleServicesButtonKeyDown}
+                  ref={servicesButtonRef}
                 >
-                  <span>{t.servicesLabel}</span>
-                  <span aria-hidden="true">▾</span>
+                  <span className="flex items-center gap-2">
+                    Hizmetler
+                    <svg
+                      className={`w-4 h-4 transition-transform duration-200 ${
+                        servicesOpen ? "rotate-180" : ""
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2.5}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </span>
                 </button>
-                <div className="pointer-events-none absolute right-0 z-40 mt-3 w-72 translate-y-2 rounded-2xl border border-slate-800/80 bg-slate-900/95 p-3 shadow-2xl shadow-slate-950/40 ring-1 ring-slate-800/70 opacity-0 transition group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100">
-                  <div className="grid grid-cols-1 gap-2">
-                    {serviceLinks.map((service) => (
-                      <Link
-                        key={service.href}
-                        href={service.href}
-                        title={service.title}
-                        className={`flex items-start gap-3 rounded-xl px-3 py-2 text-left text-sm text-slate-100 transition hover:bg-slate-800/80 ${focusRingClass}`}
-                      >
-                        <span className="text-lg" aria-hidden="true">
-                          {service.icon}
-                        </span>
-                        <span className="flex flex-col">
-                          <span className="font-semibold leading-tight">{service.label}</span>
-                          <span className="text-[12px] text-slate-400">
-                            {service.description}
-                          </span>
-                        </span>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
+
+                {/* Hover boşluk köprüsü */}
+                <span
+                  aria-hidden="true"
+                  className="absolute left-0 right-0 top-full h-2"
+                  onMouseEnter={openNow}
+                />
+
+                <ul
+                  id={servicesMenuId}
+                  aria-labelledby={servicesBtnId}
+                  className={`
+                    absolute left-0 top-full mt-2 w-80 bg-white border border-neutral-200 rounded-xl shadow-xl
+                    z-[60] transition-all duration-200 flex flex-col p-2
+                    ${
+                      servicesOpen
+                        ? "opacity-100 translate-y-0 pointer-events-auto"
+                        : "opacity-0 translate-y-2 pointer-events-none"
+                    }
+                  `}
+                  onMouseEnter={openNow}
+                  onMouseLeave={closeWithDelay}
+                >
+                  {SERVICE_LINKS.map((service, index) => (
+                    <li key={service.href} className="list-none">
+                      <ServiceLink
+                        index={index}
+                        {...service}
+                      />
+                    </li>
+                  ))}
+                </ul>
               </div>
 
-              {/* CTA */}
-              <div className="flex items-center gap-3">
-                <a
-                  href="tel:+905453048671"
-                  className={`rounded-full bg-gradient-to-r from-emerald-400 to-emerald-500 px-4 py-2 text-sm font-semibold text-slate-950 shadow-sm shadow-emerald-500/30 hover:from-emerald-300 hover:to-emerald-400 ${focusRingClass}`}
-                >
-                  {t.callNow}
-                </a>
-                <a
-                  href="https://wa.me/905453048671?text=Merhaba%2C+etkinliginiz+icin+teklif+almak+isterim."
-                  target="_blank"
-                  rel="noreferrer"
-                  className={`rounded-full border border-emerald-300/70 px-4 py-2 text-sm font-semibold text-emerald-200 hover:bg-emerald-500/10 hover:text-white ${focusRingClass}`}
-                  aria-label={`${t.whatsappCta} (WhatsApp yeni sekmede açılır)`}
-                >
-                  {t.whatsappCta}
-                </a>
-              </div>
-          </div>
+              <NavLink
+                href="/iletisim"
+              >
+                İletişim
+              </NavLink>
 
-          {/* Mobil menü butonu */}
-          <div className="flex items-center gap-2 md:hidden">
+              {/* Desktop WhatsApp CTA */}
+              <a
+                href="https://wa.me/905453048671?text=Merhaba%2C+sahne+ve+etkinlik+ekipmanları+için+teklif+almak+istiyorum."
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp Teklif — yeni sekmede açılır"
+                className={whatsappBtnClass}
+              >
+                <span
+                  aria-hidden="true"
+                  className="text-base"
+                >
+                  💬
+                </span>
+                <span>WhatsApp Teklif</span>
+                <span className="sr-only">
+                  {" "}
+                  — yeni sekmede açılır
+                </span>
+              </a>
+            </div>
+
+            {/* Mobile menu button */}
             <button
-              ref={mobileMenuToggleRef}
               type="button"
-              onClick={handleMobileMenuToggle}
-              className={`inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-900/80 text-slate-100 shadow-sm hover:bg-slate-800 ${focusRingClass}`}
-              aria-label={
-                isMobileMenuOpen ? t.mobileMenuCloseLabel : t.mobileMenuOpenLabel
+              ref={toggleButtonRef}
+              onClick={() =>
+                setMobileOpen((s) => !s)
               }
-              aria-expanded={isMobileMenuOpen}
-              aria-controls="mobile-menu-panel"
+              className={`
+                lg:hidden inline-flex items-center justify-center p-3 rounded-xl bg-white border 
+                border-neutral-200 hover:bg-neutral-50 transition-all duration-200 
+                min-h-[44px] min-w-[44px] transform hover:scale-105 ${FOCUS_RING_CLASS}
+              `}
+              aria-label={
+                mobileOpen
+                  ? headerStrings.mobileToggleCloseLabel
+                  : headerStrings.mobileToggleOpenLabel
+              }
+              aria-expanded={mobileOpen}
+              aria-controls={mobileMenuId}
               aria-haspopup="true"
             >
-              <span className="sr-only">
-                {isMobileMenuOpen
-                  ? t.mobileMenuCloseLabel
-                  : t.mobileMenuOpenLabel}
-              </span>
-              <span aria-hidden="true">
-                {isMobileMenuOpen ? "✕" : "☰"}
+              <span
+                className="relative w-6 h-6 flex flex-col justify-center items-center gap-1.5"
+                aria-hidden="true"
+              >
+                <span
+                  className={`w-5 h-0.5 bg-neutral-900 rounded-full transition-all duration-300 origin-center ${
+                    mobileOpen
+                      ? "rotate-45 translate-y-2"
+                      : ""
+                  }`}
+                />
+                <span
+                  className={`w-5 h-0.5 bg-neutral-900 rounded-full transition-all duration-300 ${
+                    mobileOpen ? "opacity-0" : "opacity-100"
+                  }`}
+                />
+                <span
+                  className={`w-5 h-0.5 bg-neutral-900 rounded-full transition-all duration-300 origin-center ${
+                    mobileOpen
+                      ? "-rotate-45 -translate-y-2"
+                      : ""
+                  }`}
+                />
               </span>
             </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile Menu */}
+      <div
+        id={mobileMenuId}
+        ref={mobileMenuRef}
+        role="dialog"
+        aria-modal={mobileOpen || undefined}
+        aria-labelledby={MOBILE_MENU_HEADING_ID}
+        className={`
+          lg:hidden fixed z-50 left-0 right-0 top-16 bg-white border-t border-neutral-200 
+          shadow-2xl overflow-hidden transition-all duration-300 ease-in-out
+          ${
+            mobileOpen
+              ? "max-h-[85vh] opacity-100 pointer-events-auto visible"
+              : "max-h-0 opacity-0 pointer-events-none invisible"
+          }
+        `}
+      >
+        <h2
+          id={MOBILE_MENU_HEADING_ID}
+          className="sr-only"
+        >
+          {headerStrings.navLabel}
+        </h2>
+
+        <nav aria-label={headerStrings.navLabel}>
+          <div className="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
+            <Link
+              href="/hakkimizda"
+              onClick={() => setMobileOpen(false)}
+              className={`
+                flex items-center gap-3 py-3.5 px-4 text-neutral-900 font-bold text-[15px] rounded-xl
+                hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent
+                hover:border-blue-200 transform hover:scale-[1.02] ${FOCUS_RING_CLASS}
+              `}
+              aria-current={
+                active("/hakkimizda") ? "page" : undefined
+              }
+            >
+              <span
+                className="text-lg"
+                aria-hidden="true"
+              >
+                👥
+              </span>
+              Hakkımızda
+            </Link>
+
+            <Link
+              href="/blog"
+              onClick={() => setMobileOpen(false)}
+              className={`
+                flex items-center gap-3 py-3.5 px-4 text-neutral-900 font-bold text-[15px] rounded-xl
+                hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent
+                hover:border-blue-200 transform hover:scale-[1.02] ${FOCUS_RING_CLASS}
+              `}
+              aria-current={
+                active("/blog") ? "page" : undefined
+              }
+            >
+              <span
+                className="text-lg"
+                aria-hidden="true"
+              >
+                📝
+              </span>
+              Blog
+            </Link>
+
+            {/* Mobil Hizmetler akordeon */}
+            <div className="py-1">
+              <button
+                type="button"
+                onClick={() =>
+                  setMobileServicesOpen((s) => !s)
+                }
+                aria-expanded={mobileServicesOpen}
+                aria-controls="mobile-services-list"
+                className={`
+                  w-full flex items-center justify-between gap-3 py-3.5 px-4 text-[15px] font-bold
+                  text-neutral-900 rounded-xl hover:bg-blue-50 hover:text-blue-700
+                  transition-all duration-200 border border-transparent hover:border-blue-200
+                  min-h-[44px] transform hover:scale-[1.02] ${FOCUS_RING_CLASS}
+                `}
+              >
+                <span className="flex items-center gap-3">
+                  <span
+                    className="text-lg"
+                    aria-hidden="true"
+                  >
+                    🎯
+                  </span>
+                  <span>Hizmetler</span>
+                </span>
+                <svg
+                  className={`w-5 h-5 shrink-0 text-neutral-700 transition-transform duration-200 ${
+                    mobileServicesOpen ? "rotate-180" : ""
+                  }`}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </button>
+
+              <div
+                id="mobile-services-list"
+                className={`
+                  overflow-hidden transition-all duration-300 ease-in-out
+                  ${
+                    mobileServicesOpen
+                      ? "max-h-[600px] opacity-100 py-2"
+                      : "max-h-0 opacity-0 py-0"
+                  }
+                `}
+              >
+                <div className="ml-4 rounded-lg border border-neutral-200 bg-white p-2 space-y-1">
+                  {SERVICE_LINKS.map(
+                    ({
+                      href,
+                      label,
+                      title,
+                      icon,
+                      description,
+                    }) => (
+                      <Link
+                        key={href}
+                        href={href}
+                        onClick={() =>
+                          setMobileOpen(false)
+                        }
+                        className={`
+                          flex items-start gap-3 px-3 py-2 text-sm text-neutral-700
+                          hover:bg-blue-50 hover:text-blue-700 rounded-md
+                          transition-all duration-200 w-full transform hover:scale-[1.01]
+                          ${FOCUS_RING_CLASS}
+                        `}
+                        title={title}
+                        aria-current={
+                          active(href) ? "page" : undefined
+                        }
+                      >
+                        <span
+                          className="text-base opacity-70 mt-0.5 flex-shrink-0"
+                          aria-hidden="true"
+                        >
+                          {icon}
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <div className="font-bold text-neutral-900">
+                            {label}
+                          </div>
+                          <div className="text-xs text-neutral-600 mt-0.5 font-medium">
+                            {description}
+                          </div>
+                        </div>
+                      </Link>
+                    )
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <Link
+              href="/iletisim"
+              onClick={() => setMobileOpen(false)}
+              className={`
+                flex items-center gap-3 py-3.5 px-4 text-neutral-900 font-bold text-[15px] rounded-xl
+                hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent
+                hover:border-blue-200 transform hover:scale-[1.02] ${FOCUS_RING_CLASS}
+              `}
+              aria-current={
+                active("/iletisim") ? "page" : undefined
+              }
+            >
+              <span
+                className="text-lg"
+                aria-hidden="true"
+              >
+                📞
+              </span>
+              İletişim
+            </Link>
+
+            {/* Mobil WhatsApp CTA */}
+            <a
+              href="https://wa.me/905453048671?text=Merhaba%2C+sahne+ve+etkinlik+ekipmanları+için+teklif+almak+istiyorum."
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="WhatsApp Teklif — yeni sekmede açılır"
+              className={mobileWhatsappBtnClass}
+              onClick={() => setMobileOpen(false)}
+            >
+              <span
+                aria-hidden="true"
+                className="text-base"
+              >
+                💬
+              </span>
+              <span>WhatsApp Teklif</span>
+              <span className="sr-only">
+                {" "}
+                — yeni sekmede açılır
+              </span>
+            </a>
           </div>
         </nav>
       </div>
 
-      {/* Mobil menü overlay + panel */}
-      {isMobileMenuOpen && (
-        <div
-          className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm md:hidden"
-          aria-hidden="false"
-        >
-          <div
-            ref={mobileMenuRef}
-            id="mobile-menu-panel"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby={MOBILE_MENU_HEADING_ID}
-            className="fixed inset-x-3 top-3 bottom-3 flex flex-col overflow-hidden rounded-2xl bg-slate-900 shadow-xl ring-1 ring-slate-700/80"
-            onKeyDown={handleMobileMenuKeyDown}
-          >
-            {/* Üst bar */}
-            <div className="flex items-center justify-between border-b border-slate-700/80 px-4 py-3">
-              <h2
-                id={MOBILE_MENU_HEADING_ID}
-                className="text-sm font-semibold text-slate-100"
-              >
-                {t.mobileMenuLabel}
-              </h2>
-              <button
-                type="button"
-                onClick={closeMobileMenu}
-                className={`inline-flex h-9 w-9 items-center justify-center rounded-full bg-slate-800 text-slate-100 hover:bg-slate-700 ${focusRingClass}`}
-              >
-                <span className="sr-only">{t.mobileMenuCloseLabel}</span>
-                <span aria-hidden="true">✕</span>
-              </button>
-            </div>
-
-            {/* Linkler */}
-            <div className="flex-1 overflow-y-auto px-4 py-4">
-              <nav aria-label={t.mobileNavLabel} className="space-y-2">
-                {t.primaryLinks.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    title={item.title}
-                    className={`block rounded-xl px-3 py-2 text-sm font-medium ${
-                      isActiveLink(item.href)
-                        ? "bg-slate-800 text-white"
-                        : "text-slate-200 hover:bg-slate-800/80"
-                    } ${focusRingClass}`}
-                    onClick={closeMobileMenu}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-
-                <div className="mt-4 border-t border-slate-700/80 pt-4">
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
-                    {t.servicesLabel}
-                  </p>
-                  <ul className="space-y-1">
-                    {serviceLinks.map((service) => (
-                      <li key={service.href}>
-                        <Link
-                          href={service.href}
-                          title={service.title}
-                          className={`flex items-center gap-2 rounded-xl px-3 py-2 text-sm ${
-                            isActiveLink(service.href)
-                              ? "bg-slate-800 text-white"
-                              : "text-slate-200 hover:bg-slate-800/80"
-                          } ${focusRingClass}`}
-                          onClick={closeMobileMenu}
-                        >
-                          <span aria-hidden="true">{service.icon}</span>
-                          <span className="flex flex-col text-left">
-                            <span className="font-medium">
-                              {service.label}
-                            </span>
-                            <span className="text-[11px] text-slate-400">
-                              {service.description}
-                            </span>
-                          </span>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </nav>
-            </div>
-
-            {/* Alt CTA’lar */}
-            <div className="border-t border-slate-700/80 px-4 py-3">
-              <div className="flex flex-col gap-2">
-                <a
-                  href="tel:+905453048671"
-                  className={`inline-flex items-center justify-center rounded-full bg-emerald-500 px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-emerald-400 ${focusRingClass}`}
-                >
-                  {t.callNow}
-                </a>
-                <a
-                  href="https://wa.me/905453048671?text=Merhaba%2C+etkinliginiz+icin+teklif+almak+isterim."
-                  target="_blank"
-                  rel="noreferrer"
-                  className={`inline-flex items-center justify-center rounded-full border border-emerald-400/60 px-4 py-2 text-sm font-semibold text-emerald-300 hover:bg-emerald-500/10 ${focusRingClass}`}
-                  aria-label={`${t.whatsappCta} (WhatsApp yeni sekmede açılır)`}
-                >
-                  {t.whatsappCta}
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </header>
+      {/* Mobil Backdrop */}
+      <div
+        className={`
+          lg:hidden fixed inset-0 z-40 bg-black/40 backdrop-blur-sm transition-opacity duration-300
+          ${
+            mobileOpen
+              ? "opacity-100 pointer-events-auto visible"
+              : "opacity-0 pointer-events-none invisible"
+          }
+        `}
+        onClick={() => setMobileOpen(false)}
+        aria-hidden="true"
+      />
+    </>
   );
 }
