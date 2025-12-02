@@ -385,6 +385,7 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
     sizes: "100vw",
     fetchPriority: "high",
     placeholder: "blur",
+    loading: "eager",
     quality: 70,
     className: "absolute inset-0 h-full w-full object-cover object-center",
     style: {
