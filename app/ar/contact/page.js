@@ -30,12 +30,10 @@ const CONTACT_CHANNELS = [
     href: "tel:+905453048671",
     description: "تحدث مباشرة مع مدير المشروع.",
   },
-];
+].filter(Boolean);
 
 export default function ArabicContactPage() {
-  const contactChannels = Array.isArray(CONTACT_CHANNELS)
-    ? CONTACT_CHANNELS
-    : [];
+  const contactChannels = Array.isArray(CONTACT_CHANNELS) ? CONTACT_CHANNELS : [];
 
   return (
     <div className="container mx-auto space-y-12 px-4 py-10" dir="rtl">
@@ -47,7 +45,7 @@ export default function ArabicContactPage() {
       </header>
 
       <div className="grid gap-6 md:grid-cols-3">
-        {contactChannels.map((channel) => (
+        {(contactChannels ?? []).map((channel) => (
           <a
             key={channel.title}
             href={channel.href}
