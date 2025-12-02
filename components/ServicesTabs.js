@@ -277,7 +277,7 @@ function ServicesTabsComponent({
             onKeyDown={onKeyDownTabs}
           >
             {/* HER BİR BUTON ARTIK DOĞRUDAN role="tablist" ALT ÖĞESİDİR */}
-            {services.map((service, index) => (
+            {services.map((service) => (
               // Bireysel ScrollReveal kaldırıldı. key artık button'a aittir.
               <button
                 key={service.id} 
