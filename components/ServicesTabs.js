@@ -268,7 +268,7 @@ function ServicesTabsComponent({
       {/* TAB BUTONLARI */}
       {/* ScrollReveal'ı sadece dış div'e uyguluyoruz. Her butondan kaldırdık. */}
       <ScrollReveal asChild>
-        <div className="relative mb-0">
+        <div className="relative mb-12">
           <div
             ref={listRef}
             className="flex overflow-x-auto pb-4 gap-2 scrollbar-hide -mx-4 px-4"
