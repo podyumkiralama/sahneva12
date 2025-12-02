@@ -481,6 +481,7 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
     // while still keeping the hero image eagerly loaded on actual visits.
     fetchPriority: "high",
     placeholder: "blur",
+    loading: "eager",
     quality: 70,
     className: "absolute inset-0 h-full w-full object-cover object-center",
     style: {
