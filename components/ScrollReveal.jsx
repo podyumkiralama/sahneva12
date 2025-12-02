@@ -1,4 +1,3 @@
-// components/ScrollReveal.jsx
 "use client";
 
 import React, { useRef, useEffect } from "react";
@@ -9,7 +8,7 @@ import clsx from "clsx";
  * Her eleman sadece BİR KEZ animasyon yapar ve sonra observer'dan çıkar.
  */
 
-let sharedObserver: IntersectionObserver | null = null;
+let sharedObserver = null;
 
 function getObserver() {
   if (typeof window === "undefined") return null;
@@ -20,7 +19,9 @@ function getObserver() {
       for (const entry of entries) {
         if (entry.isIntersecting) {
           entry.target.classList.add("reveal-in");
-          sharedObserver?.unobserve(entry.target);
+          if (sharedObserver) {
+            sharedObserver.unobserve(entry.target);
+          }
         }
       }
     },
@@ -34,7 +35,7 @@ function getObserver() {
   return sharedObserver;
 }
 
-function useScrollReveal(ref: React.RefObject<HTMLElement>) {
+function useScrollReveal(ref) {
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
