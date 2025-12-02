@@ -63,6 +63,13 @@ const localBusinessJsonLd = {
     longitude: 28.9702,
   },
   priceRange: "₺₺",
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.9",
+    ratingCount: 120,
+    bestRating: "5",
+    worstRating: "1",
+  },
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",

@@ -10,7 +10,6 @@ import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts"
 export const revalidate = 1800;
 const ORIGIN = "https://www.sahneva.com";
 const PHONE = "+905453048671";
-const SERVICE_SLUG = "/sahne-kiralama";
 const WA_TEXT =
   "Merhaba%2C+sahne+kiralama+icin+teklif+istiyorum.+Etkinlik+turu%3A+%5Bkonser%2Fkonferans%2Flansman%5D%2C+Tarih%3A+%5Bgg.aa.yyyy%5D%2C+Katilimci+sayisi%3A+%5Bxxx%5D%2C+Tahmini+sahne+olcusu%3A+%5Bm%C2%B2%5D.";
 const WHATSAPP = `https://wa.me/${PHONE.replace("+", "")}?text=${WA_TEXT}`;
@@ -41,12 +40,12 @@ export const metadata = {
   title: "Sahne Kiralama | Profesyonel Sahne Çözümleri | Sahneva",
   description:
     "Konser, konferans, lansman, miting ve festival etkinlikleri için anahtar teslim sahne kiralama. Truss, podyum, LED ekran, ses ve ışık sistemleri. 81 ilde profesyonel hizmet.",
-  alternates: { canonical: `${ORIGIN}${SERVICE_SLUG}` },
+  alternates: { canonical: `${ORIGIN}/sahne-kiralama` },
   openGraph: {
     title: "Sahne Kiralama | Profesyonel Sahne Çözümleri",
     description:
       "Konser, konferans, lansman ve festival etkinlikleri için truss, podyum, LED ekran, ses ve ışık sistemleri ile anahtar teslim sahne çözümleri.",
-    url: `${ORIGIN}${SERVICE_SLUG}`,
+    url: `${ORIGIN}/sahne-kiralama`,
     type: "website",
     siteName: "Sahneva",
     locale: "tr_TR",
@@ -276,7 +275,7 @@ function Hero() {
           className="object-cover"
           sizes={HERO.sizes}
           quality={85}
-          placeholder="blur"
+         
           blurDataURL={BLUR_DATA_URL}
           loading="eager"
         />
@@ -1559,7 +1558,7 @@ function CTA() {
 /* ================== JSON-LD ================== */
 /* Burada next/script yerine düz <script> kullanıyoruz. */
 function JsonLd() {
-  const pageUrl = `${ORIGIN}${SERVICE_SLUG}`;
+  const pageUrl = `${ORIGIN}/sahne-kiralama`;
   const pageDescription = metadata.description;
 
   const provider = {
@@ -1571,10 +1570,8 @@ function JsonLd() {
     logo: `${ORIGIN}/img/logo.png`,
   };
 
-  // Schema verisi bu sayfanın JsonLd bileşeni üzerinden geliyor.
-  // Dataset: lib/structuredData/serviceProducts.js
   const { service: serviceSchema, products } = buildServiceProductSchema({
-    slug: SERVICE_SLUG,
+    slug: "/sahne-kiralama",
     locale: "tr-TR",
   });
 

@@ -274,7 +274,7 @@ function Hero() {
           sizes={HERO.sizes}
           // quality={85}  // <-- KALDIRILDI
           quality={70}    // Daha agresif sıkıştırma, LCP uyarısını yumuşatır
-          placeholder="blur"
+         
           blurDataURL={BLUR_DATA_URL}
           loading="eager"
         />

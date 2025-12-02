@@ -164,7 +164,7 @@ export default function AboutPage() {
             className="object-cover"
             sizes="100vw"
             quality={85}
-            placeholder="blur"
+           
             blurDataURL={BLUR_DATA_URL}
             loading="eager"
           />

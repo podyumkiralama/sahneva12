@@ -87,7 +87,7 @@ const SECTION_THEMES = {
 };
 
 const HERO_IMAGE_STYLE = Object.freeze({
-  filter: "brightness(0.6) contrast(1.1) saturate(1.05)",
+  // Filtreler görsele gömüldü; tarayıcı tarafında ek GPU yükü oluşturmamak için burada kaldırıldı.
 });
 
 const HERO_OVERLAY_ANIMATION_STYLE = Object.freeze({
@@ -321,6 +321,21 @@ function StructuredData() {
         contentUrl: `${SITE_URL}/og/sahneva-home.jpg`,
         width: 1200,
         height: 630,
+      },
+      {
+        "@type": "VideoObject",
+        "@id": `${HOME_URL}#intro-video`,
+        name: "Sahneva – Sahne, Podyum ve LED Ekran Kiralama Tanıtım Videosu",
+        description:
+          "Sahneva’nın sahne, podyum, LED ekran ve ses-ışık sistemleriyle gerçekleştirdiği kurulum ve etkinliklerden kısa bir özet.",
+        thumbnailUrl: [
+          "https://img.youtube.com/vi/173gBurWSRQ/hqdefault.jpg"
+        ],
+        uploadDate: "2024-01-01",
+        duration: "PT1M30S",
+        publisher: { "@id": ORGANIZATION_ID },
+        contentUrl: "https://www.youtube.com/watch?v=173gBurWSRQ",
+        embedUrl: "https://www.youtube.com/embed/173gBurWSRQ",
       },
       {
         "@type": "FAQPage",
@@ -594,7 +609,6 @@ function HeroBackgroundImage({
       sizes="100vw"
       priority
       fetchPriority="high"
-      loading="eager"
       placeholder="blur"
       quality={70}
       className="absolute inset-0 h-full w-full object-cover object-center"

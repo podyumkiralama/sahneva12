@@ -216,7 +216,7 @@ const GalleryCard = memo(function GalleryCard({
               quality={index === 0 ? 60 : 65}
               loading={index === 0 ? "eager" : "lazy"}
               decoding="async"
-              placeholder="blur"
+             
               blurDataURL={BLUR_DATA_URL}
               priority={index === 0}
               fetchPriority={index === 0 ? "high" : "auto"}

@@ -159,7 +159,7 @@ function OptimizedImage({ src, alt, sizes, className }) {
       className={className}
       loading="lazy"
       decoding="async"
-      placeholder="blur"
+     
       blurDataURL={BLUR_DATA_URL}
       quality={75}
       fetchPriority="low"

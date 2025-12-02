@@ -170,7 +170,7 @@ function Hero() {
           className="object-cover"
           sizes={HERO.sizes}
           quality={85}
-          placeholder="blur"
+         
           blurDataURL={BLUR_DATA_URL}
           loading="eager"
         />
