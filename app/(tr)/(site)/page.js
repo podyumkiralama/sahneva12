@@ -90,10 +90,6 @@ const SECTION_THEMES = {
 
 const HERO_IMAGE_STYLE = Object.freeze({});
 
-const HERO_OVERLAY_ANIMATION_STYLE = Object.freeze({
-  animationDuration: "8s",
-});
-
 const WHY_SAHNEVA_FEATURES = [
   {
     icon: "⭐",
@@ -163,7 +159,7 @@ function StructuredData() {
   // ORGANIZATION_ID ve WEBSITE_ID root layout'tan alınır
   const ORGANIZATION_ID = `${SITE_URL}/#org`;
   const WEBSITE_ID = `${SITE_URL}/#website`;
-  
+
   const WEBPAGE_ID = `${HOME_URL}#webpage`;
   const SERVICE_ID = `${HOME_URL}#primary-service`;
   const CATALOG_ID = `${HOME_URL}#catalog`;
@@ -472,17 +468,15 @@ function CTAButton({
 function CTAGroup() {
   return (
     <div className="flex flex-col sm:flex-row justify-center items-center gap-3 md:gap-4 mb-12">
-      {CTA_BUTTONS.map(
-        ({ srHint, gradient, ariaLabel, ...cta }) => (
-          <CTAButton
-            key={cta.href}
-            gradient={gradient}
-            srHint={srHint}
-            ariaLabel={ariaLabel}
-            {...cta}
-          />
-        )
-      )}
+      {CTA_BUTTONS.map(({ srHint, gradient, ariaLabel, ...cta }) => (
+        <CTAButton
+          key={cta.href}
+          gradient={gradient}
+          srHint={srHint}
+          ariaLabel={ariaLabel}
+          {...cta}
+        />
+      ))}
     </div>
   );
 }
@@ -490,31 +484,25 @@ function CTAGroup() {
 function HeroFeatureGrid() {
   return (
     // A11Y: role="list" eklendi
-    <ul className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12 list-none p-0 m-0" role="list">
-      {HERO_FEATURES.map((item, index) => (
-        <ScrollReveal
-          asChild
-          key={item.title}
-          delay={String(index + 1)}
-          direction="scale"
-        >
-          <li className="m-0 p-0">
-            <div className="group bg-slate-900/60 backdrop-blur-lg rounded-xl p-4 border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-105">
-              <div
-                className={`text-2xl mb-2 ${item.color}`}
-                aria-hidden="true"
-              >
-                {item.icon}
-              </div>
-              <div className="text-white font-bold text-base mb-1">
-                {item.title}
-              </div>
-              <div className="text-gray-200 text-xs">
-                {item.description}
-              </div>
+    <ul
+      className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12 list-none p-0 m-0"
+      role="list"
+    >
+      {HERO_FEATURES.map((item) => (
+        <li key={item.title} className="m-0 p-0">
+          <div className="group bg-slate-900/60 backdrop-blur-lg rounded-xl p-4 border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-105">
+            <div
+              className={`text-2xl mb-2 ${item.color}`}
+              aria-hidden="true"
+            >
+              {item.icon}
             </div>
-          </li>
-        </ScrollReveal>
+            <div className="text-white font-bold text-base mb-1">
+              {item.title}
+            </div>
+            <div className="text-gray-200 text-xs">{item.description}</div>
+          </div>
+        </li>
       ))}
     </ul>
   );
@@ -562,10 +550,7 @@ function ConsultationCard() {
   );
 }
 
-function HeroBackgroundImage({
-  alt = HERO_IMAGE_ALT,
-  ariaHidden = false,
-}) {
+function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
   return (
     <Image
       alt={ariaHidden ? "" : alt}
@@ -588,15 +573,12 @@ function HeroBackgroundImage({
 // —————————————————————————————————————————
 export default function HomePage() {
   return (
-    // <main> etiketi Layout'ta olduğu için, sayfa içeriğini sarmalayan üst düzey bir etikete gerek yok.
-    // Doğrudan sayfadaki tüm section'ları render ediyoruz.
     <>
       {/* SEO: Sadece sayfaya özel Schema.org verisi */}
       <StructuredData />
 
       {/* HERO SECTION - Ana sayfanın ilk görünecek kısmı (LCP) */}
       <section
-        // Layout'ta pt-16/lg:pt-20 boşluğu <main> etiketine eklendiği için burada kaldırıldı.
         className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950"
         aria-labelledby="hero-title"
       >
@@ -605,78 +587,57 @@ export default function HomePage() {
           <HeroBackgroundImage ariaHidden />
         </div>
 
-        {/* Overlay katmanları */}
+        {/* Karanlık overlay */}
         <div
           className="absolute inset-0 bg-gradient-to-br from-slate-950/90 via-blue-950/80 to-purple-950/80"
-          aria-hidden="true"
-        />
-        <div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse motion-reduce:animate-none"
-          style={HERO_OVERLAY_ANIMATION_STYLE}
           aria-hidden="true"
         />
 
         {/* İçerik */}
         <div className="relative z-10 container py-12 md:py-16">
           <div className="max-w-6xl mx-auto text-center mb-10">
-            <ScrollReveal asChild>
-              <div className="inline-flex items-center gap-3 bg-slate-900/60 backdrop-blur-md rounded-full px-6 py-3 border border-white/20 mb-6">
-                <span
-                  className="w-2 h-2 bg-green-400 rounded-full animate-pulse motion-reduce:animate-none"
-                  aria-hidden="true"
-                />
-                <span className="text-white text-sm font-medium">
-                  Türkiye Geneli Profesyonel Hizmet
-                </span>
-              </div>
-            </ScrollReveal>
+            <div className="inline-flex items-center gap-3 bg-slate-900/60 backdrop-blur-md rounded-full px-6 py-3 border border-white/20 mb-6">
+              <span
+                className="w-2 h-2 bg-green-400 rounded-full animate-pulse motion-reduce:animate-none"
+                aria-hidden="true"
+              />
+              <span className="text-white text-sm font-medium">
+                Türkiye Geneli Profesyonel Hizmet
+              </span>
+            </div>
 
             {/* Başlık (H1) */}
-            <ScrollReveal delay="1" asChild>
-              <h1
-                id="hero-title"
-                className="text-white text-3xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight tracking-tight drop-shadow-md"
-              >
-                <span className="block mb-2">Profesyonel</span>
-                <span
-                  className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-purple-700 to-cyan-600 bg-[length:300%_100%] animate-[gradient_8s_ease_infinite] motion-reduce:animate-none"
-                  aria-hidden="true"
-                >
-                  Sahne Sistemleri
-                </span>
-                <span className="sr-only">Sahne Sistemleri</span>
-              </h1>
-            </ScrollReveal>
+            <h1
+              id="hero-title"
+              className="text-white text-3xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight tracking-tight drop-shadow-md"
+            >
+              <span className="block mb-2">Profesyonel</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-purple-700 to-cyan-600">
+                Sahne Sistemleri
+              </span>
+              <span className="sr-only">Sahne Sistemleri</span>
+            </h1>
 
-            <ScrollReveal delay="2">
-              <>
-                <KeywordPills />
-                <p className="text-slate-100 text-base md:text-lg mb-8 max-w-3xl mx-auto drop-shadow-sm font-medium">
-                  500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli
-                  hızlı kurulum ile yanınızdayız
-                </p>
-              </>
-            </ScrollReveal>
+            <KeywordPills />
+
+            <p className="text-slate-100 text-base md:text-lg mb-8 max-w-3xl mx-auto drop-shadow-sm font-medium">
+              500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli
+              hızlı kurulum ile yanınızdayız
+            </p>
 
             {/* CTA Butonları */}
-            <ScrollReveal delay="3">
-              <CTAGroup />
-            </ScrollReveal>
+            <CTAGroup />
 
             {/* Öne çıkanlar */}
-            <ScrollReveal delay="4">
-              <section aria-labelledby="hero-features-heading">
-                <h2 id="hero-features-heading" className="sr-only">
-                  Öne çıkan özellikler
-                </h2>
-                <HeroFeatureGrid />
-              </section>
-            </ScrollReveal>
+            <section aria-labelledby="hero-features-heading">
+              <h2 id="hero-features-heading" className="sr-only">
+                Öne çıkan özellikler
+              </h2>
+              <HeroFeatureGrid />
+            </section>
 
             {/* Danışmanlık kutusu */}
-            <ScrollReveal delay="5">
-              <ConsultationCard />
-            </ScrollReveal>
+            <ConsultationCard />
           </div>
         </div>
 
@@ -694,9 +655,7 @@ export default function HomePage() {
       </section>
 
       {/* #teklif-al hedefi (Ana içeriğin hemen başında, Skip Link/CTA hedefine yardımcı olur) */}
-      <div id="teklif-al" className="sr-only" /> 
-      
-      {/* Ana içerik bölümleri Hero'dan hemen sonra başlar */}
+      <div id="teklif-al" className="sr-only" />
 
       {/* Google review banner – deferred */}
       <ReviewBannerDeferred idleTimeout={2000} rootMargin="0px" />
@@ -786,38 +745,37 @@ export default function HomePage() {
           </ScrollReveal>
 
           <ScrollRevealGroup>
-            <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 list-none p-0 m-0" role="list">
+            <ul
+              className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 list-none p-0 m-0"
+              role="list"
+            >
               {WHY_SAHNEVA_FEATURES.map(
                 ({ icon, title, desc, stat }, i) => (
                   <li key={i} className="m-0 p-0">
                     <ScrollReveal
-                      asChild
-                      delay={String(i % 3)}
-                      direction="scale"
+                      variant="scale"
+                      as="article"
+                      className="group relative bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 p-6 border border-neutral-100 hover:border-blue-200/70 hover:scale-105"
+                      aria-labelledby={`why-card-${i}-title`}
                     >
-                      <article
-                        className="group relative bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 p-6 border border-neutral-100 hover:border-blue-200/70 hover:scale-105"
-                        aria-labelledby={`why-card-${i}-title`}
+                      <div className="absolute top-3 right-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                        {stat}
+                      </div>
+                      <div
+                        className="text-3xl mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text"
+                        aria-hidden="true"
                       >
-                        <div className="absolute top-3 right-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                          {stat}
-                        </div>
-                        <div
-                          className="text-3xl mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text"
-                          aria-hidden="true"
-                        >
-                          {icon}
-                        </div>
-                        <h3
-                          id={`why-card-${i}-title`}
-                          className="font-black text-lg mb-3 text-neutral-900 group-hover:text-blue-600 transition-colors"
-                        >
-                          {title}
-                        </h3>
-                        <p className="text-neutral-700 leading-relaxed text-sm">
-                          {desc}
-                        </p>
-                      </article>
+                        {icon}
+                      </div>
+                      <h3
+                        id={`why-card-${i}-title`}
+                        className="font-black text-lg mb-3 text-neutral-900 group-hover:text-blue-600 transition-colors"
+                      >
+                        {title}
+                      </h3>
+                      <p className="text-neutral-700 leading-relaxed text-sm">
+                        {desc}
+                      </p>
                     </ScrollReveal>
                   </li>
                 )
@@ -846,7 +804,7 @@ export default function HomePage() {
 
           <div className="grid gap-6 lg:gap-8 lg:grid-cols-2">
             {/* Sol blok */}
-            <ScrollReveal direction="left" asChild>
+            <ScrollReveal variant="left" as="article">
               <article className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 shadow-lg border border-blue-100">
                 <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
                   <span
@@ -891,10 +849,7 @@ export default function HomePage() {
                   </p>
                   <ul className="mt-4 space-y-2 text-neutral-700" role="list">
                     {SEO_TECH_FEATURES.map((item, i) => (
-                      <li
-                        key={i}
-                        className="flex items-center gap-3"
-                      >
+                      <li key={i} className="flex items-center gap-3">
                         <div
                           className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"
                           aria-hidden="true"
@@ -908,7 +863,7 @@ export default function HomePage() {
             </ScrollReveal>
 
             {/* Sağ blok */}
-            <ScrollReveal direction="right" asChild>
+            <ScrollReveal variant="right" as="article">
               <article className="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-6 shadow-lg border border-purple-100">
                 <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
                   <span
@@ -928,10 +883,7 @@ export default function HomePage() {
                   </p>
                   <ul className="mt-4 space-y-2 text-neutral-700" role="list">
                     {SEO_INFRA_FEATURES.map((item, i) => (
-                      <li
-                        key={i}
-                        className="flex items-center gap-3"
-                      >
+                      <li key={i} className="flex items-center gap-3">
                         <div
                           className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0"
                           aria-hidden="true"
