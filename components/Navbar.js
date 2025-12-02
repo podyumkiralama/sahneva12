@@ -187,10 +187,10 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-40 w-full border-b border-slate-900/70 transition-all duration-200 ${
+      className={`sticky top-0 z-40 w-full transition-all duration-200 ${
         isScrolled
-          ? "bg-slate-950 shadow-xl shadow-slate-950/40"
-          : "bg-slate-950"
+          ? "bg-slate-950/95 shadow-xl shadow-slate-950/40 backdrop-blur"
+          : "bg-slate-950/90 backdrop-blur"
       }`}
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -204,16 +204,14 @@ export default function Navbar() {
               href={locale === "tr" ? "/" : `/${locale}`}
               className={`flex items-center gap-2 rounded-xl px-2 py-1 hover:bg-slate-900 ${focusRingClass}`}
             >
-              <span className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-white/95 shadow-sm ring-1 ring-white/60">
-                <Image
-                  src="/img/logo.svg"
-                  alt="Sahneva Organizasyon logo"
-                  width={40}
-                  height={40}
-                  className="h-9 w-9"
-                  priority
-                />
-              </span>
+              <Image
+                src="/img/logo.png"
+                alt="Sahneva Organizasyon logo"
+                width={40}
+                height={40}
+                className="h-10 w-10"
+                priority
+              />
               <span className="flex flex-col leading-tight">
                 <span className="text-sm font-semibold tracking-tight text-white">
                   Sahneva
