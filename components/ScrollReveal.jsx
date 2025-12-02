@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
-import clsx from "clsx";
 
 /**
  * Tek bir IntersectionObserver ile çalışan hafif reveal sistemi.
@@ -70,7 +69,7 @@ function useScrollReveal(ref) {
 export function ScrollReveal({
   as: Component = "div",
   children,
-  className,
+  className = "",
   variant = "up",
   ...rest
 }) {
@@ -87,16 +86,35 @@ export function ScrollReveal({
       ? "reveal-scale"
       : "reveal-up";
 
+  const combinedClassName = ["reveal-base", variantClass, className]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <Component
-      ref={ref}
-      className={clsx("reveal-base", variantClass, className)}
-      {...rest}
-    >
+    <Component ref={ref} className={combinedClassName} {...rest}>
       {children}
     </Component>
   );
 }
 
-// Backwards-compat: diğer dosyalar default import kullanıyorsa
+/**
+ * ScrollRevealGroup
+ * Eski kodda kullanılan API'yi bozmadan basit bir wrapper.
+ * Çoğu durumda sadece layout için kullanılıyor, o yüzden children'ı doğrudan geçiyoruz.
+ * İstersen sonra burada stagger / delay mantığı ekleyebiliriz.
+ */
+export function ScrollRevealGroup({
+  as: Component = "div",
+  children,
+  className = "",
+  ...rest
+}) {
+  return (
+    <Component className={className} {...rest}>
+      {children}
+    </Component>
+  );
+}
+
+// Backwards-compat: default import kullanan yerler için
 export default ScrollReveal;
