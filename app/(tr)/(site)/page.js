@@ -553,21 +553,22 @@ function ConsultationCard() {
 function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
   return (
     <Image
-      alt={ariaHidden ? "" : alt}
       src={heroImg}
+      alt={ariaHidden ? "" : alt}
       fill
-      sizes="100vw"
+      // Daha iyi LCP için akıllı size
+      sizes="(max-width: 768px) 100vw, 1600px"
       priority
       fetchPriority="high"
-      placeholder="blur"
-      quality={70}
+      // Blur placeholder LCP'yi yavaşlatıyor → kaldırıyoruz
+      placeholder="empty"
+      // Modern sıkıştırma için ideal kalite
+      quality={55}
       className="absolute inset-0 h-full w-full object-cover object-center"
-      style={HERO_IMAGE_STYLE}
       aria-hidden={ariaHidden}
     />
   );
 }
-
 // —————————————————————————————————————————
 // SAYFA
 // —————————————————————————————————————————
