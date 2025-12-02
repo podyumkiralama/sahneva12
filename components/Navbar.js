@@ -312,76 +312,24 @@ export default function Navbar() {
     []
   );
 
-  const NavLink = useCallback(
-    ({ href, children, title, className = "" }) => (
-      <Link
-        href={href}
-        className={`
-          relative text-[15px] font-bold transition-all duration-200 px-4 py-2.5 rounded-xl
-          ${
-            isActiveLink(href)
-              ? "text-blue-700 bg-blue-50 border border-blue-200"
-              : "text-neutral-800 hover:text-blue-700 hover:bg-neutral-50 hover:border hover:border-neutral-200"
-          }
-          ${focusRingClass} ${className}
-        `}
-        aria-current={isActiveLink(href) ? "page" : undefined}
-        title={title}
-      >
-        {children}
-      </Link>
-    ),
-    [isActiveLink]
-  );
-
-  const renderServiceLink = (
-    { href, label, title, icon, description },
-    index
-  ) => (
-    <Link
-      href={href}
-      ref={(node) => {
-        serviceItemRefs.current[index] = node;
-      }}
-      className={`
-        group flex items-start gap-3 px-3 py-2 text-sm text-neutral-700
-        hover:bg-blue-50 hover:text-blue-700 rounded-lg transition-all duration-200
-        w-full transform hover:scale-[1.02] ${focusRingClass}
-      `}
-      onClick={() => setServicesOpen(false)}
-      onKeyDown={(event) => handleServiceItemKeyDown(event, index)}
-      aria-current={isActiveLink(href) ? "page" : undefined}
-      title={title}
-    >
-      <span
-        className="text-lg opacity-80 group-hover:opacity-100 transition-opacity mt-0.5 flex-shrink-0"
-        aria-hidden="true"
-      >
-        {icon}
-      </span>
-      <div className="flex-1 min-w-0">
-        <div className="font-bold text-neutral-900 group-hover:text-blue-700">
-          {label}
-        </div>
-        <div className="text-xs text-neutral-600 font-medium mt-0.5">
-          {description}
-        </div>
-      </div>
-    </Link>
-  );
-
   return (
-    <>
-      <nav
-        aria-label={headerStrings.navLabel}
-        className="sticky top-0 inset-x-0 z-50 bg-white/95 backdrop-blur border-b border-neutral-200/80 shadow-lg"
-      >
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 lg:h-20">
+    <header
+      className={`sticky top-0 z-40 w-full transition-all duration-200 ${
+        isScrolled
+          ? "bg-slate-950/95 shadow-xl shadow-slate-950/40 backdrop-blur"
+          : "bg-slate-950/90 backdrop-blur"
+      }`}
+    >
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <nav
+          className="flex items-center justify-between gap-6 py-3"
+          aria-label={t.mainNavLabel}
+        >
+          {/* Logo + marka */}
+          <div className="flex items-center gap-3">
             <Link
               href={locale === "tr" ? "/" : `/${locale}`}
-              className={`flex items-center gap-3 group ${focusRingClass}`}
-              aria-label="Sahneva - Profesyonel sahne ve etkinlik ekipmanları kiralama"
+              className={`flex items-center gap-2 rounded-xl px-2 py-1 hover:bg-slate-900 ${focusRingClass}`}
             >
               <Image
                 src="/img/logo.png"
@@ -393,98 +341,89 @@ export default function Navbar() {
                 className="h-8 lg:h-10 w-auto transition-transform duration-200 group-hover:scale-105"
                 style={{ color: "transparent" }}
               />
+              <span className="flex flex-col leading-tight">
+                <span className="text-sm font-semibold tracking-tight text-white">
+                  Sahneva
+                </span>
+                <span className="text-[11px] font-medium text-slate-300">
+                  {t.tagline}
+                </span>
+              </span>
             </Link>
 
-            <div className="hidden lg:flex items-center gap-4">
-              <NavLink href="/hakkimizda">Hakkımızda</NavLink>
-              <NavLink href="/blog">Blog</NavLink>
-
-              <div
-                className="relative"
-                ref={dropdownRef}
-                onMouseEnter={openServicesNow}
-                onMouseLeave={closeServicesWithDelay}
-                onFocus={openServicesNow}
-                onBlur={closeServicesWithDelay}
-              >
-                <button
-                  id={servicesBtnId}
-                  type="button"
-                  className={`
-                    relative text-[15px] font-bold px-4 py-2.5 rounded-xl transition-all duration-200 group border
-                    ${
-                      isActiveLink("/hizmetler") || servicesOpen
-                        ? "text-blue-700 bg-blue-50 border-blue-200"
-                        : "text-neutral-800 hover:text-blue-700 hover:bg-neutral-50 border-transparent hover:border-neutral-200"
-                    }
-                    ${focusRingClass}
-                  `}
-                  aria-haspopup="true"
-                  aria-expanded={servicesOpen}
-                  aria-controls={servicesMenuId}
-                  onClick={() => setServicesOpen((s) => !s)}
-                  onKeyDown={handleServicesButtonKeyDown}
-                  ref={servicesButtonRef}
-                >
-                  <span className="flex items-center gap-2">
-                    Hizmetler
-                    <svg
-                      className={`w-4 h-4 transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </span>
-                </button>
-
-                <span
-                  aria-hidden="true"
-                  className="absolute left-0 right-0 top-full h-2"
-                  onMouseEnter={openServicesNow}
-                />
-
-                <ul
-                  id={servicesMenuId}
-                  aria-labelledby={servicesBtnId}
-                  className={`
-                    absolute left-0 top-full mt-2 w-80 bg-white border border-neutral-200 rounded-xl shadow-xl
-                    z-[60] transition-all duration-200 flex flex-col p-2
-                    ${
-                      servicesOpen
-                        ? "opacity-100 translate-y-0 pointer-events-auto"
-                        : "opacity-0 translate-y-2 pointer-events-none"
-                    }
-                  `}
-                  onMouseEnter={openServicesNow}
-                  onMouseLeave={closeServicesWithDelay}
-                >
-                  {serviceLinks.map((service, index) => (
-                    <li key={service.href} className="list-none">
-                      {renderServiceLink(service, index)}
-                    </li>
-                  ))}
-                </ul>
+          {/* Masaüstü menü */}
+            <div className="hidden items-center gap-6 md:flex">
+              <div className="flex items-center gap-3 text-sm font-medium text-slate-200">
+                {t.primaryLinks.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    title={item.title}
+                    className={`rounded-full px-3 py-2 transition ${
+                      isActiveLink(item.href)
+                        ? "bg-emerald-500/15 text-white ring-1 ring-emerald-400/60"
+                        : "text-slate-200 hover:bg-slate-900/80"
+                    } ${focusRingClass}`}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
               </div>
 
-              <NavLink href="/iletisim">İletişim</NavLink>
+              {/* Hizmetler dropdown trigger (desktop) */}
+              <div className="relative group">
+                <button
+                  type="button"
+                  className={`inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium text-slate-200 hover:bg-slate-900/80 ${focusRingClass}`}
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <span>{t.servicesLabel}</span>
+                  <span aria-hidden="true">▾</span>
+                </button>
+                <div className="pointer-events-none absolute right-0 z-40 mt-3 w-72 translate-y-2 rounded-2xl border border-slate-800/80 bg-slate-900/95 p-3 shadow-2xl shadow-slate-950/40 ring-1 ring-slate-800/70 opacity-0 transition group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100">
+                  <div className="grid grid-cols-1 gap-2">
+                    {serviceLinks.map((service) => (
+                      <Link
+                        key={service.href}
+                        href={service.href}
+                        title={service.title}
+                        className={`flex items-start gap-3 rounded-xl px-3 py-2 text-left text-sm text-slate-100 transition hover:bg-slate-800/80 ${focusRingClass}`}
+                      >
+                        <span className="text-lg" aria-hidden="true">
+                          {service.icon}
+                        </span>
+                        <span className="flex flex-col">
+                          <span className="font-semibold leading-tight">{service.label}</span>
+                          <span className="text-[12px] text-slate-400">
+                            {service.description}
+                          </span>
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
 
-              <a
-                href="https://wa.me/905453048671?text=Merhaba%2C+sahne+ve+etkinlik+ekipmanları+için+teklif+almak+istiyorum."
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="WhatsApp Teklif — yeni sekmede açılır"
-                className={whatsappBtnClass}
-              >
-                <span aria-hidden="true" className="text-base">
-                  💬
-                </span>
-                <span>WhatsApp Teklif</span>
-                <span className="sr-only"> — yeni sekmede açılır</span>
-              </a>
-            </div>
+              {/* CTA */}
+              <div className="flex items-center gap-3">
+                <a
+                  href="tel:+905453048671"
+                  className={`rounded-full bg-gradient-to-r from-emerald-400 to-emerald-500 px-4 py-2 text-sm font-semibold text-slate-950 shadow-sm shadow-emerald-500/30 hover:from-emerald-300 hover:to-emerald-400 ${focusRingClass}`}
+                >
+                  {t.callNow}
+                </a>
+                <a
+                  href="https://wa.me/905453048671?text=Merhaba%2C+etkinliginiz+icin+teklif+almak+isterim."
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`rounded-full border border-emerald-300/70 px-4 py-2 text-sm font-semibold text-emerald-200 hover:bg-emerald-500/10 hover:text-white ${focusRingClass}`}
+                  aria-label={`${t.whatsappCta} (WhatsApp yeni sekmede açılır)`}
+                >
+                  {t.whatsappCta}
+                </a>
+              </div>
+          </div>
 
             <button
               type="button"
