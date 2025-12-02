@@ -543,16 +543,21 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
       src={heroImg}
       alt={ariaHidden ? "" : alt}
       fill
+      sizes="100vw"
       priority
       fetchPriority="high"
-      sizes="100vw"
       quality={55}
-      className="absolute inset-0 h-full w-full object-cover object-center"
       placeholder="empty"
+      className="absolute inset-0 object-cover object-center"
       aria-hidden={ariaHidden}
+      style={{
+        minHeight: "80vh",      // ⭐ LCP ELEMENT BOYUT GARANTİSİ
+        width: "100%",
+      }}
     />
   );
 }
+
 
 // —————————————————————————————————————————
 // SAYFA
