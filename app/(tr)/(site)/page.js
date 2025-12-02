@@ -1,5 +1,6 @@
 // app/(tr)/(site)/page.js
-import { getImageProps } from "next/image";
+import Image from "next/image";
+import heroImg from "@/public/img/hero-bg.webp";
 import Link from "next/link"; // A11Y için prose içindeki Link'ler
 
 // Statik bileşenler
@@ -11,20 +12,19 @@ import {
   FaqDeferred,
 } from "@/components/DeferredSections.client";
 
-// Animasyon bileşenleri
+// Animasyon bileşenleri (hero'da kullanmıyoruz, aşağıdaki bölümlerde kullanıyoruz)
 import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
-import heroImg from "@/public/img/hero-bg.webp";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
   "https://www.sahneva.com";
 
-const HERO_IMAGE_ALT =
-  "Sahneva ekibinin kurduğu LED ekran, ses ve ışık sistemli açık hava sahnesi";
-
 // —————————————————————————————————————————
 // SABİT VERİLER
 // —————————————————————————————————————————
+const HERO_IMAGE_ALT =
+  "LED ekran, truss çatı ve ışık sistemi içeren Sahneva sahne kurulumunu gösteren arka plan görseli";
+
 const HERO_FEATURES = [
   {
     icon: "⭐",
@@ -72,10 +72,10 @@ const CTA_BUTTONS = [
 ];
 
 const CTA_BASE_CLASS =
-  "w-full sm:w-auto min-w-[180px] min-h-[44px] text-center group relative text-white font-bold text-base px-6 py-3 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:brightness-110 border border-white/20 backdrop-blur-sm focus-ring";
+  "w-full sm:w-auto min-w-[180px] min-h-[44px] text-center group relative text-white font-bold text-base px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition-transform duration-200 hover:scale-105 border border-white/20 focus-ring";
 
 const CTA_OVERLAY_CLASS =
-  "absolute inset-0 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300";
+  "absolute inset-0 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200";
 
 const SECTION_THEMES = {
   light: {
@@ -150,7 +150,7 @@ export const revalidate = 3600;
 
 // —————————————————————————————————————————
 // JSON-LD (Schema.org) - SADECE SAYFAYA ÖZEL ŞEMALAR
-// Organization ve WebSite şemaları zaten ROOT LAYOUT'ta
+// Organization ve WebSite şemaları zaten ROOT LAYOUT'ta olduğu için çıkarıldı.
 // —————————————————————————————————————————
 function StructuredData() {
   const HOME_URL = SITE_URL;
@@ -378,26 +378,6 @@ function StructuredData() {
 // —————————————————————————————————————————
 // PARÇALI BİLEŞENLER
 // —————————————————————————————————————————
-function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
-  const { props } = getImageProps({
-    alt,
-    src: heroImg,
-    sizes: "100vw",
-    fetchPriority: "high",
-    placeholder: "blur",
-    loading: "eager",
-    quality: 70,
-    className: "absolute inset-0 h-full w-full object-cover object-center",
-    style: {
-      filter: "brightness(0.7) contrast(1.1) saturate(1.05)",
-    },
-  });
-
-  const { fetchPriority, ...rest } = props;
-
-  // eslint-disable-next-line react/no-unknown-property -- force lowercase attribute for HTML validators
-  return <img {...rest} fetchpriority={fetchPriority} aria-hidden={ariaHidden} />;
-}
 
 function SectionHeader({
   id,
@@ -438,11 +418,11 @@ function SectionHeader({
 
 function KeywordPills() {
   return (
-    <div className="flex flex-wrap justify-center gap-2 mb-8 max-w-4xl mx-auto">
+    <div className="flex flex-wrap justify-center gap-2 mt-4 mb-6 max-w-4xl mx-auto">
       {HERO_KEYWORDS.map(({ text, gradient }) => (
         <span
           key={text}
-          className={`text-lg md:text-xl font-bold px-3 py-1 ${gradient} bg-white/10 rounded-lg backdrop-blur-sm border border-white/5`}
+          className={`text-sm md:text-base font-semibold px-3 py-1 ${gradient} bg-black/40 rounded-lg border border-white/10`}
         >
           {text}
         </span>
@@ -477,7 +457,7 @@ function CTAButton({
 
 function CTAGroup() {
   return (
-    <div className="flex flex-col sm:flex-row justify-center items-center gap-3 md:gap-4 mb-12">
+    <div className="mt-6 flex flex-col sm:flex-row justify-center items-center gap-3">
       {CTA_BUTTONS.map(({ srHint, gradient, ariaLabel, ...cta }) => (
         <CTAButton
           key={cta.href}
@@ -494,12 +474,12 @@ function CTAGroup() {
 function HeroFeatureGrid() {
   return (
     <ul
-      className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12 list-none p-0 m-0"
+      className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto list-none p-0 m-0"
       role="list"
     >
       {HERO_FEATURES.map((item) => (
         <li key={item.title} className="m-0 p-0">
-          <div className="group bg-slate-900/60 backdrop-blur-lg rounded-xl p-4 border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-105">
+          <div className="group bg-slate-900/80 rounded-xl p-4 border border-white/10">
             <div
               className={`text-2xl mb-2 ${item.color}`}
               aria-hidden="true"
@@ -519,7 +499,7 @@ function HeroFeatureGrid() {
 
 function ConsultationCard() {
   return (
-    <div className="bg-gradient-to-r from-blue-700/90 to-purple-700/90 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-white/20 shadow-xl max-w-4xl mx-auto">
+    <div className="bg-gradient-to-r from-blue-700/90 to-purple-700/90 rounded-2xl p-6 md:p-8 border border-white/20 max-w-4xl mx-auto">
       <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
         <div className="flex-shrink-0">
           <div
@@ -546,7 +526,7 @@ function ConsultationCard() {
         <div className="flex-shrink-0">
           <a
             href="#teklif-al"
-            className="bg-white text-blue-800 hover:bg-gray-100 font-bold px-5 py-2 rounded-lg transition-all duration-300 hover:scale-105 shadow-lg text-sm focus-ring min-h-[44px] flex items-center justify-center"
+            className="bg-white text-blue-800 hover:bg-gray-100 font-bold px-5 py-2 rounded-lg transition-colors text-sm focus-ring min-h-[44px] flex items-center justify-center"
             aria-label="Ücretsiz danışmanlık ve teklif almak için aşağı kaydır"
           >
             Hemen Teklif Al
@@ -557,74 +537,70 @@ function ConsultationCard() {
   );
 }
 
+function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
+  return (
+    <Image
+      src={heroImg}
+      alt={ariaHidden ? "" : alt}
+      fill
+      priority
+      fetchPriority="high"
+      sizes="100vw"
+      quality={55}
+      className="absolute inset-0 h-full w-full object-cover object-center"
+      placeholder="empty"
+      aria-hidden={ariaHidden}
+    />
+  );
+}
+
 // —————————————————————————————————————————
 // SAYFA
 // —————————————————————————————————————————
+
 export default function HomePage() {
   return (
     <>
       <StructuredData />
 
-      {/* HERO SECTION */}
+      {/* HERO – Sade, LCP odaklı */}
       <section
+        className="relative min-h-[75vh] flex items-center justify-center overflow-hidden bg-black"
         aria-labelledby="hero-title"
-        className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950"
       >
+        {/* LCP görseli */}
         <div className="absolute inset-0" aria-hidden="true">
-          <HeroBackgroundImage />
+          <HeroBackgroundImage ariaHidden />
+          {/* Tek katmanlı hafif overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/70" />
         </div>
 
-        <div
-          className="absolute inset-0 bg-gradient-to-br from-slate-900/85 via-blue-900/70 to-purple-900/75"
-          aria-hidden="true"
-        />
-        <div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse motion-reduce:animate-none"
-          style={{ animationDuration: "8s" }}
-          aria-hidden="true"
-        />
-
         {/* İçerik */}
-        <div className="relative z-10 container py-12 md:py-16">
-          <div className="max-w-6xl mx-auto text-center mb-10">
-            <div className="inline-flex items-center gap-3 bg-slate-900/60 backdrop-blur-md rounded-full px-6 py-3 border border-white/20 mb-6">
-              <span
-                className="w-2 h-2 bg-green-400 rounded-full animate-pulse motion-reduce:animate-none"
-                aria-hidden="true"
-              />
-              <span className="text-white text-sm font-medium">
-                Türkiye Geneli Profesyonel Hizmet
-              </span>
-            </div>
+        <div className="relative z-10 container py-10">
+          <div className="max-w-3xl mx-auto text-center">
+            <p className="inline-flex items-center gap-3 bg-black/50 rounded-full px-4 py-2 border border-white/10 text-xs md:text-sm text-slate-100">
+              <span className="w-2 h-2 bg-green-400 rounded-full" aria-hidden="true" />
+              Türkiye Geneli Profesyonel Hizmet
+            </p>
 
             <h1
               id="hero-title"
-              className="text-white text-3xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight tracking-tight drop-shadow-md"
+              className="mt-4 text-white text-3xl md:text-5xl lg:text-6xl font-black leading-tight"
             >
-              <span className="block mb-2">Profesyonel</span>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-purple-700 to-cyan-600">
+              Profesyonel{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400">
                 Sahne Sistemleri
               </span>
-              <span className="sr-only">Sahne Sistemleri</span>
             </h1>
 
             <KeywordPills />
 
-            <p className="text-slate-100 text-base md:text-lg mb-8 max-w-3xl mx-auto drop-shadow-sm font-medium">
-              500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli
-              hızlı kurulum ile yanınızdayız
+            <p className="text-slate-100 text-sm md:text-lg mt-2 md:mt-4 max-w-xl mx-auto">
+              500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli hızlı
+              kurulum ile etkinliğinizde yanınızdayız.
             </p>
 
             <CTAGroup />
-
-            <section aria-labelledby="hero-features-heading">
-              <h2 id="hero-features-heading" className="sr-only">
-                Öne çıkan özellikler
-              </h2>
-              <HeroFeatureGrid />
-            </section>
-
-            <ConsultationCard />
           </div>
         </div>
 
@@ -638,6 +614,14 @@ export default function HomePage() {
               <div className="w-1 h-3 bg-white/70 rounded-full mt-2" />
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Hero altı: feature + danışmanlık (artık LCP dışında) */}
+      <section className="py-10 bg-gradient-to-b from-slate-950 to-slate-900">
+        <div className="container space-y-8">
+          <HeroFeatureGrid />
+          <ConsultationCard />
         </div>
       </section>
 
@@ -742,7 +726,7 @@ export default function HomePage() {
                     <ScrollReveal
                       variant="scale"
                       as="article"
-                      className="group relative bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 p-6 border border-neutral-100 hover:border-blue-200/70 hover:scale-105"
+                      className="group relative bg-white rounded-xl shadow-lg hover:shadow-xl transition-transform duration-300 p-6 border border-neutral-100 hover:border-blue-200/70 hover:scale-105"
                       aria-labelledby={`why-card-${i}-title`}
                     >
                       <div className="absolute top-3 right-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full">
@@ -790,6 +774,7 @@ export default function HomePage() {
           </ScrollReveal>
 
           <div className="grid gap-6 lg:gap-8 lg:grid-cols-2">
+            {/* Sol blok */}
             <ScrollReveal variant="left" as="article">
               <article className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 shadow-lg border border-blue-100">
                 <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
@@ -848,6 +833,7 @@ export default function HomePage() {
               </article>
             </ScrollReveal>
 
+            {/* Sağ blok */}
             <ScrollReveal variant="right" as="article">
               <article className="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-6 shadow-lg border border-purple-100">
                 <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
