@@ -569,33 +569,24 @@ export default function Navbar() {
                   onMouseEnter={openNow}
                 />
 
-                <ul
-                  id={servicesMenuId}
-                  aria-labelledby={servicesBtnId}
-                  role="list" // ARIA: Bu bir navigasyon listesidir.
-                  className={`
-                    absolute left-0 top-full mt-2 w-80 bg-white border border-neutral-200 rounded-xl shadow-xl
-                    z-[60] transition-all duration-200 flex flex-col p-2
-                    ${
-                      servicesOpen
-                        ? "opacity-100 translate-y-0 pointer-events-auto"
-                        : "opacity-0 translate-y-2 pointer-events-none"
-                    }
-                  `}
-                  onMouseEnter={openNow}
-                  onMouseLeave={closeWithDelay}
-                  // Klavye navigasyonu item'lar üzerinde yönetiliyor
-                  // Tab veya Shift+Tab ile dışarı çıkıldığında otomatik kapanma handleClickOutside ile yönetiliyor
-                >
-                  {SERVICE_LINKS.map((service, index) => (
-                    <li key={service.href} role="none">
-                      <ServiceLink
-                        index={index}
-                        {...service}
-                      />
-                    </li>
-                  ))}
-                </ul>
+<ul
+  id={servicesMenuId}
+  aria-labelledby={servicesBtnId}
+  className={`
+    absolute left-0 top-full mt-2 w-80 bg-white border border-neutral-200 rounded-xl shadow-xl
+    z-[60] transition-all duration-200 flex flex-col p-2
+    ${servicesOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-2 pointer-events-none"}
+  `}
+  onMouseEnter={openNow}
+  onMouseLeave={closeWithDelay}
+>
+  {SERVICE_LINKS.map((service, index) => (
+    <li key={service.href}>
+      <ServiceLink index={index} {...service} />
+    </li>
+  ))}
+</ul>
+
               </div>
 
               <NavLink href="/iletisim">İletişim</NavLink>
