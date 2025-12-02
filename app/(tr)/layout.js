@@ -1,8 +1,9 @@
 // app/(tr)/(site)/layout.jsx
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import SiteHeader from "@/components/SiteHeader";
-import SiteFooter from "@/components/SiteFooter";
-import DocumentDirection from "@/components/DocumentDirection";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import UtilityBar from "@/components/UtilityBar.client";
+import StickyVideoRailclient from "@/components/StickyVideoRail.client";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 
 const SITE_URL =
@@ -12,7 +13,7 @@ const SITE_URL =
 const content = LOCALE_CONTENT.tr;
 
 export const metadata = {
-  // Veriyi güvenli çekiyoruz, content.meta tanımlı olduğu için hata vermez
+  // content.meta tanımlı olduğu için hata vermez
   title: content?.meta?.title ?? "Sahneva",
   description: content?.meta?.description ?? "Etkinlik Prodüksiyon Hizmetleri",
   alternates: {
@@ -28,10 +29,8 @@ export const metadata = {
 
 export default function TurkishLayout({ children }) {
   return (
-    <div className="flex min-h-screen flex-col bg-white text-neutral-900">
-      {/* HTML lang ve dir güncellemesi */}
-      <DocumentDirection lang="tr" dir={content.direction} />
-
+    <div className="flex min-h-screen flex-col bg-white text-neutral-900" dir={content.direction}>
+      
       {/* ---- HEADER ---- 
           ID: _main_header (SkipLink burayı hedefler)
       */}
@@ -41,10 +40,10 @@ export default function TurkishLayout({ children }) {
         aria-label="Sahneva site başlığı ve ana gezinme"
         className="w-full relative z-50"
       >
-        <SiteHeader
-          locale="tr"
-          strings={{ ...content.header, direction: content.direction }}
-        />
+        {/* SiteHeader yerine doğrudan bileşenleri koyduk */}
+        <UtilityBar />
+        <Navbar />
+        <StickyVideoRailclient />
       </header>
 
       {/* ---- MAIN CONTENT ---- 
@@ -67,7 +66,8 @@ export default function TurkishLayout({ children }) {
           ID: _main_footer (SkipLink burayı hedefler)
       */}
       <footer id="_main_footer" role="contentinfo">
-        <SiteFooter strings={content.footer} />
+        {/* SiteFooter yerine doğrudan Footer bileşenini koyduk */}
+        <Footer />
       </footer>
 
       <SpeedInsights />
