@@ -1,4 +1,5 @@
 // app/(tr)/(site)/page.js
+import { getImageProps } from "next/image";
 import Link from "next/link"; // A11Y için prose içindeki Link'ler
 
 // Statik bileşenler
@@ -12,10 +13,14 @@ import {
 
 // Animasyon bileşenleri
 import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
+import heroImg from "@/public/img/hero-bg.webp";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
   "https://www.sahneva.com";
+
+const HERO_IMAGE_ALT =
+  "Sahneva ekibinin kurduğu LED ekran, ses ve ışık sistemli açık hava sahnesi";
 
 // —————————————————————————————————————————
 // SABİT VERİLER
@@ -373,6 +378,26 @@ function StructuredData() {
 // —————————————————————————————————————————
 // PARÇALI BİLEŞENLER
 // —————————————————————————————————————————
+function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
+  const { props } = getImageProps({
+    alt,
+    src: heroImg,
+    sizes: "100vw",
+    fetchPriority: "high",
+    placeholder: "blur",
+    quality: 70,
+    className: "absolute inset-0 h-full w-full object-cover object-center",
+    style: {
+      filter: "brightness(0.7) contrast(1.1) saturate(1.05)",
+    },
+  });
+
+  const { fetchPriority, ...rest } = props;
+
+  // eslint-disable-next-line react/no-unknown-property -- force lowercase attribute for HTML validators
+  return <img {...rest} fetchpriority={fetchPriority} aria-hidden={ariaHidden} />;
+}
+
 function SectionHeader({
   id,
   title,
@@ -542,15 +567,22 @@ export default function HomePage() {
       {/* HERO SECTION */}
       <section
         aria-labelledby="hero-title"
-        className="relative min-h-[80vh] flex items-center justify-center overflow-hidden"
-        style={{
-          backgroundImage:
-            "linear-gradient(to bottom right, rgba(11,15,26,0.95), rgba(23,37,84,0.92)), url('/img/hero-bg.webp')",
-          backgroundSize: "cover",
-          backgroundPosition: "center center",
-          backgroundRepeat: "no-repeat",
-        }}
+        className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950"
       >
+        <div className="absolute inset-0" aria-hidden="true">
+          <HeroBackgroundImage />
+        </div>
+
+        <div
+          className="absolute inset-0 bg-gradient-to-br from-slate-900/85 via-blue-900/70 to-purple-900/75"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse motion-reduce:animate-none"
+          style={{ animationDuration: "8s" }}
+          aria-hidden="true"
+        />
+
         {/* İçerik */}
         <div className="relative z-10 container py-12 md:py-16">
           <div className="max-w-6xl mx-auto text-center mb-10">
