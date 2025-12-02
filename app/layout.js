@@ -115,6 +115,8 @@ export default function RootLayout({ children }) {
     >
       <head>
         <CriticalAssets />
+
+        {/* JSON-LD: Organization & Website */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
@@ -124,6 +126,18 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
 
+        {/* HERO LCP görseli için preload */}
+        <link
+          rel="preload"
+          as="image"
+          href="/img/hero-bg.webp"
+          // Eğer farklı boyutlar üretirsen bunları güncellersin
+          imagesrcset="/img/hero-bg.webp 1600w"
+          imagesizes="100vw"
+          type="image/webp"
+        />
+
+        {/* GA / GTM bağlantıları */}
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.google-analytics.com" />
@@ -133,10 +147,7 @@ export default function RootLayout({ children }) {
         {/* Skip to content linkleri - Body'nin en başında */}
         <SkipLinks />
 
-        {/* Görsel bileşenler (Navbar, Footer, UtilityBar) buradan KALDIRILDI.
-            Bu dosya sadece HTML iskeletini oluşturur.
-            Görsel yapı TurkishLayout içinde.
-        */}
+        {/* Sayfa içerikleri */}
         {children}
 
         {gaEnabled && (
