@@ -116,61 +116,6 @@ svg {
 }
 
 /* ==========================================================================
-   Animations
-   ========================================================================== */
-
-/* Burst Particle (footer mikro animasyon) */
-.burst-particle {
-  position: absolute;
-  left: 0;
-  top: 0;
-  background: radial-gradient(
-    circle,
-    var(--burst-c1, #6d28d9),
-    var(--burst-c2, #22c55e)
-  );
-  border-radius: 9999px;
-  transform: translate(-50%, -50%);
-  animation:
-    burst-move var(--life, 550ms) ease-out forwards,
-    burst-fade var(--life, 550ms) ease-out forwards;
-  pointer-events: none;
-  will-change: transform, opacity;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.12);
-}
-
-@keyframes burst-move {
-  from {
-    transform: translate(-50%, -50%) rotate(0) scale(1);
-  }
-  to {
-    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy)))
-      rotate(var(--dr))
-      scale(0.6);
-  }
-}
-
-@keyframes burst-fade {
-  0% {
-    opacity: 1;
-  }
-  80% {
-    opacity: 0.7;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-/* Hareket azaltma tercihinde burst'i sadeleştir */
-@media (prefers-reduced-motion: reduce) {
-  .burst-particle {
-    animation: burst-fade 200ms ease-out forwards;
-    transform: translate(-50%, -50%) scale(0.8);
-  }
-}
-
-/* ==========================================================================
    Utilities Layer
    ========================================================================== */
 @layer utilities {
