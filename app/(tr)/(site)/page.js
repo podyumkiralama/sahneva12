@@ -1,6 +1,4 @@
 // app/(tr)/(site)/page.js
-import Image from "next/image";
-import heroImg from "@/public/img/hero-bg.webp";
 import Link from "next/link"; // A11Y için prose içindeki Link'ler
 
 // Statik bileşenler
@@ -22,9 +20,6 @@ const SITE_URL =
 // —————————————————————————————————————————
 // SABİT VERİLER
 // —————————————————————————————————————————
-const HERO_IMAGE_ALT =
-  "LED ekran, truss çatı ve ışık sistemi içeren Sahneva sahne kurulumunu gösteren arka plan görseli";
-
 const HERO_FEATURES = [
   {
     icon: "⭐",
@@ -67,7 +62,7 @@ const CTA_BUTTONS = [
     rel: "noopener noreferrer",
     srHint: "(yeni sekmede açılır)",
     gradient: "from-green-600 to-emerald-700",
-    ariaLabel: "WhatsApp Üzerinden Teklif Almak İçin Tıklayın", // İyileştirilmiş ARIA
+    ariaLabel: "WhatsApp Üzerinden Teklif Almak İçin Tıklayın",
   },
 ];
 
@@ -87,8 +82,6 @@ const SECTION_THEMES = {
     description: "text-slate-100",
   },
 };
-
-const HERO_IMAGE_STYLE = Object.freeze({});
 
 const WHY_SAHNEVA_FEATURES = [
   {
@@ -152,11 +145,10 @@ export const revalidate = 3600;
 
 // —————————————————————————————————————————
 // JSON-LD (Schema.org) - SADECE SAYFAYA ÖZEL ŞEMALAR
-// Organization ve WebSite şemaları zaten ROOT LAYOUT'ta olduğu için çıkarıldı.
+// Organization ve WebSite şemaları zaten ROOT LAYOUT'ta
 // —————————————————————————————————————————
 function StructuredData() {
   const HOME_URL = SITE_URL;
-  // ORGANIZATION_ID ve WEBSITE_ID root layout'tan alınır
   const ORGANIZATION_ID = `${SITE_URL}/#org`;
   const WEBSITE_ID = `${SITE_URL}/#website`;
 
@@ -169,7 +161,6 @@ function StructuredData() {
   const data = {
     "@context": "https://schema.org",
     "@graph": [
-      // 1. WebPage Schema (Ana Sayfa)
       {
         "@type": "WebPage",
         "@id": WEBPAGE_ID,
@@ -183,7 +174,6 @@ function StructuredData() {
         about: { "@id": ORGANIZATION_ID },
         primaryImageOfPage: { "@id": IMAGE_ID },
       },
-      // 2. OfferCatalog & Offers
       {
         "@type": "OfferCatalog",
         "@id": CATALOG_ID,
@@ -263,7 +253,6 @@ function StructuredData() {
           },
         ],
       },
-      // 3. Service Schema (Ana Hizmet)
       {
         "@type": "Service",
         "@id": SERVICE_ID,
@@ -276,7 +265,6 @@ function StructuredData() {
         hasOfferCatalog: { "@id": CATALOG_ID },
         serviceType: "Event Production",
       },
-      // 4. ImageObject (LCP için)
       {
         "@type": "ImageObject",
         "@id": IMAGE_ID,
@@ -284,7 +272,6 @@ function StructuredData() {
         width: 1200,
         height: 630,
       },
-      // 5. VideoObject
       {
         "@type": "VideoObject",
         "@id": `${HOME_URL}#intro-video`,
@@ -300,7 +287,6 @@ function StructuredData() {
         contentUrl: "https://www.youtube.com/watch?v=173gBurWSRQ",
         embedUrl: "https://www.youtube.com/embed/173gBurWSRQ",
       },
-      // 6. FAQPage
       {
         "@type": "FAQPage",
         "@id": FAQ_ID,
@@ -452,14 +438,12 @@ function CTAButton({
     <a
       href={href}
       className={`${CTA_BASE_CLASS} bg-gradient-to-r ${gradient}`}
-      // A11Y: Özelleştirilmiş aria-label kullanıldı
       aria-label={ariaLabel || (srHint ? `${label} ${srHint}` : label)}
       {...rest}
     >
       <span className="relative z-10 flex items-center justify-center gap-2">
         <span aria-hidden="true">{icon}</span> {label}
       </span>
-      {/* srHint'i ana aria-label'a dahil ettiğimiz için burada sr-only kullanmaya gerek kalmadı. */}
       <div className={CTA_OVERLAY_CLASS} aria-hidden="true" />
     </a>
   );
@@ -483,7 +467,6 @@ function CTAGroup() {
 
 function HeroFeatureGrid() {
   return (
-    // A11Y: role="list" eklendi
     <ul
       className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12 list-none p-0 m-0"
       role="list"
@@ -537,9 +520,7 @@ function ConsultationCard() {
         <div className="flex-shrink-0">
           <a
             href="#teklif-al"
-            // A11Y: Min. 44px dokunma alanı ve odak yönetimi için sınıflar
             className="bg-white text-blue-800 hover:bg-gray-100 font-bold px-5 py-2 rounded-lg transition-all duration-300 hover:scale-105 shadow-lg text-sm focus-ring min-h-[44px] flex items-center justify-center"
-            // A11Y: Daha açıklayıcı etiket
             aria-label="Ücretsiz danışmanlık ve teklif almak için aşağı kaydır"
           >
             Hemen Teklif Al
@@ -550,50 +531,26 @@ function ConsultationCard() {
   );
 }
 
-function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
-  return (
-    <Image
-      src={heroImg}
-      alt={ariaHidden ? "" : alt}
-      fill
-      // Daha iyi LCP için akıllı size
-      sizes="(max-width: 768px) 100vw, 1600px"
-      priority
-      fetchPriority="high"
-      // Blur placeholder LCP'yi yavaşlatıyor → kaldırıyoruz
-      placeholder="empty"
-      // Modern sıkıştırma için ideal kalite
-      quality={55}
-      className="absolute inset-0 h-full w-full object-cover object-center"
-      aria-hidden={ariaHidden}
-    />
-  );
-}
 // —————————————————————————————————————————
 // SAYFA
 // —————————————————————————————————————————
 export default function HomePage() {
   return (
     <>
-      {/* SEO: Sadece sayfaya özel Schema.org verisi */}
       <StructuredData />
 
-      {/* HERO SECTION - Ana sayfanın ilk görünecek kısmı (LCP) */}
+      {/* HERO SECTION */}
       <section
-        className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950"
         aria-labelledby="hero-title"
+        className="relative min-h-[80vh] flex items-center justify-center overflow-hidden"
+        style={{
+          backgroundImage:
+            "linear-gradient(to bottom right, rgba(11,15,26,0.95), rgba(23,37,84,0.92)), url('/img/hero-bg.webp')",
+          backgroundSize: "cover",
+          backgroundPosition: "center center",
+          backgroundRepeat: "no-repeat",
+        }}
       >
-        {/* Arka plan görseli (LCP) */}
-        <div className="absolute inset-0" aria-hidden="true">
-          <HeroBackgroundImage ariaHidden />
-        </div>
-
-        {/* Karanlık overlay */}
-        <div
-          className="absolute inset-0 bg-gradient-to-br from-slate-950/90 via-blue-950/80 to-purple-950/80"
-          aria-hidden="true"
-        />
-
         {/* İçerik */}
         <div className="relative z-10 container py-12 md:py-16">
           <div className="max-w-6xl mx-auto text-center mb-10">
@@ -607,7 +564,6 @@ export default function HomePage() {
               </span>
             </div>
 
-            {/* Başlık (H1) */}
             <h1
               id="hero-title"
               className="text-white text-3xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight tracking-tight drop-shadow-md"
@@ -626,10 +582,8 @@ export default function HomePage() {
               hızlı kurulum ile yanınızdayız
             </p>
 
-            {/* CTA Butonları */}
             <CTAGroup />
 
-            {/* Öne çıkanlar */}
             <section aria-labelledby="hero-features-heading">
               <h2 id="hero-features-heading" className="sr-only">
                 Öne çıkan özellikler
@@ -637,7 +591,6 @@ export default function HomePage() {
               <HeroFeatureGrid />
             </section>
 
-            {/* Danışmanlık kutusu */}
             <ConsultationCard />
           </div>
         </div>
@@ -655,7 +608,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* #teklif-al hedefi (Ana içeriğin hemen başında, Skip Link/CTA hedefine yardımcı olur) */}
+      {/* #teklif-al hedefi */}
       <div id="teklif-al" className="sr-only" />
 
       {/* Google review banner – deferred */}
@@ -804,7 +757,6 @@ export default function HomePage() {
           </ScrollReveal>
 
           <div className="grid gap-6 lg:gap-8 lg:grid-cols-2">
-            {/* Sol blok */}
             <ScrollReveal variant="left" as="article">
               <article className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 shadow-lg border border-blue-100">
                 <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
@@ -863,7 +815,6 @@ export default function HomePage() {
               </article>
             </ScrollReveal>
 
-            {/* Sağ blok */}
             <ScrollReveal variant="right" as="article">
               <article className="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-6 shadow-lg border border-purple-100">
                 <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
