@@ -4,6 +4,7 @@
 import { useRef, useState, useCallback, useMemo, memo } from "react";
 import Image from "next/image";
 import Link from "next/link";
+// ScrollRevealGroup hala kullanılıyor, ancak bireysel butonlardan kaldırıldı.
 import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
 
 const DEFAULT_SERVICES = [
@@ -231,7 +232,7 @@ function ServicesTabsComponent({
     [imageErrors]
   );
 
-  // Klavye ile sekmeler arasında gezinme (Aynı kalır, zaten optimize edilmiş)
+  // Klavye ile sekmeler arasında gezinme (Aynı kalır, zaten iyi optimize edilmiş)
   const onKeyDownTabs = useCallback((e) => {
     if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) return;
     e.preventDefault();
@@ -265,6 +266,7 @@ function ServicesTabsComponent({
   return (
     <div className="w-full">
       {/* TAB BUTONLARI */}
+      {/* ScrollReveal'ı sadece dış div'e uyguluyoruz. Her butondan kaldırdık. */}
       <ScrollReveal asChild>
         <div className="relative mb-12">
           <div
@@ -274,41 +276,36 @@ function ServicesTabsComponent({
             aria-label={dictionary.tablistLabel}
             onKeyDown={onKeyDownTabs}
           >
+            {/* HER BİR BUTON ARTIK DOĞRUDAN role="tablist" ALT ÖĞESİDİR */}
             {services.map((service, index) => (
-              <ScrollReveal 
-                asChild 
+              // Bireysel ScrollReveal kaldırıldı. key artık button'a aittir.
+              <button
                 key={service.id} 
-                delay={String(index)}
-                // A11Y Düzeltmesi: role="tablist" ve role="tab" arasına giren öğeyi yok saymak için
-                role="presentation" 
+                type="button"
+                role="tab" // A11Y: role="tab"
+                aria-selected={activeTab === service.id}
+                aria-controls={`panel-${service.id}`}
+                id={`tab-${service.id}`}
+                // Performans: Inline handler kullanıldı
+                onClick={() => setActiveTab(service.id)}
+                className={`inline-flex items-center gap-2 px-4 py-3 min-h-11 rounded-xl font-semibold text-sm
+                  transition-all duration-300 border-2 whitespace-nowrap flex-shrink-0 focus-ring
+                  ${
+                    activeTab === service.id
+                      ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white border-transparent shadow-lg scale-105"
+                      : "bg-white text-gray-700 border-gray-200 hover:border-blue-300 hover:bg-blue-50 hover:shadow-md"
+                  }`}
               >
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={activeTab === service.id}
-                  aria-controls={`panel-${service.id}`}
-                  id={`tab-${service.id}`}
-                  // Performans: Inline handler kullanıldı (gereksiz useMemo objesi kaldırıldı)
-                  onClick={() => setActiveTab(service.id)}
-                  className={`inline-flex items-center gap-2 px-4 py-3 min-h-11 rounded-xl font-semibold text-sm
-                    transition-all duration-300 border-2 whitespace-nowrap flex-shrink-0 focus-ring
-                    ${
-                      activeTab === service.id
-                        ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white border-transparent shadow-lg scale-105"
-                        : "bg-white text-gray-700 border-gray-200 hover:border-blue-300 hover:bg-blue-50 hover:shadow-md"
-                    }`}
-                >
-                  <span className="text-lg" aria-hidden="true">
-                    {service.icon}
-                  </span>
-                  <span className="hidden sm:inline">{service.title}</span>
-                  <span className="sm:hidden">
-                    {service.title.includes("&")
-                      ? service.title.split("&")[0].trim()
-                      : service.title.split(" ")[0]}
-                  </span>
-                </button>
-              </ScrollReveal>
+                <span className="text-lg" aria-hidden="true">
+                  {service.icon}
+                </span>
+                <span className="hidden sm:inline">{service.title}</span>
+                <span className="sm:hidden">
+                  {service.title.includes("&")
+                    ? service.title.split("&")[0].trim()
+                    : service.title.split(" ")[0]}
+                </span>
+              </button>
             ))}
           </div>
 
@@ -366,7 +363,6 @@ function ServicesTabsComponent({
                       {dictionary.featuresHeading}
                     </h4>
 
-                    {/* UL/LI semantik + ScrollRevealGroup ile kademeli animasyon */}
                     <ScrollRevealGroup>
                       <ul className="space-y-3" role="list">
                         {activeService.features.map((feature, idx) => (
