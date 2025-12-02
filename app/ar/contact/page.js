@@ -33,6 +33,10 @@ const CONTACT_CHANNELS = [
 ];
 
 export default function ArabicContactPage() {
+  const contactChannels = Array.isArray(CONTACT_CHANNELS)
+    ? CONTACT_CHANNELS
+    : [];
+
   return (
     <div className="container mx-auto space-y-12 px-4 py-10" dir="rtl">
       <header className="space-y-3 text-right">
@@ -43,7 +47,7 @@ export default function ArabicContactPage() {
       </header>
 
       <div className="grid gap-6 md:grid-cols-3">
-        {CONTACT_CHANNELS.map((channel) => (
+        {contactChannels.map((channel) => (
           <a
             key={channel.title}
             href={channel.href}
