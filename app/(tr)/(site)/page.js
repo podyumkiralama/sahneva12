@@ -474,13 +474,12 @@ function HeroFeatureGrid() {
       role="list"
     >
       {HERO_FEATURES.map((item, index) => (
-         <ScrollReveal // 👈 ScrollReveal eklendi
-          asChild
-          key={item.title}
-          delay={String(index * 0.5)}
-          direction="scale"
-        >
-          <li key={item.title} className="m-0 p-0">
+        <li key={item.title} className="m-0 p-0">
+          <ScrollReveal
+            asChild
+            delay={String(index * 0.5)}
+            direction="scale"
+          >
             <div className="group bg-slate-900/80 rounded-xl p-4 border border-white/10">
               <div
                 className={`text-2xl mb-2 ${item.color}`}
@@ -491,10 +490,12 @@ function HeroFeatureGrid() {
               <div className="text-white font-bold text-base mb-1">
                 {item.title}
               </div>
-              <div className="text-gray-200 text-xs">{item.description}</div>
+              <div className="text-gray-200 text-xs">
+                {item.description}
+              </div>
             </div>
-          </li>
-        </ScrollReveal>
+          </ScrollReveal>
+        </li>
       ))}
     </ul>
   );
