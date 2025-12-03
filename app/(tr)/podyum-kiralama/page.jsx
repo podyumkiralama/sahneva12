@@ -123,7 +123,7 @@ const FaqDeferred = dynamic(() => import("@/components/Faq"), {
 });
 
 const PriceEstimatorPodyum = dynamic(
-  () => import("@/components/pricing/PriceEstimatorPodyum"),
+  () => import("@/components/PriceEstimatorPodyum"),
   {
     ssr: false,
     loading: () => (
