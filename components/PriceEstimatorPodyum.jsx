@@ -5,18 +5,7 @@ import { useId, useMemo, useState } from "react";
 
 import ExternalLink from "@/components/ExternalLink";
 
-// ⚠️ GÜVENLİ VARSAYILAN FİYATLAR
-// Eğer parent'tan unitPrices gelmezse build patlamasın diye
-const DEFAULT_UNIT_PRICES = {
-  platform_m2_week: 0,
-  carpet_m2_week: 0,
-  skirt_ml_week: 0,
-};
-
-export default function PriceEstimatorPodyum({
-  unitPrices = DEFAULT_UNIT_PRICES, // <- BURASI ÖNEMLİ
-  className = "",
-}) {
+export default function PriceEstimatorPodyum({ unitPrices, className = "" }) {
   const [w, setW] = useState(4);
   const [d, setD] = useState(6);
   const [loc, setLoc] = useState("istanbul"); // istanbul | sehir-disi
@@ -27,24 +16,12 @@ export default function PriceEstimatorPodyum({
     { w: 6, d: 8, label: "6×8" },
   ];
 
-  const {
-    area,
-    perimeter,
-    base,
-    carpet,
-    skirt,
-    paketToplam,
-    lojistikTL,
-    genelToplam,
-  } = useMemo(() => {
-    const prices = unitPrices ?? DEFAULT_UNIT_PRICES;
-
+  const { area, perimeter, base, carpet, skirt, paketToplam, lojistikTL, genelToplam } = useMemo(() => {
     const area = Math.max(1, Math.round(Number(w) * Number(d)));
     const perimeter = 2 * (Number(w) + Number(d));
-
-    const base = area * (prices.platform_m2_week ?? 0);
-    const carpet = area * (prices.carpet_m2_week ?? 0);
-    const skirt = perimeter * (prices.skirt_ml_week ?? 0);
+    const base = area * unitPrices.platform_m2_week;
+    const carpet = area * unitPrices.carpet_m2_week;
+    const skirt = perimeter * unitPrices.skirt_ml_week;
     const paketToplam = base + carpet + skirt;
 
     // İstanbul içi ≤200 m² sabit 8.000 TL; aksi durumda teklife göre (dahil edilmez)
@@ -55,16 +32,7 @@ export default function PriceEstimatorPodyum({
 
     const genelToplam = paketToplam + (lojistikTL ?? 0);
 
-    return {
-      area,
-      perimeter,
-      base,
-      carpet,
-      skirt,
-      paketToplam,
-      lojistikTL,
-      genelToplam,
-    };
+    return { area, perimeter, base, carpet, skirt, paketToplam, lojistikTL, genelToplam };
   }, [w, d, loc, unitPrices]);
 
   const liveTotalText = useMemo(() => {
@@ -77,9 +45,7 @@ export default function PriceEstimatorPodyum({
 
     const genelToplamMetni = lojistikTL ? formatTRY(genelToplam) : "Belirtilmedi";
 
-    return `Önerilen paket toplamı ${formatTRY(
-      paketToplam
-    )}. ${lojistikMetni}. Genel toplam: ${genelToplamMetni}.`;
+    return `Önerilen paket toplamı ${formatTRY(paketToplam)}. ${lojistikMetni}. Genel toplam: ${genelToplamMetni}.`;
   }, [area, genelToplam, loc, lojistikTL, paketToplam]);
 
   return (
@@ -95,10 +61,7 @@ export default function PriceEstimatorPodyum({
       {/* Üst şerit */}
       <div className="rounded-t-2xl bg-gradient-to-r from-primary/10 via-primary/5 to-transparent px-4 py-3 sm:px-6">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <h3
-            id="podyum-fiyat-hesaplayici"
-            className="text-sm font-semibold text-neutral-800"
-          >
+          <h3 id="podyum-fiyat-hesaplayici" className="text-sm font-semibold text-neutral-800">
             Hızlı Fiyat Hesaplama
           </h3>
           <div className="flex flex-wrap gap-1.5">
@@ -130,10 +93,7 @@ export default function PriceEstimatorPodyum({
 
       {/* Gövde */}
       <div className="px-4 py-4 sm:px-6 sm:py-6">
-        <p
-          id="podyum-fiyat-hesaplayici-aciklama"
-          className="sr-only"
-        >
+        <p id="podyum-fiyat-hesaplayici-aciklama" className="sr-only">
           Ölçüleri, konumu ve paket seçeneklerini güncellediğinizde toplam maliyetler otomatik olarak hesaplanır.
         </p>
 
@@ -180,33 +140,17 @@ export default function PriceEstimatorPodyum({
             left="Nakliye + Kurulum/Söküm"
             right={
               loc === "istanbul"
-                ? area <= 200
-                  ? formatTRY(lojistikTL ?? 0)
-                  : "200 m² üzeri: Teklife göre"
+                ? (area <= 200 ? formatTRY(lojistikTL ?? 0) : "200 m² üzeri: Teklife göre")
                 : "Şehir dışı: Teklife göre"
             }
           />
           <div className="my-3 h-px w-full bg-primary/10" />
-          <div
-            className="flex items-baseline justify-between"
-            aria-live="polite"
-            aria-atomic="true"
-          >
-            <span className="text-[13px] text-neutral-700">
-              Önerilen Paket (Halı + Skört)
-            </span>
-            <span className="text-base font-semibold tracking-tight">
-              {formatTRY(paketToplam)}
-            </span>
+          <div className="flex items-baseline justify-between" aria-live="polite" aria-atomic="true">
+            <span className="text-[13px] text-neutral-700">Önerilen Paket (Halı + Skört)</span>
+            <span className="text-base font-semibold tracking-tight">{formatTRY(paketToplam)}</span>
           </div>
-          <div
-            className="mt-1 flex items-baseline justify-between"
-            aria-live="polite"
-            aria-atomic="true"
-          >
-            <span className="text-[13px] text-neutral-700">
-              Genel Toplam (Paket + Nakliye/Kurulum)
-            </span>
+          <div className="mt-1 flex items-baseline justify-between" aria-live="polite" aria-atomic="true">
+            <span className="text-[13px] text-neutral-700">Genel Toplam (Paket + Nakliye/Kurulum)</span>
             <span className="text-lg font-semibold tracking-tight text-primary">
               {lojistikTL ? formatTRY(genelToplam) : "—"}
             </span>
@@ -291,9 +235,7 @@ function Info({ label, value, emphasize = false }) {
   return (
     <div className="rounded-xl border border-neutral-200 bg-white p-3">
       <div className="text-[11px] text-neutral-500">{label}</div>
-      <div className={["font-semibold", emphasize ? "text-primary" : ""].join(" ")}>
-        {value}
-      </div>
+      <div className={["font-semibold", emphasize ? "text-primary" : ""].join(" ")}>{value}</div>
     </div>
   );
 }
