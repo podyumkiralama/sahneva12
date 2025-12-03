@@ -107,7 +107,6 @@ function JsonLd() {
 
 // ================== DİNAMİK BİLEŞENLER ==================
 const FaqDeferred = dynamic(() => import("@/components/Faq"), {
-  ssr: false,
   loading: () => (
     <section className="py-12 border-t border-neutral-200/70">
       <div className="container">
@@ -125,12 +124,12 @@ const FaqDeferred = dynamic(() => import("@/components/Faq"), {
 const PriceEstimatorPodyum = dynamic(
   () => import("@/components/PriceEstimatorPodyum"),
   {
-    ssr: false,
     loading: () => (
       <div className="border border-blue-100 rounded-2xl p-4 bg-blue-50/50 animate-pulse min-h-[180px]" />
     ),
   }
 );
+
 
 // ================== YARDIMCI BİLEŞENLER ==================
 function SectionTitle({ eyebrow, title, description }) {
