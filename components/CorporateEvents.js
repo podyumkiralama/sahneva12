@@ -73,6 +73,10 @@ const DEFAULT_ADVANTAGES = [
   },
 ];
 
+const WHATSAPP_CORPORATE_MESSAGE = encodeURIComponent(
+  "Merhaba, kurumsal etkinlik çözümleri için Sahneva'dan teklif almak istiyorum."
+);
+
 const BLUR_DATA_URL =
   "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R";
 
@@ -83,6 +87,11 @@ const DEFAULT_DICTIONARY = {
   highlightTitleAccent: "Farkımız",
   advantagesAriaLabel: "Avantajlarımız",
   cardCtaLabel: "Teklif Al",
+  cardCtaLabels: {
+    lansman: "Lansman Teklifi Alın",
+    konferans: "Konferans Teklif Formu",
+    "bayi-toplantisi": "Bayi Toplantısı Fiyatı",
+  },
   cardCtaHref: "/iletisim",
   cardCtaAria: "{{title}} için teklif al",
   cardBadgeLabel: "Profesyonel Çözüm",
@@ -94,10 +103,9 @@ const DEFAULT_DICTIONARY = {
   phoneCtaLabel: "Telefonla Görüş",
   phoneCtaHref: "tel:+905453048671",
   phoneCtaAria: "Telefonla ücretsiz danışmanlık alın: +90 545 304 86 71",
-  whatsappCtaLabel: "WhatsApp'tan Yaz",
-  whatsappCtaHref:
-    "https://wa.me/905453048671?text=Merhaba%2C+web+sitenizden+ulaşıyorum.+Sahne+kiralama+ve+LED+ekran+fiyatları+hakkında+detaylı+teklif+almak+istiyorum.",
-  whatsappCtaAria: "WhatsApp üzerinden mesaj gönderin",
+  whatsappCtaLabel: "WhatsApp Hızlı Teklif",
+  whatsappCtaHref: `https://wa.me/905453048671?text=${WHATSAPP_CORPORATE_MESSAGE}&utm_source=homepage&utm_medium=corporate_whatsapp`,
+  whatsappCtaAria: "WhatsApp üzerinden kurumsal teklif alın",
   whatsappSrHint: "(yeni sekmede açılır)",
   supportStats: ["7/24 Müşteri Desteği", "15 Dakikada Yanıt"],
 };
@@ -264,7 +272,10 @@ export default function CorporateEvents({
                         card.title
                       )}
                     >
-                      <span>{dictionary.cardCtaLabel}</span>
+                      <span>
+                        {dictionary.cardCtaLabels?.[card.slug] ??
+                          dictionary.cardCtaLabel}
+                      </span>
                       <span
                         className="transform group-hover/link:translate-x-1 transition-transform duration-200"
                         aria-hidden="true"
@@ -381,9 +392,10 @@ export default function CorporateEvents({
               <a
                 href={dictionary.whatsappCtaHref}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="nofollow noopener"
                 className="inline-flex items-center justify-center gap-3 bg-green-100 hover:bg-green-200 border-2 border-green-600 text-green-900 font-bold px-5 py-4 rounded-xl shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl min-h-[60px] focus-ring"
                 aria-describedby={whatsappAriaDescribedBy}
+                aria-label={dictionary.whatsappCtaAria}
               >
                 <span className="text-xl" aria-hidden="true">
                   💬

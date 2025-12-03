@@ -10,6 +10,10 @@ import React, {
 } from "react";
 import { FAQ_ITEMS } from "../lib/faqData";
 
+const FAQ_WHATSAPP_MESSAGE = encodeURIComponent(
+  "Merhaba, SSS bölümünden ulaşıyorum. Etkinlik ve ekipman kiralama için bilgi almak istiyorum."
+);
+
 const DEFAULT_DICTIONARY = {
   sectionTitle: "Sıkça Sorulan Sorular",
   regionTitleSr: "Sıkça sorulan sorular bölümü içeriği",
@@ -41,13 +45,14 @@ const DEFAULT_DICTIONARY = {
           "inline-flex items-center gap-3 bg-blue-100 hover:bg-blue-200 border border-blue-300 text-blue-900 font-bold px-5 py-3 rounded-xl transition-all duration-200 hover:shadow-md hover:scale-105 min-h-[48px] text-sm",
       },
       {
-        href: "https://wa.me/905453048671",
+        href: `https://wa.me/905453048671?text=${FAQ_WHATSAPP_MESSAGE}&utm_source=homepage&utm_medium=faq_whatsapp`,
         icon: "💬",
-        label: "WhatsApp",
+        label: "WhatsApp İletişim",
         description: "Hızlı Mesaj",
         target: "_blank",
-        rel: "noopener noreferrer",
+        rel: "nofollow noopener",
         srHint: " (yeni sekmede açılır)",
+        ariaLabel: "WhatsApp üzerinden Sahneva'ya soru gönder",
         className:
           "inline-flex items-center gap-3 bg-green-100 hover:bg-green-200 border border-green-300 text-green-900 font-bold px-5 py-3 rounded-xl transition-all duration-200 hover:shadow-md hover:scale-105 min-h-[48px] text-sm",
       },
@@ -300,6 +305,7 @@ export default function Faq({
                           item.className ||
                           "inline-flex items-center gap-3 bg-neutral-100 border border-neutral-200 text-neutral-900 font-bold px-5 py-3 rounded-xl transition-all duration-200 hover:shadow-md hover:scale-105 min-h-[48px] text-sm focus-ring"
                         }
+                        aria-label={item.ariaLabel || undefined}
                       >
                         <span className="text-xl" aria-hidden="true">
                           {item.icon}
