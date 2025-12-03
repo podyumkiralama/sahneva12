@@ -66,7 +66,7 @@ export const metadata = {
   themeColor: "#6d28d9",
   title: {
     default:
-      "Sahne, Podyum, LED Ekran & Ses Işık Kiralama | Sahneva Organizasyon",
+      "Sahne, Podyum & LED Ekran Kiralama | Sahneva Organizasyon",
     template: "%s | Sahneva Organizasyon",
   },
   description:
