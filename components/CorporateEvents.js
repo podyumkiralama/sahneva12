@@ -244,12 +244,12 @@ export default function CorporateEvents({
                 </div>
 
                 <div className="relative p-6 bg-white/80 backdrop-blur-sm">
-                  <h3
+                  <p
                     id={`corp-card-${i}-title`}
                     className={`font-bold text-xl mb-3 ${card.color}`}
                   >
                     {card.title}
-                  </h3>
+                  </p>
                   <p className="text-gray-600 leading-relaxed mb-4">
                     {card.text}
                   </p>
@@ -294,12 +294,12 @@ export default function CorporateEvents({
                 {dictionary.highlightPill}
               </span>
             </div>
-            <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+            <p className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
               {dictionary.highlightTitlePrefix}{" "}
               <span className="text-blue-600">
                 {dictionary.highlightTitleAccent}
               </span>
-            </h3>
+            </p>
           </div>
 
           <ul
@@ -347,13 +347,13 @@ export default function CorporateEvents({
           </div>
 
           <div className="relative z-10">
-            <h3 id={bannerTitleId} className="text-2xl md:text-3xl font-bold mb-4">
+            <p id={bannerTitleId} className="text-2xl md:text-3xl font-bold mb-4">
               {dictionary.bannerTitlePrefix}{" "}
               <span className="text-yellow-300">
                 {dictionary.bannerTitleHighlight}
               </span>{" "}
               {dictionary.bannerTitleSuffix}
-            </h3>
+            </p>
             <p
               id={bannerDescId}
               className="text-white/90 text-lg mb-8 max-w-2xl mx-auto leading-relaxed"

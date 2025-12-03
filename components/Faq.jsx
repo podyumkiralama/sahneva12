@@ -242,9 +242,9 @@ export default function Faq({
               </div>
 
               <div className="relative z-10">
-                <h3 className="text-xl md:text-2xl font-bold text-white mb-3">
+                <p className="text-xl md:text-2xl font-bold text-white mb-3">
                   {dictionary.cta?.title ?? DEFAULT_DICTIONARY.cta.title}
-                </h3>
+                </p>
                 <p className="text-blue-100 text-base mb-5 max-w-2xl mx-auto leading-relaxed">
                   {dictionary.cta?.description ??
                     DEFAULT_DICTIONARY.cta.description}
@@ -285,9 +285,9 @@ export default function Faq({
         <div className="mt-8 text-center last:mb-0">
           
             <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/60 p-6 max-w-2xl mx-auto">
-              <h4 className="text-lg font-bold text-gray-900 mb-3">
+              <p className="text-lg font-bold text-gray-900 mb-3">
                 {quickContact.title}
-              </h4>
+              </p>
               <nav aria-label={quickContact.navLabel}>
                 <ul className="flex flex-wrap gap-3 justify-center items-center">
                   {quickContactItems.map((item) => (

@@ -337,9 +337,9 @@ function ServicesTabsComponent({
                     <span className="text-3xl" aria-hidden="true">
                       {activeService.icon}
                     </span>
-                    <h3 className="text-2xl md:text-4xl font-black text-gray-900">
+                    <p className="text-2xl md:text-4xl font-black text-gray-900">
                       {activeService.title}
-                    </h3>
+                    </p>
                   </div>
 
                   <p className="text-lg text-gray-600 leading-relaxed">
@@ -347,7 +347,7 @@ function ServicesTabsComponent({
                   </p>
 
                   <div className="space-y-4">
-                    <h4 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                    <p className="text-xl font-bold text-gray-900 flex items-center gap-2">
                       <svg
                         className="w-5 h-5 text-blue-500"
                         fill="none"
@@ -363,7 +363,7 @@ function ServicesTabsComponent({
                         />
                       </svg>
                       {dictionary.featuresHeading}
-                    </h4>
+                    </p>
 
                     
                       <ul className="space-y-3" role="list">
@@ -466,9 +466,9 @@ function ServicesTabsComponent({
 
                   <div className="absolute bottom-4 left-4 right-4">
                     <div className="bg-white/90 backdrop-blur-sm rounded-lg p-4 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                      <h4 className="font-bold text-gray-900 text-lg">
+                      <p className="font-bold text-gray-900 text-lg">
                         {activeService.title}
-                      </h4>
+                      </p>
                       <p className="text-gray-600 text-sm">
                         {dictionary.imageBadgeLabel}
                       </p>

@@ -514,9 +514,9 @@ function ConsultationCard() {
           </div>
         </div>
         <div className="flex-1 text-center md:text-left">
-          <h2 className="text-white text-xl md:text-2xl font-bold mb-2">
+          <p className="text-white text-xl md:text-2xl font-bold mb-2">
             Ücretsiz Profesyonel Danışmanlık
-          </h2>
+          </p>
           <p className="text-slate-100 text-base leading-relaxed">
             Etkinliğiniz için <strong>en uygun sahne çözümleri</strong>, LED
             ekran seçenekleri ve ses-ışık sistemlerini ücretsiz teknik
@@ -773,12 +773,12 @@ export default function HomePage() {
                         >
                           {icon}
                         </div>
-                        <h3
+                        <p
                           id={`why-card-${i}-title`}
                           className="font-black text-lg mb-3 text-neutral-900 group-hover:text-blue-600 transition-colors"
                         >
                           {title}
-                        </h3>
+                        </p>
                         <p className="text-neutral-700 leading-relaxed text-sm">
                           {desc}
                         </p>

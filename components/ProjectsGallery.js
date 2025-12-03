@@ -247,7 +247,7 @@ const GalleryCard = memo(function GalleryCard({
             <span className="text-2xl text-gray-700" aria-hidden="true">
               {galleryData.icon}
             </span>
-            <h3 className="text-lg font-bold text-gray-900">{groupTitle}</h3>
+            <p className="text-lg font-bold text-gray-900">{groupTitle}</p>
           </div>
 
           <p className="text-gray-600 leading-relaxed mb-3 line-clamp-2">

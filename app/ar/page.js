@@ -635,7 +635,7 @@ export default function ArabicHomePage() {
                     </div>
                   </div>
                   <div className="flex-1 text-center md:text-right">
-                    <h2 className="text-white text-xl md:text-2xl font-bold mb-2">استشارة تقنية مجانية</h2>
+                    <p className="text-white text-xl md:text-2xl font-bold mb-2">استشارة تقنية مجانية</p>
                     <p className="text-white/90 text-base leading-relaxed">
                       لنخطط معًا الحزمة المثالية من المنصات، شاشات LED وأنظمة الصوت والإضاءة مع مخططات تفصيلية وقوائم معدات ولوجستيات.
                       <strong className="text-yellow-300"> عروض سعر في نفس اليوم.</strong>
@@ -801,9 +801,9 @@ export default function ArabicHomePage() {
                         <div className="text-3xl mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text" aria-hidden="true">
                           {icon}
                         </div>
-                        <h3 id={`why-card-${i}-title`} className="font-black text-lg mb-3 text-neutral-900 group-hover:text-blue-600 transition-colors">
+                        <p id={`why-card-${i}-title`} className="font-black text-lg mb-3 text-neutral-900 group-hover:text-blue-600 transition-colors">
                           {title}
-                        </h3>
+                        </p>
                         <p className="text-neutral-700 leading-relaxed text-sm">{desc}</p>
                       </article>
                     
@@ -829,10 +829,10 @@ export default function ArabicHomePage() {
             <div className="grid gap-6 lg:gap-8 lg:grid-cols-2">
               
                 <article className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 shadow-lg border border-blue-100">
-                  <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
+                  <p className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
                     <span className="bg-blue-500 text-white p-2 rounded-lg" aria-hidden="true">🚀</span>
                     إنتاج تقني ولوجستي متكامل
-                  </h3>
+                  </p>
                   <div className="prose max-w-none text-neutral-700">
                     <p className="text-base leading-relaxed">
                       <strong>سحنيفا</strong> تصمم، تنقل وتشغّل{" "}
@@ -877,10 +877,10 @@ export default function ArabicHomePage() {
 
               
                 <article className="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-6 shadow-lg border border-purple-100">
-                  <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
+                  <p className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
                     <span className="bg-purple-500 text-white p-2 rounded-lg" aria-hidden="true">🎤</span>
                     بنية تحتية للجماهير الكبيرة
-                  </h3>
+                  </p>
                   <div className="prose max-w-none text-neutral-700">
                     <p className="text-base leading-relaxed">
                       تستفيد المهرجانات، المهرجانات السياسية، الفعاليات الرياضية والاحتفالات الوطنية من مخزون معداتنا عالي السعة وخطط الطوارئ الدقيقة.
