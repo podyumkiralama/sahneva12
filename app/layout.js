@@ -22,7 +22,7 @@ const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "@id": `${SITE_URL}/#org`,
-  name: "Sahneva",
+  name: "Sahneva Organizasyon",
   url: SITE_URL,
   logo: `${SITE_URL}/img/logo.png`,
   description:
@@ -62,11 +62,11 @@ export const metadata = {
   title: {
     default:
       "Sahne, Podyum, LED Ekran & Ses Işık Kiralama | Sahneva Organizasyon",
-    template: "%s | Sahneva",
+    template: "%s | Sahneva Organizasyon",
   },
   description:
     "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık ve çadır kiralama. Profesyonel teknik ekip, hızlı kurulum ve uygun fiyatlarla etkinlik prodüksiyon çözümleri.",
-  applicationName: "Sahneva",
+  applicationName: "Sahneva Organizasyon",
   alternates: {
     canonical: SITE_URL,
     languages: {
@@ -83,7 +83,7 @@ export const metadata = {
       "Sahne, Podyum, LED Ekran & Ses Işık Kiralama | Sahneva Organizasyon",
     description:
       "Kurumsal etkinlikler, konserler, festivaller ve lansmanlar için sahne, podyum, LED ekran, ses-ışık ve çadır kiralama çözümleri.",
-    siteName: "Sahneva",
+    siteName: "Sahneva Organizasyon",
     images: [
       {
         url: `${SITE_URL}/img/og/hero-og.webp`,
