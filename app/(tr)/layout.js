@@ -3,8 +3,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import UtilityBar from "@/components/UtilityBar.client";
 import StickyVideoRailclient from "@/components/StickyVideoRail.client";
-import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 import DeferredSpeedInsights from "@/components/DeferredSpeedInsights.client";
+import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
@@ -12,10 +12,9 @@ const SITE_URL =
 
 const content = LOCALE_CONTENT.tr;
 
+// Root Layout zaten title & description yönetiyor.
+// Bu layout sadece canonical + language alternates sağlar.
 export const metadata = {
-  // content.meta tanımlı olduğu için hata vermez
-  title: content?.meta?.title ?? "Sahneva",
-  description: content?.meta?.description ?? "Etkinlik Prodüksiyon Hizmetleri",
   alternates: {
     canonical: `${SITE_URL}/`,
     languages: {
@@ -29,27 +28,30 @@ export const metadata = {
 
 export default function TurkishLayout({ children }) {
   return (
-    <div className="flex min-h-screen flex-col bg-white text-neutral-900" dir={content.direction}>
-      
-      {/* ---- HEADER ---- 
-          ID: _main_header (SkipLink burayı hedefler)
-      */}
+    <div
+      className="flex min-h-screen flex-col bg-white text-neutral-900"
+      dir={content.direction}
+    >
+      {/* ================================
+          HEADER
+          ID: _main_header  (SkipLinks hedefi)
+      ================================= */}
       <header
         id="_main_header"
         role="banner"
         aria-label="Sahneva site başlığı ve ana gezinme"
         className="w-full relative z-50"
       >
-        {/* SiteHeader yerine doğrudan bileşenleri koyduk */}
         <UtilityBar />
         <Navbar />
         <StickyVideoRailclient />
       </header>
 
-      {/* ---- MAIN CONTENT ---- 
-          ID: _main_content (SkipLink burayı hedefler)
-          Fixed header için üst boşluk: pt-16 (mobil), lg:pt-20 (desktop)
-      */}
+      {/* ================================
+          MAIN CONTENT
+          ID: _main_content (SkipLinks hedefi)
+          Fixed header boşluğu: pt-16 / lg:pt-20
+      ================================= */}
       <main
         id="_main_content"
         role="main"
@@ -62,11 +64,15 @@ export default function TurkishLayout({ children }) {
         <div className="overflow-x-hidden">{children}</div>
       </main>
 
-      {/* ---- FOOTER ---- 
-          ID: _main_footer (SkipLink burayı hedefler)
-      */}
-      <footer id="_main_footer" role="contentinfo">
-        {/* SiteFooter yerine doğrudan Footer bileşenini koyduk */}
+      {/* ================================
+          FOOTER
+          ID: _main_footer (SkipLinks hedefi)
+      ================================= */}
+      <footer
+        id="_main_footer"
+        role="contentinfo"
+        aria-label="Sahneva site altbilgi"
+      >
         <Footer />
       </footer>
 
