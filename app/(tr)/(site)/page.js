@@ -545,7 +545,7 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
   return (
     <Image
       src={heroImg}
-      alt={ariaHidden ? "" : alt}
+      alt={alt}
       fill
       sizes="100vw"
       priority
