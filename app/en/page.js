@@ -606,7 +606,7 @@ export default function EnglishHomePage() {
                     </div>
                   </div>
                   <div className="flex-1 text-center md:text-left">
-                    <h2 className="text-white text-xl md:text-2xl font-bold mb-2">Free technical consultation</h2>
+                    <p className="text-white text-xl md:text-2xl font-bold mb-2">Free technical consultation</p>
                     <p className="text-white/90 text-base leading-relaxed">
                       Let's plan the ideal stage, LED wall and AV package for your event with detailed drawings, equipment lists and logistics.<strong className="text-yellow-300"> Same-day proposals guaranteed.</strong>
                     </p>
@@ -768,9 +768,9 @@ export default function EnglishHomePage() {
                         <div className="text-3xl mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text" aria-hidden="true">
                           {icon}
                         </div>
-                        <h3 id={`why-card-${i}-title`} className="font-black text-lg mb-3 text-neutral-900 group-hover:text-blue-600 transition-colors">
+                        <p id={`why-card-${i}-title`} className="font-black text-lg mb-3 text-neutral-900 group-hover:text-blue-600 transition-colors">
                           {title}
-                        </h3>
+                        </p>
                         <p className="text-neutral-700 leading-relaxed text-sm">{desc}</p>
                       </article>
                     
@@ -796,10 +796,10 @@ export default function EnglishHomePage() {
             <div className="grid gap-6 lg:gap-8 lg:grid-cols-2">
               
                 <article className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 shadow-lg border border-blue-100">
-                  <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
+                  <p className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
                     <span className="bg-blue-500 text-white p-2 rounded-lg" aria-hidden="true">🚀</span>
                     End-to-end technical production & logistics
-                  </h3>
+                  </p>
                   <div className="prose max-w-none text-neutral-700">
                     <p className="text-base leading-relaxed">
                       <strong>Sahneva</strong> designs, delivers and operates{' '}
@@ -844,10 +844,10 @@ export default function EnglishHomePage() {
 
               
                 <article className="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-6 shadow-lg border border-purple-100">
-                  <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
+                  <p className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
                     <span className="bg-purple-500 text-white p-2 rounded-lg" aria-hidden="true">🎤</span>
                     Infrastructure for large-scale audiences
-                  </h3>
+                  </p>
                   <div className="prose max-w-none text-neutral-700">
                     <p className="text-base leading-relaxed">
                       Festivals, political rallies, sporting events and national celebrations benefit from our high-capacity equipment inventory and redundancy planning.
