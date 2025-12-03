@@ -26,6 +26,14 @@ const WHATSAPP_LINK = `https://wa.me/${PHONE_TEL.replace(
   ""
 )}?text=${WHATSAPP_MESSAGE}`;
 
+// ✅ Fiyat hesaplayıcı için varsayılan birim fiyatlar
+// (İstediğin rakamları burada değiştirebilirsin)
+const DEFAULT_UNIT_PRICES = {
+  platform_m2_week: 850, // TL / m²
+  carpet_m2_week: 120,   // TL / m²
+  skirt_ml_week: 90,     // TL / metre
+};
+
 // ================== METADATA ==================
 export const metadata = {
   title: "Podyum Kiralama | Profesyonel Sahne ve Podyum Sistemleri - Sahneva",
@@ -129,7 +137,6 @@ const PriceEstimatorPodyum = dynamic(
     ),
   }
 );
-
 
 // ================== YARDIMCI BİLEŞENLER ==================
 function SectionTitle({ eyebrow, title, description }) {
@@ -428,7 +435,8 @@ export default function PodyumKiralamaPage() {
                 teklif için formu bize iletin.
               </p>
 
-              <PriceEstimatorPodyum />
+              {/* ✅ Burada artık unitPrices props ile gidiyor */}
+              <PriceEstimatorPodyum unitPrices={DEFAULT_UNIT_PRICES} />
 
               <p className="text-[13px] text-neutral-600">
                 Hesaplanan tutar, ortalama fiyat aralığını gösterir. Nakliye,
