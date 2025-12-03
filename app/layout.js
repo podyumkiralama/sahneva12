@@ -65,7 +65,7 @@ export const metadata = {
     template: "%s | Sahneva Organizasyon",
   },
   description:
-    "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık ve çadır kiralama. Profesyonel teknik ekip, hızlı kurulum ve uygun fiyatlarla etkinlik prodüksiyon çözümleri.",
+    "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı kurulum, profesyonel teknik ekip, uygun fiyat. Hemen teklif alın!",
   applicationName: "Sahneva Organizasyon",
   alternates: {
     canonical: SITE_URL,
