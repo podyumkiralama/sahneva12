@@ -1,7 +1,8 @@
 // app/(tr)/(site)/page.js
 import Image from "next/image";
 import heroImg from "@/public/img/hero-bg.webp";
-import Link from "next/link"; // A11Y için prose içindeki Link'ler
+import Link from "next/link";
+// A11Y için prose içindeki Link'ler
 
 // Statik bileşenler
 import CorporateEvents from "@/components/CorporateEvents";
@@ -11,19 +12,17 @@ import {
   ProjectsGalleryDeferred,
   FaqDeferred,
 } from "@/components/DeferredSections.client";
-
-// Animasyon bileşenleri (hero'da kullanmıyoruz, aşağıdaki bölümlerde kullanıyoruz)
+// Animasyon bileşenleri (Hafif ve görünürlük alanına odaklı)
+import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
   "https://www.sahneva.com";
-
 // —————————————————————————————————————————
 // SABİT VERİLER
 // —————————————————————————————————————————
 const HERO_IMAGE_ALT =
   "LED ekran, truss çatı ve ışık sistemi içeren Sahneva sahne kurulumunu gösteren arka plan görseli";
-
 const HERO_FEATURES = [
   {
     icon: "⭐",
@@ -44,13 +43,11 @@ const HERO_FEATURES = [
     color: "text-purple-400",
   },
 ];
-
 const HERO_KEYWORDS = [
   { text: "Sahne Kiralama", gradient: "text-blue-300" },
   { text: "LED Ekran", gradient: "text-purple-300" },
   { text: "Ses-Işık Sistemleri", gradient: "text-cyan-300" },
 ];
-
 const CTA_BUTTONS = [
   {
     href: "tel:+905453048671",
@@ -69,10 +66,8 @@ const CTA_BUTTONS = [
     ariaLabel: "WhatsApp Üzerinden Teklif Almak İçin Tıklayın",
   },
 ];
-
 const CTA_BASE_CLASS =
   "w-full sm:w-auto min-w-[180px] min-h-[44px] text-center group relative text-white font-bold text-base px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition-transform duration-200 hover:scale-105 border border-white/20 focus-ring";
-
 const CTA_OVERLAY_CLASS =
   "absolute inset-0 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200";
 
@@ -86,6 +81,14 @@ const SECTION_THEMES = {
     description: "text-slate-100",
   },
 };
+
+const HERO_IMAGE_STYLE = Object.freeze({
+  filter: "brightness(0.6) contrast(1.1) saturate(1.05)",
+});
+
+const HERO_OVERLAY_ANIMATION_STYLE = Object.freeze({
+  animationDuration: "8s",
+});
 
 const WHY_SAHNEVA_FEATURES = [
   {
@@ -125,43 +128,36 @@ const WHY_SAHNEVA_FEATURES = [
     stat: "81 İl",
   },
 ];
-
 // PERFORMANS: Off-screen içeriği hızlıca atlamak için
 const BELOW_THE_FOLD_VISIBILITY_STYLE = Object.freeze({
   contentVisibility: "auto",
 });
-
 const SEO_TECH_FEATURES = [
   "IP65 dış mekân LED paneller, 4500+ nit parlaklık",
   "Profesyonel line-array ses sistemleri, dijital mikserler",
   "Modüler podyum ve sahne platformları, truss sistemleri",
   "DMX kontrollü ışık sistemleri ve ambiyans aydınlatma",
 ];
-
 const SEO_INFRA_FEATURES = [
   "100m²+ LED ekran kurulumu (P3.9 outdoor)",
   "Line-array ses sistemleri (JBL, RCF, dB)",
   "Truss kule sistemleri ve roof sahne çözümleri",
   "Jeneratör, UPS ve yedekli enerji altyapısı",
 ];
-
 export const revalidate = 3600;
 
 // —————————————————————————————————————————
-// JSON-LD (Schema.org) - SADECE SAYFAYA ÖZEL ŞEMALAR
-// Organization ve WebSite şemaları zaten ROOT LAYOUT'ta olduğu için çıkarıldı.
+// JSON-LD (Schema.org) - SAYFAYA ÖZEL ŞEMALAR
 // —————————————————————————————————————————
 function StructuredData() {
   const HOME_URL = SITE_URL;
   const ORGANIZATION_ID = `${SITE_URL}/#org`;
   const WEBSITE_ID = `${SITE_URL}/#website`;
-
   const WEBPAGE_ID = `${HOME_URL}#webpage`;
   const SERVICE_ID = `${HOME_URL}#primary-service`;
   const CATALOG_ID = `${HOME_URL}#catalog`;
   const FAQ_ID = `${HOME_URL}#faq`;
   const IMAGE_ID = `${HOME_URL}#og`;
-
   const data = {
     "@context": "https://schema.org",
     "@graph": [
@@ -277,7 +273,7 @@ function StructuredData() {
         height: 630,
       },
       {
-        "@type": "VideoObject",
+        "@type": "VideoObject", // 👈 VideoObject eklendi
         "@id": `${HOME_URL}#intro-video`,
         name: "Sahneva – Sahne, Podyum ve LED Ekran Kiralama Tanıtım Videosu",
         description:
@@ -443,7 +439,8 @@ function CTAButton({
     <a
       href={href}
       className={`${CTA_BASE_CLASS} bg-gradient-to-r ${gradient}`}
-      aria-label={ariaLabel || (srHint ? `${label} ${srHint}` : label)}
+      // A11y için aria-label kullanımı
+      aria-label={ariaLabel || (srHint ? `${label} ${srHint}` : label)} 
       {...rest}
     >
       <span className="relative z-10 flex items-center justify-center gap-2">
@@ -476,21 +473,28 @@ function HeroFeatureGrid() {
       className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto list-none p-0 m-0"
       role="list"
     >
-      {HERO_FEATURES.map((item) => (
-        <li key={item.title} className="m-0 p-0">
-          <div className="group bg-slate-900/80 rounded-xl p-4 border border-white/10">
-            <div
-              className={`text-2xl mb-2 ${item.color}`}
-              aria-hidden="true"
-            >
-              {item.icon}
+      {HERO_FEATURES.map((item, index) => (
+         <ScrollReveal // 👈 ScrollReveal eklendi
+          asChild
+          key={item.title}
+          delay={String(index * 0.5)}
+          direction="scale"
+        >
+          <li key={item.title} className="m-0 p-0">
+            <div className="group bg-slate-900/80 rounded-xl p-4 border border-white/10">
+              <div
+                className={`text-2xl mb-2 ${item.color}`}
+                aria-hidden="true"
+              >
+                {item.icon}
+              </div>
+              <div className="text-white font-bold text-base mb-1">
+                {item.title}
+              </div>
+              <div className="text-gray-200 text-xs">{item.description}</div>
             </div>
-            <div className="text-white font-bold text-base mb-1">
-              {item.title}
-            </div>
-            <div className="text-gray-200 text-xs">{item.description}</div>
-          </div>
-        </li>
+          </li>
+        </ScrollReveal>
       ))}
     </ul>
   );
@@ -545,10 +549,10 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
       sizes="100vw"
       priority
       fetchPriority="high"
-      placeholder="empty"      // blur kaldırıldı – LCP hızlanır
-      quality={50}             // LCP için ideal kalite
-      loading="eager"          // Mutlaka hemen yükle
-      decoding="sync"          // LCP için en hızlı yöntem
+      placeholder="empty"      // LCP için optimize edildi
+      quality={50}             // LCP için optimize edildi
+      loading="eager"          // LCP için optimize edildi
+      decoding="sync"          // LCP için optimize edildi
       className="absolute inset-0 w-full h-full object-cover object-center"
       aria-hidden={ariaHidden}
     />
@@ -560,10 +564,10 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
 
 export default function HomePage() {
   return (
-    <>
+    <div className="overflow-x-hidden">
       <StructuredData />
 
-      {/* HERO – Sade, LCP odaklı */}
+      {/* HERO – Hız odaklı, animasyonlu */}
       <section
         className="relative min-h-[75vh] flex items-center justify-center overflow-hidden bg-black"
         aria-labelledby="hero-title"
@@ -571,36 +575,56 @@ export default function HomePage() {
         {/* LCP görseli */}
         <div className="absolute inset-0" aria-hidden="true">
           <HeroBackgroundImage ariaHidden />
-          {/* Tek katmanlı hafif overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/70" />
+          {/* Overlay katmanları (Animasyon eklendi) */}
+          <div
+            className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/70"
+            style={HERO_IMAGE_STYLE}
+          />
+          {/* Hafif parlama animasyonu */}
+          <div
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse motion-reduce:animate-none"
+            style={HERO_OVERLAY_ANIMATION_STYLE}
+            aria-hidden="true"
+          />
         </div>
 
         {/* İçerik */}
         <div className="relative z-10 container py-10">
           <div className="max-w-3xl mx-auto text-center">
-            <p className="inline-flex items-center gap-3 bg-black/50 rounded-full px-4 py-2 border border-white/10 text-xs md:text-sm text-slate-100">
-              <span className="w-2 h-2 bg-green-400 rounded-full" aria-hidden="true" />
-              Türkiye Geneli Profesyonel Hizmet
-            </p>
+            
+            <ScrollReveal asChild> {/* 👈 SCROLL REVEAL BAŞLANGIÇ */}
+              <div className="inline-flex items-center gap-3 bg-black/50 rounded-full px-4 py-2 border border-white/10 text-xs md:text-sm text-slate-100">
+                <span className="w-2 h-2 bg-green-400 rounded-full" aria-hidden="true" />
+                Türkiye Geneli Profesyonel Hizmet
+              </div>
+            </ScrollReveal>
 
-            <h1
-              id="hero-title"
-              className="mt-4 text-white text-3xl md:text-5xl lg:text-6xl font-black leading-tight"
-            >
-              Profesyonel{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400">
-                Sahne Sistemleri
-              </span>
-            </h1>
+            <ScrollReveal delay="1" asChild> {/* 👈 SCROLL REVEAL BAŞLIK */}
+              <h1
+                id="hero-title"
+                className="mt-4 text-white text-3xl md:text-5xl lg:text-6xl font-black leading-tight"
+              >
+                Profesyonel{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400">
+                  Sahne Sistemleri
+                </span>
+              </h1>
+            </ScrollReveal>
 
-            <KeywordPills />
+            <ScrollReveal delay="2"> {/* 👈 SCROLL REVEAL KEYWORDS ve Açıklama */}
+              <>
+                <KeywordPills />
+                <p className="text-slate-100 text-sm md:text-lg mt-2 md:mt-4 max-w-xl mx-auto">
+                  500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli hızlı
+                  kurulum ile etkinliğinizde yanınızdayız.
+                </p>
+              </>
+            </ScrollReveal>
 
-            <p className="text-slate-100 text-sm md:text-lg mt-2 md:mt-4 max-w-xl mx-auto">
-              500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli hızlı
-              kurulum ile etkinliğinizde yanınızdayız.
-            </p>
+            <ScrollReveal delay="3"> {/* 👈 SCROLL REVEAL CTA */}
+              <CTAGroup />
+            </ScrollReveal>
 
-            <CTAGroup />
           </div>
         </div>
 
@@ -620,8 +644,10 @@ export default function HomePage() {
       {/* Hero altı: feature + danışmanlık (artık LCP dışında) */}
       <section className="py-10 bg-gradient-to-b from-slate-950 to-slate-900">
         <div className="container space-y-8">
-          <HeroFeatureGrid />
-          <ConsultationCard />
+          <HeroFeatureGrid /> {/* Animasyon HeroFeatureGrid içinde yapıldı */}
+          <ScrollReveal delay="1">
+            <ConsultationCard />
+          </ScrollReveal>
         </div>
       </section>
 
@@ -638,18 +664,20 @@ export default function HomePage() {
         style={BELOW_THE_FOLD_VISIBILITY_STYLE}
       >
         <div
-          className="absolute inset-0 bg-[linear-gradient(#e5e7eb_1px,transparent_1px),linear-gradient(90deg,#e5e7eb_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:radial-gradient(ellipse_at_center,transparent_20%,white)]"
+          className="absolute inset-0 bg-[linear-gradient(#e5e7eb_1px,transparent_1px),linear-gradient(90deg,#e5e7eb_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:radial-gradient(ellipse_at-center,transparent_20%,white)]"
           aria-hidden="true"
         />
         <div className="relative z-10 space-y-8">
           <div className="container">
             
+            <ScrollReveal>
               <SectionHeader
                 id="hizmetler-title"
                 title="Profesyonel "
                 highlight="Hizmetlerimiz"
                 description="Türkiye geneli sahne, podyum, LED ekran kiralama ve ses-ışık sistemleri kurulumu"
               />
+            </ScrollReveal>
             
           </div>
 
@@ -667,6 +695,7 @@ export default function HomePage() {
       >
         <div className="container">
           
+          <ScrollReveal>
             <SectionHeader
               id="projeler-title"
               title="Başarılı "
@@ -674,7 +703,7 @@ export default function HomePage() {
               description="500'den fazla kurumsal etkinlik, konser, fuar ve özel organizasyonda güvenilir çözüm ortağı"
               theme="dark"
             />
-          
+          </ScrollReveal>
           <ProjectsGalleryDeferred idleTimeout={3200} rootMargin="360px" />
         </div>
       </section>
@@ -687,13 +716,14 @@ export default function HomePage() {
       >
         <div className="container">
           
+          <ScrollReveal>
             <SectionHeader
               id="kurumsal-title"
               title="Kurumsal "
               highlight="Organizasyon Çözümlerimiz"
               description="Lansman, konferans, bayi toplantısı ve kurumsal etkinlikleriniz için sahne, podyum, LED ekran, ses–ışık ve teknik operasyonu tek çatı altında sunuyoruz."
             />
-          
+          </ScrollReveal>
           <CorporateEvents />
         </div>
       </section>
@@ -706,6 +736,7 @@ export default function HomePage() {
       >
         <div className="container">
           
+          <ScrollReveal>
             <SectionHeader
               id="neden-tercih-heading"
               title="Neden "
@@ -713,9 +744,9 @@ export default function HomePage() {
               afterText="'yı Tercih Etmelisiniz?"
               description="10 yılı aşkın deneyimimiz, uzman ekibimiz ve kaliteli ekipmanlarımızla fark yaratıyoruz"
             />
-          
+          </ScrollReveal>
 
-          
+          <ScrollRevealGroup> {/* 👈 Grup Animasyonu */}
             <ul
               className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 list-none p-0 m-0"
               role="list"
@@ -723,31 +754,40 @@ export default function HomePage() {
               {WHY_SAHNEVA_FEATURES.map(
                 ({ icon, title, desc, stat }, i) => (
                   <li key={i} className="m-0 p-0">
-                    
-                      <div className="absolute top-3 right-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                        {stat}
-                      </div>
-                      <div
-                        className="text-3xl mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text"
-                        aria-hidden="true"
+                    <ScrollReveal
+                      asChild
+                      delay={String(i % 3)}
+                      direction="scale"
+                    >
+                      <article
+                        className="group relative bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 p-6 border border-neutral-100 hover:border-blue-200/70 hover:scale-105"
+                        aria-labelledby={`why-card-${i}-title`}
                       >
-                        {icon}
-                      </div>
-                      <h3
-                        id={`why-card-${i}-title`}
-                        className="font-black text-lg mb-3 text-neutral-900 group-hover:text-blue-600 transition-colors"
-                      >
-                        {title}
-                      </h3>
-                      <p className="text-neutral-700 leading-relaxed text-sm">
-                        {desc}
-                      </p>
-                    
+                        <div className="absolute top-3 right-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                          {stat}
+                        </div>
+                        <div
+                          className="text-3xl mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text"
+                          aria-hidden="true"
+                        >
+                          {icon}
+                        </div>
+                        <h3
+                          id={`why-card-${i}-title`}
+                          className="font-black text-lg mb-3 text-neutral-900 group-hover:text-blue-600 transition-colors"
+                        >
+                          {title}
+                        </h3>
+                        <p className="text-neutral-700 leading-relaxed text-sm">
+                          {desc}
+                        </p>
+                      </article>
+                    </ScrollReveal>
                   </li>
                 )
               )}
             </ul>
-          
+          </ScrollRevealGroup>
         </div>
       </section>
 
@@ -759,6 +799,7 @@ export default function HomePage() {
       >
         <div className="container">
           
+          <ScrollReveal>
             <SectionHeader
               id="seo-title"
               title="Türkiye'nin "
@@ -766,11 +807,11 @@ export default function HomePage() {
               afterText=" Etkinlik Teknoloji Partneri"
               theme="light"
             />
-          
+          </ScrollReveal>
 
           <div className="grid gap-6 lg:gap-8 lg:grid-cols-2">
             {/* Sol blok */}
-            
+            <ScrollReveal direction="left" asChild> {/* 👈 Soldan Giriş Animasyonu */}
               <article className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 shadow-lg border border-blue-100">
                 <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
                   <span
@@ -784,6 +825,7 @@ export default function HomePage() {
                 <div className="prose max-w-none text-neutral-700">
                   <p className="text-base leading-relaxed">
                     <strong>Sahneva</strong> olarak Türkiye genelinde{" "}
+                    {/* A11y ve performansı artırmak için <Link> kullanımı */}
                     <Link
                       href="/sahne-kiralama"
                       className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
@@ -826,10 +868,10 @@ export default function HomePage() {
                   </ul>
                 </div>
               </article>
-            
+            </ScrollReveal>
 
             {/* Sağ blok */}
-            
+            <ScrollReveal direction="right" asChild> {/* 👈 Sağdan Giriş Animasyonu */}
               <article className="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-6 shadow-lg border border-purple-100">
                 <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
                   <span
@@ -844,7 +886,8 @@ export default function HomePage() {
                   <p className="text-base leading-relaxed">
                     Konser, miting, festival, fuar ve açık hava etkinlikleri
                     için yüksek kapasiteli ekipman altyapımızla hizmet
-                    veriyoruz. 50.000+ kişilik organizasyonlarda aktif rol
+                    veriyoruz.
+                    50.000+ kişilik organizasyonlarda aktif rol
                     alıyoruz.
                   </p>
                   <ul className="mt-4 space-y-2 text-neutral-700" role="list">
@@ -860,7 +903,7 @@ export default function HomePage() {
                   </ul>
                 </div>
               </article>
-            
+            </ScrollReveal>
           </div>
         </div>
       </section>
@@ -873,6 +916,7 @@ export default function HomePage() {
       >
         <div className="container">
           
+          <ScrollReveal>
             <SectionHeader
               id="sss-title"
               title="Sıkça "
@@ -880,10 +924,10 @@ export default function HomePage() {
               description="Sahne, LED ekran, ses-ışık sistemleri ve kurulum süreçleri hakkında merak ettikleriniz"
               theme="dark"
             />
-          
+          </ScrollReveal>
           <FaqDeferred idleTimeout={3600} rootMargin="400px" />
         </div>
       </section>
-    </>
+    </div>
   );
 }
