@@ -6,6 +6,7 @@ import Link from "next/link";
 
 // Statik bileşenler
 import CorporateEvents from "@/components/CorporateEvents";
+import CorporateIntro from "@/components/CorporateIntro";
 import {
   ReviewBannerDeferred,
   ServicesTabsDeferred,
@@ -609,19 +610,19 @@ export default function HomePage() {
                 id="hero-title"
                 className="mt-4 text-white text-3xl md:text-5xl lg:text-6xl font-black leading-tight"
               >
-                Profesyonel{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400">
-                  Sahne Sistemleri
-                </span>
+                Türkiye Geneli Profesyonel Sahne, Podyum ve LED Ekran Kiralama Çözümleri
               </h1>
             </ScrollReveal>
 
             <ScrollReveal delay="2"> {/* 👈 SCROLL REVEAL KEYWORDS ve Açıklama */}
               <>
                 <KeywordPills />
-                <p className="text-slate-100 text-sm md:text-lg mt-2 md:mt-4 max-w-xl mx-auto">
-                  500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli hızlı
-                  kurulum ile etkinliğinizde yanınızdayız.
+                <p className="text-slate-100 text-sm md:text-lg mt-2 md:mt-4 max-w-3xl mx-auto leading-relaxed">
+                  500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli hızlı kurulum ile etkinliğinizde yanınızdayız. Kurumsal etkinlikler, bayi toplantıları, konserler, festivaller ve açık hava organizasyonları için sahne kiralama, podyum kiralama, LED ekran kiralama, ses-ışık sistemleri ve yayın altyapısını tek merkezden sunuyoruz.
+                </p>
+
+                <p className="text-slate-100/90 text-xs md:text-base mt-3 max-w-3xl mx-auto leading-relaxed">
+                  Etkinlik mekanına uygun modüler kurulum planları, enerji hesaplaması ve truss tasarımı yaparak görsel bütünlüğü koruyor, profesyonel teknik ekibimizle her şehirde güvenli ve ölçülebilir performans sağlıyoruz. Teknik ekipman listesinden lojistik planlamaya, içerik yönetiminden sahne önü güvenlik adımlarına kadar her aşamayı şeffaf biçimde raporluyor; olası risklere karşı yedek senaryolar hazır tutarak marka deneyiminizi güvence altına alıyoruz.
                 </p>
               </>
             </ScrollReveal>
@@ -674,13 +675,13 @@ export default function HomePage() {
         />
         <div className="relative z-10 space-y-8">
           <div className="container">
-            
+
             <ScrollReveal>
               <SectionHeader
                 id="hizmetler-title"
-                title="Profesyonel "
+                title="Profesyonel Ses-Işık Sistemleri ve "
                 highlight="Hizmetlerimiz"
-                description="Türkiye geneli sahne, podyum, LED ekran kiralama ve ses-ışık sistemleri kurulumu"
+                description="Türkiye geneli sahne, podyum, LED ekran kiralama ve ses-ışık sistemleri kurulumu sağlıyoruz. Farklı şehirlerdeki ekibimizle ekran kiralama, sahne kiralama, podyum kiralama ve ses-ışık entegrasyonunu tek elden planlayarak kurumsal etkinliklerinizin akışını kesintisiz kılıyoruz. İster butik lansman ister geniş katılımlı festival olsun, teknik çizimler, güvenlik kontrolleri ve canlı yayın desteğiyle uçtan uca çözümler sunuyoruz."
               />
             </ScrollReveal>
             
@@ -725,10 +726,11 @@ export default function HomePage() {
             <SectionHeader
               id="kurumsal-title"
               title="Kurumsal "
-              highlight="Organizasyon Çözümlerimiz"
+              highlight="Sahne, Podyum ve LED Ekran Kiralama Çözümlerimiz"
               description="Lansman, konferans, bayi toplantısı ve kurumsal etkinlikleriniz için sahne, podyum, LED ekran, ses–ışık ve teknik operasyonu tek çatı altında sunuyoruz."
             />
           </ScrollReveal>
+          <CorporateIntro />
           <CorporateEvents />
         </div>
       </section>
