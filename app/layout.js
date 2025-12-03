@@ -1,10 +1,11 @@
 // app/layout.jsx
 import "../styles/globals.css";
-import Script from "next/script";
 import { Inter } from "next/font/google";
 
 import SkipLinks from "@/components/SkipLinks";
 import CriticalAssets from "@/components/CriticalAssets";
+import DeferredAnalytics from "@/components/DeferredAnalytics.client";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
 
 const inter = Inter({
   subsets: ["latin", "latin-ext", "arabic"],
@@ -138,25 +139,8 @@ export default function RootLayout({ children }) {
 
         {gaEnabled && (
           <>
-            <Script
-              id="ga4-lib"
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script
-              id="ga4-init"
-              strategy="afterInteractive"
-              dangerouslySetInnerHTML={{
-                __html: `
-                  window.dataLayer = window.dataLayer || [];
-                  function gtag(){dataLayer.push(arguments);}
-                  gtag('js', new Date());
-                  gtag('config', '${GA_MEASUREMENT_ID}', {
-                    page_path: window.location.pathname,
-                  });
-                `,
-              }}
-            />
+            <DeferredAnalytics gaId={GA_MEASUREMENT_ID} />
+            <AnalyticsTracker gaId={GA_MEASUREMENT_ID} />
           </>
         )}
       </body>
