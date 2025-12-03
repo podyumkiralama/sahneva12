@@ -59,6 +59,7 @@ const websiteJsonLd = {
   inLanguage: "tr-TR",
 };
 
+/* ================== METADATA ================== */
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
@@ -108,6 +109,7 @@ export const metadata = {
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 const gaEnabled = Boolean(GA_MEASUREMENT_ID);
 
+/* ================== ROOT LAYOUT ================== */
 export default function RootLayout({ children }) {
   return (
     <html
@@ -116,10 +118,15 @@ export default function RootLayout({ children }) {
       className={inter.className}
       suppressHydrationWarning
     >
-        {/* Kritik preload/prefetch varlıkları */}
+      <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
+        {/* SkipLinks: erişilebilirlik için üstte */}
+        <SkipLinks />
+
+        {/* Kritik preload/prefetch varlıkları (bu bileşen head'e inject ediyorsa sorun yok) */}
         <CriticalAssets />
 
-        {/* JSON-LD: Organization & Website */}
+        {/* JSON-LD: Organization & Website
+            Body içinde olması Google açısından sorun değil */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -133,13 +140,6 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/* GA bağlantıları */}
-        <link rel="dns-prefetch" href="//www.googletagmanager.com" />
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://www.google-analytics.com" />
-
-        <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
-        <SkipLinks />
         {children}
 
         {gaEnabled && (
