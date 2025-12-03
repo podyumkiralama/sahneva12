@@ -4,49 +4,46 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Performans İyileştirici:
- * Ağır client bileşenlerini sadece kullanıcı onları göreceği zaman
- * veya tarayıcı boşta kaldığında (idle) yükler.
+ * Ağır client bileşenlerini yalnızca:
+ * - Görünür olduklarında (IntersectionObserver), veya
+ * - Tarayıcı boşta kaldığında (requestIdleCallback / RAF fallback)
+ * hydrate eden küçük yardımcı bileşen.
  *
  * Kullanım:
- * <DeferredHydration
- *   idleTimeout={3000}
- *   rootMargin="200px"
- * >
- *   <AğırBileşen />
+ * <DeferredHydration idleTimeout={3000} rootMargin="200px">
+ *   <HeavyComponent />
  * </DeferredHydration>
  */
+
 export default function DeferredHydration({
   children,
   fallback = null,
-  rootMargin = "200px", // Görünmeye 200px kala yüklemeye başla
-  idleTimeout = 3000,   // En geç 3 sn sonra yine de yükle
+  rootMargin = "200px",
+  idleTimeout = 3000,
   as: Component = "div",
   className,
-  // Eğer hemen yüklemek istersek (ör: kritik alan), forceHydrate ile override edebiliriz
   forceHydrate = false,
   ...rest
 }) {
   const [isHydrated, setHydrated] = useState(forceHydrate);
-  const ref = useRef(null);
   const hasHydratedRef = useRef(forceHydrate);
+  const ref = useRef(null);
 
   useEffect(() => {
-    // SSR güvenliği
     if (typeof window === "undefined") return;
 
-    // Zaten hydrate olduysa hiçbir şey kurma
+    // Zaten hydrate olduysa / zorunlu hydrate varsa hiçbir şey kurma
     if (hasHydratedRef.current || forceHydrate) {
-      if (!isHydrated) setHydrated(true);
+      if (!hasHydratedRef.current) {
+        hasHydratedRef.current = true;
+        setHydrated(true);
+      }
       return;
     }
 
-    const element = ref.current;
-    if (!element) return;
-
+    let observer;
     let idleId = null;
     let idleUsingRaf = false;
-    let observer = null;
     let cancelled = false;
 
     const hydrateNow = () => {
@@ -54,11 +51,11 @@ export default function DeferredHydration({
       hasHydratedRef.current = true;
       setHydrated(true);
 
-      // IO ve idle callback’leri artık gereksiz
       if (observer) {
         observer.disconnect();
-        observer = null;
+        observer = undefined;
       }
+
       if (idleId !== null) {
         if (!idleUsingRaf && "cancelIdleCallback" in window) {
           window.cancelIdleCallback(idleId);
@@ -69,59 +66,65 @@ export default function DeferredHydration({
       }
     };
 
-    // Tarayıcı boşta kalınca yükle
+    // Görünür olunca hydrate et
+    if ("IntersectionObserver" in window && ref.current) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              hydrateNow();
+              break;
+            }
+          }
+        },
+        {
+          rootMargin,
+          threshold: 0.1,
+        }
+      );
+
+      observer.observe(ref.current);
+    }
+
+    // Tarayıcı boşta kalınca yedek hydrate
     const scheduleIdle = () => {
+      if (idleTimeout == null || idleTimeout < 0) return;
+
       if ("requestIdleCallback" in window) {
         idleId = window.requestIdleCallback(
           (deadline) => {
-            // Yeterli idle süresi varsa hydrate
-            if (deadline.timeRemaining() > 0 || deadline.didTimeout) {
+            if (deadline.timeRemaining() > 10) {
               hydrateNow();
             }
           },
           { timeout: idleTimeout }
         );
-        idleUsingRaf = false;
       } else {
-        // Safari / eski tarayıcı için rAF fallback
-        const start = performance.now();
         idleUsingRaf = true;
+        const start = performance.now();
+
         const loop = () => {
-          const now = performance.now();
-          if (now - start >= idleTimeout) {
+          if (performance.now() - start >= idleTimeout) {
             hydrateNow();
             return;
           }
           idleId = requestAnimationFrame(loop);
         };
+
         idleId = requestAnimationFrame(loop);
       }
     };
 
     scheduleIdle();
 
-    // IntersectionObserver: görünür olunca daha erken yükle
-    if ("IntersectionObserver" in window) {
-      observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting || entry.isVisible) {
-              hydrateNow();
-            }
-          });
-        },
-        { rootMargin }
-      );
-      observer.observe(element);
-    }
-
-    // Cleanup
     return () => {
       cancelled = true;
+
       if (observer) {
         observer.disconnect();
-        observer = null;
+        observer = undefined;
       }
+
       if (idleId !== null) {
         if (!idleUsingRaf && "cancelIdleCallback" in window) {
           window.cancelIdleCallback(idleId);
@@ -130,7 +133,7 @@ export default function DeferredHydration({
         }
       }
     };
-  }, [idleTimeout, rootMargin, forceHydrate, isHydrated]);
+  }, [rootMargin, idleTimeout, forceHydrate]);
 
   const busy = !isHydrated && Boolean(fallback);
 
