@@ -62,6 +62,8 @@ const websiteJsonLd = {
 /* ================== METADATA ================== */
 export const metadata = {
   metadataBase: new URL(SITE_URL),
+  manifest: "/manifest.json",
+  themeColor: "#6d28d9",
   title: {
     default:
       "Sahne, Podyum, LED Ekran & Ses Işık Kiralama | Sahneva Organizasyon",
@@ -104,6 +106,29 @@ export const metadata = {
       "Profesyonel etkinlik prodüksiyon çözümleri. Sahne, podyum, LED ekran, ses-ışık ve çadır kiralama.",
     images: [`${SITE_URL}/img/og/hero-og.webp`],
   },
+  icons: {
+    icon: [
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      {
+        url: "/android-chrome-192x192.png",
+        sizes: "192x192",
+        type: "image/png",
+      },
+      {
+        url: "/android-chrome-512x512.png",
+        sizes: "512x512",
+        type: "image/png",
+      },
+    ],
+    apple: [
+      {
+        url: "/apple-touch-icon.png",
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ],
+  },
 };
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
@@ -122,11 +147,10 @@ export default function RootLayout({ children }) {
         {/* SkipLinks: erişilebilirlik için üstte */}
         <SkipLinks />
 
-        {/* Kritik preload/prefetch varlıkları (bu bileşen head'e inject ediyorsa sorun yok) */}
+        {/* Kritik preload/prefetch varlıkları */}
         <CriticalAssets />
 
-        {/* JSON-LD: Organization & Website
-            Body içinde olması Google açısından sorun değil */}
+        {/* JSON-LD: Organization & Website (body içinde olması sorun değil) */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
