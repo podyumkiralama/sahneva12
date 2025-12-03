@@ -18,6 +18,7 @@ const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
   "https://www.sahneva.com";
 
+/* ================== JSON-LD: ORGANIZATION ================== */
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -46,12 +47,13 @@ const organizationJsonLd = {
   },
 };
 
+/* ================== JSON-LD: WEBSITE ================== */
 const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "@id": `${SITE_URL}/#website`,
   url: SITE_URL,
-  name: "Sahneva",
+  name: "Sahneva Organizasyon",
   description:
     "Sahne, podyum, LED ekran, ses-ışık ve çadır kiralama hizmetleri için profesyonel etkinlik prodüksiyon çözümleri.",
   inLanguage: "tr-TR",
@@ -115,16 +117,21 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
     >
       <head>
+        {/* Kritik preload/prefetch varlıkları */}
         <CriticalAssets />
 
-        {/* JSON-LD */}
+        {/* JSON-LD: Organization & Website */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd),
+          }}
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteJsonLd),
+          }}
         />
 
         {/* GA bağlantıları */}
