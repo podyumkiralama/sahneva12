@@ -64,6 +64,10 @@ const SERVICE_LINKS = [
   },
 ];
 
+const NAVBAR_WHATSAPP_MESSAGE = encodeURIComponent(
+  "Merhaba, Sahneva ile etkinlik ekipmanları için teklif ve destek almak istiyorum."
+);
+
 export default function Navbar() {
   const pathname = usePathname();
 
@@ -593,10 +597,10 @@ export default function Navbar() {
 
               {/* Desktop WhatsApp CTA */}
               <a
-                href="https://wa.me/905453048671?text=Merhaba%2C+sahne+ve+etkinlik+ekipmanları+için+teklif+almak+istiyorum."
+                href={`https://wa.me/905453048671?text=${NAVBAR_WHATSAPP_MESSAGE}&utm_source=navbar&utm_medium=desktop_whatsapp`}
                 target="_blank"
-                rel="noopener noreferrer"
-                aria-label="WhatsApp Teklif Almak İçin Tıklayın — yeni sekmede açılır"
+                rel="nofollow noopener"
+                aria-label="WhatsApp üzerinden hızlı destek ve teklif alın — yeni sekmede açılır"
                 className={whatsappBtnClass}
               >
                 <span
@@ -605,7 +609,7 @@ export default function Navbar() {
                 >
                   💬
                 </span>
-                <span>WhatsApp Teklif</span>
+                <span>WhatsApp Destek</span>
                 <span className="sr-only">
                   {" "}
                   — yeni sekmede açılır
@@ -850,10 +854,10 @@ export default function Navbar() {
 
             {/* Mobil WhatsApp CTA */}
             <a
-              href="https://wa.me/905453048671?text=Merhaba%2C+sahne+ve+etkinlik+ekipmanları+için+teklif+almak+istiyorum."
+              href={`https://wa.me/905453048671?text=${NAVBAR_WHATSAPP_MESSAGE}&utm_source=navbar&utm_medium=mobile_whatsapp`}
               target="_blank"
-              rel="noopener noreferrer"
-              aria-label="WhatsApp Teklif Almak İçin Tıklayın — yeni sekmede açılır"
+              rel="nofollow noopener"
+              aria-label="Mobil menüden WhatsApp destek hattını açın — yeni sekmede açılır"
               className={mobileWhatsappBtnClass}
               onClick={() => setMobileOpen(false)}
             >
@@ -863,7 +867,7 @@ export default function Navbar() {
               >
                 💬
               </span>
-              <span>WhatsApp Teklif</span>
+              <span>WhatsApp Destek</span>
               <span className="sr-only">
                 {" "}
                 — yeni sekmede açılır

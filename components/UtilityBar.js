@@ -22,6 +22,10 @@ const ROUTES = [
   { href: "/sahne-kiralama", label: "Sahne", icon: "🎪" },
 ];
 
+const UTILITY_WHATSAPP_MESSAGE = encodeURIComponent(
+  "Merhaba, erişilebilirlik panelinden yazıyorum. Hızlı teklif ve destek almak istiyorum."
+);
+
 const LS_KEYS = {
   ACTIVE: "acc_active",
   FONT_SIZE: "acc_font_size",
@@ -919,7 +923,7 @@ setLS(LS_KEYS.PANEL_POSITION, "left");
                   onClick={() => {
                     if (typeof window !== "undefined") {
                       window.open(
-                        "https://wa.me/905453048671",
+                        `https://wa.me/905453048671?text=${UTILITY_WHATSAPP_MESSAGE}&utm_source=utilitybar&utm_medium=whatsapp_shortcut`,
                         "_blank",
                         "noopener,noreferrer"
                       );

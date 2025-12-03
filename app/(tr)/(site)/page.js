@@ -48,6 +48,10 @@ const HERO_KEYWORDS = [
   { text: "LED Ekran", gradient: "text-purple-300" },
   { text: "Ses-Işık Sistemleri", gradient: "text-cyan-300" },
 ];
+const CTA_WHATSAPP_MESSAGE = encodeURIComponent(
+  "Merhaba, Sahneva web sitesinden yazıyorum. Sahne ve etkinlik çözümleri için hızlı teklif almak istiyorum."
+);
+
 const CTA_BUTTONS = [
   {
     href: "tel:+905453048671",
@@ -56,14 +60,14 @@ const CTA_BUTTONS = [
     srHint: "Hemen Ara",
   },
   {
-    href: "https://wa.me/905453048671?text=Merhaba%2C+web+sitenizden+ula%C5%9F%C4%B1yorum.+Sahne+kiralama+ve+LED+ekran+fiyatlar%C4%B1+hakk%C4%B1nda+detayl%C4%B1+teklif+almak+istiyorum.&utm_source=homepage&utm_medium=hero_cta&utm_campaign=whatsapp",
-    label: "WhatsApp Teklif",
+    href: `https://wa.me/905453048671?text=${CTA_WHATSAPP_MESSAGE}&utm_source=homepage&utm_medium=hero_cta&utm_campaign=whatsapp`,
+    label: "WhatsApp'tan Teklif Alın",
     icon: "💬",
     target: "_blank",
-    rel: "noopener noreferrer",
+    rel: "nofollow noopener",
     srHint: "(yeni sekmede açılır)",
     gradient: "from-green-600 to-emerald-700",
-    ariaLabel: "WhatsApp Üzerinden Teklif Almak İçin Tıklayın",
+    ariaLabel: "WhatsApp üzerinden hızlı teklif alın",
   },
 ];
 const CTA_BASE_CLASS =
