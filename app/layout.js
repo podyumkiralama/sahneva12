@@ -1,8 +1,6 @@
 // app/layout.jsx
 import "../styles/globals.css";
 import { Inter } from "next/font/google";
-// Native benzeri sayfa geçişleri için
-import { ViewTransitions } from "next-view-transitions";
 
 import SkipLinks from "@/components/SkipLinks";
 import CriticalAssets from "@/components/CriticalAssets";
@@ -167,47 +165,45 @@ export const viewport = {
 /* ================== ROOT LAYOUT ================== */
 export default function RootLayout({ children }) {
   return (
-    <ViewTransitions>
-      <html
-        lang="tr"
-        dir="ltr"
-        className={`${inter.variable} antialiased scroll-smooth`}
-        suppressHydrationWarning
-      >
-        <body className="min-h-screen bg-white text-neutral-900 flex flex-col">
-          {/* SkipLinks: erişilebilirlik için üstte */}
-          <SkipLinks />
+    <html
+      lang="tr"
+      dir="ltr"
+      className={`${inter.variable} antialiased scroll-smooth`}
+      suppressHydrationWarning
+    >
+      <body className="min-h-screen bg-white text-neutral-900 flex flex-col">
+        {/* SkipLinks: erişilebilirlik için üstte */}
+        <SkipLinks />
 
-          {/* Kritik preload/prefetch varlıkları */}
-          <CriticalAssets />
+        {/* Kritik preload/prefetch varlıkları */}
+        <CriticalAssets />
 
-          {/* JSON-LD: Organization & Website */}
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify(organizationJsonLd),
-            }}
-          />
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify(websiteJsonLd),
-            }}
-          />
+        {/* JSON-LD: Organization & Website */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteJsonLd),
+          }}
+        />
 
-          <main id="main-content" className="flex-grow">
-            {children}
-          </main>
+        <main id="main-content" className="flex-grow">
+          {children}
+        </main>
 
-          {/* Analytics: gecikmeli yükleme */}
-          {gaEnabled && (
-            <>
-              <DeferredAnalytics gaId={GA_MEASUREMENT_ID} />
-              <AnalyticsTracker gaId={GA_MEASUREMENT_ID} />
-            </>
-          )}
-        </body>
-      </html>
-    </ViewTransitions>
+        {/* Analytics: gecikmeli yükleme */}
+        {gaEnabled && (
+          <>
+            <DeferredAnalytics gaId={GA_MEASUREMENT_ID} />
+            <AnalyticsTracker gaId={GA_MEASUREMENT_ID} />
+          </>
+        )}
+      </body>
+    </html>
   );
 }
