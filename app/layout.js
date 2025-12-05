@@ -154,13 +154,12 @@ export const metadata = {
   },
 };
 
-// WCAG 2.2: kullanıcı zoom’unu engelleme
 export const viewport = {
-  themeColor: "#0f172a",
   width: "device-width",
   initialScale: 1,
-  maximumScale: 5,
+  viewportFit: "cover",
 };
+
 
 /* ================== ROOT LAYOUT ================== */
 export default function RootLayout({ children }) {
