@@ -17,6 +17,7 @@ import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 const FOCUS_RING_CLASS =
   "focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white";
 const MOBILE_MENU_HEADING_ID = "navbar-mobile-menu-heading";
+const MOBILE_MENU_DESCRIPTION_ID = "navbar-mobile-menu-description";
 
 // Tüm hizmet linkleri (bileşen dışı, re-render'da değişmez)
 const SERVICE_LINKS = [
@@ -674,6 +675,7 @@ export default function Navbar() {
         role="dialog"
         aria-modal={mobileOpen || undefined}
         aria-labelledby={MOBILE_MENU_HEADING_ID}
+        aria-describedby={MOBILE_MENU_DESCRIPTION_ID}
         // Menü kapanırken hızı biraz azaltıldı, daha yumuşak geçiş için
         className={`
           lg:hidden fixed z-50 left-0 right-0 top-16 bg-white border-t border-neutral-200
@@ -691,6 +693,11 @@ export default function Navbar() {
         >
           {headerStrings.navLabel}
         </h2>
+
+        <p id={MOBILE_MENU_DESCRIPTION_ID} className="sr-only">
+          {headerStrings.navLabel} menüsü. Bağlantıları gezmek için tab tuşunu
+          kullanabilirsiniz.
+        </p>
 
         <nav aria-label={headerStrings.navLabel}>
           <div className="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
