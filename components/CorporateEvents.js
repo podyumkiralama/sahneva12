@@ -199,6 +199,13 @@ export default function CorporateEvents({
     .filter(Boolean)
     .join(" — ");
 
+  const whatsappAccessibleLabel = [
+    dictionary.whatsappCtaLabel,
+    dictionary.whatsappCtaAria,
+  ]
+    .filter(Boolean)
+    .join(" — ");
+
   const phoneAriaDescribedBy = phoneDescription ? phoneHintId : undefined;
   const whatsappAriaDescribedBy = whatsappDescription
     ? whatsappHintId
@@ -222,75 +229,81 @@ export default function CorporateEvents({
 
         {/* Kart listesi */}
         <ul className="grid gap-8 md:grid-cols-3 mb-16">
-          {cards.map((card, i) => (
-            <li key={card.slug}>
-              <article
-                className="group relative bg-white rounded-3xl border border-gray-200/60 shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden hover:border-blue-200/80"
-                aria-labelledby={`corp-card-${i}-title`}
-                style={{ minHeight: "400px" }}
-              >
-                <div
-                  className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
-                  aria-hidden="true"
-                />
-                <div className="relative aspect-[16/10] w-full overflow-hidden">
-                  <OptimizedImage
-                    src={card.img}
-                    alt={card.alt}
-                    sizes={CARD_SIZES}
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
+          {cards.map((card, i) => {
+            const cardCtaLabel =
+              dictionary.cardCtaLabels?.[card.slug] ?? dictionary.cardCtaLabel;
+            const cardCtaAria = resolveTitleTemplate(
+              cardCtaAriaTemplate,
+              card.title
+            );
+            const cardAccessibleLabel = cardCtaAria
+              ? `${cardCtaLabel} — ${cardCtaAria}`
+              : cardCtaLabel;
+
+            return (
+              <li key={card.slug}>
+                <article
+                  className="group relative bg-white rounded-3xl border border-gray-200/60 shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden hover:border-blue-200/80"
+                  aria-labelledby={`corp-card-${i}-title`}
+                  style={{ minHeight: "400px" }}
+                >
                   <div
-                    className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-500"
+                    className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
                     aria-hidden="true"
                   />
-                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-2xl p-3 transform -translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-                    <span className="text-2xl" aria-hidden="true">
-                      {card.icon}
-                    </span>
+                  <div className="relative aspect-[16/10] w-full overflow-hidden">
+                    <OptimizedImage
+                      src={card.img}
+                      alt={card.alt}
+                      sizes={CARD_SIZES}
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div
+                      className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-500"
+                      aria-hidden="true"
+                    />
+                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-2xl p-3 transform -translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                      <span className="text-2xl" aria-hidden="true">
+                        {card.icon}
+                      </span>
+                    </div>
                   </div>
-                </div>
 
-                <div className="relative p-6 bg-white/80 backdrop-blur-sm">
-                  <p
-                    id={`corp-card-${i}-title`}
-                    className={`font-bold text-xl mb-3 ${card.color}`}
-                  >
-                    {card.title}
-                  </p>
-                  <p className="text-gray-600 leading-relaxed mb-4">
-                    {card.text}
-                  </p>
-
-                  <div className="flex items-center justify-between">
-                    <Link
-                      href={dictionary.cardCtaHref}
-                      prefetch={false}
-                      className="inline-flex items-center gap-2 font-semibold text-gray-700 hover:text-blue-600 transition-colors duration-200 group/link focus-ring"
-                      aria-label={resolveTitleTemplate(
-                        cardCtaAriaTemplate,
-                        card.title
-                      )}
+                  <div className="relative p-6 bg-white/80 backdrop-blur-sm">
+                    <p
+                      id={`corp-card-${i}-title`}
+                      className={`font-bold text-xl mb-3 ${card.color}`}
                     >
-                      <span>
-                        {dictionary.cardCtaLabels?.[card.slug] ??
-                          dictionary.cardCtaLabel}
-                      </span>
-                      <span
-                        className="transform group-hover/link:translate-x-1 transition-transform duration-200"
-                        aria-hidden="true"
+                      {card.title}
+                    </p>
+                    <p className="text-gray-600 leading-relaxed mb-4">
+                      {card.text}
+                    </p>
+
+                    <div className="flex items-center justify-between">
+                      <Link
+                        href={dictionary.cardCtaHref}
+                        prefetch={false}
+                        className="inline-flex items-center gap-2 font-semibold text-gray-700 hover:text-blue-600 transition-colors duration-200 group/link focus-ring"
+                        aria-label={cardAccessibleLabel}
                       >
-                        →
+                        <span>{cardCtaLabel}</span>
+                        <span
+                          className="transform group-hover/link:translate-x-1 transition-transform duration-200"
+                          aria-hidden="true"
+                        >
+                          →
+                        </span>
+                      </Link>
+                      <span className="text-xs font-medium text-gray-700 bg-gray-200 rounded-full px-3 py-1">
+                        {dictionary.cardBadgeLabel}
                       </span>
-                    </Link>
-                    <span className="text-xs font-medium text-gray-700 bg-gray-200 rounded-full px-3 py-1">
-                      {dictionary.cardBadgeLabel}
-                    </span>
+                    </div>
                   </div>
-                </div>
-              </article>
-            </li>
-          ))}
+                </article>
+              </li>
+            );
+          })}
         </ul>
 
         {/* Neden Sahneva / avantajlar */}
@@ -395,7 +408,7 @@ export default function CorporateEvents({
                 rel="nofollow noopener"
                 className="inline-flex items-center justify-center gap-3 bg-green-100 hover:bg-green-200 border-2 border-green-600 text-green-900 font-bold px-5 py-4 rounded-xl shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl min-h-[60px] focus-ring"
                 aria-describedby={whatsappAriaDescribedBy}
-                aria-label={dictionary.whatsappCtaAria}
+                aria-label={whatsappAccessibleLabel}
               >
                 <span className="text-xl" aria-hidden="true">
                   💬
