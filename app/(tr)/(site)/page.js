@@ -34,11 +34,29 @@ const HERO_FEATURES = [
   { icon: "👑", title: "Premium", desc: "Kalite Garantisi", bg: "bg-purple-50", border: "border-purple-200", text: "text-purple-700" },
 ];
 
-const SEO_KEYWORDS =;
+const SEO_KEYWORDS = [
+  { text: "Sahne Kiralama", href: "/sahne-kiralama" },
+  { text: "LED Ekran Kiralama", href: "/led-ekran-kiralama" },
+  { text: "Ses & Işık Sistemleri", href: "/ses-isik-sistemleri" },
+  { text: "Kurumsal Organizasyon", href: "/kurumsal-organizasyon" },
+  { text: "Teklif Al", href: "#teklif-al" },
+];
 
-const SEO_TECH_FEATURES =;
+const SEO_TECH_FEATURES = [
+  "Profesyonel mühendis ekip ve 500+ proje deneyimi",
+  "İstanbul merkezli hızlı lojistik, Türkiye geneli kurulum",
+  "P2-P6 LED paneller, line-array ses sistemleri ve truss çatılar",
+  "Güvenlik bariyerleri, rüzgar hesaplı çatı ve yedekli elektrik altyapısı",
+  "Etkinlik süresince operatör ve canlı teknik destek",
+];
 
-const SEO_INFRA_FEATURES =;
+const SEO_INFRA_FEATURES = [
+  "50.000+ kişilik konser ve mitinglere uygun sahne ve ses altyapısı",
+  "IP65 outdoor LED paneller ile yüksek parlaklık",
+  "Jeneratör, kablolama ve güç dağıtım planlaması",
+  "Rigging, vinç ve kule sistemleri ile güvenli asma çözümleri",
+  "Canlı yayın ve prodüksiyon için HD/4K video ekipmanları",
+];
 
 export const revalidate = 3600;
 
@@ -46,14 +64,56 @@ export const revalidate = 3600;
 function StructuredData() {
   const data = {
     "@context": "https://schema.org",
-    "@graph":,
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": `${SITE_URL}/#webpage`,
+        url: SITE_URL,
+        name: "Sahne, Podyum ve LED Ekran Kiralama | Sahneva",
+        inLanguage: "tr-TR",
+        about: { "@id": `${SITE_URL}/#org` },
+      },
+      {
+        "@type": "OfferCatalog",
+        "@id": `${SITE_URL}/#catalog`,
+        name: "Etkinlik Teknoloji Hizmetleri",
+        url: SITE_URL,
+        itemListElement: [
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Sahne Kiralama", description: "Modüler sahne ve podyum çözümleri" }, areaServed: "TR", seller: { "@id": `${SITE_URL}/#org` } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "LED Ekran Kiralama" }, areaServed: "TR", seller: { "@id": `${SITE_URL}/#org` } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Ses & Işık Sistemleri" }, areaServed: "TR", seller: { "@id": `${SITE_URL}/#org` } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Çadır Kiralama" }, areaServed: "TR", seller: { "@id": `${SITE_URL}/#org` } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Kurumsal Organizasyon" }, areaServed: "TR", seller: { "@id": `${SITE_URL}/#org` } },
+        ],
+      },
+      {
+        "@type": "Service",
+        "@id": `${SITE_URL}/#service`,
+        name: "Etkinlik Prodüksiyon Hizmetleri",
+        description: "Sahne, LED ekran, ses-ışık sistemleri ve çadır kiralama hizmetleri.",
+        url: SITE_URL,
+        areaServed: { "@type": "Country", name: "TR" },
+        provider: { "@id": `${SITE_URL}/#org` },
+      },
+      {
+        "@type": "ImageObject",
+        "@id": `${SITE_URL}/#og`,
+        contentUrl: `${SITE_URL}/og/sahneva-home.jpg`,
+        width: 1200,
+        height: 630,
+      },
+      {
+        "@type": "VideoObject",
+        name: "Sahneva Tanıtım Videosu",
+        description: "Sahneva'nın büyük ölçekli etkinlik prodüksiyonundan kareler",
+        thumbnailUrl: `${SITE_URL}/img/logo.png`,
         uploadDate: "2024-01-01",
         duration: "PT1M30S",
         publisher: { "@id": `${SITE_URL}/#org` },
         contentUrl: "https://www.youtube.com/watch?v=173gBurWSRQ",
         embedUrl: "https://www.youtube.com/embed/173gBurWSRQ",
-      }
-    ]
+      },
+    ],
   };
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
 }

@@ -42,7 +42,7 @@ const organizationJsonLd = {
     telephone: "+90-545-304-8671",
     contactType: "customer service",
     areaServed: "TR",
-    availableLanguage:,
+    availableLanguage: ["tr", "en"],
   },
   address: {
     "@type": "PostalAddress",
@@ -68,7 +68,14 @@ export const metadata = {
     description: "Kurumsal etkinlikler, konserler ve festivaller için teknik çözüm ortağınız.",
     siteName: "Sahneva",
     locale: "tr_TR",
-    images:,
+    images: [
+      {
+        url: `${SITE_URL}/og/sahneva-home.jpg`,
+        width: 1200,
+        height: 630,
+        alt: "Sahneva Organizasyon",
+      },
+    ],
   },
   robots: {
     index: true,
