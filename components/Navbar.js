@@ -610,10 +610,7 @@ export default function Navbar() {
                   💬
                 </span>
                 <span>WhatsApp Destek</span>
-                <span className="sr-only">
-                  {" "}
-                  — yeni sekmede açılır
-                </span>
+                <span className="sr-only">— yeni sekmede açılır</span>
               </a>
             </div>
 
@@ -868,10 +865,7 @@ export default function Navbar() {
                 💬
               </span>
               <span>WhatsApp Destek</span>
-              <span className="sr-only">
-                {" "}
-                — yeni sekmede açılır
-              </span>
+              <span className="sr-only">— yeni sekmede açılır</span>
             </a>
           </div>
         </nav>
