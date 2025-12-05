@@ -249,7 +249,7 @@ function StructuredData() {
             itemOffered: { "@type": "Service", name: "Sandalye Kiralama" },
             availability: "https://schema.org/InStock",
             areaServed: { "@type": "Country", name: "Türkiye" },
-            seller: { "@id": "@
+            seller: { "@id":
 ORGANIZATION_ID },
           },
           {
