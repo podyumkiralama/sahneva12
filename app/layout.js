@@ -31,20 +31,32 @@ const organizationJsonLd = {
     width: 112,
     height: 112
   },
-  description: "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık ve çadır kiralama hizmetleri.",
-  sameAs: ["https://www.instagram.com/sahnevaorganizasyon", "https://www.youtube.com/@sahneva"],
+  const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": `${SITE_URL}/#org`,
+  name: "Sahneva",
+  url: SITE_URL,
+  logo: `${SITE_URL}/img/logo.png`,
+  description:
+    "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık ve çadır kiralama hizmetleri.",
+  sameAs: [
+    "https://www.instagram.com/sahnevaorganizasyon",
+    "https://www.youtube.com/@sahneva",
+  ],
   contactPoint: {
     "@type": "ContactPoint",
     telephone: "+90-545-304-8671",
     contactType: "customer service",
     areaServed: "TR",
-    availableLanguage:
+    // Burayı DOLDURMAN gerekiyor:
+    availableLanguage: ["tr", "en"], // veya ["Turkish", "English"]
   },
   address: {
     "@type": "PostalAddress",
     addressLocality: "İstanbul",
     addressRegion: "TR34",
-    addressCountry: "TR"
+    addressCountry: "TR",
   },
 };
 
