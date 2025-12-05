@@ -26,9 +26,50 @@ const BELOW_FOLD_STYLE = {
 };
 
 // --- SABİT VERİLER ---
-const HERO_FEATURES =;
+const HERO_FEATURES = [
+  {
+    icon: "⭐",
+    title: "4.9/5 Memnuniyet",
+    desc: "500+ proje ve referans",
+    styles:
+      "bg-white/70 border-white/50 text-slate-900 shadow-lg shadow-blue-900/10 backdrop-blur",
+  },
+  {
+    icon: "⚡",
+    title: "Hızlı Kurulum",
+    desc: "Aynı gün montaj ve devreye alma",
+    styles:
+      "bg-blue-600/80 border-blue-400/60 text-white shadow-lg shadow-blue-900/20 backdrop-blur",
+  },
+  {
+    icon: "👑",
+    title: "Premium Ekipman",
+    desc: "Turne sınıfı sahne ve LED teknolojisi",
+    styles:
+      "bg-slate-900/70 border-white/10 text-white shadow-xl shadow-slate-900/30 backdrop-blur",
+  },
+];
 
-const KEYWORDS =;
+const KEYWORDS = [
+  "Sahne kiralama",
+  "LED ekran kiralama",
+  "Truss sistemleri",
+  "Ses ışık kiralama",
+  "Podyum & catwalk",
+  "Konser sahnesi",
+  "Kurumsal etkinlik",
+  "Festival sahnesi",
+  "Fuar ve lansman",
+  "Açılış töreni",
+];
+
+const SERVICE_BENEFITS = [
+  "Her ölçekte sahne ve LED kurulumunda mühendislik hesaplarına uygun çözümler",
+  "P2–P6 arası iç/dış mekan LED paneller ve güvenli rigging altyapısı",
+  "Konser, festival, kurumsal etkinlik ve fuarlar için uçtan uca teknik ekip",
+  "Hızlı lojistik, 81 ilde aynı gün veya ertesi gün devreye alma",
+  "Şeffaf bütçe planlaması ve detaylı teklif dokümanı",
+];
 
 // --- ATOMİK BİLEŞENLER (Sunucu Tarafında Render Edilir) ---
 
@@ -258,7 +299,7 @@ export default function HomePage() {
                 alanlarında komple çözümler sunuyoruz.
               </p>
               <ul className="mt-6 space-y-3 list-none pl-0">
-                {.map((feature, i) => (
+                {SERVICE_BENEFITS.map((feature, i) => (
                   <li key={i} className="flex items-center gap-3 text-slate-700">
                     <div className="w-1.5 h-1.5 rounded-full bg-blue-600 flex-shrink-0" />
                     {feature}

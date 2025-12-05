@@ -44,7 +44,7 @@ const organizationJsonLd = {
     telephone: "+90-545-304-8671",
     contactType: "customer support",
     areaServed: "TR",
-    availableLanguage:
+    availableLanguage: ["Turkish", "English", "Arabic"],
   },
   address: {
     "@type": "PostalAddress",
@@ -68,7 +68,14 @@ export const metadata = {
     description: "Kurumsal ve açık hava etkinlikleriniz için A'dan Z'ye teknik çözüm.",
     siteName: "Sahneva",
     locale: "tr_TR",
-    images:,
+    images: [
+      {
+        url: `${SITE_URL}/og/dene.jpg`,
+        width: 1200,
+        height: 630,
+        alt: "Sahneva profesyonel sahne ve LED ekran kurulumu",
+      },
+    ],
   },
   robots: {
     index: true,
