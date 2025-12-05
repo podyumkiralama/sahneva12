@@ -16,7 +16,8 @@ const inter = Inter({
   adjustFontFallback: true,
 });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "")?? "https://www.sahneva.com";
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://www.sahneva.com";
 
 /* ================== JSON-LD: ORGANIZATION ================== */
 const organizationJsonLd = {
@@ -67,7 +68,14 @@ export const metadata = {
     description: "Kurumsal etkinlikler, konserler ve festivaller için teknik çözüm ortağınız.",
     siteName: "Sahneva",
     locale: "tr_TR",
-    images:,
+    images: [
+      {
+        url: `${SITE_URL}/og/dene.jpg`,
+        width: 1200,
+        height: 630,
+        alt: "Sahneva profesyonel sahne ve LED ekran kurulumu",
+      },
+    ],
   },
   robots: {
     index: true,
@@ -109,9 +117,11 @@ export default function RootLayout({ children }) {
             dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
           />
 
-          <main id="main-content" className="flex-grow">
-            {children}
-          </main>
+        {/* JSON-LD Verileri */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
 
           {/* Analytics: Performansı etkilememesi için gecikmeli yükleme */}
           {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
