@@ -53,11 +53,16 @@ const HERO_FEATURES = [
 ];
 
 const HERO_KEYWORDS = [
-  { text: "Sahne Kiralama", gradient: "from-blue-400 to-blue-600" },
-  { text: "LED Ekran", gradient: "from-purple-400 to-purple-600" },
-  { text: "Ses-Işık Sistemleri", gradient: "from-cyan-400 to-cyan-600" },
-  { text: "Podyum Kurulumu", gradient: "from-emerald-400 to-emerald-600" },
-  { text: "Truss Sistemleri", gradient: "from-orange-400 to-orange-600" },
+  { icon: "✅", text: "Sahne, podyum ve LED ekran tek ekipten" },
+  { icon: "🚚", text: "81 ilde hızlı kurulum ve teknik destek" },
+  { icon: "📊", text: "Planlama, çizim ve bütçe optimizasyonu" },
+];
+
+const HERO_STATS = [
+  { label: "Tamamlanan Proje", value: "500+" },
+  { label: "Kurulum Süresi", value: "2–6 saat" },
+  { label: "Memnuniyet", value: "%98" },
+  { label: "Hizmet Ağı", value: "81 il" },
 ];
 
 const CTA_WHATSAPP_MESSAGE = encodeURIComponent(
@@ -443,16 +448,19 @@ function SectionHeader({
 
 function KeywordPills() {
   return (
-    <div className="flex flex-wrap justify-center gap-3 mt-6 mb-8 max-w-4xl mx-auto">
-      {HERO_KEYWORDS.map(({ text, gradient }) => (
-        <span
+    <ul className="mt-6 grid gap-3 text-left max-w-2xl mx-auto list-none p-0 m-0">
+      {HERO_KEYWORDS.map(({ icon, text }) => (
+        <li
           key={text}
-          className={`text-sm font-semibold px-4 py-2 bg-gradient-to-r ${gradient} text-white rounded-full border border-white/20 shadow-lg hover:scale-105 transition-transform duration-200`}
+          className="flex items-start gap-3 rounded-2xl bg-white/10 border border-white/10 px-4 py-3 text-white/90"
         >
-          {text}
-        </span>
+          <span className="text-lg" aria-hidden="true">
+            {icon}
+          </span>
+          <span className="text-base font-semibold leading-relaxed">{text}</span>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }
 
@@ -510,32 +518,6 @@ function CTAGroup() {
         <CTAButton key={cta.href} {...cta} />
       ))}
     </div>
-  );
-}
-
-// YENİ: Hero altında küçük istatistik şeridi
-function StatsStrip() {
-  const items = [
-    { label: "Tamamlanan Proje", value: "500+" },
-    { label: "Hizmet Verilen İl", value: "81" },
-    { label: "Ortalama Memnuniyet", value: "%98" },
-  ];
-  return (
-    <ScrollReveal delay="1.2">
-      <div className="mt-6 max-w-3xl mx-auto">
-        <ul className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm text-slate-100/90">
-          {items.map((item) => (
-            <li
-              key={item.label}
-              className="flex flex-col items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur-sm"
-            >
-              <span className="text-lg font-bold">{item.value}</span>
-              <span className="text-xs opacity-80">{item.label}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </ScrollReveal>
   );
 }
 
@@ -654,90 +636,91 @@ export default function HomePage() {
 
       {/* HERO BÖLÜMÜ */}
       <section
-        className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-900 to-black"
+        className="relative min-h-[80vh] flex items-center overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-black"
         aria-labelledby="hero-title"
       >
-        {/* Arkaplan */}
         <div className="absolute inset-0">
           <HeroBackgroundImage />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80" />
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/10 via-transparent to-purple-900/10" />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/80 to-slate-900/70" />
         </div>
 
-        {/* İçerik */}
-        <div className="relative z-10 container px-4 py-20">
-          <div className="max-w-5xl mx-auto text-center">
-            <ScrollReveal direction="down" delay="0.2">
-              <div className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm rounded-full px-5 py-3 border border-white/10 mb-6">
-                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                <span className="text-sm md:text-base font-semibold text-white">
-                  Türkiye Geneli Profesyonel Hizmet • 500+ Başarılı Proje
-                </span>
-              </div>
-            </ScrollReveal>
+        <div className="relative z-10 container px-4 py-16 lg:py-24">
+          <div className="grid max-w-6xl mx-auto items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+            <div className="text-left space-y-6">
+              <ScrollReveal direction="down" delay="0.2">
+                <div className="inline-flex items-center gap-3 rounded-full bg-white/10 px-4 py-2 border border-white/15 shadow-lg">
+                  <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                  <span className="text-sm font-semibold text-white/90">
+                    Türkiye geneli kurulum • 500+ proje
+                  </span>
+                </div>
+              </ScrollReveal>
 
-            <ScrollReveal delay="0.4">
-              <h1
-                id="hero-title"
-                className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight"
-              >
-                Profesyonel{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-                  Sahne
-                </span>
-                ,{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
-                  Podyum
-                </span>{" "}
-                ve{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
-                  LED Ekran
-                </span>{" "}
-                Kiralama
-              </h1>
-            </ScrollReveal>
+              <ScrollReveal delay="0.4">
+                <h1
+                  id="hero-title"
+                  className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight"
+                >
+                  Daha sade, daha hızlı
+                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400">
+                    sahne ve teknik çözüm
+                  </span>
+                </h1>
+              </ScrollReveal>
 
-            <ScrollReveal delay="0.6">
-              <KeywordPills />
-            </ScrollReveal>
-
-            <ScrollReveal delay="0.8">
-              <div className="max-w-4xl mx-auto space-y-4 mb-4 md:mb-6">
-                <p className="text-lg md:text-xl text-slate-200 leading-relaxed">
-                  500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli
-                  hızlı kurulum ile etkinliğinizde yanınızdayız. Kurumsal
-                  etkinlikler, bayi toplantıları, konserler, festivaller ve
-                  açık hava organizasyonları için sahne kiralama, podyum
-                  kiralama, LED ekran kiralama, ses-ışık sistemleri ve yayın
-                  altyapısını tek merkezden sunuyoruz.
+              <ScrollReveal delay="0.6">
+                <p className="text-lg md:text-xl text-slate-100/90 max-w-3xl leading-relaxed">
+                  Sahne, podyum, LED ekran ve ses-ışık sistemlerini tek ekipten planlıyor, çizim ve ekipman listelerini hızlıca paylaşıyoruz. Tüm Türkiye’de aynı gün kurulum ve kesintisiz teknik destek sağlıyoruz.
                 </p>
-                <p className="text-base text-slate-300/90 leading-relaxed">
-                  Etkinlik mekanına uygun modüler kurulum planları, enerji
-                  hesaplaması ve truss tasarımı yaparak görsel bütünlüğü
-                  koruyor, profesyonel teknik ekibimizle her şehirde güvenli ve
-                  ölçülebilir performans sağlıyoruz.
-                </p>
-              </div>
-            </ScrollReveal>
+              </ScrollReveal>
 
-            <ScrollReveal delay="1">
-              <CTAGroup />
-            </ScrollReveal>
+              <ScrollReveal delay="0.8">
+                <KeywordPills />
+              </ScrollReveal>
 
-            {/* Yeni mini istatistik şeridi */}
-            <StatsStrip />
-          </div>
-        </div>
-
-        {/* Scroll İpucu */}
-        <div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-          aria-hidden="true"
-        >
-          <div className="animate-bounce">
-            <div className="w-8 h-14 border-2 border-white/30 rounded-full flex justify-center">
-              <div className="w-1.5 h-3 bg-gradient-to-b from-white to-white/70 rounded-full mt-3" />
+              <ScrollReveal delay="1">
+                <CTAGroup />
+              </ScrollReveal>
             </div>
+
+            <ScrollReveal delay="0.6" direction="up">
+              <div className="rounded-3xl bg-white/10 border border-white/10 backdrop-blur-md p-6 md:p-8 shadow-2xl space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-2xl text-white">
+                    🎯
+                  </div>
+                  <div className="text-white">
+                    <p className="text-sm uppercase tracking-wide text-white/70">Teknik koordinasyon</p>
+                    <p className="text-xl font-bold">Başlangıçtan sahne ışığına kadar tek sorumlu</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  {HERO_STATS.map((item) => (
+                    <div
+                      key={item.label}
+                      className="rounded-2xl bg-black/30 border border-white/10 px-4 py-3 text-white"
+                    >
+                      <div className="text-2xl font-black leading-tight">{item.value}</div>
+                      <div className="text-xs uppercase tracking-wide text-white/70">{item.label}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="rounded-2xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-3 text-white flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-sm font-semibold text-emerald-100">Hızlı destek hattı</p>
+                    <p className="text-lg font-bold">+90 545 304 86 71</p>
+                  </div>
+                  <a
+                    href="tel:+905453048671"
+                    className="inline-flex items-center gap-2 rounded-xl bg-white text-emerald-700 font-semibold px-3 py-2 hover:bg-emerald-50 transition-colors duration-200"
+                  >
+                    📞 Ara
+                  </a>
+                </div>
+              </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
