@@ -21,7 +21,8 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "")?? "https:/
 // contain-intrinsic-size -> Scroll bar'ın titremesini engeller (CLS optimizasyonu)
 const BELOW_FOLD_STYLE = {
   contentVisibility: "auto",
-  containIntrinsicSize: "1px 800px", 
+  // Avoid rendering large placeholder gaps while still enabling content-visibility
+  containIntrinsicSize: "auto 0px",
 };
 
 // --- SABİT VERİLER ---
