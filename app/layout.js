@@ -1,8 +1,6 @@
 // app/layout.jsx
 import "../styles/globals.css";
 import { Inter } from "next/font/google";
-// 2026 Trendi: Native-like Sayfa Geçişleri
-import { ViewTransitions } from 'next-view-transitions';
 
 import SkipLinks from "@/components/SkipLinks";
 import CriticalAssets from "@/components/CriticalAssets";
@@ -17,9 +15,12 @@ const inter = Inter({
   adjustFontFallback: true, 
 });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "")?? "https://www.sahneva.com";
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://www.sahneva.com";
 
 /* ================== SCHEMA.ORG: RICH SNIPPETS ================== */
+const CONTACT_LANGUAGES = ["tr", "en", "ar"];
+
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -31,26 +32,29 @@ const organizationJsonLd = {
     url: `${SITE_URL}/img/logo.png`,
     width: 192,
     height: 192,
-    caption: "Sahneva Logo"
+    caption: "Sahneva Logo",
   },
   description: "Türkiye genelinde profesyonel sahne, LED ekran ve teknik prodüksiyon hizmetleri.",
   sameAs: [
     "https://www.instagram.com/sahnevaorganizasyon",
     "https://www.youtube.com/@sahneva",
-    "https://www.linkedin.com/company/sahneva"
+    "https://www.linkedin.com/company/sahneva",
   ],
-  contactPoint: {
-    "@type": "ContactPoint",
-    telephone: "+90-545-304-8671",
-    contactType: "customer support",
-    areaServed: "TR",
-    availableLanguage:
-  },
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      telephone: "+90-545-304-8671",
+      contactType: "customer support",
+      areaServed: "TR",
+      // BCP-47 dil kodları: schema.org uyumu ve arama motorları için
+      availableLanguage: CONTACT_LANGUAGES,
+    },
+  ],
   address: {
     "@type": "PostalAddress",
     addressLocality: "İstanbul",
     addressRegion: "TR34",
-    addressCountry: "TR"
+    addressCountry: "TR",
   },
 };
 
@@ -68,7 +72,14 @@ export const metadata = {
     description: "Kurumsal ve açık hava etkinlikleriniz için A'dan Z'ye teknik çözüm.",
     siteName: "Sahneva",
     locale: "tr_TR",
-    images:,
+    images: [
+      {
+        url: `${SITE_URL}/og/dene.jpg`,
+        width: 1200,
+        height: 630,
+        alt: "Sahneva profesyonel sahne ve LED ekran kurulumu",
+      },
+    ],
   },
   robots: {
     index: true,
@@ -92,35 +103,33 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <ViewTransitions>
-      <html lang="tr" dir="ltr" className={`${inter.variable} antialiased scroll-smooth`} suppressHydrationWarning>
-        <body className="min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-blue-600 selection:text-white">
-          
-          {/* A11Y: Klavye kullanıcıları için içerik atlama */}
-          <SkipLinks />
+    <html lang="tr" dir="ltr" className={`${inter.variable} antialiased scroll-smooth`} suppressHydrationWarning>
+      <body className="min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-blue-600 selection:text-white">
 
-          {/* Performans: Kritik kaynaklar (fontlar, css) */}
-          <CriticalAssets />
+        {/* A11Y: Klavye kullanıcıları için içerik atlama */}
+        <SkipLinks />
 
-          {/* JSON-LD Verileri */}
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
-          />
+        {/* Performans: Kritik kaynaklar (fontlar, css) */}
+        <CriticalAssets />
 
-          <main id="main-content" className="flex-grow">
-            {children}
-          </main>
+        {/* JSON-LD Verileri */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
 
-          {/* Analytics: Main thread'i bloklamamak için deferred yükleme */}
-          {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
-            <>
-              <DeferredAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
-              <AnalyticsTracker gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
-            </>
-          )}
-        </body>
-      </html>
-    </ViewTransitions>
+        <main id="main-content" className="flex-grow">
+          {children}
+        </main>
+
+        {/* Analytics: Main thread'i bloklamamak için deferred yükleme */}
+        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+          <>
+            <DeferredAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+            <AnalyticsTracker gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+          </>
+        )}
+      </body>
+    </html>
   );
 }
