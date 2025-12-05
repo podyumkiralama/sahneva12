@@ -1,12 +1,15 @@
+// app/layout.jsx
 import "../styles/globals.css";
 import { Inter } from "next/font/google";
-// 2026 Standardı: Native benzeri sayfa geçişleri için Provider
+// 2026 Standardı: Native benzeri sayfa geçişleri için Provider (Next.js 15+)
+import { ViewTransitions } from 'next-view-transitions';
+
 import SkipLinks from "@/components/SkipLinks";
 import CriticalAssets from "@/components/CriticalAssets";
 import DeferredAnalytics from "@/components/DeferredAnalytics.client";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 
-// Performans: Font yüklemesi sırasında düzen kaymasını (CLS) önler
+// Performans: Font yüklemesi sırasında düzen kaymasını (CLS) önlemek için 'adjustFontFallback'
 const inter = Inter({
   subsets: ["latin", "latin-ext"],
   display: "swap",
@@ -39,7 +42,7 @@ const organizationJsonLd = {
     telephone: "+90-545-304-8671",
     contactType: "customer service",
     areaServed: "TR",
-    availableLanguage: ["tr", "en"],
+    availableLanguage:,
   },
   address: {
     "@type": "PostalAddress",
@@ -65,14 +68,7 @@ export const metadata = {
     description: "Kurumsal etkinlikler, konserler ve festivaller için teknik çözüm ortağınız.",
     siteName: "Sahneva",
     locale: "tr_TR",
-    images: [
-      {
-        url: `${SITE_URL}/img/og-image.png`,
-        width: 1200,
-        height: 630,
-        alt: "Sahneva organizasyon ekipmanları",
-      },
-    ],
+    images:,
   },
   robots: {
     index: true,
@@ -98,33 +94,35 @@ export const viewport = {
 /* ================== ROOT LAYOUT ================== */
 export default function RootLayout({ children }) {
   return (
-    <html lang="tr" dir="ltr" className={`${inter.variable} antialiased scroll-smooth`} suppressHydrationWarning>
-      <body className="min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-blue-600 selection:text-white">
+    <ViewTransitions>
+      <html lang="tr" dir="ltr" className={`${inter.variable} antialiased scroll-smooth`} suppressHydrationWarning>
+        <body className="min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-blue-600 selection:text-white">
+          
+          {/* A11Y: Klavye kullanıcıları için içeriğe hızlı atlama */}
+          <SkipLinks />
 
-        {/* A11Y: Klavye kullanıcıları için içeriğe hızlı atlama */}
-        <SkipLinks />
+          {/* Kritik CSS ve preload kaynakları */}
+          <CriticalAssets />
 
-        {/* Kritik CSS ve preload kaynakları */}
-        <CriticalAssets />
+          {/* JSON-LD Enjeksiyonu */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+          />
 
-        {/* JSON-LD Enjeksiyonu */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
-        />
+          <main id="main-content" className="flex-grow">
+            {children}
+          </main>
 
-        <main id="main-content" className="flex-grow">
-          {children}
-        </main>
-
-        {/* Analytics: Performansı etkilememesi için gecikmeli yükleme */}
-        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
-          <>
-            <DeferredAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
-            <AnalyticsTracker gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
-          </>
-        )}
-      </body>
-    </html>
+          {/* Analytics: Performansı etkilememesi için gecikmeli (deferred) yükleme */}
+          {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+            <>
+              <DeferredAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+              <AnalyticsTracker gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+            </>
+          )}
+        </body>
+      </html>
+    </ViewTransitions>
   );
 }
