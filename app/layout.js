@@ -1,12 +1,15 @@
+// app/layout.jsx
 import "../styles/globals.css";
 import { Inter } from "next/font/google";
-// 2026 Standardı: Native benzeri sayfa geçişleri için Provider
+// 2026 Standardı: Native benzeri sayfa geçişleri için Provider (Next.js 15+)
+import { ViewTransitions } from 'next-view-transitions';
+
 import SkipLinks from "@/components/SkipLinks";
 import CriticalAssets from "@/components/CriticalAssets";
 import DeferredAnalytics from "@/components/DeferredAnalytics.client";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 
-// Performans: Font yüklemesi sırasında düzen kaymasını (CLS) önler
+// Performans: Font yüklemesi sırasında düzen kaymasını (CLS) önlemek için 'adjustFontFallback'
 const inter = Inter({
   subsets: ["latin", "latin-ext"],
   display: "swap",
@@ -119,14 +122,15 @@ export default function RootLayout({ children }) {
           {children}
         </main>
 
-        {/* Analytics: Performansı etkilememesi için gecikmeli yükleme */}
-        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
-          <>
-            <DeferredAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
-            <AnalyticsTracker gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
-          </>
-        )}
-      </body>
-    </html>
+          {/* Analytics: Performansı etkilememesi için gecikmeli (deferred) yükleme */}
+          {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+            <>
+              <DeferredAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+              <AnalyticsTracker gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+            </>
+          )}
+        </body>
+      </html>
+    </ViewTransitions>
   );
 }
