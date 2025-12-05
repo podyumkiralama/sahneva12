@@ -467,6 +467,12 @@ function CTAButton({
   iconColor = "text-white",
   ...rest
 }) {
+  const accessibleLabel = ariaLabel
+    ? `${label} — ${ariaLabel}`
+    : srHint
+      ? `${label} ${srHint}`
+      : label;
+
   return (
     <a
       href={href}
@@ -483,7 +489,7 @@ function CTAButton({
         focus:outline-none focus:ring-3 focus:ring-white/30
         overflow-hidden
       `}
-      aria-label={ariaLabel || (srHint ? `${label} ${srHint}` : label)}
+      aria-label={accessibleLabel}
       {...rest}
     >
       <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
@@ -608,7 +614,7 @@ function ConsultationCard() {
             <a
               href="#teklif-al"
               className="inline-flex items-center justify-center min-h-[52px] px-8 bg-white text-blue-900 hover:bg-gray-50 font-bold text-lg rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 focus:outline-none focus:ring-3 focus:ring-white/50"
-              aria-label="Ücretsiz danışmanlık ve teklif almak için aşağı kaydır"
+              aria-label="Hemen Teklif Al — Ücretsiz danışmanlık ve teklif almak için aşağı kaydır"
             >
               Hemen Teklif Al
             </a>
