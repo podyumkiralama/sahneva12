@@ -1,8 +1,6 @@
 import "../styles/globals.css";
 import { Inter } from "next/font/google";
 // 2026 Standardı: Native benzeri sayfa geçişleri için Provider
-import { ViewTransitions } from 'next-view-transitions';
-
 import SkipLinks from "@/components/SkipLinks";
 import CriticalAssets from "@/components/CriticalAssets";
 import DeferredAnalytics from "@/components/DeferredAnalytics.client";
@@ -41,7 +39,7 @@ const organizationJsonLd = {
     telephone: "+90-545-304-8671",
     contactType: "customer service",
     areaServed: "TR",
-    availableLanguage:,
+    availableLanguage: ["tr", "en"],
   },
   address: {
     "@type": "PostalAddress",
@@ -67,7 +65,14 @@ export const metadata = {
     description: "Kurumsal etkinlikler, konserler ve festivaller için teknik çözüm ortağınız.",
     siteName: "Sahneva",
     locale: "tr_TR",
-    images:,
+    images: [
+      {
+        url: `${SITE_URL}/img/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: "Sahneva organizasyon ekipmanları",
+      },
+    ],
   },
   robots: {
     index: true,
@@ -93,35 +98,33 @@ export const viewport = {
 /* ================== ROOT LAYOUT ================== */
 export default function RootLayout({ children }) {
   return (
-    <ViewTransitions>
-      <html lang="tr" dir="ltr" className={`${inter.variable} antialiased scroll-smooth`} suppressHydrationWarning>
-        <body className="min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-blue-600 selection:text-white">
-          
-          {/* A11Y: Klavye kullanıcıları için içeriğe hızlı atlama */}
-          <SkipLinks />
+    <html lang="tr" dir="ltr" className={`${inter.variable} antialiased scroll-smooth`} suppressHydrationWarning>
+      <body className="min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-blue-600 selection:text-white">
 
-          {/* Kritik CSS ve preload kaynakları */}
-          <CriticalAssets />
+        {/* A11Y: Klavye kullanıcıları için içeriğe hızlı atlama */}
+        <SkipLinks />
 
-          {/* JSON-LD Enjeksiyonu */}
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
-          />
+        {/* Kritik CSS ve preload kaynakları */}
+        <CriticalAssets />
 
-          <main id="main-content" className="flex-grow">
-            {children}
-          </main>
+        {/* JSON-LD Enjeksiyonu */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
 
-          {/* Analytics: Performansı etkilememesi için gecikmeli yükleme */}
-          {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
-            <>
-              <DeferredAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
-              <AnalyticsTracker gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
-            </>
-          )}
-        </body>
-      </html>
-    </ViewTransitions>
+        <main id="main-content" className="flex-grow">
+          {children}
+        </main>
+
+        {/* Analytics: Performansı etkilememesi için gecikmeli yükleme */}
+        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+          <>
+            <DeferredAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+            <AnalyticsTracker gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+          </>
+        )}
+      </body>
+    </html>
   );
 }

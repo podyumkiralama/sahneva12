@@ -2,7 +2,7 @@
 import Image from "next/image";
 import heroImg from "@/public/img/hero-bg.webp";
 // 2026: SPA hissi veren Link bileşeni
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 
 // İstemci tarafı etkileşim sınırları (Client Boundaries)
 import { MotionWrapper } from "@/components/MotionPrimitives.client";
