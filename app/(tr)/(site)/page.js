@@ -588,9 +588,9 @@ function ConsultationCard() {
             </div>
           </div>
           <div className="flex-1 text-center lg:text-left">
-            <h3 className="text-white text-2xl md:text-3xl font-bold mb-3">
+            <h2 className="text-white text-2xl md:text-3xl font-bold mb-3">
               Ücretsiz Profesyonel Danışmanlık
-            </h3>
+            </h2>
             <p className="text-slate-200 text-base md:text-lg leading-relaxed">
               Etkinliğiniz için{" "}
               <strong className="text-yellow-300">
