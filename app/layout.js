@@ -1,26 +1,25 @@
-// app/layout.jsx
 import "../styles/globals.css";
 import { Inter } from "next/font/google";
+// 2026 Standardı: Native benzeri sayfa geçişleri için Provider
+import { ViewTransitions } from 'next-view-transitions';
 
 import SkipLinks from "@/components/SkipLinks";
 import CriticalAssets from "@/components/CriticalAssets";
 import DeferredAnalytics from "@/components/DeferredAnalytics.client";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 
+// Performans: Font yüklemesi sırasında düzen kaymasını (CLS) önler
 const inter = Inter({
   subsets: ["latin", "latin-ext"],
   display: "swap",
   variable: "--font-inter",
-  // Performans: Font yüklenirken layout shift'i önlemek için size-adjust
-  adjustFontFallback: true, 
+  adjustFontFallback: true,
 });
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://www.sahneva.com";
 
-/* ================== SCHEMA.ORG: RICH SNIPPETS ================== */
-const CONTACT_LANGUAGES = ["tr", "en", "ar"];
-
+/* ================== JSON-LD: ORGANIZATION ================== */
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -30,26 +29,21 @@ const organizationJsonLd = {
   logo: {
     "@type": "ImageObject",
     url: `${SITE_URL}/img/logo.png`,
-    width: 192,
-    height: 192,
-    caption: "Sahneva Logo",
+    width: 112,
+    height: 112
   },
-  description: "Türkiye genelinde profesyonel sahne, LED ekran ve teknik prodüksiyon hizmetleri.",
+  description: "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık ve çadır kiralama hizmetleri sunan profesyonel etkinlik prodüksiyon markası.",
   sameAs: [
     "https://www.instagram.com/sahnevaorganizasyon",
     "https://www.youtube.com/@sahneva",
-    "https://www.linkedin.com/company/sahneva",
   ],
-  contactPoint: [
-    {
-      "@type": "ContactPoint",
-      telephone: "+90-545-304-8671",
-      contactType: "customer support",
-      areaServed: "TR",
-      // BCP-47 dil kodları: schema.org uyumu ve arama motorları için
-      availableLanguage: CONTACT_LANGUAGES,
-    },
-  ],
+  contactPoint: {
+    "@type": "ContactPoint",
+    telephone: "+90-545-304-8671",
+    contactType: "customer service",
+    areaServed: "TR",
+    availableLanguage:,
+  },
   address: {
     "@type": "PostalAddress",
     addressLocality: "İstanbul",
@@ -58,18 +52,20 @@ const organizationJsonLd = {
   },
 };
 
+/* ================== METADATA & VIEWPORT ================== */
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: "Sahne, Podyum & LED Ekran Kiralama | Sahneva",
     template: "%s | Sahneva",
   },
-  description: "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri kiralama. Hızlı kurulum, 2 saatte teklif garantisi ve %100 müşteri memnuniyeti.",
+  description: "Türkiye genelinde profesyonel sahne, LED ekran ve ses-ışık sistemleri kiralama. Hızlı kurulum, teknik ekip ve %100 müşteri memnuniyeti.",
+  applicationName: "Sahneva",
   openGraph: {
     type: "website",
     url: SITE_URL,
     title: "Sahneva - Profesyonel Etkinlik Prodüksiyonu",
-    description: "Kurumsal ve açık hava etkinlikleriniz için A'dan Z'ye teknik çözüm.",
+    description: "Kurumsal etkinlikler, konserler ve festivaller için teknik çözüm ortağınız.",
     siteName: "Sahneva",
     locale: "tr_TR",
     images: [
@@ -94,42 +90,46 @@ export const metadata = {
   },
 };
 
+// WCAG 2.2 AAA: Kullanıcının zoom yapmasını engellememek (maximumScale: 5)
 export const viewport = {
   themeColor: '#0f172a',
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 5, // WCAG 1.4.4: Zoom engellenmemeli
+  maximumScale: 5, 
 };
 
+/* ================== ROOT LAYOUT ================== */
 export default function RootLayout({ children }) {
   return (
-    <html lang="tr" dir="ltr" className={`${inter.variable} antialiased scroll-smooth`} suppressHydrationWarning>
-      <body className="min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-blue-600 selection:text-white">
+    <ViewTransitions>
+      <html lang="tr" dir="ltr" className={`${inter.variable} antialiased scroll-smooth`} suppressHydrationWarning>
+        <body className="min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-blue-600 selection:text-white">
+          
+          {/* A11Y: Klavye kullanıcıları için içeriğe hızlı atlama */}
+          <SkipLinks />
 
-        {/* A11Y: Klavye kullanıcıları için içerik atlama */}
-        <SkipLinks />
+          {/* Kritik CSS ve preload kaynakları */}
+          <CriticalAssets />
 
-        {/* Performans: Kritik kaynaklar (fontlar, css) */}
-        <CriticalAssets />
-
-        {/* JSON-LD Verileri */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
-        />
+          {/* JSON-LD Enjeksiyonu */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+          />
 
         <main id="main-content" className="flex-grow">
           {children}
         </main>
 
-        {/* Analytics: Main thread'i bloklamamak için deferred yükleme */}
-        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
-          <>
-            <DeferredAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
-            <AnalyticsTracker gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
-          </>
-        )}
-      </body>
-    </html>
+          {/* Analytics: Performansı etkilememesi için gecikmeli yükleme */}
+          {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+            <>
+              <DeferredAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+              <AnalyticsTracker gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+            </>
+          )}
+        </body>
+      </html>
+    </ViewTransitions>
   );
 }
