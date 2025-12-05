@@ -1,6 +1,7 @@
+// app/layout.jsx
 import "../styles/globals.css";
 import { Inter } from "next/font/google";
-// 2026 Standardı: View Transitions API entegrasyonu
+// 2026 Trendi: Native-like Sayfa Geçişleri
 import { ViewTransitions } from 'next-view-transitions';
 
 import SkipLinks from "@/components/SkipLinks";
@@ -8,17 +9,17 @@ import CriticalAssets from "@/components/CriticalAssets";
 import DeferredAnalytics from "@/components/DeferredAnalytics.client";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 
-// Font Optimizasyonu: 'swap' ve 'preload' LCP (Largest Contentful Paint) için kritiktir.
 const inter = Inter({
-  subsets: ["latin", "latin-ext"], // 'arabic' subset'i font dosyasını şişirmemek için gerekliyse ekleyin
+  subsets: ["latin", "latin-ext"],
   display: "swap",
   variable: "--font-inter",
-  adjustFontFallback: false,
+  // Performans: Font yüklenirken layout shift'i önlemek için size-adjust
+  adjustFontFallback: true, 
 });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "")?? "https://www.sahneva.com";
 
-// JSON-LD Verileri (Değişmedi - İçerik doğru)
+/* ================== SCHEMA.ORG: RICH SNIPPETS ================== */
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -28,15 +29,20 @@ const organizationJsonLd = {
   logo: {
     "@type": "ImageObject",
     url: `${SITE_URL}/img/logo.png`,
-    width: 112,
-    height: 112
+    width: 192,
+    height: 192,
+    caption: "Sahneva Logo"
   },
-  description: "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık ve çadır kiralama hizmetleri.",
-  sameAs: ["https://www.instagram.com/sahnevaorganizasyon", "https://www.youtube.com/@sahneva"],
+  description: "Türkiye genelinde profesyonel sahne, LED ekran ve teknik prodüksiyon hizmetleri.",
+  sameAs: [
+    "https://www.instagram.com/sahnevaorganizasyon",
+    "https://www.youtube.com/@sahneva",
+    "https://www.linkedin.com/company/sahneva"
+  ],
   contactPoint: {
     "@type": "ContactPoint",
     telephone: "+90-545-304-8671",
-    contactType: "customer service",
+    contactType: "customer support",
     areaServed: "TR",
     availableLanguage:
   },
@@ -54,43 +60,59 @@ export const metadata = {
     default: "Sahne, Podyum & LED Ekran Kiralama | Sahneva",
     template: "%s | Sahneva",
   },
-  description: "Türkiye genelinde profesyonel sahne, LED ekran ve ses-ışık sistemleri kiralama. 2 saatte hızlı teklif, uzman teknik ekip.",
+  description: "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri kiralama. Hızlı kurulum, 2 saatte teklif garantisi ve %100 müşteri memnuniyeti.",
   openGraph: {
     type: "website",
     url: SITE_URL,
     title: "Sahneva - Profesyonel Etkinlik Prodüksiyonu",
+    description: "Kurumsal ve açık hava etkinlikleriniz için A'dan Z'ye teknik çözüm.",
+    siteName: "Sahneva",
+    locale: "tr_TR",
     images:,
   },
-  // 2026 Standardı: Viewport ve tema ayarları artık metadata objesinde
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 5, // Erişilebilirlik: Kullanıcının zoom yapmasını engelleme (WCAG 1.4.4)
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
+};
+
+export const viewport = {
+  themeColor: '#0f172a',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5, // WCAG 1.4.4: Zoom engellenmemeli
 };
 
 export default function RootLayout({ children }) {
   return (
-    // 'ViewTransitions' API ile sayfalar arası native-like geçişler
     <ViewTransitions>
-      <html lang="tr" dir="ltr" className={`${inter.variable} antialiased`} suppressHydrationWarning>
-        <body className="min-h-screen bg-white text-neutral-900 scroll-smooth flex flex-col selection:bg-blue-100 selection:text-blue-900">
+      <html lang="tr" dir="ltr" className={`${inter.variable} antialiased scroll-smooth`} suppressHydrationWarning>
+        <body className="min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-blue-600 selection:text-white">
           
-          {/* A11y: Klavye kullanıcıları için ana içeriğe atlama bağlantısı */}
+          {/* A11Y: Klavye kullanıcıları için içerik atlama */}
           <SkipLinks />
 
-          {/* Kritik CSS ve preload kaynakları */}
+          {/* Performans: Kritik kaynaklar (fontlar, css) */}
           <CriticalAssets />
 
-          {/* JSON-LD Enjeksiyonu */}
+          {/* JSON-LD Verileri */}
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
           />
 
-          {children}
+          <main id="main-content" className="flex-grow">
+            {children}
+          </main>
 
-          {/* Analytics: Performansı etkilememesi için deferred/lazy yükleme */}
+          {/* Analytics: Main thread'i bloklamamak için deferred yükleme */}
           {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
             <>
               <DeferredAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
