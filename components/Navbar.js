@@ -600,7 +600,7 @@ export default function Navbar() {
                 href={`https://wa.me/905453048671?text=${NAVBAR_WHATSAPP_MESSAGE}&utm_source=navbar&utm_medium=desktop_whatsapp`}
                 target="_blank"
                 rel="nofollow noopener"
-                aria-label="WhatsApp üzerinden hızlı destek ve teklif alın — yeni sekmede açılır"
+                aria-label={`WhatsApp Destek — WhatsApp üzerinden hızlı destek ve teklif alın — yeni sekmede açılır`}
                 className={whatsappBtnClass}
               >
                 <span
@@ -610,10 +610,7 @@ export default function Navbar() {
                   💬
                 </span>
                 <span>WhatsApp Destek</span>
-                <span className="sr-only">
-                  {" "}
-                  — yeni sekmede açılır
-                </span>
+                <span className="sr-only">— yeni sekmede açılır</span>
               </a>
             </div>
 
@@ -857,7 +854,7 @@ export default function Navbar() {
               href={`https://wa.me/905453048671?text=${NAVBAR_WHATSAPP_MESSAGE}&utm_source=navbar&utm_medium=mobile_whatsapp`}
               target="_blank"
               rel="nofollow noopener"
-              aria-label="Mobil menüden WhatsApp destek hattını açın — yeni sekmede açılır"
+              aria-label={`WhatsApp Destek — Mobil menüden WhatsApp destek hattını açın — yeni sekmede açılır`}
               className={mobileWhatsappBtnClass}
               onClick={() => setMobileOpen(false)}
             >
@@ -868,10 +865,7 @@ export default function Navbar() {
                 💬
               </span>
               <span>WhatsApp Destek</span>
-              <span className="sr-only">
-                {" "}
-                — yeni sekmede açılır
-              </span>
+              <span className="sr-only">— yeni sekmede açılır</span>
             </a>
           </div>
         </nav>
