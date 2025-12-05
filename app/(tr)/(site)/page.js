@@ -1,6 +1,5 @@
 import Image from "next/image";
-// View Transitions Link (Native SPA hissi verir)
-import { Link } from 'next-view-transitions'; 
+import Link from "next/link";
 import heroImg from "@/public/img/hero-bg.webp";
 
 // Client Component'ler (Etkileşim Sınırları)
