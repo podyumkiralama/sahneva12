@@ -17,6 +17,7 @@ import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 const FOCUS_RING_CLASS =
   "focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white";
 const MOBILE_MENU_HEADING_ID = "navbar-mobile-menu-heading";
+const MOBILE_MENU_DESCRIPTION_ID = "navbar-mobile-menu-description";
 
 // Tüm hizmet linkleri (bileşen dışı, re-render'da değişmez)
 const SERVICE_LINKS = [
@@ -600,7 +601,7 @@ export default function Navbar() {
                 href={`https://wa.me/905453048671?text=${NAVBAR_WHATSAPP_MESSAGE}&utm_source=navbar&utm_medium=desktop_whatsapp`}
                 target="_blank"
                 rel="nofollow noopener"
-                aria-label="WhatsApp üzerinden hızlı destek ve teklif alın — yeni sekmede açılır"
+                aria-label={`WhatsApp Destek — WhatsApp üzerinden hızlı destek ve teklif alın — yeni sekmede açılır`}
                 className={whatsappBtnClass}
               >
                 <span
@@ -610,10 +611,7 @@ export default function Navbar() {
                   💬
                 </span>
                 <span>WhatsApp Destek</span>
-                <span className="sr-only">
-                  {" "}
-                  — yeni sekmede açılır
-                </span>
+                <span className="sr-only">— yeni sekmede açılır</span>
               </a>
             </div>
 
@@ -677,6 +675,7 @@ export default function Navbar() {
         role="dialog"
         aria-modal={mobileOpen || undefined}
         aria-labelledby={MOBILE_MENU_HEADING_ID}
+        aria-describedby={MOBILE_MENU_DESCRIPTION_ID}
         // Menü kapanırken hızı biraz azaltıldı, daha yumuşak geçiş için
         className={`
           lg:hidden fixed z-50 left-0 right-0 top-16 bg-white border-t border-neutral-200
@@ -694,6 +693,11 @@ export default function Navbar() {
         >
           {headerStrings.navLabel}
         </h2>
+
+        <p id={MOBILE_MENU_DESCRIPTION_ID} className="sr-only">
+          {headerStrings.navLabel} menüsü. Bağlantıları gezmek için tab tuşunu
+          kullanabilirsiniz.
+        </p>
 
         <nav aria-label={headerStrings.navLabel}>
           <div className="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
@@ -857,7 +861,7 @@ export default function Navbar() {
               href={`https://wa.me/905453048671?text=${NAVBAR_WHATSAPP_MESSAGE}&utm_source=navbar&utm_medium=mobile_whatsapp`}
               target="_blank"
               rel="nofollow noopener"
-              aria-label="Mobil menüden WhatsApp destek hattını açın — yeni sekmede açılır"
+              aria-label={`WhatsApp Destek — Mobil menüden WhatsApp destek hattını açın — yeni sekmede açılır`}
               className={mobileWhatsappBtnClass}
               onClick={() => setMobileOpen(false)}
             >
@@ -868,10 +872,7 @@ export default function Navbar() {
                 💬
               </span>
               <span>WhatsApp Destek</span>
-              <span className="sr-only">
-                {" "}
-                — yeni sekmede açılır
-              </span>
+              <span className="sr-only">— yeni sekmede açılır</span>
             </a>
           </div>
         </nav>
