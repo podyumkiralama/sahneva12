@@ -167,7 +167,7 @@ const SEO_INFRA_FEATURES = [
 export const revalidate = 3600;
 
 // —————————————————————————————————————————
-// JSON-LD (Schema.org) - SAYFAYA ÖZEL ŞEMALAR (Code 2)
+// JSON-LD (Schema.org) - SAYFAYA ÖZEL ŞEMALAR
 // —————————————————————————————————————————
 function StructuredData() {
   const HOME_URL = SITE_URL;
@@ -249,7 +249,8 @@ function StructuredData() {
             itemOffered: { "@type": "Service", name: "Sandalye Kiralama" },
             availability: "https://schema.org/InStock",
             areaServed: { "@type": "Country", name: "Türkiye" },
-            seller: { "@id": ORGANIZATION_ID },
+            seller: { "@id": "@
+ORGANIZATION_ID },
           },
           {
             "@type": "Offer",
@@ -601,7 +602,7 @@ export default function HomePage() {
     <div className="overflow-x-hidden">
       <StructuredData />
 
-      {/* HERO – 2. kod yapısı + 1. kod görsel havası */}
+      {/* HERO – ScrollReveal yok, her zaman gözüküyor */}
       <section
         className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-black"
         aria-labelledby="hero-title"
@@ -609,9 +610,7 @@ export default function HomePage() {
         {/* LCP görseli */}
         <div className="absolute inset-0" aria-hidden="true">
           <HeroBackgroundImage ariaHidden />
-          <div
-            className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/70"
-          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/70" />
           <div
             className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse motion-reduce:animate-none opacity-40"
             style={HERO_OVERLAY_ANIMATION_STYLE}
@@ -621,54 +620,45 @@ export default function HomePage() {
         {/* İçerik */}
         <div className="relative z-10 container py-10">
           <div className="max-w-3xl mx-auto text-center">
-            <ScrollReveal asChild>
-              <div className="inline-flex items-center gap-3 bg-black/50 rounded-full px-4 py-2 border border-white/10 text-xs md:text-sm text-slate-100">
-                <span
-                  className="w-2 h-2 bg-green-400 rounded-full"
-                  aria-hidden="true"
-                />
-                Türkiye Geneli Profesyonel Hizmet • 500+ Başarılı Proje
-              </div>
-            </ScrollReveal>
+            <div className="inline-flex items-center gap-3 bg-black/50 rounded-full px-4 py-2 border border-white/10 text-xs md:text-sm text-slate-100">
+              <span
+                className="w-2 h-2 bg-green-400 rounded-full"
+                aria-hidden="true"
+              />
+              Türkiye Geneli Profesyonel Hizmet • 500+ Başarılı Proje
+            </div>
 
-            <ScrollReveal delay="1" asChild>
-              <h1
-                id="hero-title"
-                className="mt-4 text-white text-3xl md:text-5xl lg:text-6xl font-black leading-tight"
-              >
-                Profesyonel{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-                  Sahne
-                </span>
-                ,{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
-                  Podyum
-                </span>{" "}
-                ve{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
-                  LED Ekran
-                </span>{" "}
-                Kiralama
-              </h1>
-            </ScrollReveal>
+            <h1
+              id="hero-title"
+              className="mt-4 text-white text-3xl md:text-5xl lg:text-6xl font-black leading-tight"
+            >
+              Profesyonel{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+                Sahne
+              </span>
+              ,{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
+                Podyum
+              </span>{" "}
+              ve{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
+                LED Ekran
+              </span>{" "}
+              Kiralama
+            </h1>
 
-            <ScrollReveal delay="1.5">
-              <>
-                <KeywordPills />
-                <p className="text-slate-100 text-sm md:text-lg mt-2 md:mt-4 max-w-3xl mx-auto leading-relaxed">
-                  500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli
-                  hızlı kurulum ile etkinliğinizde yanınızdayız. Kurumsal
-                  etkinlikler, bayi toplantıları, konserler, festivaller ve açık
-                  hava organizasyonları için sahne kiralama, podyum kiralama,
-                  LED ekran kiralama, ses-ışık sistemleri ve yayın altyapısını
-                  tek merkezden sunuyoruz.
-                </p>
-              </>
-            </ScrollReveal>
+            <KeywordPills />
 
-            <ScrollReveal delay="2">
-              <CTAGroup />
-            </ScrollReveal>
+            <p className="text-slate-100 text-sm md:text-lg mt-2 md:mt-4 max-w-3xl mx-auto leading-relaxed">
+              500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli
+              hızlı kurulum ile etkinliğinizde yanınızdayız. Kurumsal
+              etkinlikler, bayi toplantıları, konserler, festivaller ve açık
+              hava organizasyonları için sahne kiralama, podyum kiralama,
+              LED ekran kiralama, ses-ışık sistemleri ve yayın altyapısını
+              tek merkezden sunuyoruz.
+            </p>
+
+            <CTAGroup />
           </div>
         </div>
 
