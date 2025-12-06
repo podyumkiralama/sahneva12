@@ -2,7 +2,7 @@
 "use client";
 
 import Image from "next/image";
-import { Fragment, useId } from "react";
+import { useId } from "react";
 import Link from "next/link";
 import { ScrollReveal } from "@/components/ScrollReveal";
 
@@ -45,7 +45,6 @@ const DEFAULT_CARDS = [
   },
 ];
 
-// Dark Mode uyumlu renk sınıfları güncellendi
 const DEFAULT_ADVANTAGES = [
   {
     icon: "⚡",
@@ -308,26 +307,35 @@ export default function CorporateEvents({
               className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
               aria-label={dictionary.advantagesAriaLabel}
             >
-              {advantages.map((item, i) => (
-                <div
-                  key={i}
-                  className={`group relative p-6 rounded-2xl border transition-all duration-300 bg-white/5 hover:bg-white/10 ${item.colorClass.split(" ").filter(c => c.startsWith('border')).join(" ")} border-white/5 hover:border-opacity-50`}
-                >
-                  <div className="relative z-10">
-                    <div 
-                      className={`w-14 h-14 rounded-xl flex items-center justify-center text-2xl mb-4 transition-all duration-300 border ${item.colorClass}`}
-                    >
-                       {item.icon === "yw" ? "👷" : item.icon}
+              {advantages.map((item, i) => {
+                // HATA DÜZELTME: colorClass boş gelirse varsayılan boş string ata
+                const safeColorClass = item.colorClass || ""; 
+                const safeBorderClass = safeColorClass
+                  .split(" ")
+                  .filter(c => c.startsWith('border'))
+                  .join(" ");
+
+                return (
+                  <div
+                    key={i}
+                    className={`group relative p-6 rounded-2xl border transition-all duration-300 bg-white/5 hover:bg-white/10 ${safeBorderClass} border-white/5 hover:border-opacity-50`}
+                  >
+                    <div className="relative z-10">
+                      <div 
+                        className={`w-14 h-14 rounded-xl flex items-center justify-center text-2xl mb-4 transition-all duration-300 border ${safeColorClass}`}
+                      >
+                         {item.icon === "yw" ? "👷" : item.icon}
+                      </div>
+                      <h4 className="text-lg font-bold text-white mb-2">
+                        {item.label}
+                      </h4>
+                      <p className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">
+                        {item.desc}
+                      </p>
                     </div>
-                    <h4 className="text-lg font-bold text-white mb-2">
-                      {item.label}
-                    </h4>
-                    <p className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">
-                      {item.desc}
-                    </p>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </ScrollReveal>
