@@ -634,88 +634,131 @@ export default function HomePage() {
     <div className="overflow-x-hidden">
       <StructuredData />
 
-      {/* HERO BÖLÜMÜ */}
+           {/* HERO BÖLÜMÜ – Yenilenmiş Tasarım */}
       <section
         className="relative min-h-[80vh] flex items-center overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-black"
         aria-labelledby="hero-title"
       >
+        {/* Arka plan görsel + overlay */}
         <div className="absolute inset-0">
           <HeroBackgroundImage />
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/80 to-slate-900/70" />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/75 to-slate-900/70" />
         </div>
 
         <div className="relative z-10 container px-4 py-16 lg:py-24">
-          <div className="grid max-w-6xl mx-auto items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
-            <div className="text-left space-y-6">
-              <ScrollReveal direction="down" delay="0.2">
-                <div className="inline-flex items-center gap-3 rounded-full bg-white/10 px-4 py-2 border border-white/15 shadow-lg">
-                  <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                  <span className="text-sm font-semibold text-white/90">
-                    Türkiye geneli kurulum • 500+ proje
+          <div className="grid max-w-6xl mx-auto items-center gap-12 lg:grid-cols-[1.2fr_0.9fr]">
+            {/* Sol: Başlık + açıklama + CTA */}
+            <div className="text-left space-y-7">
+              <ScrollReveal direction="down" delay="0.15">
+                <div className="inline-flex items-center gap-3 rounded-full bg-white/8 px-4 py-2 border border-white/15 shadow-lg backdrop-blur-sm">
+                  <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+                  <span className="text-xs md:text-sm font-semibold text-white/85">
+                    Sahneva Organizasyon • Türkiye Geneli Profesyonel Hizmet
                   </span>
                 </div>
               </ScrollReveal>
 
-<ScrollReveal delay="0.4">
-  <h1
-    id="hero-title"
-    className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight"
-  >
-    Türkiye Geneli Profesyonel{" "}
-    <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400">
-      Sahne, Podyum ve LED Ekran
-    </span>
-    Kiralama Çözümleri
-  </h1>
-</ScrollReveal>
+              <ScrollReveal delay="0.3">
+                <h1
+                  id="hero-title"
+                  className="text-4xl md:text-6xl lg:text-[3.4rem] xl:text-[3.8rem] font-black text-white leading-tight tracking-tight"
+                >
+                  Türkiye Geneli Profesyonel{" "}
+                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400">
+                    Sahne, Podyum ve LED Ekran
+                  </span>
+                  Kiralama Çözümleri
+                </h1>
+              </ScrollReveal>
 
+              <ScrollReveal delay="0.45">
+                <p className="text-base md:text-lg text-slate-100/90 max-w-3xl leading-relaxed">
+                  Sahne, podyum, LED ekran ve ses-ışık sistemlerini tek ekipten
+                  planlıyor, çizim ve ekipman listelerini hızlıca paylaşıyoruz.
+                  Tüm Türkiye’de aynı gün veya ertesi gün kurulum ve kesintisiz
+                  teknik destek sağlıyoruz.
+                </p>
+              </ScrollReveal>
 
-              <ScrollReveal delay="0.8">
+              <ScrollReveal delay="0.6">
                 <KeywordPills />
               </ScrollReveal>
 
-              <ScrollReveal delay="1">
+              <ScrollReveal delay="0.8">
                 <CTAGroup />
               </ScrollReveal>
             </div>
 
-            <ScrollReveal delay="0.6" direction="up">
-              <div className="rounded-3xl bg-white/10 border border-white/10 backdrop-blur-md p-6 md:p-8 shadow-2xl space-y-6">
+            {/* Sağ: Özet / güven kartı */}
+            <ScrollReveal delay="0.5" direction="up">
+              <aside
+                className="rounded-3xl bg-white/6 border border-white/12 backdrop-blur-xl p-6 md:p-7 lg:p-8 shadow-2xl space-y-6"
+                aria-label="Sahneva proje özet istatistikleri"
+              >
+                {/* Üst blok */}
                 <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-2xl text-white">
-                    🎯
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-2xl text-white shadow-lg">
+                    🎛️
                   </div>
                   <div className="text-white">
-                    <p className="text-sm uppercase tracking-wide text-white/70">Teknik koordinasyon</p>
-                    <p className="text-xl font-bold">Başlangıçtan sahne ışığına kadar tek sorumlu</p>
+                    <p className="text-xs uppercase tracking-wide text-white/70">
+                      Teknik koordinasyon
+                    </p>
+                    <p className="text-lg font-bold">
+                      Başlangıçtan final sahne ışığına kadar tek sorumlu ekip
+                    </p>
                   </div>
                 </div>
 
+                {/* İstatistik grid */}
                 <div className="grid grid-cols-2 gap-3">
                   {HERO_STATS.map((item) => (
                     <div
                       key={item.label}
-                      className="rounded-2xl bg-black/30 border border-white/10 px-4 py-3 text-white"
+                      className="rounded-2xl bg-black/35 border border-white/10 px-4 py-3 text-white"
                     >
-                      <div className="text-2xl font-black leading-tight">{item.value}</div>
-                      <div className="text-xs uppercase tracking-wide text-white/70">{item.label}</div>
+                      <div className="text-xl md:text-2xl font-black leading-tight">
+                        {item.value}
+                      </div>
+                      <div className="text-[11px] uppercase tracking-wide text-white/70">
+                        {item.label}
+                      </div>
                     </div>
                   ))}
                 </div>
 
-                <div className="rounded-2xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-3 text-white flex items-center justify-between gap-3">
+                {/* Hızlı iletişim satırı */}
+                <div className="rounded-2xl border border-emerald-400/35 bg-emerald-500/12 px-4 py-3 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                   <div>
-                    <p className="text-sm font-semibold text-emerald-100">Hızlı destek hattı</p>
-                    <p className="text-lg font-bold">+90 545 304 86 71</p>
+                    <p className="text-[11px] font-semibold uppercase tracking-wide text-emerald-200">
+                      Hızlı Destek Hattı
+                    </p>
+                    <p className="text-lg font-bold leading-tight">
+                      +90 545 304 86 71
+                    </p>
+                    <p className="text-xs text-emerald-100/80 mt-1">
+                      Teknik keşif ve fiyatlandırma için 2 saat içinde dönüş.
+                    </p>
                   </div>
-                  <a
-                    href="tel:+905453048671"
-                    className="inline-flex items-center gap-2 rounded-xl bg-white text-emerald-700 font-semibold px-3 py-2 hover:bg-emerald-50 transition-colors duration-200"
-                  >
-                    📞 Ara
-                  </a>
+                  <div className="flex gap-2 w-full sm:w-auto">
+                    <a
+                      href="tel:+905453048671"
+                      className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-white text-emerald-700 font-semibold px-3 py-2 text-sm shadow-md hover:shadow-lg hover:bg-emerald-50 transition-colors"
+                    >
+                      📞 Ara
+                    </a>
+                    <a
+                      href={`https://wa.me/905453048671?text=${CTA_WHATSAPP_MESSAGE}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-500 text-white font-semibold px-3 py-2 text-sm shadow-md hover:shadow-lg hover:bg-emerald-600 transition-colors"
+                      aria-label="WhatsApp üzerinden hızlı teklif iste"
+                    >
+                      💬 WhatsApp
+                    </a>
+                  </div>
                 </div>
-              </div>
+              </aside>
             </ScrollReveal>
           </div>
         </div>
