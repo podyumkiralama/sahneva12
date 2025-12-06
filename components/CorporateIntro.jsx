@@ -3,193 +3,175 @@ import React from "react";
 import Image from "next/image";
 import { ScrollReveal } from "@/components/ScrollReveal";
 
-// Basit inline check ikonu
+// Modern, neon efektli check ikonu
 const CheckIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 20 20"
-    fill="currentColor"
-    className="w-5 h-5 text-blue-600 mt-0.5 shrink-0"
-    aria-hidden="true"
-  >
-    <path
-      fillRule="evenodd"
-      d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-      clipRule="evenodd"
-    />
-  </svg>
+  <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 ring-1 ring-emerald-500/20">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 20 20"
+      fill="currentColor"
+      className="w-3.5 h-3.5 text-emerald-400"
+      aria-hidden="true"
+    >
+      <path
+        fillRule="evenodd"
+        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+        clipRule="evenodd"
+      />
+    </svg>
+  </div>
 );
 
 export default function CorporateIntro() {
   return (
     <section
       aria-labelledby="corporate-intro-heading"
-      className="relative overflow-hidden rounded-3xl border border-slate-100 bg-white/70 backdrop-blur-sm shadow-[0_24px_70px_rgba(15,23,42,0.12)]"
+      className="relative overflow-hidden rounded-[2.5rem] bg-[#0B1120] border border-white/10 shadow-2xl"
     >
-      {/* Dekoratif BG */}
-      <div className="pointer-events-none absolute inset-0 opacity-70" aria-hidden="true">
-        <div className="absolute -top-32 -left-24 h-64 w-64 rounded-full bg-blue-500/10 blur-3xl" />
-        <div className="absolute -bottom-40 -right-10 h-72 w-72 rounded-full bg-purple-500/10 blur-3xl" />
+      {/* --- ARKA PLAN EFEKTLERİ (Hero ile uyumlu) --- */}
+      <div className="pointer-events-none absolute inset-0 z-0">
+        {/* Izgara Deseni */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+        
+        {/* Glow Efektleri */}
+        <div className="absolute -top-32 -left-24 h-[500px] w-[500px] rounded-full bg-blue-600/20 blur-[120px] mix-blend-screen" />
+        <div className="absolute -bottom-40 -right-10 h-[500px] w-[500px] rounded-full bg-purple-600/10 blur-[120px] mix-blend-screen" />
+        
+        {/* Gürültü (Noise) Dokusu */}
+        <div className="absolute inset-0 bg-[url('/img/noise.png')] opacity-[0.03]" />
       </div>
 
-      <div className="relative z-10 grid gap-10 p-8 md:p-10 lg:p-12 
-                      lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.95fr)]">
+      <div className="relative z-10 grid gap-12 p-8 md:p-12 lg:p-16 lg:grid-cols-[1.2fr_0.8fr] items-center">
 
-        {/* SOL BLOK */}
-        <div className="flex flex-col gap-8">
+        {/* --- SOL BLOK (İÇERİK) --- */}
+        <div className="flex flex-col gap-10">
 
-          {/* BADGE + ANA BAŞLIK */}
+          {/* 1. BAŞLIK ALANI */}
           <ScrollReveal direction="up" delay="0.05">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-indigo-700">
-                <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_0_4px_rgba(16,185,129,0.25)]" />
-                Profesyonel Hizmet
+              <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-blue-300 backdrop-blur-sm mb-6">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                </span>
+                Profesyonel Çözüm Ortağı
               </div>
 
               <h2
                 id="corporate-intro-heading"
-                className="mt-4 text-2xl sm:text-3xl lg:text-[2.4rem] font-bold leading-tight text-slate-900"
+                className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight text-white"
               >
-                Kurumsal{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-blue-500 to-purple-500">
-                  Sahne, Podyum ve LED Ekran
+                Kurumsal <br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">
+                  Sahne & Prodüksiyon
                 </span>{" "}
-                Kiralama Çözümlerimiz
+                Yönetimi
               </h2>
 
-              <p className="mt-4 max-w-2xl text-sm sm:text-base text-neutral-700 leading-relaxed">
-                Lansman, konferans, bayi toplantısı ve kurumsal etkinlikleriniz için sahne,
-                podyum, LED ekran, ses–ışık ve teknik operasyonu
-                <strong className="font-semibold text-neutral-900"> tek çatı altında</strong> planlıyoruz.
+              <p className="mt-6 text-base sm:text-lg text-slate-400 leading-relaxed max-w-2xl">
+                Lansman, zirve ve bayi toplantılarınızda ihtiyaç duyduğunuz 
+                <span className="text-slate-200 font-medium"> sahne, LED ekran ve teknik altyapıyı </span> 
+                mühendislik hassasiyetiyle planlıyor, markanıza yakışan kusursuz bir atmosfer yaratıyoruz.
               </p>
             </div>
           </ScrollReveal>
 
-          {/* BÖLÜM 1 */}
+          {/* 2. HİZMET KARTLARI (GRID) */}
           <ScrollReveal direction="up" delay="0.15">
-            <section>
-              <h3 className="text-lg sm:text-xl font-semibold text-neutral-900 mb-3">
-                Bütünleşik Etkinlik Yönetimi ve Tasarım
-              </h3>
-              <p className="mb-5 text-neutral-700 text-sm sm:text-base leading-relaxed">
-                Kurumsal lansmanlardan geniş katılımlı konferanslara kadar Türkiye genelinde,
-                planlamadan uygulamaya uzanan uçtan uca bir hizmet sunuyoruz.
-              </p>
-
-              <div className="grid grid-cols-1 gap-4 pt-1 sm:grid-cols-3">
-                <div className="rounded-xl border border-neutral-100 bg-neutral-50 p-4">
-                  <strong className="mb-2 block text-sm font-semibold text-neutral-900">
-                    Sahne ve Görüntü
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {[
+                { title: "Sahne Tasarımı", desc: "Markaya özel 3D modelleme ve dekor.", border: "border-blue-500/20" },
+                { title: "Görüntü Sistemleri", desc: "Yüksek çözünürlüklü LED ekran ve Watchout.", border: "border-purple-500/20" },
+                { title: "Teknik Prodüksiyon", desc: "Ses, Işık, Truss ve Reji yönetimi.", border: "border-emerald-500/20" }
+              ].map((item, idx) => (
+                <div key={idx} className={`rounded-2xl border ${item.border} bg-white/5 p-5 backdrop-blur-sm transition-transform hover:-translate-y-1 hover:bg-white/10`}>
+                  <strong className="mb-2 block text-sm font-semibold text-white">
+                    {item.title}
                   </strong>
-                  <p className="text-xs sm:text-sm text-neutral-600">
-                    Modüler sahne, podyum ve LED ekran tasarımları.
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    {item.desc}
                   </p>
                 </div>
-
-                <div className="rounded-xl border border-neutral-100 bg-neutral-50 p-4">
-                  <strong className="mb-2 block text-sm font-semibold text-neutral-900">
-                    Teknik Ekosistem
-                  </strong>
-                  <p className="text-xs sm:text-sm text-neutral-600">
-                    Ses-ışık, kamera, yayın ve simultane çeviri entegrasyonu.
-                  </p>
-                </div>
-
-                <div className="rounded-xl border border-neutral-100 bg-neutral-50 p-4">
-                  <strong className="mb-2 block text-sm font-semibold text-neutral-900">
-                    Akış & Branding
-                  </strong>
-                  <p className="text-xs sm:text-sm text-neutral-600">
-                    VIP akış, dekor yönetimi ve marka bütünlüğü.
-                  </p>
-                </div>
-              </div>
-            </section>
+              ))}
+            </div>
           </ScrollReveal>
 
-          {/* BÖLÜM 2 */}
+          {/* 3. TEKNİK ANALİZ LISTESİ */}
           <ScrollReveal direction="up" delay="0.30">
-            <section>
-              <h3 className="mt-6 text-lg sm:text-xl font-semibold text-neutral-900 mb-3">
-                Teknik Analiz ve Güvenlik Standartları
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                <span className="text-blue-500">❖</span> Teknik Standartlarımız
               </h3>
-              <p className="mb-4 text-neutral-700 text-sm sm:text-base leading-relaxed">
-                Her proje detaylı bir teknik analiz ile başlar. Kurulumdan söküme kadar
-                sahada kalarak kesintisiz bir deneyim sunuyoruz.
-              </p>
-
-              <div className="rounded-xl border border-neutral-200 bg-white p-4 sm:p-5 shadow-sm">
-                <ul className="grid grid-cols-1 gap-y-3 gap-x-6 md:grid-cols-2">
-                  <li className="flex items-start gap-2">
-                    <CheckIcon />
-                    <span className="text-xs sm:text-sm font-medium text-neutral-700">
-                      Akustik, zemin taşıma kapasitesi ve enerji hattı analizi.
-                    </span>
-                  </li>
-
-                  <li className="flex items-start gap-2">
-                    <CheckIcon />
-                    <span className="text-xs sm:text-sm font-medium text-neutral-700">
-                      Truss, LED ve ışık için teknik çizim & 3D planlama.
-                    </span>
-                  </li>
-
-                  <li className="flex items-start gap-2">
-                    <CheckIcon />
-                    <span className="text-xs sm:text-sm font-medium text-neutral-700">
-                      Acil durum tahliye entegrasyonları.
-                    </span>
-                  </li>
-
-                  <li className="flex items-start gap-2">
-                    <CheckIcon />
-                    <span className="text-xs sm:text-sm font-medium text-neutral-700">
-                      Yük testleri ve sertifika kontrolleri.
-                    </span>
-                  </li>
-
-                  <li className="flex items-start gap-2">
-                    <CheckIcon />
-                    <span className="text-xs sm:text-sm font-medium text-neutral-700">
-                      Yedek enerji ve jeneratör çözümleri.
-                    </span>
-                  </li>
-
-                  <li className="flex items-start gap-2">
-                    <CheckIcon />
-                    <span className="text-xs sm:text-sm font-medium text-neutral-700">
-                      Görüntü & ses optimizasyonu.
-                    </span>
-                  </li>
+              
+              <div className="rounded-2xl border border-white/5 bg-black/20 p-6">
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8">
+                  {[
+                    "Akustik ve enerji hattı analizi",
+                    "Teknik çizim & 3D yerleşim planı",
+                    "Acil durum ve güvenlik entegrasyonu",
+                    "Truss yük testleri ve sertifikasyon",
+                    "Yedekli (Redundant) sistem altyapısı",
+                    "Görüntü işlemci (Processor) optimizasyonu"
+                  ].map((text, idx) => (
+                    <li key={idx} className="flex items-start gap-3">
+                      <CheckIcon />
+                      <span className="text-sm font-medium text-slate-300">
+                        {text}
+                      </span>
+                    </li>
+                  ))}
                 </ul>
               </div>
-            </section>
+            </div>
           </ScrollReveal>
         </div>
 
-        {/* SAĞ BLOK – GÖRSEL */}
-        <ScrollReveal direction="right" delay="0.20">
-          <div className="flex items-stretch">
-            <div className="relative w-full overflow-hidden rounded-2xl border border-slate-200 bg-slate-950/90 shadow-[0_30px_80px_rgba(15,23,42,0.6)]">
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent pointer-events-none" />
-
+        {/* --- SAĞ BLOK (GÖRSEL / EKRAN) --- */}
+        <ScrollReveal direction="left" delay="0.20">
+          <div className="relative group">
+            {/* Dekoratif Çerçeve Efekti */}
+            <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-blue-600 to-purple-600 opacity-30 blur-lg group-hover:opacity-50 transition duration-1000"></div>
+            
+            <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-slate-900 shadow-2xl aspect-[4/5] lg:aspect-auto lg:h-full min-h-[500px]">
+              
+              {/* Görsel */}
               <Image
                 src="/img/kurumsal/kurumsal-sahne-led-ekran.webp"
                 alt="Kurumsal lansman sahne ve LED ekran kurulumu"
                 fill
-                sizes="(max-width: 1024px) 100vw, 540px"
-                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
               />
 
-              <div className="relative z-10 flex items-center justify-between px-4 pb-3 pt-24 sm:pt-28 text-xs text-slate-200">
-                <span className="inline-flex items-center gap-1 rounded-full bg-slate-900/70 px-3 py-1">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]" />
-                  Kurumsal Lansman Sahnesi
-                </span>
-                <span className="hidden sm:inline text-[0.7rem] text-slate-400">
-                  Sahne · LED · Ses & Işık
-                </span>
+              {/* Görsel Üzeri Overlay (Gradient) */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-[#0B1120]/20 to-transparent" />
+
+              {/* Görsel Üzeri "Head-Up Display" (HUD) Tarzı Bilgi */}
+              <div className="absolute bottom-0 left-0 right-0 p-8">
+                <div className="flex flex-col gap-4">
+                  {/* Etiketler */}
+                  <div className="flex flex-wrap gap-2">
+                    <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-500/20 border border-emerald-500/30 px-3 py-1 text-xs font-semibold text-emerald-300 backdrop-blur-md">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      Live System
+                    </span>
+                    <span className="inline-flex items-center rounded-md bg-white/10 border border-white/10 px-3 py-1 text-xs font-semibold text-white backdrop-blur-md">
+                      P3.9 LED Screen
+                    </span>
+                  </div>
+
+                  <div className="space-y-1">
+                    <h4 className="text-xl font-bold text-white">Kurumsal Lansman Sahnesi</h4>
+                    <p className="text-sm text-slate-400">
+                      İstanbul / 2000+ Katılımcı
+                    </p>
+                  </div>
+
+                  {/* Dekoratif Tech Çizgisi */}
+                  <div className="h-0.5 w-full bg-gradient-to-r from-blue-500/50 to-transparent mt-2" />
+                </div>
               </div>
+
             </div>
           </div>
         </ScrollReveal>
