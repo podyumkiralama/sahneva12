@@ -75,7 +75,7 @@ const websiteJsonLd = {
   inLanguage: "tr-TR",
 };
 
-/* ================== METADATA (TÜM VERİLER BURADA) ================== */
+/* ================== METADATA ================== */
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   manifest: "/manifest.json",
@@ -163,7 +163,7 @@ export const viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#6d28d9",
+  themeColor: "#6d28d9", // themeColor metadata'dan viewport'a taşındı
 };
 
 
@@ -199,10 +199,10 @@ export default function RootLayout({ children }) {
 
         {/* ================================
             HEADER (Sabitlenmiş - Global)
-            Fixed Header: Root Layout'ta tanımlanır ve tüm sayfalarda görünür.
+            Global Fixed Header: Navbar, UtilityBar, VideoRail
         ================================= */}
         <header
-          id="_main_header"
+          id="_main_header" // SkipLinks hedefi
           role="banner"
           aria-label="Sahneva site başlığı ve ana gezinme"
           className="w-full fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm shadow-md"
@@ -212,7 +212,8 @@ export default function RootLayout({ children }) {
           <StickyVideoRailclient />
         </header>
 
-        {/* Ana içerik sarmalayıcı (Lokal Layout'ları içerir) */}
+        {/* Ana içerik, tüm locale layout'ları sarmalar */}
+        {/* main yerine div kullandık çünkü main etiketi locale layoutta kullanılacak */}
         <div id="main-content-wrapper" className="flex-grow flex flex-col">
           {children}
         </div>
