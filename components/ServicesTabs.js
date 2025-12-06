@@ -4,11 +4,10 @@
 import { useRef, useState, useCallback, useMemo, memo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-// ScrollReveal bileşenini import ediyoruz
 import { ScrollReveal } from "@/components/ScrollReveal";
 
 // —————————————————————————————————————————
-// İKONLAR (Erişilebilirlik için aria-hidden eklendi)
+// İKONLAR (Tasarım için gerekli yeni ikonlar)
 // —————————————————————————————————————————
 
 const TechCheckIcon = () => (
@@ -38,7 +37,7 @@ const ArrowRightIcon = ({ className }) => (
 );
 
 // —————————————————————————————————————————
-// VERİLER
+// VERİLER (ORİJİNAL İÇERİKLERİN)
 // —————————————————————————————————————————
 
 const DEFAULT_SERVICES = [
@@ -47,13 +46,14 @@ const DEFAULT_SERVICES = [
     title: "Sahne Kiralama",
     icon: "🎪",
     description:
-      "Profesyonel modüler sahne sistemleri, truss yapılar ve güvenlik ekipmanları. Konser, festival ve dev organizasyonlar için mühendislik harikası çözümler.",
+      "Profesyonel modüler sahne sistemleri, truss yapılar ve güvenlik ekipmanları. Konser, festival, fuar ve özel etkinlikler için özel tasarım sahne çözümleri.",
     image: "/img/hizmet-sahne.webp",
     features: [
-      "Modüler sistem (1x1m, 1x2m, 2x2m)",
-      "Alüminyum truss ve scaffolding",
-      "Güvenlik bariyerleri (Crowd Control)",
-      "Yüksek tonajlı podyum kapasitesi",
+      "Modüler sahne sistemleri (1x1m, 1x2m, 2x2m)",
+      "Alüminyum truss ve scaffolding sistemleri",
+      "Güvenlik bariyerleri ve crowd control",
+      "Profesyonel kurulum ve söküm hizmeti",
+      "Yüksek kapasiteli sahne platformları",
     ],
     href: "/sahne-kiralama",
   },
@@ -62,73 +62,80 @@ const DEFAULT_SERVICES = [
     title: "Podyum Kiralama",
     icon: "👑",
     description:
-      "Lansman, ödül töreni ve protokol etkinlikleri için özel tasarım podyumlar. Estetik, sağlam ve marka kimliğinize uygun zemin çözümleri.",
+      "Modüler podyum sistemleri, özel tasarım podyumlar ve protokol masaları. Toplantı, lansman ve ödül törenleri için profesyonel çözümler.",
     image: "/img/hizmet-podyum.webp",
     features: [
-      "Özel yükseklik (30-90cm)",
-      "Protokol ve kavisli tasarımlar",
-      "Parlak/Mat yüzey kaplamaları",
-      "Hızlı kurulum & modüler yapı",
+      "Modüler podyum sistemleri (30cm, 60cm, 90cm)",
+      "Protokol masaları ve arkalık sistemleri",
+      "Halı kaplama ve özel yüzey seçenekleri",
+      "Hızlı kurulum ve taşınabilirlik",
+      "Çeşitli renk ve boyut seçenekleri",
     ],
     href: "/podyum-kiralama",
   },
   {
     id: "led",
-    title: "LED Ekran",
+    title: "LED Ekran Kiralama",
     icon: "🖥️",
     description:
-      "Görüntü teknolojisinde zirve. P2-P6 pixel pitch seçenekleri ile indoor ve outdoor etkinliklerde kristal netliğinde görsel şov.",
+      "Yüksek çözünürlüklü indoor/outdoor LED ekran çözümleri. P2, P3, P4, P5, P6 pixel pitch seçenekleri ile her türlü etkinlik için ideal.",
     image: "/img/galeri/led-ekran-kiralama-1.webp",
     features: [
-      "Outdoor IP65 su geçirmezlik",
-      "4500+ Nit gün ışığı parlaklığı",
-      "Novastar görüntü işleme",
-      "Kavisli ve köşe ekran kurulumu",
+      "P2-P6 pixel pitch seçenekleri",
+      "IP65 su geçirmez outdoor ekranlar",
+      "4500+ nit yüksek parlaklık",
+      "HD video işleme ve kontrol sistemleri",
+      "Kurulum ve teknik destek",
     ],
     href: "/led-ekran-kiralama",
   },
   {
     id: "ses-isik",
-    title: "Ses & Işık",
+    title: "Ses & Işık Sistemleri",
     icon: "🎭",
     description:
-      "Atmosferi değiştiren ışık şovları ve kristal netliğinde ses sistemleri. Konser, tiyatro ve şovlar için tam kapsamlı prodüksiyon.",
+      "Profesyonel ses ve ışık sistemleri kiralama hizmeti. Konser, tiyatro, konferans ve özel etkinlikleriniz için komple ses ve ışık çözümleri.",
     image: "/img/ses-isik/ses-sistemi.webp",
     features: [
-      "Line-array (JBL, RCF) sistemler",
-      "Robot & Beam ışık şovları",
-      "DMX masası ve ışık tasarımı",
-      "Lazer ve atmosferik efektler",
+      "Line-array ses sistemleri ve dijital mikserler",
+      "Kablosuz mikrofon ve monitor sistemleri",
+      "Moving head, spot ve LED ışık sistemleri",
+      "DMX kontrol ve ışık programlama",
+      "Lazer, smoke machine ve özel efektler",
+      "Ses ve ışık operatörlüğü hizmeti",
+      "Alan akustiğine özel ses optimizasyonu",
     ],
     href: "/ses-isik-sistemleri",
   },
   {
     id: "cadir",
-    title: "Çadır & Kapsama",
+    title: "Çadır Kiralama",
     icon: "⛺",
     description:
-      "Her türlü hava koşulunda etkinliğinizi koruyan estetik çadır sistemleri. Festival, düğün ve kurumsal davetler için premium alanlar.",
+      "Açık hava etkinlikleri için profesyonel çadır kurulumları. Su geçirmez, rüzgar dayanıklı çadır sistemleri ve aksesuarları.",
     image: "/img/galeri/cadir-kiralama-1.webp",
     features: [
-      "Hi-Tech alüminyum konstrüksiyon",
-      "Yanmaz ve UV korumalı kumaş",
-      "İklimlendirme ve zemin sistemi",
-      "Şeffaf tavan seçenekleri",
+      "3x3m, 3x6m, 6x6m çadır sistemleri",
+      "Su geçirmez ve UV dayanıklı kumaş",
+      "Yan duvar ve zemin sistemleri",
+      "Aydınlatma ve dekorasyon",
+      "Profesyonel montaj ve demontaj",
     ],
     href: "/cadir-kiralama",
   },
   {
     id: "masa-sandalye",
-    title: "Masa & Sandalye",
+    title: "Masa & Sandalye Kiralama",
     icon: "🪑",
     description:
-      "Etkinliğin konforunu belirleyen şık mobilyalar. Tiffany sandalyeden kokteyl masasına kadar geniş ürün yelpazesi.",
+      "Toplantı, davet, düğün ve özel etkinlikler için profesyonel masa ve sandalye kiralama hizmeti. Şık ve konforlu çözümler.",
     image: "/img/hizmet-masa.webp",
     features: [
-      "Napolyon & Tiffany sandalyeler",
-      "Bistro ve banket masalar",
-      "Özel örtü ve süsleme",
-      "Lounge oturma grupları",
+      "Toplantı masaları (yuvarlak, dikdörtgen)",
+      "Konforlu sandalye ve oturma grupları",
+      "Süslü düğün sandalyeleri",
+      "Masa örtüsü ve dekorasyon",
+      "Teslimat, kurulum ve toplama hizmeti",
     ],
     href: "/masa-sandalye-kiralama",
   },
@@ -136,13 +143,13 @@ const DEFAULT_SERVICES = [
 
 const DEFAULT_DICTIONARY = {
   tablistLabel: "Hizmet sekmeleri",
-  featuresHeading: "Teknik Özellikler",
-  ctaLabel: "Teklifi İncele",
+  featuresHeading: "Hizmet Özellikleri",
+  ctaLabel: "Detaylı Bilgi ve Fiyat Teklifi Al",
   ctaTitle: "Detayları gör ve fiyat teklifi al",
-  imageBadgeLabel: "Sahneva Premium",
-  imageAlt: "{{title}} hizmeti - Profesyonel Çözüm",
-  overlayButtonTitle: "{{title}} detayına git",
-  overlayButtonAria: "{{title}} detay sayfasını aç",
+  imageBadgeLabel: "Profesyonel Çözüm",
+  imageAlt: "{{title}} hizmeti - Sahneva profesyonel çözümü",
+  overlayButtonTitle: "{{title}} detay sayfasına git",
+  overlayButtonAria: "{{title}} hizmet detay sayfasını aç",
 };
 
 const TITLE_TEMPLATE_TOKEN = /\{\{\s*title\s*\}\}/g;
@@ -228,7 +235,7 @@ function ServicesTabsComponent({
     [imageErrors]
   );
 
-  // A11Y: Klavye Navigasyonu (Sol/Sağ ok tuşları)
+  // A11Y: Klavye Navigasyonu
   const onKeyDownTabs = useCallback((e) => {
     if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) return;
     e.preventDefault();
@@ -243,7 +250,7 @@ function ServicesTabsComponent({
       const id = next.id.replace("tab-", "");
       setActiveTab(id);
       next.focus();
-      // Mobilde aktif tab'i ortala
+      // Mobilde odaklanan sekmeyi görünür yap
       next.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     };
     if (e.key === "ArrowRight") move((currentIndex + 1) % buttons.length);
@@ -258,7 +265,6 @@ function ServicesTabsComponent({
     <div className="w-full relative">
       
       {/* 1. SEKMELER (NAVIGASYON) */}
-      {/* ScrollReveal ile tüm tab barı yavaşça içeri alıyoruz */}
       <ScrollReveal direction="down" delay="0.1">
         <div className="relative mb-10 z-20">
           <div
@@ -279,7 +285,6 @@ function ServicesTabsComponent({
                     aria-selected={isActive}
                     aria-controls={`panel-${service.id}`}
                     id={`tab-${service.id}`}
-                    // A11y: Sadece aktif tab tabIndex=0 alır, diğerleri -1
                     tabIndex={isActive ? 0 : -1} 
                     onClick={() => setActiveTab(service.id)}
                     className={`
@@ -301,7 +306,13 @@ function ServicesTabsComponent({
                       {service.icon}
                     </span>
                     <span className="relative z-10 tracking-wide">
-                      {service.title}
+                      {/* Başlık uzunsa mobilde kırp (Orijinal davranış) */}
+                      <span className="hidden sm:inline">{service.title}</span>
+                      <span className="sm:hidden">
+                          {service.title.includes("&")
+                             ? service.title.split("&")[0].trim()
+                             : service.title.split(" ")[0]}
+                      </span>
                     </span>
                   </button>
                 );
@@ -312,25 +323,17 @@ function ServicesTabsComponent({
       </ScrollReveal>
 
       {/* 2. ANA PANEL (PREMIUM DARK CARD) */}
-      {/* ScrollReveal ile ana kartı yukarıdan aşağıya (fade up) alıyoruz */}
       <ScrollReveal direction="up" delay="0.2">
         <div
-          className="relative overflow-hidden rounded-[2.5rem] bg-[#0B1120] border border-white/10 shadow-2xl transition-all duration-500 outline-none"
+          className="relative overflow-hidden rounded-[2.5rem] bg-[#0B1120] border border-white/10 shadow-2xl transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
           role="tabpanel"
           id={`panel-${activeService?.id}`}
           aria-labelledby={`tab-${activeService?.id}`}
-          // A11y: Koyu modda focus halkasının görünür olması çok önemli
           tabIndex={0}
-          className={`
-             relative overflow-hidden rounded-[2.5rem] bg-[#0B1120] border border-white/10 shadow-2xl transition-all duration-500
-             focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900
-          `}
         >
-          {/* --- Arka Plan Efektleri (Ambient Light) --- */}
+          {/* --- Arka Plan Efektleri --- */}
           <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
-             {/* Grid */}
              <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]"></div>
-             {/* Glow */}
              <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/20 blur-[150px] rounded-full mix-blend-screen opacity-50" />
              <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-purple-600/10 blur-[120px] rounded-full mix-blend-screen opacity-50" />
           </div>
@@ -341,11 +344,13 @@ function ServicesTabsComponent({
               {/* SOL: İÇERİK */}
               <div className="p-8 md:p-12 lg:p-16 flex flex-col justify-center order-2 lg:order-1">
                 
-                {/* Başlık Grubu */}
+                {/* Başlık ve Açıklama */}
                 <div className="mb-6">
                    <div className="inline-flex items-center gap-2 mb-4 px-3 py-1 rounded-full bg-white/5 border border-white/10 w-fit backdrop-blur-md">
                       <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_10px_#34d399]" aria-hidden="true" />
-                      <span className="text-xs font-semibold text-emerald-300 tracking-wide uppercase">Aktif Hizmet</span>
+                      <span className="text-xs font-semibold text-emerald-300 tracking-wide uppercase">
+                        Aktif Hizmet
+                      </span>
                    </div>
                    <h2 className="text-3xl md:text-5xl font-black text-white leading-tight mb-4 drop-shadow-xl">
                       {activeService.title}
@@ -355,7 +360,7 @@ function ServicesTabsComponent({
                    </p>
                 </div>
 
-                {/* Özellikler Listesi (Tech Grid) */}
+                {/* Özellikler Listesi */}
                 <div className="mb-10">
                   <h3 className="text-white font-bold flex items-center gap-2 mb-5 text-sm uppercase tracking-wider opacity-80">
                      <span className="w-5 h-[2px] bg-indigo-500" aria-hidden="true" />
@@ -391,7 +396,7 @@ function ServicesTabsComponent({
                 </div>
               </div>
 
-              {/* SAĞ: GÖRSEL (Full Height) */}
+              {/* SAĞ: GÖRSEL */}
               <div className="relative order-1 lg:order-2 h-[300px] lg:h-auto min-h-full overflow-hidden group">
                  <Image
                     src={activeService ? getImageSrc(activeService) : ""}
@@ -409,14 +414,14 @@ function ServicesTabsComponent({
                  <div className="absolute inset-0 bg-gradient-to-l from-transparent via-[#0B1120]/20 to-[#0B1120] lg:bg-gradient-to-r lg:from-[#0B1120] lg:via-transparent lg:to-transparent" aria-hidden="true" />
                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] to-transparent lg:hidden" aria-hidden="true" />
 
-                 {/* Dekoratif Badge */}
+                 {/* Badge */}
                  <div className="absolute top-6 right-6 z-20">
                     <div className="bg-black/40 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-4 py-2 rounded-lg shadow-lg">
                        {dictionary.imageBadgeLabel}
                     </div>
                  </div>
 
-                 {/* Mobil Başlık */}
+                 {/* Mobil Başlık (Görsel Üzeri) */}
                  <div className="absolute bottom-6 left-6 z-20 lg:hidden">
                     <h3 className="text-2xl font-black text-white drop-shadow-lg">{activeService.title}</h3>
                  </div>
