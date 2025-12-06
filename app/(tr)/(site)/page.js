@@ -71,15 +71,6 @@ const CTA_WHATSAPP_MESSAGE = encodeURIComponent(
 
 const CTA_BUTTONS = [
   {
-    href: "tel:+905453048671",
-    label: "Hemen Ara",
-    icon: "📞",
-    srHint: "Hemen Ara",
-    gradient: "from-blue-600 to-indigo-700",
-    hoverGradient: "from-blue-700 to-indigo-800",
-    iconColor: "text-blue-100",
-  },
-  {
     href: `https://wa.me/905453048671?text=${CTA_WHATSAPP_MESSAGE}`,
     label: "WhatsApp'tan Teklif Al",
     icon: "💬",
@@ -760,7 +751,7 @@ export default function HomePage() {
             />
           </ScrollReveal>
 
-          <div className="mt-12 -mx-2 sm:-mx-4 lg:-mx-6 xl:-mx-10 px-2 sm:px-4 lg:px-6 xl:px-10">
+          <div className="mt-12 px-2 sm:px-4 lg:px-6 xl:px-8">
             <ServicesTabsDeferred idleTimeout={2800} rootMargin="200px" />
           </div>
         </div>
