@@ -242,7 +242,6 @@ function ServicesTabsComponent({
       const id = next.id.replace("tab-", "");
       setActiveTab(id);
       next.focus();
-      // Mobilde odaklanan sekmeyi görünür yap
       next.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     };
     if (e.key === "ArrowRight") move((currentIndex + 1) % buttons.length);
@@ -256,7 +255,7 @@ function ServicesTabsComponent({
   return (
     <div className="w-full relative">
       
-      {/* 1. SEKMELER (GRID LAYOUT) */}
+      {/* 1. SEKMELER (GRID LAYOUT - RENK DÜZELTİLDİ) */}
       <ScrollReveal direction="down" delay="0.1">
         <div className="relative mb-6 z-20">
           <div
@@ -285,14 +284,15 @@ function ServicesTabsComponent({
                       border
                       ${
                         isActive
-                          ? "text-white shadow-md scale-[1.02] z-10 border-transparent"
+                          ? "text-white shadow-xl scale-[1.02] z-10 border-transparent"
                           : "text-slate-600 bg-white border-slate-200 hover:border-blue-300 hover:bg-blue-50/50 hover:text-blue-700"
                       }
                     `}
                     style={{ minWidth: '130px' }}
                   >
+                    {/* YENİ RENK: Mor yerine Mavi-Lacivert Gradient */}
                     {isActive && (
-                      <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-blue-600 to-purple-700" />
+                      <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 animate-gradient-x" />
                     )}
 
                     <span className="relative z-10 text-xl md:text-2xl filter drop-shadow-sm transition-transform group-hover:scale-110" aria-hidden="true">
@@ -317,7 +317,7 @@ function ServicesTabsComponent({
         </div>
       </ScrollReveal>
 
-      {/* 2. ANA PANEL (COMPACT & PREMIUM) */}
+      {/* 2. ANA PANEL (COMPACT & FIT) */}
       <ScrollReveal direction="up" delay="0.2">
         <div
           className="relative overflow-hidden rounded-3xl bg-[#0B1120] border border-white/10 shadow-xl transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
@@ -326,7 +326,6 @@ function ServicesTabsComponent({
           aria-labelledby={`tab-${activeService?.id}`}
           tabIndex={0}
         >
-          {/* Arka Plan Efektleri */}
           <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
              <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]"></div>
              <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-blue-600/20 blur-[100px] rounded-full mix-blend-screen opacity-40" />
@@ -336,23 +335,21 @@ function ServicesTabsComponent({
           {activeService && (
             <div className="relative z-10 grid lg:grid-cols-[1fr_1fr] gap-0">
               
-              {/* SOL: İÇERİK (Daha Kompakt) */}
+              {/* SOL: İÇERİK (Padding optimize edildi: p-6/8/10) */}
               <div className="p-6 md:p-8 lg:p-10 flex flex-col justify-center order-2 lg:order-1">
                 
-                {/* Başlık ve Açıklama */}
                 <div className="mb-5">
                    <h2 className="text-2xl md:text-4xl font-black text-white leading-tight mb-3 drop-shadow-xl">
                       {activeService.title}
                    </h2>
-                   <p className="text-slate-400 text-sm md:text-base leading-relaxed border-l-2 border-indigo-500 pl-3">
+                   <p className="text-slate-400 text-sm md:text-base leading-relaxed border-l-2 border-blue-500 pl-3">
                       {activeService.description}
                    </p>
                 </div>
 
-                {/* Özellikler Listesi */}
                 <div className="mb-6">
                   <h3 className="text-white/80 font-bold flex items-center gap-2 mb-3 text-xs uppercase tracking-wider">
-                     <span className="w-4 h-[2px] bg-indigo-500" aria-hidden="true" />
+                     <span className="w-4 h-[2px] bg-blue-500" aria-hidden="true" />
                      {dictionary.featuresHeading}
                   </h3>
                   <div className="grid sm:grid-cols-2 gap-2.5">
@@ -370,10 +367,10 @@ function ServicesTabsComponent({
                   </div>
                 </div>
 
-                {/* CTA Buton (Daha İnce) */}
                 <div>
                   <Link
                     href={activeService.href}
+                    // Buton Hover efekti de Mavi tonlarına çekildi
                     className="group inline-flex items-center gap-3 bg-white text-slate-950 font-bold text-base px-6 py-3 rounded-lg shadow-[0_0_15px_rgba(255,255,255,0.15)] hover:shadow-[0_0_25px_rgba(255,255,255,0.3)] hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-slate-900"
                     title={formatTitleTemplate(dictionary.ctaTitle, activeService.title, DEFAULT_DICTIONARY.ctaTitle)}
                   >
@@ -385,7 +382,7 @@ function ServicesTabsComponent({
                 </div>
               </div>
 
-              {/* SAĞ: GÖRSEL (Optimize Edilmiş Yükseklik) */}
+              {/* SAĞ: GÖRSEL */}
               <div className="relative order-1 lg:order-2 h-[240px] lg:h-auto min-h-full overflow-hidden group">
                  <Image
                     src={activeService ? getImageSrc(activeService) : ""}
@@ -399,18 +396,15 @@ function ServicesTabsComponent({
                     style={IMAGE_STYLE}
                  />
                  
-                 {/* Overlay */}
                  <div className="absolute inset-0 bg-gradient-to-l from-transparent via-[#0B1120]/30 to-[#0B1120] lg:bg-gradient-to-r lg:from-[#0B1120] lg:via-transparent lg:to-transparent" aria-hidden="true" />
                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] to-transparent lg:hidden" aria-hidden="true" />
 
-                 {/* Badge */}
                  <div className="absolute top-4 right-4 z-20">
                     <div className="bg-black/50 backdrop-blur-md border border-white/20 text-white text-[10px] font-bold px-3 py-1.5 rounded-md shadow-lg">
                        {dictionary.imageBadgeLabel}
                     </div>
                  </div>
 
-                 {/* Mobil Başlık */}
                  <div className="absolute bottom-4 left-4 z-20 lg:hidden">
                     <h3 className="text-xl font-black text-white drop-shadow-lg">{activeService.title}</h3>
                  </div>
