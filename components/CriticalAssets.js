@@ -42,6 +42,30 @@ const CRITICAL_STYLE = `
   }
 `;
 
+// Keep this script minimal and avoid DOM mutations that would change the
+// server-rendered <html> before React hydrates (prevents hydration errors).
+const CRITICAL_SCRIPT = `(() => {
+  if (typeof window.requestIdleCallback !== "function") {
+    window.requestIdleCallback = function (cb) {
+      const start = Date.now();
+      return window.setTimeout(() => {
+        cb({
+          didTimeout: false,
+          timeRemaining() {
+            return Math.max(0, 50 - (Date.now() - start));
+          },
+        });
+      }, 1);
+    };
+  }
+
+  if (typeof window.cancelIdleCallback !== "function") {
+    window.cancelIdleCallback = function (id) {
+      window.clearTimeout(id);
+    };
+  }
+})();`;
+
 export default function CriticalAssets() {
   return (
     <>

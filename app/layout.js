@@ -199,26 +199,22 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/* ================================
-            HEADER (Sabitlenmiş - Global)
-            ID: _main_header (SkipLinks hedefi)
-        ================================= */}
-        <header
-          id="_main_header" // SkipLinks hedefi
-          role="banner"
-          aria-label="Sahneva site başlığı ve ana gezinme"
-          // Sabit başlık
-          className="w-full fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm shadow-md"
-        >
-          <UtilityBar />
-          <Navbar />
-          <StickyVideoRailclient />
-        </header>
+        {/* ================================
+            HEADER (Sabitlenmiş - Global)
+        ================================= */}
+        <header
+          id="_main_header" // SkipLinks hedefi
+          role="banner"
+          aria-label="Sahneva site başlığı ve ana gezinme"
+          className="w-full fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm shadow-md"
+        >
+          <UtilityBar />
+          <Navbar />
+          <StickyVideoRailclient />
+        </header>
 
-        {/* Ana içerik, tüm locale layout'ları sarmalar */}
-        <div id="main-content-wrapper" className="flex-grow flex flex-col">
-          {children}
-        </div>
+        {/* Ana içerik (Lokal Layout) Fixed Header'dan sonra başlar */}
+        {children}
 
         {/* Analytics: gecikmeli yükleme */}
         {gaEnabled && (
