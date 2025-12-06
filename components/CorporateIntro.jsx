@@ -1,4 +1,6 @@
 // components/CorporateIntro.jsx
+"use client"; // <--- BU SATIR EKLENDİ (HATA ÇÖZÜMÜ)
+
 import React from "react";
 import Image from "next/image";
 import { ScrollReveal } from "@/components/ScrollReveal";
@@ -101,7 +103,6 @@ export default function CorporateIntro() {
         </div>
 
         {/* --- SAĞ BLOK (GÖRSEL - DÜZELTİLDİ) --- */}
-        {/* Aspect Ratio ekleyerek yüksekliği garanti altına aldık */}
         <ScrollReveal direction="left" delay="0.2">
           <div className="relative group w-full aspect-[4/5] lg:aspect-[3/4] xl:aspect-[4/5] max-h-[600px] mx-auto">
             
@@ -109,9 +110,6 @@ export default function CorporateIntro() {
 
             <div className="relative h-full w-full overflow-hidden rounded-xl border border-white/10 bg-slate-800 shadow-xl">
               
-              {/* NOT: Resmi göremiyorsan dosya yolunu kontrol et. 
-                  Test için src'yi şununla değiştir: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80" 
-              */}
               <Image
                 src="/img/kurumsal/kurumsal-sahne-led-ekran.webp" 
                 alt="Kurumsal lansman sahne ve LED ekran prodüksiyonu"
@@ -119,7 +117,6 @@ export default function CorporateIntro() {
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover opacity-90 transition-transform duration-700 group-hover:scale-105"
                 onError={(e) => {
-                  // Resim yüklenemezse geçici bir gri alan gösterir
                   e.currentTarget.style.display = "none";
                   e.currentTarget.parentNode.style.backgroundColor = "#1e293b"; 
                 }}
