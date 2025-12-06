@@ -634,7 +634,7 @@ export default function HomePage() {
     <div className="overflow-x-hidden">
       <StructuredData />
 
-                {/* HERO BÖLÜMÜ – Stripe tarzı, merkezlenmiş kompozisyon */}
+                      {/* HERO BÖLÜMÜ – Stripe tarzı, sade ve ortalanmış */}
       <section
         className="relative min-h-[80vh] flex items-center overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-black"
         aria-labelledby="hero-title"
@@ -646,7 +646,7 @@ export default function HomePage() {
         </div>
 
         <div className="relative z-10 container px-4 py-16 lg:py-24">
-          <div className="max-w-6xl mx-auto flex flex-col gap-12">
+          <div className="max-w-6xl mx-auto flex flex-col gap-10">
             {/* Üst blok: badge + H1 + açıklama + CTA (tam ortalı) */}
             <div className="text-center space-y-7">
               <ScrollReveal direction="down" delay="0.15">
@@ -693,89 +693,39 @@ export default function HomePage() {
               </ScrollReveal>
             </div>
 
-            {/* Alt blok: solda kısa özet, sağda stats kutusu */}
-            <div className="grid items-stretch gap-8 lg:grid-cols-[1.15fr_0.9fr]">
-              {/* Sol kolon – küçük açıklama / ek güven metni */}
-              <ScrollReveal delay="0.5" direction="left">
-                <div className="text-left text-slate-100/90 space-y-4 max-w-xl">
-                  <p className="text-sm uppercase tracking-[0.18em] text-slate-300">
-                    TEKNİK KOORDİNASYON • SAHNEVA
-                  </p>
-                  <p className="text-lg leading-relaxed">
-                    Etkinlik alanı ölçülerine göre{" "}
-                    <span className="font-semibold text-sky-300">
-                      sahne ve podyum planı
-                    </span>{" "}
-                    çıkarıyor, LED ekran konumlandırmasını ve ses-ışık dağılımını
-                    simülasyonlarla birlikte sunuyoruz. Keşif, kurulum ve
-                    etkinlik günü tek sorumlu ekip ile çalışırsınız.
-                  </p>
-                  <p className="text-sm text-slate-300">
-                    Konser, festival, kurumsal lansman, fuar ve özel
-                    organizasyonlarda; enerji altyapısı, truss yük hesapları ve
-                    güvenlik bariyerleri dahil tüm teknik detayları raporlayarak
-                    paylaşıyoruz.
-                  </p>
+            {/* Alt blok: stripevari istatistik şeridi (kutusuz, çok sade) */}
+            <ScrollReveal delay="1" direction="up">
+              <div className="flex flex-col gap-4 items-center">
+                <div className="flex flex-wrap justify-center gap-3">
+                  {HERO_STATS.map((item) => (
+                    <div
+                      key={item.label}
+                      className="
+                        inline-flex flex-col items-start
+                        rounded-2xl bg-white/5 border border-white/10
+                        px-4 py-3 min-w-[130px]
+                        text-left text-white/90 backdrop-blur-sm
+                      "
+                    >
+                      <span className="text-lg font-bold leading-tight">
+                        {item.value}
+                      </span>
+                      <span className="text-[11px] uppercase tracking-wide text-white/60">
+                        {item.label}
+                      </span>
+                    </div>
+                  ))}
                 </div>
-              </ScrollReveal>
-
-              {/* Sağ kolon – Stripe benzeri stats kutusu (butonsuz) */}
-              <ScrollReveal delay="0.55" direction="up">
-                <aside
-                  className="rounded-3xl bg-white/7 border border-white/15 backdrop-blur-xl p-6 md:p-7 lg:p-8 shadow-2xl space-y-6"
-                  aria-label="Sahneva proje özet istatistikleri"
-                >
-                  {/* Üst blok */}
-                  <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-2xl text-white shadow-lg">
-                      🎛️
-                    </div>
-                    <div className="text-white">
-                      <p className="text-xs uppercase tracking-wide text-white/70">
-                        Teknik koordinasyon
-                      </p>
-                      <p className="text-lg font-bold">
-                        Başlangıçtan final sahne ışığına kadar tek sorumlu ekip
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* İstatistik grid */}
-                  <div className="grid grid-cols-2 gap-3">
-                    {HERO_STATS.map((item) => (
-                      <div
-                        key={item.label}
-                        className="rounded-2xl bg-black/35 border border-white/10 px-4 py-3 text-white"
-                      >
-                        <div className="text-xl md:text-2xl font-black leading-tight">
-                          {item.value}
-                        </div>
-                        <div className="text-[11px] uppercase tracking-wide text-white/70">
-                          {item.label}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Hızlı iletişim satırı – SADE, BUTONSUZ */}
-                  <div className="rounded-2xl border border-emerald-400/40 bg-emerald-500/10 px-4 py-3 text-white">
-                    <p className="text-[11px] font-semibold uppercase tracking-wide text-emerald-200">
-                      Hızlı destek hattı
-                    </p>
-                    <p className="text-lg font-bold leading-tight">
-                      +90 545 304 86 71
-                    </p>
-                    <p className="text-xs text-emerald-100/80 mt-1">
-                      Teknik keşif, fiyatlandırma ve etkinlik planlaması için
-                      2 saat içinde geri dönüş sağlıyoruz.
-                    </p>
-                  </div>
-                </aside>
-              </ScrollReveal>
-            </div>
+                <p className="text-[11px] md:text-xs text-slate-200/70 text-center">
+                  Kurumsal etkinlikler, festivaller ve lansmanlar için uçtan uca
+                  sahne, podyum, LED ekran ve ses–ışık prodüksiyon çözümleri.
+                </p>
+              </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
+
 
       {/* ÖZELLİKLER ve DANIŞMANLIK */}
       <section
