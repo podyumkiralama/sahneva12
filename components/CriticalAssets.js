@@ -42,12 +42,9 @@ const CRITICAL_STYLE = `
   }
 `;
 
+// Keep this script minimal and avoid DOM mutations that would change the
+// server-rendered <html> before React hydrates (prevents hydration errors).
 const CRITICAL_SCRIPT = `(() => {
-  const { documentElement } = document;
-  if (documentElement) {
-    documentElement.dataset.js = "true";
-  }
-
   if (typeof window.requestIdleCallback !== "function") {
     window.requestIdleCallback = function (cb) {
       const start = Date.now();
