@@ -2,7 +2,6 @@
 import Footer from "@/components/Footer";
 import DeferredSpeedInsights from "@/components/DeferredSpeedInsights.client";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
-// Hata kaynağı bu satırın eksik veya yanlış olmasıydı. Doğru şekilde eklendi:
 import { ReviewBannerDeferred } from "@/components/DeferredSections.client"; 
 
 const SITE_URL =
@@ -11,8 +10,7 @@ const SITE_URL =
 
 const content = LOCALE_CONTENT.tr;
 
-// Root Layout zaten title & description yönetiyor.
-// Bu layout sadece canonical + language alternates sağlar.
+// Metadata ayarları
 export const metadata = {
   alternates: {
     canonical: `${SITE_URL}/`,
@@ -32,26 +30,22 @@ export default function TurkishLayout({ children }) {
       dir={content.direction}
     >
       {/* ================================
-          HEADER (Root Layout'a taşındı)
-      ================================= */}
-      
-      {/* ================================
-          MAIN CONTENT
-          Fixed Header Boşluğu Korundu: pt-16 / lg:pt-20
+          MAIN CONTENT (Header Boşluğu)
       ================================= */}
       <main
-        id="_main_content" // SkipLinks hedefi
+        id="_main_content" 
         role="main"
         aria-label="Sahneva ana içerik bölgesi"
         aria-live="polite"
         aria-atomic="true"
         tabIndex={-1}
+        // Root Layout'taki Fixed Header'ın altını açar
         className="flex-1 pt-16 lg:pt-20 focus:outline-none scroll-mt-24"
       >
         <div className="overflow-x-hidden">{children}</div>
       </main>
       
-      {/* ——— REVIEW BANNER (Layout'a taşınan bileşen) ——— */}
+      {/* ——— REVIEW BANNER (Layout'a taşınan fixed bileşen) ——— */}
       <ReviewBannerDeferred idleTimeout={2000} rootMargin="100px" />
 
 
@@ -59,7 +53,7 @@ export default function TurkishLayout({ children }) {
           FOOTER
       ================================= */}
       <footer
-        id="_main_footer" // SkipLinks hedefi
+        id="_main_footer" 
         role="contentinfo"
         aria-label="Sahneva site altbilgi"
       >
