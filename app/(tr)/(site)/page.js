@@ -1,5 +1,7 @@
 // app/(tr)/(site)/page.js
+import Image from "next/image";
 import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 
 // Statik bileşenler
 import CorporateEvents from "@/components/CorporateEvents";
@@ -16,23 +18,6 @@ import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
   "https://www.sahneva.com";
-function HeroBackgroundImage({ alt = HERO_IMAGE_ALT }) {
-  return (
-    <Image
-      src={heroImg}
-      alt={alt}
-      fill
-      sizes="100vw"
-      priority
-      placeholder="blur"
-      quality={85}
-      className="absolute inset-0 w-full h-full object-cover object-center"
-      style={{
-        filter: "brightness(0.9) contrast(1.05) saturate(1.05)",
-      }}
-    />
-  );
-}
 
 // —————————————————————————————————————————
 // SABİT VERİLER
@@ -195,6 +180,29 @@ const BELOW_THE_FOLD_VISIBILITY_STYLE = Object.freeze({
 });
 
 export const revalidate = 3600;
+
+// —————————————————————————————————————————
+// ARKA PLAN GÖRSELİ
+// —————————————————————————————————————————
+import heroImg from "@/public/img/hero-bg.webp";
+
+function HeroBackgroundImage({ alt = HERO_IMAGE_ALT }) {
+  return (
+    <Image
+      src={heroImg}
+      alt={alt}
+      fill
+      sizes="100vw"
+      priority
+      placeholder="blur"
+      quality={85}
+      className="absolute inset-0 w-full h-full object-cover object-center"
+      style={{
+        filter: "brightness(0.9) contrast(1.05) saturate(1.05)",
+      }}
+    />
+  );
+}
 
 // —————————————————————————————————————————
 // JSON-LD (Schema.org)
@@ -632,106 +640,105 @@ function ConsultationCard() {
   );
 }
 
-{/* ===================== HERO (YENİ STRIPE TARZI) ===================== */}
-<section
-  className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#020617]"
-  aria-labelledby="hero-title"
->
-  {/* ARKA PLAN GÖRSELİ */}
-  <div className="absolute inset-0 z-0">
-    <HeroBackgroundImage />
+// ===================== HERO (YENİ STRIPE TARZI) =====================
 
-    {/* GRID DESENİ */}
-    <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:26px_26px] opacity-30"></div>
-
-    {/* SPOTLIGHT EFEKTİ */}
-    <div className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[900px] h-[600px] bg-purple-500/25 blur-[120px] rounded-full mix-blend-screen"></div>
-    <div className="absolute top-[-100px] left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-blue-500/15 blur-[110px] rounded-full mix-blend-screen"></div>
-
-    {/* FOTOĞRAFI OKUNURLU TUTAN ÖN GRADIENT */}
-    <div className="absolute inset-0 bg-gradient-to-b from-[#020617]/60 via-[#020617]/40 to-[#020617]/75" />
-  </div>
-
-  {/* ====================== HERO İÇERİK ========================== */}
-  <div className="relative z-10 container px-4 py-24 flex flex-col items-center text-center max-w-5xl">
-    
-    {/* BADGE */}
-    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/15 backdrop-blur-md shadow-lg mb-6">
-      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" aria-hidden="true"></span>
-      <span className="text-xs text-emerald-100 font-medium tracking-wide">
-        Sahneva Organizasyon • Türkiye Geneli Profesyonel Hizmet
-      </span>
-    </div>
-
-    {/* BAŞLIK */}
-    <h1
-      id="hero-title"
-      className="text-5xl md:text-7xl lg:text-[5rem] font-extrabold tracking-tight leading-[1.1] text-white"
+function HeroSection() {
+  return (
+    <section
+      className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#020617]"
+      aria-labelledby="hero-title"
     >
-      Profesyonel&nbsp;
-      <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">
-        Sahne & Prodüksiyon
-      </span>
-      <span className="block mt-3 text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-blue-300 to-cyan-300">
-        Çözüm Ortağınız
-      </span>
-    </h1>
+      {/* ARKA PLAN GÖRSELİ */}
+      <div className="absolute inset-0 z-0">
+        <HeroBackgroundImage />
 
-    {/* ALT AÇIKLAMA */}
-    <p className="mt-6 text-lg md:text-xl text-slate-300 max-w-2xl leading-relaxed">
-      Etkinliğiniz için sahne, podyum, LED ekran ve ses–ışık sistemlerini tek ekipten planlıyor,
-      Türkiye'nin her yerine kusursuz kurulum sağlıyoruz.
-    </p>
+        {/* GRID DESENİ */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:26px_26px] opacity-30"></div>
 
-    {/* CTAs */}
-    <div className="mt-10 flex flex-col sm:flex-row gap-4">
-      <a
-        href="https://wa.me/905453048671"
-        className="group relative inline-flex h-12 items-center justify-center rounded-full bg-white px-8 font-semibold text-slate-900 hover:bg-slate-200 hover:scale-105 transition-all shadow-lg"
-      >
-        <span className="mr-2">Hemen Teklif Al</span>
-        <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-      </a>
+        {/* SPOTLIGHT EFEKTİ */}
+        <div className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[900px] h-[600px] bg-purple-500/25 blur-[120px] rounded-full mix-blend-screen"></div>
+        <div className="absolute top-[-100px] left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-blue-500/15 blur-[110px] rounded-full mix-blend-screen"></div>
 
-      <a
-        href="#projeler-title"
-        className="inline-flex h-12 items-center justify-center rounded-full border border-white/20 bg-white/5 px-8 font-medium text-slate-200 backdrop-blur-xl hover:bg-white/10 hover:text-white transition-all"
-      >
-        Projelerimizi İncele
-      </a>
-    </div>
-
-    {/* İSTATİSTİKLER */}
-    <div className="mt-14 p-[2px] rounded-3xl bg-white/10">
-      <div className="bg-[#020617]/70 backdrop-blur-xl border border-white/10 rounded-[22px] px-8 py-6 grid grid-cols-2 md:grid-cols-4 gap-8">
-        
-        <div className="flex flex-col items-center">
-          <span className="text-3xl font-bold text-white">81</span>
-          <span className="text-xs text-slate-400 tracking-wider">İL HİZMETİ</span>
-        </div>
-
-        <div className="flex flex-col items-center">
-          <span className="text-3xl font-bold text-white">500+</span>
-          <span className="text-xs text-slate-400 tracking-wider">PROJE</span>
-        </div>
-
-        <div className="flex flex-col items-center">
-          <span className="text-3xl font-bold text-white">24/7</span>
-          <span className="text-xs text-slate-400 tracking-wider">DESTEK</span>
-        </div>
-
-        <div className="flex flex-col items-center">
-          <span className="text-3xl font-bold text-white">%100</span>
-          <span className="text-xs text-slate-400 tracking-wider">TESLİMAT</span>
-        </div>
-
+        {/* FOTOĞRAFI OKUNURLU TUTAN ÖN GRADIENT */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#020617]/60 via-[#020617]/40 to-[#020617]/75" />
       </div>
-    </div>
 
-  </div>
-</section>
-{/* ===================== HERO BİTİŞ ===================== */}
+      {/* HERO İÇERİK */}
+      <div className="relative z-10 container px-4 py-24 flex flex-col items-center text-center max-w-5xl">
+        {/* BADGE */}
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/15 backdrop-blur-md shadow-lg mb-6">
+          <span
+            className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"
+            aria-hidden="true"
+          ></span>
+          <span className="text-xs text-emerald-100 font-medium tracking-wide">
+            Sahneva Organizasyon • Türkiye Geneli Profesyonel Hizmet
+          </span>
+        </div>
 
+        {/* BAŞLIK */}
+        <h1
+          id="hero-title"
+          className="text-5xl md:text-7xl lg:text-[5rem] font-extrabold tracking-tight leading-[1.1] text-white"
+        >
+          Profesyonel&nbsp;
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">
+            Sahne & Prodüksiyon
+          </span>
+          <span className="block mt-3 text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-blue-300 to-cyan-300">
+            Çözüm Ortağınız
+          </span>
+        </h1>
+
+        {/* ALT AÇIKLAMA */}
+        <p className="mt-6 text-lg md:text-xl text-slate-300 max-w-2xl leading-relaxed">
+          Etkinliğiniz için sahne, podyum, LED ekran ve ses–ışık sistemlerini
+          tek ekipten planlıyor, Türkiye&apos;nin her yerine kusursuz kurulum
+          sağlıyoruz.
+        </p>
+
+        {/* CTAs */}
+        <div className="mt-10 flex flex-col sm:flex-row gap-4">
+          <a
+            href="https://wa.me/905453048671"
+            className="group relative inline-flex h-12 items-center justify-center rounded-full bg-white px-8 font-semibold text-slate-900 hover:bg-slate-200 hover:scale-105 transition-all shadow-lg"
+          >
+            <span className="mr-2">Hemen Teklif Al</span>
+            <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </a>
+
+          <a
+            href="#projeler-title"
+            className="inline-flex h-12 items-center justify-center rounded-full border border-white/20 bg-white/5 px-8 font-medium text-slate-200 backdrop-blur-xl hover:bg-white/10 hover:text-white transition-all"
+          >
+            Projelerimizi İncele
+          </a>
+        </div>
+
+        {/* İSTATİSTİKLER */}
+        <div className="mt-14 p-[2px] rounded-3xl bg-white/10">
+          <div className="bg-[#020617]/70 backdrop-blur-xl border border-white/10 rounded-[22px] px-8 py-6 grid grid-cols-2 md:grid-cols-4 gap-8">
+            {STATS_DATA.map((stat) => (
+              <div
+                key={stat.label}
+                className="flex flex-col items-center text-center"
+              >
+                <span className="text-3xl font-bold text-white">
+                  {stat.value}
+                </span>
+                <span className="text-xs text-slate-400 tracking-wider">
+                  {stat.label.toUpperCase()}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ===================== HERO BİTİŞ =====================
 
 // —————————————————————————————————————————
 // ANA SAYFA
