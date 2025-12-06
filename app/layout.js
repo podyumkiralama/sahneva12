@@ -71,6 +71,7 @@ const websiteJsonLd = {
 };
 
 /* ================== METADATA ================== */
+// NOT: Metadata bölümü değişmedi
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   manifest: "/manifest.json",
@@ -191,9 +192,10 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        <main id="main-content" className="flex-grow">
+        {/* Ana içerik, tüm locale layout'ları sarmalar */}
+        <div id="main-content-wrapper" className="flex-grow flex flex-col">
           {children}
-        </main>
+        </div>
 
         {/* Analytics: gecikmeli yükleme */}
         {gaEnabled && (
