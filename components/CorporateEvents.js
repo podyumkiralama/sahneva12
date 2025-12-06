@@ -1,163 +1,126 @@
-// components/ServicesTabs.js
+// components/CorporateEvents.js
 "use client";
 
-import { useRef, useState, useCallback, useMemo, memo } from "react";
 import Image from "next/image";
+import { useId } from "react";
 import Link from "next/link";
 import { ScrollReveal } from "@/components/ScrollReveal";
 
 // —————————————————————————————————————————
-// İKONLAR
+// YAPILANDIRMA & VERİLER
 // —————————————————————————————————————————
 
-const TechCheckIcon = () => (
-  <svg
-    className="w-4 h-4 text-emerald-400 shrink-0 drop-shadow-[0_0_8px_rgba(52,211,153,0.5)]"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    strokeWidth={2.5}
-    aria-hidden="true"
-  >
-    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-  </svg>
-);
+const CARD_SIZES =
+  "(max-width: 768px) 100vw, " +
+  "(max-width: 1024px) calc((100vw - 4rem) / 2), " +
+  "calc((1280px - 4rem) / 3)";
 
-const ArrowRightIcon = ({ className }) => (
-  <svg
-    className={className}
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    strokeWidth={2}
-    aria-hidden="true"
-  >
-    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-  </svg>
-);
-
-// —————————————————————————————————————————
-// VERİLER
-// —————————————————————————————————————————
-
-const DEFAULT_SERVICES = [
+const DEFAULT_CARDS = [
   {
-    id: "sahne",
-    title: "Sahne Kiralama",
-    icon: "🎪",
-    description:
-      "Profesyonel modüler sahne sistemleri, truss yapılar ve güvenlik ekipmanları. Konser, festival, fuar ve özel etkinlikler için özel tasarım sahne çözümleri.",
-    image: "/img/hizmet-sahne.webp",
-    features: [
-      "Modüler sahne (1x1m, 1x2m, 2x2m)",
-      "Alüminyum truss sistemleri",
-      "Güvenlik bariyerleri",
-      "Yüksek kapasiteli platform",
-    ],
-    href: "/sahne-kiralama",
+    slug: "lansman",
+    title: "Ürün Lansmanları",
+    img: "/img/kurumsal/lansman.webp",
+    alt: "Marka lansmanı için profesyonel sahne ve LED ekran prodüksiyonu",
+    text: "Marka prestijinizi zirveye taşıyan, hatasız teknik akış ve etkileyici görsel şovlarla kurgulanmış kusursuz lansmanlar.",
+    icon: "🚀",
+    badge: "Yüksek Prestij",
   },
   {
-    id: "podyum",
-    title: "Podyum Kiralama",
-    icon: "👑",
-    description:
-      "Modüler podyum sistemleri, özel tasarım podyumlar ve protokol masaları. Toplantı, lansman ve ödül törenleri için profesyonel çözümler.",
-    image: "/img/hizmet-podyum.webp",
-    features: [
-      "Modüler podyum (30-90cm)",
-      "Protokol masaları",
-      "Halı ve yüzey kaplama",
-      "Hızlı kurulum",
-    ],
-    href: "/podyum-kiralama",
+    slug: "konferans",
+    title: "Kongre & Zirve",
+    img: "/img/kurumsal/konferans.webp",
+    alt: "Uluslararası kongre ve zirve teknik altyapı hizmetleri",
+    text: "Global standartlarda ses netliği, kesintisiz görüntü aktarımı ve simultane altyapı ile mesajınız kitlelere ulaşsın.",
+    icon: "🎤",
+    badge: "Global Standart",
   },
   {
-    id: "led",
-    title: "LED Ekran Kiralama",
-    icon: "🖥️",
-    description:
-      "Yüksek çözünürlüklü indoor/outdoor LED ekran çözümleri. P2, P3, P4, P5, P6 pixel pitch seçenekleri ile her türlü etkinlik için ideal.",
-    image: "/img/galeri/led-ekran-kiralama-1.webp",
-    features: [
-      "P2-P6 pixel pitch",
-      "IP65 outdoor ekranlar",
-      "4500+ nit parlaklık",
-      "HD video işleme",
-    ],
-    href: "/led-ekran-kiralama",
-  },
-  {
-    id: "ses-isik",
-    title: "Ses & Işık Sistemleri",
-    icon: "🎭",
-    description:
-      "Profesyonel ses ve ışık sistemleri kiralama hizmeti. Konser, tiyatro, konferans ve özel etkinlikleriniz için komple ses ve ışık çözümleri.",
-    image: "/img/ses-isik/ses-sistemi.webp",
-    features: [
-      "Line-array ses sistemleri",
-      "Kablosuz mikrofonlar",
-      "Moving head & Spot",
-      "DMX ve lazer şovları",
-    ],
-    href: "/ses-isik-sistemleri",
-  },
-  {
-    id: "cadir",
-    title: "Çadır Kiralama",
-    icon: "⛺",
-    description:
-      "Açık hava etkinlikleri için profesyonel çadır kurulumları. Su geçirmez, rüzgar dayanıklı çadır sistemleri ve aksesuarları.",
-    image: "/img/galeri/cadir-kiralama-1.webp",
-    features: [
-      "3x3m - 6x6m sistemler",
-      "Su geçirmez kumaş",
-      "Zemin ve aydınlatma",
-      "Profesyonel montaj",
-    ],
-    href: "/cadir-kiralama",
-  },
-  {
-    id: "masa-sandalye",
-    title: "Masa & Sandalye",
-    icon: "🪑",
-    description:
-      "Toplantı, davet, düğün ve özel etkinlikler için profesyonel masa ve sandalye kiralama hizmeti. Şık ve konforlu çözümler.",
-    image: "/img/hizmet-masa.webp",
-    features: [
-      "Toplantı masaları",
-      "Konforlu sandalyeler",
-      "Düğün konseptleri",
-      "Örtü ve dekorasyon",
-    ],
-    href: "/masa-sandalye-kiralama",
+    slug: "bayi-toplantisi",
+    title: "Bayi & Kurumsal Etkinlik",
+    img: "/img/kurumsal/bayi-toplantisi.webp",
+    alt: "Kurumsal bayi toplantısı sahne ve ışık sistemleri",
+    text: "Kurum kültürünüzü yansıtan sahne tasarımları ve aidiyet duygusunu güçlendiren atmosferler yaratıyoruz.",
+    icon: "🤝",
+    badge: "Tam Çözüm",
   },
 ];
 
+const DEFAULT_ADVANTAGES = [
+  {
+    icon: "⚡",
+    label: "Operasyonel Hız",
+    desc: "Planlanan saatte, eksiksiz teslimat garantisi.",
+    colorClass: "text-blue-300 bg-blue-500/10 border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.15)]",
+  },
+  {
+    icon: "💎",
+    label: "Premium Envanter",
+    desc: "Sıfır hata payı için düzenli bakımı yapılan güncel ekipmanlar.",
+    colorClass: "text-purple-300 bg-purple-500/10 border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.15)]",
+  },
+  {
+    icon: "yw", // "👷"
+    label: "Saha Deneyimi",
+    desc: "Kriz anlarını yönetebilen, 10+ yıl deneyimli teknik kadro.",
+    colorClass: "text-emerald-300 bg-emerald-500/10 border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.15)]",
+  },
+  {
+    icon: "🛡️",
+    label: "Kurumsal Güvence",
+    desc: "Sözleşmeli hizmet, faturalı süreç ve teknik süpervizör desteği.",
+    colorClass: "text-amber-300 bg-amber-500/10 border-amber-500/20 shadow-[0_0_15px_rgba(245,158,11,0.15)]",
+  },
+];
+
+const WHATSAPP_CORPORATE_MESSAGE = encodeURIComponent(
+  "Merhaba, kurumsal etkinlik çözümleri için Sahneva'dan teklif almak istiyorum."
+);
+
+const BLUR_DATA_URL =
+  "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R";
+
 const DEFAULT_DICTIONARY = {
-  tablistLabel: "Hizmet sekmeleri",
-  featuresHeading: "Hizmet Özellikleri",
-  ctaLabel: "Detaylı Bilgi ve Teklif Al",
-  ctaTitle: "Detayları gör ve fiyat teklifi al",
-  imageBadgeLabel: "Profesyonel Çözüm",
-  imageAlt: "{{title}} hizmeti - Sahneva profesyonel çözümü",
-  overlayButtonTitle: "{{title}} detay sayfasına git",
-  overlayButtonAria: "{{title}} hizmet detay sayfasını aç",
+  sectionTitleSr: "Kurumsal etkinlik çözümleri ve hizmet detayları",
+  highlightPill: "Neden Biz?",
+  highlightTitlePrefix: "Kurumsal Süreçlerde",
+  highlightTitleAccent: "Güvenilir Çözüm Ortağınız",
+  advantagesAriaLabel: "Sahneva kurumsal hizmet avantajları",
+  cardCtaLabel: "Projeyi İncele",
+  cardCtaLabels: {
+    lansman: "Lansman Çözümleri",
+    konferans: "Teknik Altyapı",
+    "bayi-toplantisi": "Toplantı Çözümleri",
+  },
+  cardCtaHref: "/iletisim",
+  cardCtaAria: "{{title}} için kurumsal teklif al",
+  cardBadgeLabel: "Kurumsal",
+  
+  // BANNER ALANI
+  bannerTitlePrefix: "Etkinliğinizi",
+  bannerTitleHighlight: "Şansa Bırakmayın",
+  bannerTitleSuffix: "",
+  bannerDescription:
+    "Sahne, ışık, LED ekran ve teknik prodüksiyon süreçlerinizi tek merkezden, profesyonel bir ekiple yönetin. Risksiz, stressiz ve kusursuz bir organizasyon deneyimi.",
+  
+  phoneCtaLabel: "Kurumsal Destek Hattı",
+  phoneCtaHref: "tel:+905453048671",
+  phoneCtaAria: "Kurumsal destek hattını ara: +90 545 304 86 71",
+  whatsappCtaLabel: "Hızlı Teklif Al",
+  whatsappCtaHref: `https://wa.me/905453048671?text=${WHATSAPP_CORPORATE_MESSAGE}&utm_source=homepage&utm_medium=corporate_whatsapp`,
+  whatsappCtaAria: "WhatsApp üzerinden kurumsal fiyat teklifi isteyin",
+  whatsappSrHint: "(yeni pencerede açılır)",
+  
+  supportStats: ["Resmi Sözleşmeli", "7/24 Teknik Süpervizör", "Anahtar Teslim"],
 };
 
 const TITLE_TEMPLATE_TOKEN = /\{\{\s*title\s*\}\}/g;
-
-const IMAGE_STYLE = Object.freeze({
-  objectFit: "cover",
-  width: "100%",
-  height: "100%",
-});
 
 // —————————————————————————————————————————
 // YARDIMCI FONKSİYONLAR
 // —————————————————————————————————————————
 
-function formatTitleTemplate(template, title, fallback) {
-  const source = template ?? fallback;
+function resolveTitleTemplate(template, title) {
+  const source = template ?? DEFAULT_DICTIONARY.cardCtaAria;
   if (typeof source === "function") return source(title);
   if (typeof source === "string") return source.replace(TITLE_TEMPLATE_TOKEN, title);
   return title;
@@ -175,253 +138,285 @@ function mergeDictionary(base, override = {}) {
   return result;
 }
 
+function OptimizedImage({ src, alt, sizes, className }) {
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      fill
+      sizes={sizes}
+      className={className}
+      loading="lazy"
+      decoding="async"
+      placeholder="blur"
+      blurDataURL={BLUR_DATA_URL}
+      quality={80}
+    />
+  );
+}
+
 // —————————————————————————————————————————
 // ANA BİLEŞEN
 // —————————————————————————————————————————
 
-function ServicesTabsComponent({
-  servicesData = DEFAULT_SERVICES,
+export default function CorporateEvents({
+  cards = DEFAULT_CARDS,
+  advantages = DEFAULT_ADVANTAGES,
   dictionary: dictionaryOverride,
-}) {
-  const services = useMemo(
-    () => (Array.isArray(servicesData) && servicesData.length ? servicesData : DEFAULT_SERVICES),
-    [servicesData]
-  );
+} = {}) {
+  const dictionary = mergeDictionary(DEFAULT_DICTIONARY, dictionaryOverride);
+  const cardCtaAriaTemplate = dictionary.cardCtaAria;
+  const supportStats = Array.isArray(dictionary.supportStats)
+    ? dictionary.supportStats
+    : DEFAULT_DICTIONARY.supportStats;
 
-  const dictionary = useMemo(
-    () => mergeDictionary(DEFAULT_DICTIONARY, dictionaryOverride),
-    [dictionaryOverride]
-  );
+  const phoneHintId = useId();
+  const whatsappHintId = useId();
+  const bannerTitleId = useId();
+  const bannerDescId = useId();
 
-  const imageAltTemplate = dictionary?.imageAlt ?? DEFAULT_DICTIONARY.imageAlt;
-  const overlayButtonTitleTemplate = dictionary?.overlayButtonTitle ?? DEFAULT_DICTIONARY.overlayButtonTitle;
-  const overlayButtonAriaTemplate = dictionary?.overlayButtonAria ?? DEFAULT_DICTIONARY.overlayButtonAria;
+  const phoneDescription = dictionary.phoneCtaAria?.trim();
+  const whatsappDescription = [
+    dictionary.whatsappCtaAria?.trim(),
+    dictionary.whatsappSrHint?.trim(),
+  ]
+    .filter(Boolean)
+    .join(" — ");
 
-  const [activeTab, setActiveTab] = useState(() => services[0]?.id ?? "");
-  const [imageErrors, setImageErrors] = useState({});
-  const listRef = useRef(null);
+  const whatsappAccessibleLabel = [
+    dictionary.whatsappCtaLabel,
+    dictionary.whatsappCtaAria,
+  ]
+    .filter(Boolean)
+    .join(" — ");
 
-  const activeService = useMemo(
-    () => services.find((s) => s.id === activeTab) ?? services[0],
-    [activeTab, services]
-  );
-
-  const initialServiceId = useMemo(() => services[0]?.id, [services]);
-
-  const handleImageError = useCallback((serviceId) => {
-    setImageErrors((prev) => ({ ...prev, [serviceId]: true }));
-  }, []);
-
-  const imageErrorHandlers = useMemo(
-    () =>
-      services.reduce((acc, service) => {
-        acc[service.id] = () => handleImageError(service.id);
-        return acc;
-      }, {}),
-    [handleImageError, services]
-  );
-
-  const getImageSrc = useCallback(
-    (service) =>
-      imageErrors[service.id] ? "/img/placeholder-service.webp" : service.image,
-    [imageErrors]
-  );
-
-  // A11Y: Klavye Navigasyonu
-  const onKeyDownTabs = useCallback((e) => {
-    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) return;
-    e.preventDefault();
-    const buttons = listRef.current?.querySelectorAll('[role="tab"]');
-    if (!buttons?.length) return;
-    const currentIndex = Array.from(buttons).findIndex(
-      (b) => b.getAttribute("aria-selected") === "true"
-    );
-    const move = (index) => {
-      const next = buttons[index];
-      if (!next) return;
-      const id = next.id.replace("tab-", "");
-      setActiveTab(id);
-      next.focus();
-      // Mobilde odaklanan sekmeyi görünür yap
-      next.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-    };
-    if (e.key === "ArrowRight") move((currentIndex + 1) % buttons.length);
-    if (e.key === "ArrowLeft") move((currentIndex - 1 + buttons.length) % buttons.length);
-    if (e.key === "Home") move(0);
-    if (e.key === "End") move(buttons.length - 1);
-  }, []);
-
-  if (!services.length) return null;
+  const phoneAriaDescribedBy = phoneDescription ? phoneHintId : undefined;
+  const whatsappAriaDescribedBy = whatsappDescription ? whatsappHintId : undefined;
 
   return (
-    <div className="w-full relative">
-      
-      {/* 1. SEKMELER (GRID LAYOUT - KOMPAKT) */}
-      <ScrollReveal direction="down" delay="0.1">
-        <div className="relative mb-6 z-20">
-          <div
-            ref={listRef}
-            className="overflow-x-auto scrollbar-hide -mx-4 pb-2 md:pb-0 px-4 md:overflow-visible focus:outline-none"
-            role="tablist"
-            aria-label={dictionary.tablistLabel}
-            onKeyDown={onKeyDownTabs}
-          >
-            <div className="flex md:grid md:grid-cols-3 lg:grid-cols-6 gap-2 min-w-max md:min-w-0">
-              {services.map((service) => {
-                const isActive = activeTab === service.id;
-                return (
-                  <button
-                    key={service.id}
-                    type="button"
-                    role="tab"
-                    aria-selected={isActive}
-                    aria-controls={`panel-${service.id}`}
-                    id={`tab-${service.id}`}
-                    tabIndex={isActive ? 0 : -1} 
-                    onClick={() => setActiveTab(service.id)}
-                    // DEĞİŞİKLİK: py-4 -> py-2 (Daha ince butonlar)
-                    className={`
-                      group relative flex flex-col md:flex-row lg:flex-col items-center justify-center gap-1.5 px-2 py-2 rounded-lg font-bold text-xs md:text-sm transition-all duration-300
-                      focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2
-                      border h-full
-                      ${
-                        isActive
-                          ? "text-white shadow-xl scale-[1.02] z-10 border-transparent"
-                          : "text-slate-600 bg-white border-slate-200 hover:border-blue-300 hover:bg-blue-50/50 hover:text-blue-700"
-                      }
-                    `}
-                    style={{ minWidth: '130px' }}
-                  >
-                    {isActive && (
-                      <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 animate-gradient-x" />
-                    )}
+    <section
+      className="relative py-16 md:py-20 bg-[#0B1120] overflow-hidden"
+      aria-labelledby="corporate-events-title"
+    >
+      {/* Modern Arka Plan Efektleri (Dark Tech) */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        {/* Grid */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]"></div>
+        {/* Ambient Glows */}
+        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-blue-600/10 blur-[120px] rounded-full mix-blend-screen"></div>
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-purple-600/10 blur-[120px] rounded-full mix-blend-screen"></div>
+      </div>
 
-                    <span className="relative z-10 text-xl md:text-2xl filter drop-shadow-sm transition-transform group-hover:scale-110" aria-hidden="true">
-                      {service.icon}
-                    </span>
-                    <span className="relative z-10 text-center leading-tight">
-                      <span className="block sm:hidden lg:block">
-                         {service.title.split(' ')[0]} 
-                      </span>
-                      <span className="hidden sm:block lg:hidden">
-                         {service.title} 
-                      </span>
-                      <span className="hidden lg:block text-[10px] mt-0.5 font-medium opacity-90">
-                         {service.title.split(' ').slice(1).join(' ')}
-                      </span>
-                    </span>
-                  </button>
+      <div className="container relative z-10 px-4 mx-auto">
+        <h2 id="corporate-events-title" className="sr-only">
+          {dictionary.sectionTitleSr}
+        </h2>
+
+        {/* 1. KISIM: HİZMET KARTLARI (GLASS DARK) */}
+        <ScrollReveal direction="up" delay="0.1">
+          <div className="grid gap-6 lg:gap-8 md:grid-cols-3 mb-16 lg:mb-20">
+            {cards.map((card, i) => {
+              const cardCtaLabel =
+                dictionary.cardCtaLabels?.[card.slug] ?? dictionary.cardCtaLabel;
+              const cardCtaAria = resolveTitleTemplate(cardCtaAriaTemplate, card.title);
+              const cardAccessibleLabel = cardCtaAria
+                ? `${cardCtaLabel} — ${cardCtaAria}`
+                : cardCtaLabel;
+
+              return (
+                <div key={card.slug} className="group flex flex-col h-full">
+                  <article
+                    className="relative flex-1 flex flex-col bg-white/5 border border-white/10 rounded-3xl shadow-2xl backdrop-blur-sm transition-all duration-500 overflow-hidden group-hover:-translate-y-2 group-hover:border-white/20"
+                    aria-labelledby={`corp-card-${i}-title`}
+                  >
+                    {/* Görsel Alanı */}
+                    <div className="relative aspect-[4/3] w-full overflow-hidden">
+                      <OptimizedImage
+                        src={card.img}
+                        alt={card.alt}
+                        sizes={CARD_SIZES}
+                        className="object-cover transition-transform duration-700 group-hover:scale-110 will-change-transform"
+                      />
+                      {/* Dark Gradient Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-transparent to-transparent opacity-90" />
+                      
+                      {/* Badge */}
+                      <div className="absolute top-4 right-4">
+                         <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-black/50 backdrop-blur-md text-white border border-white/20 shadow-lg">
+                            {card.badge || dictionary.cardBadgeLabel}
+                         </span>
+                      </div>
+
+                      {/* İkon */}
+                      <div className="absolute bottom-4 left-4 w-10 h-10 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg flex items-center justify-center text-xl shadow-lg">
+                        {card.icon}
+                      </div>
+                    </div>
+
+                    {/* İçerik */}
+                    <div className="flex-1 p-6 flex flex-col">
+                      <h3
+                        id={`corp-card-${i}-title`}
+                        className="text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors"
+                      >
+                        {card.title}
+                      </h3>
+                      <p className="text-slate-400 leading-relaxed text-sm mb-4 flex-1">
+                        {card.text}
+                      </p>
+
+                      <div className="pt-4 border-t border-white/10 mt-auto">
+                        <Link
+                          href={dictionary.cardCtaHref}
+                          className="inline-flex items-center gap-2 font-bold text-xs text-white hover:text-blue-400 transition-colors group/link"
+                          aria-label={cardAccessibleLabel}
+                        >
+                          <span>{cardCtaLabel}</span>
+                          <svg 
+                            className="w-3.5 h-3.5 transform group-hover/link:translate-x-1 transition-transform" 
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                          </svg>
+                        </Link>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              );
+            })}
+          </div>
+        </ScrollReveal>
+
+        {/* 2. KISIM: AVANTAJLAR (NEON GRID - COMPACT) */}
+        <ScrollReveal direction="up" delay="0.2">
+          <div className="mb-16">
+            <div className="text-center max-w-2xl mx-auto mb-10">
+              <span className="text-blue-400 font-bold tracking-wider uppercase text-xs mb-1 block">
+                {dictionary.highlightPill}
+              </span>
+              <h3 className="text-2xl md:text-3xl font-bold text-white">
+                {dictionary.highlightTitlePrefix}{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+                  {dictionary.highlightTitleAccent}
+                </span>
+              </h3>
+            </div>
+
+            <div
+              className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+              aria-label={dictionary.advantagesAriaLabel}
+            >
+              {advantages.map((item, i) => {
+                // HATA DÜZELTME: colorClass kontrolü
+                const safeColorClass = item.colorClass || ""; 
+                const safeBorderClass = safeColorClass
+                  .split(" ")
+                  .filter(c => c.startsWith('border'))
+                  .join(" ");
+
+                return (
+                  <div
+                    key={i}
+                    className={`group relative p-5 rounded-xl border transition-all duration-300 bg-white/5 hover:bg-white/10 ${safeBorderClass} border-white/5 hover:border-opacity-50`}
+                  >
+                    <div className="relative z-10">
+                      <div 
+                        className={`w-10 h-10 rounded-lg flex items-center justify-center text-xl mb-3 transition-all duration-300 border ${safeColorClass}`}
+                      >
+                         {item.icon === "yw" ? "👷" : item.icon}
+                      </div>
+                      <h4 className="text-base font-bold text-white mb-1">
+                        {item.label}
+                      </h4>
+                      <p className="text-xs text-slate-400 group-hover:text-slate-300 transition-colors">
+                        {item.desc}
+                      </p>
+                    </div>
+                  </div>
                 );
               })}
             </div>
           </div>
-        </div>
-      </ScrollReveal>
+        </ScrollReveal>
 
-      {/* 2. ANA PANEL (COMPACT & FIT) */}
-      <ScrollReveal direction="up" delay="0.2">
-        <div
-          className="relative overflow-hidden rounded-3xl bg-[#0B1120] border border-white/10 shadow-xl transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
-          role="tabpanel"
-          id={`panel-${activeService?.id}`}
-          aria-labelledby={`tab-${activeService?.id}`}
-          tabIndex={0}
-        >
-          <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
-             <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]"></div>
-             <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-blue-600/20 blur-[100px] rounded-full mix-blend-screen opacity-40" />
-             <div className="absolute bottom-0 left-0 w-[250px] h-[250px] bg-purple-600/10 blur-[80px] rounded-full mix-blend-screen opacity-40" />
-          </div>
-
-          {activeService && (
-            // DEĞİŞİKLİK: Grid gap kaldırıldı veya azaltıldı
-            <div className="relative z-10 grid lg:grid-cols-[1fr_1fr] gap-0">
-              
-              {/* SOL: İÇERİK (Padding ciddi oranda azaltıldı: p-6/8) */}
-              <div className="p-6 md:p-8 flex flex-col justify-center order-2 lg:order-1">
-                
-                <div className="mb-4">
-                   {/* DEĞİŞİKLİK: Font boyutu küçültüldü text-3xl */}
-                   <h2 className="text-2xl md:text-3xl font-black text-white leading-tight mb-3 drop-shadow-xl">
-                      {activeService.title}
-                   </h2>
-                   <p className="text-slate-400 text-sm leading-relaxed border-l-2 border-blue-500 pl-3">
-                      {activeService.description}
-                   </p>
-                </div>
-
-                <div className="mb-5">
-                  <h3 className="text-white/80 font-bold flex items-center gap-2 mb-3 text-xs uppercase tracking-wider">
-                     <span className="w-4 h-[2px] bg-blue-500" aria-hidden="true" />
-                     {dictionary.featuresHeading}
-                  </h3>
-                  <div className="grid sm:grid-cols-2 gap-2">
-                    {activeService.features.map((feature, idx) => (
-                      <div 
-                        key={idx} 
-                        className="group flex items-center gap-2.5 p-2 rounded-lg bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/10 transition-colors"
-                      >
-                        <TechCheckIcon />
-                        <span className="text-xs font-medium text-slate-300 group-hover:text-white transition-colors">
-                          {feature}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <Link
-                    href={activeService.href}
-                    // Buton boyutu biraz daha küçültüldü (py-3 -> py-2.5)
-                    className="group inline-flex items-center gap-2.5 bg-white text-slate-950 font-bold text-sm px-5 py-2.5 rounded-lg shadow-[0_0_15px_rgba(255,255,255,0.15)] hover:shadow-[0_0_25px_rgba(255,255,255,0.3)] hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-slate-900"
-                    title={formatTitleTemplate(dictionary.ctaTitle, activeService.title, DEFAULT_DICTIONARY.ctaTitle)}
-                  >
-                    <span>{dictionary.ctaLabel}</span>
-                    <div className="w-5 h-5 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors" aria-hidden="true">
-                      <ArrowRightIcon className="w-3 h-3" />
-                    </div>
-                  </Link>
-                </div>
-              </div>
-
-              {/* SAĞ: GÖRSEL (Yükseklik sınırlandırıldı) */}
-              <div className="relative order-1 lg:order-2 h-[220px] lg:h-auto lg:max-h-[400px] min-h-full overflow-hidden group">
-                 <Image
-                    src={activeService ? getImageSrc(activeService) : ""}
-                    alt={formatTitleTemplate(imageAltTemplate, activeService.title, DEFAULT_DICTIONARY.imageAlt)}
-                    fill
-                    className="object-cover transition-transform duration-1000 group-hover:scale-105"
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    quality={80}
-                    priority={activeService?.id === initialServiceId}
-                    onError={activeService ? imageErrorHandlers[activeService.id] : undefined}
-                    style={IMAGE_STYLE}
-                 />
-                 
-                 <div className="absolute inset-0 bg-gradient-to-l from-transparent via-[#0B1120]/30 to-[#0B1120] lg:bg-gradient-to-r lg:from-[#0B1120] lg:via-transparent lg:to-transparent" aria-hidden="true" />
-                 <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] to-transparent lg:hidden" aria-hidden="true" />
-
-                 <div className="absolute top-4 right-4 z-20">
-                    <div className="bg-black/50 backdrop-blur-md border border-white/20 text-white text-[10px] font-bold px-3 py-1 rounded-md shadow-lg">
-                       {dictionary.imageBadgeLabel}
-                    </div>
-                 </div>
-
-                 <div className="absolute bottom-4 left-4 z-20 lg:hidden">
-                    <h3 className="text-xl font-black text-white drop-shadow-lg">{activeService.title}</h3>
-                 </div>
-              </div>
-
+        {/* 3. KISIM: CTA BANNER (COMPACT & FIT) */}
+        <ScrollReveal direction="up" delay="0.3">
+          <div
+            // DEĞİŞİKLİK: Padding azaltıldı (p-16 -> p-8) ve border-radius küçültüldü
+            className="relative rounded-[2rem] bg-gradient-to-br from-blue-900 via-indigo-900 to-[#0B1120] p-6 md:p-10 text-center text-white overflow-hidden shadow-2xl border border-white/10"
+            role="region"
+            aria-labelledby={bannerTitleId}
+            aria-describedby={bannerDescId}
+          >
+            {/* Arka Plan Efektleri */}
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+               <div className="absolute top-[-50%] left-[-20%] w-[80%] h-[80%] bg-blue-500/20 rounded-full blur-[120px]" />
+               <div className="absolute bottom-[-50%] right-[-20%] w-[80%] h-[80%] bg-purple-500/20 rounded-full blur-[120px]" />
+               <div className="absolute inset-0 bg-[url('/img/noise.png')] opacity-[0.05]" />
             </div>
-          )}
-        </div>
-      </ScrollReveal>
-    </div>
+
+            <div className="relative z-10 max-w-3xl mx-auto">
+              {/* DEĞİŞİKLİK: Başlık boyutu küçültüldü (text-5xl -> text-3xl) */}
+              <h3 id={bannerTitleId} className="text-2xl md:text-4xl font-bold mb-4 leading-tight">
+                {dictionary.bannerTitlePrefix}{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-indigo-200">
+                  {dictionary.bannerTitleHighlight}
+                </span>{" "}
+                {dictionary.bannerTitleSuffix}
+              </h3>
+              
+              {/* DEĞİŞİKLİK: Margin ve text boyutu azaltıldı */}
+              <p
+                id={bannerDescId}
+                className="text-blue-100/80 text-sm md:text-lg mb-8 leading-relaxed"
+              >
+                {dictionary.bannerDescription}
+              </p>
+
+              {/* DEĞİŞİKLİK: Buton boyutu h-14 -> h-12 */}
+              <div className="flex flex-col sm:flex-row justify-center gap-3 mb-8">
+                <a
+                  href={dictionary.phoneCtaHref}
+                  className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white text-blue-950 font-bold px-6 text-sm md:text-base transition-all hover:bg-blue-50 hover:scale-105 shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+                  aria-describedby={phoneAriaDescribedBy}
+                >
+                  <span className="text-lg">📞</span>
+                  <span>{dictionary.phoneCtaLabel}</span>
+                  {phoneDescription && (
+                    <span id={phoneHintId} className="sr-only">{phoneDescription}</span>
+                  )}
+                </a>
+
+                <a
+                  href={dictionary.whatsappCtaHref}
+                  target="_blank"
+                  rel="nofollow noopener"
+                  className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm text-white font-bold px-6 text-sm md:text-base transition-all hover:bg-white/20 hover:scale-105"
+                  aria-describedby={whatsappAriaDescribedBy}
+                  aria-label={whatsappAccessibleLabel}
+                >
+                  <span className="text-lg">💬</span>
+                  <span>{dictionary.whatsappCtaLabel}</span>
+                  {whatsappDescription && (
+                    <span id={whatsappHintId} className="sr-only">{whatsappDescription}</span>
+                  )}
+                </a>
+              </div>
+
+              {/* Alt Güven Rozetleri */}
+              <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs md:text-sm font-medium text-blue-200/60">
+                {supportStats.map((label, idx) => (
+                  <div key={idx} className="flex items-center gap-1.5">
+                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px_#34d399]" />
+                     {label}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
   );
 }
-
-const ServicesTabs = memo(ServicesTabsComponent);
-ServicesTabs.displayName = "ServicesTabs";
-
-export default ServicesTabs;
