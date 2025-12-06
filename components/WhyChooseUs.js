@@ -62,62 +62,80 @@ export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
 
   return (
     <section 
-      className="py-16 md:py-24 bg-gradient-to-br from-blue-50 via-white to-purple-50 overflow-hidden"
+      // DARK MODE ZEMİN
+      className="py-16 md:py-24 bg-gradient-to-b from-[#0B1120] to-slate-900 overflow-hidden"
       aria-labelledby="why-choose-title"
     >
       <div className="container px-4 mx-auto">
         
-        {/* ——— BAŞLIK ALANI (Pill + Gradient) ——— */}
+        {/* ——— BAŞLIK ALANI (Dark Mode Uyumlu) ——— */}
         <ScrollReveal direction="up" delay="0.05">
             <div className="text-center max-w-4xl mx-auto mb-16">
-                 {/* Hap Etiket */}
+                 {/* Hap Etiket (Orange Accent) */}
                  <div className="flex justify-center mb-4">
-                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-600 text-xs font-bold uppercase tracking-wider shadow-sm">
-                       <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" aria-hidden="true" />
+                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-300 text-xs font-bold uppercase tracking-wider shadow-sm">
+                       <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse" aria-hidden="true" />
                        {dictionary.sectionPill}
                     </span>
                 </div>
 
-                {/* Ana Başlık */}
-                <h2 id="why-choose-title" className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-                    {dictionary.sectionTitlePrefix} <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-500">{dictionary.sectionTitleHighlight}</span>{dictionary.sectionTitleSuffix}
+                {/* Ana Başlık (White Text + Gradient) */}
+                <h2 id="why-choose-title" className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
+                    {dictionary.sectionTitlePrefix} <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-400">{dictionary.sectionTitleHighlight}</span>{dictionary.sectionTitleSuffix}
                 </h2>
                 
-                {/* Açıklama */}
-                <p className="text-gray-600 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
+                {/* Açıklama (Slate Text) */}
+                <p className="text-slate-400 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
                     {dictionary.sectionDesc}
                 </p>
             </div>
         </ScrollReveal>
 
-        {/* ——— KARTLAR GRID ALANI ——— */}
+        {/* ——— KARTLAR GRID ALANI (Dark Mode + Spot Işık) ——— */}
         <ScrollRevealGroup>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" role="list">
             {DEFAULT_FEATURES.map((feature, index) => (
               <ScrollReveal key={index} delay={String((index % 3) * 0.1)} direction="up" asChild>
                 <article
                   role="listitem"
-                  className="group relative bg-white rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-transparent overflow-hidden hover:-translate-y-1"
+                  // KART STİLİ (DARK MODE)
+                  className="group relative bg-white/5 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-500 border border-white/10 hover:border-blue-500/30 overflow-hidden hover:-translate-y-1"
                 >
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
+                  
+                  {/* SPOT IŞIĞI (ALT KISIM) */}
+                  <div 
+                    className={`
+                      absolute bottom-0 left-0 right-0 h-16 w-full opacity-0 group-hover:opacity-100 transition-opacity duration-500
+                      bg-gradient-to-t from-purple-500/40 via-transparent to-transparent 
+                      filter blur-xl pointer-events-none transform translate-y-full group-hover:translate-y-0
+                    `}
                     aria-hidden="true"
                   />
+                  
+                  {/* Gradient Overlay (Hafif Glow Efekti) */}
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-[0.03] transition-opacity duration-500`}
+                    aria-hidden="true"
+                  />
+                  
                   <div className="relative z-10 mb-6">
-                    <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center text-2xl text-white shadow-lg transform group-hover:scale-110 transition-transform duration-300`}>
+                    <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center text-2xl text-white shadow-lg transform group-hover:scale-105 transition-transform duration-300`}>
                       <span role="img" aria-label="">{feature.icon}</span>
                     </div>
                   </div>
+                  
                   <div className="relative z-10">
                     <div className="inline-flex items-center gap-2 mb-3">
-                      <span className="text-xs font-bold px-3 py-1 bg-gray-100 text-gray-800 rounded-full group-hover:bg-white/80 transition-colors">
+                      {/* STAT PILL (Dark Mode) */}
+                      <span className="text-xs font-bold px-3 py-1 bg-white/10 text-slate-200 rounded-full group-hover:bg-blue-600/20 transition-colors">
                         {feature.stat}
                       </span>
                     </div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-gray-800 transition-colors">
+                    {/* BAŞLIK VE AÇIKLAMA */}
+                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-blue-300 transition-colors">
                       {feature.title}
                     </h3>
-                    <p className="text-gray-600 leading-relaxed text-sm">
+                    <p className="text-slate-400 leading-relaxed text-sm">
                       {feature.desc}
                     </p>
                   </div>
