@@ -163,7 +163,7 @@ export const viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#6d28d9", // themeColor metadata'dan viewport'a taşındı
+  themeColor: "#6d28d9",
 };
 
 
@@ -199,7 +199,6 @@ export default function RootLayout({ children }) {
 
         {/* ================================
             HEADER (Sabitlenmiş - Global)
-            Global Fixed Header: Navbar, UtilityBar, VideoRail
         ================================= */}
         <header
           id="_main_header" // SkipLinks hedefi
@@ -212,11 +211,8 @@ export default function RootLayout({ children }) {
           <StickyVideoRailclient />
         </header>
 
-        {/* Ana içerik, tüm locale layout'ları sarmalar */}
-        {/* main yerine div kullandık çünkü main etiketi locale layoutta kullanılacak */}
-        <div id="main-content-wrapper" className="flex-grow flex flex-col">
-          {children}
-        </div>
+        {/* Ana içerik (Lokal Layout) Fixed Header'dan sonra başlar */}
+        {children}
 
         {/* Analytics: gecikmeli yükleme */}
         {gaEnabled && (
