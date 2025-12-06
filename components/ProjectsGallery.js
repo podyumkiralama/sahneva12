@@ -47,8 +47,11 @@ const BLUR_DATA_URL =
   "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R";
 
 const DEFAULT_DICTIONARY = {
-  sectionTitle: "Referans Projelerimiz",
-  sectionDesc: "Türkiye'nin önde gelen markaları için gerçekleştirdiğimiz sahne, podyum ve teknik prodüksiyon çalışmalarından seçkiler.",
+  // BAŞLIK ALANI GÜNCELLENDİ
+  sectionTitlePrefix: "Başarılı",
+  sectionTitleHighlight: "Projelerimiz",
+  sectionDesc: "500'den fazla kurumsal etkinlik, konser, fuar ve özel organizasyonda güvenilir çözüm ortağı.",
+  
   exploreAria: "Galeriyi İncele — {{title}} ({{count}} görsel)",
   exploreHiddenLabel: "Galeriyi İncele — {{title}} ({{count}} görsel)",
   hoverCta: "İncele",
@@ -354,28 +357,29 @@ export default function ProjectsGallery({
 
   return (
     <section className="relative py-16 md:py-24 bg-[#0B1120] border-t border-white/5 overflow-hidden" aria-labelledby={regionLabelId}>
-      {/* Arka Plan Efektleri */}
+      {/* --- ARKA PLAN EFEKTLERİ (IZGARA + GLOW) --- */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        {/* IZGARA DESENİ (KUTUCUKLAR) */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]"></div>
+        
+        {/* RENKLİ GLOW EFEKTLERİ */}
         <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-indigo-600/10 blur-[150px] rounded-full mix-blend-screen"></div>
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-600/10 blur-[120px] rounded-full mix-blend-screen"></div>
       </div>
 
       <div className="container relative z-10 px-4 mx-auto">
         
-        {/* Başlık Alanı (SEO) */}
-        {!ariaLabelledBy && (
-            <ScrollReveal direction="up" delay="0.05">
-                <div className="text-center max-w-3xl mx-auto mb-16">
-                    <h2 id={regionLabelId} className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
-                        {dictionary.sectionTitle}
-                    </h2>
-                    <p className="text-slate-400 text-lg md:text-xl leading-relaxed">
-                        {dictionary.sectionDesc}
-                    </p>
-                </div>
-            </ScrollReveal>
-        )}
+        {/* --- BAŞLIK ALANI (COMPONENT İÇİNE ALINDI) --- */}
+        <ScrollReveal direction="up" delay="0.05">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+                <h2 id={regionLabelId} className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
+                    {dictionary.sectionTitlePrefix} <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">{dictionary.sectionTitleHighlight}</span>
+                </h2>
+                <p className="text-slate-400 text-lg md:text-xl leading-relaxed">
+                    {dictionary.sectionDesc}
+                </p>
+            </div>
+        </ScrollReveal>
 
         {/* Galeri Grid */}
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -458,7 +462,7 @@ export default function ProjectsGallery({
                  </div>
               </div>
 
-              {/* Alt Bilgi (Mobil + Desktop) */}
+              {/* Alt Bilgi */}
               <div className="absolute bottom-8 left-0 right-0 text-center pointer-events-none">
                  <div className="inline-block bg-black/60 backdrop-blur-md px-6 py-2 rounded-full border border-white/10">
                     <span className="text-white font-medium text-sm tracking-wide">
