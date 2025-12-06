@@ -656,23 +656,19 @@ export default function HomePage() {
                 </div>
               </ScrollReveal>
 
-              <ScrollReveal delay="0.4">
-                <h1
-                  id="hero-title"
-                  className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight"
-                >
-                  Daha sade, daha hızlı
-                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400">
-                    sahne ve teknik çözüm
-                  </span>
-                </h1>
-              </ScrollReveal>
+<ScrollReveal delay="0.4">
+  <h1
+    id="hero-title"
+    className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight"
+  >
+    Türkiye Geneli Profesyonel{" "}
+    <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400">
+      Sahne, Podyum ve LED Ekran
+    </span>
+    Kiralama Çözümleri
+  </h1>
+</ScrollReveal>
 
-              <ScrollReveal delay="0.6">
-                <p className="text-lg md:text-xl text-slate-100/90 max-w-3xl leading-relaxed">
-                  Sahne, podyum, LED ekran ve ses-ışık sistemlerini tek ekipten planlıyor, çizim ve ekipman listelerini hızlıca paylaşıyoruz. Tüm Türkiye’de aynı gün kurulum ve kesintisiz teknik destek sağlıyoruz.
-                </p>
-              </ScrollReveal>
 
               <ScrollReveal delay="0.8">
                 <KeywordPills />
