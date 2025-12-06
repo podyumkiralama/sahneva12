@@ -12,8 +12,7 @@ const SITE_URL =
 
 const content = LOCALE_CONTENT.tr;
 
-// Root Layout zaten title & description yönetiyor.
-// Bu layout sadece canonical + language alternates sağlar.
+// Metadata dil ayarları
 export const metadata = {
   alternates: {
     canonical: `${SITE_URL}/`,
@@ -33,24 +32,25 @@ export default function TurkishLayout({ children }) {
       dir={content.direction}
     >
       {/* ================================
-          HEADER
-          ID: _main_header  (SkipLinks hedefi)
+          HEADER (Sabitlenmiş)
+          ID: _main_header (SkipLinks hedefi)
       ================================= */}
       <header
         id="_main_header"
         role="banner"
         aria-label="Sahneva site başlığı ve ana gezinme"
-        className="w-full relative z-50"
+        // Sabit başlık için 'sticky top-0' yerine 'fixed top-0' kullanıldı.
+        className="w-full fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm shadow-md"
       >
         <UtilityBar />
         <Navbar />
-        <StickyVideoRailclient />
+        {/* StickyVideoRail client component olduğu için burada kalmalı */}
+        <StickyVideoRailclient /> 
       </header>
 
       {/* ================================
-          MAIN CONTENT
+          MAIN CONTENT (İçerik, Padding'i Header yüksekliğine ayarlar)
           ID: _main_content (SkipLinks hedefi)
-          Fixed header boşluğu: pt-16 / lg:pt-20
       ================================= */}
       <main
         id="_main_content"
@@ -59,14 +59,15 @@ export default function TurkishLayout({ children }) {
         aria-live="polite"
         aria-atomic="true"
         tabIndex={-1}
-        className="flex-1 pt-16 lg:pt-20 focus:outline-none scroll-mt-24"
+        // Sabit header yüksekliği kadar üst boşluk ekler (pt-16/lg:pt-20)
+        className="flex-1 pt-16 lg:pt-20 focus:outline-none scroll-mt-24" 
       >
+        {/* Children (page.js) içeriği burada render edilir */}
         <div className="overflow-x-hidden">{children}</div>
       </main>
 
       {/* ================================
           FOOTER
-          ID: _main_footer (SkipLinks hedefi)
       ================================= */}
       <footer
         id="_main_footer"
