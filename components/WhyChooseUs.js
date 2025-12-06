@@ -4,44 +4,98 @@
 import React, { useMemo } from "react";
 import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
 
+// —————————————————————————————————————————
+// YENİ KURUMSAL SİMGELER
+// Her simge, emojinin temsil ettiği anlamı yansıtır.
+// —————————————————————————————————————————
+
+// 1. Yüksek Müşteri Memnuniyeti (⭐ -> Yüksek Performans/Onay)
+const CheckStarIcon = ({ className }) => (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 005.944 21.056A11.97 11.97 0 0012 22c2.894 0 5.618-.87 7.944-2.378l.001-.001z" />
+    </svg>
+);
+
+// 2. Hızlı Kurulum ve Teslimat (⚡ -> Hız/Şimşek)
+const BoltClockIcon = ({ className }) => (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+    </svg>
+);
+
+// 3. Premium LED Ekran Teknolojisi (🖥️ -> Ekran/Monitör)
+const DisplayIcon = ({ className }) => (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l1-2h4l-1 2-1-3m-6.425-1h13.85a.75.75 0 00.75-.75V8.5a.75.75 0 00-.75-.75H3.325a.75.75 0 00-.75.75v7.25a.75.75 0 00.75.75z" />
+    </svg>
+);
+
+// 4. Uzman Teknik Ekip (👷 -> Kullanıcı/Takım)
+const UsersIcon = ({ className }) => (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v14h2M10 12h4m-2 2v-4m5 4v-4m0 0V8m0 4h2M8 12H6m0 4h2" />
+    </svg>
+);
+
+// 5. Rekabetçi Fiyat Garantisi (💰 -> Para/Etiket)
+const CurrencyIcon = ({ className }) => (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2m0 0l-1.429 2.143M12 4v4m0 4v4m0-4h2c1.657 0 3-.895 3-2s-1.343-2-3-2h-2z" />
+    </svg>
+);
+
+// 6. Türkiye Geneli Hizmet (🏙️ -> Dünya/Harita)
+const GlobeMapIcon = ({ className }) => (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-1.343 3-3s-1.343-3-3-3m0 6a3 3 0 100-6m0 6a3 3 0 110-6m-9-3h7.5" />
+    </svg>
+);
+
+
+// —————————————————————————————————————————
+// VERİLER (Simgeler ile Güncellendi)
+// —————————————————————————————————————————
+
+const ICON_CLASS = "w-8 h-8";
+
 const DEFAULT_FEATURES = [
   {
-    icon: "⭐",
+    icon: <CheckStarIcon className={ICON_CLASS} />,
     title: "Yüksek Müşteri Memnuniyeti",
     desc: "Her organizasyonda %98'in üzerinde müşteri memnuniyeti. Referanslar ve Google yorumları bizim güvencemiz.",
     stat: "%98 Memnuniyet",
     gradient: "from-yellow-400 to-orange-400",
   },
   {
-    icon: "⚡",
+    icon: <BoltClockIcon className={ICON_CLASS} />,
     title: "Hızlı Kurulum ve Teslimat",
     desc: "Aynı gün profesyonel sahne, LED ekran ve ses-ışık kurulumları.",
     stat: "2–6 Saat",
     gradient: "from-cyan-400 to-blue-400",
   },
   {
-    icon: "🖥️",
+    icon: <DisplayIcon className={ICON_CLASS} />,
     title: "Premium LED Ekran Teknolojisi",
     desc: "P2–P6 pixel pitch ile yüksek çözünürlüklü indoor/outdoor LED ekran.",
     stat: "P2–P6",
     gradient: "from-purple-400 to-pink-400",
   },
   {
-    icon: "👷",
+    icon: <UsersIcon className={ICON_CLASS} />,
     title: "Uzman Teknik Ekip",
     desc: "10+ yıl deneyimli sahne, ses, ışık ve LED uzmanlarından kadro.",
     stat: "15+ Uzman",
     gradient: "from-emerald-400 to-green-400",
   },
   {
-    icon: "💰",
+    icon: <CurrencyIcon className={ICON_CLASS} />,
     title: "Rekabetçi Fiyat Garantisi",
     desc: "Kaliteli hizmeti uygun fiyatla, bütçenize uygun çözümler.",
     stat: "%30 Tasarruf",
     gradient: "from-amber-400 to-orange-400",
   },
   {
-    icon: "🏙️",
+    icon: <GlobeMapIcon className={ICON_CLASS} />,
     title: "Türkiye Geneli Hizmet",
     desc: "İstanbul, Ankara, İzmir başta 81 ilde profesyonel hizmet.",
     stat: "81 İl",
@@ -57,21 +111,32 @@ const DEFAULT_DICTIONARY = {
   sectionDesc: "10 yılı aşkın deneyimimiz, uzman ekibimiz ve kaliteli ekipmanlarımızla fark yaratıyoruz.",
 };
 
+
+// —————————————————————————————————————————
+// ANA BİLEŞEN
+// —————————————————————————————————————————
+
 export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
   const dictionary = useMemo(() => ({ ...DEFAULT_DICTIONARY, ...dictionaryOverride }), [dictionaryOverride]);
 
   return (
     <section 
       // DARK MODE ZEMİN
-      className="py-16 md:py-24 bg-gradient-to-b from-[#0B1120] to-slate-900 overflow-hidden"
+      className="relative py-16 md:py-24 bg-gradient-to-b from-[#0B1120] to-slate-900 overflow-hidden"
       aria-labelledby="why-choose-title"
     >
-      <div className="container px-4 mx-auto">
+      
+      {/* IZGARA ÇİZGİLERİ */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]"></div>
+      </div>
+      
+      <div className="container px-4 mx-auto relative z-10">
         
-        {/* ——— BAŞLIK ALANI (Dark Mode Uyumlu) ——— */}
+        {/* ——— BAŞLIK ALANI ——— */}
         <ScrollReveal direction="up" delay="0.05">
             <div className="text-center max-w-4xl mx-auto mb-16">
-                 {/* Hap Etiket (Orange Accent) */}
+                 {/* Hap Etiket */}
                  <div className="flex justify-center mb-4">
                     <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-300 text-xs font-bold uppercase tracking-wider shadow-sm">
                        <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse" aria-hidden="true" />
@@ -79,54 +144,58 @@ export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
                     </span>
                 </div>
 
-                {/* Ana Başlık (White Text + Gradient) */}
+                {/* Ana Başlık */}
                 <h2 id="why-choose-title" className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
                     {dictionary.sectionTitlePrefix} <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-400">{dictionary.sectionTitleHighlight}</span>{dictionary.sectionTitleSuffix}
                 </h2>
                 
-                {/* Açıklama (Slate Text) */}
+                {/* Açıklama */}
                 <p className="text-slate-400 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
                     {dictionary.sectionDesc}
                 </p>
             </div>
         </ScrollReveal>
 
-        {/* ——— KARTLAR GRID ALANI (Dark Mode + Spot Işık) ——— */}
+        {/* ——— KARTLAR GRID ALANI ——— */}
         <ScrollRevealGroup>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" role="list">
             {DEFAULT_FEATURES.map((feature, index) => (
               <ScrollReveal key={index} delay={String((index % 3) * 0.1)} direction="up" asChild>
                 <article
                   role="listitem"
-                  // KART STİLİ (DARK MODE)
                   className="group relative bg-white/5 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-500 border border-white/10 hover:border-blue-500/30 overflow-hidden hover:-translate-y-1"
                 >
                   
-                  {/* SPOT IŞIĞI (ALT KISIM) */}
+                  {/* SPOT IŞIĞI (MOR DEFAULT -> MAVİ HOVER) */}
                   <div 
                     className={`
-                      absolute bottom-0 left-0 right-0 h-16 w-full opacity-0 group-hover:opacity-100 transition-opacity duration-500
-                      bg-gradient-to-t from-purple-500/40 via-transparent to-transparent 
+                      absolute bottom-0 left-0 right-0 h-24 w-full transition-all duration-300
                       filter blur-xl pointer-events-none transform translate-y-full group-hover:translate-y-0
+
+                      /* DEFAULT (MOR) */
+                      opacity-50 bg-gradient-to-t from-purple-500/50 via-transparent to-transparent 
+
+                      /* HOVER (MAVİ) */
+                      group-hover:opacity-100 group-hover:from-blue-500/60 group-hover:to-transparent 
                     `}
                     aria-hidden="true"
                   />
                   
-                  {/* Gradient Overlay (Hafif Glow Efekti) */}
+                  {/* Gradient Overlay */}
                   <div
                     className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-[0.03] transition-opacity duration-500`}
                     aria-hidden="true"
                   />
                   
                   <div className="relative z-10 mb-6">
+                    {/* SİMGELERİN KONTEYNERİ */}
                     <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center text-2xl text-white shadow-lg transform group-hover:scale-105 transition-transform duration-300`}>
-                      <span role="img" aria-label="">{feature.icon}</span>
+                      {feature.icon}
                     </div>
                   </div>
                   
                   <div className="relative z-10">
                     <div className="inline-flex items-center gap-2 mb-3">
-                      {/* STAT PILL (Dark Mode) */}
                       <span className="text-xs font-bold px-3 py-1 bg-white/10 text-slate-200 rounded-full group-hover:bg-blue-600/20 transition-colors">
                         {feature.stat}
                       </span>
