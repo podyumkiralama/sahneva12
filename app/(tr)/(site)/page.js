@@ -635,138 +635,147 @@ export default function HomePage() {
       <StructuredData />
 
                       {/* HERO BÖLÜMÜ – Stripe tarzı, sade ve ortalanmış */}
-      <section
-        className="relative min-h-[80vh] flex items-center overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-black"
-        aria-labelledby="hero-title"
-      >
-        {/* Arka plan görsel + overlay */}
-        <div className="absolute inset-0">
-          <HeroBackgroundImage />
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/75 to-slate-900/70" />
-        </div>
+     import React from "react";
+import Link from "next/link";
+// lucide-react kullanıyorsan:
+// npm i lucide-react
+import { ArrowRight, Star } from "lucide-react";
+import { ScrollReveal } from "@/components/ScrollReveal"; // kendi bileşenin
 
-        <div className="relative z-10 container px-4 py-16 lg:py-24">
-          <div className="max-w-6xl mx-auto flex flex-col gap-10">
-            {/* Üst blok: badge + H1 + açıklama + CTA (tam ortalı) */}
-            <div className="text-center space-y-7">
-              <ScrollReveal direction="down" delay="0.15">
-                <div className="flex justify-center">
-                  <div className="inline-flex items-center gap-3 rounded-full bg-white/10 px-4 py-2 border border-white/15 shadow-lg backdrop-blur-sm">
-                    <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-                    <span className="text-xs md:text-sm font-semibold text-white/85">
-                      Sahneva Organizasyon • Türkiye Geneli Profesyonel Hizmet
-                    </span>
-                  </div>
-                </div>
-              </ScrollReveal>
+const HeroSection = () => {
+  return (
+    <section
+      className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#020617]"
+      aria-labelledby="hero-title"
+    >
+      {/* --- ARKA PLAN EFEKTLERİ --- */}
+      <div className="absolute inset-0 z-0">
+        {/* Grid pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
+        {/* Üstten mask */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,transparent_70%,#020617_100%)]" />
+      </div>
 
-              <ScrollReveal delay="0.3">
-                <h1
-                  id="hero-title"
-                  className="text-4xl md:text-6xl lg:text-[3.4rem] xl:text-[3.8rem] font-black text-white leading-tight tracking-tight"
-                >
-                  Türkiye Geneli Profesyonel{" "}
-                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400">
-                    Sahne, Podyum ve LED Ekran
-                  </span>
-                  Kiralama Çözümleri
-                </h1>
-              </ScrollReveal>
+      {/* Spotlight */}
+      <div
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-purple-500/20 blur-[120px] rounded-full mix-blend-screen pointer-events-none"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-blue-500/10 blur-[100px] rounded-full mix-blend-screen pointer-events-none"
+        aria-hidden="true"
+      />
 
-              <ScrollReveal delay="0.45">
-                <p className="text-base md:text-lg text-slate-100/90 max-w-3xl mx-auto leading-relaxed">
-                  Sahne, podyum, LED ekran ve ses-ışık sistemlerini tek ekipten
-                  planlıyor, çizim ve ekipman listelerini hızlıca paylaşıyoruz.
-                  Tüm Türkiye’de aynı gün veya ertesi gün kurulum ve kesintisiz
-                  teknik destek sağlıyoruz.
-                </p>
-              </ScrollReveal>
-
-              <ScrollReveal delay="0.6">
-                <div className="flex justify-center">
-                  <KeywordPills />
-                </div>
-              </ScrollReveal>
-
-              <ScrollReveal delay="0.8">
-                <CTAGroup />
-              </ScrollReveal>
+      {/* --- İÇERİK ALANI --- */}
+      <div className="relative z-10 container px-4 py-20">
+        <div className="max-w-5xl mx-auto flex flex-col items-center text-center gap-8">
+          {/* Badge */}
+          <ScrollReveal direction="down" delay="0.1">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md shadow-[0_0_20px_rgba(168,85,247,0.15)] transition-transform hover:scale-105 cursor-default">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              </span>
+              <span className="text-xs font-medium text-emerald-100/90 tracking-wide">
+                Türkiye geneli sahne, podyum ve LED ekran kiralama
+              </span>
             </div>
-
-            {/* Alt blok: stripevari istatistik şeridi (kutusuz, çok sade) */}
-            <ScrollReveal delay="1" direction="up">
-              <div className="flex flex-col gap-4 items-center">
-                <div className="flex flex-wrap justify-center gap-3">
-                  {HERO_STATS.map((item) => (
-                    <div
-                      key={item.label}
-                      className="
-                        inline-flex flex-col items-start
-                        rounded-2xl bg-white/5 border border-white/10
-                        px-4 py-3 min-w-[130px]
-                        text-left text-white/90 backdrop-blur-sm
-                      "
-                    >
-                      <span className="text-lg font-bold leading-tight">
-                        {item.value}
-                      </span>
-                      <span className="text-[11px] uppercase tracking-wide text-white/60">
-                        {item.label}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-                <p className="text-[11px] md:text-xs text-slate-200/70 text-center">
-                  Kurumsal etkinlikler, festivaller ve lansmanlar için uçtan uca
-                  sahne, podyum, LED ekran ve ses–ışık prodüksiyon çözümleri.
-                </p>
-              </div>
-            </ScrollReveal>
-          </div>
-        </div>
-      </section>
-
-
-      {/* ÖZELLİKLER ve DANIŞMANLIK */}
-      <section
-        className="py-12 md:py-16 bg-gradient-to-b from-slate-950 to-slate-900"
-        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
-      >
-        <div className="container px-4 space-y-12">
-          <HeroFeatureGrid />
-          <ConsultationCard />
-        </div>
-      </section>
-
-      {/* TEKLİF AL HEDEFİ */}
-      <div id="teklif-al" className="scroll-mt-24" />
-
-      {/* GOOGLE YORUMLARI */}
-      <section style={BELOW_THE_FOLD_VISIBILITY_STYLE}>
-        <ReviewBannerDeferred idleTimeout={2000} rootMargin="100px" />
-      </section>
-
-      {/* HİZMETLER */}
-      <section
-        className="py-16 md:py-20 bg-gradient-to-b from-white to-blue-50"
-        aria-labelledby="hizmetler-title"
-        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
-      >
-        <div className="container px-4">
-          <ScrollReveal>
-            <SectionHeader
-              id="hizmetler-title"
-              title="Profesyonel Ses-Işık Sistemleri ve "
-              highlight="Hizmetlerimiz"
-              description="Türkiye geneli sahne, podyum, LED ekran kiralama ve ses-ışık sistemleri kurulumu sağlıyoruz. Farklı şehirlerdeki ekibimizle ekran kiralama, sahne kiralama, podyum kiralama ve ses-ışık entegrasyonunu tek elden planlıyoruz."
-            />
           </ScrollReveal>
 
-          <div className="mt-12 -mx-2 sm:-mx-4 lg:-mx-6 xl:-mx-10 px-2 sm:px-4 lg:px-6 xl:px-10">
-            <ServicesTabsDeferred idleTimeout={2800} rootMargin="200px" />
-          </div>
+          {/* Başlık */}
+          <ScrollReveal delay="0.2">
+            <h1
+              id="hero-title"
+              className="text-5xl md:text-7xl lg:text-[5rem] font-bold tracking-tight text-white leading-[1.1]"
+            >
+              Türkiye Geneli{" "}
+              <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/50">
+                Sahne, Podyum ve LED Ekran
+              </span>
+              <span className="block mt-2 text-4xl md:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 font-extrabold">
+                Kiralama Çözüm Ortağınız
+              </span>
+            </h1>
+          </ScrollReveal>
+
+          {/* Açıklama */}
+          <ScrollReveal delay="0.3">
+            <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
+              Etkinliğiniz için gereken{" "}
+              <span className="text-slate-200">
+                sahne, podyum, LED ekran, ses ve ışık sistemlerini
+              </span>{" "}
+              tek merkezden planlıyor, Türkiye’nin her yerine kusursuz kurulum
+              ve teknik operasyon sağlıyoruz.
+            </p>
+          </ScrollReveal>
+
+          {/* CTA’lar */}
+          <ScrollReveal delay="0.4">
+            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mt-4">
+              {/* WhatsApp teklif – anchor (gerçek aksiyon) */}
+              <a
+                href="https://wa.me/905453048671?text=Merhaba%2C+Sahneva+web+sitesinden+yaz%C4%B1yorum.+Etkinlik+i%C3%A7in+teklif+almak+istiyorum."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-full bg-white px-8 font-medium text-slate-950 transition-all hover:bg-slate-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-900"
+                aria-label="WhatsApp üzerinden hızlı teklif alın (yeni sekmede açılır)"
+              >
+                <span className="mr-2">Hemen Teklif Al</span>
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                <div className="absolute inset-0 -z-10 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 opacity-0 transition-opacity duration-500 group-hover:opacity-10" />
+              </a>
+
+              {/* Projeler – projeler bölümüne scroll */}
+              <Link
+                href="#projeler-title"
+                className="inline-flex h-12 items-center justify-center rounded-full border border-slate-800 bg-slate-950/50 px-8 font-medium text-slate-300 backdrop-blur-sm transition-all hover:bg-slate-900 hover:text-white hover:border-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-600 focus:ring-offset-2 focus:ring-offset-slate-900"
+              >
+                Projelerimizi İncele
+              </Link>
+            </div>
+          </ScrollReveal>
+
+          {/* Alt İstatistik Barı */}
+          <ScrollReveal delay="0.6" direction="up">
+            <div className="mt-12 p-1 rounded-3xl bg-gradient-to-b from-white/10 to-transparent">
+              <div className="bg-slate-950/80 backdrop-blur-xl border border-white/5 rounded-[20px] px-8 py-6 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+                {STATS_DATA.map((stat, index) => (
+                  <div
+                    key={index}
+                    className="flex flex-col items-center justify-center text-center"
+                  >
+                    <span className="text-2xl md:text-3xl font-bold text-white mb-1">
+                      {stat.value}
+                    </span>
+                    <span className="text-xs uppercase tracking-wider text-slate-500 font-semibold">
+                      {stat.label}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <p className="mt-6 text-xs text-slate-500 flex items-center justify-center gap-2">
+              <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
+              <span>500+ mutlu müşteri referansı ile Türkiye geneli hizmet.</span>
+            </p>
+          </ScrollReveal>
         </div>
-      </section>
+      </div>
+    </section>
+  );
+};
+
+// Stats verileri
+const STATS_DATA = [
+  { value: "81", label: "İlde Hizmet" },
+  { value: "500+", label: "Tamamlanan Proje" },
+  { value: "2–6s", label: "Ortalama Kurulum" },
+  { value: "%98", label: "Memnuniyet" },
+];
+
+export default HeroSection;
+
 
       {/* PROJELER */}
       <section
