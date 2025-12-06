@@ -865,29 +865,19 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* KURUMSAL ORGANİZASYON */}
-      <section
-        className="py-16 md:py-20 bg-white"
-        aria-labelledby="kurumsal-title"
-        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
-      >
-        <div className="container px-4">
-          <ScrollReveal>
-            <SectionHeader
-              id="kurumsal-title"
-              title="Kurumsal "
-              highlight="Sahne, Podyum ve LED Ekran Kiralama Çözümlerimiz"
-              description="Lansman, konferans, bayi toplantısı ve kurumsal etkinlikleriniz için sahne, podyum, LED ekran, ses–ışık ve teknik operasyonu tek çatı altında sunuyoruz."
-              align="left"
-            />
-          </ScrollReveal>
+     <section
+  className="py-16 md:py-20 bg-white"
+  aria-labelledby="kurumsal-intro-title"
+  style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+>
+  <div className="container px-4">
+    <div className="space-y-16">
+      <CorporateIntro />   {/* içine başlığı taşıyacağız */}
+      <CorporateEvents />
+    </div>
+  </div>
+</section>
 
-          <div className="mt-12 space-y-16">
-            <CorporateIntro />
-            <CorporateEvents />
-          </div>
-        </div>
-      </section>
 
       {/* NEDEN SAHNEVA */}
       <section
