@@ -79,6 +79,7 @@ const websiteJsonLd = {
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   manifest: "/manifest.json",
+  themeColor: "#6d28d9",
   title: {
     default:
       "Sahne, Podyum & LED Ekran Kiralama | Sahneva Organizasyon",
