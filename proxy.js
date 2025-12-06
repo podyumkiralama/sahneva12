@@ -66,7 +66,7 @@ export const config = {
   matcher: ["/:path*"],
 };
 
-export default function middleware(request) {
+export default function proxy(request) {
   const accept = request.headers.get("accept");
 
   if (!accept || !accept.includes(HTML_ACCEPT_HEADER)) {
