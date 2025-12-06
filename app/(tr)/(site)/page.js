@@ -12,12 +12,11 @@ import CorporateIntro from "@/components/CorporateIntro";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import TechCapabilities from "@/components/TechCapabilities";
 
-// 2. Client / Lazy Load Bileşenler (Performans İçin)
+// 2. Client / Lazy Load Bileşenler (ReviewBannerDeferred kaldırıldı)
 import {
-  ReviewBannerDeferred,
-  ServicesTabsDeferred,
-  ProjectsGalleryDeferred,
-  FaqDeferred,
+  ServicesTabsDeferred,
+  ProjectsGalleryDeferred,
+  FaqDeferred,
 } from "@/components/DeferredSections.client";
 
 // —————————————————————————————————————————
@@ -25,101 +24,95 @@ import {
 // —————————————————————————————————————————
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
-  "https://www.sahneva.com";
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
+  "https://www.sahneva.com";
 
 // Ekranın alt kısımları için performans optimizasyonu (Layout Shift'i önler)
 const BELOW_THE_FOLD_VISIBILITY_STYLE = Object.freeze({
-  contentVisibility: "auto",
-  containIntrinsicSize: "1px 800px",
+  contentVisibility: "auto",
+  containIntrinsicSize: "1px 800px",
 });
 
 // Next.js ISR (Incremental Static Regeneration) süresi
 export const revalidate = 3600;
 
 // —————————————————————————————————————————
-// JSON-LD (Schema.org) - SEO VERİLERİ (Root layout'dan farklı verileri içerir)
+// JSON-LD (Schema.org) - SEO VERİLERİ (Aynı kaldı)
 // —————————————————————————————————————————
 function StructuredData() {
-  const HOME_URL = SITE_URL;
-  const ORGANIZATION_ID = `${SITE_URL}/#org`;
-  const WEBSITE_ID = `${SITE_URL}/#website`;
-  const WEBPAGE_ID = `${SITE_URL}/#webpage`;
+  const HOME_URL = SITE_URL;
+  const ORGANIZATION_ID = `${SITE_URL}/#org`;
+  const WEBSITE_ID = `${SITE_URL}/#website`;
+  const WEBPAGE_ID = `${SITE_URL}/#webpage`;
 
-  const data = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebPage",
-        "@id": WEBPAGE_ID,
-        url: HOME_URL,
-        name: "Sahne Sistemleri, LED Ekran, Ses-Işık Kiralama | Türkiye Geneli | Sahneva",
-        description:
-          "Sahneva ile profesyonel sahne, podyum, LED ekran, ses ve ışık sistemleri kiralama çözümlerini keşfedin. İstanbul merkezli, Türkiye geneli hızlı kurulum.",
-        inLanguage: "tr-TR",
-        isPartOf: { "@id": WEBSITE_ID },
-        about: { "@id": ORGANIZATION_ID },
-      },
-    ],
-  };
+  const data = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": WEBPAGE_ID,
+        url: HOME_URL,
+        name: "Sahne Sistemleri, LED Ekran, Ses-Işık Kiralama | Türkiye Geneli | Sahneva",
+        description:
+          "Sahneva ile profesyonel sahne, podyum, LED ekran, ses ve ışık sistemleri kiralama çözümlerini keşfedin. İstanbul merkezli, Türkiye geneli hızlı kurulum.",
+        inLanguage: "tr-TR",
+        isPartOf: { "@id": WEBSITE_ID },
+        about: { "@id": ORGANIZATION_ID },
+      },
+    ],
+  };
 
-  return (
-    <script
-      type="application/ld+json"
-      suppressHydrationWarning
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
+  return (
+    <script
+      type="application/ld+json"
+      suppressHydrationWarning
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
 }
 
 // —————————————————————————————————————————
 // ANA SAYFA (HOME PAGE)
 // —————————————————————————————————————————
 export default function HomePage() {
-  return (
-    <div className="bg-slate-50"> {/* Base renk, componentler bunu override eder */}
-      <StructuredData />
+  return (
+    <div className="bg-slate-50">
+      <StructuredData />
 
-      {/* 1. HERO BÖLÜMÜ */}
-      <HeroSection />
+      {/* 1. HERO BÖLÜMÜ */}
+      <HeroSection />
 
-      {/* 2. TEKLİF AL (Anchor Hedefi) */}
-      <div id="teklif-al" className="scroll-mt-24" />
+      {/* 2. TEKLİF AL (Anchor Hedefi) */}
+      <div id="teklif-al" className="scroll-mt-24" />
 
-      {/* 3. MÜŞTERİ YORUMLARI */}
-      <section style={BELOW_THE_FOLD_VISIBILITY_STYLE} aria-labelledby="reviews-section">
-        <h2 id="reviews-section" className="sr-only">Müşteri Yorumları</h2>
-        <ReviewBannerDeferred idleTimeout={2000} rootMargin="100px" />
-      </section>
+      {/* 3. HİZMETLER (Önceki 4. bölüm) */}
+      <ServicesTabsDeferred idleTimeout={2800} rootMargin="200px" />
 
-      {/* 4. HİZMETLER */}
-      <ServicesTabsDeferred idleTimeout={2800} rootMargin="200px" />
+      {/* 4. PROJELER GALERİSİ (Önceki 5. bölüm) */}
+      <ProjectsGalleryDeferred idleTimeout={3200} rootMargin="250px" />
 
-      {/* 5. PROJELER GALERİSİ */}
-      <ProjectsGalleryDeferred idleTimeout={3200} rootMargin="250px" />
+      {/* 5. KURUMSAL (Önceki 6. bölüm) */}
+      <section
+        className="py-16 md:py-24 bg-white"
+        aria-labelledby="kurumsal-intro-title"
+        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+      >
+        <div className="container px-4 mx-auto">
+          <div className="space-y-20">
+            <CorporateIntro />
+            <CorporateEvents />
+          </div>
+        </div>
+      </section>
 
-      {/* 6. KURUMSAL */}
-      <section
-        className="py-16 md:py-24 bg-white"
-        aria-labelledby="kurumsal-intro-title"
-        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
-      >
-        <div className="container px-4 mx-auto">
-          <div className="space-y-20">
-            <CorporateIntro />
-            <CorporateEvents />
-          </div>
-        </div>
-      </section>
+      {/* 6. NEDEN BİZ? (Önceki 7. bölüm) */}
+      <WhyChooseUs />
 
-      {/* 7. NEDEN BİZ? */}
-      <WhyChooseUs />
+      {/* 7. TEKNİK KAPASİTE (Önceki 8. bölüm) */}
+      <TechCapabilities />
 
-      {/* 8. TEKNİK KAPASİTE */}
-      <TechCapabilities />
-
-      {/* 9. SSS (FAQ) */}
-      <FaqDeferred idleTimeout={3600} rootMargin="300px" />
-    </div>
-  );
+      {/* 8. SSS (FAQ) (Önceki 9. bölüm) */}
+      <FaqDeferred idleTimeout={3600} rootMargin="300px" />
+    </div>
+  );
 }
