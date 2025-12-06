@@ -3,7 +3,6 @@
 
 import React, { useMemo } from "react";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import Link from "next/link";
 
 const SEO_TECH_FEATURES = [
   "IP65 dış mekân LED paneller, 4500+ nit parlaklık",
@@ -42,9 +41,10 @@ export default function TechCapabilities({ dictionary: dictionaryOverride }) {
     >
       <div className="container px-4 mx-auto">
         
-        {/* ——— BAŞLIK ALANI ——— */}
+        {/* ——— BAŞLIK ALANI (Pill + Gradient) ——— */}
         <ScrollReveal direction="up" delay="0.05">
             <div className="text-center max-w-4xl mx-auto mb-16">
+                 {/* Hap Etiket */}
                  <div className="flex justify-center mb-4">
                     <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 text-xs font-bold uppercase tracking-wider shadow-sm">
                        <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" aria-hidden="true" />
@@ -52,15 +52,17 @@ export default function TechCapabilities({ dictionary: dictionaryOverride }) {
                     </span>
                 </div>
 
+                {/* Ana Başlık */}
                 <h2 id="tech-capabilities-title" className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
                     {dictionary.sectionTitlePrefix} <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-600">{dictionary.sectionTitleHighlight}</span> {dictionary.sectionTitleSuffix}
                 </h2>
             </div>
         </ScrollReveal>
 
+        {/* ——— KARTLAR SPLIT ALANI ——— */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
             
-            {/* SOL KART */}
+            {/* SOL KART: TEKNİK ÇÖZÜMLER */}
             <ScrollReveal direction="left" delay="0.1">
               <article className="h-full bg-gradient-to-br from-slate-50 to-white rounded-3xl p-8 md:p-10 shadow-lg border border-slate-100 hover:shadow-xl hover:border-blue-100 transition-all duration-300">
                 <div className="flex items-center gap-5 mb-8">
@@ -91,7 +93,7 @@ export default function TechCapabilities({ dictionary: dictionaryOverride }) {
               </article>
             </ScrollReveal>
 
-            {/* SAĞ KART */}
+            {/* SAĞ KART: BÜYÜK KAPASİTE */}
             <ScrollReveal direction="right" delay="0.2">
               <article className="h-full bg-gradient-to-br from-slate-50 to-white rounded-3xl p-8 md:p-10 shadow-lg border border-slate-100 hover:shadow-xl hover:border-purple-100 transition-all duration-300">
                 <div className="flex items-center gap-5 mb-8">
