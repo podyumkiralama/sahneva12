@@ -634,7 +634,7 @@ export default function HomePage() {
     <div className="overflow-x-hidden">
       <StructuredData />
 
-           {/* HERO BÖLÜMÜ – Yenilenmiş Tasarım */}
+                {/* HERO BÖLÜMÜ – Stripe tarzı, merkezlenmiş kompozisyon */}
       <section
         className="relative min-h-[80vh] flex items-center overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-black"
         aria-labelledby="hero-title"
@@ -646,15 +646,17 @@ export default function HomePage() {
         </div>
 
         <div className="relative z-10 container px-4 py-16 lg:py-24">
-          <div className="grid max-w-6xl mx-auto items-center gap-12 lg:grid-cols-[1.2fr_0.9fr]">
-            {/* Sol: Başlık + açıklama + CTA */}
-            <div className="text-left space-y-7">
+          <div className="max-w-6xl mx-auto flex flex-col gap-12">
+            {/* Üst blok: badge + H1 + açıklama + CTA (tam ortalı) */}
+            <div className="text-center space-y-7">
               <ScrollReveal direction="down" delay="0.15">
-                <div className="inline-flex items-center gap-3 rounded-full bg-white/8 px-4 py-2 border border-white/15 shadow-lg backdrop-blur-sm">
-                  <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-                  <span className="text-xs md:text-sm font-semibold text-white/85">
-                    Sahneva Organizasyon • Türkiye Geneli Profesyonel Hizmet
-                  </span>
+                <div className="flex justify-center">
+                  <div className="inline-flex items-center gap-3 rounded-full bg-white/10 px-4 py-2 border border-white/15 shadow-lg backdrop-blur-sm">
+                    <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+                    <span className="text-xs md:text-sm font-semibold text-white/85">
+                      Sahneva Organizasyon • Türkiye Geneli Profesyonel Hizmet
+                    </span>
+                  </div>
                 </div>
               </ScrollReveal>
 
@@ -672,7 +674,7 @@ export default function HomePage() {
               </ScrollReveal>
 
               <ScrollReveal delay="0.45">
-                <p className="text-base md:text-lg text-slate-100/90 max-w-3xl leading-relaxed">
+                <p className="text-base md:text-lg text-slate-100/90 max-w-3xl mx-auto leading-relaxed">
                   Sahne, podyum, LED ekran ve ses-ışık sistemlerini tek ekipten
                   planlıyor, çizim ve ekipman listelerini hızlıca paylaşıyoruz.
                   Tüm Türkiye’de aynı gün veya ertesi gün kurulum ve kesintisiz
@@ -681,7 +683,9 @@ export default function HomePage() {
               </ScrollReveal>
 
               <ScrollReveal delay="0.6">
-                <KeywordPills />
+                <div className="flex justify-center">
+                  <KeywordPills />
+                </div>
               </ScrollReveal>
 
               <ScrollReveal delay="0.8">
@@ -689,77 +693,86 @@ export default function HomePage() {
               </ScrollReveal>
             </div>
 
-            {/* Sağ: Özet / güven kartı */}
-            <ScrollReveal delay="0.5" direction="up">
-              <aside
-                className="rounded-3xl bg-white/6 border border-white/12 backdrop-blur-xl p-6 md:p-7 lg:p-8 shadow-2xl space-y-6"
-                aria-label="Sahneva proje özet istatistikleri"
-              >
-                {/* Üst blok */}
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-2xl text-white shadow-lg">
-                    🎛️
-                  </div>
-                  <div className="text-white">
-                    <p className="text-xs uppercase tracking-wide text-white/70">
-                      Teknik koordinasyon
-                    </p>
-                    <p className="text-lg font-bold">
-                      Başlangıçtan final sahne ışığına kadar tek sorumlu ekip
-                    </p>
-                  </div>
+            {/* Alt blok: solda kısa özet, sağda stats kutusu */}
+            <div className="grid items-stretch gap-8 lg:grid-cols-[1.15fr_0.9fr]">
+              {/* Sol kolon – küçük açıklama / ek güven metni */}
+              <ScrollReveal delay="0.5" direction="left">
+                <div className="text-left text-slate-100/90 space-y-4 max-w-xl">
+                  <p className="text-sm uppercase tracking-[0.18em] text-slate-300">
+                    TEKNİK KOORDİNASYON • SAHNEVA
+                  </p>
+                  <p className="text-lg leading-relaxed">
+                    Etkinlik alanı ölçülerine göre{" "}
+                    <span className="font-semibold text-sky-300">
+                      sahne ve podyum planı
+                    </span>{" "}
+                    çıkarıyor, LED ekran konumlandırmasını ve ses-ışık dağılımını
+                    simülasyonlarla birlikte sunuyoruz. Keşif, kurulum ve
+                    etkinlik günü tek sorumlu ekip ile çalışırsınız.
+                  </p>
+                  <p className="text-sm text-slate-300">
+                    Konser, festival, kurumsal lansman, fuar ve özel
+                    organizasyonlarda; enerji altyapısı, truss yük hesapları ve
+                    güvenlik bariyerleri dahil tüm teknik detayları raporlayarak
+                    paylaşıyoruz.
+                  </p>
                 </div>
+              </ScrollReveal>
 
-                {/* İstatistik grid */}
-                <div className="grid grid-cols-2 gap-3">
-                  {HERO_STATS.map((item) => (
-                    <div
-                      key={item.label}
-                      className="rounded-2xl bg-black/35 border border-white/10 px-4 py-3 text-white"
-                    >
-                      <div className="text-xl md:text-2xl font-black leading-tight">
-                        {item.value}
-                      </div>
-                      <div className="text-[11px] uppercase tracking-wide text-white/70">
-                        {item.label}
-                      </div>
+              {/* Sağ kolon – Stripe benzeri stats kutusu (butonsuz) */}
+              <ScrollReveal delay="0.55" direction="up">
+                <aside
+                  className="rounded-3xl bg-white/7 border border-white/15 backdrop-blur-xl p-6 md:p-7 lg:p-8 shadow-2xl space-y-6"
+                  aria-label="Sahneva proje özet istatistikleri"
+                >
+                  {/* Üst blok */}
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-2xl text-white shadow-lg">
+                      🎛️
                     </div>
-                  ))}
-                </div>
+                    <div className="text-white">
+                      <p className="text-xs uppercase tracking-wide text-white/70">
+                        Teknik koordinasyon
+                      </p>
+                      <p className="text-lg font-bold">
+                        Başlangıçtan final sahne ışığına kadar tek sorumlu ekip
+                      </p>
+                    </div>
+                  </div>
 
-                {/* Hızlı iletişim satırı */}
-                <div className="rounded-2xl border border-emerald-400/35 bg-emerald-500/12 px-4 py-3 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                  <div>
+                  {/* İstatistik grid */}
+                  <div className="grid grid-cols-2 gap-3">
+                    {HERO_STATS.map((item) => (
+                      <div
+                        key={item.label}
+                        className="rounded-2xl bg-black/35 border border-white/10 px-4 py-3 text-white"
+                      >
+                        <div className="text-xl md:text-2xl font-black leading-tight">
+                          {item.value}
+                        </div>
+                        <div className="text-[11px] uppercase tracking-wide text-white/70">
+                          {item.label}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Hızlı iletişim satırı – SADE, BUTONSUZ */}
+                  <div className="rounded-2xl border border-emerald-400/40 bg-emerald-500/10 px-4 py-3 text-white">
                     <p className="text-[11px] font-semibold uppercase tracking-wide text-emerald-200">
-                      Hızlı Destek Hattı
+                      Hızlı destek hattı
                     </p>
                     <p className="text-lg font-bold leading-tight">
                       +90 545 304 86 71
                     </p>
                     <p className="text-xs text-emerald-100/80 mt-1">
-                      Teknik keşif ve fiyatlandırma için 2 saat içinde dönüş.
+                      Teknik keşif, fiyatlandırma ve etkinlik planlaması için
+                      2 saat içinde geri dönüş sağlıyoruz.
                     </p>
                   </div>
-                  <div className="flex gap-2 w-full sm:w-auto">
-                    <a
-                      href="tel:+905453048671"
-                      className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-white text-emerald-700 font-semibold px-3 py-2 text-sm shadow-md hover:shadow-lg hover:bg-emerald-50 transition-colors"
-                    >
-                      📞 Ara
-                    </a>
-                    <a
-                      href={`https://wa.me/905453048671?text=${CTA_WHATSAPP_MESSAGE}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-500 text-white font-semibold px-3 py-2 text-sm shadow-md hover:shadow-lg hover:bg-emerald-600 transition-colors"
-                      aria-label="WhatsApp üzerinden hızlı teklif iste"
-                    >
-                      💬 WhatsApp
-                    </a>
-                  </div>
-                </div>
-              </aside>
-            </ScrollReveal>
+                </aside>
+              </ScrollReveal>
+            </div>
           </div>
         </div>
       </section>
