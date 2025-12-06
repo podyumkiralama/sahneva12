@@ -496,7 +496,7 @@ function HeroSection() {
       <div className="absolute inset-0 z-0">
         {/* LÜTFEN public/images/hero-bg.jpg YOLUNDA BİR RESİM OLDUĞUNDAN EMİN OLUN */}
         <img
-          src="/images/hero-bg.jpg"
+          src="/images/hero-bg.webp"
           alt="Sahneva Sahne ve Etkinlik Kurulumu"
           className="absolute inset-0 w-full h-full object-cover"
         />
