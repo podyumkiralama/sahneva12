@@ -7,7 +7,7 @@ import Link from "next/link";
 import { ScrollReveal } from "@/components/ScrollReveal";
 
 // —————————————————————————————————————————
-// İKONLAR (Tasarım için gerekli yeni ikonlar)
+// İKONLAR
 // —————————————————————————————————————————
 
 const TechCheckIcon = () => (
@@ -37,7 +37,7 @@ const ArrowRightIcon = ({ className }) => (
 );
 
 // —————————————————————————————————————————
-// VERİLER (ORİJİNAL İÇERİKLERİN)
+// VERİLER (ORİJİNAL)
 // —————————————————————————————————————————
 
 const DEFAULT_SERVICES = [
@@ -264,17 +264,24 @@ function ServicesTabsComponent({
   return (
     <div className="w-full relative">
       
-      {/* 1. SEKMELER (NAVIGASYON) */}
+      {/* 1. SEKMELER (GRID LAYOUT - DÜZELTİLDİ) */}
       <ScrollReveal direction="down" delay="0.1">
-        <div className="relative mb-10 z-20">
+        <div className="relative mb-8 z-20">
           <div
             ref={listRef}
-            className="overflow-x-auto scrollbar-hide -mx-4 pb-4 md:pb-0 px-4 focus:outline-none"
+            // DEĞİŞİKLİK BURADA: Mobilde yatay scroll, Masaüstünde (md+) taşma yok (visible)
+            className="overflow-x-auto scrollbar-hide -mx-4 pb-4 md:pb-0 px-4 md:overflow-visible focus:outline-none"
             role="tablist"
             aria-label={dictionary.tablistLabel}
             onKeyDown={onKeyDownTabs}
           >
-            <div className="flex gap-3 min-w-max">
+            {/* DEĞİŞİKLİK: 
+              - Mobile: flex (yan yana)
+              - Tablet (md): grid-cols-3 (3'lü 2 sıra)
+              - Desktop (lg): grid-cols-6 (Hepsi tek satır)
+              Bu sayede masaüstünde asla scroll bar çıkmaz.
+            */}
+            <div className="flex md:grid md:grid-cols-3 lg:grid-cols-6 gap-3 min-w-max md:min-w-0">
               {services.map((service) => {
                 const isActive = activeTab === service.id;
                 return (
@@ -288,30 +295,34 @@ function ServicesTabsComponent({
                     tabIndex={isActive ? 0 : -1} 
                     onClick={() => setActiveTab(service.id)}
                     className={`
-                      group relative flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-sm md:text-base transition-all duration-300
+                      group relative flex flex-col md:flex-row lg:flex-col items-center justify-center gap-2 px-3 py-4 rounded-xl font-bold text-sm transition-all duration-300
                       focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2
+                      border
                       ${
                         isActive
-                          ? "text-white shadow-[0_0_30px_rgba(37,99,235,0.4)] scale-105 z-10"
-                          : "text-slate-500 hover:text-slate-700 bg-white border border-slate-200 hover:bg-slate-50"
+                          ? "text-white shadow-xl scale-105 z-10 border-transparent"
+                          : "text-slate-600 bg-white border-slate-200 hover:border-blue-300 hover:bg-blue-50/50 hover:text-blue-700"
                       }
                     `}
+                    style={{ minWidth: '140px' }} // Mobilde butonlar çok küçülmesin
                   >
-                    {/* Aktif Buton Arkaplanı (Gradient) */}
+                    {/* Aktif Buton Arkaplanı */}
                     {isActive && (
-                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 animate-gradient-x" />
+                      <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-600 to-purple-700 animate-gradient-x" />
                     )}
 
-                    <span className="relative z-10 text-2xl filter drop-shadow-md" aria-hidden="true">
+                    <span className="relative z-10 text-2xl filter drop-shadow-sm transition-transform group-hover:scale-110" aria-hidden="true">
                       {service.icon}
                     </span>
-                    <span className="relative z-10 tracking-wide">
-                      {/* Başlık uzunsa mobilde kırp (Orijinal davranış) */}
-                      <span className="hidden sm:inline">{service.title}</span>
-                      <span className="sm:hidden">
-                          {service.title.includes("&")
-                             ? service.title.split("&")[0].trim()
-                             : service.title.split(" ")[0]}
+                    <span className="relative z-10 text-center leading-tight">
+                      <span className="block sm:hidden lg:block">
+                         {service.title.split(' ')[0]} {/* Mobilde sadece ilk kelime */}
+                      </span>
+                      <span className="hidden sm:block lg:hidden">
+                         {service.title} {/* Tablette tam başlık */}
+                      </span>
+                      <span className="hidden lg:block text-xs mt-1 font-medium opacity-90">
+                         {service.title.split(' ').slice(1).join(' ')}
                       </span>
                     </span>
                   </button>
