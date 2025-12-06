@@ -16,6 +16,23 @@ import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
   "https://www.sahneva.com";
+function HeroBackgroundImage({ alt = HERO_IMAGE_ALT }) {
+  return (
+    <Image
+      src={heroImg}
+      alt={alt}
+      fill
+      sizes="100vw"
+      priority
+      placeholder="blur"
+      quality={85}
+      className="absolute inset-0 w-full h-full object-cover object-center"
+      style={{
+        filter: "brightness(0.9) contrast(1.05) saturate(1.05)",
+      }}
+    />
+  );
+}
 
 // —————————————————————————————————————————
 // SABİT VERİLER
@@ -615,127 +632,106 @@ function ConsultationCard() {
   );
 }
 
-// --- SENİN HERO TASARIMIN (Stripe vari) ---
-function HeroSection() {
-  return (
-    <section
-      className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#020617]"
-      aria-labelledby="hero-title"
+{/* ===================== HERO (YENİ STRIPE TARZI) ===================== */}
+<section
+  className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#020617]"
+  aria-labelledby="hero-title"
+>
+  {/* ARKA PLAN GÖRSELİ */}
+  <div className="absolute inset-0 z-0">
+    <HeroBackgroundImage />
+
+    {/* GRID DESENİ */}
+    <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:26px_26px] opacity-30"></div>
+
+    {/* SPOTLIGHT EFEKTİ */}
+    <div className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[900px] h-[600px] bg-purple-500/25 blur-[120px] rounded-full mix-blend-screen"></div>
+    <div className="absolute top-[-100px] left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-blue-500/15 blur-[110px] rounded-full mix-blend-screen"></div>
+
+    {/* FOTOĞRAFI OKUNURLU TUTAN ÖN GRADIENT */}
+    <div className="absolute inset-0 bg-gradient-to-b from-[#020617]/60 via-[#020617]/40 to-[#020617]/75" />
+  </div>
+
+  {/* ====================== HERO İÇERİK ========================== */}
+  <div className="relative z-10 container px-4 py-24 flex flex-col items-center text-center max-w-5xl">
+    
+    {/* BADGE */}
+    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/15 backdrop-blur-md shadow-lg mb-6">
+      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" aria-hidden="true"></span>
+      <span className="text-xs text-emerald-100 font-medium tracking-wide">
+        Sahneva Organizasyon • Türkiye Geneli Profesyonel Hizmet
+      </span>
+    </div>
+
+    {/* BAŞLIK */}
+    <h1
+      id="hero-title"
+      className="text-5xl md:text-7xl lg:text-[5rem] font-extrabold tracking-tight leading-[1.1] text-white"
     >
-      {/* ARKA PLAN IZGARA + SPOT */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,transparent_70%,#020617_100%)]" />
-      </div>
+      Profesyonel&nbsp;
+      <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">
+        Sahne & Prodüksiyon
+      </span>
+      <span className="block mt-3 text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-blue-300 to-cyan-300">
+        Çözüm Ortağınız
+      </span>
+    </h1>
 
-      <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-purple-500/20 blur-[120px] rounded-full mix-blend-screen pointer-events-none"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-blue-500/10 blur-[100px] rounded-full mix-blend-screen pointer-events-none"
-        aria-hidden="true"
-      />
+    {/* ALT AÇIKLAMA */}
+    <p className="mt-6 text-lg md:text-xl text-slate-300 max-w-2xl leading-relaxed">
+      Etkinliğiniz için sahne, podyum, LED ekran ve ses–ışık sistemlerini tek ekipten planlıyor,
+      Türkiye'nin her yerine kusursuz kurulum sağlıyoruz.
+    </p>
 
-      {/* İÇERİK */}
-      <div className="relative z-10 container px-4 py-20">
-        <div className="max-w-5xl mx-auto flex flex-col items-center text-center gap-8">
-          {/* Badge – ortada */}
-          <ScrollReveal direction="down" delay="0.1">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md shadow-[0_0_20px_rgba(168,85,247,0.15)] transition-transform hover:scale-105 cursor-default">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-              </span>
-              <span className="text-xs sm:text-sm font-medium text-emerald-100/90 tracking-wide">
-                Sahneva Organizasyon • Türkiye Geneli Profesyonel Hizmet
-              </span>
-            </div>
-          </ScrollReveal>
+    {/* CTAs */}
+    <div className="mt-10 flex flex-col sm:flex-row gap-4">
+      <a
+        href="https://wa.me/905453048671"
+        className="group relative inline-flex h-12 items-center justify-center rounded-full bg-white px-8 font-semibold text-slate-900 hover:bg-slate-200 hover:scale-105 transition-all shadow-lg"
+      >
+        <span className="mr-2">Hemen Teklif Al</span>
+        <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+      </a>
 
-          {/* H1 Başlık */}
-          <ScrollReveal delay="0.2">
-            <h1
-              id="hero-title"
-              className="text-5xl md:text-7xl lg:text-[5rem] font-bold tracking-tight text-white leading-[1.1]"
-            >
-              Profesyonel{" "}
-              <br className="hidden md:block" />
-              <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/50">
-                Sahne &amp; Prodüksiyon
-              </span>
-              <span className="block mt-2 text-4xl md:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 font-extrabold">
-                Çözüm Ortağınız
-              </span>
-            </h1>
-          </ScrollReveal>
+      <a
+        href="#projeler-title"
+        className="inline-flex h-12 items-center justify-center rounded-full border border-white/20 bg-white/5 px-8 font-medium text-slate-200 backdrop-blur-xl hover:bg-white/10 hover:text-white transition-all"
+      >
+        Projelerimizi İncele
+      </a>
+    </div>
 
-          {/* Açıklama */}
-          <ScrollReveal delay="0.3">
-            <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
-              Etkinliğiniz için gereken{" "}
-              <span className="text-slate-200">
-                sahne, podyum, LED ekran ve ışık
-              </span>{" "}
-              sistemlerini tek merkezden planlıyor, Türkiye'nin her yerine
-              kusursuz kurulum sağlıyoruz.
-            </p>
-          </ScrollReveal>
-
-          {/* CTA Butonları – sadece teklif & projeler */}
-          <ScrollReveal delay="0.4">
-            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mt-4">
-              <a
-                href="#teklif-al"
-                className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-full bg-white px-8 font-medium text-slate-950 transition-all hover:bg-slate-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-900"
-              >
-                <span className="mr-2">Hemen Teklif Al</span>
-                <span className="inline-block translate-y-[1px] text-sm">
-                  ➜
-                </span>
-                <div className="absolute inset-0 -z-10 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 opacity-0 transition-opacity duration-500 group-hover:opacity-10" />
-              </a>
-
-              <a
-                href="#projeler-title"
-                className="inline-flex h-12 items-center justify-center rounded-full border border-slate-800 bg-slate-950/50 px-8 font-medium text-slate-300 backdrop-blur-sm transition-all hover:bg-slate-900 hover:text-white hover:border-slate-600"
-              >
-                Projelerimizi İncele
-              </a>
-            </div>
-          </ScrollReveal>
-
-          {/* Alt İstatistik Barı */}
-          <ScrollReveal delay="0.6" direction="up">
-            <div className="mt-12 p-1 rounded-3xl bg-gradient-to-b from-white/10 to-transparent">
-              <div className="bg-slate-950/80 backdrop-blur-xl border border-white/5 rounded-[20px] px-8 py-6 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-                {STATS_DATA.map((stat, index) => (
-                  <div
-                    key={index}
-                    className="flex flex-col items-center justify-center text-center"
-                  >
-                    <span className="text-2xl md:text-3xl font-bold text-white mb-1">
-                      {stat.value}
-                    </span>
-                    <span className="text-xs uppercase tracking-wider text-slate-500 font-semibold">
-                      {stat.label}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <p className="mt-6 text-xs text-slate-500 flex items-center justify-center gap-2">
-              <span className="inline-block text-yellow-500">★</span>
-              <span>
-                500+ Mutlu Müşteri Referansı ile Türkiye Geneli Hizmet
-              </span>
-            </p>
-          </ScrollReveal>
+    {/* İSTATİSTİKLER */}
+    <div className="mt-14 p-[2px] rounded-3xl bg-white/10">
+      <div className="bg-[#020617]/70 backdrop-blur-xl border border-white/10 rounded-[22px] px-8 py-6 grid grid-cols-2 md:grid-cols-4 gap-8">
+        
+        <div className="flex flex-col items-center">
+          <span className="text-3xl font-bold text-white">81</span>
+          <span className="text-xs text-slate-400 tracking-wider">İL HİZMETİ</span>
         </div>
+
+        <div className="flex flex-col items-center">
+          <span className="text-3xl font-bold text-white">500+</span>
+          <span className="text-xs text-slate-400 tracking-wider">PROJE</span>
+        </div>
+
+        <div className="flex flex-col items-center">
+          <span className="text-3xl font-bold text-white">24/7</span>
+          <span className="text-xs text-slate-400 tracking-wider">DESTEK</span>
+        </div>
+
+        <div className="flex flex-col items-center">
+          <span className="text-3xl font-bold text-white">%100</span>
+          <span className="text-xs text-slate-400 tracking-wider">TESLİMAT</span>
+        </div>
+
       </div>
-    </section>
-  );
-}
+    </div>
+
+  </div>
+</section>
+{/* ===================== HERO BİTİŞ ===================== */}
+
 
 // —————————————————————————————————————————
 // ANA SAYFA
