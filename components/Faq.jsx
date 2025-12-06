@@ -8,6 +8,7 @@ import React, {
   useMemo,
   useCallback,
 } from "react";
+import { ScrollReveal } from "@/components/ScrollReveal";
 import { FAQ_ITEMS } from "../lib/faqData";
 
 const FAQ_WHATSAPP_MESSAGE = encodeURIComponent(
@@ -15,342 +16,250 @@ const FAQ_WHATSAPP_MESSAGE = encodeURIComponent(
 );
 
 const DEFAULT_DICTIONARY = {
-  sectionTitle: "Sıkça Sorulan Sorular",
+  // BAŞLIK
+  sectionPill: "Merak Edilenler",
+  sectionTitlePrefix: "Sıkça Sorulan",
+  sectionTitleHighlight: "Sorular",
+  sectionDesc: "Aklınızdaki soruları yanıtlıyoruz. Aradığınız cevabı bulamazsanız teknik ekibimizle doğrudan iletişime geçebilirsiniz.",
+  
+  // SUPPORT CARD
+  supportTitle: "Cevabı bulamadınız mı?",
+  supportDesc: "Projeniz özel bir çözüm gerektiriyor olabilir. Uzman teknik ekibimizle görüşün.",
+  supportPhoneLabel: "Bizi Arayın",
+  supportWhatsappLabel: "WhatsApp Destek",
+  supportMailLabel: "E-posta Gönder",
+  
+  // DATA
+  contactPhone: "+90 545 304 86 71",
+  contactPhoneHref: "tel:+905453048671",
+  contactWhatsappHref: `https://wa.me/905453048671?text=${FAQ_WHATSAPP_MESSAGE}`,
+  contactMail: "info@sahneva.com",
+  contactMailHref: "mailto:info@sahneva.com",
+  
   regionTitleSr: "Sıkça sorulan sorular bölümü içeriği",
-  cta: {
-    title: "🌟 Cevabını Bulamadığınız Soru mu Var?",
-    description:
-      "Uzman ekibimiz size en doğru çözümü sunmaktan mutluluk duyacaktır.",
-    primary: {
-      label: "Tüm Soruları Gör",
-      href: "/sss",
-      srLabel: "SSS sayfası",
-    },
-    secondary: {
-      label: "Canlı Destek",
-      href: "/iletisim",
-      srLabel: "İletişim sayfası",
-    },
-  },
-  quickContact: {
-    title: "Hızlı İletişim Kanalları",
-    navLabel: "Hızlı iletişim seçenekleri",
-    items: [
-      {
-        href: "tel:+905453048671",
-        icon: "📞",
-        label: "Telefon",
-        description: "+90 545 304 867 1",
-        className:
-          "inline-flex items-center gap-3 bg-blue-100 hover:bg-blue-200 border border-blue-300 text-blue-900 font-bold px-5 py-3 rounded-xl transition-all duration-200 hover:shadow-md hover:scale-105 min-h-[48px] text-sm",
-      },
-      {
-        href: `https://wa.me/905453048671?text=${FAQ_WHATSAPP_MESSAGE}&utm_source=homepage&utm_medium=faq_whatsapp`,
-        icon: "💬",
-        label: "WhatsApp İletişim",
-        description: "Hızlı Mesaj",
-        target: "_blank",
-        rel: "nofollow noopener",
-        srHint: " (yeni sekmede açılır)",
-        ariaLabel: "WhatsApp üzerinden Sahneva'ya soru gönder",
-        className:
-          "inline-flex items-center gap-3 bg-green-100 hover:bg-green-200 border border-green-300 text-green-900 font-bold px-5 py-3 rounded-xl transition-all duration-200 hover:shadow-md hover:scale-105 min-h-[48px] text-sm",
-      },
-      {
-        href: "mailto:info@sahneva.com",
-        icon: "✉️",
-        label: "E-posta",
-        description: "info@sahneva.com",
-        className:
-          "inline-flex items-center gap-3 bg-purple-100 hover:bg-purple-200 border border-purple-300 text-purple-900 font-bold px-5 py-3 rounded-xl transition-all duration-200 hover:shadow-md hover:scale-105 min-h-[48px] text-sm",
-      },
-    ],
-    stats: ["7/24 Destek", "5 Dakikada Yanıt"],
-  },
-  newTabHint: " (yeni sekmede açılır)",
 };
 
 function mergeDictionary(base, override = {}) {
   const result = { ...base };
-
   for (const [key, value] of Object.entries(override || {})) {
-    if (
-      value &&
-      typeof value === "object" &&
-      !Array.isArray(value) &&
-      typeof base[key] === "object"
-    ) {
+    if (value && typeof value === "object" && !Array.isArray(value) && typeof base[key] === "object") {
       result[key] = mergeDictionary(base[key], value);
     } else if (value !== undefined) {
       result[key] = value;
     }
   }
-
   return result;
 }
 
-const FaqRow = React.memo(function FaqRow({ question, answer, slug }) {
-  const [open, setOpen] = useState(false);
-  const [contentHeight, setContentHeight] = useState("0px");
+// —————————————————————————————————————————
+// TEKİL SORU BİLEŞENİ (ACCORDION)
+// —————————————————————————————————————————
+const FaqRow = React.memo(function FaqRow({ question, answer, slug, isOpen, onToggle }) {
   const contentRef = useRef(null);
-  const summaryId = `${slug}-summary`;
-  const panelId = `${slug}-panel`;
-
-  const toggleOpen = useCallback(() => {
-    setOpen((prev) => !prev);
-  }, []);
+  const [height, setHeight] = useState("0px");
 
   useEffect(() => {
-    if (open && contentRef.current) {
-      requestAnimationFrame(() => {
-        setContentHeight(`${contentRef.current.scrollHeight}px`);
-      });
+    if (isOpen && contentRef.current) {
+       setHeight(`${contentRef.current.scrollHeight}px`);
     } else {
-      setContentHeight("0px");
+       setHeight("0px");
     }
-  }, [open]);
+  }, [isOpen]);
 
   return (
-    <div className="group bg-white/80 backdrop-blur-sm border border-gray-200/60 rounded-xl p-4 mb-2 transition-all duration-200 hover:shadow-sm hover:border-blue-200/80">
+    <div className={`group border rounded-2xl transition-all duration-300 overflow-hidden ${isOpen ? 'bg-white/10 border-blue-500/50 shadow-lg shadow-blue-900/20' : 'bg-white/5 border-white/5 hover:border-white/10'}`}>
       <button
         type="button"
-        onClick={toggleOpen}
-        id={summaryId}
-        aria-controls={panelId}
-        aria-expanded={open}
-        className={`cursor-pointer flex items-center justify-between font-semibold text-gray-900 hover:text-blue-600 transition-colors duration-200 min-h-[42px] w-full text-left focus-ring ${
-          open ? "text-blue-700" : ""
-        }`}
+        onClick={onToggle}
+        aria-expanded={isOpen}
+        aria-controls={`${slug}-content`}
+        id={`${slug}-header`}
+        className="flex items-center justify-between w-full p-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 inset-ring"
       >
-        <span className="pr-3 text-sm leading-relaxed">{question}</span>
-
-        <span
-          className={`flex-shrink-0 inline-flex w-6 h-6 rounded-full bg-blue-50 items-center justify-center transition-all duration-200 group-hover:bg-blue-100 ${
-            open ? "bg-blue-100 rotate-90" : ""
-          }`}
-          aria-hidden="true"
-        >
-          <svg
-            className="w-3.5 h-3.5 text-blue-600 transition-transform duration-200"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="3"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M8 5l8 7-8 7" />
-          </svg>
+        <span className={`text-sm md:text-base font-bold transition-colors duration-300 ${isOpen ? 'text-white' : 'text-slate-300 group-hover:text-white'}`}>
+           {question}
+        </span>
+        
+        <span className={`flex-shrink-0 ml-4 flex items-center justify-center w-8 h-8 rounded-full border transition-all duration-300 ${isOpen ? 'bg-blue-600 border-blue-500 text-white rotate-180' : 'bg-white/5 border-white/10 text-slate-400 group-hover:bg-white/10'}`}>
+           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+           </svg>
         </span>
       </button>
 
       <div
-        ref={contentRef}
-        id={panelId}
-        className="overflow-hidden transition-all duration-200 ease-in-out"
-        style={{ maxHeight: contentHeight }}
-        aria-hidden={!open}
+        id={`${slug}-content`}
         role="region"
-        aria-labelledby={summaryId}
+        aria-labelledby={`${slug}-header`}
+        ref={contentRef}
+        style={{ height }}
+        className="transition-all duration-300 ease-in-out overflow-hidden"
       >
-        <div className="mt-2 text-gray-700 border-t border-gray-100/60 pt-2">
-          <div className="leading-relaxed text-sm text-gray-600">
-            <p>{answer}</p>
-          </div>
+        <div className="px-5 pb-5">
+           <div className="pt-4 border-t border-white/10 text-slate-400 text-sm md:text-base leading-relaxed">
+              {answer}
+           </div>
         </div>
       </div>
     </div>
   );
 });
 
+// —————————————————————————————————————————
+// DESTEK KARTI (SAĞ TARAF)
+// —————————————————————————————————————————
+function SupportCard({ dictionary }) {
+   return (
+      <div className="sticky top-24 bg-[#0F1623] border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl overflow-hidden">
+         {/* Arka Plan Efekti */}
+         <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-blue-600/20 rounded-full blur-[50px] pointer-events-none" />
+         
+         <div className="relative z-10">
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-2xl mb-5 shadow-lg">
+               💬
+            </div>
+            
+            <h3 className="text-xl font-bold text-white mb-2">
+               {dictionary.supportTitle}
+            </h3>
+            <p className="text-slate-400 text-sm leading-relaxed mb-6">
+               {dictionary.supportDesc}
+            </p>
+
+            <div className="space-y-3">
+               {/* Telefon */}
+               <a 
+                  href={dictionary.contactPhoneHref}
+                  className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-blue-500/30 transition-all group"
+               >
+                  <span className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                     📞
+                  </span>
+                  <div>
+                     <span className="block text-xs text-slate-400 font-medium">{dictionary.supportPhoneLabel}</span>
+                     <span className="block text-sm font-bold text-white group-hover:text-blue-400 transition-colors">{dictionary.contactPhone}</span>
+                  </div>
+               </a>
+
+               {/* WhatsApp */}
+               <a 
+                  href={dictionary.contactWhatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-green-500/30 transition-all group"
+               >
+                  <span className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center text-green-400 group-hover:bg-green-500 group-hover:text-white transition-colors">
+                     📱
+                  </span>
+                  <div>
+                     <span className="block text-xs text-slate-400 font-medium">{dictionary.supportWhatsappLabel}</span>
+                     <span className="block text-sm font-bold text-white group-hover:text-green-400 transition-colors">Hızlı Mesaj Gönder</span>
+                  </div>
+               </a>
+
+               {/* Mail */}
+               <a 
+                  href={dictionary.contactMailHref}
+                  className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-purple-500/30 transition-all group"
+               >
+                  <span className="w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-colors">
+                     ✉️
+                  </span>
+                  <div>
+                     <span className="block text-xs text-slate-400 font-medium">{dictionary.supportMailLabel}</span>
+                     <span className="block text-sm font-bold text-white group-hover:text-purple-400 transition-colors">{dictionary.contactMail}</span>
+                  </div>
+               </a>
+            </div>
+         </div>
+      </div>
+   )
+}
+
+// —————————————————————————————————————————
+// ANA BİLEŞEN
+// —————————————————————————————————————————
+
 export default function Faq({
   items = FAQ_ITEMS,
   dictionary: dictionaryOverride,
+  ariaLabelledBy,
+  regionLabelId = "faq-section-title"
 } = {}) {
   const dictionary = useMemo(
     () => mergeDictionary(DEFAULT_DICTIONARY, dictionaryOverride),
     [dictionaryOverride]
   );
+  
+  // Sadece bir akordeonun açık kalmasını istiyorsan state kullanabilirsin.
+  // Şimdilik her biri bağımsız çalışsın diye index tutmuyorum, FaqRow içinde kendi state'i var.
+  // Ancak "biri açılınca diğeri kapansın" istersen buraya state ekleyebiliriz.
+  const [openIndex, setOpenIndex] = useState(0); 
 
-  const primaryLink = useMemo(
-    () => dictionary.cta?.primary ?? DEFAULT_DICTIONARY.cta.primary,
-    [dictionary]
-  );
-  const secondaryLink = useMemo(
-    () => dictionary.cta?.secondary ?? DEFAULT_DICTIONARY.cta.secondary,
-    [dictionary]
-  );
-  const quickContact = useMemo(
-    () => dictionary.quickContact ?? DEFAULT_DICTIONARY.quickContact,
-    [dictionary]
-  );
-  const quickContactItems = useMemo(
-    () =>
-      Array.isArray(quickContact.items)
-        ? quickContact.items
-        : DEFAULT_DICTIONARY.quickContact.items,
-    [quickContact]
-  );
-  const quickContactStats = useMemo(
-    () =>
-      Array.isArray(quickContact.stats)
-        ? quickContact.stats
-        : DEFAULT_DICTIONARY.quickContact.stats,
-    [quickContact]
-  );
-
-  const regionTitle =
-    dictionary.regionTitleSr ?? DEFAULT_DICTIONARY.regionTitleSr;
+  const handleToggle = useCallback((index) => {
+     setOpenIndex(prev => prev === index ? -1 : index);
+  }, []);
 
   return (
     <section
-      className="relative pt-4 pb-0 bg-gradient-to-br from-gray-50 via-white to-purple-50/30 overflow-hidden"
-      aria-labelledby="faq-heading"
+      className="relative py-16 md:py-24 bg-[#0B1120] overflow-hidden"
+      aria-labelledby={regionLabelId}
     >
-      {/* Dekor */}
-      <div
-        className="absolute inset-0 overflow-hidden transform-gpu pointer-events-none"
-        aria-hidden="true"
-      >
-        <div className="absolute -top-20 -right-20 w-80 h-80 bg-gradient-to-r from-purple-100/20 to-blue-100/20 rounded-full blur-3xl" />
-        <div className="absolute -bottom-28 -left-28 w-72 h-72 bg-gradient-to-r from-blue-100/20 to-cyan-100/20 rounded-full blur-3xl" />
+      {/* Arka Plan Efektleri */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]"></div>
+         <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-blue-600/10 blur-[120px] rounded-full mix-blend-screen"></div>
       </div>
 
-      <div className="container relative z-10 pb-0">
-        <h2 id="faq-heading" className="sr-only">
-          {regionTitle}
-        </h2>
-
-        {/* Liste */}
-        <div className="mx-auto max-w-3xl mt-0 pt-0">
-          
-            <ul className="grid gap-2">
-              {items.map((item, index) => (
-                <li key={item.slug}>
-                  
-                    <FaqRow {...item} />
-                  
-                </li>
-              ))}
-            </ul>
-          
-        </div>
-
-        {/* CTA */}
-        <div className="text-center mt-8 last:mb-0">
-          
-            <div className="relative bg-gradient-to-r from-blue-700 to-purple-700 rounded-2xl shadow-xl p-8 max-w-3xl mx-auto overflow-hidden transform-gpu">
-              <div className="absolute inset-0 opacity-10" aria-hidden="true">
-                <div className="absolute -top-16 -right-16 w-32 h-32 bg-white rounded-full" />
-                <div className="absolute -bottom-16 -left-16 w-32 h-32 bg-white rounded-full" />
-              </div>
-
-              <div className="relative z-10">
-                <p className="text-xl md:text-2xl font-bold text-white mb-3">
-                  {dictionary.cta?.title ?? DEFAULT_DICTIONARY.cta.title}
-                </p>
-                <p className="text-blue-100 text-base mb-5 max-w-2xl mx-auto leading-relaxed">
-                  {dictionary.cta?.description ??
-                    DEFAULT_DICTIONARY.cta.description}
-                </p>
-
-                <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
-                  <a
-                    href={primaryLink.href}
-                    className="inline-flex items-center justify-center gap-2 bg-white text-blue-700 font-bold px-6 py-3 rounded-xl hover:bg-gray-100 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 min-h-[48px] text-sm focus-ring"
-                  >
-                    <span className="text-lg" aria-hidden="true">
-                      📋
-                    </span>
-                    <span>{primaryLink.label}</span>
-                    <span className="sr-only"> – {primaryLink.srLabel}</span>
-                  </a>
-
-                  <a
-                    href={secondaryLink.href}
-                    className="inline-flex items-center justify-center gap-2 bg-green-800 hover:bg-green-900 text-white font-bold px-6 py-3 rounded-xl transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 min-h-[48px] text-sm focus-ring"
-                  >
-                    <span className="text-lg" aria-hidden="true">
-                      💬
-                    </span>
-                    <span>{secondaryLink.label}</span>
-                    <span className="sr-only">
-                      {" "}
-                      – {secondaryLink.srLabel}
-                    </span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          
-        </div>
-
-        {/* İletişim kutusu */}
-        <div className="mt-8 text-center last:mb-0">
-          
-            <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/60 p-6 max-w-2xl mx-auto">
-              <p className="text-lg font-bold text-gray-900 mb-3">
-                {quickContact.title}
-              </p>
-              <nav aria-label={quickContact.navLabel}>
-                <ul className="flex flex-wrap gap-3 justify-center items-center">
-                  {quickContactItems.map((item) => (
-                    <li key={item.label}>
-                      <a
-                        href={item.href}
-                        target={item.target}
-                        rel={item.rel}
-                        className={
-                          item.className ||
-                          "inline-flex items-center gap-3 bg-neutral-100 border border-neutral-200 text-neutral-900 font-bold px-5 py-3 rounded-xl transition-all duration-200 hover:shadow-md hover:scale-105 min-h-[48px] text-sm focus-ring"
-                        }
-                        aria-label={item.ariaLabel || undefined}
-                      >
-                        <span className="text-xl" aria-hidden="true">
-                          {item.icon}
+      <div className="container relative z-10 px-4 mx-auto">
+        
+        {/* ——— BAŞLIK ALANI ——— */}
+        {!ariaLabelledBy && (
+            <ScrollReveal direction="up" delay="0.05">
+                <div className="text-center max-w-3xl mx-auto mb-16">
+                     {/* Hap Etiket */}
+                     <div className="flex justify-center mb-4">
+                        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-bold uppercase tracking-wider shadow-sm">
+                           <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" aria-hidden="true" />
+                           {dictionary.sectionPill}
                         </span>
-                        <div className="text-left">
-                          <div className="font-bold">{item.label}</div>
-                          {item.description ? (
-                            <div className="text-xs text-neutral-700 font-semibold">
-                              {item.description}
-                            </div>
-                          ) : null}
-                        </div>
-                        {item.target === "_blank" ? (
-                          <span className="sr-only">
-                            {item.srHint ?? dictionary.newTabHint}
-                          </span>
-                        ) : null}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
+                    </div>
 
-              <div className="mt-3 flex items-center justify-center gap-4 text-sm text-gray-800">
-                {quickContactStats.map((stat, index) => (
-                  <span key={stat} className="flex items-center gap-2">
-                    <span
-                      className="w-2 h-2 bg-green-600 rounded-full animate-pulse motion-reduce:animate-none inline-block"
-                      aria-hidden="true"
-                    />
-                    <span className="font-semibold">{stat}</span>
-                    {index < quickContactStats.length - 1 ? (
-                      <span
-                        className="w-px h-4 bg-gray-500 inline-block"
-                        aria-hidden="true"
-                      />
-                    ) : null}
-                  </span>
-                ))}
-              </div>
+                    <h2 id={regionLabelId} className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
+                        {dictionary.sectionTitlePrefix} <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">{dictionary.sectionTitleHighlight}</span>
+                    </h2>
+                    <p className="text-slate-400 text-lg leading-relaxed">
+                        {dictionary.sectionDesc}
+                    </p>
+                </div>
+            </ScrollReveal>
+        )}
+
+        {/* ——— İÇERİK: SPLIT LAYOUT ——— */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+            
+            {/* SOL TARAF: SORULAR */}
+            <div className="lg:col-span-8 space-y-4">
+               {items.map((item, index) => (
+                  <ScrollReveal key={item.slug} direction="up" delay={index * 0.05}>
+                     <FaqRow 
+                        {...item} 
+                        isOpen={openIndex === index}
+                        onToggle={() => handleToggle(index)}
+                     />
+                  </ScrollReveal>
+               ))}
             </div>
-          
+
+            {/* SAĞ TARAF: STICKY DESTEK KARTI */}
+            <div className="lg:col-span-4">
+               <ScrollReveal direction="left" delay="0.2">
+                  <SupportCard dictionary={dictionary} />
+               </ScrollReveal>
+            </div>
+
         </div>
 
-        <div className="h-0 p-0 m-0" />
       </div>
     </section>
   );
