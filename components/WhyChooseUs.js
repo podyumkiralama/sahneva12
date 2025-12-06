@@ -67,9 +67,10 @@ export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
     >
       <div className="container px-4 mx-auto">
         
-        {/* ——— BAŞLIK ALANI ——— */}
+        {/* ——— BAŞLIK ALANI (Pill + Gradient) ——— */}
         <ScrollReveal direction="up" delay="0.05">
             <div className="text-center max-w-4xl mx-auto mb-16">
+                 {/* Hap Etiket */}
                  <div className="flex justify-center mb-4">
                     <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-600 text-xs font-bold uppercase tracking-wider shadow-sm">
                        <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" aria-hidden="true" />
@@ -77,17 +78,19 @@ export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
                     </span>
                 </div>
 
+                {/* Ana Başlık */}
                 <h2 id="why-choose-title" className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
                     {dictionary.sectionTitlePrefix} <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-500">{dictionary.sectionTitleHighlight}</span>{dictionary.sectionTitleSuffix}
                 </h2>
                 
+                {/* Açıklama */}
                 <p className="text-gray-600 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
                     {dictionary.sectionDesc}
                 </p>
             </div>
         </ScrollReveal>
 
-        {/* ——— GRID ALANI ——— */}
+        {/* ——— KARTLAR GRID ALANI ——— */}
         <ScrollRevealGroup>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" role="list">
             {DEFAULT_FEATURES.map((feature, index) => (
