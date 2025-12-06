@@ -9,7 +9,7 @@ import React from "react";
 import HeroSection from "@/components/HeroSection";
 import CorporateEvents from "@/components/CorporateEvents";
 import CorporateIntro from "@/components/CorporateIntro";
-import WhyChooseUs from "@/components/WhyChooseUs";       // Yeni: Neden Sahneva
+import WhyChooseUs from "@/components/WhyChooseUs"; // Yeni: Neden Sahneva
 import TechCapabilities from "@/components/TechCapabilities"; // Yeni: SEO/Teknik
 
 // 2. Client / Lazy Load Bileşenler (Performans İçin)
@@ -44,12 +44,20 @@ function StructuredData() {
   const HOME_URL = SITE_URL;
   const ORGANIZATION_ID = `${SITE_URL}/#org`;
   const WEBSITE_ID = `${SITE_URL}/#website`;
-  const WEBPAGE_ID = `${HOME_URL}#webpage`;
-  const IMAGE_ID = `${HOME_URL}#og`;
+  const WEBPAGE_ID = `${SITE_URL}/#webpage`;
+  const IMAGE_ID = `${SITE_URL}/#og`;
 
   const data = {
     "@context": "https://schema.org",
     "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": WEBSITE_ID,
+        url: HOME_URL,
+        name: "Sahneva Organizasyon",
+        inLanguage: "tr-TR",
+        publisher: { "@id": ORGANIZATION_ID },
+      },
       {
         "@type": "WebPage",
         "@id": WEBPAGE_ID,
@@ -69,7 +77,7 @@ function StructuredData() {
         url: HOME_URL,
         logo: {
           "@type": "ImageObject",
-          url: `${SITE_URL}/logo.png`,
+          url: `${SITE_URL}/logo.png`, // dosya yolunu burada doğrula
         },
         contactPoint: {
           "@type": "ContactPoint",
@@ -108,8 +116,13 @@ export default function HomePage() {
 
       {/* 3. MÜŞTERİ YORUMLARI */}
       {/* Google yorumları bandı */}
-      <section style={BELOW_THE_FOLD_VISIBILITY_STYLE} aria-labelledby="reviews-section">
-        <h2 id="reviews-section" className="sr-only">Müşteri Yorumları</h2>
+      <section
+        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+        aria-labelledby="reviews-section"
+      >
+        <h2 id="reviews-section" className="sr-only">
+          Müşteri Yorumları
+        </h2>
         <ReviewBannerDeferred idleTimeout={2000} rootMargin="100px" />
       </section>
 
@@ -147,7 +160,6 @@ export default function HomePage() {
       {/* 9. SSS (FAQ) */}
       {/* Sıkça sorulan sorular ve iletişim kartı */}
       <FaqDeferred idleTimeout={3600} rootMargin="300px" />
-
     </div>
   );
 }
