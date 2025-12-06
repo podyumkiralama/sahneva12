@@ -16,11 +16,11 @@ const FAQ_WHATSAPP_MESSAGE = encodeURIComponent(
 );
 
 const DEFAULT_DICTIONARY = {
-  // BAŞLIK
+  // ——— GÜNCELLENEN BAŞLIK ALANI (KARMA YAKLAŞIM) ———
   sectionPill: "Merak Edilenler",
-  sectionTitlePrefix: "Sıkça Sorulan",
-  sectionTitleHighlight: "Sorular",
-  sectionDesc: "Aklınızdaki soruları yanıtlıyoruz. Aradığınız cevabı bulamazsanız teknik ekibimizle doğrudan iletişime geçebilirsiniz.",
+  sectionTitlePrefix: "Kiralama Süreci ve",
+  sectionTitleHighlight: "Sıkça Sorulanlar",
+  sectionDesc: "Sahne, LED ekran, ses-ışık sistemleri ve teknik operasyon süreçleri hakkında aklınıza takılan tüm soruları yanıtlıyoruz.",
   
   // SUPPORT CARD
   supportTitle: "Cevabı bulamadınız mı?",
@@ -106,7 +106,7 @@ const FaqRow = React.memo(function FaqRow({ question, answer, slug, isOpen, onTo
 });
 
 // —————————————————————————————————————————
-// DESTEK KARTI (SAĞ TARAF)
+// DESTEK KARTI (SAĞ TARAF - STICKY)
 // —————————————————————————————————————————
 function SupportCard({ dictionary }) {
    return (
@@ -191,9 +191,6 @@ export default function Faq({
     [dictionaryOverride]
   );
   
-  // Sadece bir akordeonun açık kalmasını istiyorsan state kullanabilirsin.
-  // Şimdilik her biri bağımsız çalışsın diye index tutmuyorum, FaqRow içinde kendi state'i var.
-  // Ancak "biri açılınca diğeri kapansın" istersen buraya state ekleyebiliriz.
   const [openIndex, setOpenIndex] = useState(0); 
 
   const handleToggle = useCallback((index) => {
@@ -213,11 +210,11 @@ export default function Faq({
 
       <div className="container relative z-10 px-4 mx-auto">
         
-        {/* ——— BAŞLIK ALANI ——— */}
+        {/* ——— GÜNCELLENEN BAŞLIK ALANI (SERVICES ILE AYNI STİL) ——— */}
         {!ariaLabelledBy && (
             <ScrollReveal direction="up" delay="0.05">
-                <div className="text-center max-w-3xl mx-auto mb-16">
-                     {/* Hap Etiket */}
+                <div className="text-center max-w-4xl mx-auto mb-16">
+                     {/* Hap (Pill) Etiket - Dark Mode Uyumlu */}
                      <div className="flex justify-center mb-4">
                         <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-bold uppercase tracking-wider shadow-sm">
                            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" aria-hidden="true" />
@@ -225,10 +222,13 @@ export default function Faq({
                         </span>
                     </div>
 
+                    {/* Ana Başlık */}
                     <h2 id={regionLabelId} className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
                         {dictionary.sectionTitlePrefix} <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">{dictionary.sectionTitleHighlight}</span>
                     </h2>
-                    <p className="text-slate-400 text-lg leading-relaxed">
+                    
+                    {/* Açıklama */}
+                    <p className="text-slate-400 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
                         {dictionary.sectionDesc}
                     </p>
                 </div>
