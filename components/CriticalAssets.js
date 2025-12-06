@@ -74,11 +74,6 @@ export default function CriticalAssets() {
         data-priority="critical"
         dangerouslySetInnerHTML={{ __html: CRITICAL_STYLE.trim() }}
       />
-      <script
-        id="critical-inline-script"
-        data-priority="critical"
-        dangerouslySetInnerHTML={{ __html: CRITICAL_SCRIPT.trim() }}
-      />
     </>
   );
 }
