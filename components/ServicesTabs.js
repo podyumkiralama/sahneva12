@@ -134,7 +134,8 @@ const DEFAULT_SERVICES = [
 ];
 
 const DEFAULT_DICTIONARY = {
-  // YENİ EKLENEN SECTION BAŞLIKLARI
+  // YENİ BAŞLIK TASARIMI İÇİN EKLENEN ALANLAR
+  sectionPill: "Profesyonel Hizmet", // Üstteki küçük etiket
   sectionTitlePrefix: "Profesyonel Ses-Işık Sistemleri ve",
   sectionTitleHighlight: "Hizmetlerimiz",
   sectionDesc: "Türkiye geneli sahne, podyum, LED ekran kiralama ve ses-ışık sistemleri kurulumu sağlıyoruz. Farklı şehirlerdeki ekibimizle tüm teknik süreci tek elden planlıyoruz.",
@@ -264,19 +265,27 @@ function ServicesTabsComponent({
     >
       <div className="container px-4 mx-auto">
         
-        {/* ——— BAŞLIK ALANI (HEADER) ——— */}
+        {/* ——— GÜNCELLENEN BAŞLIK ALANI (PILL STYLE) ——— */}
         {!ariaLabelledBy && (
             <ScrollReveal direction="up" delay="0.05">
                 <div className="text-center max-w-4xl mx-auto mb-12 md:mb-16">
-                    <div className="inline-flex items-center gap-2 mb-3">
-                        <div className="w-3 h-6 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" aria-hidden="true" />
-                        <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">
-                            Profesyonel Hizmet
+                    {/* Hap (Pill) Etiket Tasarımı */}
+                    <div className="flex justify-center mb-4">
+                        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-bold uppercase tracking-wider shadow-sm">
+                           <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" aria-hidden="true" />
+                           {dictionary.sectionPill}
                         </span>
                     </div>
-                    <h2 id={regionLabelId} className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
-                        {dictionary.sectionTitlePrefix} <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">{dictionary.sectionTitleHighlight}</span>
+
+                    {/* Ana Başlık */}
+                    <h2 id={regionLabelId} className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-5 leading-tight tracking-tight">
+                        {dictionary.sectionTitlePrefix}{" "}
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+                           {dictionary.sectionTitleHighlight}
+                        </span>
                     </h2>
+
+                    {/* Açıklama */}
                     <p className="text-gray-600 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
                         {dictionary.sectionDesc}
                     </p>
@@ -357,7 +366,6 @@ function ServicesTabsComponent({
               aria-labelledby={`tab-${activeService?.id}`}
               tabIndex={0}
             >
-              {/* Dark Arka Plan Efektleri */}
               <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
                  <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]"></div>
                  <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-blue-600/20 blur-[100px] rounded-full mix-blend-screen opacity-40" />
@@ -427,7 +435,6 @@ function ServicesTabsComponent({
                         style={IMAGE_STYLE}
                      />
                      
-                     {/* Gradient Geçişleri */}
                      <div className="absolute inset-0 bg-gradient-to-l from-transparent via-[#0B1120]/30 to-[#0B1120] lg:bg-gradient-to-r lg:from-[#0B1120] lg:via-transparent lg:to-transparent" aria-hidden="true" />
                      <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] to-transparent lg:hidden" aria-hidden="true" />
 
