@@ -1,7 +1,4 @@
 // app/(tr)/(site)/page.js
-import React from "react";
-import Image from "next/image";
-import heroImg from "@/public/img/hero-bg.webp";
 import Link from "next/link";
 
 // Statik bileşenler
@@ -15,7 +12,6 @@ import {
 } from "@/components/DeferredSections.client";
 // Animasyon bileşenleri
 import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
-import { ArrowRight, Star } from "lucide-react";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
@@ -58,6 +54,21 @@ const HERO_KEYWORDS = [
   { icon: "✅", text: "Sahne, podyum ve LED ekran tek ekipten" },
   { icon: "🚚", text: "81 ilde hızlı kurulum ve teknik destek" },
   { icon: "📊", text: "Planlama, çizim ve bütçe optimizasyonu" },
+];
+
+const HERO_STATS = [
+  { label: "Tamamlanan Proje", value: "500+" },
+  { label: "Kurulum Süresi", value: "2–6 saat" },
+  { label: "Memnuniyet", value: "%98" },
+  { label: "Hizmet Ağı", value: "81 il" },
+];
+
+// HeroSection için istatistik bar
+const STATS_DATA = [
+  { value: "81", label: "İl Hizmeti" },
+  { value: "500+", label: "Tamamlanan Proje" },
+  { value: "24/7", label: "Teknik Destek" },
+  { value: "%100", label: "Zamanında Teslim" },
 ];
 
 const CTA_WHATSAPP_MESSAGE = encodeURIComponent(
@@ -158,14 +169,6 @@ const SEO_INFRA_FEATURES = [
   "Line-array ses sistemleri (JBL, RCF, dB)",
   "Truss kule sistemleri ve roof sahne çözümleri",
   "Jeneratör, UPS ve yedekli enerji altyapısı",
-];
-
-// Hero istatistikleri (senin HeroSection’ından)
-const STATS_DATA = [
-  { value: "81", label: "İl Hizmeti" },
-  { value: "500+", label: "Tamamlanan Proje" },
-  { value: "24/7", label: "Teknik Destek" },
-  { value: "%100", label: "Zamanında Teslim" },
 ];
 
 // Aşağıdaki bölümler için render maliyetini azalt
@@ -460,7 +463,9 @@ function KeywordPills() {
           <span className="text-lg" aria-hidden="true">
             {icon}
           </span>
-          <span className="text-base font-semibold leading-relaxed">{text}</span>
+          <span className="text-base font-semibold leading-relaxed">
+            {text}
+          </span>
         </li>
       ))}
     </ul>
@@ -481,8 +486,8 @@ function CTAButton({
   const accessibleLabel = ariaLabel
     ? `${label} — ${ariaLabel}`
     : srHint
-    ? `${label} ${srHint}`
-    : label;
+      ? `${label} ${srHint}`
+      : label;
 
   return (
     <a
@@ -574,7 +579,7 @@ function ConsultationCard() {
         <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-white/5 to-transparent rounded-full -translate-y-32 translate-x-32" />
         <div className="relative z-10 flex flex-col lg:flex-row items-center gap-6 md:gap-8">
           <div className="flex-shrink-0">
-            <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center text-3xl text-white shadow-lg">
+            <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
               🎯
             </div>
           </div>
@@ -610,17 +615,14 @@ function ConsultationCard() {
   );
 }
 
-// —————————————————————————————————————————
-// SENİN HERO TASARIMIN (BİREBİR UYARLANMIŞ)
-// —————————————————————————————————————————
-
-const HeroSection = () => {
+// --- SENİN HERO TASARIMIN (Stripe vari) ---
+function HeroSection() {
   return (
     <section
       className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#020617]"
       aria-labelledby="hero-title"
     >
-      {/* Arka Plan Grid ve Spot Işıkları */}
+      {/* ARKA PLAN IZGARA + SPOT */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,transparent_70%,#020617_100%)]" />
@@ -635,29 +637,30 @@ const HeroSection = () => {
         aria-hidden="true"
       />
 
-      {/* İçerik */}
+      {/* İÇERİK */}
       <div className="relative z-10 container px-4 py-20">
         <div className="max-w-5xl mx-auto flex flex-col items-center text-center gap-8">
-          {/* Badge */}
+          {/* Badge – ortada */}
           <ScrollReveal direction="down" delay="0.1">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md shadow-[0_0_20px_rgba(168,85,247,0.15)] transition-transform hover:scale-105 cursor-default">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md shadow-[0_0_20px_rgba(168,85,247,0.15)] transition-transform hover:scale-105 cursor-default">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
               </span>
-              <span className="text-xs font-medium text-emerald-100/90 tracking-wide">
-                Türkiye'nin En Kapsamlı Sahne Kiralama Ağı
+              <span className="text-xs sm:text-sm font-medium text-emerald-100/90 tracking-wide">
+                Sahneva Organizasyon • Türkiye Geneli Profesyonel Hizmet
               </span>
             </div>
           </ScrollReveal>
 
-          {/* Başlık */}
+          {/* H1 Başlık */}
           <ScrollReveal delay="0.2">
             <h1
               id="hero-title"
               className="text-5xl md:text-7xl lg:text-[5rem] font-bold tracking-tight text-white leading-[1.1]"
             >
-              Profesyonel <br className="hidden md:block" />
+              Profesyonel{" "}
+              <br className="hidden md:block" />
               <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/50">
                 Sahne &amp; Prodüksiyon
               </span>
@@ -679,7 +682,7 @@ const HeroSection = () => {
             </p>
           </ScrollReveal>
 
-          {/* CTA Butonları */}
+          {/* CTA Butonları – sadece teklif & projeler */}
           <ScrollReveal delay="0.4">
             <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mt-4">
               <a
@@ -687,7 +690,9 @@ const HeroSection = () => {
                 className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-full bg-white px-8 font-medium text-slate-950 transition-all hover:bg-slate-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-900"
               >
                 <span className="mr-2">Hemen Teklif Al</span>
-                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                <span className="inline-block translate-y-[1px] text-sm">
+                  ➜
+                </span>
                 <div className="absolute inset-0 -z-10 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 opacity-0 transition-opacity duration-500 group-hover:opacity-10" />
               </a>
 
@@ -700,7 +705,7 @@ const HeroSection = () => {
             </div>
           </ScrollReveal>
 
-          {/* Alt istatistik paneli */}
+          {/* Alt İstatistik Barı */}
           <ScrollReveal delay="0.6" direction="up">
             <div className="mt-12 p-1 rounded-3xl bg-gradient-to-b from-white/10 to-transparent">
               <div className="bg-slate-950/80 backdrop-blur-xl border border-white/5 rounded-[20px] px-8 py-6 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
@@ -720,7 +725,7 @@ const HeroSection = () => {
               </div>
             </div>
             <p className="mt-6 text-xs text-slate-500 flex items-center justify-center gap-2">
-              <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
+              <span className="inline-block text-yellow-500">★</span>
               <span>
                 500+ Mutlu Müşteri Referansı ile Türkiye Geneli Hizmet
               </span>
@@ -730,7 +735,7 @@ const HeroSection = () => {
       </div>
     </section>
   );
-};
+}
 
 // —————————————————————————————————————————
 // ANA SAYFA
@@ -741,7 +746,7 @@ export default function HomePage() {
     <div className="overflow-x-hidden">
       <StructuredData />
 
-      {/* SENİN HERO TASARIMIN */}
+      {/* HERO – senin tasarımın */}
       <HeroSection />
 
       {/* ÖZELLİKLER ve DANIŞMANLIK */}
