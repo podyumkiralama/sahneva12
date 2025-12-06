@@ -195,26 +195,37 @@ export default function CorporateEvents({
 
   return (
     <section
-      className="relative py-16 md:py-20 bg-[#0B1120] overflow-hidden"
-      aria-labelledby="corporate-events-title"
+      className="relative py-16 md:py-24 bg-[#0B1120] overflow-hidden"
+      aria-labelledby="corporate-events-heading"
     >
       {/* Modern Arka Plan Efektleri (Dark Tech) */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        {/* Grid */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]"></div>
-        {/* Ambient Glows */}
         <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-blue-600/10 blur-[120px] rounded-full mix-blend-screen"></div>
         <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-purple-600/10 blur-[120px] rounded-full mix-blend-screen"></div>
       </div>
 
       <div className="container relative z-10 px-4 mx-auto">
-        <h2 id="corporate-events-title" className="sr-only">
+        <h2 id="corporate-events-heading" className="sr-only">
           {dictionary.sectionTitleSr}
         </h2>
 
+        {/* ——— YENİ EKLENEN BAŞLIK ALANI (SEO & GİRİŞ) ——— */}
+        <ScrollReveal direction="up" delay="0.05">
+          <div className="text-center max-w-4xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
+              İstanbul'da <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">Kurumsal Etkinlik Yapan Firmalar</span> Arasında Çözüm Ortağınız
+            </h2>
+            <p className="text-slate-400 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
+              Yaratıcı süreçlerden teknik prodüksiyona kadar tüm aşamaları tek merkezden yönetiyor, markanızın prestijini global standartlarda sahneliyoruz.
+            </p>
+          </div>
+        </ScrollReveal>
+        {/* ——— BAŞLIK ALANI SONU ——— */}
+
         {/* 1. KISIM: HİZMET KARTLARI (GLASS DARK) */}
         <ScrollReveal direction="up" delay="0.1">
-          <div className="grid gap-6 lg:gap-8 md:grid-cols-3 mb-16 lg:mb-20">
+          <div className="grid gap-6 lg:gap-8 md:grid-cols-3 mb-16 lg:mb-24">
             {cards.map((card, i) => {
               const cardCtaLabel =
                 dictionary.cardCtaLabels?.[card.slug] ?? dictionary.cardCtaLabel;
@@ -308,7 +319,7 @@ export default function CorporateEvents({
               aria-label={dictionary.advantagesAriaLabel}
             >
               {advantages.map((item, i) => {
-                // HATA DÜZELTME: colorClass kontrolü
+                // HATA DÜZELTME: colorClass boş gelirse varsayılan boş string ata
                 const safeColorClass = item.colorClass || ""; 
                 const safeBorderClass = safeColorClass
                   .split(" ")
@@ -343,7 +354,6 @@ export default function CorporateEvents({
         {/* 3. KISIM: CTA BANNER (COMPACT & FIT) */}
         <ScrollReveal direction="up" delay="0.3">
           <div
-            // DEĞİŞİKLİK: Padding azaltıldı (p-16 -> p-8) ve border-radius küçültüldü
             className="relative rounded-[2rem] bg-gradient-to-br from-blue-900 via-indigo-900 to-[#0B1120] p-6 md:p-10 text-center text-white overflow-hidden shadow-2xl border border-white/10"
             role="region"
             aria-labelledby={bannerTitleId}
@@ -357,7 +367,6 @@ export default function CorporateEvents({
             </div>
 
             <div className="relative z-10 max-w-3xl mx-auto">
-              {/* DEĞİŞİKLİK: Başlık boyutu küçültüldü (text-5xl -> text-3xl) */}
               <h3 id={bannerTitleId} className="text-2xl md:text-4xl font-bold mb-4 leading-tight">
                 {dictionary.bannerTitlePrefix}{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-indigo-200">
@@ -366,7 +375,6 @@ export default function CorporateEvents({
                 {dictionary.bannerTitleSuffix}
               </h3>
               
-              {/* DEĞİŞİKLİK: Margin ve text boyutu azaltıldı */}
               <p
                 id={bannerDescId}
                 className="text-blue-100/80 text-sm md:text-lg mb-8 leading-relaxed"
@@ -374,7 +382,6 @@ export default function CorporateEvents({
                 {dictionary.bannerDescription}
               </p>
 
-              {/* DEĞİŞİKLİK: Buton boyutu h-14 -> h-12 */}
               <div className="flex flex-col sm:flex-row justify-center gap-3 mb-8">
                 <a
                   href={dictionary.phoneCtaHref}
