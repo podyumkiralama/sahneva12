@@ -1,7 +1,6 @@
 // app/(tr)/(site)/page.js
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
 
 // Statik bileşenler
 import CorporateEvents from "@/components/CorporateEvents";
@@ -15,13 +14,15 @@ import {
 // Animasyon bileşenleri
 import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
 
+// Hero arka plan görseli
+import heroImg from "@/public/img/hero-bg.webp";
+
+// ================= SABİT VERİLER =================
+
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
   "https://www.sahneva.com";
 
-// —————————————————————————————————————————
-// SABİT VERİLER
-// —————————————————————————————————————————
 const HERO_IMAGE_ALT =
   "LED ekran, truss çatı ve ışık sistemi içeren Sahneva sahne kurulumunu gösteren arka plan görseli";
 
@@ -65,7 +66,6 @@ const HERO_STATS = [
   { label: "Hizmet Ağı", value: "81 il" },
 ];
 
-// HeroSection için istatistik bar
 const STATS_DATA = [
   { value: "81", label: "İl Hizmeti" },
   { value: "500+", label: "Tamamlanan Proje" },
@@ -173,7 +173,6 @@ const SEO_INFRA_FEATURES = [
   "Jeneratör, UPS ve yedekli enerji altyapısı",
 ];
 
-// Aşağıdaki bölümler için render maliyetini azalt
 const BELOW_THE_FOLD_VISIBILITY_STYLE = Object.freeze({
   contentVisibility: "auto",
   containIntrinsicSize: "1px 800px",
@@ -181,10 +180,7 @@ const BELOW_THE_FOLD_VISIBILITY_STYLE = Object.freeze({
 
 export const revalidate = 3600;
 
-// —————————————————————————————————————————
-// ARKA PLAN GÖRSELİ
-// —————————————————————————————————————————
-import heroImg from "@/public/img/hero-bg.webp";
+// ================= ARKA PLAN GÖRSEL BİLEŞENİ =================
 
 function HeroBackgroundImage({ alt = HERO_IMAGE_ALT }) {
   return (
@@ -204,9 +200,8 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT }) {
   );
 }
 
-// —————————————————————————————————————————
-// JSON-LD (Schema.org)
-// —————————————————————————————————————————
+// ================= JSON-LD =================
+
 function StructuredData() {
   const HOME_URL = SITE_URL;
   const ORGANIZATION_ID = `${SITE_URL}/#org`;
@@ -429,9 +424,7 @@ function StructuredData() {
   );
 }
 
-// —————————————————————————————————————————
-// PARÇALI BİLEŞENLER
-// —————————————————————————————————————————
+// ================= PARÇALI BİLEŞENLER =================
 
 function SectionHeader({
   id,
@@ -704,7 +697,12 @@ function HeroSection() {
             className="group relative inline-flex h-12 items-center justify-center rounded-full bg-white px-8 font-semibold text-slate-900 hover:bg-slate-200 hover:scale-105 transition-all shadow-lg"
           >
             <span className="mr-2">Hemen Teklif Al</span>
-            <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <span
+              className="text-lg group-hover:translate-x-1 transition-transform"
+              aria-hidden="true"
+            >
+              ➜
+            </span>
           </a>
 
           <a
@@ -738,11 +736,7 @@ function HeroSection() {
   );
 }
 
-// ===================== HERO BİTİŞ =====================
-
-// —————————————————————————————————————————
-// ANA SAYFA
-// —————————————————————————————————————————
+// ===================== ANA SAYFA =====================
 
 export default function HomePage() {
   return (
