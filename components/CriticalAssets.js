@@ -42,33 +42,6 @@ const CRITICAL_STYLE = `
   }
 `;
 
-const CRITICAL_SCRIPT = `(() => {
-  const { documentElement } = document;
-  if (documentElement) {
-    documentElement.dataset.js = "true";
-  }
-
-  if (typeof window.requestIdleCallback !== "function") {
-    window.requestIdleCallback = function (cb) {
-      const start = Date.now();
-      return window.setTimeout(() => {
-        cb({
-          didTimeout: false,
-          timeRemaining() {
-            return Math.max(0, 50 - (Date.now() - start));
-          },
-        });
-      }, 1);
-    };
-  }
-
-  if (typeof window.cancelIdleCallback !== "function") {
-    window.cancelIdleCallback = function (id) {
-      window.clearTimeout(id);
-    };
-  }
-})();`;
-
 export default function CriticalAssets() {
   return (
     <>
@@ -76,11 +49,6 @@ export default function CriticalAssets() {
         id="critical-inline-style"
         data-priority="critical"
         dangerouslySetInnerHTML={{ __html: CRITICAL_STYLE.trim() }}
-      />
-      <script
-        id="critical-inline-script"
-        data-priority="critical"
-        dangerouslySetInnerHTML={{ __html: CRITICAL_SCRIPT.trim() }}
       />
     </>
   );

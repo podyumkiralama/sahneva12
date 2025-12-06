@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 
 import SkipLinks from "@/components/SkipLinks";
 import CriticalAssets from "@/components/CriticalAssets";
+import IdleCallbackPolyfill from "@/components/IdleCallbackPolyfill.client";
 import DeferredAnalytics from "@/components/DeferredAnalytics.client";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 
@@ -177,16 +178,17 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
     >
       <body className="min-h-screen bg-white text-neutral-900 flex flex-col">
-        {/* SkipLinks: erişilebilirlik için üstte */}
-        <SkipLinks />
+        {/* SkipLinks: erişilebilirlik için üstte */}
+        <SkipLinks />
 
-        {/* Kritik preload/prefetch varlıkları */}
-        <CriticalAssets />
+        {/* Kritik preload/prefetch varlıkları */}
+        <CriticalAssets />
+        <IdleCallbackPolyfill />
 
-        {/* JSON-LD: Organization & Website */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
+        {/* JSON-LD: Organization & Website */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
             __html: JSON.stringify(organizationJsonLd),
           }}
         />
