@@ -281,10 +281,10 @@ function ServicesTabsComponent({
       className="pt-12 pb-20 md:pt-16 md:pb-28"
       aria-labelledby={headingId}
     >
-      {/* FULL-BLEED ARKA PLAN: parent container padding'ini kırmak için */}
+      {/* FULL-BLEED ARKA PLAN */}
       <div className="relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-gradient-to-b from-white via-slate-50 to-white">
-        {/* İçerik: İnce yan boşluk + max genişlik */}
-        <div className="w-full max-w-6xl mx-auto px-3 sm:px-4 lg:px-6">
+        {/* İçerik: daha geniş container */}
+        <div className="w-full mx-auto px-3 sm:px-6 lg:px-10">
           {/* ——— BAŞLIK ALANI ——— */}
           {!ariaLabelledBy && (
             <ScrollReveal direction="up" delay="0.05">
