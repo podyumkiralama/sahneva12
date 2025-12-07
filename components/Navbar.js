@@ -358,7 +358,12 @@ export default function Navbar() {
     // Odaklanılabilir tüm öğeleri al
     const focusable = Array.from(
       menuNode.querySelectorAll(focusableSelectors)
-    ).filter((el) => el.offsetWidth > 0 || el.offsetHeight > 0); // Görünür öğeleri filtrele
+    ).filter(
+      (el) =>
+        el instanceof HTMLElement &&
+        el.tabIndex !== -1 &&
+        el.getAttribute("aria-hidden") !== "true"
+    );
 
     if (!focusable.length) return;
 
@@ -783,6 +788,8 @@ export default function Navbar() {
                 // ARIA: Akordeon içeriği
                 role="region"
                 aria-labelledby="mobile-services-button" // Button'ın id'si eksik, akordeon düğmesine özel bir id eklenebilir. (Şimdilik atlandı, aria-expanded yeterli)
+                aria-hidden={!mobileServicesOpen}
+                inert={mobileServicesOpen ? undefined : ""}
                 className={`
                   overflow-hidden transition-all duration-300 ease-in-out
                   ${
