@@ -5,14 +5,14 @@ import React from "react";
 // BİLEŞENLER
 // —————————————————————————————————————————
 
-// 1) Statik / Server bileşenler
+// Statik / Server bileşenler
 import HeroSection from "@/components/HeroSection";
 import CorporateIntro from "@/components/CorporateIntro";
 import CorporateEvents from "@/components/CorporateEvents";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import TechCapabilities from "@/components/TechCapabilities";
 
-// 2) Lazy-load / client bileşenler
+// Lazy-load / client bileşenler
 import {
   ServicesTabsDeferred,
   ProjectsGalleryDeferred,
@@ -27,17 +27,15 @@ const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
   "https://www.sahneva.com";
 
-// “Aşağı fold” için içerik görünürlüğü
 const BELOW_THE_FOLD_VISIBILITY_STYLE = Object.freeze({
   contentVisibility: "auto",
   containIntrinsicSize: "1px 800px",
 });
 
-// ISR
 export const revalidate = 3600;
 
 // —————————————————————————————————————————
-// JSON-LD (Schema.org)
+// JSON-LD
 // —————————————————————————————————————————
 function StructuredData() {
   const HOME_URL = SITE_URL;
@@ -80,18 +78,18 @@ export default function HomePage() {
     <>
       <StructuredData />
 
-      {/* Ana zemin: koyu grid tasarımına uygun */}
-      <main className="bg-[#020617] text-white">
+      {/* Navbar fixed olduğu için tüm içerik biraz aşağıdan başlasın */}
+      <main className="bg-[#020617] text-white pt-16 lg:pt-20">
         {/* 1. HERO */}
         <HeroSection />
 
-        {/* 2. Teklif formu anchor’ı (görünmez, sadece scroll hedefi) */}
+        {/* 2. Teklif formu anchor’ı */}
         <div id="teklif-al" className="scroll-mt-24" aria-hidden="true" />
 
         {/* 3. Hizmetler sekmeleri */}
         <section
           aria-label="Sahneva teknik kiralama hizmetleri"
-          className="py-16 md:py-20"
+          className="py-12 md:py-16"
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -102,7 +100,7 @@ export default function HomePage() {
         {/* 4. Projeler galerisi */}
         <section
           aria-label="Sahneva profesyonel proje referans galerisi"
-          className="py-16 md:py-20"
+          className="py-12 md:py-16"
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -110,28 +108,32 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 5. Kurumsal intro + kurumsal event kartı
-            -> Burada sadece TEK bir section arka plan/padding veriyoruz,
-               içteki CorporateIntro / CorporateEvents sadece kart gibi çalışıyor. */}
+        {/* 5. Kurumsal intro (TEK kart, yanına başka şey yok) */}
         <section
           aria-labelledby="corporate-intro-heading"
-          className="py-16 md:py-20"
+          className="py-12 md:py-16"
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid gap-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1.1fr)] items-stretch">
-              {/* Bu iki component kendi içinde rounded-3xl, grid, glow vs. içeriyor;
-                  ekstra arka plan rengi/padding vermiyoruz. */}
-              <CorporateIntro />
-              <CorporateEvents />
-            </div>
+            <CorporateIntro />
           </div>
         </section>
 
-        {/* 6. Neden Biz? */}
+        {/* 6. Kurumsal event / video kartı (ayrı tam genişlik blok) */}
+        <section
+          aria-label="Kurumsal etkinlik prodüksiyon çözümleri"
+          className="py-12 md:py-16"
+          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+        >
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <CorporateEvents />
+          </div>
+        </section>
+
+        {/* 7. Neden Biz? */}
         <section
           aria-label="Sahneva ile çalışmanın avantajları"
-          className="py-16 md:py-20"
+          className="py-12 md:py-16"
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -139,10 +141,10 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 7. Teknik kapasite */}
+        {/* 8. Teknik kapasite */}
         <section
           aria-label="Teknik kapasite ve altyapı"
-          className="py-16 md:py-20"
+          className="py-12 md:py-16"
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -150,10 +152,10 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 8. SSS */}
+        {/* 9. SSS */}
         <section
           aria-label="Sıkça sorulan sorular"
-          className="py-16 md:py-20"
+          className="py-12 md:py-16"
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
