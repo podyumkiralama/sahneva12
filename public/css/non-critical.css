@@ -1,0 +1,90 @@
+/* Non-critical UI polish loaded asynchronously to avoid render-blocking. */
+
+/* Custom scrollbar styling (non-essential for first paint) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9; /* Slate-100 */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1; /* Slate-300 */
+  border-radius: 5px;
+  border: 2px solid #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8; /* Slate-400 */
+}
+
+/* Text selection highlight */
+::selection {
+  background-color: var(--brand-primary);
+  color: #ffffff;
+}
+
+/* Accessibility & focus helpers */
+:focus-visible {
+  outline: 3px solid var(--brand-secondary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.focus-ring {
+  outline: 3px solid transparent;
+  outline-offset: 2px;
+  border-radius: 0.5rem;
+}
+
+.focus-ring:focus-visible {
+  outline-color: var(--brand-secondary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.35);
+}
+
+/* Animation helpers */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  opacity: 0;
+  animation: fade-up 0.7s ease forwards;
+}
+
+.animation-delay-0 {
+  animation-delay: 0ms;
+}
+.animation-delay-100 {
+  animation-delay: 100ms;
+}
+.animation-delay-200 {
+  animation-delay: 200ms;
+}
+.animation-delay-300 {
+  animation-delay: 300ms;
+}
+.animation-delay-400 {
+  animation-delay: 400ms;
+}
+.animation-delay-500 {
+  animation-delay: 500ms;
+}
+
+/* Hide scrollbars when requested */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE & Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none !important; /* Chrome, Safari, Opera */
+}
