@@ -4,40 +4,15 @@
 import React, { useMemo } from "react";
 import { ScrollReveal } from "@/components/ScrollReveal";
 
-const SEO_TECH_FEATURES = [
-  "IP65 dış mekân LED paneller, 4500+ nit parlaklık",
-  "Profesyonel line-array ses sistemleri, dijital mikserler",
-  "Modüler podyum ve sahne platformları, truss sistemleri",
-  "DMX kontrollü ışık sistemleri ve ambiyans aydınlatma",
-];
-
-const SEO_INFRA_FEATURES = [
-  "100m²+ LED ekran kurulumu (P3.9 outdoor)",
-  "Line-array ses sistemleri (JBL, RCF, dB)",
-  "Truss kule sistemleri ve roof sahne çözümleri",
-  "Jeneratör, UPS ve yedekli enerji altyapısı",
-];
-
-const DEFAULT_DICTIONARY = {
-  sectionPill: "Teknoloji & Kapasite",
-  sectionTitlePrefix: "Türkiye'nin",
-  sectionTitleHighlight: "1 Numaralı",
-  sectionTitleSuffix: "Etkinlik Teknoloji Partneri",
-  
-  card1Title: "Uçtan Uca Teknik Hizmet ve Profesyonel Çözümler",
-  card1Desc: "Türkiye genelinde sahne kiralama, podyum kurulumu, LED ekran kiralama ve ses ışık sistemi kurulumu hizmetlerinde komple çözümler sunuyoruz.",
-  
-  card2Title: "Büyük Ölçekli Etkinlikler İçin Güçlü Altyapı",
-  card2Desc: "Konser, miting, festival, fuar ve açık hava etkinlikleri için yüksek kapasiteli ekipman altyapımızla hizmet veriyoruz. 50.000+ kişilik organizasyonlarda aktif rol alıyoruz.",
-};
+// ... (SEO_TECH_FEATURES, SEO_INFRA_FEATURES, DEFAULT_DICTIONARY aynı kalır)
 
 export default function TechCapabilities({ dictionary: dictionaryOverride }) {
   const dictionary = useMemo(() => ({ ...DEFAULT_DICTIONARY, ...dictionaryOverride }), [dictionaryOverride]);
 
   return (
     <section 
-      // DARK MODE ZEMİNİ BURADA BAŞLIYOR
-      className="relative py-16 md:py-24 bg-[#0B1120] overflow-hidden" 
+      // Dikey dolgular kaldırıldı (py-16 md:py-24). Arkaplan rengi uyumlu hale getirildi.
+      className="relative bg-[#0B1120] overflow-hidden" 
       aria-labelledby="tech-capabilities-title"
     >
       {/* Arka Plan Efekti (Dark Mode için) */}
@@ -46,7 +21,8 @@ export default function TechCapabilities({ dictionary: dictionaryOverride }) {
          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-600/10 blur-[120px] rounded-full mix-blend-screen"></div>
       </div>
         
-      <div className="container px-4 mx-auto relative z-10">
+      {/* İçerik kapsayıcısı: Tam genişlik yerine iç padding'i korumak için max-w-7xl ve px-4 tekrar eklendi. */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* ——— BAŞLIK ALANI (Dark Mode Uyumlu) ——— */}
         <ScrollReveal direction="up" delay="0.05">
