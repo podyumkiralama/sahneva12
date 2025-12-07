@@ -6,22 +6,47 @@ import Image from "next/image";
 import { ScrollReveal } from "@/components/ScrollReveal";
 
 const CheckIcon = () => (
-  <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 ring-1 ring-emerald-500/20">
+  <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 ring-1 ring-emerald-500/25">
     <svg
-      xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 20 20"
-      fill="currentColor"
-      className="w-3 h-3 text-emerald-400"
       aria-hidden="true"
+      className="h-3 w-3 text-emerald-400"
     >
       <path
         fillRule="evenodd"
-        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
         clipRule="evenodd"
+        d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z"
       />
     </svg>
   </div>
 );
+
+const TECH_ITEMS = [
+  "Akustik ve enerji analizi",
+  "Teknik çizim & 3D plan",
+  "Acil durum planlaması",
+  "Truss yük testleri",
+  "Yedekli sistem altyapısı",
+  "Görüntü optimizasyonu",
+];
+
+const SERVICE_TAGS = [
+  {
+    title: "Sahne Tasarımı",
+    desc: "Özel 3D modelleme & dekor çözümleri.",
+    border: "border-blue-500/25",
+  },
+  {
+    title: "Görüntü Sistemleri",
+    desc: "Yüksek çözünürlüklü LED & Watchout reji.",
+    border: "border-purple-500/25",
+  },
+  {
+    title: "Teknik Prodüksiyon",
+    desc: "Ses, ışık, truss ve reji yönetimi.",
+    border: "border-emerald-500/25",
+  },
+];
 
 export default function CorporateIntro() {
   return (
@@ -29,89 +54,84 @@ export default function CorporateIntro() {
       aria-labelledby="corporate-intro-heading"
       className="relative py-16 md:py-24 bg-[#020617] overflow-hidden"
     >
-      <div className="container mx-auto px-4">
-        {/* Kart: grid + glow sadece bu bloğun içinde, dışarı taşmaz */}
-        <div className="relative overflow-hidden rounded-3xl bg-[#0B1120] border border-white/10 shadow-2xl">
-          {/* --- ARKA PLAN EFEKTLERİ (SADECE KART İÇİ) --- */}
+      {/* Arka plan glow + grid (sayfa geneli, diğer bölümlerle uyumlu) */}
+      <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#1e293b_0,_transparent_55%)] opacity-60" />
+      </div>
+
+      <div className="container relative z-10 mx-auto px-4">
+        {/* Kart: grid & glow sadece bu bloğun içinde */}
+        <article className="relative overflow-hidden rounded-3xl bg-[#020617] border border-white/8 shadow-[0_18px_60px_rgba(15,23,42,0.9)]">
+          {/* Kart içi grid + glow */}
           <div
-            className="pointer-events-none absolute inset-0 z-0 rounded-3xl"
+            className="pointer-events-none absolute inset-0 rounded-3xl"
             aria-hidden="true"
           >
-            {/* İnce grid */}
-            <div className="absolute inset-0 rounded-3xl bg-[linear-gradient(to_right,#80808010_1px,transparent_1px),linear-gradient(to_bottom,#80808010_1px,transparent_1px)] bg-[size:24px_24px]" />
-            {/* Glowlar */}
-            <div className="absolute -top-32 -left-24 h-[400px] w-[400px] rounded-full bg-blue-600/10 blur-[100px] mix-blend-screen" />
-            <div className="absolute -bottom-40 -right-10 h-[400px] w-[400px] rounded-full bg-purple-600/10 blur-[100px] mix-blend-screen" />
+            <div className="absolute inset-0 rounded-3xl bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:28px_28px]" />
+            <div className="absolute -top-32 -left-16 h-[360px] w-[360px] rounded-full bg-blue-600/18 blur-[100px] mix-blend-screen" />
+            <div className="absolute -bottom-40 -right-8 h-[360px] w-[360px] rounded-full bg-purple-600/18 blur-[110px] mix-blend-screen" />
           </div>
 
-          {/* İçerik */}
-          <div className="relative z-10 grid gap-8 p-6 md:p-8 lg:p-10 lg:grid-cols-[1.3fr_0.9fr] items-center">
-            {/* --- SOL BLOK --- */}
+          <div className="relative z-10 grid items-center gap-8 p-6 md:p-8 lg:p-10 lg:grid-cols-[1.25fr_0.9fr]">
+            {/* SOL BLOK */}
             <div className="flex flex-col gap-6">
+              {/* Badge + başlık + intro */}
               <ScrollReveal direction="up" delay="0.05">
-                <div>
-                  {/* Badge */}
-                  <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-blue-300 backdrop-blur-sm">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
-                      <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500" />
+                <header aria-describedby="corporate-intro-description">
+                  <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-500/35 bg-blue-500/10 px-3 py-1 text-[10px] sm:text-xs font-bold uppercase tracking-[0.18em] text-blue-200 backdrop-blur-sm">
+                    <span className="relative flex h-2 w-2" aria-hidden="true">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/80" />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
                     </span>
                     Profesyonel Çözüm Ortağı
                   </div>
 
-                  {/* Başlık */}
                   <h2
                     id="corporate-intro-heading"
                     className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight text-white"
                   >
-                    Kurumsal <br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">
-                      Sahne &amp; Prodüksiyon
-                    </span>{" "}
-                    Yönetimi
+                    Kurumsal{" "}
+                    <span className="block sm:inline">
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">
+                        Sahne &amp; Prodüksiyon
+                      </span>{" "}
+                      Yönetimi
+                    </span>
                   </h2>
 
-                  {/* Açıklama */}
-                  <p className="mt-3 max-w-2xl text-sm sm:text-base leading-relaxed text-slate-400">
+                  <p
+                    id="corporate-intro-description"
+                    className="mt-3 max-w-2xl text-sm sm:text-base leading-relaxed text-slate-300"
+                  >
                     Lansman, zirve ve bayi toplantılarınızda ihtiyaç
                     duyduğunuz
-                    <span className="text-slate-200 font-medium">
+                    <span className="font-semibold text-slate-50">
                       {" "}
                       sahne, LED ekran ve teknik altyapıyı{" "}
                     </span>
-                    mühendislik hassasiyetiyle planlıyor, kusursuz bir
-                    atmosfer yaratıyoruz.
+                    mühendislik hassasiyetiyle planlıyor; marka imajınızı
+                    güçlendiren, kusursuz bir etkinlik atmosferi
+                    oluşturuyoruz.
                   </p>
-                </div>
+                </header>
               </ScrollReveal>
 
-              {/* Hizmet kartları */}
+              {/* 3 mini hizmet kartı */}
               <ScrollReveal direction="up" delay="0.15">
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-                  {[
-                    {
-                      title: "Sahne Tasarımı",
-                      desc: "Özel 3D modelleme & dekor.",
-                      border: "border-blue-500/20",
-                    },
-                    {
-                      title: "Görüntü Sistemleri",
-                      desc: "Yüksek çözünürlüklü LED & Watchout.",
-                      border: "border-purple-500/20",
-                    },
-                    {
-                      title: "Teknik Prodüksiyon",
-                      desc: "Ses, ışık, truss ve reji yönetimi.",
-                      border: "border-emerald-500/20",
-                    },
-                  ].map((item, idx) => (
+                <div
+                  className="grid grid-cols-1 gap-3 sm:grid-cols-3"
+                  aria-label="Kurumsal etkinliklerde öne çıkan teknik hizmetler"
+                  role="list"
+                >
+                  {SERVICE_TAGS.map((item) => (
                     <div
-                      key={idx}
-                      className={`rounded-xl border ${item.border} bg-white/5 p-3 backdrop-blur-sm transition-transform hover:-translate-y-1 hover:bg-white/10`}
+                      key={item.title}
+                      role="listitem"
+                      className={`rounded-xl border ${item.border} bg-white/5 p-3 backdrop-blur-sm transition-transform duration-200 hover:-translate-y-1 hover:bg-white/10`}
                     >
-                      <strong className="mb-1 block text-xs sm:text-sm font-semibold text-white">
+                      <h3 className="mb-1 text-xs sm:text-sm font-semibold text-white">
                         {item.title}
-                      </strong>
+                      </h3>
                       <p className="text-[10px] sm:text-xs leading-relaxed text-slate-400">
                         {item.desc}
                       </p>
@@ -120,92 +140,97 @@ export default function CorporateIntro() {
                 </div>
               </ScrollReveal>
 
-              {/* Teknik liste */}
+              {/* Teknik standartlar listesi */}
               <ScrollReveal direction="up" delay="0.3">
-                <div className="space-y-3">
-                  <h3 className="flex items-center gap-2 text-sm sm:text-base font-semibold text-white">
-                    <span className="text-blue-500">❖</span> Teknik
-                    Standartlarımız
+                <section aria-label="Kurumsal etkinlik teknik standartlarımız">
+                  <h3 className="mb-2 flex items-center gap-2 text-sm sm:text-base font-semibold text-white">
+                    <span className="text-blue-400" aria-hidden="true">
+                      ❖
+                    </span>
+                    Teknik Standartlarımız
                   </h3>
-                  <div className="rounded-xl border border-white/5 bg-black/20 p-4">
+                  <div className="rounded-xl border border-white/8 bg-black/30 p-4">
                     <ul className="grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2">
-                      {[
-                        "Akustik ve enerji analizi",
-                        "Teknik çizim & 3D plan",
-                        "Acil durum planlaması",
-                        "Truss yük testleri",
-                        "Yedekli sistem altyapısı",
-                        "Görüntü optimizasyonu",
-                      ].map((text, idx) => (
+                      {TECH_ITEMS.map((text) => (
                         <li
-                          key={idx}
+                          key={text}
                           className="flex items-start gap-2"
                         >
                           <CheckIcon />
-                          <span className="text-xs sm:text-sm font-medium text-slate-300">
+                          <span className="text-xs sm:text-sm font-medium text-slate-200">
                             {text}
                           </span>
                         </li>
                       ))}
                     </ul>
                   </div>
-                </div>
+                </section>
               </ScrollReveal>
             </div>
 
-            {/* --- SAĞ BLOK (GÖRSEL) --- */}
+            {/* SAĞ BLOK – GÖRSEL */}
             <ScrollReveal direction="left" delay="0.2">
-              <div className="relative group w-full aspect-[4/5] lg:aspect-[3/4] xl:aspect-[4/5] max-h-[600px] mx-auto">
-                {/* Dış glow border */}
-                <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 opacity-20 blur-md transition duration-1000 group-hover:opacity-40" />
+              <div className="relative mx-auto aspect-[4/5] w-full max-h-[600px] lg:aspect-[3/4] xl:aspect-[4/5] group">
+                {/* dış glow */}
+                <div
+                  className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 opacity-25 blur-md transition duration-700 group-hover:opacity-45"
+                  aria-hidden="true"
+                />
 
-                <div className="relative h-full w-full overflow-hidden rounded-xl border border-white/10 bg-slate-800 shadow-xl">
+                <figure className="relative h-full w-full overflow-hidden rounded-xl border border-white/10 bg-slate-800/80 shadow-xl">
                   <Image
                     src="/img/kurumsal/kurumsal-sahne-led-ekran.webp"
-                    alt="Kurumsal lansman sahne ve LED ekran prodüksiyonu"
+                    alt="Kurumsal lansman için kurulmuş büyük sahne, LED ekran ve ışık sistemleri."
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="object-cover opacity-90 transition-transform duration-700 group-hover:scale-105"
+                    className="object-cover opacity-95 transition-transform duration-700 group-hover:scale-105"
                     onError={(e) => {
-                      // Görsel yüklenemezse sade renk blok
                       e.currentTarget.style.display = "none";
-                      if (e.currentTarget.parentNode) {
-                        e.currentTarget.parentNode.style.backgroundColor =
+                      if (e.currentTarget.parentElement) {
+                        e.currentTarget.parentElement.style.backgroundColor =
                           "#1e293b";
                       }
                     }}
                   />
 
-                  {/* Alt gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-transparent to-transparent" />
+                  {/* alt gradient */}
+                  <div
+                    className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent"
+                    aria-hidden="true"
+                  />
 
-                  {/* Caption alanı */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                  {/* caption */}
+                  <figcaption className="absolute inset-x-0 bottom-0 p-5">
                     <div className="flex flex-col gap-3">
                       <div className="flex flex-wrap gap-2">
-                        <span className="inline-flex items-center gap-1.5 rounded-md border border-emerald-500/30 bg-emerald-500/20 px-2 py-0.5 text-[10px] font-semibold text-emerald-300 backdrop-blur-md">
-                          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+                        <span className="inline-flex items-center gap-1.5 rounded-md border border-emerald-500/40 bg-emerald-500/20 px-2 py-0.5 text-[10px] font-semibold text-emerald-200 backdrop-blur">
+                          <span
+                            className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400"
+                            aria-hidden="true"
+                          />
                           Live System
                         </span>
-                        <span className="inline-flex items-center rounded-md border border-white/10 bg-white/10 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur-md">
+                        <span className="inline-flex items-center rounded-md border border-white/20 bg-black/40 px-2 py-0.5 text-[10px] font-semibold text-slate-50 backdrop-blur">
                           P3.9 LED Screen
                         </span>
                       </div>
+
                       <div className="space-y-0.5">
-                        <h4 className="text-base sm:text-lg font-bold text-white">
+                        <p className="text-sm sm:text-base font-semibold text-white">
                           Kurumsal Lansman Sahnesi
-                        </h4>
-                        <p className="text-xs text-slate-400">
-                          İstanbul &bull; 2000+ Katılımcı
+                        </p>
+                        <p className="text-[11px] text-slate-300">
+                          İstanbul • 2000+ katılımcı • Tam entegre ses,
+                          ışık ve LED ekran yönetimi
                         </p>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  </figcaption>
+                </figure>
               </div>
             </ScrollReveal>
           </div>
-        </div>
+        </article>
       </div>
     </section>
   );
