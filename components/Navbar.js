@@ -741,6 +741,7 @@ export default function Navbar() {
             {/* Mobil Hizmetler Akordeon */}
             <div className="py-1">
               <button
+                id="mobile-services-button"
                 type="button"
                 onClick={() => setMobileServicesOpen((s) => !s)}
                 aria-expanded={mobileServicesOpen}
