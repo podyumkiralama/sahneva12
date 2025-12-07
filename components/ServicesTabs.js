@@ -316,7 +316,7 @@ function ServicesTabsComponent({
       )}
 
       {/* ——— İÇERİK ——— */}
-      <div className="w-full relative px-3 sm:px-4 md:px-6 lg:px-10">
+      <div className="w-full relative px-0 sm:px-2 md:px-4 lg:px-6">
           {/* SEKMELER */}
           <ScrollReveal direction="down" delay="0.1">
             <div className="relative mb-6 z-20">
