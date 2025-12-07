@@ -193,19 +193,22 @@ const SERVICES_DICTIONARY_EN = {
 
 const PROJECT_GALLERIES_EN = {
   "LED Wall Installations": {
-    images: Array.from({ length: 36 }, (_, i) => `/img/galeri/led-ekran-kiralama-${i + 1}.webp`),
+    imagePattern: "/img/galeri/led-ekran-kiralama-{{index}}.webp",
+    imageCount: 36,
     description: "Immersive LED surfaces for conferences, arenas and outdoor brand activations.",
     stats: "50+ Corporate Shows",
     icon: "🖥️",
   },
   "Event Tent Solutions": {
-    images: Array.from({ length: 19 }, (_, i) => `/img/galeri/cadir-kiralama-${i + 1}.webp`),
+    imagePattern: "/img/galeri/cadir-kiralama-{{index}}.webp",
+    imageCount: 19,
     description: "Weatherproof marquees, pagodas and hospitality structures for outdoor gatherings.",
     stats: "100+ Outdoor Events",
     icon: "⛺",
   },
   "Podium & Stage Builds": {
-    images: Array.from({ length: 36 }, (_, i) => `/img/galeri/podyum-kiralama-${i + 1}.webp`),
+    imagePattern: "/img/galeri/podyum-kiralama-{{index}}.webp",
+    imageCount: 36,
     description: "Custom podiums, risers and catwalks supporting product launches and ceremonies.",
     stats: "200+ Installations",
     icon: "👑",
@@ -219,6 +222,7 @@ const PROJECTS_DICTIONARY_EN = {
   cardAlt: "{{title}} by Sahneva",
   seeAllLabel: "View all",
   seeAllSr: " — {{title}} ({{count}} projects)",
+  badgeLabel: "Reference",
   dialogAria: "{{title}} project gallery",
   closeLabel: "Close gallery",
   prevLabel: "‹ Previous",

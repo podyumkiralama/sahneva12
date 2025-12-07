@@ -51,6 +51,41 @@ const DEFAULT_GALLERIES = {
   },
 };
 
+const DEFAULT_DICTIONARY = {
+  exploreAria: "Aç — {{title}} ({{count}} proje)",
+  exploreHiddenLabel: "Aç — {{title}} ({{count}} proje)",
+  hoverCta: "İncele",
+  cardAlt: "{{title}} — referans proje",
+  seeAllLabel: "Tümünü Gör",
+  seeAllSr: " — {{title}} ({{count}} proje)",
+  badgeLabel: "Referans",
+  dialogAria: "{{title}} projesi",
+  closeLabel: "Kapat",
+  prevLabel: "‹ Önceki",
+  prevSr: "Önceki proje",
+  nextLabel: "Sonraki ›",
+  nextSr: "Sonraki proje",
+  mobilePrevLabel: "‹ Önceki",
+  mobileNextLabel: "Sonraki ›",
+  counterLabel: "{{index}} / {{total}}",
+  liveMessage: "{{title}} galerisi {{count}} görselle açıldı",
+  lightboxAlt: "{{title}} — referans proje {{index}}",
+  regionTitleSr: "Proje galerisi listesi ve içerik detayı",
+};
+
+function fillTemplate(template, replacements) {
+  return template?.replace(/\{\{(.*?)\}\}/g, (_, key) => replacements[key] ?? "");
+}
+
+function buildImages({ images, imagePattern, imageCount }) {
+  if (Array.isArray(images) && images.length) return images;
+  if (!imagePattern || !imageCount) return [];
+
+  return Array.from({ length: imageCount }, (_, index) =>
+    fillTemplate(imagePattern, { index: index + 1 })
+  );
+}
+
 // ===============================================================
 // BLUR + IMAGE SETTINGS
 // ===============================================================
@@ -73,8 +108,24 @@ const GalleryCard = memo(function GalleryCard({
   prefersReducedMotion,
   getSrc,
   onError,
+  dictionary,
 }) {
-  const cover = gallery.images[0];
+  const images = gallery.images?.length
+    ? gallery.images
+    : ["/img/placeholder-service.webp"];
+
+  const cover = images[0];
+  const count = images.length;
+
+  const exploreLabel = fillTemplate(dictionary.exploreAria, {
+    title,
+    count,
+  });
+
+  const exploreHiddenLabel = fillTemplate(dictionary.exploreHiddenLabel, {
+    title,
+    count,
+  });
 
   return (
     <article
@@ -90,13 +141,15 @@ const GalleryCard = memo(function GalleryCard({
       <div className="relative h-64 overflow-hidden">
         <button
           type="button"
-          onClick={() => open(title, gallery.images, 0)}
-          aria-label={`${title} — ${gallery.images.length} görsel içeriyor`}
+          onClick={() => open(title, images, 0)}
+          aria-label={exploreLabel}
           className="absolute inset-0 w-full h-full cursor-zoom-in focus:outline-none focus:ring-4 focus:ring-blue-500/40"
         >
+          <span className="sr-only">{exploreHiddenLabel}</span>
+
           <Image
             src={getSrc(cover)}
-            alt={`${title} — referans proje`}
+            alt={fillTemplate(dictionary.cardAlt, { title })}
             fill
             sizes={COVER_SIZES}
             quality={i === 0 ? 70 : 60}
@@ -121,7 +174,7 @@ const GalleryCard = memo(function GalleryCard({
           >
             <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-5 py-2.5">
               <span className="font-bold text-white text-sm flex items-center gap-2">
-                🔍 İncele
+                🔍 {dictionary.hoverCta}
               </span>
             </div>
           </div>
@@ -135,7 +188,7 @@ const GalleryCard = memo(function GalleryCard({
               bg-black/60 backdrop-blur-md text-emerald-400 border border-emerald-500/30
             "
           >
-            Referans
+            {dictionary.badgeLabel}
           </span>
         </button>
       </div>
@@ -167,13 +220,16 @@ const GalleryCard = memo(function GalleryCard({
         </p>
 
         <button
-          onClick={() => open(title, gallery.images, 0)}
+          onClick={() => open(title, images, 0)}
           className="
             w-full inline-flex items-center justify-between
             font-bold text-sm text-white hover:text-blue-400 transition-colors
           "
         >
-          <span>Tümünü Gör</span>
+          <span>
+            {dictionary.seeAllLabel}
+            <span className="sr-only">{fillTemplate(dictionary.seeAllSr, { title, count })}</span>
+          </span>
           <span className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
             ➜
           </span>
@@ -186,7 +242,7 @@ const GalleryCard = memo(function GalleryCard({
 // ===============================================================
 // ANA BİLEŞEN — PROJECTS GALLERY
 // ===============================================================
-export default function ProjectsGallery() {
+export default function ProjectsGallery({ galleries, dictionary }) {
   const [mounted, setMounted] = useState(false);
   const [openState, setOpenState] = useState({
     isOpen: false,
@@ -197,6 +253,25 @@ export default function ProjectsGallery() {
   const [anim, setAnim] = useState(false);
   const [errors, setErrors] = useState({});
   const [reduced, setReduced] = useState(false);
+
+  const normalizedDictionary = useMemo(
+    () => ({ ...DEFAULT_DICTIONARY, ...(dictionary ?? {}) }),
+    [dictionary]
+  );
+
+  const normalizedGalleries = useMemo(() => {
+    const source = galleries ?? DEFAULT_GALLERIES;
+
+    return Object.fromEntries(
+      Object.entries(source).map(([title, gallery]) => [
+        title,
+        {
+          ...gallery,
+          images: buildImages(gallery),
+        },
+      ])
+    );
+  }, [galleries]);
 
   const lastFocus = useRef(null);
   const portal = useRef(null);
@@ -269,12 +344,13 @@ export default function ProjectsGallery() {
 
   if (!mounted) return null;
 
-  const entries = Object.entries(DEFAULT_GALLERIES);
+  const entries = Object.entries(normalizedGalleries);
 
   return (
     <section
       className="relative py-20 bg-[#0B1120] border-t border-white/5 overflow-hidden"
       aria-labelledby="projects-title"
+      aria-label={normalizedDictionary.regionTitleSr}
       role="region"
     >
       {/* Grid Background + Glow — HeroSection ile uyumlu */}
@@ -328,6 +404,7 @@ export default function ProjectsGallery() {
                 prefersReducedMotion={reduced}
                 getSrc={getSrc}
                 onError={handleError}
+                dictionary={normalizedDictionary}
               />
             </ScrollReveal>
           ))}
@@ -346,17 +423,27 @@ export default function ProjectsGallery() {
             `}
             role="dialog"
             aria-modal="true"
-            aria-label={`${openState.title} projesi`}
+            aria-label={fillTemplate(normalizedDictionary.dialogAria, {
+              title: openState.title,
+            })}
             onClick={(e) => e.target === e.currentTarget && close()}
           >
+            <div className="sr-only" aria-live="polite">
+              {fillTemplate(normalizedDictionary.liveMessage, {
+                title: openState.title,
+                count: openState.items.length,
+              })}
+            </div>
+
             <button
               ref={closeBtn}
               className="
-                absolute top-6 right-6 p-3 rounded-full bg-white/10 text-white/80 
-                hover:text-white hover:bg-white/20 
+                absolute top-6 right-6 p-3 rounded-full bg-white/10 text-white/80
+                hover:text-white hover:bg-white/20
                 focus:outline-none focus:ring-2 focus:ring-white/40
               "
               onClick={close}
+              aria-label={normalizedDictionary.closeLabel}
             >
               <svg
                 className="w-8 h-8"
@@ -369,42 +456,78 @@ export default function ProjectsGallery() {
               </svg>
             </button>
 
-            {openState.items.length > 1 && (
-              <>
-                <button
-                  onClick={prev}
-                  className="
-                    hidden md:flex absolute left-6 top-1/2 -translate-y-1/2
-                    bg-black/40 hover:bg-black/60 border border-white/10
-                    rounded-full w-14 h-14 items-center justify-center text-white/70 hover:text-white
-                  "
-                >
-                  ‹
-                </button>
-                <button
-                  onClick={next}
-                  className="
-                    hidden md:flex absolute right-6 top-1/2 -translate-y-1/2
-                    bg-black/40 hover:bg-black/60 border border-white/10
-                    rounded-full w-14 h-14 items-center justify-center text-white/70 hover:text-white
-                  "
-                >
-                  ›
-                </button>
-              </>
-            )}
+              {openState.items.length > 1 && (
+                <>
+                  <button
+                    onClick={prev}
+                    className="
+                      hidden md:flex absolute left-6 top-1/2 -translate-y-1/2
+                      bg-black/40 hover:bg-black/60 border border-white/10
+                      rounded-full w-14 h-14 items-center justify-center text-white/70 hover:text-white
+                    "
+                    aria-label={normalizedDictionary.prevLabel}
+                  >
+                    <span aria-hidden="true">‹</span>
+                    <span className="sr-only">{normalizedDictionary.prevSr}</span>
+                  </button>
+                  <button
+                    onClick={next}
+                    className="
+                      hidden md:flex absolute right-6 top-1/2 -translate-y-1/2
+                      bg-black/40 hover:bg-black/60 border border-white/10
+                      rounded-full w-14 h-14 items-center justify-center text-white/70 hover:text-white
+                    "
+                    aria-label={normalizedDictionary.nextLabel}
+                  >
+                    <span aria-hidden="true">›</span>
+                    <span className="sr-only">{normalizedDictionary.nextSr}</span>
+                  </button>
+                </>
+              )}
 
             <div className="relative w-full max-w-6xl h-[80vh] p-6 flex items-center justify-center">
               <Image
                 key={openState.items[openState.index]}
                 src={getSrc(openState.items[openState.index])}
-                alt={`${openState.title} — ${openState.index + 1}. görsel`}
+                alt={fillTemplate(normalizedDictionary.lightboxAlt, {
+                  title: openState.title,
+                  index: openState.index + 1,
+                })}
                 fill
                 sizes={LIGHTBOX_SIZES}
                 className={`object-contain ${
                   anim ? "opacity-100 scale-100" : "opacity-0 scale-95"
                 } transition-all duration-300`}
               />
+
+              {openState.items.length > 1 && (
+                <div className="absolute inset-x-0 -bottom-2 flex items-center justify-between px-6 md:hidden text-white/80 text-sm">
+                  <button
+                    onClick={prev}
+                    className="inline-flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-full"
+                    aria-label={normalizedDictionary.mobilePrevLabel}
+                  >
+                    <span aria-hidden="true">‹</span>
+                    <span className="sr-only">{normalizedDictionary.prevSr}</span>
+                  </button>
+
+                  <span>
+                    {fillTemplate(normalizedDictionary.counterLabel, {
+                      index: openState.index + 1,
+                      total: openState.items.length,
+                    })}
+                  </span>
+
+                  <button
+                    onClick={next}
+                    className="inline-flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-full"
+                    aria-label={normalizedDictionary.mobileNextLabel}
+                  >
+                    <span className="sr-only">{normalizedDictionary.nextSr}</span>
+                    <span aria-hidden="true">›</span>
+                  </button>
+                </div>
+              )}
             </div>
           </div>,
           portal.current
