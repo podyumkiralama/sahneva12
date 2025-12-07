@@ -1,8 +1,6 @@
 // app/(tr)/(site)/layout.jsx
-import Navbar from "@/components/Navbar";
+import dynamic from "next/dynamic";
 import Footer from "@/components/Footer";
-import UtilityBar from "@/components/UtilityBar.client";
-import StickyVideoRailclient from "@/components/StickyVideoRail.client";
 import DeferredSpeedInsights from "@/components/DeferredSpeedInsights.client";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 
@@ -12,8 +10,20 @@ const SITE_URL =
 
 const content = LOCALE_CONTENT.tr;
 
-// Root Layout zaten title & description yönetiyor.
-// Bu layout sadece canonical + language alternates sağlar.
+// Header / üst bileşenleri sadece client'ta render et
+const UtilityBar = dynamic(
+  () => import("@/components/UtilityBar.client"),
+  { ssr: false }
+);
+const Navbar = dynamic(
+  () => import("@/components/Navbar"),
+  { ssr: false }
+);
+const StickyVideoRailclient = dynamic(
+  () => import("@/components/StickyVideoRail.client"),
+  { ssr: false }
+);
+
 export const metadata = {
   alternates: {
     canonical: `${SITE_URL}/`,
@@ -50,7 +60,6 @@ export default function TurkishLayout({ children }) {
       {/* ================================
           MAIN CONTENT
           ID: _main_content (SkipLinks hedefi)
-          Fixed header boşluğu: pt-16 / lg:pt-20
       ================================= */}
       <main
         id="_main_content"
