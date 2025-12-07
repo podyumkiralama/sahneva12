@@ -18,6 +18,24 @@ const DEFAULT_CLASSES =
 // Bileşen ekranda göründüğünde eklenecek sınıf
 const REVEALED_CLASS = "!opacity-100 !translate-y-0";
 
+function usePrefersReducedMotion() {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !("matchMedia" in window)) return;
+
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updatePreference = () => setPrefersReducedMotion(mediaQuery.matches);
+
+    updatePreference();
+    mediaQuery.addEventListener("change", updatePreference);
+
+    return () => mediaQuery.removeEventListener("change", updatePreference);
+  }, []);
+
+  return prefersReducedMotion;
+}
+
 /**
  * ScrollReveal bileşeni
  * Intersection Observer kullanarak bileşen ekrana girdiğinde animasyon başlatır.
@@ -36,7 +54,9 @@ function ScrollReveal({
   ...rest
 }) {
   const ref = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldAnimate = !prefersReducedMotion;
+  const [isVisible, setIsVisible] = useState(() => !shouldAnimate);
   const [hasPlayed, setHasPlayed] = useState(false);
 
   const handleIntersect = useCallback(([entry]) => {
@@ -47,23 +67,50 @@ function ScrollReveal({
   }, [hasPlayed]);
 
   useEffect(() => {
-    if (!ref.current) return;
+    if (!shouldAnimate) {
+      setIsVisible(true);
+      setHasPlayed(true);
+      return;
+    }
 
-    // Intersection Observer ayarları
-    const observer = new IntersectionObserver(handleIntersect, {
-      root: null, // Viewport'u kullan
-      rootMargin: "0px",
-      threshold: 0.1, // %10'u görünür olduğunda tetikle
-    });
+    if (!ref.current) return undefined;
 
-    observer.observe(ref.current);
+    let idleHandle;
+    let timeoutHandle;
+    let observer;
+
+    const setupObserver = () => {
+      observer = new IntersectionObserver(handleIntersect, {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.1,
+      });
+
+      if (ref.current) {
+        observer.observe(ref.current);
+      }
+    };
+
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      idleHandle = window.requestIdleCallback(setupObserver, { timeout: 400 });
+    } else {
+      timeoutHandle = window.setTimeout(setupObserver, 120);
+    }
 
     return () => {
-      if (ref.current) {
+      if (typeof window !== "undefined" && idleHandle && "cancelIdleCallback" in window) {
+        window.cancelIdleCallback(idleHandle);
+      }
+
+      if (typeof window !== "undefined" && timeoutHandle) {
+        window.clearTimeout(timeoutHandle);
+      }
+
+      if (observer && ref.current) {
         observer.unobserve(ref.current);
       }
     };
-  }, [handleIntersect]);
+  }, [handleIntersect, shouldAnimate]);
 
   // Yöne özel geçiş stilleri
   const getDirectionClasses = (dir) => {
@@ -82,16 +129,20 @@ function ScrollReveal({
     }
   };
 
-  const initialClasses = clsx(
-    DEFAULT_CLASSES,
-    getDirectionClasses(direction),
-    isVisible && REVEALED_CLASS,
-  );
+  const initialClasses = shouldAnimate
+    ? clsx(
+        DEFAULT_CLASSES,
+        getDirectionClasses(direction),
+        isVisible && REVEALED_CLASS,
+      )
+    : undefined;
 
-  const style = {
-    transitionDelay: `${delay * 0.25}s`, // Delay'i daha belirgin hale getir
-    ...(direction === 'scale' && { transitionProperty: 'opacity, transform' }),
-  };
+  const style = shouldAnimate
+    ? {
+        transitionDelay: `${delay * 0.25}s`, // Delay'i daha belirgin hale getir
+        ...(direction === "scale" && { transitionProperty: "opacity, transform" }),
+      }
+    : undefined;
 
   if (asChild) {
     if (!isValidElement(children)) {
