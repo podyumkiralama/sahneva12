@@ -4,6 +4,9 @@ import Image from "next/image";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import heroImg from "@/public/img/hero-bg.webp";
 
+const HERO_IMAGE_SIZES = "(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1400px";
+const HERO_IMAGE_QUALITY = 60;
+
 const HERO_FEATURES = [
   {
     icon: "⭐",
@@ -78,7 +81,10 @@ export default function HeroSection() {
           fill
           priority
           fetchPriority="high"
-          sizes="100vw"
+          sizes={HERO_IMAGE_SIZES}
+          quality={HERO_IMAGE_QUALITY}
+          decoding="async"
+          loading="eager"
           placeholder="blur"
           className="absolute inset-0 w-full h-full object-cover object-center"
           aria-hidden="true"
@@ -97,11 +103,11 @@ export default function HeroSection() {
       </div>
 
       <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-purple-600/18 blur-[130px] rounded-full mix-blend-screen pointer-events-none"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[820px] h-[420px] bg-purple-600/16 blur-[110px] rounded-full mix-blend-screen pointer-events-none"
         aria-hidden="true"
       />
       <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[380px] bg-blue-600/10 blur-[110px] rounded-full mix-blend-screen pointer-events-none"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[680px] h-[320px] bg-blue-600/10 blur-[96px] rounded-full mix-blend-screen pointer-events-none"
         aria-hidden="true"
       />
 
