@@ -46,7 +46,7 @@ function usePrefersReducedMotion() {
  * @param {boolean} [props.asChild] - İçindeki child öğeyi sarmalamak yerine doğrudan ona sınıf uygular.
  * @param {React.ReactNode} props.children - Render edilecek alt öğe.
  */
-function ScrollReveal({
+export function ScrollReveal({
   children,
   delay = "0",
   direction = "up", // 'up', 'down', 'left', 'right', 'scale'
@@ -176,9 +176,7 @@ function ScrollReveal({
  * @param {object} props
  * @param {React.ReactNode} props.children
  */
-function ScrollRevealGroup({ children }) {
+export function ScrollRevealGroup({ children }) {
   // Bu bileşen sadece alt öğeler için bir sarıcıdır, mantığı ScrollReveal'da işlenir.
   return <>{children}</>;
 }
-
-export { ScrollReveal, ScrollRevealGroup };
