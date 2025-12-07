@@ -27,34 +27,30 @@ export default function CorporateIntro() {
   return (
     <section
       aria-labelledby="corporate-intro-heading"
-      className="relative py-12 md:py-16 lg:py-20 bg-slate-950/95"
+      className="relative py-16 md:py-24 bg-[#020617] overflow-hidden"
     >
-      {/* Arka plan ızgara + glow (Hero / ServicesTabs diliyle uyumlu) */}
-      <div
-        className="pointer-events-none absolute inset-0 z-0"
-        aria-hidden="true"
-      >
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:28px_28px]" />
-        <div className="absolute -top-40 -left-10 h-[420px] w-[420px] rounded-full bg-blue-600/15 blur-[110px] mix-blend-screen" />
-        <div className="absolute -bottom-40 -right-16 h-[420px] w-[420px] rounded-full bg-purple-600/15 blur-[110px] mix-blend-screen" />
-      </div>
-
-      {/* Tek container: diğer sectionlarla aynı hizaya gelir */}
-      <div className="relative z-10 container mx-auto px-4">
-        <div className="relative overflow-hidden rounded-3xl bg-[#020617] border border-white/10 shadow-2xl">
-          {/* Card iç ızgara efekti (hafif) */}
+      <div className="container mx-auto px-4">
+        {/* Kart: grid + glow sadece bu bloğun içinde, dışarı taşmaz */}
+        <div className="relative overflow-hidden rounded-3xl bg-[#0B1120] border border-white/10 shadow-2xl">
+          {/* --- ARKA PLAN EFEKTLERİ (SADECE KART İÇİ) --- */}
           <div
-            className="pointer-events-none absolute inset-0 z-0"
+            className="pointer-events-none absolute inset-0 z-0 rounded-3xl"
             aria-hidden="true"
           >
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
+            {/* İnce grid */}
+            <div className="absolute inset-0 rounded-3xl bg-[linear-gradient(to_right,#80808010_1px,transparent_1px),linear-gradient(to_bottom,#80808010_1px,transparent_1px)] bg-[size:24px_24px]" />
+            {/* Glowlar */}
+            <div className="absolute -top-32 -left-24 h-[400px] w-[400px] rounded-full bg-blue-600/10 blur-[100px] mix-blend-screen" />
+            <div className="absolute -bottom-40 -right-10 h-[400px] w-[400px] rounded-full bg-purple-600/10 blur-[100px] mix-blend-screen" />
           </div>
 
+          {/* İçerik */}
           <div className="relative z-10 grid gap-8 p-6 md:p-8 lg:p-10 lg:grid-cols-[1.3fr_0.9fr] items-center">
-            {/* SOL BLOK */}
+            {/* --- SOL BLOK --- */}
             <div className="flex flex-col gap-6">
               <ScrollReveal direction="up" delay="0.05">
                 <div>
+                  {/* Badge */}
                   <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-blue-300 backdrop-blur-sm">
                     <span className="relative flex h-2 w-2">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
@@ -63,6 +59,7 @@ export default function CorporateIntro() {
                     Profesyonel Çözüm Ortağı
                   </div>
 
+                  {/* Başlık */}
                   <h2
                     id="corporate-intro-heading"
                     className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight text-white"
@@ -74,6 +71,7 @@ export default function CorporateIntro() {
                     Yönetimi
                   </h2>
 
+                  {/* Açıklama */}
                   <p className="mt-3 max-w-2xl text-sm sm:text-base leading-relaxed text-slate-400">
                     Lansman, zirve ve bayi toplantılarınızda ihtiyaç
                     duyduğunuz
@@ -81,13 +79,13 @@ export default function CorporateIntro() {
                       {" "}
                       sahne, LED ekran ve teknik altyapıyı{" "}
                     </span>
-                    mühendislik hassasiyetiyle planlıyor, kusursuz bir atmosfer
-                    yaratıyoruz.
+                    mühendislik hassasiyetiyle planlıyor, kusursuz bir
+                    atmosfer yaratıyoruz.
                   </p>
                 </div>
               </ScrollReveal>
 
-              {/* Hizmet Kartları */}
+              {/* Hizmet kartları */}
               <ScrollReveal direction="up" delay="0.15">
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                   {[
@@ -122,7 +120,7 @@ export default function CorporateIntro() {
                 </div>
               </ScrollReveal>
 
-              {/* Teknik Liste */}
+              {/* Teknik liste */}
               <ScrollReveal direction="up" delay="0.3">
                 <div className="space-y-3">
                   <h3 className="flex items-center gap-2 text-sm sm:text-base font-semibold text-white">
@@ -139,7 +137,10 @@ export default function CorporateIntro() {
                         "Yedekli sistem altyapısı",
                         "Görüntü optimizasyonu",
                       ].map((text, idx) => (
-                        <li key={idx} className="flex items-start gap-2">
+                        <li
+                          key={idx}
+                          className="flex items-start gap-2"
+                        >
                           <CheckIcon />
                           <span className="text-xs sm:text-sm font-medium text-slate-300">
                             {text}
@@ -152,9 +153,10 @@ export default function CorporateIntro() {
               </ScrollReveal>
             </div>
 
-            {/* SAĞ BLOK (GÖRSEL) */}
+            {/* --- SAĞ BLOK (GÖRSEL) --- */}
             <ScrollReveal direction="left" delay="0.2">
               <div className="relative group w-full aspect-[4/5] lg:aspect-[3/4] xl:aspect-[4/5] max-h-[600px] mx-auto">
+                {/* Dış glow border */}
                 <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 opacity-20 blur-md transition duration-1000 group-hover:opacity-40" />
 
                 <div className="relative h-full w-full overflow-hidden rounded-xl border border-white/10 bg-slate-800 shadow-xl">
@@ -165,6 +167,7 @@ export default function CorporateIntro() {
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     className="object-cover opacity-90 transition-transform duration-700 group-hover:scale-105"
                     onError={(e) => {
+                      // Görsel yüklenemezse sade renk blok
                       e.currentTarget.style.display = "none";
                       if (e.currentTarget.parentNode) {
                         e.currentTarget.parentNode.style.backgroundColor =
@@ -173,8 +176,10 @@ export default function CorporateIntro() {
                     }}
                   />
 
+                  {/* Alt gradient */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-transparent to-transparent" />
 
+                  {/* Caption alanı */}
                   <div className="absolute bottom-0 left-0 right-0 p-6">
                     <div className="flex flex-col gap-3">
                       <div className="flex flex-wrap gap-2">
