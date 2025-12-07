@@ -1,4 +1,5 @@
 // app/(tr)/(site)/layout.jsx
+import DocumentDirection from "@/components/i18n/DocumentDirection.client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import UtilityBar from "@/components/UtilityBar.client";
@@ -11,10 +12,14 @@ const SITE_URL =
   "https://www.sahneva.com";
 
 const content = LOCALE_CONTENT.tr;
+const DEFAULT_LANG = "tr";
 
-// Root Layout zaten title & description yönetiyor.
-// Bu layout sadece canonical + language alternates sağlar.
 export const metadata = {
+  title: {
+    default: content.meta.title,
+    template: `%s | ${content.meta.title}`,
+  },
+  description: content.meta.description,
   alternates: {
     canonical: `${SITE_URL}/`,
     languages: {
@@ -32,6 +37,7 @@ export default function TurkishLayout({ children }) {
       className="flex min-h-screen flex-col bg-white text-neutral-900"
       dir={content.direction}
     >
+      <DocumentDirection lang={DEFAULT_LANG} dir={content.direction} />
       {/* ================================
           HEADER
           ID: _main_header  (SkipLinks hedefi)

@@ -6,6 +6,7 @@ import SkipLinks from "@/components/SkipLinks";
 import CriticalAssets from "@/components/CriticalAssets";
 import DeferredAnalytics from "@/components/DeferredAnalytics.client";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
+import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 
 const inter = Inter({
   subsets: ["latin", "latin-ext", "arabic"],
@@ -13,6 +14,10 @@ const inter = Inter({
   display: "swap",
   adjustFontFallback: false,
 });
+
+const DEFAULT_LOCALE = LOCALE_CONTENT.tr;
+const DEFAULT_LANG = "tr";
+const DEFAULT_DIR = DEFAULT_LOCALE.direction;
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
@@ -138,8 +143,8 @@ const gaEnabled = Boolean(GA_MEASUREMENT_ID);
 export default function RootLayout({ children }) {
   return (
     <html
-      lang="tr"
-      dir="ltr"
+      lang={DEFAULT_LANG}
+      dir={DEFAULT_DIR}
       className={inter.className}
       suppressHydrationWarning
     >
