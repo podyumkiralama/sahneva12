@@ -328,13 +328,14 @@ function ServicesTabsComponent({
           <ScrollReveal direction="down" delay="0.1">
             <div className="relative mb-6 z-20">
               <div
-                ref={listRef}
-                className="overflow-x-auto scrollbar-hide -mx-4 pb-3 md:pb-0 px-4 md:overflow-visible focus:outline-none border-b border-slate-200"
-                role="tablist"
-                aria-label={dictionary.tablistLabel}
-                aria-orientation="horizontal"
-                onKeyDown={onKeyDownTabs}
-              >
+  ref={listRef}
+  className="overflow-x-auto scrollbar-hide pb-3 md:pb-0 md:overflow-visible focus:outline-none border-b border-slate-200"
+  role="tablist"
+  aria-label={dictionary.tablistLabel}
+  aria-orientation="horizontal"
+  onKeyDown={onKeyDownTabs}
+>
+
                 <div className="flex md:grid md:grid-cols-3 lg:grid-cols-6 gap-2 min-w-max md:min-w-0">
                   {services.map((service) => {
                     const isActive = activeTab === service.id;
