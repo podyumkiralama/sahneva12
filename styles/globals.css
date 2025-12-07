@@ -166,3 +166,13 @@ svg {
     animation-delay: 500ms;
   }
 }
+/* Tüm yatay scroll barlarını gizle */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE & Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none !important; /* Chrome, Safari, Opera */
+}
+
