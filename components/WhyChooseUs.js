@@ -56,6 +56,7 @@ const GlobeMapIcon = ({ className }) => (
 // —————————————————————————————————————————
 // VERİLER
 // —————————————————————————————————————————
+// ... (DEFAULT_FEATURES ve DEFAULT_DICTIONARY içeriği aynı kalır)
 
 const DEFAULT_FEATURES = [
   {
@@ -120,7 +121,7 @@ export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
 
   return (
     <section 
-      // DARK MODE ZEMİN - py sınıfları kaldırıldı, tam yapışık
+      // Dikey boşluklar kaldırıldı.
       className="relative bg-gradient-to-b from-[#0B1120] to-slate-900 overflow-hidden"
       aria-labelledby="why-choose-title"
     >
@@ -134,7 +135,7 @@ export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
          <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-purple-600/10 rounded-full blur-3xl opacity-30 animate-pulse-slow motion-reduce:animate-none -translate-x-1/2 -translate-y-1/2" />
       </div>
       
-      {/* DEĞİŞİKLİK: Yatay boşlukları korumak için max-w-7xl mx-auto ve px-4 sınıfları eklendi. */}
+      {/* İçerik kapsayıcısı (iç padding'ler burada) */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-16 md:py-24">
         
         {/* ——— BAŞLIK ALANI ——— */}
@@ -162,16 +163,17 @@ export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
 
         {/* ——— KARTLAR GRID ALANI (Spot Işık Swapper) ——— */}
         <ScrollRevealGroup>
-          {/* DEĞİŞİKLİK: ARIA hatasını çözmek için <ul> etiketi kullanıldı. role="list" kaldırıldı. */}
-          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* DEĞİŞİKLİK: <div> ve role="list" kullanıldı. Bu, ScrollReveal'ın sarmalamasına izin verir. */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" role="list">
             {DEFAULT_FEATURES.map((feature, index) => (
               <ScrollReveal key={index} delay={String((index % 3) * 0.1)} direction="up" asChild>
-                {/* DEĞİŞİKLİK: article yerine <li> etiketi kullanıldı. role="listitem" kaldırıldı. */}
-                <li
+                {/* DEĞİŞİKLİK: <article> ve role="listitem" kullanıldı. */}
+                <article
+                  role="listitem"
                   className="group relative bg-white/5 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-500 border border-white/10 hover:border-blue-500/30 overflow-hidden hover:-translate-y-1"
                 >
                   
-                  {/* ——— DİNAMİK SPOT IŞIĞI (MOR DEFAULT -> MAVİ HOVER) ——— */}
+                  {/* ——— DİNAMİK SPOT IŞIĞI ——— */}
                   <div 
                     className={`
                       absolute bottom-0 left-0 right-0 h-24 w-full transition-all duration-300
@@ -206,7 +208,6 @@ export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
                       </span>
                     </div>
                     {/* BAŞLIK VE AÇIKLAMA */}
-                    {/* li içerisine h3 kullanmak semantik olarak uygundur. */}
                     <h3 className="text-xl font-bold text-white mb-3 group-hover:text-blue-300 transition-colors">
                       {feature.title}
                     </h3>
@@ -214,10 +215,10 @@ export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
                       {feature.desc}
                     </p>
                   </div>
-                </li>
+                </article>
               </ScrollReveal>
             ))}
-          </ul>
+          </div>
         </ScrollRevealGroup>
       </div>
     </section>
