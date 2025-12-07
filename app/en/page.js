@@ -3,7 +3,6 @@ import { getImageProps } from "next/image";
 import heroImg from "@/public/img/hero-bg.webp";
 import CorporateEvents from "@/components/CorporateEvents";
 import {
-  ReviewBannerDeferred,
   ServicesTabsDeferred,
   ProjectsGalleryDeferred,
   FaqDeferred,
@@ -642,18 +641,6 @@ export default function EnglishHomePage() {
         <div id="get-a-quote" className="sr-only" aria-hidden="true" />
 
         <div aria-hidden="true" className="h-12 lg:h-16" />
-        <div className="sticky top-0 z-40">
-          <ReviewBannerDeferred
-            idleTimeout={2000}
-            rootMargin="0px"
-            className="block"
-            title="Review Sahneva on Google"
-            subtitle="Your feedback helps us deliver better experiences. Could you spare a minute?"
-            ctaLabel="Write a review"
-            ctaAriaLabel="Write a Google review for Sahneva (opens in a new tab)"
-            closeAriaLabel="Dismiss this notification"
-          />
-        </div>
 
         <section
           className="relative py-12 bg-gradient-to-b from-white to-neutral-50/80"

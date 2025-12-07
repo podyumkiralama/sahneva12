@@ -3,7 +3,6 @@ import { getImageProps } from "next/image";
 import heroImg from "@/public/img/hero-bg.webp";
 import CorporateEvents from "@/components/CorporateEvents";
 import {
-  ReviewBannerDeferred,
   ServicesTabsDeferred,
   ProjectsGalleryDeferred,
   FaqDeferred,
@@ -672,19 +671,6 @@ export default function ArabicHomePage() {
         <div id="get-a-quote" className="sr-only" aria-hidden="true" />
 
         <div aria-hidden="true" className="h-12 lg:h-16" />
-        <div className="sticky top-0 z-40">
-          <ReviewBannerDeferred
-            idleTimeout={2000}
-            rootMargin="0px"
-            className="block"
-            title="قيّم سحنيفا على Google"
-            subtitle="ملاحظاتكم تساعدنا على تحسين تجربتكم. هل يمكنكم تخصيص دقيقة؟"
-            ctaLabel="اكتب تقييماً"
-            ctaAriaLabel="اكتب تقييماً على Google لسحنيفا (يفتح في علامة تبويب جديدة)"
-            closeAriaLabel="إغلاق هذا الإشعار"
-            containerProps={{ dir: "rtl" }}
-          />
-        </div>
 
         <section
           className="relative py-12 bg-gradient-to-b from-white to-neutral-50/80"
