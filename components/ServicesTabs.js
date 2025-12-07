@@ -227,7 +227,7 @@ function ServicesTabsComponent({
           <div className="mb-8">
             <div
               ref={listRef}
-              className="flex gap-3 overflow-x-auto scrollbar-hide pb-2"
+              className="flex gap-3 overflow-x-auto hide-scrollbar pb-2"
               role="tablist"
               aria-orientation="horizontal"
               onKeyDown={onKeyDownTabs}
