@@ -44,8 +44,8 @@ export default function HeroSection() {
           className="object-cover object-center"
           aria-hidden="true"
         />
-        <div className="absolute inset-0 bg-slate-950/45" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-slate-950/40 to-transparent" />
+        <div className="absolute inset-0 bg-slate-950/35" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#020617]/60 via-slate-950/35 to-transparent" />
       </div>
 
       {/* --- GRID & SPOTLIGHTS --- */}
