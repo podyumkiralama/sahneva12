@@ -1,27 +1,11 @@
 // app/layout.jsx
 import "../styles/globals.css";
 import { Inter } from "next/font/google";
-import dynamic from "next/dynamic";
 
 import SkipLinks from "@/components/SkipLinks";
 import CriticalAssets from "@/components/CriticalAssets";
 import DeferredAnalytics from "@/components/DeferredAnalytics.client";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
-
-// Header bileşenlerini dinamik (client-only) yükle
-const Navbar = dynamic(() => import("@/components/Navbar"), { ssr: false });
-const UtilityBar = dynamic(
-  () => import("@/components/UtilityBar.client"),
-  { ssr: false }
-);
-const StickyVideoRailclient = dynamic(
-  () => import("@/components/StickyVideoRail.client"),
-  { ssr: false }
-);
-const IdleCallbackPolyfill = dynamic(
-  () => import("@/components/IdleCallbackPolyfill.client"),
-  { ssr: false }
-);
 
 // ================== FONT ==================
 const inter = Inter({
@@ -192,7 +176,6 @@ export default function RootLayout({ children }) {
 
         {/* Kritik preload/prefetch varlıkları */}
         <CriticalAssets />
-        <IdleCallbackPolyfill />
 
         {/* JSON-LD: Organization & Website */}
         <script
@@ -208,27 +191,8 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/* ================================
-            HEADER (Sabitlenmiş - Global)
-        ================================= */}
-        <header
-          id="_main_header" // SkipLinks hedefi
-          role="banner"
-          aria-label="Sahneva site başlığı ve ana gezinme"
-          className="w-full fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm shadow-md"
-        >
-          <UtilityBar />
-          <Navbar />
-          <StickyVideoRailclient />
-        </header>
-
-        {/* Ana içerik (fixed header yüksekliğine göre padding) */}
-        <main
-          id="main-content"
-          className="flex-grow pt-32" // header yüksekliğine göre ayarla
-        >
-          {children}
-        </main>
+        {/* Route layout'lar kendi main/header/footer'ını yönetir */}
+        {children}
 
         {/* Analytics: gecikmeli yükleme */}
         {gaEnabled && (
