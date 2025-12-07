@@ -8,30 +8,8 @@ import DeferredHydration from "@/components/DeferredHydration.client";
 // SKELETON BİLEŞENLERİ (DARK MODE UYUMLU)
 // —————————————————————————————————————————————————
 
-function ReviewBannerSkeleton() {
-    // Bu bileşen, koyu temalı hero'dan hemen sonra, açık renkli bir bantta yer alır.
-    // Bu yüzden Light Mode (Açık Tema) kalmalıdır.
-    return (
-        <div
-            className="pointer-events-none w-full"
-            aria-hidden="true"
-            style={{ contain: "layout paint", minHeight: "80px" }}
-        >
-            <div className="mx-auto max-w-3xl rounded-2xl border border-amber-200/60 bg-white/80 p-4 shadow-lg">
-                <div className="flex items-center gap-3">
-                    <div className="hidden sm:block h-10 w-10 rounded-full bg-amber-200/80 motion-safe:animate-pulse" />
-                    <div className="flex-1 space-y-2">
-                        <div className="h-3 w-3/4 rounded bg-neutral-200 motion-safe:animate-pulse" />
-                        <div className="h-3 w-1/2 rounded bg-neutral-200 motion-safe:animate-pulse" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-}
-
 function ServicesTabsSkeleton({ srLabel = "Hizmet sekmeleri yükleniyor" } = {}) {
-    // ServicesTabs bileşeni Light zeminde yer alsa da, iç paneli Dark olduğu için 
+    // ServicesTabs bileşeni Light zeminde yer alsa da, iç paneli Dark olduğu için
     // iskeleti Dark Mode'da hazırlamak, yüklenme sırasında renk geçişini yumuşatır.
     return (
         <div
@@ -105,11 +83,6 @@ function FaqSkeleton({ srLabel = "Sıkça sorulan sorular yükleniyor" } = {}) {
 // DİNAMİK BİLEŞENLER
 // —————————————————————————————————————————————————
 
-const ReviewBannerLazy = dynamic(() => import("@/components/ReviewBanner"), {
-    ssr: false,
-    loading: () => null, 
-});
-
 const ServicesTabsLazy = dynamic(() => import("@/components/ServicesTabs"), {
     ssr: false,
     loading: () => null,
@@ -131,16 +104,6 @@ const FaqLazy = dynamic(() => import("@/components/Faq"), {
 // —————————————————————————————————————————————————
 // DIŞA AKTARILAN DEFERRED BİLEŞENLER
 // —————————————————————————————————————————————————
-
-export function ReviewBannerDeferred(props) {
-    return (
-        <div style={{ minHeight: "80px" }}>
-            <DeferredHydration fallback={<ReviewBannerSkeleton />} {...props}>
-                <ReviewBannerLazy {...props} />
-            </DeferredHydration>
-        </div>
-    );
-}
 
 export function ServicesTabsDeferred(props) {
     return (
