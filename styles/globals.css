@@ -59,35 +59,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ==========================================================================
-   Custom Scrollbar (Webkit)
-   ========================================================================== */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f5f9; /* Slate-100 */
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #cbd5e1; /* Slate-300 */
-  border-radius: 5px;
-  border: 2px solid #f1f5f9;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: #94a3b8; /* Slate-400 */
-}
-
-/* ==========================================================================
-   Text Selection
-   ========================================================================== */
-::selection {
-  background-color: var(--brand-primary);
-  color: #ffffff;
-}
-
 /* Medya elementleri */
 img,
 video,
@@ -98,81 +69,11 @@ svg {
   display: block; /* alt boşluk sorununu önler */
 }
 
-/* ==========================================================================
-   Erişilebilirlik & Etkileşim
-   ========================================================================== */
-:focus-visible {
-  outline: 3px solid var(--brand-secondary);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
 /* Erişilebilirlik modları için değişkenler */
 .accessibility-active {
   --acc-font-size: 16px;
   --acc-line-height: 1.6;
   --acc-letter-spacing: 0px;
   --acc-word-spacing: 0px;
-}
-
-/* ==========================================================================
-   Utilities Layer
-   ========================================================================== */
-@layer utilities {
-  .focus-ring {
-    outline: 3px solid transparent;
-    outline-offset: 2px;
-    border-radius: 0.5rem;
-  }
-
-  .focus-ring:focus-visible {
-    outline-color: var(--brand-secondary);
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.35);
-  }
-
-  @keyframes fade-up {
-    from {
-      opacity: 0;
-      transform: translateY(14px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .animate-fade-up {
-    opacity: 0;
-    animation: fade-up 0.7s ease forwards;
-  }
-
-  /* Eski dosyadaki gecikme utilitiy'lerini de koru */
-  .animation-delay-0 {
-    animation-delay: 0ms;
-  }
-  .animation-delay-100 {
-    animation-delay: 100ms;
-  }
-  .animation-delay-200 {
-    animation-delay: 200ms;
-  }
-  .animation-delay-300 {
-    animation-delay: 300ms;
-  }
-  .animation-delay-400 {
-    animation-delay: 400ms;
-  }
-  .animation-delay-500 {
-    animation-delay: 500ms;
-  }
-}
-/* Tüm yatay scroll barlarını gizle */
-.hide-scrollbar {
-  -ms-overflow-style: none; /* IE & Edge */
-  scrollbar-width: none; /* Firefox */
-}
-
-.hide-scrollbar::-webkit-scrollbar {
-  display: none !important; /* Chrome, Safari, Opera */
 }
 
