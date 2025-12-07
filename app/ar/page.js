@@ -16,6 +16,10 @@ const { home } = LOCALE_CONTENT.ar;
 const HERO_IMAGE_ALT_AR =
   "خلفية تعرض منصة مع شاشة LED وهيكل تعليق وإضاءة من فريق ساهنيفا للتقنيات الحدثية";
 
+const HERO_IMAGE_SIZES =
+  "(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1400px";
+const HERO_IMAGE_QUALITY = 60;
+
 const HERO_FEATURES_AR = [
   {
     icon: "⭐",
@@ -502,13 +506,15 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT_AR, ariaHidden = false }) {
   const { props } = getImageProps({
     alt,
     src: heroImg,
-    sizes: "100vw",
+    sizes: HERO_IMAGE_SIZES,
 
     // Avoid Next.js <link rel="preload"> during route prefetches (causes console warnings)
     // while still keeping the hero image eagerly loaded on actual visits.
     fetchPriority: "high",
     placeholder: "blur",
-    quality: 70,
+    quality: HERO_IMAGE_QUALITY,
+    loading: "eager",
+    decoding: "async",
     className: "absolute inset-0 h-full w-full object-cover object-center",
     style: {
       filter: "brightness(0.7) contrast(1.1) saturate(1.05)",
@@ -539,8 +545,8 @@ export default function ArabicHomePage() {
           aria-hidden="true"
         />
         <div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse motion-reduce:animate-none"
-          style={{ animationDuration: "8s" }}
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent motion-safe:animate-[pulse_10s_ease-in-out_infinite] motion-reduce:animate-none"
+          style={{ animationDuration: "10s" }}
           aria-hidden="true"
         />
 
