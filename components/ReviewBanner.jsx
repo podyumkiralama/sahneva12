@@ -95,6 +95,7 @@ function ReviewBanner({
   const [activated, setActivated] = useState(false);
 
   const wrapRef = useRef(null);
+  const rafIdRef = useRef(null);
 
   const stickyStyle = useMemo(
     () => ({
@@ -107,14 +108,25 @@ function ReviewBanner({
 
   // Banner yüksekliğini ölçüp :root'a CSS var olarak yaz
   const applyRootOffset = useCallback(() => {
-    if (!wrapRef.current) return;
-    const h = wrapRef.current.offsetHeight || 0;
-    const root = document.documentElement;
-    root.style.setProperty("--rb-bottom", `${h + 8}px`); // +8px nefes payı
-    root.classList.add("has-review-banner");
+    if (rafIdRef.current) {
+      cancelAnimationFrame(rafIdRef.current);
+    }
+
+    rafIdRef.current = requestAnimationFrame(() => {
+      if (!wrapRef.current) return;
+      const h = wrapRef.current.getBoundingClientRect().height || 0;
+      const root = document.documentElement;
+      root.style.setProperty("--rb-bottom", `${h + 8}px`); // +8px nefes payı
+      root.classList.add("has-review-banner");
+    });
   }, []);
 
   const clearRootOffset = useCallback(() => {
+    if (rafIdRef.current) {
+      cancelAnimationFrame(rafIdRef.current);
+      rafIdRef.current = null;
+    }
+
     const root = document.documentElement;
     root.style.removeProperty("--rb-bottom");
     root.classList.remove("has-review-banner");
