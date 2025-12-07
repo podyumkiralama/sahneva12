@@ -193,19 +193,22 @@ const SERVICES_DICTIONARY_AR = {
 
 const PROJECT_GALLERIES_AR = {
   "تركيبات شاشات LED": {
-    images: Array.from({ length: 36 }, (_, i) => `/img/galeri/led-ekran-kiralama-${i + 1}.webp`),
+    imagePattern: "/img/galeri/led-ekran-kiralama-{{index}}.webp",
+    imageCount: 36,
     description: "شاشات غامرة للمؤتمرات، الملاعب وتجارب العلامات التجارية في الهواء الطلق.",
     stats: "+50 عرضًا مؤسسيًا",
     icon: "🖥️",
   },
   "حلول خيام الفعاليات": {
-    images: Array.from({ length: 19 }, (_, i) => `/img/galeri/cadir-kiralama-${i + 1}.webp`),
+    imagePattern: "/img/galeri/cadir-kiralama-{{index}}.webp",
+    imageCount: 19,
     description: "خيام مقاومة للطقس مع مساحات ضيافة وتجهيزات استقبال متكاملة.",
     stats: "+100 فعالية خارجية",
     icon: "⛺",
   },
   "منصات وبوديوم": {
-    images: Array.from({ length: 36 }, (_, i) => `/img/galeri/podyum-kiralama-${i + 1}.webp`),
+    imagePattern: "/img/galeri/podyum-kiralama-{{index}}.webp",
+    imageCount: 36,
     description: "منصات مخصصة، ممشى عرض وحلول بوديوم لدعم الإطلاقات والحفلات.",
     stats: "+200 تركيب",
     icon: "👑",
@@ -219,6 +222,7 @@ const PROJECTS_DICTIONARY_AR = {
   cardAlt: "{{title}} من تنفيذ سحنيفا",
   seeAllLabel: "عرض الكل",
   seeAllSr: " — {{title}} ({{count}} مشروع)",
+  badgeLabel: "مرجع",
   dialogAria: "معرض مشاريع {{title}}",
   closeLabel: "إغلاق المعرض",
   prevLabel: "‹ السابق",
