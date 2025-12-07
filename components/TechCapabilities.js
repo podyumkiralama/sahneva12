@@ -4,7 +4,34 @@
 import React, { useMemo } from "react";
 import { ScrollReveal } from "@/components/ScrollReveal";
 
-// ... (SEO_TECH_FEATURES, SEO_INFRA_FEATURES, DEFAULT_DICTIONARY aynı kalır)
+const SEO_TECH_FEATURES = [
+  "LED ekran, projeksiyon, mapping ve sahne ışıklandırmada son nesil ekipman kullanımı",
+  "Uydu, fiber ve 5G destekli canlı yayın altyapısı ile kesintisiz yayın",
+  "Çok kameralı çekim, karıştırıcı ve ses masasıyla eş zamanlı yönetim",
+  "Katılımcı etkileşimi için interaktif çözümler ve dinamik grafik sistemleri",
+  "Özel içerik oluşturma, video prodüksiyon ve post-prodüksiyon desteği",
+];
+
+const SEO_INFRA_FEATURES = [
+  "Kurumsal etkinlikler için modüler sahne ve truss sistemleri",
+  "600 m²'ye kadar LED ekran kapasitesi ve yüksek parlaklık seçenekleri",
+  "Büyük ölçekli konser ve kongreler için profesyonel ses ve akustik düzenlemeler",
+  "Yedekli güç altyapısı ve jeneratör entegrasyonu",
+  "Türkiye genelinde lojistik, kurulum ve teknik operasyon yönetimi",
+];
+
+const DEFAULT_DICTIONARY = {
+  sectionPill: "Teknik Yeterlilik",
+  sectionTitlePrefix: "Teknoloji ile",
+  sectionTitleHighlight: "Sahne",
+  sectionTitleSuffix: "İmkanları",
+  card1Title: "Teknik Çözümler",
+  card1Desc:
+    "projelerinize özel sahne, ışık, LED ekran, görüntü ve yayın çözümlerini tek çatı altında sunuyoruz.",
+  card2Title: "Büyük Kapasite ve Altyapı",
+  card2Desc:
+    "farklı ölçeklerdeki etkinlikler için Türkiye genelinde lojistik, kurulum ve operasyon desteği sağlıyoruz.",
+};
 
 export default function TechCapabilities({ dictionary: dictionaryOverride }) {
   const dictionary = useMemo(() => ({ ...DEFAULT_DICTIONARY, ...dictionaryOverride }), [dictionaryOverride]);
