@@ -91,19 +91,19 @@ export default function HomePage() {
       {/* 4. PROJELER GALERİSİ (Önceki 5. bölüm) */}
       <ProjectsGalleryDeferred idleTimeout={3200} rootMargin="250px" />
 
-      {/* 5. KURUMSAL (Önceki 6. bölüm) */}
-      <section
-        className="py-16 md:py-24 bg-white"
-        aria-labelledby="kurumsal-intro-title"
-        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
-      >
-        <div className="container px-4 mx-auto">
-          <div className="space-y-20">
-            <CorporateIntro />
-            <CorporateEvents />
-          </div>
-        </div>
-      </section>
+            {/* 5. KURUMSAL (Önceki 6. bölüm) */}
+      <section
+        className="pt-10 pb-12 md:pt-12 md:pb-14 bg-white"
+        aria-labelledby="kurumsal-intro-title"
+        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+      >
+        <div className="container px-4 mx-auto">
+          <div className="space-y-12 md:space-y-16">
+            <CorporateIntro />
+            <CorporateEvents />
+          </div>
+        </div>
+      </section>
 
       {/* 6. NEDEN BİZ? (Önceki 7. bölüm) */}
       <WhyChooseUs />
