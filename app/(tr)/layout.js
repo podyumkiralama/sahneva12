@@ -1,6 +1,8 @@
 // app/(tr)/(site)/layout.jsx
-import dynamic from "next/dynamic";
+import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import UtilityBar from "@/components/UtilityBar.client";
+import StickyVideoRailclient from "@/components/StickyVideoRail.client";
 import DeferredSpeedInsights from "@/components/DeferredSpeedInsights.client";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 
@@ -10,20 +12,8 @@ const SITE_URL =
 
 const content = LOCALE_CONTENT.tr;
 
-// Header / üst bileşenleri sadece client'ta render et
-const UtilityBar = dynamic(
-  () => import("@/components/UtilityBar.client"),
-  { ssr: false }
-);
-const Navbar = dynamic(
-  () => import("@/components/Navbar"),
-  { ssr: false }
-);
-const StickyVideoRailclient = dynamic(
-  () => import("@/components/StickyVideoRail.client"),
-  { ssr: false }
-);
-
+// Root Layout zaten title & description yönetiyor.
+// Bu layout sadece canonical + language alternates sağlar.
 export const metadata = {
   alternates: {
     canonical: `${SITE_URL}/`,
