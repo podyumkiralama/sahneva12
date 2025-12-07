@@ -281,12 +281,12 @@ function ServicesTabsComponent({
       className="relative py-16 md:py-24 bg-gradient-to-b from-white via-slate-50 to-white overflow-hidden"
       aria-labelledby={headingId}
     >
-      {/* İstersen hafif grid / glow efekti ekleriz */}
+      {/* Hafif grid efekti */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000005_1px,transparent_1px),linear-gradient(to_bottom,#00000005_1px,transparent_1px)] bg-[size:40px_40px]" />
       </div>
 
-      {/* ProjectGallery ile AYNI container yapısı */}
+      {/* ProjectsGallery ile AYNI container yapısı */}
       <div className="container relative z-10 px-4 mx-auto">
         {/* ——— BAŞLIK ALANI ——— */}
         {!ariaLabelledBy && (
@@ -328,14 +328,13 @@ function ServicesTabsComponent({
           <ScrollReveal direction="down" delay="0.1">
             <div className="relative mb-6 z-20">
               <div
-  ref={listRef}
-  className="overflow-x-auto scrollbar-hide pb-3 md:pb-0 md:overflow-visible focus:outline-none border-b border-slate-200"
-  role="tablist"
-  aria-label={dictionary.tablistLabel}
-  aria-orientation="horizontal"
-  onKeyDown={onKeyDownTabs}
->
-
+                ref={listRef}
+                className="overflow-x-auto scrollbar-hide pb-3 md:pb-0 md:overflow-visible focus:outline-none border-b border-slate-200"
+                role="tablist"
+                aria-label={dictionary.tablistLabel}
+                aria-orientation="horizontal"
+                onKeyDown={onKeyDownTabs}
+              >
                 <div className="flex md:grid md:grid-cols-3 lg:grid-cols-6 gap-2 min-w-max md:min-w-0">
                   {services.map((service) => {
                     const isActive = activeTab === service.id;
@@ -429,7 +428,7 @@ function ServicesTabsComponent({
                         {activeService.features.map((feature, idx) => (
                           <div
                             key={idx}
-                            className="group flex items-center gap-2.5 p-2.5 bg-white/5 border border-white/5 hover:bg-white/10 hover:border_WHITE/10 transition-colors"
+                            className="group flex items-center gap-2.5 p-2.5 bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/10 transition-colors"
                           >
                             <TechCheckIcon />
                             <span className="text-xs md:text-sm font-medium text-slate-300 group-hover:text-white transition-colors">
