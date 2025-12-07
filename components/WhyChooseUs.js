@@ -4,7 +4,63 @@
 import React, { useMemo } from "react";
 import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
 
-// ... (İkonlar, Veriler, DEFAULT_DICTIONARY aynı kalır)
+// —————————————————————————————————————————
+// YAPILANDIRMA & VERİLER
+// —————————————————————————————————————————
+
+const DEFAULT_DICTIONARY = {
+  sectionPill: "Neden Sahneva?",
+  sectionTitlePrefix: "Etkinliklerinizi",
+  sectionTitleHighlight: "Güçlendiren",
+  sectionTitleSuffix: " Teknik Partner",
+  sectionDesc:
+    "LED ekran, sahne, ışık ve ses sistemleriyle İstanbul'dan tüm Türkiye'ye uzanan anahtar teslim teknik prodüksiyon çözümleri.",
+};
+
+const DEFAULT_FEATURES = [
+  {
+    icon: "🚚",
+    gradient: "from-amber-500/50 via-orange-500/30 to-rose-500/30",
+    stat: "48 saat içinde kurulum",
+    title: "Hızlı & Planlı Lojistik",
+    desc: "Merkezi depodan sahaya kadar tüm sevkiyat ve kurulum süreçlerini zamanında tamamlıyoruz.",
+  },
+  {
+    icon: "🛠️",
+    gradient: "from-blue-500/50 via-indigo-500/30 to-sky-500/20",
+    stat: "Bakımlı ekipman",
+    title: "Güncel Ekipman Parkı",
+    desc: "Periyodik bakımı yapılan ses, ışık ve LED envanteriyle kesintisiz yayın sağlıyoruz.",
+  },
+  {
+    icon: "🧠",
+    gradient: "from-emerald-500/50 via-teal-500/30 to-green-500/20",
+    stat: "10+ yıl deneyim",
+    title: "Uzman Teknik Kadro",
+    desc: "Her etkinlikte sahada bulunan süpervizörlerimiz olası riskleri proaktif olarak yönetir.",
+  },
+  {
+    icon: "🎥",
+    gradient: "from-purple-500/50 via-fuchsia-500/30 to-violet-500/20",
+    stat: "4K yayına hazır",
+    title: "Görüntü & Yayın Kalitesi",
+    desc: "Canlı yayın, kayıt ve geniş format LED çözümleriyle marka görünürlüğünü güçlendiriyoruz.",
+  },
+  {
+    icon: "🤝",
+    gradient: "from-cyan-500/50 via-sky-500/30 to-blue-500/20",
+    stat: "Sözleşmeli süreç",
+    title: "Şeffaf ve Güvenli İşleyiş",
+    desc: "Teknik şartnameye dayalı teklif, resmi sözleşme ve sigortalı operasyon yönetiyoruz.",
+  },
+  {
+    icon: "📞",
+    gradient: "from-lime-500/50 via-emerald-500/30 to-green-500/20",
+    stat: "7/24 destek",
+    title: "Kesintisiz İletişim",
+    desc: "Proje öncesi ve sonrası tüm sorularınız için tek noktadan erişilebilen destek ekibi.",
+  },
+];
 
 
 // —————————————————————————————————————————
