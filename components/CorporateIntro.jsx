@@ -5,7 +5,18 @@ import React from "react";
 import Image from "next/image";
 import { ScrollReveal } from "@/components/ScrollReveal";
 
-// ... (CheckIcon kısmı aynı kalır)
+const CheckIcon = () => (
+  <svg
+    className="w-4 h-4 text-emerald-400 flex-shrink-0 drop-shadow-[0_0_6px_rgba(52,211,153,0.35)]"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    aria-hidden="true"
+  >
+    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+  </svg>
+);
 
 export default function CorporateIntro() {
   return (
