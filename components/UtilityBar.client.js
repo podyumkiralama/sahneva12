@@ -18,6 +18,7 @@ export default function UtilityBarClient() {
 
     let idleId = null;
     let timeoutId = null;
+    let listenerAttached = false;
 
     const activate = () => {
       setShouldRender(true);
@@ -31,10 +32,29 @@ export default function UtilityBarClient() {
       cleanup();
     };
 
-    const cleanup = () => {
+    const attachListeners = () => {
+      if (listenerAttached) return;
+      listenerAttached = true;
+
       events.forEach((event) =>
-        window.removeEventListener(event, handleFirstInteraction)
+        window.addEventListener(event, handleFirstInteraction, {
+          passive: true,
+        })
       );
+
+      // Ek güvenlik: 5 saniye içinde hiçbir şey olmazsa yine yükle
+      timeoutId = window.setTimeout(() => {
+        activate();
+        cleanup();
+      }, 5000);
+    };
+
+    const cleanup = () => {
+      if (listenerAttached) {
+        events.forEach((event) =>
+          window.removeEventListener(event, handleFirstInteraction)
+        );
+      }
 
       if (idleId && "cancelIdleCallback" in window) {
         window.cancelIdleCallback(idleId);
@@ -44,29 +64,12 @@ export default function UtilityBarClient() {
       }
     };
 
-    // Etkileşim dinleyicileri
-    events.forEach((event) =>
-      window.addEventListener(event, handleFirstInteraction, {
-        passive: true,
-      })
-    );
-
-    // Tarayıcı destekliyorsa idle sırasında yükle (fallback)
+    // Dinleyicileri, main thread boşta kaldığında ekle
     if ("requestIdleCallback" in window) {
-      idleId = window.requestIdleCallback(
-        () => {
-          activate();
-          cleanup();
-        },
-        { timeout: 5000 }
-      );
+      idleId = window.requestIdleCallback(attachListeners, { timeout: 1500 });
+    } else {
+      timeoutId = window.setTimeout(attachListeners, 150);
     }
-
-    // Ek güvenlik: 5 saniye içinde hiçbir şey olmazsa yine yükle
-    timeoutId = window.setTimeout(() => {
-      activate();
-      cleanup();
-    }, 5000);
 
     return cleanup;
   }, [shouldRender]);
