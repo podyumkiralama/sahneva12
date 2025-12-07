@@ -278,11 +278,11 @@ function ServicesTabsComponent({
 
   return (
     <section
-      className="pt-10 pb-16 md:pt-14 md:pb-24 bg-gradient-to-b from-white to-blue-50 overflow-hidden"
+      className="pt-6 pb-10 md:pt-8 md:pb-16 bg-gradient-to-b from-white to-blue-50 overflow-hidden"
       aria-labelledby={headingId}
     >
-      {/* ProjectsGallery ile aynı: container + max-w-7xl + px-4 */}
-      <div className="container max-w-7xl mx-auto px-4">
+    {/* Geniş kullanım alanı için tam genişlik + ince yan boşluklar */}
+    <div className="w-full mx-auto px-1.5 sm:px-3 lg:px-4">
         {/* ——— BAŞLIK ALANI ——— */}
         {!ariaLabelledBy && (
           <ScrollReveal direction="up" delay="0.05">
