@@ -2,17 +2,17 @@
 import React from "react";
 
 // —————————————————————————————————————————
-// BİLEŞENLER (COMPONENTS)
+// BİLEŞENLER
 // —————————————————————————————————————————
 
-// Statik / Server Bileşenler
+// Statik / Server komponentler
 import HeroSection from "@/components/HeroSection";
 import CorporateEvents from "@/components/CorporateEvents";
 import CorporateIntro from "@/components/CorporateIntro";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import TechCapabilities from "@/components/TechCapabilities";
 
-// Client / Lazy Load Bileşenler
+// Client / Lazy load komponentler
 import {
   ServicesTabsDeferred,
   ProjectsGalleryDeferred,
@@ -27,24 +27,23 @@ const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
   "https://www.sahneva.com";
 
-// Ekranın alt kısımları için performans optimizasyonu
+// “Below the fold” içerik görünürlüğü (CLS için)
 const BELOW_THE_FOLD_VISIBILITY_STYLE = Object.freeze({
   contentVisibility: "auto",
   containIntrinsicSize: "1px 800px",
 });
 
-// ISR süresi
 export const revalidate = 3600;
 
 // —————————————————————————————————————————
-// JSON-LD (Schema.org) - SEO VERİLERİ
+// JSON-LD (WebPage)
 // —————————————————————————————————————————
 
 function StructuredData() {
   const HOME_URL = SITE_URL;
-  const ORGANIZATION_ID = `${SITE_URL}/#org`;
   const WEBSITE_ID = `${SITE_URL}/#website`;
   const WEBPAGE_ID = `${SITE_URL}/#webpage`;
+  const ORGANIZATION_ID = `${SITE_URL}/#org`;
 
   const data = {
     "@context": "https://schema.org",
@@ -53,7 +52,8 @@ function StructuredData() {
         "@type": "WebPage",
         "@id": WEBPAGE_ID,
         url: HOME_URL,
-        name: "Sahne Sistemleri, LED Ekran, Ses-Işık Kiralama | Türkiye Geneli | Sahneva",
+        name:
+          "Sahne Sistemleri, LED Ekran, Ses-Işık Kiralama | Türkiye Geneli | Sahneva",
         description:
           "Sahneva ile profesyonel sahne, podyum, LED ekran, ses ve ışık sistemleri kiralama çözümlerini keşfedin. İstanbul merkezli, Türkiye geneli hızlı kurulum.",
         inLanguage: "tr-TR",
@@ -73,50 +73,71 @@ function StructuredData() {
 }
 
 // —————————————————————————————————————————
-// ANA SAYFA (HOME PAGE)
+// ANA SAYFA
 // —————————————————————————————————————————
 
 export default function HomePage() {
   return (
-    <div className="bg-slate-50">
+    <div className="bg-slate-950 text-slate-50">
       <StructuredData />
 
-      {/* 1. HERO BÖLÜMÜ */}
+      {/* 1. HERO */}
       <HeroSection />
 
-      {/* 2. TEKLİF AL (Anchor Hedefi) */}
+      {/* Teklif formu hedefi */}
       <div id="teklif-al" className="scroll-mt-24" />
 
-      {/* 3. HİZMETLER */}
-      <ServicesTabsDeferred idleTimeout={2800} rootMargin="200px" />
-
-      {/* 4. PROJELER GALERİSİ */}
-      <ProjectsGalleryDeferred idleTimeout={3200} rootMargin="250px" />
-
-      {/* 5. KURUMSAL GİRİŞ (CorporateIntro - full width, kendi section’ı var) */}
-      <div style={BELOW_THE_FOLD_VISIBILITY_STYLE}>
-        <CorporateIntro />
-      </div>
-
-      {/* 6. KURUMSAL ETKİNLİKLER (CorporateEvents için koyu şerit) */}
+      {/* 2. HİZMETLER (ServicesTabs kendi section/bg’sine sahip) */}
       <section
-        aria-labelledby="kurumsal-events-title"
-        className="bg-slate-950 py-16 md:py-20 border-t border-slate-900"
+        aria-label="Sahneva teknik kiralama hizmetleri"
         style={BELOW_THE_FOLD_VISIBILITY_STYLE}
       >
-        <div className="max-w-7xl mx-auto px-4">
+        <ServicesTabsDeferred idleTimeout={2800} rootMargin="200px" />
+      </section>
+
+      {/* 3. PROJELER GALERİSİ */}
+      <section
+        aria-label="Tamamlanan projeler ve referanslar"
+        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+      >
+        <ProjectsGalleryDeferred idleTimeout={3200} rootMargin="250px" />
+      </section>
+
+      {/* 4. KURUMSAL BLOK (CorporateIntro + CorporateEvents aynı katmanda) */}
+      <section
+        aria-labelledby="corporate-intro-heading"
+        className="relative py-12 md:py-16"
+        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+      >
+        <div className="container mx-auto px-4 space-y-12 md:space-y-16">
+          <CorporateIntro />
           <CorporateEvents />
         </div>
       </section>
 
-      {/* 7. NEDEN BİZ? */}
-      <WhyChooseUs />
+      {/* 5. NEDEN BİZ? */}
+      <section
+        aria-label="Sahneva neden tercih edilmeli"
+        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+      >
+        <WhyChooseUs />
+      </section>
 
-      {/* 8. TEKNİK KAPASİTE */}
-      <TechCapabilities />
+      {/* 6. TEKNİK KAPASİTE */}
+      <section
+        aria-label="Teknik kapasite ve altyapı"
+        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+      >
+        <TechCapabilities />
+      </section>
 
-      {/* 9. SSS (FAQ) */}
-      <FaqDeferred idleTimeout={3600} rootMargin="300px" />
+      {/* 7. SSS */}
+      <section
+        aria-label="Sıkça sorulan sorular"
+        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+      >
+        <FaqDeferred idleTimeout={3600} rootMargin="300px" />
+      </section>
     </div>
   );
 }
