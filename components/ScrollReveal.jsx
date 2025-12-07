@@ -1,7 +1,14 @@
 // components/ScrollReveal.jsx
 "use client";
 
-import { useRef, useEffect, useState, useCallback } from "react";
+import {
+  useRef,
+  useEffect,
+  useState,
+  useCallback,
+  cloneElement,
+  isValidElement,
+} from "react";
 import clsx from "clsx";
 
 // Varsayılan geçiş sınıfları
@@ -87,27 +94,21 @@ function ScrollReveal({
   };
 
   if (asChild) {
-    // Child'ın mevcut sınıflarını koru
-    const child = children;
-    
-    // Yalnızca geçerli bir React öğesi ise işlem yap
-    if (typeof child.type !== 'string' && child.type) {
-        return (
-            <child.type 
-                {...child.props} 
-                ref={ref}
-                className={clsx(child.props.className, initialClasses)}
-                style={{ ...style, ...child.props.style }}
-                {...rest}
-            />
-        );
-    }
-    // HTML elementleri için basit fallback
-    return (
+    if (!isValidElement(children)) {
+      // Geçersiz child durumda, sarmalayıcı kullanmaya geri dön
+      return (
         <div ref={ref} className={initialClasses} style={style} {...rest}>
-            {children}
+          {children}
         </div>
-    );
+      );
+    }
+
+    return cloneElement(children, {
+      ref,
+      className: clsx(children.props.className, initialClasses),
+      style: { ...style, ...children.props.style },
+      ...rest,
+    });
   }
 
   // Wrapper olarak kullan
