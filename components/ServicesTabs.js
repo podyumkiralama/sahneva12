@@ -281,8 +281,8 @@ function ServicesTabsComponent({
       className="pt-12 pb-20 md:pt-16 md:pb-28 bg-gradient-to-b from-white via-slate-50 to-white"
       aria-labelledby={headingId}
     >
-      {/* ProjectsGallery ile aynı: container + max-w-7xl + px-4 */}
-      <div className="container max-w-7xl mx-auto px-4">
+    {/* Geniş kullanım alanı için tam genişlik + ince yan boşluklar */}
+    <div className="w-full mx-auto px-3 sm:px-4 lg:px-6">
         {/* ——— BAŞLIK ALANI ——— */}
         {!ariaLabelledBy && (
           <ScrollReveal direction="up" delay="0.05">
