@@ -205,6 +205,7 @@ function HeroSection() {
           alt="Profesyonel podyum kurulumu"
           fill
           priority
+          fetchPriority="high"
           className="object-cover"
           sizes="100vw"
           placeholder="blur"

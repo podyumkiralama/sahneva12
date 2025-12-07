@@ -77,6 +77,7 @@ export default function HeroSection() {
           alt=""
           fill
           priority
+          fetchPriority="high"
           sizes="100vw"
           placeholder="blur"
           className="absolute inset-0 w-full h-full object-cover object-center"
