@@ -44,13 +44,13 @@ export default function HeroSection() {
           className="object-cover object-center"
           aria-hidden="true"
         />
-        <div className="absolute inset-0 bg-slate-950/70" />
+        <div className="absolute inset-0 bg-slate-950/45" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-slate-950/40 to-transparent" />
       </div>
 
       {/* --- GRID & SPOTLIGHTS --- */}
       <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute inset-0 opacity-30 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:34px_34px]" />
+        <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:34px_34px]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_0%,transparent_20%,#020617_90%)]" />
       </div>
 
