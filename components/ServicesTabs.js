@@ -241,7 +241,7 @@ function ServicesTabsComponent({
     [imageErrors]
   );
 
-  // A11Y: Klavye Navigasyonu
+  // A11Y: Klavye navigasyonu
   const onKeyDownTabs = useCallback((e) => {
     if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) return;
     e.preventDefault();
@@ -274,18 +274,18 @@ function ServicesTabsComponent({
 
   if (!services.length) return null;
 
+  const headingId = ariaLabelledBy ?? regionLabelId;
+
   return (
     <section
-      // Hero ile aradaki boşluk iyice kısaldı
-      className="pt-6 pb-16 md:pt-10 md:pb-24 bg-gradient-to-b from-white to-blue-50 overflow-hidden"
-      aria-labelledby={ariaLabelledBy ?? regionLabelId}
+      className="pt-10 pb-16 md:pt-14 md:pb-24 bg-gradient-to-b from-white to-blue-50 overflow-hidden"
+      aria-labelledby={headingId}
     >
-      {/* Tam genişlik (hero ile aynı genişlik hissi) */}
-      <div className="px-4 mx-auto w-full">
+      {/* ProjectsGallery ile aynı: container + max-w-7xl + px-4 */}
+      <div className="container max-w-7xl mx-auto px-4">
         {/* ——— BAŞLIK ALANI ——— */}
         {!ariaLabelledBy && (
           <ScrollReveal direction="up" delay="0.05">
-            {/* Okunabilirlik için max genişlik korunuyor */}
             <div className="text-center max-w-4xl mx-auto mb-10 md:mb-12">
               {/* Pill etiket */}
               <div className="flex justify-center mb-3">
