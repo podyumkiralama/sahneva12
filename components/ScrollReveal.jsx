@@ -1,7 +1,14 @@
 // components/ScrollReveal.jsx
 "use client";
 
-import { useRef, useEffect, useState, cloneElement, isValidElement } from "react";
+import {
+  useRef,
+  useEffect,
+  useState,
+  useCallback,
+  cloneElement,
+  isValidElement,
+} from "react";
 import clsx from "clsx";
 
 // Varsayılan geçiş sınıfları
@@ -10,52 +17,6 @@ const DEFAULT_CLASSES =
 
 // Bileşen ekranda göründüğünde eklenecek sınıf
 const REVEALED_CLASS = "!opacity-100 !translate-y-0";
-
-const observerCallbacks = new Map();
-let sharedObserver;
-let sharedObserverPromise;
-
-function createObserver() {
-  return new IntersectionObserver((entries) => {
-    for (const entry of entries) {
-      const callback = observerCallbacks.get(entry.target);
-
-      if (callback) {
-        callback(entry);
-
-        if (entry.isIntersecting) {
-          observerCallbacks.delete(entry.target);
-          sharedObserver?.unobserve(entry.target);
-        }
-      }
-    }
-  }, {
-    root: null,
-    rootMargin: "0px",
-    threshold: 0.1,
-  });
-}
-
-function ensureObserver() {
-  if (typeof window === "undefined") return Promise.resolve(null);
-  if (sharedObserver) return Promise.resolve(sharedObserver);
-  if (sharedObserverPromise) return sharedObserverPromise;
-
-  sharedObserverPromise = new Promise((resolve) => {
-    const setupObserver = () => {
-      sharedObserver = createObserver();
-      resolve(sharedObserver);
-    };
-
-    if ("requestIdleCallback" in window) {
-      window.requestIdleCallback(setupObserver, { timeout: 400 });
-    } else {
-      window.setTimeout(setupObserver, 120);
-    }
-  });
-
-  return sharedObserverPromise;
-}
 
 function usePrefersReducedMotion() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
@@ -96,7 +57,7 @@ export function ScrollReveal({
   const prefersReducedMotion = usePrefersReducedMotion();
   const shouldAnimate = !prefersReducedMotion;
   const [isVisible, setIsVisible] = useState(() => !shouldAnimate);
-  const hasPlayedRef = useRef(!shouldAnimate);
+  const [hasPlayed, setHasPlayed] = useState(false);
 
   useEffect(() => {
     if (!shouldAnimate) {
@@ -105,33 +66,51 @@ export function ScrollReveal({
       return;
     }
 
-    const element = ref.current;
-    if (!element) return undefined;
+  useEffect(() => {
+    if (!shouldAnimate) {
+      setIsVisible(true);
+      setHasPlayed(true);
+      return;
+    }
 
-    let cancelled = false;
+    if (!ref.current) return undefined;
 
-    ensureObserver().then((observer) => {
-      if (!observer || cancelled || !ref.current || hasPlayedRef.current) return;
+    let idleHandle;
+    let timeoutHandle;
+    let observer;
 
-      observerCallbacks.set(element, (entry) => {
-        if (entry.isIntersecting && !hasPlayedRef.current) {
-          hasPlayedRef.current = true;
-          setIsVisible(true);
-        }
+    const setupObserver = () => {
+      observer = new IntersectionObserver(handleIntersect, {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.1,
       });
 
-      observer.observe(element);
-    });
-
-    return () => {
-      cancelled = true;
-
-      if (element) {
-        observerCallbacks.delete(element);
-        sharedObserver?.unobserve(element);
+      if (ref.current) {
+        observer.observe(ref.current);
       }
     };
-  }, [shouldAnimate]);
+
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      idleHandle = window.requestIdleCallback(setupObserver, { timeout: 400 });
+    } else {
+      timeoutHandle = window.setTimeout(setupObserver, 120);
+    }
+
+    return () => {
+      if (typeof window !== "undefined" && idleHandle && "cancelIdleCallback" in window) {
+        window.cancelIdleCallback(idleHandle);
+      }
+
+      if (typeof window !== "undefined" && timeoutHandle) {
+        window.clearTimeout(timeoutHandle);
+      }
+
+      if (observer && ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, [handleIntersect, shouldAnimate]);
 
   // Yöne özel geçiş stilleri
   const getDirectionClasses = (dir) => {
