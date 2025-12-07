@@ -278,53 +278,51 @@ function ServicesTabsComponent({
 
   return (
     <section
-      className="pt-10 pb-16 md:pt-14 md:pb-24 bg-gradient-to-b from-white to-blue-50 overflow-hidden"
+      className="pt-12 pb-20 md:pt-16 md:pb-28 bg-gradient-to-b from-white via-slate-50 to-white"
       aria-labelledby={headingId}
     >
-      {/* ProjectsGallery ile aynı: container + max-w-7xl + px-4 */}
-      <div className="container max-w-7xl mx-auto px-4">
-        {/* ——— BAŞLIK ALANI ——— */}
-        {!ariaLabelledBy && (
-          <ScrollReveal direction="up" delay="0.05">
-            <div className="text-center max-w-4xl mx-auto mb-10 md:mb-12">
-              {/* Pill etiket */}
-              <div className="flex justify-center mb-3">
-                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-bold uppercase tracking-wider shadow-sm">
-                  <span
-                    className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"
-                    aria-hidden="true"
-                  />
-                  {dictionary.sectionPill}
-                </span>
-              </div>
-
-              {/* Başlık */}
-              <h2
-                id={regionLabelId}
-                className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight tracking-tight"
-              >
-                {dictionary.sectionTitlePrefix}{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-                  {dictionary.sectionTitleHighlight}
-                </span>
-              </h2>
-
-              {/* Açıklama */}
-              <p className="text-gray-600 text-base md:text-lg leading-relaxed max-w-3xl mx-auto">
-                {dictionary.sectionDesc}
-              </p>
+      {/* ——— BAŞLIK ALANI ——— */}
+      {!ariaLabelledBy && (
+        <ScrollReveal direction="up" delay="0.05">
+          <div className="text-center max-w-4xl mx-auto mb-10 md:mb-12 px-4 sm:px-6">
+            {/* Pill etiket */}
+            <div className="flex justify-center mb-3">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-bold uppercase tracking-wider shadow-sm">
+                <span
+                  className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"
+                  aria-hidden="true"
+                />
+                {dictionary.sectionPill}
+              </span>
             </div>
-          </ScrollReveal>
-        )}
 
-        {/* ——— İÇERİK ——— */}
-        <div className="w-full relative">
+            {/* Başlık */}
+            <h2
+              id={regionLabelId}
+              className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight tracking-tight"
+            >
+              {dictionary.sectionTitlePrefix}{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+                {dictionary.sectionTitleHighlight}
+              </span>
+            </h2>
+
+            {/* Açıklama */}
+            <p className="text-gray-600 text-base md:text-lg leading-relaxed max-w-3xl mx-auto">
+              {dictionary.sectionDesc}
+            </p>
+          </div>
+        </ScrollReveal>
+      )}
+
+      {/* ——— İÇERİK ——— */}
+      <div className="w-full relative px-3 sm:px-4 md:px-6 lg:px-10">
           {/* SEKMELER */}
           <ScrollReveal direction="down" delay="0.1">
-            <div className="relative mb-5 z-20">
+            <div className="relative mb-6 z-20">
               <div
                 ref={listRef}
-                className="overflow-x-auto scrollbar-hide -mx-4 pb-2 md:pb-0 px-4 md:overflow-visible focus:outline-none"
+                className="overflow-x-auto scrollbar-hide -mx-4 pb-3 md:pb-0 px-4 md:overflow-visible focus:outline-none border-b border-slate-200"
                 role="tablist"
                 aria-label={dictionary.tablistLabel}
                 aria-orientation="horizontal"
@@ -344,20 +342,17 @@ function ServicesTabsComponent({
                         tabIndex={isActive ? 0 : -1}
                         onClick={() => setActiveTab(service.id)}
                         className={`
-                          group relative flex flex-col md:flex-row lg:flex-col items-center justify-center gap-1.5 px-3 py-3 rounded-lg font-bold text-xs md:text-sm transition-all duration-300
-                          focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2
-                          border
+                          group relative flex flex-col md:flex-row lg:flex-col items-center justify-center gap-1.5 px-3 py-3 font-bold text-xs md:text-sm transition-all duration-200
+                          focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500
+                          border border-slate-200 bg-white
                           ${
                             isActive
-                              ? "text-white shadow-xl scale-[1.02] z-10 border-transparent"
-                              : "text-slate-600 bg-white border-slate-200 hover:border-blue-300 hover:bg-blue-50/50 hover:text-blue-700"
+                              ? "text-slate-900 shadow-sm border-slate-900/10"
+                              : "text-slate-600 hover:border-blue-300 hover:text-blue-700"
                           }
                         `}
-                        style={{ minWidth: "140px" }}
+                        style={{ minWidth: "148px" }}
                       >
-                        {isActive && (
-                          <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 animate-gradient-x" />
-                        )}
 
                         <span
                           className="relative z-10 text-xl md:text-2xl filter drop-shadow-sm transition-transform group-hover:scale-110"
@@ -387,7 +382,7 @@ function ServicesTabsComponent({
           {/* ANA PANEL */}
           <ScrollReveal direction="up" delay="0.2">
             <div
-              className="relative overflow-hidden rounded-3xl bg-[#0B1120] border border-white/10 shadow-2xl transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-4 focus-visible:ring-offset-white"
+              className="relative overflow-hidden bg-[#0B1120] border border-slate-900/40 shadow-2xl transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
               role="tabpanel"
               id={`panel-${activeService?.id}`}
               aria-labelledby={`tab-${activeService?.id}`}
@@ -403,14 +398,14 @@ function ServicesTabsComponent({
               </div>
 
               {activeService && (
-                <div className="relative z-10 grid lg:grid-cols-[1.05fr_1fr] gap-0">
+                <div className="relative z-10 grid lg:grid-cols-[1.08fr_0.92fr] gap-0 min-h-[460px]">
                   {/* SOL: METİN */}
                   <div className="p-7 md:p-10 flex flex-col justify-center order-2 lg:order-1">
                     <div className="mb-6">
                       <h3 className="text-2xl md:text-3xl lg:text-4xl font-black text-white leading-tight mb-3 drop-shadow-xl">
                         {activeService.title}
                       </h3>
-                      <p className="text-slate-400 text-sm md:text-base leading-relaxed border-l-2 border-blue-500 pl-4">
+                      <p className="text-slate-300 text-sm md:text-base leading-relaxed border-l-2 border-blue-500/70 pl-4">
                         {activeService.description}
                       </p>
                     </div>
@@ -427,7 +422,7 @@ function ServicesTabsComponent({
                         {activeService.features.map((feature, idx) => (
                           <div
                             key={idx}
-                            className="group flex items-center gap-2.5 p-2.5 rounded-lg bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/10 transition-colors"
+                            className="group flex items-center gap-2.5 p-2.5 bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/10 transition-colors"
                           >
                             <TechCheckIcon />
                             <span className="text-xs md:text-sm font-medium text-slate-300 group-hover:text-white transition-colors">
@@ -438,10 +433,10 @@ function ServicesTabsComponent({
                       </div>
                     </div>
 
-                    <div>
+                    <div className="mt-auto pt-2">
                       <Link
                         href={activeService.href}
-                        className="group inline-flex items-center gap-3 bg-white text-slate-950 font-bold text-base px-6 py-3 rounded-lg shadow-[0_0_15px_rgba(255,255,255,0.15)] hover:shadow-[0_0_25px_rgba(255,255,255,0.3)] hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-slate-900"
+                        className="group inline-flex items-center gap-3 bg-white text-slate-950 font-bold text-base px-6 py-3 shadow-[0_0_15px_rgba(255,255,255,0.15)] hover:shadow-[0_0_25px_rgba(255,255,255,0.3)] hover:translate-y-[-2px] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/60"
                         title={formatTitleTemplate(
                           dictionary.ctaTitle,
                           activeService.title,
@@ -455,7 +450,7 @@ function ServicesTabsComponent({
                       >
                         <span>{dictionary.ctaLabel}</span>
                         <div
-                          className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors"
+                          className="w-6 h-6 bg-slate-100 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors"
                           aria-hidden="true"
                         >
                           <ArrowRightIcon className="w-3.5 h-3.5" />
