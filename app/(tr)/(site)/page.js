@@ -84,15 +84,17 @@ export default function HomePage() {
         <HeroSection />
 
         {/* 2. Teklif formu anchor’ı */}
+        {/* scroll-mt-24 sabit (fixed) navigasyon çubuğu ile üst üste binmesini engeller */}
         <div id="teklif-al" className="scroll-mt-24" aria-hidden="true" />
 
         {/* 3. Hizmetler sekmeleri */}
         <section
           aria-label="Sahneva teknik kiralama hizmetleri"
-          className="py-12 md:py-16"
+          // py-12 md:py-16 kaldırıldı, boşluk yok
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          {/* container mx-auto px-4 sm:px-6 lg:px-8 kaldırıldı, tam genişlik */}
+          <div className="w-full"> 
             <ServicesTabsDeferred idleTimeout={2800} rootMargin="200px" />
           </div>
         </section>
@@ -100,10 +102,11 @@ export default function HomePage() {
         {/* 4. Projeler galerisi */}
         <section
           aria-label="Sahneva profesyonel proje referans galerisi"
-          className="py-12 md:py-16"
+          // py-12 md:py-16 kaldırıldı, boşluk yok
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          {/* container mx-auto px-4 sm:px-6 lg:px-8 kaldırıldı, tam genişlik */}
+          <div className="w-full">
             <ProjectsGalleryDeferred idleTimeout={3200} rootMargin="250px" />
           </div>
         </section>
@@ -111,10 +114,11 @@ export default function HomePage() {
         {/* 5. Kurumsal intro (TEK kart, yanına başka şey yok) */}
         <section
           aria-labelledby="corporate-intro-heading"
-          className="py-12 md:py-16"
+          // py-12 md:py-16 kaldırıldı, boşluk yok
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          {/* container mx-auto px-4 sm:px-6 lg:px-8 kaldırıldı, tam genişlik */}
+          <div className="w-full">
             <CorporateIntro />
           </div>
         </section>
@@ -122,10 +126,11 @@ export default function HomePage() {
         {/* 6. Kurumsal event / video kartı (ayrı tam genişlik blok) */}
         <section
           aria-label="Kurumsal etkinlik prodüksiyon çözümleri"
-          className="py-12 md:py-16"
+          // py-12 md:py-16 kaldırıldı, boşluk yok
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          {/* container mx-auto px-4 sm:px-6 lg:px-8 kaldırıldı, tam genişlik */}
+          <div className="w-full">
             <CorporateEvents />
           </div>
         </section>
@@ -133,10 +138,11 @@ export default function HomePage() {
         {/* 7. Neden Biz? */}
         <section
           aria-label="Sahneva ile çalışmanın avantajları"
-          className="py-12 md:py-16"
+          // py-12 md:py-16 kaldırıldı, boşluk yok
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          {/* container mx-auto px-4 sm:px-6 lg:px-8 kaldırıldı, tam genişlik */}
+          <div className="w-full">
             <WhyChooseUs />
           </div>
         </section>
@@ -144,10 +150,11 @@ export default function HomePage() {
         {/* 8. Teknik kapasite */}
         <section
           aria-label="Teknik kapasite ve altyapı"
-          className="py-12 md:py-16"
+          // py-12 md:py-16 kaldırıldı, boşluk yok
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          {/* container mx-auto px-4 sm:px-6 lg:px-8 kaldırıldı, tam genişlik */}
+          <div className="w-full">
             <TechCapabilities />
           </div>
         </section>
@@ -155,10 +162,11 @@ export default function HomePage() {
         {/* 9. SSS */}
         <section
           aria-label="Sıkça sorulan sorular"
-          className="py-12 md:py-16"
+          // py-12 md:py-16 kaldırıldı, boşluk yok
           style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          {/* container mx-auto px-4 sm:px-6 lg:px-8 kaldırıldı, tam genişlik */}
+          <div className="w-full">
             <FaqDeferred idleTimeout={3600} rootMargin="300px" />
           </div>
         </section>
