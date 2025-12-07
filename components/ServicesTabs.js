@@ -287,7 +287,7 @@ function ServicesTabsComponent({
       </div>
 
       {/* ProjectsGallery ile AYNI container yapısı */}
-      <div className="relative z-10 px-4 md:px-6 lg:px-10 mx-auto max-w-7xl">
+     <div className="relative z-10 px-4 mx-auto w-full max-w-[1400px]">
         {/* ——— BAŞLIK ALANI ——— */}
         {!ariaLabelledBy && (
           <ScrollReveal direction="up" delay="0.05">
