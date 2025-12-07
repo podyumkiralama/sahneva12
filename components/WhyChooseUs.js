@@ -163,15 +163,11 @@ export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
 
         {/* ——— KARTLAR GRID ALANI (Spot Işık Swapper) ——— */}
         <ScrollRevealGroup>
-          {/* DEĞİŞİKLİK: <div> ve role="list" kullanıldı. Bu, ScrollReveal'ın sarmalamasına izin verir. */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" role="list">
+          {/* Semantik liste yapısı: <ul> ve <li> kullanıldı. */}
+          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {DEFAULT_FEATURES.map((feature, index) => (
               <ScrollReveal key={index} delay={String((index % 3) * 0.1)} direction="up" asChild>
-                {/* DEĞİŞİKLİK: <article> ve role="listitem" kullanıldı. */}
-                <article
-                  role="listitem"
-                  className="group relative bg-white/5 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-500 border border-white/10 hover:border-blue-500/30 overflow-hidden hover:-translate-y-1"
-                >
+                <li className="group relative bg-white/5 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-500 border border-white/10 hover:border-blue-500/30 overflow-hidden hover:-translate-y-1">
                   
                   {/* ——— DİNAMİK SPOT IŞIĞI ——— */}
                   <div 
@@ -215,10 +211,10 @@ export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
                       {feature.desc}
                     </p>
                   </div>
-                </article>
+                </li>
               </ScrollReveal>
             ))}
-          </div>
+          </ul>
         </ScrollRevealGroup>
       </div>
     </section>
