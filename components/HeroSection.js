@@ -109,8 +109,8 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
       fill
       priority
       fetchPriority="high"
-      sizes="100vw"
-      quality={60}
+      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 1400px"
+      quality={55}
       placeholder="empty"
       className="absolute inset-0 h-full w-full object-cover object-center"
       style={HERO_IMAGE_STYLE}
