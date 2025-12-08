@@ -145,7 +145,7 @@ export default function HeroSection() {
               className="w-2 h-2 bg-green-400 rounded-full"
               aria-hidden="true"
             />
-            Türkiye Geneli Profesyonel Hizmet
+            Sahneva Organizasyon • Türkiye Geneli Profesyonel Hizmet
           </p>
 
           {/* Başlık */}
