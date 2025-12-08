@@ -39,8 +39,9 @@ const CTA_BASE_CLASS =
 const CTA_OVERLAY_CLASS =
   "absolute inset-0 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200";
 
+// 🔆 Biraz daha aydınlık, daha az agresif filter
 const HERO_IMAGE_STYLE = Object.freeze({
-  filter: "brightness(0.6) contrast(1.1) saturate(1.05)",
+  filter: "brightness(0.8) contrast(1.05) saturate(1.08)",
 });
 
 const HERO_OVERLAY_ANIMATION_STYLE = Object.freeze({
@@ -53,7 +54,7 @@ function KeywordPills() {
       {HERO_KEYWORDS.map(({ text, gradient }) => (
         <span
           key={text}
-          className={`text-sm md:text-base font-semibold px-3 py-1 ${gradient} bg-black/40 rounded-lg border border-white/10`}
+          className={`text-sm md:text-base font-semibold px-3 py-1 ${gradient} bg-black/30 rounded-lg border border-white/10`}
         >
           {text}
         </span>
@@ -121,18 +122,20 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
 export default function HeroSection() {
   return (
     <section
-      className="relative min-h-[75vh] flex items-center justify-center overflow-hidden bg-black"
+      className="relative min-h-[75vh] flex items-center justify-center overflow-hidden bg-slate-950"
       aria-labelledby="hero-title"
     >
       {/* LCP görseli */}
       <div className="absolute inset-0 -z-10" aria-hidden="true">
         <HeroBackgroundImage ariaHidden />
-        {/* Overlay katmanları */}
+
+        {/* 🔆 Overlay katmanları – daha açık gradient */}
         <div
-          className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/30 to-black/30"
+          className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-900/40 to-slate-900/15"
           style={HERO_IMAGE_STYLE}
         />
-        {/* Hafif parlama animasyonu */}
+
+        {/* Hafif parlama animasyonu (aynı, ama daha açık zeminde daha “soft” duracak) */}
         <div
           className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse motion-reduce:animate-none"
           style={HERO_OVERLAY_ANIMATION_STYLE}
@@ -143,8 +146,11 @@ export default function HeroSection() {
       <div className="relative z-10 container py-10">
         <div className="max-w-3xl mx-auto text-center">
           <ScrollReveal asChild>
-            <div className="inline-flex items-center gap-3 bg-black/50 rounded-full px-4 py-2 border border-white/10 text-xs md:text-sm text-slate-100">
-              <span className="w-2 h-2 bg-green-400 rounded-full" aria-hidden="true" />
+            <div className="inline-flex items-center gap-3 bg-black/40 rounded-full px-4 py-2 border border-white/10 text-xs md:text-sm text-slate-100">
+              <span
+                className="w-2 h-2 bg-green-400 rounded-full"
+                aria-hidden="true"
+              />
               Türkiye Geneli Profesyonel Hizmet
             </div>
           </ScrollReveal>
@@ -165,7 +171,8 @@ export default function HeroSection() {
             <>
               <KeywordPills />
               <p className="text-slate-100 text-sm md:text-lg mt-2 md:mt-4 max-w-xl mx-auto">
-                500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli hızlı kurulum ile etkinliğinizde yanınızdayız.
+                500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli
+                hızlı kurulum ile etkinliğinizde yanınızdayız.
               </p>
             </>
           </ScrollReveal>
@@ -177,7 +184,10 @@ export default function HeroSection() {
       </div>
 
       {/* Scroll cue */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2" aria-hidden="true">
+      <div
+        className="absolute bottom-6 left-1/2 -translate-x-1/2"
+        aria-hidden="true"
+      >
         <div className="animate-bounce motion-reduce:animate-none">
           <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
             <div className="w-1 h-3 bg-white/70 rounded-full mt-2" />
