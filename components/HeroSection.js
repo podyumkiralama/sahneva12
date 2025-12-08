@@ -1,260 +1,186 @@
 // components/HeroSection.js
 import React from "react";
 import Image from "next/image";
+
 import { ScrollReveal } from "@/components/ScrollReveal";
 import heroImg from "@/public/img/hero-bg.webp";
 
-const HERO_FEATURES = [
-  {
-    icon: "⭐",
-    iconLabel: "Yıldız ikonu",
-    title: "4.9/5 Puan",
-    description: "500+ Mutlu Müşteri",
-    color: "text-yellow-400",
-    bgColor: "bg-yellow-500/10",
-    borderColor: "border-yellow-500/20",
-  },
-  {
-    icon: "⚡",
-    iconLabel: "Şimşek ikonu",
-    title: "Aynı Gün",
-    description: "Hızlı Kurulum",
-    color: "text-cyan-400",
-    bgColor: "bg-cyan-500/10",
-    borderColor: "border-cyan-500/20",
-  },
-  {
-    icon: "👑",
-    iconLabel: "Taç ikonu",
-    title: "Premium",
-    description: "Kalite Garantisi",
-    color: "text-purple-400",
-    bgColor: "bg-purple-500/10",
-    borderColor: "border-purple-500/20",
-  },
-];
+const HERO_IMAGE_ALT =
+  "LED ekran, truss çatı ve ışık sistemi içeren Sahneva sahne kurulumunu gösteren arka plan görseli";
 
 const HERO_KEYWORDS = [
+  { text: "Sahne Kiralama", gradient: "text-blue-300" },
+  { text: "LED Ekran", gradient: "text-purple-300" },
+  { text: "Ses-Işık Sistemleri", gradient: "text-cyan-300" },
+];
+
+const CTA_BUTTONS = [
   {
-    icon: "⚡",
-    iconLabel: "Şimşek ikonu",
-    text: "Aynı gün kurulum, 24/7 teknik destek",
+    href: "tel:+905453048671",
+    label: "Hemen Ara",
+    icon: "📞",
+    srHint: "Hemen Ara",
   },
   {
-    icon: "💰",
-    iconLabel: "Para torbası ikonu",
-    text: "%30'a kadar daha uygun fiyat garantisi",
-  },
-  {
-    icon: "🏆",
-    iconLabel: "Kupa ikonu",
-    text: "500+ başarılı proje, referanslı hizmet",
+    href: "https://wa.me/905453048671?text=Merhaba%2C+web+sitenizden+ula%C5%9F%C4%B1yorum.+Sahne+kiralama+ve+LED+ekran+fiyatlar%C4%B1+hakk%C4%B1nda+detayl%C4%B1+teklif+almak+istiyorum.&utm_source=homepage&utm_medium=hero_cta&utm_campaign=whatsapp",
+    label: "WhatsApp Teklif",
+    icon: "💬",
+    target: "_blank",
+    rel: "noopener noreferrer",
+    srHint: "(yeni sekmede açılır)",
+    gradient: "from-green-600 to-emerald-700",
+    ariaLabel: "WhatsApp Üzerinden Teklif Almak İçin Tıklayın",
   },
 ];
 
-const HERO_STATS = [
-  { label: "Tamamlanan Proje", value: "500+", id: "stat-projects" },
-  { label: "Kurulum Süresi", value: "2–6 saat", id: "stat-time" },
-  { label: "Memnuniyet", value: "%98", id: "stat-satisfaction" },
-  { label: "Hizmet Ağı", value: "81 il", id: "stat-coverage" },
-];
+const CTA_BASE_CLASS =
+  "w-full sm:w-auto min-w-[180px] min-h-[44px] text-center group relative text-white font-bold text-base px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition-transform duration-200 hover:scale-105 border border-white/20 focus-ring";
+
+const CTA_OVERLAY_CLASS =
+  "absolute inset-0 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200";
+
+const HERO_IMAGE_STYLE = Object.freeze({
+  filter: "brightness(0.6) contrast(1.1) saturate(1.05)",
+});
+
+const HERO_OVERLAY_ANIMATION_STYLE = Object.freeze({
+  animationDuration: "8s",
+});
+
+function KeywordPills() {
+  return (
+    <div className="flex flex-wrap justify-center gap-2 mt-4 mb-6 max-w-4xl mx-auto">
+      {HERO_KEYWORDS.map(({ text, gradient }) => (
+        <span
+          key={text}
+          className={`text-sm md:text-base font-semibold px-3 py-1 ${gradient} bg-black/40 rounded-lg border border-white/10`}
+        >
+          {text}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function CTAButton({
+  href,
+  label,
+  icon,
+  gradient = "from-blue-600 to-purple-600",
+  srHint,
+  ariaLabel,
+  ...rest
+}) {
+  return (
+    <a
+      href={href}
+      className={`${CTA_BASE_CLASS} bg-gradient-to-r ${gradient}`}
+      aria-label={ariaLabel || (srHint ? `${label} ${srHint}` : label)}
+      {...rest}
+    >
+      <span className="relative z-10 flex items-center justify-center gap-2">
+        <span aria-hidden="true">{icon}</span> {label}
+      </span>
+      <div className={CTA_OVERLAY_CLASS} aria-hidden="true" />
+    </a>
+  );
+}
+
+function CTAGroup() {
+  return (
+    <div className="mt-6 flex flex-col sm:flex-row justify-center items-center gap-3">
+      {CTA_BUTTONS.map(({ srHint, gradient, ariaLabel, ...cta }) => (
+        <CTAButton
+          key={cta.href}
+          gradient={gradient}
+          srHint={srHint}
+          ariaLabel={ariaLabel}
+          {...cta}
+        />
+      ))}
+    </div>
+  );
+}
+
+function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
+  return (
+    <Image
+      src={heroImg}
+      alt={ariaHidden ? "" : alt}
+      width={1920}
+      height={1080}
+      priority
+      fetchPriority="high"
+      sizes="100vw"
+      className="w-full h-full object-cover object-center"
+      aria-hidden={ariaHidden}
+    />
+  );
+}
 
 export default function HeroSection() {
   return (
     <section
-      className="relative isolate overflow-hidden bg-slate-950 min-h-[75vh] flex items-center"
+      className="relative min-h-[75vh] flex items-center justify-center overflow-hidden bg-black"
       aria-labelledby="hero-title"
-      role="banner"
     >
-      {/* ARKA PLAN + GRID + GLOW */}
-      <div className="absolute inset-0 -z-10">
-        {/* LCP: width/height ile, layout’u bloklamadan yüklenir */}
-        <Image
-          src={heroImg}
-          alt=""
-          width={1920}
-          height={1080}
-          priority
-          fetchPriority="high"
-          sizes="100vw"
-          placeholder="blur"
-          className="w-full h-full object-cover object-center"
-          aria-hidden="true"
+      {/* LCP görseli */}
+      <div className="absolute inset-0 -z-10" aria-hidden="true">
+        <HeroBackgroundImage ariaHidden />
+        {/* Overlay katmanları */}
+        <div
+          className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/70"
+          style={HERO_IMAGE_STYLE}
         />
-
-        {/* Karanlık overlay */}
-        <div className="absolute inset-0 bg-slate-950/72" />
-
-        {/* Üstten gelen gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-slate-950/30 to-transparent" />
-
-        {/* Grid dokusu */}
+        {/* Hafif parlama animasyonu */}
         <div
-          className="absolute inset-0 pointer-events-none opacity-35"
-          aria-hidden="true"
-        >
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:32px_32px]" />
-        </div>
-
-        {/* Glow */}
-        <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[420px] bg-purple-600/18 blur-[130px] rounded-full mix-blend-screen pointer-events-none"
-          aria-hidden="true"
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse motion-reduce:animate-none"
+          style={HERO_OVERLAY_ANIMATION_STYLE}
         />
       </div>
 
-      {/* İÇERİK */}
-      <div className="relative z-10 w-full">
-        <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto min-h-[520px] md:min-h-[640px] flex flex-col items-center justify-center text-center gap-8">
-            {/* BADGE */}
-            <ScrollReveal direction="down" delay="0.1">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md shadow-[0_0_20px_rgba(168,85,247,0.15)] transition-transform hover:scale-105">
-                <span className="relative flex h-2 w-2" aria-hidden="true">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                </span>
-                <span className="text-xs sm:text-sm font-medium text-emerald-100/90 tracking-wide">
-                  <span className="hidden sm:inline">
-                    Sahneva Organizasyon •{" "}
-                  </span>
-                  Türkiye Geneli Profesyonel Hizmet
-                </span>
-              </div>
-            </ScrollReveal>
+      {/* İçerik */}
+      <div className="relative z-10 container py-10">
+        <div className="max-w-3xl mx-auto text-center">
+          <ScrollReveal asChild>
+            <div className="inline-flex items-center gap-3 bg-black/50 rounded-full px-4 py-2 border border-white/10 text-xs md:text-sm text-slate-100">
+              <span className="w-2 h-2 bg-green-400 rounded-full" aria-hidden="true" />
+              Türkiye Geneli Profesyonel Hizmet
+            </div>
+          </ScrollReveal>
 
-            {/* BAŞLIK */}
-            <ScrollReveal delay="0.2">
-              <h1
-                id="hero-title"
-                className="text-5xl md:text-7xl lg:text-[5rem] font-bold tracking-tight text-white leading-[1.1] drop-shadow-2xl"
-              >
-                Profesyonel{" "}
-                <br className="hidden md:block" />
-                <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/60">
-                  Sahne <span aria-hidden="true">&amp;</span> LED Ekran
-                </span>
-                <span className="block mt-2 text-4xl md:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 font-extrabold pb-2">
-                  Kiralama Partneri
-                </span>
-              </h1>
-            </ScrollReveal>
+          <ScrollReveal delay="1" asChild>
+            <h1
+              id="hero-title"
+              className="mt-4 text-white text-3xl md:text-5xl lg:text-6xl font-black leading-tight"
+            >
+              Profesyonel{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400">
+                Sahne Sistemleri
+              </span>
+            </h1>
+          </ScrollReveal>
 
-            {/* ALT AÇIKLAMA */}
-            <ScrollReveal delay="0.3">
-              <p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed drop-shadow-md">
-                Sahne, LED ekran ve ses-ışık sistemlerini{" "}
-                <span className="text-white font-semibold">
-                  24 saat içinde kuruyoruz
-                </span>
-                . Türkiye geneli profesyonel hizmet.
+          <ScrollReveal delay="2">
+            <>
+              <KeywordPills />
+              <p className="text-slate-100 text-sm md:text-lg mt-2 md:mt-4 max-w-xl mx-auto">
+                500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli hızlı kurulum ile etkinliğinizde yanınızdayız.
               </p>
-            </ScrollReveal>
+            </>
+          </ScrollReveal>
 
-            {/* KEYWORD PILL'LER */}
-            <ScrollReveal delay="0.35">
-              <ul
-                className="mt-4 grid gap-2 text-left max-w-2xl mx-auto list-none p-0 m-0"
-                role="list"
-                aria-label="Sahneva'nın temel avantajları"
-              >
-                {HERO_KEYWORDS.map(({ icon, iconLabel, text }) => (
-                  <li
-                    key={text}
-                    role="listitem"
-                    className="flex items-start gap-3 rounded-2xl bg-black/20 border border-white/10 px-4 py-2 text-white/90 backdrop-blur-sm"
-                  >
-                    <span
-                      className="text-lg"
-                      role="img"
-                      aria-label={iconLabel}
-                    >
-                      {icon}
-                    </span>
-                    <span className="text-sm md:text-base font-medium leading-relaxed">
-                      {text}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </ScrollReveal>
+          <ScrollReveal delay="3">
+            <CTAGroup />
+          </ScrollReveal>
+        </div>
+      </div>
 
-            {/* CTA BUTONLARI */}
-            <ScrollReveal delay="0.4">
-              <div
-                className="flex flex-col sm:flex-row gap-4 items-center justify-center mt-6"
-                role="group"
-                aria-label="Ana eylem düğmeleri"
-              >
-                <a
-                  href="#teklif-al"
-                  className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-full bg-white px-8 font-medium text-slate-950 transition-all hover:bg-slate-200 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-900 shadow-lg shadow-white/20"
-                  aria-label="Teklif formuna git ve ücretsiz teklif alın"
-                >
-                  <span className="mr-2">Hemen Teklif Al</span>
-                  <span
-                    className="inline-block translate-y-[1px] text-sm"
-                    aria-hidden="true"
-                  >
-                    ➜
-                  </span>
-                  <div className="absolute inset-0 -z-10 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 opacity-0 transition-opacity duration-500 group-hover:opacity-10" />
-                </a>
-
-                <a
-                  href="#projeler-title"
-                  className="inline-flex h-12 items-center justify-center rounded-full border border-white/25 bg-slate-900/40 px-8 font-medium text-slate-200 backdrop-blur-md transition-all hover:bg-slate-900/60 hover:text-white hover:border-white/40 shadow-lg focus:outline-none focus:ring-4 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-slate-950"
-                  aria-label="Başarılı projelerimizi görüntüle"
-                >
-                  Projelerimizi İncele
-                </a>
-              </div>
-            </ScrollReveal>
-
-            {/* İSTATİSTİK BAR */}
-            <ScrollReveal delay="0.6" direction="up">
-              <div className="mt-10 p-1 rounded-3xl bg-gradient-to-b from-white/10 to-transparent shadow-2xl">
-                <div
-                  className="bg-slate-950/60 backdrop-blur-md border border-white/10 rounded-[20px] px-8 py-6 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12"
-                  role="group"
-                  aria-label="Sahneva istatistikleri"
-                >
-                  {HERO_STATS.map((stat) => (
-                    <div
-                      key={stat.id}
-                      id={stat.id}
-                      className="flex flex-col items-center justify-center text-center"
-                      role="group"
-                      aria-labelledby={`${stat.id}-value ${stat.id}-label`}
-                    >
-                      <span
-                        id={`${stat.id}-value`}
-                        className="text-2xl md:text-3xl font-bold text-white mb-1 drop-shadow-lg"
-                      >
-                        {stat.value}
-                      </span>
-                      <span
-                        id={`${stat.id}-label`}
-                        className="text-xs uppercase tracking-wider text-slate-400 font-semibold"
-                      >
-                        {stat.label}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <p className="mt-4 text-xs text-slate-400/80 flex items-center justify-center gap-2 drop-shadow">
-                <span
-                  className="inline-block text-yellow-500"
-                  aria-hidden="true"
-                >
-                  ★
-                </span>
-                <span>
-                  500+ Mutlu Müşteri Referansı ile Türkiye Geneli Hizmet
-                </span>
-              </p>
-            </ScrollReveal>
+      {/* Scroll cue */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2" aria-hidden="true">
+        <div className="animate-bounce motion-reduce:animate-none">
+          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
+            <div className="w-1 h-3 bg-white/70 rounded-full mt-2" />
           </div>
         </div>
       </div>
