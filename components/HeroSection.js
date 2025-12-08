@@ -1,8 +1,5 @@
 // components/HeroSection.js
-import React from "react";
 import Image from "next/image";
-import { ScrollReveal } from "@/components/ScrollReveal";
-import { HERO_FEATURES_TR } from "@/lib/heroFeatures";
 import heroImg from "@/public/img/hero-bg.webp";
 
 // —————————————————————————————————————————
@@ -37,28 +34,25 @@ const CTA_BUTTONS = [
 ];
 
 const CTA_BASE_CLASS =
-  "w-full sm:w-auto min-w-[180px] text-center group relative text-white font-bold text-base px-6 py-3 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:brightness-110 border border-white/20 backdrop-blur-sm focus-ring";
+  "w-full sm:w-auto min-w-[180px] min-h-[44px] text-center group relative text-white font-bold text-base px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition-transform duration-200 hover:scale-105 border border-white/20 focus-ring";
 
 const CTA_OVERLAY_CLASS =
-  "absolute inset-0 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300";
+  "absolute inset-0 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200";
 
+// Görsel tarafında ekstra filtre yok, sadece overlay ile karartıyoruz
 const HERO_IMAGE_STYLE = Object.freeze({});
 
-const HERO_OVERLAY_ANIMATION_STYLE = Object.freeze({
-  animationDuration: "8s",
-});
-
 // —————————————————————————————————————————
-// ALT PARÇALAR (SADECE HERO İÇİN)
+// ALT PARÇALAR
 // —————————————————————————————————————————
 
 function KeywordPills() {
   return (
-    <div className="flex flex-wrap justify-center gap-2 mb-8 max-w-4xl mx-auto">
+    <div className="flex flex-wrap justify-center gap-2 mt-4 mb-6 max-w-4xl mx-auto">
       {HERO_KEYWORDS.map(({ text, gradient }) => (
         <span
           key={text}
-          className={`text-lg md:text-xl font-bold px-3 py-1 ${gradient} bg-white/10 rounded-lg backdrop-blur-sm border border-white/5`}
+          className={`text-sm md:text-base font-semibold px-3 py-1 ${gradient} bg-black/40 rounded-lg border border-white/10`}
         >
           {text}
         </span>
@@ -73,18 +67,19 @@ function CTAButton({
   icon,
   gradient = "from-blue-600 to-purple-600",
   srHint,
+  ariaLabel,
   ...rest
 }) {
   return (
     <a
       href={href}
       className={`${CTA_BASE_CLASS} bg-gradient-to-r ${gradient}`}
+      aria-label={ariaLabel || (srHint ? `${label} ${srHint}` : label)}
       {...rest}
     >
       <span className="relative z-10 flex items-center justify-center gap-2">
         <span aria-hidden="true">{icon}</span> {label}
       </span>
-      {srHint ? <span className="sr-only">{srHint}</span> : null}
       <div className={CTA_OVERLAY_CLASS} aria-hidden="true" />
     </a>
   );
@@ -92,67 +87,31 @@ function CTAButton({
 
 function CTAGroup() {
   return (
-    <div className="flex flex-col sm:flex-row justify-center items-center gap-3 md:gap-4 mb-12">
-      {CTA_BUTTONS.map(
-        ({ srHint, gradient = "from-blue-600 to-purple-600", ...cta }) => (
-          <CTAButton
-            key={cta.href}
-            gradient={gradient}
-            srHint={srHint}
-            {...cta}
-          />
-        )
-      )}
+    <div className="mt-6 flex flex-col sm:flex-row justify-center items-center gap-3">
+      {CTA_BUTTONS.map(({ srHint, gradient, ariaLabel, ...cta }) => (
+        <CTAButton
+          key={cta.href}
+          gradient={gradient}
+          srHint={srHint}
+          ariaLabel={ariaLabel}
+          {...cta}
+        />
+      ))}
     </div>
   );
 }
 
-function HeroFeatureGrid() {
-  return (
-    <ul className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12 list-none p-0 m-0">
-      {HERO_FEATURES_TR.map((item, index) => (
-        <ScrollReveal
-          asChild
-          key={item.title}
-          delay={String(index + 1)}
-          direction="scale"
-        >
-          <li className="m-0 p-0">
-            <div className="group bg-slate-900/60 backdrop-blur-lg rounded-xl p-4 border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-105">
-              <div
-                className={`text-2xl mb-2 ${item.color}`}
-                aria-hidden="true"
-              >
-                {item.icon}
-              </div>
-              <div className="text-white font-bold text-base mb-1">
-                {item.title}
-              </div>
-              <div className="text-gray-200 text-xs">
-                {item.description}
-              </div>
-            </div>
-          </li>
-        </ScrollReveal>
-      ))}
-    </ul>
-  );
-}
-
-function HeroBackgroundImage({
-  alt = HERO_IMAGE_ALT,
-  ariaHidden = false,
-}) {
+function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
   return (
     <Image
-      alt={ariaHidden ? "" : alt}
       src={heroImg}
+      alt={ariaHidden ? "" : alt}
       fill
-      sizes="100vw"
       priority
       fetchPriority="high"
-      placeholder="blur"
-      quality={70}
+      sizes="100vw"
+      quality={60}
+      placeholder="empty"
       className="absolute inset-0 h-full w-full object-cover object-center"
       style={HERO_IMAGE_STYLE}
       aria-hidden={ariaHidden}
@@ -161,83 +120,60 @@ function HeroBackgroundImage({
 }
 
 // —————————————————————————————————————————
-// ANA HERO BİLEŞEN
+// ANA HERO BİLEŞEN (SERVER COMPONENT)
 // —————————————————————————————————————————
 
 export default function HeroSection() {
   return (
     <section
-      className="relative pt-16 lg:pt-20 min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950"
+      className="relative min-h-[75vh] pt-16 lg:pt-20 flex items-center justify-center overflow-hidden bg-black"
       aria-labelledby="hero-title"
     >
-      {/* Arka plan görseli (dekoratif) */}
+      {/* Arka plan görseli */}
       <div className="absolute inset-0" aria-hidden="true">
         <HeroBackgroundImage ariaHidden />
+        {/* Tek, hafif overlay – fazla koyulaştırmadan okunabilirlik sağlar */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/70" />
       </div>
 
-      {/* Overlay katmanları */}
-      <div
-        className="absolute inset-0 bg-gradient-to-br from-slate-950/90 via-blue-950/80 to-purple-950/80"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse motion-reduce:animate-none"
-        style={HERO_OVERLAY_ANIMATION_STYLE}
-        aria-hidden="true"
-      />
-
       {/* İçerik */}
-      <div className="relative z-10 container py-12 md:py-16">
-        <div className="max-w-6xl mx-auto text-center mb-10">
-          <ScrollReveal asChild>
-            <div className="inline-flex items-center gap-3 bg-slate-900/60 backdrop-blur-md rounded-full px-6 py-3 border border-white/20 mb-6">
-              <span
-                className="w-2 h-2 bg-green-400 rounded-full animate-pulse motion-reduce:animate-none"
-                aria-hidden="true"
-              />
-              <span className="text-white text-sm font-medium">
-                Türkiye Geneli Profesyonel Hizmet
-              </span>
-            </div>
-          </ScrollReveal>
+      <div className="relative z-10 container py-10">
+        <div className="max-w-3xl mx-auto text-center">
+          {/* Badge */}
+          <p className="inline-flex items-center gap-3 bg-black/50 rounded-full px-4 py-2 border border-white/10 text-xs md:text-sm text-slate-100">
+            <span
+              className="w-2 h-2 bg-green-400 rounded-full"
+              aria-hidden="true"
+            />
+            Türkiye Geneli Profesyonel Hizmet
+          </p>
 
           {/* Başlık */}
-          <ScrollReveal delay="1" asChild>
-            <h1
-              id="hero-title"
-              className="text-white text-3xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight tracking-tight drop-shadow-md"
-            >
-              <span className="block mb-2">Profesyonel</span>
-              <span
-                className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-purple-700 to-cyan-600 bg-[length:300%_100%] animate-[gradient_8s_ease_infinite] motion-reduce:animate-none"
-                aria-hidden="true"
-              >
-                Sahne Sistemleri
-              </span>
-              <span className="sr-only">Sahne Sistemleri</span>
-            </h1>
-          </ScrollReveal>
+          <h1
+            id="hero-title"
+            className="mt-4 text-white text-3xl md:text-5xl lg:text-6xl font-black leading-tight"
+          >
+            Profesyonel{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400">
+              Sahne Sistemleri
+            </span>
+          </h1>
 
-          {/* Keyword + açıklama */}
-          <ScrollReveal delay="2">
-            <>
-              <KeywordPills />
-              <p className="text-slate-100 text-base md:text-lg mb-8 max-w-3xl mx-auto drop-shadow-sm font-medium">
-                500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli
-                hızlı kurulum ile yanınızdayız.
-              </p>
-            </>
-          </ScrollReveal>
+          {/* Keyword pill’ler */}
+          <KeywordPills />
 
-          {/* CTA Butonları */}
-          <ScrollReveal delay="3">
-            <CTAGroup />
-          </ScrollReveal>
+          {/* Alt açıklama */}
+          <p className="text-slate-100 text-sm md:text-lg mt-2 md:mt-4 max-w-xl mx-auto">
+            500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli hızlı
+            kurulum ile etkinliğinizde yanınızdayız.
+          </p>
 
+          {/* CTA’lar */}
+          <CTAGroup />
         </div>
       </div>
 
-      {/* Scroll cue */}
+      {/* Scroll cue (istersen silebilirsin) */}
       <div
         className="absolute bottom-6 left-1/2 -translate-x-1/2"
         aria-hidden="true"
