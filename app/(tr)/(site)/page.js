@@ -690,15 +690,9 @@ export default function HomePage() {
         style={BELOW_THE_FOLD_VISIBILITY_STYLE}
       >
         <div className="container">
-          <ScrollReveal>
-            <SectionHeader
-              id="projeler-title"
-              title="Başarılı "
-              highlight="Projelerimiz"
-              description="500'den fazla kurumsal etkinlik, konser, fuar ve özel organizasyonda güvenilir çözüm ortağı"
-              theme="dark"
-            />
-          </ScrollReveal>
+          <h2 id="projeler-title" className="sr-only">
+            Başarılı Projelerimiz
+          </h2>
           <ProjectsGalleryDeferred idleTimeout={3200} rootMargin="360px" />
         </div>
       </section>
