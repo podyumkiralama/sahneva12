@@ -686,7 +686,6 @@ export default function HomePage() {
       {/* Projeler */}
       <section
         className="py-12 bg-gradient-to-br from-neutral-900 to-blue-900/95"
-        aria-labelledby="projeler-title"
         style={BELOW_THE_FOLD_VISIBILITY_STYLE}
       >
         <div className="container">
