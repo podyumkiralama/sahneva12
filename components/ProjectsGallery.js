@@ -348,15 +348,45 @@ export default function ProjectsGallery({ galleries, dictionary }) {
 
   return (
     <section
-      className="relative py-20 bg-[#0B1120] overflow-hidden"
+      className="relative py-20 bg-[#0B1120] border-t border-white/5 overflow-hidden"
+      aria-labelledby="projects-title"
       aria-label={normalizedDictionary.regionTitleSr}
       role="region"
     >
       {/* Grid Background + Glow — HeroSection ile uyumlu */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div
+          className="
+            absolute inset-0 
+            bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),
+                linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)]
+            bg-[size:32px_32px]
+            opacity-30
+          "
+        />
+
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-purple-500/10 blur-[120px] rounded-full" />
         <div className="absolute bottom-0 right-0 w-[600px] h-[400px] bg-blue-500/10 blur-[130px] rounded-full" />
       </div>
+
+      {/* Başlık */}
+      <ScrollReveal>
+        <div className="container px-4 mx-auto relative z-10 text-center max-w-3xl mb-16">
+          <h2
+            id="projects-title"
+            className="text-4xl md:text-5xl font-bold text-white leading-tight"
+          >
+            Başarılı{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+              Projelerimiz
+            </span>
+          </h2>
+          <p className="text-slate-400 text-lg mt-4">
+            500'den fazla kurumsal etkinlik, konser, fuar ve organizasyonda
+            profesyonel çözüm ortağı olduk.
+          </p>
+        </div>
+      </ScrollReveal>
 
       {/* Grid */}
       <div className="container px-4 mx-auto relative z-10">
