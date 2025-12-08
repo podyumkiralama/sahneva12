@@ -16,27 +16,6 @@ const { home } = LOCALE_CONTENT.en;
 const HERO_IMAGE_ALT =
   "Stage with LED wall, truss roof and lighting setup by Sahneva event technology team";
 
-const HERO_FEATURES = [
-  {
-    icon: "⭐",
-    title: "4.9/5 Rating",
-    description: "500+ Happy Clients",
-    color: "from-yellow-400 to-orange-400",
-  },
-  {
-    icon: "⚡",
-    title: "Same-Day Setups",
-    description: "Rapid Deployment",
-    color: "from-blue-400 to-cyan-400",
-  },
-  {
-    icon: "👑",
-    title: "Premium Gear",
-    description: "Guaranteed Quality",
-    color: "from-purple-400 to-pink-400",
-  },
-];
-
 const WHY_SAHNEVA_FEATURES = [
   {
     icon: "⭐",
@@ -579,25 +558,6 @@ export default function EnglishHomePage() {
                   <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true" />
                 </a>
               </div>
-            
-
-            
-              <h2 className="sr-only">Key highlights</h2>
-              <ul className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12 list-none p-0 m-0">
-                {HERO_FEATURES.map((item, index) => (
-                  <li key={item.title} className="m-0 p-0">
-                    
-                      <div className="group bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20 hover:border-white/40 transition-all duration-500 hover:scale-105 hover:bg-white/15">
-                        <div className={`text-2xl mb-2 bg-gradient-to-r ${item.color} text-transparent bg-clip-text`} aria-hidden="true">
-                          {item.icon}
-                        </div>
-                        <div className="text-white font-bold text-base mb-1">{item.title}</div>
-                        <div className="text-white/70 text-xs">{item.description}</div>
-                      </div>
-                    
-                  </li>
-                ))}
-              </ul>
             
 
             
