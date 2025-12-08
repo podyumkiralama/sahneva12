@@ -11,27 +11,6 @@ import heroImg from "@/public/img/hero-bg.webp";
 const HERO_IMAGE_ALT =
   "LED ekran, truss çatı ve ışık sistemi içeren Sahneva sahne kurulumunu gösteren arka plan görseli";
 
-const HERO_FEATURES = [
-  {
-    icon: "⭐",
-    title: "4.9/5 Puan",
-    description: "500+ Mutlu Müşteri",
-    color: "text-yellow-400",
-  },
-  {
-    icon: "⚡",
-    title: "Aynı Gün",
-    description: "Hızlı Kurulum",
-    color: "text-cyan-400",
-  },
-  {
-    icon: "👑",
-    title: "Premium",
-    description: "Kalite Garantisi",
-    color: "text-purple-400",
-  },
-];
-
 const HERO_KEYWORDS = [
   { text: "Sahne Kiralama", gradient: "text-blue-300" },
   { text: "LED Ekran", gradient: "text-purple-300" },
@@ -124,38 +103,6 @@ function CTAGroup() {
         )
       )}
     </div>
-  );
-}
-
-function HeroFeatureGrid() {
-  return (
-    <ul className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12 list-none p-0 m-0">
-      {HERO_FEATURES.map((item, index) => (
-        <ScrollReveal
-          asChild
-          key={item.title}
-          delay={String(index + 1)}
-          direction="scale"
-        >
-          <li className="m-0 p-0">
-            <div className="group bg-slate-900/60 backdrop-blur-lg rounded-xl p-4 border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-105">
-              <div
-                className={`text-2xl mb-2 ${item.color}`}
-                aria-hidden="true"
-              >
-                {item.icon}
-              </div>
-              <div className="text-white font-bold text-base mb-1">
-                {item.title}
-              </div>
-              <div className="text-gray-200 text-xs">
-                {item.description}
-              </div>
-            </div>
-          </li>
-        </ScrollReveal>
-      ))}
-    </ul>
   );
 }
 
@@ -252,16 +199,6 @@ export default function HeroSection() {
           {/* CTA Butonları */}
           <ScrollReveal delay="3">
             <CTAGroup />
-          </ScrollReveal>
-
-          {/* Öne çıkanlar */}
-          <ScrollReveal delay="4">
-            <section aria-labelledby="hero-features-heading">
-              <h2 id="hero-features-heading" className="sr-only">
-                Öne çıkan özellikler
-              </h2>
-              <HeroFeatureGrid />
-            </section>
           </ScrollReveal>
 
         </div>
