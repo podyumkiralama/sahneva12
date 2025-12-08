@@ -140,6 +140,9 @@ export default function HeroSection() {
         <HeroBackgroundImage ariaHidden />
       </div>
 
+      {/* Hafif beyaz degrade ile siyah blok hissini azalt */}
+      <div className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-b from-white/30 via-white/10 to-white/0 mix-blend-screen" />
+
       {/* İçerik */}
       <div className="relative z-10 container py-10">
         <div className="max-w-4xl mx-auto text-center">
