@@ -40,7 +40,7 @@ const CTA_OVERLAY_CLASS =
   "absolute inset-0 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200";
 
 const HERO_IMAGE_STYLE = Object.freeze({
-  filter: "brightness(0.75) contrast(1.05) saturate(1.05)",
+  filter: "brightness(0.6) contrast(1.1) saturate(1.05)",
 });
 
 const HERO_OVERLAY_ANIMATION_STYLE = Object.freeze({
@@ -129,7 +129,7 @@ export default function HeroSection() {
         <HeroBackgroundImage ariaHidden />
         {/* Overlay katmanları */}
         <div
-          className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/25 to-black/55"
+          className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/30 to-black/30"
           style={HERO_IMAGE_STYLE}
         />
         {/* Hafif parlama animasyonu */}
