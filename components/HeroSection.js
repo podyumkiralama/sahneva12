@@ -39,9 +39,9 @@ const CTA_BASE_CLASS =
 const CTA_OVERLAY_CLASS =
   "absolute inset-0 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200";
 
-// 🔆 ARTIK GÖRÜNTÜYE UYGULANIYOR
+// 🔆 Fotoğrafı ciddi şekilde açıyoruz
 const HERO_IMAGE_STYLE = Object.freeze({
-  filter: "brightness(1.6) contrast(1.05) saturate(1.1)",
+  filter: "brightness(2.1) contrast(0.95) saturate(1.05)",
 });
 
 const HERO_OVERLAY_ANIMATION_STYLE = Object.freeze({
@@ -114,7 +114,7 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
       fetchPriority="high"
       sizes="100vw"
       className="w-full h-full object-cover object-center"
-      style={HERO_IMAGE_STYLE}        // 🔥 FİLTRE BURADA
+      style={HERO_IMAGE_STYLE}
       aria-hidden={ariaHidden}
     />
   );
@@ -123,19 +123,17 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
 export default function HeroSection() {
   return (
     <section
-      className="relative min-h-[75vh] flex items-center justify-center overflow-hidden bg-slate-950"
+      className="relative min-h-[75vh] flex items-center justify-center overflow-hidden bg-[#020617]"
       aria-labelledby="hero-title"
     >
-      {/* LCP görseli */}
+      {/* Arka plan görseli */}
       <div className="absolute inset-0 -z-10" aria-hidden="true">
         <HeroBackgroundImage ariaHidden />
-
-        {/* Çok hafif alt gölge – fotoğrafı boğmuyor */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-slate-950/45" />
-
-        {/* Hafif parlama animasyonu (aydınlatıcı) */}
+        {/* Karanlık overlay YOK, sadece aydınlatıcı layer */}
+        <div className="absolute inset-0 bg-white/10 mix-blend-screen pointer-events-none" />
+        {/* Çok hafif parlama */}
         <div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/6 to-transparent animate-pulse motion-reduce:animate-none"
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/4 to-transparent animate-pulse motion-reduce:animate-none"
           style={HERO_OVERLAY_ANIMATION_STYLE}
         />
       </div>
@@ -144,7 +142,7 @@ export default function HeroSection() {
       <div className="relative z-10 container py-10">
         <div className="max-w-3xl mx-auto text-center">
           <ScrollReveal asChild>
-            <div className="inline-flex items-center gap-3 bg-black/30 rounded-full px-4 py-2 border border-white/10 text-xs md:text-sm text-slate-100">
+            <div className="inline-flex items-center gap-3 bg-black/25 rounded-full px-4 py-2 border border-white/10 text-xs md:text-sm text-slate-100">
               <span
                 className="w-2 h-2 bg-green-400 rounded-full"
                 aria-hidden="true"
