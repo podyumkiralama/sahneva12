@@ -363,7 +363,6 @@ export default function CorporateEvents({
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
                <div className="absolute top-[-50%] left-[-20%] w-[80%] h-[80%] bg-blue-500/20 rounded-full blur-[120px]" />
                <div className="absolute bottom-[-50%] right-[-20%] w-[80%] h-[80%] bg-purple-500/20 rounded-full blur-[120px]" />
-               <div className="absolute inset-0 bg-[url('/img/noise.png')] opacity-[0.05]" />
             </div>
 
             <div className="relative z-10 max-w-3xl mx-auto">
