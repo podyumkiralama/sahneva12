@@ -39,9 +39,9 @@ const CTA_BASE_CLASS =
 const CTA_OVERLAY_CLASS =
   "absolute inset-0 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200";
 
-// 🔆 Biraz daha aydınlık, daha az agresif filter
+// 🔆 Fotoğrafı ~%30 daha aydınlık yaptık
 const HERO_IMAGE_STYLE = Object.freeze({
-  filter: "brightness(0.8) contrast(1.05) saturate(1.08)",
+  filter: "brightness(1.3) contrast(1.05) saturate(1.1)",
 });
 
 const HERO_OVERLAY_ANIMATION_STYLE = Object.freeze({
@@ -54,7 +54,7 @@ function KeywordPills() {
       {HERO_KEYWORDS.map(({ text, gradient }) => (
         <span
           key={text}
-          className={`text-sm md:text-base font-semibold px-3 py-1 ${gradient} bg-black/30 rounded-lg border border-white/10`}
+          className={`text-sm md:text-base font-semibold px-3 py-1 ${gradient} bg-black/25 rounded-lg border border-white/10`}
         >
           {text}
         </span>
@@ -129,13 +129,16 @@ export default function HeroSection() {
       <div className="absolute inset-0 -z-10" aria-hidden="true">
         <HeroBackgroundImage ariaHidden />
 
-        {/* 🔆 Overlay katmanları – daha açık gradient */}
+        {/* 🔆 Daha açık overlay – fotoğraf artık net görünür */}
         <div
-          className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-900/40 to-slate-900/15"
+          className="absolute inset-0 bg-gradient-to-b
+                     from-slate-900/35
+                     via-slate-900/20
+                     to-slate-900/8"
           style={HERO_IMAGE_STYLE}
         />
 
-        {/* Hafif parlama animasyonu (aynı, ama daha açık zeminde daha “soft” duracak) */}
+        {/* Hafif parlama animasyonu */}
         <div
           className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse motion-reduce:animate-none"
           style={HERO_OVERLAY_ANIMATION_STYLE}
@@ -146,7 +149,7 @@ export default function HeroSection() {
       <div className="relative z-10 container py-10">
         <div className="max-w-3xl mx-auto text-center">
           <ScrollReveal asChild>
-            <div className="inline-flex items-center gap-3 bg-black/40 rounded-full px-4 py-2 border border-white/10 text-xs md:text-sm text-slate-100">
+            <div className="inline-flex items-center gap-3 bg-black/35 rounded-full px-4 py-2 border border-white/10 text-xs md:text-sm text-slate-100">
               <span
                 className="w-2 h-2 bg-green-400 rounded-full"
                 aria-hidden="true"
