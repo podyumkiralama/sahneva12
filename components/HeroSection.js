@@ -67,11 +67,11 @@ function CTAGroup() {
 export default function HeroSection() {
   return (
     <section
-      className="relative min-h-[75vh] w-full flex items-center justify-center overflow-hidden"
+      className="relative isolate min-h-[75vh] w-full flex items-center justify-center overflow-hidden"
       aria-labelledby="hero-title"
     >
       {/* 🔥 Arkada SADECE FOTOĞRAF — hiç filtre yok */}
-      <div className="absolute inset-0 -z-10">
+      <div className="absolute inset-0 z-0">
         <Image
           src={heroImg}
           alt=""
@@ -80,9 +80,12 @@ export default function HeroSection() {
           priority
           fetchPriority="high"
           sizes="100vw"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover brightness-[1.08]"
         />
       </div>
+
+      {/* Hafif beyaz degrade ile siyah blok hissini azalt */}
+      <div className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-b from-white/30 via-white/10 to-white/0 mix-blend-screen" />
 
       {/* İçerik */}
       <div className="relative z-10 container py-10 text-center text-white drop-shadow-lg">
