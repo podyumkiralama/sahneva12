@@ -52,7 +52,7 @@ function KeywordPills() {
       {HERO_KEYWORDS.map(({ text, gradient }) => (
         <span
           key={text}
-          className={`text-sm md:text-base font-semibold px-3 py-1 ${gradient} bg-black/40 rounded-lg border border-white/10`}
+          className={`text-sm md:text-base font-semibold px-3 py-1 ${gradient} bg-white/15 rounded-lg border border-white/10`}
         >
           {text}
         </span>
