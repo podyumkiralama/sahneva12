@@ -11,27 +11,6 @@ import heroImg from "@/public/img/hero-bg.webp";
 const HERO_IMAGE_ALT =
   "LED ekran, truss çatı ve ışık sistemi içeren Sahneva sahne kurulumunu gösteren arka plan görseli";
 
-const HERO_FEATURES = [
-  {
-    icon: "⭐",
-    title: "4.9/5 Puan",
-    description: "500+ Mutlu Müşteri",
-    color: "text-yellow-400",
-  },
-  {
-    icon: "⚡",
-    title: "Aynı Gün",
-    description: "Hızlı Kurulum",
-    color: "text-cyan-400",
-  },
-  {
-    icon: "👑",
-    title: "Premium",
-    description: "Kalite Garantisi",
-    color: "text-purple-400",
-  },
-];
-
 const HERO_KEYWORDS = [
   { text: "Sahne Kiralama", gradient: "text-blue-300" },
   { text: "LED Ekran", gradient: "text-purple-300" },
@@ -112,7 +91,7 @@ function CTAButton({
 
 function CTAGroup() {
   return (
-    <div className="flex flex-col sm:flex-row justify-center items-center gap-3 md:gap-4 mb-12">
+    <div className="flex flex-col sm:flex-row justify-center items-center gap-3 md:gap-4 mb-8">
       {CTA_BUTTONS.map(
         ({ srHint, gradient = "from-blue-600 to-purple-600", ...cta }) => (
           <CTAButton
@@ -123,77 +102,6 @@ function CTAGroup() {
           />
         )
       )}
-    </div>
-  );
-}
-
-function HeroFeatureGrid() {
-  return (
-    <ul className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12 list-none p-0 m-0">
-      {HERO_FEATURES.map((item, index) => (
-        <ScrollReveal
-          asChild
-          key={item.title}
-          delay={String(index + 1)}
-          direction="scale"
-        >
-          <li className="m-0 p-0">
-            <div className="group bg-slate-900/60 backdrop-blur-lg rounded-xl p-4 border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-105">
-              <div
-                className={`text-2xl mb-2 ${item.color}`}
-                aria-hidden="true"
-              >
-                {item.icon}
-              </div>
-              <div className="text-white font-bold text-base mb-1">
-                {item.title}
-              </div>
-              <div className="text-gray-200 text-xs">
-                {item.description}
-              </div>
-            </div>
-          </li>
-        </ScrollReveal>
-      ))}
-    </ul>
-  );
-}
-
-function ConsultationCard() {
-  return (
-    <div className="bg-gradient-to-r from-blue-700/90 to-purple-700/90 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-white/20 shadow-xl max-w-4xl mx-auto">
-      <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
-        <div className="flex-shrink-0">
-          <div
-            className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center text-xl"
-            aria-hidden="true"
-          >
-            🎯
-          </div>
-        </div>
-        <div className="flex-1 text-center md:text-left">
-          <h2 className="text-white text-xl md:text-2xl font-bold mb-2">
-            Ücretsiz Profesyonel Danışmanlık
-          </h2>
-          <p className="text-slate-100 text-base leading-relaxed">
-            Etkinliğiniz için <strong>en uygun sahne çözümleri</strong>, LED
-            ekran seçenekleri ve ses-ışık sistemlerini ücretsiz teknik
-            danışmanlık ile planlayalım.{" "}
-            <strong className="text-yellow-200">
-              2 saat içinde detaylı teklif
-            </strong>{" "}
-            sunuyoruz.
-          </p>
-        </div>
-        <div className="flex-shrink-0">
-          <a
-            href="#teklif-al"
-            className="bg-white text-blue-800 hover:bg-gray-100 font-bold px-5 py-2 rounded-lg transition-all duration-300 hover:scale-105 shadow-lg text-sm focus-ring"
-          >
-            Hemen Teklif Al
-          </a>
-        </div>
-      </div>
     </div>
   );
 }
@@ -291,21 +199,6 @@ export default function HeroSection() {
           {/* CTA Butonları */}
           <ScrollReveal delay="3">
             <CTAGroup />
-          </ScrollReveal>
-
-          {/* Öne çıkanlar */}
-          <ScrollReveal delay="4">
-            <section aria-labelledby="hero-features-heading">
-              <h2 id="hero-features-heading" className="sr-only">
-                Öne çıkan özellikler
-              </h2>
-              <HeroFeatureGrid />
-            </section>
-          </ScrollReveal>
-
-          {/* Danışmanlık kutusu */}
-          <ScrollReveal delay="5">
-            <ConsultationCard />
           </ScrollReveal>
         </div>
       </div>
