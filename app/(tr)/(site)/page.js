@@ -5,6 +5,7 @@ import Link from "next/link";
 // Statik bileşenler
 import CorporateEvents from "@/components/CorporateEvents";
 import HeroSection from "@/components/HeroSection";
+import { HERO_FEATURES_TR } from "@/lib/heroFeatures";
 import {
   ServicesTabsDeferred,
   ProjectsGalleryDeferred,
@@ -20,27 +21,6 @@ const SITE_URL =
 // —————————————————————————————————————————
 // SABİT VERİLER
 // —————————————————————————————————————————
-
-const HERO_FEATURES = [
-  {
-    icon: "⭐",
-    title: "4.9/5 Puan",
-    description: "500+ Mutlu Müşteri",
-    color: "text-yellow-400",
-  },
-  {
-    icon: "⚡",
-    title: "Aynı Gün",
-    description: "Hızlı Kurulum",
-    color: "text-cyan-400",
-  },
-  {
-    icon: "👑",
-    title: "Premium",
-    description: "Kalite Garantisi",
-    color: "text-purple-400",
-  },
-];
 
 const SECTION_THEMES = {
   light: {
@@ -385,7 +365,7 @@ function HeroFeatureGrid() {
       className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto list-none p-0 m-0"
       role="list"
     >
-      {HERO_FEATURES.map((item, index) => (
+      {HERO_FEATURES_TR.map((item, index) => (
         <li key={item.title} className="m-0 p-0">
           <ScrollReveal
             asChild
