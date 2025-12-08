@@ -67,11 +67,11 @@ function CTAGroup() {
 export default function HeroSection() {
   return (
     <section
-      className="relative min-h-[75vh] w-full flex items-center justify-center overflow-hidden"
+      className="relative isolate min-h-[75vh] w-full flex items-center justify-center overflow-hidden"
       aria-labelledby="hero-title"
     >
       {/* 🔥 Arkada SADECE FOTOĞRAF — hiç filtre yok */}
-      <div className="absolute inset-0 -z-10">
+      <div className="absolute inset-0 z-0">
         <Image
           src={heroImg}
           alt=""
