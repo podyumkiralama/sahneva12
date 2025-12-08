@@ -11,27 +11,6 @@ import heroImg from "@/public/img/hero-bg.webp";
 const HERO_IMAGE_ALT =
   "LED ekran, truss çatı ve ışık sistemi içeren Sahneva sahne kurulumunu gösteren arka plan görseli";
 
-const HERO_FEATURES = [
-  {
-    icon: "⭐",
-    title: "4.9/5 Puan",
-    description: "500+ Mutlu Müşteri",
-    color: "text-yellow-400",
-  },
-  {
-    icon: "⚡",
-    title: "Aynı Gün",
-    description: "Hızlı Kurulum",
-    color: "text-cyan-400",
-  },
-  {
-    icon: "👑",
-    title: "Premium",
-    description: "Kalite Garantisi",
-    color: "text-purple-400",
-  },
-];
-
 const HERO_KEYWORDS = [
   { text: "Sahne Kiralama", gradient: "text-blue-300" },
   { text: "LED Ekran", gradient: "text-purple-300" },
@@ -112,7 +91,7 @@ function CTAButton({
 
 function CTAGroup() {
   return (
-    <div className="flex flex-col sm:flex-row justify-center items-center gap-3 md:gap-4 mb-12">
+    <div className="flex flex-col sm:flex-row justify-center items-center gap-3 md:gap-4 mb-8">
       {CTA_BUTTONS.map(
         ({ srHint, gradient = "from-blue-600 to-purple-600", ...cta }) => (
           <CTAButton
