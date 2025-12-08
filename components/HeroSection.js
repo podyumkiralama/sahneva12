@@ -234,16 +234,6 @@ export default function HeroSection() {
             <CTAGroup />
           </ScrollReveal>
 
-          {/* Öne çıkanlar */}
-          <ScrollReveal delay="4">
-            <section aria-labelledby="hero-features-heading">
-              <h2 id="hero-features-heading" className="sr-only">
-                Öne çıkan özellikler
-              </h2>
-              <HeroFeatureGrid />
-            </section>
-          </ScrollReveal>
-
         </div>
       </div>
 
