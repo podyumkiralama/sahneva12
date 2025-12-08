@@ -1,13 +1,13 @@
 // components/HeroSection.js
+import React from "react";
 import Image from "next/image";
+import { ScrollReveal } from "@/components/ScrollReveal";
 import heroImg from "@/public/img/hero-bg.webp";
 
-// Animasyon bileşenlerini içe aktarın (ScrollReveal'ın kullanılabilmesi için gereklidir)
-import { ScrollReveal } from "@/components/ScrollReveal";
+// —————————————————————————————————————————
+// SABİT VERİLER (SADECE HERO İÇİN)
+// —————————————————————————————————————————
 
-// —————————————————————————————————————————
-// SABİT VERİLER (CONSTANTS)
-// —————————————————————————————————————————
 const HERO_IMAGE_ALT =
   "LED ekran, truss çatı ve ışık sistemi içeren Sahneva sahne kurulumunu gösteren arka plan görseli";
 
@@ -62,16 +62,14 @@ const CTA_BASE_CLASS =
 const CTA_OVERLAY_CLASS =
   "absolute inset-0 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300";
 
-const HERO_IMAGE_STYLE = Object.freeze({
-  // Filtreler görsele gömüldü; tarayıcı tarafında ek GPU yükü oluşturmamak için burada kaldırıldı.
-});
+const HERO_IMAGE_STYLE = Object.freeze({});
 
 const HERO_OVERLAY_ANIMATION_STYLE = Object.freeze({
   animationDuration: "8s",
 });
 
 // —————————————————————————————————————————
-// PARÇALI BİLEŞENLER (SUB-COMPONENTS)
+// ALT PARÇALAR (SADECE HERO İÇİN)
 // —————————————————————————————————————————
 
 function KeywordPills() {
@@ -200,9 +198,6 @@ function ConsultationCard() {
   );
 }
 
-// —————————————————————————————————————————
-// HERO BACKGROUND IMAGE (SUB-COMPONENT)
-// —————————————————————————————————————————
 function HeroBackgroundImage({
   alt = HERO_IMAGE_ALT,
   ariaHidden = false,
@@ -225,8 +220,9 @@ function HeroBackgroundImage({
 }
 
 // —————————————————————————————————————————
-// ANA BİLEŞEN: HeroSection
+// ANA HERO BİLEŞEN
 // —————————————————————————————————————————
+
 export default function HeroSection() {
   return (
     <section
@@ -281,12 +277,13 @@ export default function HeroSection() {
             </h1>
           </ScrollReveal>
 
+          {/* Keyword + açıklama */}
           <ScrollReveal delay="2">
             <>
               <KeywordPills />
               <p className="text-slate-100 text-base md:text-lg mb-8 max-w-3xl mx-auto drop-shadow-sm font-medium">
                 500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli
-                hızlı kurulum ile yanınızdayız
+                hızlı kurulum ile yanınızdayız.
               </p>
             </>
           </ScrollReveal>
