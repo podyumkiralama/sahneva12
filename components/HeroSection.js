@@ -62,13 +62,13 @@ const HERO_STATS = [
 export default function HeroSection() {
   return (
     <section
-      className="relative isolate overflow-hidden bg-slate-950"
+      className="relative isolate overflow-hidden bg-slate-950 min-h-[75vh] flex items-center"
       aria-labelledby="hero-title"
       role="banner"
     >
       {/* ARKA PLAN + GRID + GLOW */}
       <div className="absolute inset-0 -z-10">
-        {/* LCP: fill yerine width/height ile, layout’u bloklamadan yüklenir */}
+        {/* LCP: width/height ile, layout’u bloklamadan yüklenir */}
         <Image
           src={heroImg}
           alt=""
@@ -104,7 +104,7 @@ export default function HeroSection() {
       </div>
 
       {/* İÇERİK */}
-      <div className="relative z-10">
+      <div className="relative z-10 w-full">
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto min-h-[520px] md:min-h-[640px] flex flex-col items-center justify-center text-center gap-8">
             {/* BADGE */}
