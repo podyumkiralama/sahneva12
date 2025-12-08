@@ -159,45 +159,6 @@ function HeroFeatureGrid() {
   );
 }
 
-function ConsultationCard() {
-  return (
-    <div className="bg-gradient-to-r from-blue-700/90 to-purple-700/90 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-white/20 shadow-xl max-w-4xl mx-auto">
-      <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
-        <div className="flex-shrink-0">
-          <div
-            className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center text-xl"
-            aria-hidden="true"
-          >
-            🎯
-          </div>
-        </div>
-        <div className="flex-1 text-center md:text-left">
-          <h2 className="text-white text-xl md:text-2xl font-bold mb-2">
-            Ücretsiz Profesyonel Danışmanlık
-          </h2>
-          <p className="text-slate-100 text-base leading-relaxed">
-            Etkinliğiniz için <strong>en uygun sahne çözümleri</strong>, LED
-            ekran seçenekleri ve ses-ışık sistemlerini ücretsiz teknik
-            danışmanlık ile planlayalım.{" "}
-            <strong className="text-yellow-200">
-              2 saat içinde detaylı teklif
-            </strong>{" "}
-            sunuyoruz.
-          </p>
-        </div>
-        <div className="flex-shrink-0">
-          <a
-            href="#teklif-al"
-            className="bg-white text-blue-800 hover:bg-gray-100 font-bold px-5 py-2 rounded-lg transition-all duration-300 hover:scale-105 shadow-lg text-sm focus-ring"
-          >
-            Hemen Teklif Al
-          </a>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function HeroBackgroundImage({
   alt = HERO_IMAGE_ALT,
   ariaHidden = false,
@@ -303,10 +264,6 @@ export default function HeroSection() {
             </section>
           </ScrollReveal>
 
-          {/* Danışmanlık kutusu */}
-          <ScrollReveal delay="5">
-            <ConsultationCard />
-          </ScrollReveal>
         </div>
       </div>
 
