@@ -665,7 +665,7 @@ export default function HomePage() {
 
       {/* Hizmetler */}
       <section
-        className="relative py-12 bg-gradient-to-b from-white to-neutral-50/80"
+        className="relative py-8 bg-gradient-to-b from-white to-neutral-50/80"
         aria-labelledby="hizmetler-title"
         style={BELOW_THE_FOLD_VISIBILITY_STYLE}
       >
@@ -673,18 +673,10 @@ export default function HomePage() {
           className="absolute inset-0 bg-[linear-gradient(#e5e7eb_1px,transparent_1px),linear-gradient(90deg,#e5e7eb_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:radial-gradient(ellipse_at-center,transparent_20%,white)]"
           aria-hidden="true"
         />
-        <div className="relative z-10 space-y-8">
-          <div className="container">
-            <ScrollReveal>
-              <SectionHeader
-                id="hizmetler-title"
-                title="Profesyonel "
-                highlight="Hizmetlerimiz"
-                description="Türkiye geneli sahne, podyum, LED ekran kiralama ve ses-ışık sistemleri kurulumu"
-              />
-            </ScrollReveal>
-          </div>
-
+        <div className="relative z-10 space-y-6">
+          <h2 id="hizmetler-title" className="sr-only">
+            Hizmetlerimiz
+          </h2>
           <div className="-mx-4 sm:-mx-6 lg:-mx-8 xl:-mx-12 px-4 sm:px-6 lg:px-8 xl:px-12">
             <ServicesTabsDeferred idleTimeout={2800} rootMargin="320px" />
           </div>
