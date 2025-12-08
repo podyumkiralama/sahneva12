@@ -4,6 +4,10 @@
 const HREF = "/css/non-critical.css";
 
 export default function NonCriticalStylesheet() {
+  const handleLoad = (event) => {
+    event.currentTarget.media = "all";
+  };
+
   return (
     <>
       <link rel="preload" href={HREF} as="style" />
@@ -11,7 +15,7 @@ export default function NonCriticalStylesheet() {
         rel="stylesheet"
         href={HREF}
         media="print"
-        onLoad="this.media='all'"
+        onLoad={handleLoad}
         data-priority="deferred"
       />
       <noscript>
