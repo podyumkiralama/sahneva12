@@ -7,7 +7,6 @@ import Link from "next/link";
 // Statik bileşenler
 import CorporateEvents from "@/components/CorporateEvents";
 import {
-  ReviewBannerDeferred,
   ServicesTabsDeferred,
   ProjectsGalleryDeferred,
   FaqDeferred,
@@ -663,9 +662,6 @@ export default function HomePage() {
 
       {/* #teklif-al hedefi */}
       <div id="teklif-al" className="sr-only" />
-
-      {/* Google review banner – deferred */}
-      <ReviewBannerDeferred idleTimeout={2000} rootMargin="0px" />
 
       {/* Hizmetler */}
       <section
