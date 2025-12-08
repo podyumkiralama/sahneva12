@@ -4,6 +4,9 @@ import Image from "next/image";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import heroImg from "@/public/img/hero-bg.webp";
 
+const HERO_IMAGE_ALT =
+  "LED ekran, truss çatı ve ışık sistemi içeren Sahneva sahne kurulumunu gösteren arka plan görseli";
+
 const HERO_KEYWORDS = [
   { text: "Sahne Kiralama" },
   { text: "LED Ekran" },
@@ -67,20 +70,19 @@ function CTAGroup() {
 export default function HeroSection() {
   return (
     <section
-      className="relative min-h-[75vh] w-full flex items-center justify-center overflow-hidden"
+      className="relative min-h-[80vh] w-full flex items-center justify-center overflow-hidden"
       aria-labelledby="hero-title"
     >
-      {/* 🔥 Arkada SADECE FOTOĞRAF — hiç filtre yok */}
-      <div className="absolute inset-0 -z-10">
+      {/* 🔥 SADECE FOTOĞRAF – hiçbir bg, filter, gradient yok */}
+      <div className="absolute inset-0 z-0">
         <Image
           src={heroImg}
-          alt=""
-          width={1920}
-          height={1080}
+          alt={HERO_IMAGE_ALT}
+          fill              // tüm alanı kaplasın
           priority
           fetchPriority="high"
           sizes="100vw"
-          className="w-full h-full object-cover"
+          className="object-cover object-center"
         />
       </div>
 
@@ -93,7 +95,7 @@ export default function HeroSection() {
           >
             Profesyonel{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-              Sahne & LED Ekran
+              Sahne &amp; LED Ekran
             </span>
             <br />
             Kiralama Hizmeti
