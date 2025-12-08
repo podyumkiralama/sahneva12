@@ -129,7 +129,7 @@ export default function HeroSection() {
         <HeroBackgroundImage ariaHidden />
         {/* Overlay katmanları */}
         <div
-          className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/70"
+          className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/30 to-black/30"
           style={HERO_IMAGE_STYLE}
         />
         {/* Hafif parlama animasyonu */}
