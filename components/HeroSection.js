@@ -2,6 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import { ScrollReveal } from "@/components/ScrollReveal";
+import { HERO_FEATURES_TR } from "@/lib/heroFeatures";
 import heroImg from "@/public/img/hero-bg.webp";
 
 // —————————————————————————————————————————
@@ -10,27 +11,6 @@ import heroImg from "@/public/img/hero-bg.webp";
 
 const HERO_IMAGE_ALT =
   "LED ekran, truss çatı ve ışık sistemi içeren Sahneva sahne kurulumunu gösteren arka plan görseli";
-
-const HERO_FEATURES = [
-  {
-    icon: "⭐",
-    title: "4.9/5 Puan",
-    description: "500+ Mutlu Müşteri",
-    color: "text-yellow-400",
-  },
-  {
-    icon: "⚡",
-    title: "Aynı Gün",
-    description: "Hızlı Kurulum",
-    color: "text-cyan-400",
-  },
-  {
-    icon: "👑",
-    title: "Premium",
-    description: "Kalite Garantisi",
-    color: "text-purple-400",
-  },
-];
 
 const HERO_KEYWORDS = [
   { text: "Sahne Kiralama", gradient: "text-blue-300" },
@@ -130,7 +110,7 @@ function CTAGroup() {
 function HeroFeatureGrid() {
   return (
     <ul className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12 list-none p-0 m-0">
-      {HERO_FEATURES.map((item, index) => (
+      {HERO_FEATURES_TR.map((item, index) => (
         <ScrollReveal
           asChild
           key={item.title}
