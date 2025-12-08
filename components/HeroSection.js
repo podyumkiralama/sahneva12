@@ -45,13 +45,7 @@ const CTA_OVERLAY_CLASS =
   "bg-gradient-to-r from-blue-500/0 via-white/18 to-purple-500/0 " +
   "opacity-0 group-hover:opacity-100 transition-opacity duration-500";
 
-function HeroBackgroundImage({
-  alt = HERO_IMAGE_ALT,
-  ariaHidden = false,
-}: {
-  alt?: string;
-  ariaHidden?: boolean;
-}) {
+function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
   return (
     <Image
       src={heroImg}
@@ -95,14 +89,6 @@ function CTAButton({
   srHint,
   ariaLabel,
   ...rest
-}: {
-  href: string;
-  label: string;
-  icon: string;
-  gradient?: string;
-  srHint?: string;
-  ariaLabel?: string;
-  [key: string]: any;
 }) {
   return (
     <a
