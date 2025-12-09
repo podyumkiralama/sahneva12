@@ -7,6 +7,7 @@ import CriticalAssets from "@/components/CriticalAssets";
 import NonCriticalStylesheet from "@/components/NonCriticalStylesheet";
 import DeferredAnalytics from "@/components/DeferredAnalytics.client";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
+import HeadLinkLoader from "@/components/HeadLinkLoader.client";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 import {
   HOME_PAGE_TITLE,
@@ -71,7 +72,6 @@ const websiteJsonLd = {
 /* ================== METADATA ================== */
 export const metadata = {
   metadataBase: new URL(SITE_URL),
-  manifest: "/manifest.json",
   title: {
     default: HOME_PAGE_TITLE,
     template: "%s | Sahneva",
@@ -108,29 +108,6 @@ export const metadata = {
       "Profesyonel etkinlik prodüksiyon çözümleri. Sahne, podyum, LED ekran, ses-ışık ve çadır kiralama.",
     images: [getOgImageUrl()],
   },
-  icons: {
-    icon: [
-      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-      {
-        url: "/android-chrome-192x192.png",
-        sizes: "192x192",
-        type: "image/png",
-      },
-      {
-        url: "/android-chrome-512x512.png",
-        sizes: "512x512",
-        type: "image/png",
-      },
-    ],
-    apple: [
-      {
-        url: "/apple-touch-icon.png",
-        sizes: "180x180",
-        type: "image/png",
-      },
-    ],
-  },
 };
 
 export const viewport = {
@@ -156,6 +133,8 @@ export default function RootLayout({ children }) {
       <body className="min-h-screen bg-white text-neutral-900 antialiased flex flex-col">
         {/* SkipLinks: erişilebilirlik için üstte */}
         <SkipLinks />
+
+        <HeadLinkLoader />
 
         {/* Kritik olmayan cilalı stiller: render-blocking olmadan yüklenir */}
         <NonCriticalStylesheet />
