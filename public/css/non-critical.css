@@ -79,16 +79,6 @@
   animation-delay: 500ms;
 }
 
-/* Hide scrollbars when requested */
-.hide-scrollbar {
-  -ms-overflow-style: none; /* IE & Edge */
-  scrollbar-width: none; /* Firefox */
-}
-
-.hide-scrollbar::-webkit-scrollbar {
-  display: none !important; /* Chrome, Safari, Opera */
-}
-
 /* === HizmetlerPage inline -> non-critical === */
 .nc-HizmetlerPage-hero-1 {
   transform: scale(1.02);

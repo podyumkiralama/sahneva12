@@ -13,7 +13,8 @@
     "start": "next start",
     "lint": "eslint . --max-warnings=0",
     "analyze": "ANALYZE=true next build",
-    "security:check": "npx @next/security-headers-check"
+    "security:check": "npx @next/security-headers-check",
+    "find:unused-css": "node tools/find-unused-css-classes.js"
   },
   "dependencies": {
     "@vercel/analytics": "^1.2.0",
