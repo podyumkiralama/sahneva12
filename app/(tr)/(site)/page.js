@@ -612,13 +612,7 @@ export default function HomePage() {
 >
   <div className="px-4 sm:px-6 lg:px-8">
     <ScrollReveal>
-      <SectionHeader
-        id="sss-title"
-        title="Sıkça "
-        highlight="Sorulan Sorular"
-        description="Sahne, LED ekran, ses-ışık sistemleri ve kurulum süreçleri hakkında merak ettikleriniz"
-        theme="dark"
-      />
+      
     </ScrollReveal>
 
     <FaqDeferred idleTimeout={3600} rootMargin="400px" />
