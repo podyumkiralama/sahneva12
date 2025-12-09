@@ -624,7 +624,7 @@ export default function Navbar({
                   onMouseEnter={openNow}
                   onMouseLeave={closeWithDelay}
                 >
-                  <div className="part-category space-y-1">
+                  <li className="part-category space-y-1" role="presentation">
                     <span className="part-menu-head text-xs font-semibold text-neutral-500 px-3 uppercase tracking-wider">
                       Hizmetler
                     </span>
@@ -635,7 +635,7 @@ export default function Navbar({
                         </li>
                       ))}
                     </ul>
-                  </div>
+                  </li>
                 </ul>
 
               </div>
