@@ -129,15 +129,25 @@ function mergeDictionary(base, override = {}) {
   return result;
 }
 
+function escapeHtmlAttribute(value = "") {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
 function OptimizedImage({ src, alt, className }) {
+  const safeAlt = escapeHtmlAttribute(alt);
+  const safeSrc = escapeHtmlAttribute(src);
+  const safeClass = className ? ` ${escapeHtmlAttribute(className)}` : "";
+  const html = `<img src="${safeSrc}" alt="${safeAlt}" class="absolute inset-0 h-full w-full object-cover${safeClass}" loading="lazy" decoding="async">`;
+
   return (
-    <div
-      role="img"
-      aria-label={alt}
-      className={`absolute inset-0 bg-cover bg-center ${className ?? ""}`}
-      style={{ backgroundImage: `url(${src})` }}
-    >
+    <div role="img" aria-label={alt} className="absolute inset-0">
       <span className="sr-only">{alt}</span>
+      <div aria-hidden dangerouslySetInnerHTML={{ __html: html }} />
     </div>
   );
 }
