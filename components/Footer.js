@@ -1,4 +1,5 @@
 // components/Footer.js
+import Image from "next/image";
 import Link from "next/link";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 
@@ -133,18 +134,15 @@ export default function Footer() {
             Sahneva Hakkında
           </h3>
 
-          <div className="flex items-center gap-3 text-white font-bold text-2xl mb-6">
-            <div className="relative flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg shadow-purple-500/20">
-              <span className="text-xl" aria-hidden="true">
-                ⭐
-              </span>
-            </div>
-            <p
-              itemProp="name"
-              className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent tracking-wide"
-            >
-              SAHNEVA
-            </p>
+          <div className="flex items-center gap-3 mb-6">
+            <Image
+              src="/img/logo.svg"
+              alt="Sahneva logo"
+              width={48}
+              height={48}
+              className="w-12 h-12 object-contain"
+              itemProp="logo"
+            />
           </div>
 
           <p className="text-sm leading-7 text-gray-300 mb-6" itemProp="description">
