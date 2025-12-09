@@ -172,7 +172,7 @@ function SupportCard({ dictionary }) {
           <span className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
             📞
           </span>
-          <div>
+          <div className="min-w-0">
             <span className="block text-xs text-slate-400 font-medium">
               {dictionary.supportPhoneLabel}
             </span>
@@ -193,7 +193,7 @@ function SupportCard({ dictionary }) {
           <span className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center text-green-400 group-hover:bg-green-500 group-hover:text-white transition-colors">
             📱
           </span>
-          <div>
+          <div className="min-w-0">
             <span className="block text-xs text-slate-400 font-medium">
               {dictionary.supportWhatsappLabel}
             </span>
@@ -212,7 +212,7 @@ function SupportCard({ dictionary }) {
           <span className="w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-colors">
             ✉️
           </span>
-          <div>
+          <div className="min-w-0">
             <span className="block text-xs text-slate-400 font-medium">
               {dictionary.supportMailLabel}
             </span>

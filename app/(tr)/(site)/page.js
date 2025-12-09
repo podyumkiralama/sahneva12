@@ -508,10 +508,10 @@ export default function HomePage() {
             />
           </ScrollReveal>
 
-          <div className="grid gap-6 lg:gap-8 lg:grid-cols-2">
+          <div className="grid gap-6 lg:gap-8 lg:grid-cols-2 min-w-0">
             {/* Sol blok */}
             <ScrollReveal direction="left" asChild>
-              <article className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 shadow-lg border border-blue-100">
+              <article className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 shadow-lg border border-blue-100 min-w-0">
                 <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
                   <span
                     className="bg-blue-500 text-white p-2 rounded-lg"
@@ -570,7 +570,7 @@ export default function HomePage() {
 
             {/* Sağ blok */}
             <ScrollReveal direction="right" asChild>
-              <article className="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-6 shadow-lg border border-purple-100">
+              <article className="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-6 shadow-lg border border-purple-100 min-w-0">
                 <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
                   <span
                     className="bg-purple-500 text-white p-2 rounded-lg"
