@@ -8,6 +8,7 @@ import {
   useMemo,
   useRef,
   useState,
+  useId,
 } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
@@ -242,7 +243,14 @@ const GalleryCard = memo(function GalleryCard({
 // ===============================================================
 // ANA BİLEŞEN — PROJECTS GALLERY
 // ===============================================================
-export default function ProjectsGallery({ galleries, dictionary }) {
+export default function ProjectsGallery({
+  galleries,
+  dictionary,
+  role,
+  ariaLabel,
+  ariaLabelledby,
+  ariaDescribedby,
+}) {
   const [mounted, setMounted] = useState(false);
   const [openState, setOpenState] = useState({
     isOpen: false,
@@ -253,6 +261,8 @@ export default function ProjectsGallery({ galleries, dictionary }) {
   const [anim, setAnim] = useState(false);
   const [errors, setErrors] = useState({});
   const [reduced, setReduced] = useState(false);
+  const headingId = useId();
+  const descriptionId = useId();
 
   const normalizedDictionary = useMemo(
     () => ({ ...DEFAULT_DICTIONARY, ...(dictionary ?? {}) }),
@@ -346,12 +356,17 @@ export default function ProjectsGallery({ galleries, dictionary }) {
 
   const entries = Object.entries(normalizedGalleries);
 
+  const computedHeadingId = ariaLabelledby ?? `projects-title-${headingId}`;
+  const computedDescriptionId = ariaDescribedby ?? `projects-desc-${descriptionId}`;
+  const computedRole = role ?? (ariaLabel || computedHeadingId ? "region" : undefined);
+
   return (
     <section
       className="relative py-20 bg-[#0B1120] overflow-hidden"
-      aria-labelledby="projects-title"
-      aria-label="Sahneva referans proje galerisi"
-      role="region"
+      aria-labelledby={ariaLabel ? undefined : computedHeadingId}
+      aria-label={ariaLabel}
+      aria-describedby={computedDescriptionId}
+      role={computedRole}
     >
       {/* Grid Background + Glow — HeroSection ile uyumlu */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -363,7 +378,7 @@ export default function ProjectsGallery({ galleries, dictionary }) {
       <ScrollReveal>
         <div className="container px-4 mx-auto relative z-10 text-center max-w-3xl mb-16">
           <h2
-            id="projects-title"
+            id={computedHeadingId}
             className="text-4xl md:text-5xl font-bold text-white leading-tight"
           >
             Başarılı{" "}
@@ -371,7 +386,7 @@ export default function ProjectsGallery({ galleries, dictionary }) {
               Projelerimiz
             </span>
           </h2>
-          <p className="text-slate-400 text-lg mt-4">
+          <p id={computedDescriptionId} className="text-slate-400 text-lg mt-4">
             500'den fazla kurumsal etkinlik, konser, fuar ve organizasyonda
             profesyonel çözüm ortağı olduk.
           </p>

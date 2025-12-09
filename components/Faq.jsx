@@ -186,23 +186,36 @@ export default function Faq({
   items = FAQ_ITEMS,
   dictionary: dictionaryOverride,
   ariaLabelledBy,
-  regionLabelId = "faq-section-title"
+  ariaDescribedBy,
+  ariaLabel,
+  regionLabelId = "faq-section-title",
+  descriptionId: ariaDescriptionId,
+  role: roleOverride,
 } = {}) {
   const dictionary = useMemo(
     () => mergeDictionary(DEFAULT_DICTIONARY, dictionaryOverride),
     [dictionaryOverride]
   );
   
-  const [openIndex, setOpenIndex] = useState(0); 
+  const [openIndex, setOpenIndex] = useState(0);
 
   const handleToggle = useCallback((index) => {
      setOpenIndex(prev => prev === index ? -1 : index);
   }, []);
 
+  const headingId = ariaLabelledBy ?? regionLabelId;
+  const descriptionId = ariaDescriptionId ?? (!ariaLabelledBy ? `${headingId}-description` : undefined);
+  const describedBy = ariaDescribedBy ?? descriptionId;
+  const hasAccessibleName = Boolean(headingId || ariaLabel);
+  const role = roleOverride ?? (hasAccessibleName ? "region" : undefined);
+
   return (
     <section
       className="relative py-16 md:py-24 bg-[#0B1120] overflow-hidden"
-      aria-labelledby={regionLabelId}
+      aria-labelledby={headingId}
+      aria-describedby={describedBy}
+      aria-label={ariaLabel}
+      role={role}
     >
       {/* Arka Plan Efektleri */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -225,12 +238,15 @@ export default function Faq({
                     </div>
 
                     {/* Ana Başlık */}
-                    <h2 id={regionLabelId} className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
+                    <h2 id={headingId} className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
                         {dictionary.sectionTitlePrefix} <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">{dictionary.sectionTitleHighlight}</span>
                     </h2>
-                    
+
                     {/* Açıklama */}
-                    <p className="text-slate-400 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
+                    <p
+                      id={descriptionId}
+                      className="text-slate-400 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto"
+                    >
                         {dictionary.sectionDesc}
                     </p>
                 </div>

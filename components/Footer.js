@@ -1,6 +1,7 @@
 // components/Footer.js
 import Image from "next/image";
 import Link from "next/link";
+import { useId } from "react";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 
 // Navbar ile uyumlu focus ring (Offset rengi footer background'a göre ayarlandı)
@@ -95,32 +96,51 @@ const SocialLink = ({ href, label, title, icon, gradient }) => (
         `}
         aria-hidden="true"
       />
-      <span aria-hidden="true" className="text-xl relative z-10">
-        {icon}
-      </span>
+      <span aria-hidden="true" className="text-xl relative z-10">{icon}</span>
       <span className="sr-only">{title || label} (yeni sekmede açılır)</span>
     </a>
   </li>
 );
 
-export default function Footer() {
+export default function Footer({
+  ariaLabel,
+  ariaLabelledby,
+  ariaDescribedby,
+  role: roleOverride,
+  descriptionId: descriptionIdProp,
+  headingId: headingIdProp,
+}) {
+  const instanceId = useId();
   const currentYear = new Date().getFullYear();
   // Safe access for localization
   const footerStrings = LOCALE_CONTENT?.tr?.footer || {
     ariaLabel: "Site altbilgisi",
   };
 
+  const computedHeadingId =
+    ariaLabelledby ?? headingIdProp ?? `site-footer-heading-${instanceId}`;
+  const computedDescriptionId =
+    ariaDescribedby ?? descriptionIdProp ?? `site-footer-desc-${instanceId}`;
+  const hasAccessibleName = Boolean(ariaLabel || computedHeadingId);
+  const computedRole = roleOverride ?? (hasAccessibleName ? "contentinfo" : undefined);
+  const ariaLabelledbyValue = ariaLabel ? undefined : computedHeadingId;
+
   return (
-    <div
+    <footer
       className="relative w-full flex-shrink-0 bg-gradient-to-br from-[#0b1120] via-[#1a1038] to-[#1b1f4a] border-t border-white/10"
-      aria-labelledby="site-footer-heading"
+      aria-labelledby={ariaLabelledbyValue}
+      aria-label={ariaLabel}
+      aria-describedby={computedDescriptionId}
+      role={computedRole}
       itemScope
       itemType="https://schema.org/LocalBusiness"
     >
       {/* Başlık (Screen Reader Only) */}
-      <h2 id="site-footer-heading" className="sr-only">
-        {footerStrings.ariaLabel}
-      </h2>
+      {!ariaLabel && !ariaLabelledby && (
+        <h2 id={computedHeadingId} className="sr-only">
+          {footerStrings.ariaLabel}
+        </h2>
+      )}
 
       <div className="relative z-10 container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pt-16 pb-14 px-6">
         {/* 1. SÜTUN: Marka & Sosyal */}
@@ -145,7 +165,11 @@ export default function Footer() {
             />
           </div>
 
-          <p className="text-sm leading-7 text-gray-300 mb-6" itemProp="description">
+            <p
+              className="text-sm leading-7 text-gray-300 mb-6"
+              id={computedDescriptionId}
+              itemProp="description"
+            >
             <span className="block">
               Profesyonel etkinlik prodüksiyon & ekipman kiralama.
             </span>
@@ -351,6 +375,6 @@ export default function Footer() {
           </div>
         </div>
       </div>
-    </div>
+    </footer>
   );
 }

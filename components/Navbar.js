@@ -10,6 +10,7 @@ import {
   useRef,
   useCallback,
   useMemo,
+  useId,
 } from "react";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 
@@ -69,8 +70,16 @@ const NAVBAR_WHATSAPP_MESSAGE = encodeURIComponent(
   "Merhaba, Sahneva ile etkinlik ekipmanları için teklif ve destek almak istiyorum."
 );
 
-export default function Navbar() {
+export default function Navbar({
+  ariaLabel,
+  ariaLabelledby,
+  ariaDescribedby,
+  role: roleOverride,
+  headingId: headingIdProp,
+  descriptionId: descriptionIdProp,
+}) {
   const pathname = usePathname();
+  const instanceId = useId();
 
   // Lokalizasyon fallback
   const headerStrings = LOCALE_CONTENT?.tr?.header || {
@@ -83,6 +92,21 @@ export default function Navbar() {
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+
+  const computedHeadingId = headingIdProp ?? `navbar-heading-${instanceId}`;
+  const computedDescriptionId =
+    descriptionIdProp ?? `navbar-description-${instanceId}`;
+  const resolvedAriaLabel = ariaLabel ??
+    (ariaLabelledby ? undefined : headerStrings.navLabel);
+  const resolvedAriaLabelledby =
+    ariaLabel || ariaLabelledby
+      ? ariaLabelledby
+      : computedHeadingId;
+  const resolvedAriaDescribedby =
+    ariaDescribedby ?? computedDescriptionId;
+  const navRole = roleOverride ?? "navigation";
+  const shouldRenderHeading = !resolvedAriaLabel && !ariaLabelledby;
+  const shouldRenderDescription = !ariaDescribedby;
 
   // Refs
   const dropdownRef = useRef(null);
@@ -480,10 +504,23 @@ export default function Navbar() {
   return (
     <>
       <nav
-        aria-label={headerStrings.navLabel}
-        role="navigation"
+        aria-label={resolvedAriaLabel}
+        aria-labelledby={resolvedAriaLabel ? undefined : resolvedAriaLabelledby}
+        aria-describedby={resolvedAriaDescribedby}
+        role={navRole}
         className="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur border-b border-neutral-200/80 shadow-lg"
       >
+        {shouldRenderHeading && (
+          <h2 id={computedHeadingId} className="sr-only">
+            {headerStrings.navLabel}
+          </h2>
+        )}
+        {shouldRenderDescription && (
+          <p id={computedDescriptionId} className="sr-only">
+            {headerStrings.navLabel} bağlantıları arasında gezinmek için tab tuşunu
+            kullanabilirsiniz.
+          </p>
+        )}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
@@ -710,7 +747,12 @@ export default function Navbar() {
           kullanabilirsiniz.
         </p>
 
-        <nav aria-label={headerStrings.navLabel} role="navigation">
+        <nav
+          aria-label={resolvedAriaLabel}
+          aria-labelledby={resolvedAriaLabel ? undefined : resolvedAriaLabelledby}
+          aria-describedby={resolvedAriaDescribedby}
+          role={navRole}
+        >
           <div className="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
             {/* Navigasyon Linkleri (Mobil) */}
             <Link

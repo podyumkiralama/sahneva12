@@ -1,7 +1,7 @@
 // components/StickyVideoRail.jsx
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import DeferredHydration from "@/components/DeferredHydration.client";
 
 const VIDEOS = [
@@ -86,7 +86,12 @@ const VIDEOS = [
 
 const INITIAL_POSITION = { x: -24, y: -24 };
 
-function StickyVideoRailInner() {
+function StickyVideoRailInner({
+  ariaLabel,
+  ariaLabelledby,
+  ariaDescribedby,
+  role,
+}) {
   const [isMounted, setIsMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
@@ -100,6 +105,16 @@ function StickyVideoRailInner() {
 
   const dragRef = useRef(null);
   const startPosRef = useRef({ mouseX: 0, mouseY: 0, x: 0, y: 0 });
+  const headingId = useId();
+  const descriptionId = useId();
+
+  const computedHeadingId = ariaLabelledby ?? `sticky-video-rail-heading-${headingId}`;
+  const computedDescriptionId =
+    ariaDescribedby ?? `sticky-video-rail-description-${descriptionId}`;
+  const computedRole = role ?? (ariaLabel || ariaLabelledby ? "region" : undefined);
+  const accessibleTitle = "Sahneva Video Galerisi";
+  const accessibleDescription =
+    "Sahneva'nın öne çıkan videolarını oynatmak ve listedeki diğer kliplere geçiş yapmak için sürüklenebilir, açılır bir oynatıcı.";
 
   // İlk mount + mobile tespiti
   useEffect(() => {
@@ -246,13 +261,19 @@ function StickyVideoRailInner() {
         className="fixed inset-0 z-[80] bg-black/90 backdrop-blur-sm flex flex-col items-center px-2 sm:px-6 py-2"
         aria-modal="true"
         role="dialog"
-        aria-label="Video oynatıcı"
+        aria-labelledby={ariaLabel ? undefined : computedHeadingId}
+        aria-label={ariaLabel}
+        aria-describedby={computedDescriptionId}
       >
+        <div className="sr-only">
+          <h2 id={computedHeadingId}>{accessibleTitle}</h2>
+          <p id={computedDescriptionId}>{accessibleDescription}</p>
+        </div>
         {/* ÜST BAR */}
         <div className="w-full max-w-6xl flex justify-between items-center mb-4 bg-black/80 rounded-xl px-4 py-3 border border-white/20">
           <div className="flex items-center gap-2">
             <span className="text-white font-semibold text-sm sm:text-base">
-              Sahneva Video Galerisi
+              {accessibleTitle}
             </span>
           </div>
           <div className="flex gap-2">
@@ -446,7 +467,15 @@ function StickyVideoRailInner() {
       style={{
         transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
       }}
+      role={computedRole}
+      aria-labelledby={ariaLabel ? undefined : computedHeadingId}
+      aria-label={ariaLabel}
+      aria-describedby={computedDescriptionId}
     >
+      <div className="sr-only">
+        <h2 id={computedHeadingId}>{accessibleTitle}</h2>
+        <p id={computedDescriptionId}>{accessibleDescription}</p>
+      </div>
       <div className="mb-4 w-[280px] sm:w-[340px] bg-slate-900/95 border border-white/20 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-lg">
         {/* Başlık + drag alanı */}
         <div
@@ -457,7 +486,7 @@ function StickyVideoRailInner() {
           <div className="flex items-center gap-2">
             <span className="text-sm font-semibold text-slate-100 flex items-center gap-2">
               <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              Sahneva Video Galerisi
+              {accessibleTitle}
             </span>
           </div>
           <div className="flex items-center gap-1">
@@ -600,7 +629,13 @@ function StickyVideoRailInner() {
  * - IntersectionObserver + idleTimeout ile geç hydrate olur
  * - CLS etkilemez, sticky player zaten fixed konumda
  */
-export default function StickyVideoRail(props) {
+export default function StickyVideoRail({
+  ariaLabel,
+  ariaLabelledby,
+  ariaDescribedby,
+  role,
+  ...props
+}) {
   return (
     <DeferredHydration
       rootMargin="600px"
@@ -609,7 +644,12 @@ export default function StickyVideoRail(props) {
       as="div"
       {...props}
     >
-      <StickyVideoRailInner />
+      <StickyVideoRailInner
+        ariaLabel={ariaLabel}
+        ariaLabelledby={ariaLabelledby}
+        ariaDescribedby={ariaDescribedby}
+        role={role}
+      />
     </DeferredHydration>
   );
 }

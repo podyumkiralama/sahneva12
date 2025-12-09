@@ -1,4 +1,9 @@
-export default function PageSection({ variant = "light", className = "", ...props }) {
+export default function PageSection({
+  variant = "light",
+  className = "",
+  role,
+  ...props
+}) {
   const variants = {
     light: "py-12 bg-white",
     lightGrid: "relative py-8 bg-gradient-to-b from-white to-neutral-50/80",
@@ -7,9 +12,13 @@ export default function PageSection({ variant = "light", className = "", ...prop
   };
 
   const variantClass = variants[variant] || variants.light;
+  const ariaLabelledby = props["aria-labelledby"];
+  const ariaLabel = props["aria-label"];
+  const computedRole = role ?? (ariaLabelledby || ariaLabel ? "region" : undefined);
 
   return (
     <section
+      role={computedRole}
       className={`nc-SitePage-section-1 ${variantClass} ${className}`.trim()}
       {...props}
     />
