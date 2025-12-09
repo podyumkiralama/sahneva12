@@ -22,7 +22,7 @@ export function MotionWrapper({
   useEffect(() => {
     // Tarayıcı desteği kontrolü ve Reduced Motion kontrolü
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
+
     if (prefersReducedMotion) {
       setIsVisible(true); // Animasyonu atla, direkt göster
       return;
@@ -40,7 +40,7 @@ export function MotionWrapper({
 
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
-  },);
+  }, []);
 
   const getInitialStyle = () => {
     switch (animation) {

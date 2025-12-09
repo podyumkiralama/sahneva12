@@ -113,26 +113,36 @@ function StickyVideoRailInner() {
   useEffect(() => {
     if (!isMounted || hasAutoShown) return;
 
+    let ticking = false;
+
     const onScroll = () => {
-      if (window.scrollY > 300 && !hasAutoShown) {
-        setHasAutoShown(true);
-        if (isMobile) {
-          setIsOpen(true);
-          setIsMinimized(true);
-        } else {
-          setIsOpen(true);
-          setIsMinimized(false);
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        if (window.scrollY > 300 && !hasAutoShown) {
+          setHasAutoShown(true);
+          if (isMobile) {
+            setIsOpen(true);
+            setIsMinimized(true);
+          } else {
+            setIsOpen(true);
+            setIsMinimized(false);
+          }
         }
-      }
+        ticking = false;
+      });
     };
 
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [isMounted, hasAutoShown, isMobile]);
 
   // Drag hareketi
   useEffect(() => {
     if (!dragging || !dragRef.current) return;
+
+    const dragRafRef = { current: null };
+    const pendingPosition = { ...position };
 
     const handleMove = (e) => {
       e.preventDefault();
@@ -142,13 +152,21 @@ function StickyVideoRailInner() {
       const dx = clientX - startPosRef.current.mouseX;
       const dy = clientY - startPosRef.current.mouseY;
 
-      setPosition({
-        x: startPosRef.current.x + dx,
-        y: startPosRef.current.y + dy,
+      pendingPosition.x = startPosRef.current.x + dx;
+      pendingPosition.y = startPosRef.current.y + dy;
+
+      if (dragRafRef.current) return;
+      dragRafRef.current = requestAnimationFrame(() => {
+        setPosition({ ...pendingPosition });
+        dragRafRef.current = null;
       });
     };
 
     const handleUp = () => {
+      if (dragRafRef.current) {
+        cancelAnimationFrame(dragRafRef.current);
+        dragRafRef.current = null;
+      }
       setDragging(false);
     };
 
@@ -158,6 +176,9 @@ function StickyVideoRailInner() {
     window.addEventListener("touchend", handleUp);
 
     return () => {
+      if (dragRafRef.current) {
+        cancelAnimationFrame(dragRafRef.current);
+      }
       window.removeEventListener("mousemove", handleMove);
       window.removeEventListener("mouseup", handleUp);
       window.removeEventListener("touchmove", handleMove);
