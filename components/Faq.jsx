@@ -23,13 +23,14 @@ const DEFAULT_DICTIONARY = {
   sectionDesc:
     "Sahne, LED ekran, ses-ışık sistemleri ve teknik operasyon süreçleri hakkında aklınıza takılan tüm soruları yanıtlıyoruz.",
 
-  // (Şimdilik support alanını kullanmıyoruz ama ileride lazım olabilir diye bırakıyorum)
+  // DESTEK KARTI METİNLERİ
   supportTitle: "Cevabı bulamadınız mı?",
   supportDesc:
     "Projeniz özel bir çözüm gerektiriyor olabilir. Uzman teknik ekibimizle görüşün.",
   supportPhoneLabel: "Bizi Arayın",
   supportWhatsappLabel: "WhatsApp Destek",
   supportMailLabel: "E-posta Gönder",
+
   contactPhone: "+90 545 304 86 71",
   contactPhoneHref: "tel:+905453048671",
   contactWhatsappHref: `https://wa.me/905453048671?text=${FAQ_WHATSAPP_MESSAGE}`,
@@ -143,7 +144,95 @@ const FaqRow = React.memo(function FaqRow({
 });
 
 // —————————————————————————————————————————
-// ANA BİLEŞEN (SADE: SADECE FAQ, TEK KOLON)
+// DESTEK KARTI (SAĞ TARAF)
+// —————————————————————————————————————————
+function SupportCard({ dictionary }) {
+  return (
+    <aside
+      aria-label="İletişim ve destek seçenekleri"
+      className="w-full rounded-3xl bg-[#0F172A] border border-white/10 shadow-2xl p-6 md:p-8 flex flex-col gap-6"
+    >
+      {/* Ikon + Başlık */}
+      <div className="flex items-start gap-4">
+        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-2xl shadow-lg">
+          💬
+        </div>
+        <div>
+          <h3 className="text-xl font-bold text-white mb-1">
+            {dictionary.supportTitle}
+          </h3>
+          <p className="text-slate-400 text-sm leading-relaxed">
+            {dictionary.supportDesc}
+          </p>
+        </div>
+      </div>
+
+      {/* İletişim kartları */}
+      <div className="space-y-3">
+        {/* Telefon */}
+        <a
+          href={dictionary.contactPhoneHref}
+          className="flex items-center gap-3 p-3 rounded-2xl bg-slate-900/60 border border-white/5 hover:bg-slate-900/90 hover:border-blue-500/40 transition-all group"
+        >
+          <span className="w-10 h-10 rounded-full bg-blue-500/15 flex items-center justify-center text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+            📞
+          </span>
+          <div>
+            <span className="block text-xs text-slate-400 font-medium">
+              {dictionary.supportPhoneLabel}
+            </span>
+            <span className="block text-sm font-bold text-white group-hover:text-blue-400 transition-colors">
+              {dictionary.contactPhone}
+            </span>
+          </div>
+        </a>
+
+        {/* WhatsApp */}
+        <a
+          href={dictionary.contactWhatsappHref}
+          target="_blank"
+          rel="noopener noreferrer nofollow"
+          className="flex items-center gap-3 p-3 rounded-2xl bg-slate-900/60 border border-white/5 hover:bg-slate-900/90 hover:border-green-500/40 transition-all group"
+          aria-label={`${dictionary.supportWhatsappLabel} – WhatsApp (yeni sekmede açılır)`}
+        >
+          <span className="w-10 h-10 rounded-full bg-green-500/15 flex items-center justify-center text-green-400 group-hover:bg-green-500 group-hover:text-white transition-colors">
+            📱
+          </span>
+          <div>
+            <span className="block text-xs text-slate-400 font-medium">
+              {dictionary.supportWhatsappLabel}
+            </span>
+            <span className="block text-sm font-bold text-white group-hover:text-green-400 transition-colors">
+              Hızlı Mesaj Gönder
+            </span>
+            <span className="sr-only">(yeni sekmede açılır)</span>
+          </div>
+        </a>
+
+        {/* Mail */}
+        <a
+          href={dictionary.contactMailHref}
+          className="flex items-center gap-3 p-3 rounded-2xl bg-slate-900/60 border border-white/5 hover:bg-slate-900/90 hover:border-purple-500/40 transition-all group"
+        >
+          <span className="w-10 h-10 rounded-full bg-purple-500/15 flex items-center justify-center text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-colors">
+            ✉️
+          </span>
+          <div>
+            <span className="block text-xs text-slate-400 font-medium">
+              {dictionary.supportMailLabel}
+            </span>
+            <span className="block text-sm font-bold text-white group-hover:text-purple-400 transition-colors">
+              {dictionary.contactMail}
+            </span>
+          </div>
+        </a>
+      </div>
+    </aside>
+  );
+}
+
+// —————————————————————————————————————————
+// ANA BİLEŞEN
 // —————————————————————————————————————————
 
 export default function Faq({
@@ -227,17 +316,27 @@ export default function Faq({
           </ScrollReveal>
         )}
 
-        {/* İÇERİK: SADECE FAQ LİSTESİ */}
-        <div className="max-w-4xl mx-auto space-y-4">
-          {items.map((item, index) => (
-            <ScrollReveal key={item.slug} direction="up" delay={index * 0.05}>
-              <FaqRow
-                {...item}
-                isOpen={openIndex === index}
-                onToggle={() => handleToggle(index)}
-              />
+        {/* İÇERİK: SOL FAQ – SAĞ DESTEK KARTI */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start max-w-6xl mx-auto">
+          {/* SOL: FAQ LİSTESİ */}
+          <div className="lg:col-span-7 space-y-4 min-w-0">
+            {items.map((item, index) => (
+              <ScrollReveal key={item.slug} direction="up" delay={index * 0.05}>
+                <FaqRow
+                  {...item}
+                  isOpen={openIndex === index}
+                  onToggle={() => handleToggle(index)}
+                />
+              </ScrollReveal>
+            ))}
+          </div>
+
+          {/* SAĞ: DESTEK KARTI */}
+          <div className="lg:col-span-5 mt-8 lg:mt-0 min-w-0">
+            <ScrollReveal direction="left" delay="0.15">
+              <SupportCard dictionary={dictionary} />
             </ScrollReveal>
-          ))}
+          </div>
         </div>
       </div>
     </section>
