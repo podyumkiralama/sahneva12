@@ -16,7 +16,7 @@ const FAQ_WHATSAPP_MESSAGE = encodeURIComponent(
 );
 
 const DEFAULT_DICTIONARY = {
-  // ——— GÜNCELLENEN BAŞLIK ALANI (KARMA YAKLAŞIM) ———
+  // ——— BAŞLIK ALANI ———
   sectionPill: "Merak Edilenler",
   sectionTitlePrefix: "Kiralama Süreci ve",
   sectionTitleHighlight: "Sıkça Sorulanlar",
@@ -145,87 +145,82 @@ const FaqRow = React.memo(function FaqRow({
 });
 
 // —————————————————————————————————————————
-// DESTEK KARTI (SAĞ TARAF)
+// DESTEK KARTI (SAĞ TARAF – basit, taşma yok)
 // —————————————————————————————————————————
 function SupportCard({ dictionary }) {
   return (
-    <div className="w-full max-w-md lg:max-w-full mx-auto lg:mx-0 bg-[#0F1623] border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
-      {/* Arka Plan Efekti (tamamen kart içinde kalıyor) */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-[-60px] right-[-60px] w-40 h-40 bg-blue-600/20 rounded-full blur-[60px]" />
+    <div className="w-full bg-[#0F1623] border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6">
+      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-2xl shadow-lg">
+        💬
       </div>
 
-      <div className="relative z-10">
-        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-2xl mb-5 shadow-lg">
-          💬
-        </div>
-
+      <div>
         <h3 className="text-xl font-bold text-white mb-2">
           {dictionary.supportTitle}
         </h3>
-        <p className="text-slate-400 text-sm leading-relaxed mb-6">
+        <p className="text-slate-400 text-sm leading-relaxed">
           {dictionary.supportDesc}
         </p>
+      </div>
 
-        <div className="space-y-3">
-          {/* Telefon */}
-          <a
-            href={dictionary.contactPhoneHref}
-            className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-blue-500/30 transition-all group"
-          >
-            <span className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
-              📞
+      <div className="space-y-3">
+        {/* Telefon */}
+        <a
+          href={dictionary.contactPhoneHref}
+          className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-blue-500/30 transition-all group"
+        >
+          <span className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+            📞
+          </span>
+          <div>
+            <span className="block text-xs text-slate-400 font-medium">
+              {dictionary.supportPhoneLabel}
             </span>
-            <div>
-              <span className="block text-xs text-slate-400 font-medium">
-                {dictionary.supportPhoneLabel}
-              </span>
-              <span className="block text-sm font-bold text-white group-hover:text-blue-400 transition-colors">
-                {dictionary.contactPhone}
-              </span>
-            </div>
-          </a>
+            <span className="block text-sm font-bold text-white group-hover:text-blue-400 transition-colors">
+              {dictionary.contactPhone}
+            </span>
+          </div>
+        </a>
 
-          {/* WhatsApp */}
-          <a
-            href={dictionary.contactWhatsappHref}
-            target="_blank"
-            rel="noopener noreferrer nofollow"
-            className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-green-500/30 transition-all group"
-            aria-label={`${dictionary.supportWhatsappLabel} – WhatsApp (yeni sekmede açılır)`}
-          >
-            <span className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center text-green-400 group-hover:bg-green-500 group-hover:text-white transition-colors">
-              📱
+        {/* WhatsApp */}
+        <a
+          href={dictionary.contactWhatsappHref}
+          target="_blank"
+          rel="noopener noreferrer nofollow"
+          className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-green-500/30 transition-all group"
+          aria-label={`${dictionary.supportWhatsappLabel} – WhatsApp (yeni sekmede açılır)`}
+        >
+          <span className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center text-green-400 group-hover:bg-green-500 group-hover:text-white transition-colors">
+            📱
+          </span>
+          <div>
+            <span className="block text-xs text-slate-400 font-medium">
+              {dictionary.supportWhatsappLabel}
             </span>
-            <div>
-              <span className="block text-xs text-slate-400 font-medium">
-                {dictionary.supportWhatsappLabel}
-              </span>
-              <span className="block text-sm font-bold text-white group-hover:text-green-400 transition-colors">
-                Hızlı Mesaj Gönder
-              </span>
-              <span className="sr-only">(yeni sekmede açılır)</span>
-            </div>
-          </a>
+            <span className="block text-sm font-bold text-white group-hover:text-green-400 transition-colors">
+              Hızlı Mesaj Gönder
+            </span>
+            <span className="sr-only">(yeni sekmede açılır)</span>
+          </div>
+        </a>
 
-          {/* Mail */}
-          <a
-            href={dictionary.contactMailHref}
-            className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-purple-500/30 transition-all group"
-          >
-            <span className="w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-colors">
-              ✉️
+        {/* Mail */}
+        <a
+          href={dictionary.contactMailHref}
+          className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-purple-500/30 transition-all group"
+        >
+          <span className="w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-colors">
+            ✉️
+          </span>
+          <div>
+            <span className="block text-xs text-slate-400 font-medium">
+              {dictionary.supportMailLabel}
             </span>
-            <div>
-              <span className="block text-xs text-slate-400 font-medium">
-                {dictionary.supportMailLabel}
-              </span>
-              <span className="block text-sm font-bold text-white group-hover:text-purple-400 transition-colors">
-                {dictionary.contactMail}
-              </span>
-            </div>
-          </a>
-        </div>
+            <span className="block text-sm font-bold text-white group-hover:text-purple-400 transition-colors">
+              {dictionary.contactMail}
+            </span>
+          </div>
+        </a>
       </div>
     </div>
   );
@@ -258,7 +253,8 @@ export default function Faq({
 
   const headingId = ariaLabelledBy ?? regionLabelId;
   const descriptionId =
-    ariaDescriptionId ?? (!ariaLabelledBy ? `${headingId}-description` : undefined);
+    ariaDescriptionId ??
+    (!ariaLabelledBy ? `${headingId}-description` : undefined);
   const describedBy = ariaDescribedBy ?? descriptionId;
   const hasAccessibleName = Boolean(headingId || ariaLabel);
   const role = roleOverride ?? (hasAccessibleName ? "region" : undefined);
@@ -330,12 +326,10 @@ export default function Faq({
             ))}
           </div>
 
-          {/* SAĞ TARAF: STICKY DESTEK KARTI (sadece desktop) */}
+          {/* SAĞ TARAF: DESTEK KARTI */}
           <div className="lg:col-span-4 mt-8 lg:mt-0">
             <ScrollReveal direction="left" delay="0.2">
-              <div className="lg:sticky lg:top-24">
-                <SupportCard dictionary={dictionary} />
-              </div>
+              <SupportCard dictionary={dictionary} />
             </ScrollReveal>
           </div>
         </div>
