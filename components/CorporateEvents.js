@@ -1,7 +1,6 @@
 // components/CorporateEvents.js
 "use client";
 
-import Image from "next/image";
 import { useId } from "react";
 import Link from "next/link";
 import { ScrollReveal } from "@/components/ScrollReveal";
@@ -9,11 +8,6 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 // —————————————————————————————————————————
 // YAPILANDIRMA & VERİLER
 // —————————————————————————————————————————
-
-const CARD_SIZES =
-  "(max-width: 768px) 100vw, " +
-  "(max-width: 1024px) calc((100vw - 4rem) / 2), " +
-  "calc((1280px - 4rem) / 3)";
 
 const DEFAULT_CARDS = [
   {
@@ -76,9 +70,6 @@ const WHATSAPP_CORPORATE_MESSAGE = encodeURIComponent(
   "Merhaba, kurumsal etkinlik çözümleri için Sahneva'dan teklif almak istiyorum."
 );
 
-const BLUR_DATA_URL =
-  "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R";
-
 const DEFAULT_DICTIONARY = {
   sectionTitleSr: "Kurumsal etkinlik çözümleri ve hizmet detayları",
   highlightPill: "Neden Biz?",
@@ -138,20 +129,26 @@ function mergeDictionary(base, override = {}) {
   return result;
 }
 
-function OptimizedImage({ src, alt, sizes, className }) {
+function escapeHtmlAttribute(value = "") {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function OptimizedImage({ src, alt, className }) {
+  const safeAlt = escapeHtmlAttribute(alt);
+  const safeSrc = escapeHtmlAttribute(src);
+  const safeClass = className ? ` ${escapeHtmlAttribute(className)}` : "";
+  const html = `<img src="${safeSrc}" alt="${safeAlt}" class="absolute inset-0 h-full w-full object-cover${safeClass}" loading="lazy" decoding="async">`;
+
   return (
-    <Image
-      src={src}
-      alt={alt}
-      fill
-      sizes={sizes}
-      className={className}
-      loading="lazy"
-      decoding="async"
-      placeholder="blur"
-      blurDataURL={BLUR_DATA_URL}
-      quality={80}
-    />
+    <div role="img" aria-label={alt} className="absolute inset-0">
+      <span className="sr-only">{alt}</span>
+      <div aria-hidden dangerouslySetInnerHTML={{ __html: html }} />
+    </div>
   );
 }
 
@@ -246,8 +243,7 @@ export default function CorporateEvents({
                       <OptimizedImage
                         src={card.img}
                         alt={card.alt}
-                        sizes={CARD_SIZES}
-                        className="object-cover transition-transform duration-700 group-hover:scale-110 will-change-transform"
+                        className="transition-transform duration-700 group-hover:scale-110 will-change-transform"
                       />
                       {/* Dark Gradient Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-transparent to-transparent opacity-90" />
