@@ -389,7 +389,7 @@ export default function HomePage() {
       {/* 3) HİZMETLER TABS */}
       <section
         aria-labelledby="hizmetler-title"
-        className="relative bg-slate-50"
+        className="relative bg-slate-50 overflow-hidden"
       >
         {/* grid overlay */}
         <div
@@ -433,9 +433,9 @@ export default function HomePage() {
       {/* 7) NEDEN SAHNEVA? */}
       <section
         aria-labelledby="neden-tercih-heading"
-        className="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 py-16 md:py-20"
+        className="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 py-16 md:py-20 overflow-hidden"
       >
-        <div className="px-4 sm:px-6 lg:px-8">
+        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
           <ScrollReveal>
             <SectionHeader
               id="neden-tercih-heading"
@@ -495,9 +495,9 @@ export default function HomePage() {
       {/* 9) SEO METİNLERİ */}
       <section
         aria-labelledby="seo-title"
-        className="bg-slate-50 py-16 md:py-20"
+        className="bg-slate-50 py-16 md:py-20 overflow-hidden"
       >
-        <div className="px-4 sm:px-6 lg:px-8">
+        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
           <ScrollReveal>
             <SectionHeader
               id="seo-title"
