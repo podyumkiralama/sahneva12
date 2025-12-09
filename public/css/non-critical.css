@@ -88,3 +88,87 @@
 .hide-scrollbar::-webkit-scrollbar {
   display: none !important; /* Chrome, Safari, Opera */
 }
+
+/* === HizmetlerPage inline -> non-critical === */
+.nc-HizmetlerPage-hero-1 {
+  transform: scale(1.02);
+  filter: brightness(0.6) contrast(1.1) saturate(1.1);
+}
+
+/* === ServicesPage inline -> non-critical === */
+.nc-ServicesPage-hero-1 {
+  transform: scale(1.02);
+  filter: brightness(0.6) contrast(1.1) saturate(1.1);
+}
+
+/* === DeferredSections inline -> non-critical === */
+.nc-DeferredSections-wrapper-1 {
+  contain: layout paint;
+  min-height: 400px;
+}
+
+.nc-DeferredSections-wrapper-2 {
+  contain: layout paint;
+  min-height: 320px;
+}
+
+.nc-DeferredSections-wrapper-3 {
+  contain: layout paint;
+  min-height: 260px;
+}
+
+.nc-DeferredSections-wrapper-4 {
+  min-height: 400px;
+}
+
+.nc-DeferredSections-wrapper-5 {
+  min-height: 320px;
+}
+
+.nc-DeferredSections-wrapper-6 {
+  min-height: 260px;
+}
+
+/* === IletisimPage inline -> non-critical === */
+.nc-IletisimPage-map-1 {
+  border: 0;
+}
+
+/* === CaseGallery inline -> non-critical === */
+.nc-CaseGallery-lightbox-1 {
+  overscroll-behavior: contain;
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-top: env(safe-area-inset-top);
+}
+
+/* === Navbar inline -> non-critical === */
+.nc-Navbar-logo-1 {
+  color: transparent;
+}
+
+/* === CadirKiralamaPage inline -> non-critical === */
+.nc-CadirKiralamaPage-section-1,
+.nc-CadirKiralamaPage-section-2,
+.nc-CadirKiralamaPage-section-3,
+.nc-CadirKiralamaPage-section-4,
+.nc-CadirKiralamaPage-section-5,
+.nc-CadirKiralamaPage-section-6,
+.nc-CadirKiralamaPage-section-7,
+.nc-CadirKiralamaPage-section-8 {
+  content-visibility: auto;
+}
+
+/* === ContactPage inline -> non-critical === */
+.nc-ContactPage-map-1 {
+  border: 0;
+}
+
+/* === HomePage inline -> non-critical === */
+.nc-HomePage-aurora-1 {
+  animation-duration: 8s;
+}
+
+/* === ArHomePage inline -> non-critical === */
+.nc-ArHomePage-aurora-1 {
+  animation-duration: 8s;
+}
