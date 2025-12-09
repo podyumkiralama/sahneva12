@@ -379,10 +379,7 @@ export default function ProjectsGallery({ galleries, dictionary }) {
 
       {/* Grid */}
       <div className="container px-4 mx-auto relative z-10">
-        <ul
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          role="list"
-        >
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {entries.map(([title, gallery], i) => (
             <ScrollReveal key={title} direction="up" delay={i * 0.1}>
               <GalleryCard

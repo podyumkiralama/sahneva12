@@ -400,7 +400,7 @@ function ServicesTabsComponent({
                         />
                         {dictionary.featuresHeading}
                       </h4>
-                      <ul className="grid sm:grid-cols-2 gap-3" role="list">
+                      <ul className="grid sm:grid-cols-2 gap-3">
                         {activeService.features.map((feature, idx) => (
                           <li
                             key={idx}
