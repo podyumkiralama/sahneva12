@@ -5,6 +5,7 @@ import Link from "next/link";
 // Statik bileşenler
 import CorporateEvents from "@/components/CorporateEvents";
 import HeroSection from "@/components/HeroSection";
+import PageSection from "@/components/PageSection";
 import { HERO_FEATURES_TR } from "@/lib/heroFeatures";
 import {
   ServicesTabsDeferred,
@@ -13,10 +14,11 @@ import {
 } from "@/components/DeferredSections.client";
 // Animasyon bileşenleri (Hafif ve görünürlük alanına odaklı)
 import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
-
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
-  "https://www.sahneva.com";
+import {
+  HOME_PAGE_TITLE,
+  SITE_URL,
+  getOgImageUrl,
+} from "@/lib/seo/seoConfig";
 
 // —————————————————————————————————————————
 // SABİT VERİLER
@@ -108,8 +110,7 @@ function StructuredData() {
         "@type": "WebPage",
         "@id": WEBPAGE_ID,
         url: HOME_URL,
-        name:
-          "Sahne Sistemleri, LED Ekran, Ses-Işık Kiralama | Türkiye Geneli | Sahneva",
+        name: HOME_PAGE_TITLE,
         description:
           "Sahneva ile profesyonel sahne, podyum, LED ekran, ses ve ışık sistemleri kiralama çözümlerini keşfedin. İstanbul merkezli, Türkiye geneli hızlı kurulum.",
         inLanguage: "tr-TR",
@@ -211,7 +212,7 @@ function StructuredData() {
       {
         "@type": "ImageObject",
         "@id": IMAGE_ID,
-        contentUrl: `${SITE_URL}/og/sahneva-home.jpg`,
+        contentUrl: getOgImageUrl(),
         width: 1200,
         height: 630,
       },
@@ -453,10 +454,7 @@ export default function HomePage() {
       <div id="teklif-al" className="sr-only" />
 
       {/* Hizmetler */}
-      <section
-        className="relative py-8 bg-gradient-to-b from-white to-neutral-50/80 nc-SitePage-section-1"
-        aria-labelledby="hizmetler-title"
-      >
+      <PageSection variant="lightGrid" aria-labelledby="hizmetler-title">
         <div
           className="absolute inset-0 bg-[linear-gradient(#e5e7eb_1px,transparent_1px),linear-gradient(90deg,#e5e7eb_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:radial-gradient(ellipse_at-center,transparent_20%,white)]"
           aria-hidden="true"
@@ -469,25 +467,20 @@ export default function HomePage() {
             <ServicesTabsDeferred idleTimeout={2800} rootMargin="320px" />
           </div>
         </div>
-      </section>
+      </PageSection>
 
       {/* Projeler */}
-      <section
-        className="py-12 bg-gradient-to-br from-neutral-900 to-blue-900/95 nc-SitePage-section-1"
-      >
+      <PageSection variant="dark">
         <div className="container">
           <h2 id="projeler-title" className="sr-only">
             Başarılı Projelerimiz
           </h2>
           <ProjectsGalleryDeferred idleTimeout={3200} rootMargin="360px" />
         </div>
-      </section>
+      </PageSection>
 
       {/* Kurumsal Organizasyon */}
-      <section
-        className="py-12 bg-white nc-SitePage-section-1"
-        aria-labelledby="kurumsal-title"
-      >
+      <PageSection variant="light" aria-labelledby="kurumsal-title">
         <div className="container">
           <ScrollReveal>
             <SectionHeader
@@ -499,13 +492,10 @@ export default function HomePage() {
           </ScrollReveal>
           <CorporateEvents />
         </div>
-      </section>
+      </PageSection>
 
       {/* Neden Sahneva? */}
-      <section
-        className="py-12 bg-gradient-to-br from-blue-50/80 to-purple-50/60 nc-SitePage-section-1"
-        aria-labelledby="neden-tercih-heading"
-      >
+      <PageSection variant="brand" aria-labelledby="neden-tercih-heading">
         <div className="container">
           <ScrollReveal>
             <SectionHeader
@@ -560,13 +550,10 @@ export default function HomePage() {
             </ul>
           </ScrollRevealGroup>
         </div>
-      </section>
+      </PageSection>
 
       {/* SEO metinleri */}
-      <section
-        className="py-12 bg-white nc-SitePage-section-1"
-        aria-labelledby="seo-title"
-      >
+      <PageSection variant="light" aria-labelledby="seo-title">
         <div className="container">
           <ScrollReveal>
             <SectionHeader
@@ -673,13 +660,10 @@ export default function HomePage() {
             </ScrollReveal>
           </div>
         </div>
-      </section>
+      </PageSection>
 
       {/* SSS */}
-      <section
-        className="py-12 bg-gradient-to-br from-neutral-900 to-blue-900/95 nc-SitePage-section-1"
-        aria-labelledby="sss-title"
-      >
+      <PageSection variant="dark" aria-labelledby="sss-title">
         <div className="container">
           <ScrollReveal>
             <SectionHeader
@@ -692,7 +676,7 @@ export default function HomePage() {
           </ScrollReveal>
           <FaqDeferred idleTimeout={3600} rootMargin="400px" />
         </div>
-      </section>
+      </PageSection>
     </div>
   );
 }

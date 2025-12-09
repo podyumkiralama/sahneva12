@@ -6,28 +6,24 @@ import UtilityBar from "@/components/UtilityBar.client";
 import StickyVideoRailclient from "@/components/StickyVideoRail.client";
 import DeferredSpeedInsights from "@/components/DeferredSpeedInsights.client";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
-
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
-  "https://www.sahneva.com";
+import {
+  HOME_PAGE_TITLE,
+  buildAlternateLanguages,
+  buildCanonical,
+} from "@/lib/seo/seoConfig";
 
 const content = LOCALE_CONTENT.tr;
 const DEFAULT_LANG = "tr";
 
 export const metadata = {
   title: {
-    default: content.meta.title,
-    template: `%s | ${content.meta.title}`,
+    default: HOME_PAGE_TITLE,
+    template: `%s | Sahneva Organizasyon`,
   },
   description: content.meta.description,
   alternates: {
-    canonical: `${SITE_URL}/`,
-    languages: {
-      "tr-TR": `${SITE_URL}/`,
-      en: `${SITE_URL}/en`,
-      ar: `${SITE_URL}/ar`,
-      "x-default": `${SITE_URL}/`,
-    },
+    canonical: buildCanonical("/"),
+    languages: buildAlternateLanguages(),
   },
 };
 
@@ -62,8 +58,6 @@ export default function TurkishLayout({ children }) {
         id="_main_content"
         role="main"
         aria-label="Sahneva ana içerik bölgesi"
-        aria-live="polite"
-        aria-atomic="true"
         tabIndex={-1}
         className="flex-1 pt-16 lg:pt-20 focus:outline-none scroll-mt-24"
       >
