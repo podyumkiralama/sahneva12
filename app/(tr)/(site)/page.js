@@ -359,7 +359,6 @@ function HeroFeatureGrid() {
   return (
     <ul
       className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto list-none p-0 m-0"
-      role="list"
     >
       {HERO_FEATURES_TR.map((item, index) => (
         <li key={item.title} className="m-0 p-0">
@@ -510,7 +509,6 @@ export default function HomePage() {
           <ScrollRevealGroup>
             <ul
               className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 list-none p-0 m-0"
-              role="list"
             >
               {WHY_SAHNEVA_FEATURES.map(
                 ({ icon, title, desc, stat }, i) => (
@@ -610,7 +608,7 @@ export default function HomePage() {
                     </Link>{" "}
                     hizmetlerinde komple çözümler sunuyoruz.
                   </p>
-                  <ul className="mt-4 space-y-2 text-neutral-700" role="list">
+                  <ul className="mt-4 space-y-2 text-neutral-700">
                     {SEO_TECH_FEATURES.map((item, i) => (
                       <li key={i} className="flex items-center gap-3">
                         <div
@@ -644,7 +642,7 @@ export default function HomePage() {
                     veriyoruz. 50.000+ kişilik organizasyonlarda aktif rol
                     alıyoruz.
                   </p>
-                  <ul className="mt-4 space-y-2 text-neutral-700" role="list">
+                  <ul className="mt-4 space-y-2 text-neutral-700">
                     {SEO_INFRA_FEATURES.map((item, i) => (
                       <li key={i} className="flex items-center gap-3">
                         <div

@@ -149,12 +149,13 @@ export default function RootLayout({ children }) {
       className={inter.className}
       suppressHydrationWarning
     >
+      <head>
+        {/* Kritik preload/prefetch varlıkları */}
+        <CriticalAssets />
+      </head>
       <body className="min-h-screen bg-white text-neutral-900 antialiased flex flex-col">
         {/* SkipLinks: erişilebilirlik için üstte */}
         <SkipLinks />
-
-        {/* Kritik preload/prefetch varlıkları */}
-        <CriticalAssets />
 
         {/* Kritik olmayan cilalı stiller: render-blocking olmadan yüklenir */}
         <NonCriticalStylesheet />
