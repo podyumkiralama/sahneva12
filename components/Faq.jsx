@@ -16,7 +16,7 @@ const FAQ_WHATSAPP_MESSAGE = encodeURIComponent(
 );
 
 const DEFAULT_DICTIONARY = {
-  // ——— BAŞLIK ALANI ———
+  // ——— GÜNCELLENEN BAŞLIK ALANI (KARMA YAKLAŞIM) ———
   sectionPill: "Merak Edilenler",
   sectionTitlePrefix: "Kiralama Süreci ve",
   sectionTitleHighlight: "Sıkça Sorulanlar",
@@ -97,9 +97,7 @@ const FaqRow = React.memo(function FaqRow({
       >
         <span
           className={`text-sm md:text-base font-bold transition-colors duration-300 ${
-            isOpen
-              ? "text-white"
-              : "text-slate-300 group-hover:text-white"
+            isOpen ? "text-white" : "text-slate-300 group-hover:text-white"
           }`}
         >
           {question}
@@ -147,14 +145,14 @@ const FaqRow = React.memo(function FaqRow({
 });
 
 // —————————————————————————————————————————
-// DESTEK KARTI (SAĞ TARAF - STICKY)
+// DESTEK KARTI (SAĞ TARAF)
 // —————————————————————————————————————————
 function SupportCard({ dictionary }) {
   return (
-    <div className="relative w-full max-w-full lg:max-w-none lg:sticky lg:top-24 bg-[#0F1623] border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl overflow-hidden">
-      {/* Arka Plan Efekti */}
+    <div className="w-full max-w-md lg:max-w-full mx-auto lg:mx-0 bg-[#0F1623] border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
+      {/* Arka Plan Efekti (tamamen kart içinde kalıyor) */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-blue-600/20 rounded-full blur-[50px]" />
+        <div className="absolute top-[-60px] right-[-60px] w-40 h-40 bg-blue-600/20 rounded-full blur-[60px]" />
       </div>
 
       <div className="relative z-10">
@@ -260,25 +258,21 @@ export default function Faq({
 
   const headingId = ariaLabelledBy ?? regionLabelId;
   const descriptionId =
-    ariaDescriptionId ??
-    (!ariaLabelledBy ? `${headingId}-description` : undefined);
+    ariaDescriptionId ?? (!ariaLabelledBy ? `${headingId}-description` : undefined);
   const describedBy = ariaDescribedBy ?? descriptionId;
   const hasAccessibleName = Boolean(headingId || ariaLabel);
   const role = roleOverride ?? (hasAccessibleName ? "region" : undefined);
 
   return (
     <section
-      className="relative pt-16 md:pt-24 pb-0 bg-[#0B1120] overflow-x-hidden"
+      className="relative py-16 md:py-24 bg-[#0B1120] overflow-x-hidden"
       aria-labelledby={headingId}
       aria-describedby={describedBy}
       aria-label={ariaLabel}
       role={role}
     >
       {/* Arka Plan Efektleri */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        aria-hidden="true"
-      >
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]" />
         <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-blue-600/10 blur-[120px] rounded-full mix-blend-screen" />
       </div>
@@ -288,6 +282,7 @@ export default function Faq({
         {!ariaLabelledBy && (
           <ScrollReveal direction="up" delay="0.05">
             <div className="text-center max-w-4xl mx-auto mb-16">
+              {/* Hap (Pill) Etiket */}
               <div className="flex justify-center mb-4">
                 <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-bold uppercase tracking-wider shadow-sm">
                   <span
@@ -298,6 +293,7 @@ export default function Faq({
                 </span>
               </div>
 
+              {/* Ana Başlık */}
               <h2
                 id={headingId}
                 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight"
@@ -308,6 +304,7 @@ export default function Faq({
                 </span>
               </h2>
 
+              {/* Açıklama */}
               <p
                 id={descriptionId}
                 className="text-slate-400 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto"
@@ -319,15 +316,11 @@ export default function Faq({
         )}
 
         {/* İÇERİK: SPLIT LAYOUT */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* SOL TARAF: SORULAR */}
           <div className="lg:col-span-8 space-y-4">
             {items.map((item, index) => (
-              <ScrollReveal
-                key={item.slug}
-                direction="up"
-                delay={index * 0.05}
-              >
+              <ScrollReveal key={item.slug} direction="up" delay={index * 0.05}>
                 <FaqRow
                   {...item}
                   isOpen={openIndex === index}
@@ -337,10 +330,12 @@ export default function Faq({
             ))}
           </div>
 
-          {/* SAĞ TARAF: STICKY DESTEK KARTI */}
-          <div className="lg:col-span-4">
+          {/* SAĞ TARAF: STICKY DESTEK KARTI (sadece desktop) */}
+          <div className="lg:col-span-4 mt-8 lg:mt-0">
             <ScrollReveal direction="left" delay="0.2">
-              <SupportCard dictionary={dictionary} />
+              <div className="lg:sticky lg:top-24">
+                <SupportCard dictionary={dictionary} />
+              </div>
             </ScrollReveal>
           </div>
         </div>
