@@ -12,7 +12,6 @@ export default function NonCriticalStylesheet() {
 
   return (
     <>
-      <link rel="preload" href={HREF} as="style" />
       <link
         rel="stylesheet"
         href={HREF}
