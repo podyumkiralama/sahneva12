@@ -61,12 +61,12 @@ const DEFAULT_DICTIONARY = {
   badgeLabel: "Referans",
   dialogAria: "{{title}} projesi",
   closeLabel: "Kapat",
-  prevLabel: "‹ Önceki",
-  prevSr: "Önceki proje",
-  nextLabel: "Sonraki ›",
-  nextSr: "Sonraki proje",
-  mobilePrevLabel: "‹ Önceki",
-  mobileNextLabel: "Sonraki ›",
+  prevLabel: "Önceki görsel",
+  prevSr: "Önceki proje görseline git",
+  nextLabel: "Sonraki görsel",
+  nextSr: "Sonraki proje görseline git",
+  mobilePrevLabel: "Önceki görsel",
+  mobileNextLabel: "Sonraki görsel",
   counterLabel: "{{index}} / {{total}}",
   liveMessage: "{{title}} galerisi {{count}} görselle açıldı",
   lightboxAlt: "{{title}} — referans proje {{index}}",
@@ -184,7 +184,7 @@ const GalleryCard = memo(function GalleryCard({
             className="
               absolute top-4 right-4
               inline-flex items-center px-2.5 py-1
-              rounded-full text-[10px] font-bold uppercase tracking-wider
+              rounded-full text-xs font-bold uppercase tracking-wider
               bg-black/60 backdrop-blur-md text-emerald-400 border border-emerald-500/30
             "
           >
@@ -350,6 +350,7 @@ export default function ProjectsGallery({ galleries, dictionary }) {
     <section
       className="relative py-20 bg-[#0B1120] overflow-hidden"
       aria-labelledby="projects-title"
+      aria-label="Sahneva referans proje galerisi"
       role="region"
     >
       {/* Grid Background + Glow — HeroSection ile uyumlu */}

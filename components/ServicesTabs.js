@@ -472,7 +472,7 @@ function ServicesTabsComponent({
                     />
 
                     <div className="absolute top-4 right-4 z-20">
-                      <div className="bg-black/60 backdrop-blur-md border border-white/20 text-white text-[10px] font-bold px-3 py-1.5 rounded-md shadow-lg">
+                      <div className="bg-black/60 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1.5 rounded-md shadow-lg">
                         {dictionary.imageBadgeLabel}
                       </div>
                     </div>
