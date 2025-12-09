@@ -397,7 +397,7 @@ function StickyVideoRailInner() {
                       <p className="truncate font-medium text-xs sm:text-sm">
                         {video.title}
                       </p>
-                      <p className="hidden sm:block text-[11px] text-slate-400 truncate">
+                      <p className="hidden sm:block text-xs text-slate-400 truncate">
                         {video.description}
                       </p>
                     </div>

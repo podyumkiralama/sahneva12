@@ -74,7 +74,7 @@ export default function Navbar() {
 
   // Lokalizasyon fallback
   const headerStrings = LOCALE_CONTENT?.tr?.header || {
-    navLabel: "Ana gezinme",
+    navLabel: "Ana gezinme menüsü",
     mobileToggleOpenLabel: "Menüyü aç",
     mobileToggleCloseLabel: "Menüyü kapat",
   };
@@ -587,11 +587,18 @@ export default function Navbar() {
                   onMouseEnter={openNow}
                   onMouseLeave={closeWithDelay}
                 >
-                  {SERVICE_LINKS.map((service, index) => (
-                    <li key={service.href} role="none">
-                      <ServiceLink index={index} {...service} />
-                    </li>
-                  ))}
+                  <div className="part-category space-y-1">
+                    <span className="part-menu-head text-xs font-semibold text-neutral-500 px-3 uppercase tracking-wider">
+                      Hizmetler
+                    </span>
+                    <ul className="flex flex-col gap-1" role="none">
+                      {SERVICE_LINKS.map((service, index) => (
+                        <li key={service.href} role="none">
+                          <ServiceLink index={index} {...service} />
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </ul>
 
               </div>

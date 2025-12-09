@@ -117,7 +117,7 @@ export default function SeoArticles({
                     )}
 
                     {a.badge && (
-                      <span className="absolute top-2 left-2 text-[11px] font-semibold text-white bg-blue-600/90 rounded-full px-2 py-1">
+                      <span className="absolute top-2 left-2 text-xs font-semibold text-white bg-blue-600/90 rounded-full px-2 py-1">
                         {a.badge}
                       </span>
                     )}
