@@ -7,6 +7,7 @@ import CriticalAssets from "@/components/CriticalAssets";
 import NonCriticalStylesheet from "@/components/NonCriticalStylesheet";
 import DeferredAnalytics from "@/components/DeferredAnalytics.client";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
+import HeadLinkLoader from "@/components/HeadLinkLoader.client";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 import {
   HOME_PAGE_TITLE,
@@ -178,6 +179,8 @@ export default function RootLayout({ children }) {
       <body className="min-h-screen bg-white text-neutral-900 antialiased flex flex-col">
         {/* SkipLinks: erişilebilirlik için üstte */}
         <SkipLinks />
+
+        <HeadLinkLoader />
 
         {/* Kritik olmayan cilalı stiller: render-blocking olmadan yüklenir */}
         <NonCriticalStylesheet />
