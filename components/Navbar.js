@@ -504,8 +504,7 @@ export default function Navbar() {
                 height={40}
                 priority={pathname === "/"}
                 sizes="(max-width: 768px) 120px, 160px"
-                className="h-8 lg:h-10 w-auto transition-transform duration-200 group-hover:scale-105"
-                style={{ color: "transparent" }}
+                className="h-8 lg:h-10 w-auto transition-transform duration-200 group-hover:scale-105 nc-Navbar-logo-1"
               />
             </Link>
 

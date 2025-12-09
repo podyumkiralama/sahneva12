@@ -39,9 +39,6 @@ const CTA_BASE_CLASS =
 const CTA_OVERLAY_CLASS =
   "absolute inset-0 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200";
 
-// Görsel tarafında ekstra filtre yok, sadece overlay ile karartıyoruz
-const HERO_IMAGE_STYLE = Object.freeze({});
-
 // —————————————————————————————————————————
 // ALT PARÇALAR
 // —————————————————————————————————————————
@@ -113,7 +110,6 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
       quality={45}
       placeholder="empty"
       className="absolute inset-0 h-full w-full object-cover object-center"
-      style={HERO_IMAGE_STYLE}
       aria-hidden={ariaHidden}
     />
   );

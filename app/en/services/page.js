@@ -287,11 +287,7 @@ export default function EnglishServicesPage() {
             priority
             quality={80}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
-            className="object-cover object-center"
-            style={{
-              transform: "scale(1.02)",
-              filter: "brightness(0.6) contrast(1.1) saturate(1.1)",
-            }}
+            className="object-cover object-center nc-ServicesPage-hero-1"
           />
         </div>
 

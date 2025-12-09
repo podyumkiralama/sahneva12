@@ -516,8 +516,7 @@ export default function EnglishHomePage() {
           aria-hidden="true"
         />
         <div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse motion-reduce:animate-none"
-          style={{ animationDuration: "8s" }}
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse motion-reduce:animate-none nc-HomePage-aurora-1"
           aria-hidden="true"
         />
 

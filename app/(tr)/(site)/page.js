@@ -72,11 +72,6 @@ const WHY_SAHNEVA_FEATURES = [
   },
 ];
 
-// PERFORMANS: Off-screen içeriği hızlıca atlamak için
-const BELOW_THE_FOLD_VISIBILITY_STYLE = Object.freeze({
-  contentVisibility: "auto",
-});
-
 const SEO_TECH_FEATURES = [
   "IP65 dış mekân LED paneller, 4500+ nit parlaklık",
   "Profesyonel line-array ses sistemleri, dijital mikserler",
@@ -459,9 +454,8 @@ export default function HomePage() {
 
       {/* Hizmetler */}
       <section
-        className="relative py-8 bg-gradient-to-b from-white to-neutral-50/80"
+        className="relative py-8 bg-gradient-to-b from-white to-neutral-50/80 nc-SitePage-section-1"
         aria-labelledby="hizmetler-title"
-        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
       >
         <div
           className="absolute inset-0 bg-[linear-gradient(#e5e7eb_1px,transparent_1px),linear-gradient(90deg,#e5e7eb_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:radial-gradient(ellipse_at-center,transparent_20%,white)]"
@@ -479,8 +473,7 @@ export default function HomePage() {
 
       {/* Projeler */}
       <section
-        className="py-12 bg-gradient-to-br from-neutral-900 to-blue-900/95"
-        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+        className="py-12 bg-gradient-to-br from-neutral-900 to-blue-900/95 nc-SitePage-section-1"
       >
         <div className="container">
           <h2 id="projeler-title" className="sr-only">
@@ -492,9 +485,8 @@ export default function HomePage() {
 
       {/* Kurumsal Organizasyon */}
       <section
-        className="py-12 bg-white"
+        className="py-12 bg-white nc-SitePage-section-1"
         aria-labelledby="kurumsal-title"
-        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
       >
         <div className="container">
           <ScrollReveal>
@@ -511,9 +503,8 @@ export default function HomePage() {
 
       {/* Neden Sahneva? */}
       <section
-        className="py-12 bg-gradient-to-br from-blue-50/80 to-purple-50/60"
+        className="py-12 bg-gradient-to-br from-blue-50/80 to-purple-50/60 nc-SitePage-section-1"
         aria-labelledby="neden-tercih-heading"
-        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
       >
         <div className="container">
           <ScrollReveal>
@@ -573,9 +564,8 @@ export default function HomePage() {
 
       {/* SEO metinleri */}
       <section
-        className="py-12 bg-white"
+        className="py-12 bg-white nc-SitePage-section-1"
         aria-labelledby="seo-title"
-        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
       >
         <div className="container">
           <ScrollReveal>
@@ -687,9 +677,8 @@ export default function HomePage() {
 
       {/* SSS */}
       <section
-        className="py-12 bg-gradient-to-br from-neutral-900 to-blue-900/95"
+        className="py-12 bg-gradient-to-br from-neutral-900 to-blue-900/95 nc-SitePage-section-1"
         aria-labelledby="sss-title"
-        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
       >
         <div className="container">
           <ScrollReveal>

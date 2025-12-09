@@ -13,9 +13,8 @@ function ServicesTabsSkeleton({ srLabel = "Hizmet sekmeleri yükleniyor" } = {})
     // iskeleti Dark Mode'da hazırlamak, yüklenme sırasında renk geçişini yumuşatır.
     return (
         <div
-            className="w-full bg-[#0B1120] p-4 rounded-xl"
+            className="w-full bg-[#0B1120] p-4 rounded-xl nc-DeferredSections-wrapper-1"
             role="status"
-            style={{ contain: "layout paint", minHeight: "400px" }}
         >
             <div className="flex gap-3 mb-8 overflow-hidden">
                 {[1, 2, 3, 4].map((i) => (
@@ -38,9 +37,8 @@ function ProjectsGallerySkeleton({ srLabel = "Projeler yükleniyor" } = {}) {
     // ProjectsGallery bileşeni Dark Mode'da yer alır.
     return (
         <div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-8 bg-[#0B1120] rounded-3xl"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-8 bg-[#0B1120] rounded-3xl nc-DeferredSections-wrapper-2"
             role="status"
-            style={{ contain: "layout paint", minHeight: "320px" }}
         >
             {[1, 2, 3].map((key) => (
                 <div
@@ -57,9 +55,8 @@ function FaqSkeleton({ srLabel = "Sıkça sorulan sorular yükleniyor" } = {}) {
     // Faq bileşeni Dark Mode'da yer alır ve Split Layout'a sahiptir.
     return (
         <div
-            className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 p-6 bg-[#0B1120] rounded-xl" 
+            className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 p-6 bg-[#0B1120] rounded-xl nc-DeferredSections-wrapper-3"
             role="status"
-            style={{ contain: "layout paint", minHeight: "260px" }}
         >
             {/* Sol Taraf: Soru İskeletleri */}
             <div className="lg:col-span-8 space-y-4">
@@ -107,7 +104,7 @@ const FaqLazy = dynamic(() => import("@/components/Faq"), {
 
 export function ServicesTabsDeferred(props) {
     return (
-        <div style={{ minHeight: "400px" }}>
+        <div className="nc-DeferredSections-wrapper-4">
             <DeferredHydration fallback={<ServicesTabsSkeleton />} {...props}>
                 <ServicesTabsLazy {...props} />
             </DeferredHydration>
@@ -117,7 +114,7 @@ export function ServicesTabsDeferred(props) {
 
 export function ProjectsGalleryDeferred(props) {
     return (
-        <div style={{ minHeight: "320px" }}> {/* minHeight güncellendi */}
+        <div className="nc-DeferredSections-wrapper-5"> {/* minHeight güncellendi */}
             <DeferredHydration fallback={<ProjectsGallerySkeleton />} {...props}>
                 <ProjectsGalleryLazy {...props} />
             </DeferredHydration>
@@ -127,7 +124,7 @@ export function ProjectsGalleryDeferred(props) {
 
 export function FaqDeferred(props) {
     return (
-        <div style={{ minHeight: "260px" }}>
+        <div className="nc-DeferredSections-wrapper-6">
             <DeferredHydration fallback={<FaqSkeleton />} {...props}>
                 <FaqLazy {...props} />
             </DeferredHydration>
