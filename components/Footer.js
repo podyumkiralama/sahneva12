@@ -79,7 +79,7 @@ const SocialLink = ({ href, label, title, icon, gradient }) => (
         href={href}
         target="_blank"
         rel="noopener noreferrer nofollow"
-        aria-label={`${label} (yeni sekmede açılır)`}
+        aria-label={`${icon} ${label} (yeni sekmede açılır)`}
         title={title}
       className={`
         group relative inline-flex h-11 w-11 items-center justify-center rounded-xl
@@ -97,7 +97,9 @@ const SocialLink = ({ href, label, title, icon, gradient }) => (
         aria-hidden="true"
       />
       <span aria-hidden="true" className="text-xl relative z-10">{icon}</span>
-      <span className="sr-only">{title || label} (yeni sekmede açılır)</span>
+      <span className="sr-only">
+        {`${icon} ${title || label} (yeni sekmede açılır)`}
+      </span>
     </a>
   </li>
 );
