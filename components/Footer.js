@@ -118,35 +118,12 @@ export default function Footer() {
         itemScope
         itemType="https://schema.org/LocalBusiness"
       >
-      {/* Üst Dalga (Wave) Efekti */}
-      <div
-        className="absolute inset-x-0 -top-24 h-24 pointer-events-none w-full overflow-hidden"
-        aria-hidden="true"
-      >
-        <img
-          src="/footer-wave.svg"
-          alt="Sahneva footer arka planında dalga efekti"
-          loading="lazy"
-          className="w-full h-full drop-shadow-[0_-20px_50px_rgba(24,24,72,0.32)]"
-        />
-      </div>
-
-      {/* Arka plan glow efektleri */}
-      <div
-        className="absolute inset-0 overflow-hidden pointer-events-none"
-        aria-hidden="true"
-      >
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-r from-[#2d2b68]/25 via-[#5a3fa2]/20 to-[#3b6ad6]/15 rounded-full blur-3xl opacity-60" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-r from-[#1e2858]/20 via-[#4a3a95]/20 to-[#2f5fbf]/15 rounded-full blur-3xl opacity-60" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-transparent via-[#121633]/55 to-[#0b1024]/85" />
-      </div>
-
       {/* Başlık (Screen Reader Only) */}
-        <h2 id="site-footer-heading" className="sr-only">
-          {footerStrings.ariaLabel}
-        </h2>
+      <h2 id="site-footer-heading" className="sr-only">
+        {footerStrings.ariaLabel}
+      </h2>
 
-      <div className="relative z-10 container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pt-24 pb-14 px-6">
+      <div className="relative z-10 container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pt-16 pb-14 px-6">
         {/* 1. SÜTUN: Marka & Sosyal */}
         <section
           aria-labelledby="ft-brand"
