@@ -118,19 +118,6 @@ export default function Footer() {
         itemScope
         itemType="https://schema.org/LocalBusiness"
       >
-      {/* Üst Dalga (Wave) Efekti */}
-      <div
-        className="absolute inset-x-0 -top-24 h-24 pointer-events-none w-full overflow-hidden"
-        aria-hidden="true"
-      >
-        <img
-          src="/footer-wave.svg"
-          alt="Sahneva footer arka planında dalga efekti"
-          loading="lazy"
-          className="w-full h-full drop-shadow-[0_-20px_50px_rgba(24,24,72,0.32)]"
-        />
-      </div>
-
       {/* Arka plan glow efektleri */}
       <div
         className="absolute inset-0 overflow-hidden pointer-events-none"
@@ -146,7 +133,7 @@ export default function Footer() {
           {footerStrings.ariaLabel}
         </h2>
 
-      <div className="relative z-10 container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pt-24 pb-14 px-6">
+      <div className="relative z-10 container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pt-16 pb-14 px-6">
         {/* 1. SÜTUN: Marka & Sosyal */}
         <section
           aria-labelledby="ft-brand"
