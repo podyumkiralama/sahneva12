@@ -3,12 +3,12 @@ import SiteHeader from "../../components/i18n/SiteHeader";
 import SiteFooter from "../../components/i18n/SiteFooter";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { LOCALE_CONTENT } from "../../lib/i18n/localeContent";
+import {
+  buildAlternateLanguages,
+  buildCanonical,
+} from "@/lib/seo/seoConfig";
 
 const content = LOCALE_CONTENT.en;
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL
-  ? process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "")
-  : "https://www.sahneva.com";
 
 export const metadata = {
   title: {
@@ -18,13 +18,8 @@ export const metadata = {
   description:
     "Nationwide stage, LED wall, sound and lighting rentals with turnkey technical crews across Türkiye.",
   alternates: {
-    canonical: `${SITE_URL}/en`,
-    languages: {
-      en: `${SITE_URL}/en`,
-      ar: `${SITE_URL}/ar`,
-      "tr-TR": `${SITE_URL}/`,
-      "x-default": `${SITE_URL}/`,
-    },
+    canonical: buildCanonical("/en"),
+    languages: buildAlternateLanguages(),
   },
 };
 
@@ -41,8 +36,6 @@ export default function EnglishLayout({ children }) {
         className="flex-1 pb-16 pt-0 focus-ring scroll-mt-4"
         role="main"
         aria-label="Main content"
-        aria-live="polite"
-        aria-atomic="true"
         tabIndex={-1}
       >
         {children}

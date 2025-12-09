@@ -8,6 +8,13 @@ import NonCriticalStylesheet from "@/components/NonCriticalStylesheet";
 import DeferredAnalytics from "@/components/DeferredAnalytics.client";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
+import {
+  HOME_PAGE_TITLE,
+  SITE_URL,
+  buildAlternateLanguages,
+  buildCanonical,
+  getOgImageUrl,
+} from "@/lib/seo/seoConfig";
 
 const inter = Inter({
   subsets: ["latin", "latin-ext", "arabic"],
@@ -19,10 +26,6 @@ const inter = Inter({
 const DEFAULT_LOCALE = LOCALE_CONTENT.tr;
 const DEFAULT_LANG = "tr";
 const DEFAULT_DIR = DEFAULT_LOCALE.direction;
-
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
-  "https://www.sahneva.com";
 
 /* ================== JSON-LD: ORGANIZATION ================== */
 const organizationJsonLd = {
@@ -70,21 +73,15 @@ export const metadata = {
   metadataBase: new URL(SITE_URL),
   manifest: "/manifest.json",
   title: {
-    default:
-      "Sahne, Podyum & LED Ekran Kiralama | Sahneva Organizasyon",
+    default: HOME_PAGE_TITLE,
     template: "%s | Sahneva Organizasyon",
   },
   description:
     "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı kurulum, profesyonel teknik ekip, uygun fiyat. Hemen teklif alın!",
   applicationName: "Sahneva Organizasyon",
   alternates: {
-    canonical: SITE_URL,
-    languages: {
-      "tr-TR": SITE_URL,
-      en: `${SITE_URL}/en`,
-      ar: `${SITE_URL}/ar`,
-      "x-default": SITE_URL,
-    },
+    canonical: buildCanonical("/"),
+    languages: buildAlternateLanguages(),
   },
   openGraph: {
     type: "website",
@@ -96,7 +93,7 @@ export const metadata = {
     siteName: "Sahneva Organizasyon",
     images: [
       {
-        url: `${SITE_URL}/img/og/hero-og.webp`,
+        url: getOgImageUrl(),
         width: 1200,
         height: 630,
         alt: "Sahneva profesyonel açık hava sahne, LED ekran ve ışık kurulumu",
@@ -109,7 +106,7 @@ export const metadata = {
       "Sahne, Podyum, LED Ekran & Ses Işık Kiralama | Sahneva Organizasyon",
     description:
       "Profesyonel etkinlik prodüksiyon çözümleri. Sahne, podyum, LED ekran, ses-ışık ve çadır kiralama.",
-    images: [`${SITE_URL}/img/og/hero-og.webp`],
+    images: [getOgImageUrl()],
   },
   icons: {
     icon: [
@@ -152,7 +149,7 @@ export default function RootLayout({ children }) {
       className={inter.className}
       suppressHydrationWarning
     >
-      <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
+      <body className="min-h-screen bg-white text-neutral-900 antialiased flex flex-col">
         {/* SkipLinks: erişilebilirlik için üstte */}
         <SkipLinks />
 

@@ -91,7 +91,7 @@ export default function Navbar() {
   const toggleButtonRef = useRef(null);
   const servicesButtonRef = useRef(null);
   const serviceItemRefs = useRef([]);
-  const previouslyFocusedElement = useRef(null);
+  const mobileMenuOpenedRef = useRef(false);
 
   // ARIA id'leri
   const mobileMenuId = "mobile_menu";
@@ -283,33 +283,27 @@ export default function Navbar() {
   /* =============== Mobil Açıkken Body Scroll Kilidi ve Odak Yönetimi =============== */
   useEffect(() => {
     if (mobileOpen) {
-      // Menü açılırken, bir önceki odaklanılan öğeyi kaydet
-      previouslyFocusedElement.current = document.activeElement;
       document.body.style.overflow = "hidden";
       document.documentElement.style.overflow = "hidden";
-    } else {
-      // Menü kapanırken scroll'u serbest bırak
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
-
-      // Menü kapanırken, kaydedilmiş odaklanılan öğeye geri odaklan
-      if (
-        previouslyFocusedElement.current &&
-        previouslyFocusedElement.current instanceof HTMLElement
-      ) {
-        requestAnimationFrame(() => {
-          previouslyFocusedElement.current?.focus();
-        });
-        // Geri odaklandıktan sonra referansı temizle
-        previouslyFocusedElement.current = null;
-      }
+      mobileMenuOpenedRef.current = true;
+      return () => {
+        document.body.style.overflow = "";
+        document.documentElement.style.overflow = "";
+      };
     }
 
-    // Cleanup fonksiyonu, bileşen unmount edildiğinde veya mobilOpen değiştiğinde
-    return () => {
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
-    };
+    // Menü kapanırken scroll'u serbest bırak
+    document.body.style.overflow = "";
+    document.documentElement.style.overflow = "";
+
+    if (mobileMenuOpenedRef.current) {
+      requestAnimationFrame(() => {
+        toggleButtonRef.current?.focus();
+      });
+      mobileMenuOpenedRef.current = false;
+    }
+
+    return undefined;
   }, [mobileOpen]);
 
   /* =============== Hizmetler Dropdown Dış Tıklama =============== */
@@ -536,6 +530,7 @@ export default function Navbar() {
                   aria-haspopup="true"
                   aria-expanded={servicesOpen}
                   aria-controls={servicesMenuId}
+                  data-open={servicesOpen ? "true" : undefined}
                   onClick={() =>
                     setServicesOpen((s) => {
                       const next = !s;
@@ -581,6 +576,7 @@ export default function Navbar() {
 <ul
   id={servicesMenuId}
   aria-labelledby={servicesBtnId}
+  data-open={servicesOpen ? "true" : undefined}
   className={`
     absolute left-0 top-full mt-2 w-80 bg-white border border-neutral-200 rounded-xl shadow-xl
     z-[60] transition-all duration-200 flex flex-col p-2
@@ -680,6 +676,8 @@ export default function Navbar() {
         aria-modal={mobileOpen || undefined}
         aria-labelledby={MOBILE_MENU_HEADING_ID}
         aria-describedby={MOBILE_MENU_DESCRIPTION_ID}
+        aria-hidden={!mobileOpen}
+        data-open={mobileOpen ? "true" : undefined}
         // Menü kapanırken hızı biraz azaltıldı, daha yumuşak geçiş için
         className={`
           lg:hidden fixed z-50 left-0 right-0 top-16 bg-white border-t border-neutral-200
@@ -900,7 +898,8 @@ export default function Navbar() {
           setMobileOpen(false);
           setMobileServicesOpen(false); // Opsiyonel: Akordeon da kapatılabilir
         }}
-        aria-hidden="true" // Ekran okuyucuların görmesini engelle
+        aria-hidden={!mobileOpen} // Ekran okuyucuların görmesini engelle
+        data-open={mobileOpen ? "true" : undefined}
       />
     </>
   );
