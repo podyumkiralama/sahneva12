@@ -174,6 +174,7 @@ export default function CorporateEvents({
   const whatsappHintId = useId();
   const bannerTitleId = useId();
   const bannerDescId = useId();
+  const advantagesHeadingId = useId();
 
   const phoneDescription = dictionary.phoneCtaAria?.trim();
   const whatsappDescription = [
@@ -301,12 +302,15 @@ export default function CorporateEvents({
 
         {/* 2. KISIM: AVANTAJLAR (NEON GRID - COMPACT) */}
         <ScrollReveal direction="up" delay="0.2">
-          <div className="mb-16">
+          <section className="mb-16" aria-labelledby={advantagesHeadingId}>
             <div className="text-center max-w-2xl mx-auto mb-10">
               <span className="text-blue-400 font-bold tracking-wider uppercase text-xs mb-1 block">
                 {dictionary.highlightPill}
               </span>
-              <h3 className="text-2xl md:text-3xl font-bold text-white">
+              <h3
+                id={advantagesHeadingId}
+                className="text-2xl md:text-3xl font-bold text-white"
+              >
                 {dictionary.highlightTitlePrefix}{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
                   {dictionary.highlightTitleAccent}
@@ -314,13 +318,10 @@ export default function CorporateEvents({
               </h3>
             </div>
 
-            <div
-              className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
-              aria-label={dictionary.advantagesAriaLabel}
-            >
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {advantages.map((item, i) => {
                 // HATA DÜZELTME: colorClass boş gelirse varsayılan boş string ata
-                const safeColorClass = item.colorClass || ""; 
+                const safeColorClass = item.colorClass || "";
                 const safeBorderClass = safeColorClass
                   .split(" ")
                   .filter(c => c.startsWith('border'))
@@ -348,7 +349,7 @@ export default function CorporateEvents({
                 );
               })}
             </div>
-          </div>
+          </section>
         </ScrollReveal>
 
         {/* 3. KISIM: CTA BANNER (COMPACT & FIT) */}

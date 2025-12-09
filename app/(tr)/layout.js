@@ -40,7 +40,6 @@ export default function TurkishLayout({ children }) {
       ================================= */}
       <header
         id="_main_header"
-        role="banner"
         aria-label="Sahneva site başlığı ve ana gezinme"
         className="w-full relative z-50"
       >
@@ -56,7 +55,6 @@ export default function TurkishLayout({ children }) {
       ================================= */}
       <main
         id="_main_content"
-        role="main"
         aria-label="Sahneva ana içerik bölgesi"
         tabIndex={-1}
         className="flex-1 pt-16 lg:pt-20 focus:outline-none scroll-mt-24"
@@ -68,13 +66,7 @@ export default function TurkishLayout({ children }) {
           FOOTER
           ID: _main_footer (SkipLinks hedefi)
       ================================= */}
-      <footer
-        id="_main_footer"
-        role="contentinfo"
-        aria-label="Sahneva site altbilgi"
-      >
-        <Footer />
-      </footer>
+      <Footer />
 
       <DeferredSpeedInsights />
     </div>
