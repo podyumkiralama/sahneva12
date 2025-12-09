@@ -30,9 +30,5 @@ export default function NonCriticalStylesheet() {
     };
   }, []);
 
-  return (
-    <noscript>
-      <style>{`@import url("${HREF}");`}</style>
-    </noscript>
-  );
+  return null;
 }
