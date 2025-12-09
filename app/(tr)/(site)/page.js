@@ -389,7 +389,7 @@ export default function HomePage() {
       {/* 3) HİZMETLER TABS */}
       <section
         aria-labelledby="hizmetler-title"
-        className="relative bg-slate-50"
+        className="relative bg-slate-50 overflow-hidden"
       >
         {/* grid overlay */}
         <div
@@ -433,9 +433,9 @@ export default function HomePage() {
       {/* 7) NEDEN SAHNEVA? */}
       <section
         aria-labelledby="neden-tercih-heading"
-        className="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 py-16 md:py-20"
+        className="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 py-16 md:py-20 overflow-hidden"
       >
-        <div className="px-4 sm:px-6 lg:px-8">
+        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
           <ScrollReveal>
             <SectionHeader
               id="neden-tercih-heading"
@@ -495,9 +495,9 @@ export default function HomePage() {
       {/* 9) SEO METİNLERİ */}
       <section
         aria-labelledby="seo-title"
-        className="bg-slate-50 py-16 md:py-20"
+        className="bg-slate-50 py-16 md:py-20 overflow-hidden"
       >
-        <div className="px-4 sm:px-6 lg:px-8">
+        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
           <ScrollReveal>
             <SectionHeader
               id="seo-title"
@@ -508,10 +508,10 @@ export default function HomePage() {
             />
           </ScrollReveal>
 
-          <div className="grid gap-6 lg:gap-8 lg:grid-cols-2">
+          <div className="grid gap-6 lg:gap-8 lg:grid-cols-2 min-w-0">
             {/* Sol blok */}
             <ScrollReveal direction="left" asChild>
-              <article className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 shadow-lg border border-blue-100">
+              <article className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 shadow-lg border border-blue-100 min-w-0">
                 <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
                   <span
                     className="bg-blue-500 text-white p-2 rounded-lg"
@@ -570,7 +570,7 @@ export default function HomePage() {
 
             {/* Sağ blok */}
             <ScrollReveal direction="right" asChild>
-              <article className="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-6 shadow-lg border border-purple-100">
+              <article className="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-6 shadow-lg border border-purple-100 min-w-0">
                 <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
                   <span
                     className="bg-purple-500 text-white p-2 rounded-lg"
