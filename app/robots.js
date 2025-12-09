@@ -1,4 +1,4 @@
-// app/robots.js  (veya robots.ts)
+// app/robots.js
 
 export default function robots() {
   const host = "https://www.sahneva.com";
@@ -8,11 +8,10 @@ export default function robots() {
       {
         userAgent: "*",
         allow: "/",
-
         disallow: [
-          "/_next/",    // static build output
-          "/api/",      // server functions
-          ],
+          "/api/",        // API route'ları indexlenmesin
+          "/private/",    // Varsa özel path'ler buraya eklenebilir
+        ],
       },
     ],
 
