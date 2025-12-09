@@ -17,6 +17,7 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 // ===============================================================
 // GALERİ VERİLERİ — Sabit 3 kategori (A seçildi)
 // ===============================================================
+
 const DEFAULT_GALLERIES = {
   "LED Ekran Kiralama": {
     images: Array.from(
@@ -52,14 +53,16 @@ const DEFAULT_GALLERIES = {
   },
 };
 
+// ===============================================================
+// SÖZLÜK & TEXTLER
+// ===============================================================
+
 const DEFAULT_DICTIONARY = {
-  exploreAria: "Aç — {{title}} ({{count}} proje)",
-  exploreHiddenLabel: "Aç — {{title}} ({{count}} proje)",
-  hoverCta: "İncele",
-  cardAlt: "{{title}} — referans proje",
-  seeAllLabel: "Tümünü Gör",
-  seeAllSr: " — {{title}} ({{count}} proje)",
-  badgeLabel: "Referans",
+  title: "Projelerimiz",
+  subtitle:
+    "500'den fazla kurumsal etkinlik, konser, fuar ve organizasyonda profesyonel çözüm ortağı olduk.",
+  hoverCta: "Projeyi incele",
+  statsLabel: "Tamamlanan proje",
   dialogAria: "{{title}} projesi",
   closeLabel: "Kapat",
   prevLabel: "Önceki görsel",
@@ -90,71 +93,54 @@ function buildImages({ images, imagePattern, imageCount }) {
 // ===============================================================
 // BLUR + IMAGE SETTINGS
 // ===============================================================
-const COVER_SIZES =
-  "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw";
-const LIGHTBOX_SIZES =
-  "(max-width: 768px) 100vw, (max-width: 1200px) 85vw, 80vw";
 
 const BLUR_DATA_URL =
   "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/...";
 
+const COVER_SIZES =
+  "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw";
+
+const LIGHTBOX_SIZES =
+  "(max-width: 768px) 100vw, (max-width: 1200px) 90vw, min(1024px, 80vw)";
+
 // ===============================================================
-// Kart Componenti
+// GALLERY CARD
 // ===============================================================
+
 const GalleryCard = memo(function GalleryCard({
-  i,
   title,
   gallery,
+  i,
   open,
   prefersReducedMotion,
   getSrc,
   onError,
   dictionary,
 }) {
-  const images = gallery.images?.length
-    ? gallery.images
-    : ["/img/placeholder-service.webp"];
+  const cover = gallery.images?.[0];
 
-  const cover = images[0];
-  const count = images.length;
-
-  const exploreLabel = fillTemplate(dictionary.exploreAria, {
-    title,
-    count,
-  });
-
-  const exploreHiddenLabel = fillTemplate(dictionary.exploreHiddenLabel, {
-    title,
-    count,
-  });
+  const handleOpen = () => open(title, gallery.images, 0);
 
   return (
-    <article
-      role="listitem"
-      className="
-        group relative flex flex-col bg-white/5 border border-white/10
-        rounded-3xl shadow-xl backdrop-blur-md overflow-hidden
-        transition-all duration-500
-        hover:-translate-y-2 hover:border-white/20
-      "
-    >
-      {/* Görsel */}
-      <div className="relative h-64 overflow-hidden">
+    <li>
+      <article
+        className="group relative rounded-3xl overflow-hidden bg-slate-900/40 border border-slate-700/60 shadow-lg shadow-black/40"
+        aria-labelledby={`project-card-${i}-title`}
+      >
+        {/* Görsel */}
         <button
           type="button"
-          onClick={() => open(title, images, 0)}
-          aria-label={exploreLabel}
-          className="absolute inset-0 w-full h-full cursor-zoom-in focus:outline-none focus:ring-4 focus:ring-blue-500/40"
+          onClick={handleOpen}
+          className="relative block w-full aspect-[4/3] overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
         >
-          <span className="sr-only">{exploreHiddenLabel}</span>
-
           <Image
             src={getSrc(cover)}
-            alt={fillTemplate(dictionary.cardAlt, { title })}
+            alt={fillTemplate(dictionary.lightboxAlt, {
+              title,
+              index: 1,
+            })}
             fill
             sizes={COVER_SIZES}
-            quality={i === 0 ? 70 : 60}
-            loading={i === 0 ? "eager" : "lazy"}
             placeholder="blur"
             blurDataURL={BLUR_DATA_URL}
             className={`object-cover transition-transform duration-700 ${
@@ -186,62 +172,32 @@ const GalleryCard = memo(function GalleryCard({
               absolute top-4 right-4
               inline-flex items-center px-2.5 py-1
               rounded-full text-xs font-bold uppercase tracking-wider
-              bg-black/60 backdrop-blur-md text-emerald-400 border border-emerald-500/30
+              bg-black/60 text-white/90 backdrop-blur
             "
           >
-            {dictionary.badgeLabel}
+            {gallery.icon && <span className="mr-1" aria-hidden="true">{gallery.icon}</span>}
+            {dictionary.statsLabel}: {gallery.stats}
           </span>
         </button>
-      </div>
 
-      {/* İçerik */}
-      <div className="p-6 flex flex-col flex-1">
-        <div className="flex items-start gap-4 mb-3">
-          <div
-            className="
-            w-10 h-10 bg-white/10 backdrop-blur-md border border-white/20
-            rounded-lg flex items-center justify-center text-xl shadow-lg
-          "
+        {/* İçerik */}
+        <div className="p-5 border-t border-slate-700/60 bg-gradient-to-b from-slate-900/40 to-slate-950/80">
+          <h3
+            id={`project-card-${i}-title`}
+            className="text-lg font-semibold text-white flex items-center gap-2"
           >
-            {gallery.icon}
-          </div>
-
-          <div>
-            <h3 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">
-              {title}
-            </h3>
-            <p className="text-xs text-blue-300/80 font-medium mt-1">
-              {gallery.stats}
-            </p>
-          </div>
+            {gallery.icon && <span aria-hidden="true">{gallery.icon}</span>}
+            <span>{title}</span>
+          </h3>
+          <p className="mt-2 text-sm text-slate-300">{gallery.description}</p>
         </div>
-
-        <p className="text-slate-400 leading-relaxed text-sm mb-6 line-clamp-2 border-l-2 border-white/10 pl-3 flex-1">
-          {gallery.description}
-        </p>
-
-        <button
-          onClick={() => open(title, images, 0)}
-          className="
-            w-full inline-flex items-center justify-between
-            font-bold text-sm text-white hover:text-blue-400 transition-colors
-          "
-        >
-          <span>
-            {dictionary.seeAllLabel}
-            <span className="sr-only">{fillTemplate(dictionary.seeAllSr, { title, count })}</span>
-          </span>
-          <span className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
-            ➜
-          </span>
-        </button>
-      </div>
-    </article>
+      </article>
+    </li>
   );
 });
 
 // ===============================================================
-// ANA BİLEŞEN — PROJECTS GALLERY
+// ANA BİLEŞEN
 // ===============================================================
 export default function ProjectsGallery({
   galleries,
@@ -286,6 +242,7 @@ export default function ProjectsGallery({
   const lastFocus = useRef(null);
   const portal = useRef(null);
   const closeBtn = useRef(null);
+  const dialogRef = useRef(null);
 
   const handleError = useCallback(
     (key) => setErrors((p) => ({ ...p, [key]: true })),
@@ -352,6 +309,71 @@ export default function ProjectsGallery({
     []
   );
 
+  // Klavye kısayolları + focus trap (Escape, ok tuşları, Tab döngüsü)
+  useEffect(() => {
+    if (!openState.isOpen) return;
+
+    const dialogEl = dialogRef.current;
+    if (!dialogEl) return;
+
+    const FOCUSABLE_SELECTORS =
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"]), textarea, input, select';
+
+    const getFocusable = () =>
+      Array.from(dialogEl.querySelectorAll(FOCUSABLE_SELECTORS)).filter(
+        (el) =>
+          el instanceof HTMLElement &&
+          !el.hasAttribute("disabled") &&
+          el.getAttribute("aria-hidden") !== "true"
+      );
+
+    const handleKeyDown = (event) => {
+      if (!openState.isOpen) return;
+
+      if (event.key === "Escape") {
+        event.preventDefault();
+        close();
+        return;
+      }
+
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        next();
+        return;
+      }
+
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        prev();
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      const focusable = getFocusable();
+      if (!focusable.length) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const current = document.activeElement;
+
+      if (event.shiftKey) {
+        if (!current || current === first || !dialogEl.contains(current)) {
+          event.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (!current || current === last || !dialogEl.contains(current)) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [openState.isOpen, close, next, prev]);
+
   if (!mounted) return null;
 
   const entries = Object.entries(normalizedGalleries);
@@ -417,7 +439,11 @@ export default function ProjectsGallery({
       {openState.isOpen &&
         createPortal(
           <div
+            ref={dialogRef}
+            tabIndex={-1}
             className={`
+
+
               fixed inset-0 z-[9999] bg-black/95 backdrop-blur-xl
               flex items-center justify-center
               ${reduced ? "" : "transition-all duration-300"}
@@ -458,34 +484,34 @@ export default function ProjectsGallery({
               </svg>
             </button>
 
-              {openState.items.length > 1 && (
-                <>
-                  <button
-                    onClick={prev}
-                    className="
-                      hidden md:flex absolute left-6 top-1/2 -translate-y-1/2
-                      bg-black/40 hover:bg-black/60 border border-white/10
-                      rounded-full w-14 h-14 items-center justify-center text-white/70 hover:text-white
-                    "
-                    aria-label={normalizedDictionary.prevLabel}
-                  >
-                    <span aria-hidden="true">‹</span>
-                    <span className="sr-only">{normalizedDictionary.prevSr}</span>
-                  </button>
-                  <button
-                    onClick={next}
-                    className="
-                      hidden md:flex absolute right-6 top-1/2 -translate-y-1/2
-                      bg-black/40 hover:bg-black/60 border border-white/10
-                      rounded-full w-14 h-14 items-center justify-center text-white/70 hover:text-white
-                    "
-                    aria-label={normalizedDictionary.nextLabel}
-                  >
-                    <span aria-hidden="true">›</span>
-                    <span className="sr-only">{normalizedDictionary.nextSr}</span>
-                  </button>
-                </>
-              )}
+            {openState.items.length > 1 && (
+              <>
+                <button
+                  onClick={prev}
+                  className="
+                    hidden md:flex absolute left-6 top-1/2 -translate-y-1/2
+                    bg-black/40 hover:bg-black/60 border border-white/10
+                    rounded-full w-14 h-14 items-center justify-center text-white/70 hover:text-white
+                  "
+                  aria-label={normalizedDictionary.prevLabel}
+                >
+                  <span aria-hidden="true">‹</span>
+                  <span className="sr-only">{normalizedDictionary.prevSr}</span>
+                </button>
+                <button
+                  onClick={next}
+                  className="
+                    hidden md:flex absolute right-6 top-1/2 -translate-y-1/2
+                    bg-black/40 hover:bg-black/60 border border-white/10
+                    rounded-full w-14 h-14 items-center justify-center text-white/70 hover:text-white
+                  "
+                  aria-label={normalizedDictionary.nextLabel}
+                >
+                  <span aria-hidden="true">›</span>
+                  <span className="sr-only">{normalizedDictionary.nextSr}</span>
+                </button>
+              </>
+            )}
 
             <div className="relative w-full max-w-6xl h-[80vh] p-6 flex items-center justify-center">
               <Image
