@@ -135,11 +135,13 @@ export default function SiteHeader({ locale, strings }) {
             <a
               href={strings.whatsappHref}
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener noreferrer nofollow"
               className={`inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-4 py-2.5 text-sm font-bold text-white shadow-lg hover:shadow-xl transition-all duration-200 ${focusRingClass}`}
+              aria-label={`${strings.whatsappLabel} (yeni sekmede açılır)`}
             >
               <span aria-hidden="true">💬</span>
               {strings.whatsappLabel}
+              <span className="sr-only">(yeni sekmede açılır)</span>
             </a>
           </nav>
 

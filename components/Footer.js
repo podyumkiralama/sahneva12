@@ -9,14 +9,14 @@ const FOCUS_RING_CLASS =
 const SOCIAL_LINKS = [
   {
     href: "https://www.instagram.com/sahnevaorganizasyon",
-    label: "Instagram: Sahneva Organizasyon (yeni sekmede açılır)",
+    label: "Instagram: Sahneva Organizasyon",
     title: "Instagram",
     icon: "📷",
     gradient: "from-blue-500/20 to-purple-500/20",
   },
   {
     href: "https://www.youtube.com/@sahneva",
-    label: "YouTube: Sahneva (yeni sekmede açılır)",
+    label: "YouTube: Sahneva",
     title: "YouTube",
     icon: "▶",
     gradient: "from-purple-500/20 to-cyan-500/20",
@@ -77,12 +77,12 @@ const SocialLink = ({ href, label, title, icon, gradient }) => (
         href={href}
         target="_blank"
         rel="noopener noreferrer nofollow"
-        aria-label={label}
+        aria-label={`${label} (yeni sekmede açılır)`}
         title={title}
       className={`
-        group relative inline-flex h-11 w-11 items-center justify-center rounded-xl 
-        bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 
-        hover:border-white/20 transition-all duration-300 hover:scale-110 
+        group relative inline-flex h-11 w-11 items-center justify-center rounded-xl
+        bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10
+        hover:border-white/20 transition-all duration-300 hover:scale-110
         ${FOCUS_RING_CLASS}
       `}
       itemProp="sameAs"
@@ -97,6 +97,7 @@ const SocialLink = ({ href, label, title, icon, gradient }) => (
       <span aria-hidden="true" className="text-xl relative z-10">
         {icon}
       </span>
+      <span className="sr-only">{title || label} (yeni sekmede açılır)</span>
     </a>
   </li>
 );
@@ -291,7 +292,8 @@ export default function Footer() {
                     group inline-flex items-center gap-2 text-xs text-gray-300
                     hover:text-white transition-all duration-300 ${FOCUS_RING_CLASS}
                   `}
-                  title={title}
+                  title={title ? `${title} (yeni sekmede açılır)` : undefined}
+                  aria-label={`${label} (yeni sekmede açılır)`}
                 >
                   <span
                     className="group-hover:scale-110 transition-transform duration-300"
@@ -300,6 +302,7 @@ export default function Footer() {
                     {icon}
                   </span>
                   {label}
+                  <span className="sr-only">(yeni sekmede açılır)</span>
                 </a>
               ))}
             </div>

@@ -184,6 +184,7 @@ export default function CorporateEvents({
   const whatsappAccessibleLabel = [
     dictionary.whatsappCtaLabel,
     dictionary.whatsappCtaAria,
+    "yeni sekmede açılır",
   ]
     .filter(Boolean)
     .join(" — ");
@@ -394,7 +395,7 @@ export default function CorporateEvents({
                 <a
                   href={dictionary.whatsappCtaHref}
                   target="_blank"
-                  rel="nofollow noopener"
+                  rel="nofollow noopener noreferrer"
                   className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm text-white font-bold px-6 text-sm md:text-base transition-all hover:bg-white/20 hover:scale-105"
                   aria-describedby={whatsappAriaDescribedBy}
                   aria-label={whatsappAccessibleLabel}
@@ -404,6 +405,7 @@ export default function CorporateEvents({
                   {whatsappDescription && (
                     <span id={whatsappHintId} className="sr-only">{whatsappDescription}</span>
                   )}
+                  <span className="sr-only">(yeni sekmede açılır)</span>
                 </a>
               </div>
 
