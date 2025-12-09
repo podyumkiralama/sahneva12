@@ -40,3 +40,10 @@
 ## Forced Reflow Notları
 
 - components/StickyVideoRail.jsx: Scroll tetikleyicisi requestAnimationFrame ve passive listener ile güncellendi; drag hareketi rAF ile tek frame'de işlenerek zorunlu reflow riski azaltıldı.
+
+## Unused CSS Çalışması
+
+- find:unused-css script'i eklendi ve çalıştırıldı.
+- Kullanılmayan 1 class (.hide-scrollbar) kaldırıldı; dinamik gecikme sınıfları doğrulandı.
+- non-critical.css mevcut nc-* yardımcılarının tamamı yerinde bırakıldı; kritik dışı bloklar yeniden düzenlenmedi.
+- Lighthouse "unused CSS" tasarrufunun azaltılması için CSS tarama altyapısı eklendi.
