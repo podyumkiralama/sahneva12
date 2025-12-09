@@ -606,17 +606,7 @@ export default function HomePage() {
       </section>
 
       {/* 10) SSS */}
-      <section aria-labelledby="sss-title" className="w-full">
-  <div className="container">
-    <ScrollReveal>
-      <SectionHeader
-        id="sss-title"
-        title="Sıkça "
-        highlight="Sorulan Sorular"
-        description="Sahne, LED ekran, ses-ışık sistemleri ve kurulum süreçleri hakkında merak ettikleriniz"
-        theme="dark"
-      />
-    </ScrollReveal>
+    
 
     <FaqDeferred idleTimeout={3600} rootMargin="400px" />
   </div>
