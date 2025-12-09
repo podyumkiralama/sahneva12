@@ -7,6 +7,7 @@ import CriticalAssets from "@/components/CriticalAssets";
 import NonCriticalStylesheet from "@/components/NonCriticalStylesheet";
 import DeferredAnalytics from "@/components/DeferredAnalytics.client";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
+import HeadLinkLoader from "@/components/HeadLinkLoader.client";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 import {
   HOME_PAGE_TITLE,
@@ -71,70 +72,11 @@ const websiteJsonLd = {
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 const gaEnabled = Boolean(GA_MEASUREMENT_ID);
 
-export const metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: HOME_PAGE_TITLE,
-  description:
-    "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı kurulum, profesyonel teknik ekip, uygun fiyat. Hemen teklif alın!",
-  applicationName: "Sahneva Organizasyon",
-  themeColor: "#6d28d9",
-  alternates: {
-    canonical: buildCanonical("/"),
-    languages: buildAlternateLanguages(),
-  },
-  icons: {
-    icon: [
-      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-      {
-        url: "/android-chrome-192x192.png",
-        sizes: "192x192",
-        type: "image/png",
-      },
-      {
-        url: "/android-chrome-512x512.png",
-        sizes: "512x512",
-        type: "image/png",
-      },
-    ],
-    apple: {
-      url: "/apple-touch-icon.png",
-      sizes: "180x180",
-      type: "image/png",
-    },
-  },
-  manifest: "/manifest.json",
-  openGraph: {
-    type: "website",
-    url: SITE_URL,
-    siteName: "Sahneva Organizasyon",
-    title: "Sahne, Podyum, LED Ekran & Ses Işık Kiralama | Sahneva Organizasyon",
-    description:
-      "Kurumsal etkinlikler, konserler, festivaller ve lansmanlar için sahne, podyum, LED ekran, ses-ışık ve çadır kiralama çözümleri.",
-    images: [
-      {
-        url: getOgImageUrl(),
-        width: 1200,
-        height: 630,
-        alt: "Sahneva profesyonel açık hava sahne, LED ekran ve ışık kurulumu",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Sahne, Podyum, LED Ekran & Ses Işık Kiralama | Sahneva Organizasyon",
-    description:
-      "Profesyonel etkinlik prodüksiyon çözümleri. Sahne, podyum, LED ekran, ses-ışık ve çadır kiralama.",
-    images: [getOgImageUrl()],
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-  },
-};
-
 /* ================== ROOT LAYOUT ================== */
 export default function RootLayout({ children }) {
+  const alternateLanguages = buildAlternateLanguages();
+  const canonicalHref = buildCanonical("/");
+
   return (
     <html
       lang={DEFAULT_LANG}
@@ -143,12 +85,102 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
     >
       <head>
+        <meta charSet="utf-8"></meta>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        ></meta>
+
+        <title>{HOME_PAGE_TITLE}</title>
+        <meta
+          name="description"
+          content="Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı kurulum, profesyonel teknik ekip, uygun fiyat. Hemen teklif alın!"
+        ></meta>
+        <meta name="application-name" content="Sahneva Organizasyon"></meta>
+        <meta name="theme-color" content="#6d28d9"></meta>
+
+        <link rel="canonical" href={canonicalHref}></link>
+        <link
+          rel="alternate"
+          hrefLang="tr-TR"
+          href={canonicalHref}
+        ></link>
+        <link
+          rel="alternate"
+          hrefLang="en"
+          href={alternateLanguages.en}
+        ></link>
+        <link
+          rel="alternate"
+          hrefLang="ar"
+          href={alternateLanguages.ar}
+        ></link>
+        <link
+          rel="alternate"
+          hrefLang="x-default"
+          href={canonicalHref}
+        ></link>
+
+        <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png"></link>
+        <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png"></link>
+        <link
+          rel="icon"
+          href="/android-chrome-192x192.png"
+          sizes="192x192"
+          type="image/png"
+        ></link>
+        <link
+          rel="icon"
+          href="/android-chrome-512x512.png"
+          sizes="512x512"
+          type="image/png"
+        ></link>
+        <link
+          rel="apple-touch-icon"
+          href="/apple-touch-icon.png"
+          sizes="180x180"
+          type="image/png"
+        ></link>
+        <link rel="manifest" href="/manifest.json"></link>
+
+        <meta property="og:type" content="website"></meta>
+        <meta property="og:url" content={SITE_URL}></meta>
+        <meta
+          property="og:title"
+          content="Sahne, Podyum, LED Ekran & Ses Işık Kiralama | Sahneva Organizasyon"
+        ></meta>
+        <meta
+          property="og:description"
+          content="Kurumsal etkinlikler, konserler, festivaller ve lansmanlar için sahne, podyum, LED ekran, ses-ışık ve çadır kiralama çözümleri."
+        ></meta>
+        <meta property="og:site_name" content="Sahneva Organizasyon"></meta>
+        <meta property="og:image" content={getOgImageUrl()}></meta>
+        <meta property="og:image:width" content="1200"></meta>
+        <meta property="og:image:height" content="630"></meta>
+        <meta
+          property="og:image:alt"
+          content="Sahneva profesyonel açık hava sahne, LED ekran ve ışık kurulumu"
+        ></meta>
+
+        <meta name="twitter:card" content="summary_large_image"></meta>
+        <meta
+          name="twitter:title"
+          content="Sahne, Podyum, LED Ekran & Ses Işık Kiralama | Sahneva Organizasyon"
+        ></meta>
+        <meta
+          name="twitter:description"
+          content="Profesyonel etkinlik prodüksiyon çözümleri. Sahne, podyum, LED ekran, ses-ışık ve çadır kiralama."
+        ></meta>
+        <meta name="twitter:image" content={getOgImageUrl()}></meta>
+
         {/* Kritik preload/prefetch varlıkları */}
         <CriticalAssets />
       </head>
       <body className="min-h-screen bg-white text-neutral-900 antialiased flex flex-col">
         {/* SkipLinks: erişilebilirlik için üstte */}
         <SkipLinks />
+
+        <HeadLinkLoader />
 
         {/* Kritik olmayan cilalı stiller: render-blocking olmadan yüklenir */}
         <NonCriticalStylesheet />
