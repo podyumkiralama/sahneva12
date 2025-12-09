@@ -1,3 +1,5 @@
+"use client";
+
 // components/NonCriticalStylesheet.jsx
 // Loads non-critical polish styles asynchronously to prevent render-blocking.
 
