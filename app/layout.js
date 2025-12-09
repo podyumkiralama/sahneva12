@@ -68,45 +68,19 @@ const websiteJsonLd = {
   inLanguage: "tr-TR",
 };
 
-/* ================== METADATA ================== */
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+const gaEnabled = Boolean(GA_MEASUREMENT_ID);
+
 export const metadata = {
   metadataBase: new URL(SITE_URL),
-  manifest: "/manifest.json",
-  title: {
-    default: HOME_PAGE_TITLE,
-    template: "%s | Sahneva",
-  },
+  title: HOME_PAGE_TITLE,
   description:
     "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı kurulum, profesyonel teknik ekip, uygun fiyat. Hemen teklif alın!",
   applicationName: "Sahneva Organizasyon",
+  themeColor: "#6d28d9",
   alternates: {
     canonical: buildCanonical("/"),
     languages: buildAlternateLanguages(),
-  },
-  openGraph: {
-    type: "website",
-    url: SITE_URL,
-    title:
-      "Sahne, Podyum, LED Ekran & Ses Işık Kiralama | Sahneva Organizasyon",
-    description:
-      "Kurumsal etkinlikler, konserler, festivaller ve lansmanlar için sahne, podyum, LED ekran, ses-ışık ve çadır kiralama çözümleri.",
-    siteName: "Sahneva Organizasyon",
-    images: [
-      {
-        url: getOgImageUrl(),
-        width: 1200,
-        height: 630,
-        alt: "Sahneva profesyonel açık hava sahne, LED ekran ve ışık kurulumu",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title:
-      "Sahne, Podyum, LED Ekran & Ses Işık Kiralama | Sahneva Organizasyon",
-    description:
-      "Profesyonel etkinlik prodüksiyon çözümleri. Sahne, podyum, LED ekran, ses-ışık ve çadır kiralama.",
-    images: [getOgImageUrl()],
   },
   icons: {
     icon: [
@@ -123,22 +97,41 @@ export const metadata = {
         type: "image/png",
       },
     ],
-    apple: [
+    apple: {
+      url: "/apple-touch-icon.png",
+      sizes: "180x180",
+      type: "image/png",
+    },
+  },
+  manifest: "/manifest.json",
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    siteName: "Sahneva Organizasyon",
+    title: "Sahne, Podyum, LED Ekran & Ses Işık Kiralama | Sahneva Organizasyon",
+    description:
+      "Kurumsal etkinlikler, konserler, festivaller ve lansmanlar için sahne, podyum, LED ekran, ses-ışık ve çadır kiralama çözümleri.",
+    images: [
       {
-        url: "/apple-touch-icon.png",
-        sizes: "180x180",
-        type: "image/png",
+        url: getOgImageUrl(),
+        width: 1200,
+        height: 630,
+        alt: "Sahneva profesyonel açık hava sahne, LED ekran ve ışık kurulumu",
       },
     ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sahne, Podyum, LED Ekran & Ses Işık Kiralama | Sahneva Organizasyon",
+    description:
+      "Profesyonel etkinlik prodüksiyon çözümleri. Sahne, podyum, LED ekran, ses-ışık ve çadır kiralama.",
+    images: [getOgImageUrl()],
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+  },
 };
-
-export const viewport = {
-  themeColor: "#6d28d9",
-};
-
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
-const gaEnabled = Boolean(GA_MEASUREMENT_ID);
 
 /* ================== ROOT LAYOUT ================== */
 export default function RootLayout({ children }) {
@@ -166,13 +159,13 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(organizationJsonLd),
           }}
-        />
+        ></script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(websiteJsonLd),
           }}
-        />
+        ></script>
 
         {children}
 
