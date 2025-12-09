@@ -36,3 +36,7 @@
 - components/HeroSection.js: 1 inline stil bulundu, 1'i dönüştürüldü.
 - components/ServicesTabs.js: 1 inline stil bulundu, 1'i dönüştürüldü.
 - Yeni dinamik inline stil tespit edilmedi; mevcut 5 dinamik örnek korunmaya devam ediyor.
+
+## Forced Reflow Notları
+
+- components/StickyVideoRail.jsx: Scroll tetikleyicisi requestAnimationFrame ve passive listener ile güncellendi; drag hareketi rAF ile tek frame'de işlenerek zorunlu reflow riski azaltıldı.
