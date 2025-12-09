@@ -145,7 +145,7 @@ const FaqRow = React.memo(function FaqRow({
 });
 
 // —————————————————————————————————————————
-// DESTEK KARTI (SAĞ TARAF – basit, taşma yok)
+// DESTEK KARTI (SAĞ TARAF – sade)
 // —————————————————————————————————————————
 function SupportCard({ dictionary }) {
   return (
@@ -273,7 +273,7 @@ export default function Faq({
         <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-blue-600/10 blur-[120px] rounded-full mix-blend-screen" />
       </div>
 
-      <div className="container relative z-10 px-4 mx-auto">
+      <div className="container relative z-10 px-4 mx-auto overflow-x-hidden">
         {/* BAŞLIK ALANI */}
         {!ariaLabelledBy && (
           <ScrollReveal direction="up" delay="0.05">
@@ -312,9 +312,9 @@ export default function Faq({
         )}
 
         {/* İÇERİK: SPLIT LAYOUT */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start max-w-6xl mx-auto w-full">
           {/* SOL TARAF: SORULAR */}
-          <div className="lg:col-span-8 space-y-4">
+          <div className="lg:col-span-8 space-y-4 min-w-0">
             {items.map((item, index) => (
               <ScrollReveal key={item.slug} direction="up" delay={index * 0.05}>
                 <FaqRow
@@ -327,7 +327,7 @@ export default function Faq({
           </div>
 
           {/* SAĞ TARAF: DESTEK KARTI */}
-          <div className="lg:col-span-4 mt-8 lg:mt-0">
+          <div className="lg:col-span-4 mt-8 lg:mt-0 min-w-0">
             <ScrollReveal direction="left" delay="0.2">
               <SupportCard dictionary={dictionary} />
             </ScrollReveal>
