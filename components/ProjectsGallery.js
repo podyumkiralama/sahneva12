@@ -348,17 +348,11 @@ export default function ProjectsGallery({ galleries, dictionary }) {
 
   return (
     <section
-      className="relative py-20 bg-[#0B1120] overflow-hidden"
+      className="relative py-16 md:py-20 overflow-hidden"
       aria-labelledby="projects-title"
       aria-label="Sahneva referans proje galerisi"
       role="region"
     >
-      {/* Grid Background + Glow — HeroSection ile uyumlu */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-purple-500/10 blur-[120px] rounded-full" />
-        <div className="absolute bottom-0 right-0 w-[600px] h-[400px] bg-blue-500/10 blur-[130px] rounded-full" />
-      </div>
-
       {/* Başlık */}
       <ScrollReveal>
         <div className="container px-4 mx-auto relative z-10 text-center max-w-3xl mb-16">
