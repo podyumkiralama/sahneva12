@@ -12,6 +12,7 @@ import DeferredSpeedInsights from "@/components/DeferredSpeedInsights.client";
 import DocumentDirection from "@/components/i18n/DocumentDirection.client";
 import UtilityBar from "@/components/UtilityBar.client";
 import Navbar from "@/components/Navbar";
+import NewTabAccessibility from "@/components/NewTabAccessibility.client";
 import StickyVideoRailclient from "@/components/StickyVideoRail.client";
 import Footer from "@/components/Footer";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
@@ -186,6 +187,7 @@ export default function RootLayout({ children }) {
         {/* SkipLinks: erişilebilirlik için üstte */}
         <SkipLinks />
         <DocumentDirection lang={DEFAULT_LANG} dir={DEFAULT_DIR} />
+        <NewTabAccessibility />
 
         <HeadLinkLoader />
 
