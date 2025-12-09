@@ -73,12 +73,12 @@ const FooterLink = ({ href, children, hoverColorClass = "hover:text-blue-400 hov
 /* --- Yardımcı Bileşen: Sosyal Medya İkonu --- */
 const SocialLink = ({ href, label, title, icon, gradient }) => (
   <li>
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer me"
-      aria-label={label}
-      title={title}
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer nofollow"
+        aria-label={label}
+        title={title}
       className={`
         group relative inline-flex h-11 w-11 items-center justify-center rounded-xl 
         bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 
@@ -109,15 +109,12 @@ export default function Footer() {
   };
 
   return (
-    <div id="site-footer-wrapper" className="w-full mt-auto">
-      <footer
-        id="_main_footer"
-        role="contentinfo"
-        aria-labelledby="site-footer-heading"
-        className="relative w-full flex-shrink-0 bg-gradient-to-br from-[#0b1120] via-[#1a1038] to-[#1b1f4a] border-t border-white/10"
-        itemScope
-        itemType="https://schema.org/LocalBusiness"
-      >
+    <div
+      className="relative w-full flex-shrink-0 bg-gradient-to-br from-[#0b1120] via-[#1a1038] to-[#1b1f4a] border-t border-white/10"
+      aria-labelledby="site-footer-heading"
+      itemScope
+      itemType="https://schema.org/LocalBusiness"
+    >
       {/* Başlık (Screen Reader Only) */}
       <h2 id="site-footer-heading" className="sr-only">
         {footerStrings.ariaLabel}
@@ -353,7 +350,6 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      </footer>
     </div>
   );
 }

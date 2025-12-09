@@ -1012,7 +1012,7 @@ function ToggleCard({
               />
             )}
             {asButtonOnly && (
-              <span className="w-full text-[11px] text-white font-semibold">
+              <span className="w-full text-xs text-white font-semibold">
                 Sıfırla
               </span>
             )}

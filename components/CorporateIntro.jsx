@@ -125,7 +125,7 @@ export default function CorporateIntro() {
                             <strong className="mb-1 block text-xs sm:text-sm font-semibold text-white">
                             {item.title}
                             </strong>
-                            <p className="text-[11px] sm:text-xs leading-relaxed text-slate-300">
+                            <p className="text-xs leading-relaxed text-slate-300">
                             {item.desc}
                             </p>
                         </div>
@@ -207,7 +207,7 @@ export default function CorporateIntro() {
                                     <h4 className="text-sm sm:text-base font-bold text-white">
                                         Kurumsal Lansman Sahnesi
                                     </h4>
-                                    <p className="text-[11px] sm:text-xs text-slate-300">
+                                    <p className="text-xs text-slate-300">
                                         İstanbul • 2000+ katılımcı • Çok kameralı reji &amp;
                                         full teknik prodüksiyon
                                     </p>

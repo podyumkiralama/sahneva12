@@ -8,6 +8,12 @@ import NonCriticalStylesheet from "@/components/NonCriticalStylesheet";
 import DeferredAnalytics from "@/components/DeferredAnalytics.client";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import HeadLinkLoader from "@/components/HeadLinkLoader.client";
+import DeferredSpeedInsights from "@/components/DeferredSpeedInsights.client";
+import DocumentDirection from "@/components/i18n/DocumentDirection.client";
+import UtilityBar from "@/components/UtilityBar.client";
+import Navbar from "@/components/Navbar";
+import StickyVideoRailclient from "@/components/StickyVideoRail.client";
+import Footer from "@/components/Footer";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 import {
   HOME_PAGE_TITLE,
@@ -179,6 +185,7 @@ export default function RootLayout({ children }) {
       <body className="min-h-screen bg-white text-neutral-900 antialiased flex flex-col">
         {/* SkipLinks: erişilebilirlik için üstte */}
         <SkipLinks />
+        <DocumentDirection lang={DEFAULT_LANG} dir={DEFAULT_DIR} />
 
         <HeadLinkLoader />
 
@@ -199,7 +206,37 @@ export default function RootLayout({ children }) {
           }}
         ></script>
 
-        {children}
+        <header
+          id="_main_header"
+          role="banner"
+          aria-label="Sahneva site başlığı ve ana gezinme"
+          className="w-full relative z-50"
+        >
+          <UtilityBar />
+          <Navbar />
+          <StickyVideoRailclient />
+        </header>
+
+        <main
+          id="_main_content"
+          role="main"
+          aria-label="Sahneva ana içerik"
+          tabIndex={-1}
+          className="flex-1 pt-16 lg:pt-20 focus:outline-none scroll-mt-24"
+        >
+          <div className="overflow-x-hidden">{children}</div>
+        </main>
+
+        <footer
+          id="_main_footer"
+          role="contentinfo"
+          aria-label="Sahneva site altbilgi"
+          className="w-full"
+        >
+          <Footer />
+        </footer>
+
+        <DeferredSpeedInsights />
 
         {gaEnabled && (
           <>

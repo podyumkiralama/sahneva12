@@ -78,6 +78,7 @@ function CTAButton({
     >
       <span className="relative z-10 flex items-center justify-center gap-2">
         <span aria-hidden="true">{icon}</span> {label}
+        {srHint ? <span className="sr-only">{srHint}</span> : null}
       </span>
       <div className={CTA_OVERLAY_CLASS} aria-hidden="true" />
     </a>
@@ -151,9 +152,9 @@ export default function HeroSection() {
             id="hero-title"
             className="mt-4 text-white text-3xl md:text-5xl lg:text-6xl font-black leading-tight"
           >
-            Profesyonel{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400">
-              Sahne Sistemleri
+            Türkiye genelinde
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400 block">
+              Sahne &amp; LED Ekran Kiralama
             </span>
           </h1>
 

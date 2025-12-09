@@ -267,6 +267,8 @@ function ServicesTabsComponent({
     <section
       className="relative py-16 md:py-20 bg-slate-950 overflow-hidden rounded-3xl shadow-2xl"
       aria-labelledby={headingId}
+      aria-label="Sahne, podyum, LED ekran ve diğer teknik hizmet sekmeleri"
+      role="region"
     >
       {/* Grid arka plan (hafif) */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -328,7 +330,7 @@ function ServicesTabsComponent({
                         key={service.id}
                         type="button"
                         role="tab"
-                        aria-selected={isActive}
+                        aria-selected={isActive ? "true" : "false"}
                         aria-controls={`panel-${service.id}`}
                         id={`tab-${service.id}`}
                         tabIndex={isActive ? 0 : -1}
