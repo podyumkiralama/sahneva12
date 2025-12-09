@@ -122,11 +122,10 @@ const GalleryCard = memo(function GalleryCard({
   const handleOpen = () => open(title, gallery.images, 0);
 
   return (
-    <li>
-      <article
-        className="group relative rounded-3xl overflow-hidden bg-slate-900/40 border border-slate-700/60 shadow-lg shadow-black/40"
-        aria-labelledby={`project-card-${i}-title`}
-      >
+    <article
+      className="group relative rounded-3xl overflow-hidden bg-slate-900/40 border border-slate-700/60 shadow-lg shadow-black/40"
+      aria-labelledby={`project-card-${i}-title`}
+    >
         {/* Görsel */}
         <button
           type="button"
@@ -192,7 +191,6 @@ const GalleryCard = memo(function GalleryCard({
           <p className="mt-2 text-sm text-slate-300">{gallery.description}</p>
         </div>
       </article>
-    </li>
   );
 });
 
@@ -419,18 +417,20 @@ export default function ProjectsGallery({
       <div className="container px-4 mx-auto relative z-10">
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {entries.map(([title, gallery], i) => (
-            <ScrollReveal key={title} direction="up" delay={i * 0.1}>
-              <GalleryCard
-                title={title}
-                gallery={gallery}
-                i={i}
-                open={open}
-                prefersReducedMotion={reduced}
-                getSrc={getSrc}
-                onError={handleError}
-                dictionary={normalizedDictionary}
-              />
-            </ScrollReveal>
+            <li key={title} className="list-none">
+              <ScrollReveal direction="up" delay={i * 0.1}>
+                <GalleryCard
+                  title={title}
+                  gallery={gallery}
+                  i={i}
+                  open={open}
+                  prefersReducedMotion={reduced}
+                  getSrc={getSrc}
+                  onError={handleError}
+                  dictionary={normalizedDictionary}
+                />
+              </ScrollReveal>
+            </li>
           ))}
         </ul>
       </div>
