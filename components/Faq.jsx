@@ -110,9 +110,11 @@ const FaqRow = React.memo(function FaqRow({ question, answer, slug, isOpen, onTo
 // —————————————————————————————————————————
 function SupportCard({ dictionary }) {
    return (
-      <div className="sticky top-24 bg-[#0F1623] border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl overflow-hidden">
+      <div className="relative lg:sticky lg:top-24 bg-[#0F1623] border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl overflow-hidden">
          {/* Arka Plan Efekti */}
-         <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-blue-600/20 rounded-full blur-[50px] pointer-events-none" />
+         <div className="pointer-events-none absolute inset-0">
+           <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-blue-600/20 rounded-full blur-[50px]" />
+         </div>
          
          <div className="relative z-10">
             <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-2xl mb-5 shadow-lg">
@@ -154,7 +156,9 @@ function SupportCard({ dictionary }) {
                   </span>
                   <div>
                      <span className="block text-xs text-slate-400 font-medium">{dictionary.supportWhatsappLabel}</span>
-                     <span className="block text-sm font-bold text-white group-hover:text-green-400 transition-colors">Hızlı Mesaj Gönder</span>
+                     <span className="block text-sm font-bold text-white group-hover:text-green-400 transition-colors">
+                       Hızlı Mesaj Gönder
+                     </span>
                      <span className="sr-only">(yeni sekmede açılır)</span>
                   </div>
                </a>
@@ -169,13 +173,15 @@ function SupportCard({ dictionary }) {
                   </span>
                   <div>
                      <span className="block text-xs text-slate-400 font-medium">{dictionary.supportMailLabel}</span>
-                     <span className="block text-sm font-bold text-white group-hover:text-purple-400 transition-colors">{dictionary.contactMail}</span>
+                     <span className="block text-sm font-bold text-white group-hover:text-purple-400 transition-colors">
+                       {dictionary.contactMail}
+                     </span>
                   </div>
                </a>
             </div>
          </div>
       </div>
-   )
+   );
 }
 
 // —————————————————————————————————————————
