@@ -186,6 +186,8 @@ function ServicesTabsComponent({
   servicesData = DEFAULT_SERVICES,
   dictionary: dictionaryOverride,
   ariaLabelledBy,
+  ariaDescribedBy,
+  ariaLabel,
   regionLabelId = "services-section-title",
 }) {
   const services = useMemo(
@@ -262,13 +264,17 @@ function ServicesTabsComponent({
   if (!services.length) return null;
 
   const headingId = ariaLabelledBy ?? regionLabelId;
+  const descriptionId = !ariaLabelledBy ? `${headingId}-description` : undefined;
+  const regionHasName = Boolean(headingId || ariaLabel);
+  const computedDescribedBy = ariaDescribedBy ?? descriptionId;
 
   return (
     <section
       className="relative py-16 md:py-20 bg-slate-950 overflow-hidden rounded-3xl shadow-2xl"
       aria-labelledby={headingId}
-      aria-label="Sahne, podyum, LED ekran ve diğer teknik hizmet sekmeleri"
-      role="region"
+      aria-describedby={computedDescribedBy}
+      aria-label={ariaLabel}
+      role={regionHasName ? "region" : undefined}
     >
       {/* Grid arka plan (hafif) */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -293,7 +299,7 @@ function ServicesTabsComponent({
               </div>
 
               <h2
-                id={regionLabelId}
+                id={headingId}
                 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight tracking-tight"
               >
                 {dictionary.sectionTitlePrefix}{" "}
@@ -302,7 +308,10 @@ function ServicesTabsComponent({
                 </span>
               </h2>
 
-              <p className="text-slate-300 text-base md:text-lg leading-relaxed max-w-3xl mx-auto">
+              <p
+                id={descriptionId}
+                className="text-slate-300 text-base md:text-lg leading-relaxed max-w-3xl mx-auto"
+              >
                 {dictionary.sectionDesc}
               </p>
             </div>

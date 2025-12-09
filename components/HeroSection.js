@@ -45,18 +45,23 @@ const CTA_OVERLAY_CLASS =
 // ALT PARÇALAR
 // —————————————————————————————————————————
 
-function KeywordPills() {
+function KeywordPills({ id }) {
   return (
-    <div className="flex flex-wrap justify-center gap-2 mt-4 mb-6 max-w-4xl mx-auto">
+    <ul
+      id={id}
+      className="flex flex-wrap justify-center gap-2 mt-4 mb-6 max-w-4xl mx-auto"
+      aria-label="Öne çıkan hizmet başlıkları"
+    >
       {HERO_KEYWORDS.map(({ text, gradient }) => (
-        <span
-          key={text}
-          className={`text-sm md:text-base font-semibold px-3 py-1 ${gradient} bg-white/15 rounded-lg border border-white/10`}
-        >
-          {text}
-        </span>
+        <li key={text} className="list-none">
+          <span
+            className={`text-sm md:text-base font-semibold px-3 py-1 ${gradient} bg-white/15 rounded-lg border border-white/10`}
+          >
+            {text}
+          </span>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }
 
@@ -127,6 +132,7 @@ export default function HeroSection() {
     <section
       className="relative min-h-[75vh] pt-16 lg:pt-20 flex items-center justify-center overflow-hidden bg-black"
       aria-labelledby="hero-title"
+      aria-describedby="hero-description hero-keywords"
     >
       {/* Arka plan görseli */}
       <div className="absolute inset-0" aria-hidden="true">
@@ -159,10 +165,13 @@ export default function HeroSection() {
           </h1>
 
           {/* Keyword pill’ler */}
-          <KeywordPills />
+          <KeywordPills id="hero-keywords" />
 
           {/* Alt açıklama */}
-          <p className="text-slate-100 text-sm md:text-lg mt-2 md:mt-4 max-w-xl mx-auto">
+          <p
+            id="hero-description"
+            className="text-slate-100 text-sm md:text-lg mt-2 md:mt-4 max-w-xl mx-auto"
+          >
             500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli hızlı
             kurulum ile etkinliğinizde yanınızdayız.
           </p>

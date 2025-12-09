@@ -160,6 +160,10 @@ export default function CorporateEvents({
   cards = DEFAULT_CARDS,
   advantages = DEFAULT_ADVANTAGES,
   dictionary: dictionaryOverride,
+  role,
+  ariaLabel,
+  ariaLabelledby,
+  ariaDescribedby,
 } = {}) {
   const dictionary = mergeDictionary(DEFAULT_DICTIONARY, dictionaryOverride);
   const cardCtaAriaTemplate = dictionary.cardCtaAria;
@@ -172,6 +176,7 @@ export default function CorporateEvents({
   const bannerTitleId = useId();
   const bannerDescId = useId();
   const advantagesHeadingId = useId();
+  const introId = useId();
 
   const phoneDescription = dictionary.phoneCtaAria?.trim();
   const whatsappDescription = [
@@ -191,11 +196,17 @@ export default function CorporateEvents({
 
   const phoneAriaDescribedBy = phoneDescription ? phoneHintId : undefined;
   const whatsappAriaDescribedBy = whatsappDescription ? whatsappHintId : undefined;
+  const computedHeadingId = ariaLabelledby ?? "corporate-events-heading";
+  const computedDescribedBy = ariaDescribedby ?? introId;
+  const computedRole = role ?? (ariaLabel || computedHeadingId ? "region" : undefined);
 
   return (
     <section
       className="relative py-16 md:py-24 bg-[#0B1120] overflow-hidden"
-      aria-labelledby="corporate-events-heading"
+      role={computedRole}
+      aria-label={ariaLabel}
+      aria-labelledby={ariaLabel ? undefined : computedHeadingId}
+      aria-describedby={computedDescribedBy}
     >
       {/* Modern Arka Plan Efektleri (Dark Tech) */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -205,9 +216,11 @@ export default function CorporateEvents({
       </div>
 
       <div className="container relative z-10 px-4 mx-auto">
-        <h2 id="corporate-events-heading" className="sr-only">
-          {dictionary.sectionTitleSr}
-        </h2>
+        {!ariaLabel && !ariaLabelledby && (
+          <h2 id={computedHeadingId} className="sr-only">
+            {dictionary.sectionTitleSr}
+          </h2>
+        )}
 
         {/* ——— YENİ EKLENEN BAŞLIK ALANI (SEO & GİRİŞ) ——— */}
         <ScrollReveal direction="up" delay="0.05">
@@ -215,7 +228,10 @@ export default function CorporateEvents({
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
               İstanbul'da <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">Kurumsal Etkinlik Yapan Firmalar</span> Arasında Çözüm Ortağınız
             </h2>
-            <p className="text-slate-400 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
+            <p
+              id={introId}
+              className="text-slate-400 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto"
+            >
               Yaratıcı süreçlerden teknik prodüksiyona kadar tüm aşamaları tek merkezden yönetiyor, markanızın prestijini global standartlarda sahneliyoruz.
             </p>
           </div>

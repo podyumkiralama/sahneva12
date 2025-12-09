@@ -440,8 +440,15 @@ export default function HomePage() {
       <HeroSection />
 
       {/* Hero altı: feature + danışmanlık */}
-      <section className="py-10 bg-gradient-to-b from-slate-950 to-slate-900">
+      <section
+        className="py-10 bg-gradient-to-b from-slate-950 to-slate-900"
+        aria-labelledby="hero-supporting-features"
+        role="region"
+      >
         <div className="container space-y-8">
+          <h2 id="hero-supporting-features" className="sr-only">
+            Hızlı öne çıkan özellikler ve ücretsiz danışmanlık bağlantısı
+          </h2>
           <HeroFeatureGrid />
           <ScrollReveal delay="1">
             <ConsultationCard />
