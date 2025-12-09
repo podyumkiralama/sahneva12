@@ -568,8 +568,9 @@ export default function EnglishHomePage() {
                 <a
                   href="https://wa.me/905453048671?text=Hello%2C+I'm+reaching+out+from+your+website.+Could+you+share+a+detailed+quote+for+event+technology+support%3F"
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noopener noreferrer nofollow"
                   className="w-full sm:w-auto min-w-[180px] text-center group relative bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold text-base px-6 py-3 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-white/20 backdrop-blur-sm focus-ring"
+                  aria-label="WhatsApp quote (opens in a new tab)"
                 >
                   <span className="relative z-10 flex items-center justify-center gap-2">
                     <span aria-hidden="true">💬</span> WhatsApp quote

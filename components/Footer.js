@@ -9,14 +9,14 @@ const FOCUS_RING_CLASS =
 const SOCIAL_LINKS = [
   {
     href: "https://www.instagram.com/sahnevaorganizasyon",
-    label: "Instagram: Sahneva Organizasyon (yeni sekmede açılır)",
+    label: "Instagram: Sahneva Organizasyon",
     title: "Instagram",
     icon: "📷",
     gradient: "from-blue-500/20 to-purple-500/20",
   },
   {
     href: "https://www.youtube.com/@sahneva",
-    label: "YouTube: Sahneva (yeni sekmede açılır)",
+    label: "YouTube: Sahneva",
     title: "YouTube",
     icon: "▶",
     gradient: "from-purple-500/20 to-cyan-500/20",
