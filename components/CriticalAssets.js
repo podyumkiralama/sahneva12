@@ -73,12 +73,12 @@ export default function CriticalAssets() {
         id="critical-inline-style"
         data-priority="critical"
         dangerouslySetInnerHTML={{ __html: CRITICAL_STYLE.trim() }}
-      />
+      ></style>
       <script
         id="idle-callback-polyfill"
         dangerouslySetInnerHTML={{ __html: CRITICAL_SCRIPT }}
         suppressHydrationWarning
-      />
+      ></script>
     </>
   );
 }

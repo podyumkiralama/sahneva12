@@ -9,45 +9,26 @@ const HREF = "/css/non-critical.css";
 
 export default function NonCriticalStylesheet() {
   useEffect(() => {
-    const existingLink = document.querySelector(
-      `link[rel="stylesheet"][href="${HREF}"]`
-    );
-
-    if (!existingLink) return undefined;
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = HREF;
+    link.media = "print";
+    link.dataset.priority = "deferred";
 
     const enableStylesheet = () => {
-      existingLink.media = "all";
-      existingLink.dataset.loaded = "true";
+      link.media = "all";
+      link.dataset.loaded = "true";
     };
 
-    if (existingLink.media === "all") return undefined;
+    link.addEventListener("load", enableStylesheet, { once: true });
 
-    if (existingLink.sheet) {
-      enableStylesheet();
-      return undefined;
-    }
+    document.head.appendChild(link);
 
-    existingLink.addEventListener("load", enableStylesheet, { once: true });
-
-    return () => existingLink.removeEventListener("load", enableStylesheet);
+    return () => {
+      link.removeEventListener("load", enableStylesheet);
+      link.remove();
+    };
   }, []);
 
-  const handleLoad = (event) => {
-    event.currentTarget.media = "all";
-  };
-
-  return (
-    <>
-      <link
-        rel="stylesheet"
-        href={HREF}
-        media="print"
-        onLoad={handleLoad}
-        data-priority="deferred"
-      />
-      <noscript>
-        <link rel="stylesheet" href={HREF} />
-      </noscript>
-    </>
-  );
+  return null;
 }
