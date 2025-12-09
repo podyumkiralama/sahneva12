@@ -112,6 +112,7 @@ export default function Footer() {
     <div id="site-footer-wrapper" className="w-full mt-auto">
       <footer
         id="_main_footer"
+        role="contentinfo"
         aria-labelledby="site-footer-heading"
         className="relative w-full flex-shrink-0 bg-gradient-to-br from-[#0b1120] via-[#1a1038] to-[#1b1f4a] border-t border-white/10"
         itemScope

@@ -250,7 +250,7 @@ export default function CorporateEvents({
                       
                       {/* Badge */}
                       <div className="absolute top-4 right-4">
-                         <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-black/50 backdrop-blur-md text-white border border-white/20 shadow-lg">
+                        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-black/50 backdrop-blur-md text-white border border-white/20 shadow-lg">
                             {card.badge || dictionary.cardBadgeLabel}
                          </span>
                       </div>

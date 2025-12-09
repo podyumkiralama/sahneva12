@@ -481,6 +481,7 @@ export default function Navbar() {
     <>
       <nav
         aria-label={headerStrings.navLabel}
+        role="navigation"
         className="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur border-b border-neutral-200/80 shadow-lg"
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -528,7 +529,7 @@ export default function Navbar() {
                     ${FOCUS_RING_CLASS}
                   `}
                   aria-haspopup="true"
-                  aria-expanded={servicesOpen}
+                  aria-expanded={servicesOpen ? "true" : "false"}
                   aria-controls={servicesMenuId}
                   data-open={servicesOpen ? "true" : undefined}
                   onClick={() =>
@@ -573,24 +574,25 @@ export default function Navbar() {
                   onMouseEnter={openNow}
                 />
 
-<ul
-  id={servicesMenuId}
-  aria-labelledby={servicesBtnId}
-  data-open={servicesOpen ? "true" : undefined}
-  className={`
-    absolute left-0 top-full mt-2 w-80 bg-white border border-neutral-200 rounded-xl shadow-xl
-    z-[60] transition-all duration-200 flex flex-col p-2
-    ${servicesOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-2 pointer-events-none"}
-  `}
-  onMouseEnter={openNow}
-  onMouseLeave={closeWithDelay}
->
-  {SERVICE_LINKS.map((service, index) => (
-    <li key={service.href}>
-      <ServiceLink index={index} {...service} />
-    </li>
-  ))}
-</ul>
+                <ul
+                  id={servicesMenuId}
+                  aria-labelledby={servicesBtnId}
+                  role="menu"
+                  data-open={servicesOpen ? "true" : undefined}
+                  className={`
+                    absolute left-0 top-full mt-2 w-80 bg-white border border-neutral-200 rounded-xl shadow-xl
+                    z-[60] transition-all duration-200 flex flex-col p-2
+                    ${servicesOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-2 pointer-events-none"}
+                  `}
+                  onMouseEnter={openNow}
+                  onMouseLeave={closeWithDelay}
+                >
+                  {SERVICE_LINKS.map((service, index) => (
+                    <li key={service.href} role="none">
+                      <ServiceLink index={index} {...service} />
+                    </li>
+                  ))}
+                </ul>
 
               </div>
 
@@ -600,8 +602,8 @@ export default function Navbar() {
               <a
                 href={`https://wa.me/905453048671?text=${NAVBAR_WHATSAPP_MESSAGE}&utm_source=navbar&utm_medium=desktop_whatsapp`}
                 target="_blank"
-                rel="nofollow noopener"
-                aria-label={`WhatsApp Destek — WhatsApp üzerinden hızlı destek ve teklif alın — yeni sekmede açılır`}
+                rel="noopener noreferrer nofollow"
+                aria-label={`WhatsApp Destek — WhatsApp üzerinden hızlı destek ve teklif alın (yeni sekmede açılır)`}
                 className={whatsappBtnClass}
               >
                 <span
@@ -636,7 +638,7 @@ export default function Navbar() {
                   ? headerStrings.mobileToggleCloseLabel
                   : headerStrings.mobileToggleOpenLabel
               }
-              aria-expanded={mobileOpen}
+              aria-expanded={mobileOpen ? "true" : "false"}
               aria-controls={mobileMenuId}
             >
               <span
@@ -669,15 +671,15 @@ export default function Navbar() {
       </nav>
 
       {/* Mobile Menu */}
-      <div
-        id={mobileMenuId}
-        ref={mobileMenuRef}
-        role="dialog"
-        aria-modal={mobileOpen || undefined}
-        aria-labelledby={MOBILE_MENU_HEADING_ID}
-        aria-describedby={MOBILE_MENU_DESCRIPTION_ID}
-        aria-hidden={!mobileOpen}
-        data-open={mobileOpen ? "true" : undefined}
+            <div
+              id={mobileMenuId}
+              ref={mobileMenuRef}
+              role="dialog"
+              aria-modal={mobileOpen ? "true" : "false"}
+              aria-labelledby={MOBILE_MENU_HEADING_ID}
+              aria-describedby={MOBILE_MENU_DESCRIPTION_ID}
+              aria-hidden={!mobileOpen}
+              data-open={mobileOpen ? "true" : undefined}
         // Menü kapanırken hızı biraz azaltıldı, daha yumuşak geçiş için
         className={`
           lg:hidden fixed z-50 left-0 right-0 top-16 bg-white border-t border-neutral-200
@@ -701,7 +703,7 @@ export default function Navbar() {
           kullanabilirsiniz.
         </p>
 
-        <nav aria-label={headerStrings.navLabel}>
+        <nav aria-label={headerStrings.navLabel} role="navigation">
           <div className="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
             {/* Navigasyon Linkleri (Mobil) */}
             <Link
@@ -746,7 +748,7 @@ export default function Navbar() {
                 id="mobile-services-button"
                 type="button"
                 onClick={() => setMobileServicesOpen((s) => !s)}
-                aria-expanded={mobileServicesOpen}
+                aria-expanded={mobileServicesOpen ? "true" : "false"}
                 aria-controls="mobile-services-list"
                 className={`
                   w-full flex items-center justify-between gap-3 py-3.5 px-4 text-[15px] font-bold
@@ -865,8 +867,8 @@ export default function Navbar() {
             <a
               href={`https://wa.me/905453048671?text=${NAVBAR_WHATSAPP_MESSAGE}&utm_source=navbar&utm_medium=mobile_whatsapp`}
               target="_blank"
-              rel="nofollow noopener"
-              aria-label={`WhatsApp Destek — Mobil menüden WhatsApp destek hattını açın — yeni sekmede açılır`}
+              rel="noopener noreferrer nofollow"
+              aria-label={`WhatsApp Destek — Mobil menüden WhatsApp destek hattını açın (yeni sekmede açılır)`}
               className={mobileWhatsappBtnClass}
               onClick={() => setMobileOpen(false)}
             >

@@ -63,7 +63,7 @@ export default function CorporateIntro() {
                     <ScrollReveal direction="up" delay="0.05">
                     <div>
                         {/* Badge */}
-                        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-blue-300 backdrop-blur-sm">
+                        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs sm:text-xs font-bold uppercase tracking-widest text-blue-300 backdrop-blur-sm">
                         <span className="relative flex h-2 w-2">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
                             <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500" />
@@ -194,11 +194,11 @@ export default function CorporateIntro() {
                             {/* Alt bilgi & etiketler */}
                             <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
                                 <div className="flex flex-wrap gap-2 mb-3">
-                                    <span className="inline-flex items-center gap-1.5 rounded-md border border-emerald-500/40 bg-emerald-500/20 px-2 py-0.5 text-[10px] font-semibold text-emerald-200 backdrop-blur-md">
+                                    <span className="inline-flex items-center gap-1.5 rounded-md border border-emerald-500/40 bg-emerald-500/20 px-2 py-0.5 text-xs font-semibold text-emerald-200 backdrop-blur-md">
                                         <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
                                         Live System
                                     </span>
-                                    <span className="inline-flex items-center rounded-md border border-white/15 bg-black/40 px-2 py-0.5 text-[10px] font-semibold text-slate-50 backdrop-blur-md">
+                                    <span className="inline-flex items-center rounded-md border border-white/15 bg-black/40 px-2 py-0.5 text-xs font-semibold text-slate-50 backdrop-blur-md">
                                         P3.9 LED Screen
                                     </span>
                                 </div>
