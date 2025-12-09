@@ -150,12 +150,6 @@ const DEFAULT_DICTIONARY = {
 
 const TITLE_TEMPLATE_TOKEN = /\{\{\s*title\s*\}\}/g;
 
-const IMAGE_STYLE = Object.freeze({
-  objectFit: "cover",
-  width: "100%",
-  height: "100%",
-});
-
 // —————————————————————————————————————————
 // YARDIMCI FONKSİYONLAR
 // —————————————————————————————————————————
@@ -457,7 +451,7 @@ function ServicesTabsComponent({
                         DEFAULT_DICTIONARY.imageAlt
                       )}
                       fill
-                      className="object-cover transition-transform duration-800 group-hover:scale-105"
+                      className="object-cover transition-transform duration-800 group-hover:scale-105 nc-ServicesTabs-image-1"
                       sizes="(max-width: 1024px) 100vw, 50vw"
                       quality={78}
                       priority={activeService?.id === initialServiceId}
@@ -466,7 +460,6 @@ function ServicesTabsComponent({
                       onError={
                         activeService ? imageErrorHandlers[activeService.id] : undefined
                       }
-                      style={IMAGE_STYLE}
                     />
 
                     <div

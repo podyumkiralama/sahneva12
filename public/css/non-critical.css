@@ -172,3 +172,15 @@
 .nc-ArHomePage-aurora-1 {
   animation-duration: 8s;
 }
+
+/* === SitePage inline -> non-critical === */
+.nc-SitePage-section-1 {
+  content-visibility: auto;
+}
+
+/* === ServicesTabs inline -> non-critical === */
+.nc-ServicesTabs-image-1 {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}

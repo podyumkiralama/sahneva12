@@ -1,8 +1,8 @@
 # Inline Style Refactor Raporu
 
-- Taranan dosya sayısı: 15
-- Bulunan inline stil sayısı: 27
-- Otomatik dönüştürülen inline stil sayısı: 22
+- Taranan dosya sayısı: 18
+- Bulunan inline stil sayısı: 35
+- Otomatik dönüştürülen inline stil sayısı: 30
 - Dönüştürülemeyen (dinamik / karmaşık) inline stil sayısı: 5
 
 ## Dönüştürülemeyen Inline Stiller
@@ -29,3 +29,10 @@
    ```jsx
    style={{ animationDelay: `${index * 100}ms` }}
    ```
+
+## Anasayfa ve ana bileşenler için 2. pass sonuçları
+
+- app/(tr)/(site)/page.js: 6 inline stil bulundu, 6'sı dönüştürüldü.
+- components/HeroSection.js: 1 inline stil bulundu, 1'i dönüştürüldü.
+- components/ServicesTabs.js: 1 inline stil bulundu, 1'i dönüştürüldü.
+- Yeni dinamik inline stil tespit edilmedi; mevcut 5 dinamik örnek korunmaya devam ediyor.
