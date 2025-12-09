@@ -309,7 +309,7 @@ export default function Footer({
                   key={href}
                   href={href}
                   target="_blank"
-                  rel="noopener noreferrer nofollow"
+                  rel="noopener noreferrer"
                   className={`
                     group inline-flex items-center gap-2 text-xs text-gray-300
                     hover:text-white transition-all duration-300 ${FOCUS_RING_CLASS}
