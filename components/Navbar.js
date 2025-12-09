@@ -614,7 +614,6 @@ export default function Navbar({
                 <ul
                   id={servicesMenuId}
                   aria-labelledby={servicesBtnId}
-                  role="menu"
                   data-open={servicesOpen ? "true" : undefined}
                   className={`
                     absolute left-0 top-full mt-2 w-80 bg-white border border-neutral-200 rounded-xl shadow-xl
@@ -624,13 +623,13 @@ export default function Navbar({
                   onMouseEnter={openNow}
                   onMouseLeave={closeWithDelay}
                 >
-                  <li className="part-category space-y-1" role="presentation">
+                  <li className="part-category space-y-1">
                     <span className="part-menu-head text-xs font-semibold text-neutral-500 px-3 uppercase tracking-wider">
                       Hizmetler
                     </span>
-                    <ul className="flex flex-col gap-1" role="none">
+                    <ul className="flex flex-col gap-1">
                       {SERVICE_LINKS.map((service, index) => (
-                        <li key={service.href} role="none">
+                        <li key={service.href}>
                           <ServiceLink index={index} {...service} />
                         </li>
                       ))}
