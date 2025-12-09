@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 
 import SkipLinks from "@/components/SkipLinks";
 import CriticalAssets from "@/components/CriticalAssets";
+import NonCriticalStylesheet from "@/components/NonCriticalStylesheet";
 import DeferredAnalytics from "@/components/DeferredAnalytics.client";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
@@ -157,6 +158,9 @@ export default function RootLayout({ children }) {
 
         {/* Kritik preload/prefetch varlıkları */}
         <CriticalAssets />
+
+        {/* Kritik olmayan cilalı stiller: render-blocking olmadan yüklenir */}
+        <NonCriticalStylesheet />
 
         {/* JSON-LD: Organization & Website (body içinde olması sorun değil) */}
         <script
