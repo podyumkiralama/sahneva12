@@ -395,118 +395,124 @@ export default function HomePage() {
       <CorporateIntro />
 
       {/* 8) SEO METİNLERİ */}
-      <section
-        aria-labelledby="seo-title"
-        className="bg-slate-50 py-16 md:py-20 overflow-hidden"
-      >
-        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
-          <ScrollReveal>
-            <SectionHeader
-              id="seo-title"
-              title="Türkiye'nin "
-              highlight="1 Numaralı"
-              afterText=" Etkinlik Teknoloji Partneri"
-              theme="light"
-            />
-          </ScrollReveal>
-
-          <div className="grid gap-6 lg:gap-8 lg:grid-cols-2 min-w-0">
-            {/* Sol blok */}
-            <ScrollReveal direction="left" asChild>
-              <article className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 shadow-lg border border-blue-100 min-w-0">
-                <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
-                  <span
-                    className="bg-blue-500 text-white p-2 rounded-lg"
-                    aria-hidden="true"
-                  >
-                    🚀
-                  </span>
-                  Uçtan Uca Teknik Hizmet ve Profesyonel Çözümler
-                </h3>
-                <div className="prose max-w-none text-neutral-700">
-                  <p className="text-base leading-relaxed">
-                    <strong>Sahneva</strong> olarak Türkiye genelinde{" "}
-                    <Link
-                      href="/sahne-kiralama"
-                      className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
-                    >
-                      sahne kiralama
-                    </Link>
-                    ,{" "}
-                    <Link
-                      href="/podyum-kiralama"
-                      className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
-                    >
-                      podyum kurulumu
-                    </Link>
-                    ,{" "}
-                    <Link
-                      href="/led-ekran-kiralama"
-                      className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
-                    >
-                      LED ekran kiralama
-                    </Link>{" "}
-                    ve{" "}
-                    <Link
-                      href="/ses-isik-sistemleri"
-                      className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
-                    >
-                      ses ışık sistemi kurulumu
-                    </Link>{" "}
-                    hizmetlerinde komple çözümler sunuyoruz.
-                  </p>
-                  <ul className="mt-4 space-y-2 text-neutral-700">
-                    {SEO_TECH_FEATURES.map((item, i) => (
-                      <li key={i} className="flex items-center gap-3">
-                        <div
-                          className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"
-                          aria-hidden="true"
-                        />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </article>
+        <section
+          className="py-12 bg-white"
+          aria-labelledby="seo-title"
+          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+        >
+          <div className="container">
+            <ScrollReveal>
+              <SectionHeader
+                id="seo-title"
+                title="Türkiye'nin "
+                highlight="1 Numaralı"
+                afterText=" Etkinlik Teknoloji Partneri"
+                theme="light"
+              />
             </ScrollReveal>
 
-            {/* Sağ blok */}
-            <ScrollReveal direction="right" asChild>
-              <article className="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-6 shadow-lg border border-purple-100 min-w-0">
-                <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
-                  <span
-                    className="bg-purple-500 text-white p-2 rounded-lg"
-                    aria-hidden="true"
-                  >
-                    🎤
-                  </span>
-                  Büyük Ölçekli Etkinlikler İçin Güçlü Altyapı
-                </h3>
-                <div className="prose max-w-none text-neutral-700">
-                  <p className="text-base leading-relaxed">
-                    Konser, miting, festival, fuar ve açık hava etkinlikleri
-                    için yüksek kapasiteli ekipman altyapımızla hizmet
-                    veriyoruz. 50.000+ kişilik organizasyonlarda aktif rol
-                    alıyoruz.
-                  </p>
-                  <ul className="mt-4 space-y-2 text-neutral-700">
-                    {SEO_INFRA_FEATURES.map((item, i) => (
-                      <li key={i} className="flex items-center gap-3">
-                        <div
-                          className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0"
-                          aria-hidden="true"
-                        />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </article>
-            </ScrollReveal>
+            <div className="grid gap-6 lg:gap-8 lg:grid-cols-2">
+              {/* Sol blok */}
+              <ScrollReveal direction="left" asChild>
+                <article className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 shadow-lg border border-blue-100">
+                  <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
+                    <span
+                      className="bg-blue-500 text-white p-2 rounded-lg"
+                      aria-hidden="true"
+                    >
+                      🚀
+                    </span>
+                    Uçtan Uca Teknik Hizmet ve Profesyonel Çözümler
+                  </h3>
+                  <div className="prose max-w-none text-neutral-700">
+                    <p className="text-base leading-relaxed">
+                      <strong>Sahneva</strong> olarak Türkiye genelinde{" "}
+                      <a
+                        href="/sahne-kiralama"
+                        className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
+                      >
+                        sahne kiralama
+                      </a>
+                      ,{" "}
+                      <a
+                        href="/podyum-kiralama"
+                        className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
+                      >
+                        podyum kurulumu
+                      </a>
+                      ,{" "}
+                      <a
+                        href="/led-ekran-kiralama"
+                        className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
+                      >
+                        LED ekran kiralama
+                      </a>{" "}
+                      ve{" "}
+                      <a
+                        href="/ses-isik-sistemleri"
+                        className="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 inline-block px-2 py-1 rounded-md underline-offset-4 transition-colors"
+                      >
+                        ses ışık sistemi kurulumu
+                      </a>{" "}
+                      hizmetlerinde komple çözümler sunuyoruz.
+                    </p>
+                    <ul className="mt-4 space-y-2 text-neutral-700">
+                      {SEO_TECH_FEATURES.map((item, i) => (
+                        <li
+                          key={i}
+                          className="flex items-center gap-3"
+                        >
+                          <div
+                            className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"
+                            aria-hidden="true"
+                          />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              </ScrollReveal>
+
+              {/* Sağ blok */}
+              <ScrollReveal direction="right" asChild>
+                <article className="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-6 shadow-lg border border-purple-100">
+                  <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
+                    <span
+                      className="bg-purple-500 text-white p-2 rounded-lg"
+                      aria-hidden="true"
+                    >
+                      🎤
+                    </span>
+                    Büyük Ölçekli Etkinlikler İçin Güçlü Altyapı
+                  </h3>
+                  <div className="prose max-w-none text-neutral-700">
+                    <p className="text-base leading-relaxed">
+                      Konser, miting, festival, fuar ve açık hava etkinlikleri
+                      için yüksek kapasiteli ekipman altyapımızla hizmet
+                      veriyoruz. 50.000+ kişilik organizasyonlarda aktif rol
+                      alıyoruz.
+                    </p>
+                    <ul className="mt-4 space-y-2 text-neutral-700">
+                      {SEO_INFRA_FEATURES.map((item, i) => (
+                        <li
+                          key={i}
+                          className="flex items-center gap-3"
+                        >
+                          <div
+                            className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0"
+                            aria-hidden="true"
+                          />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              </ScrollReveal>
+            </div>
           </div>
-        </div>
-      </section>
-
+        </section>
       {/* 10) SSS */}
 <section aria-labelledby="sss-title" className="w-full bg-transparent p-0 m-0">
   <FaqDeferred idleTimeout={3600} rootMargin="400px" />
