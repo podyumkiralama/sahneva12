@@ -13,7 +13,7 @@ import {
   FaqDeferred,
 } from "@/components/DeferredSections.client";
 
-import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
+import { ScrollReveal } from "@/components/ScrollReveal";
 import { HERO_FEATURES_TR } from "@/lib/heroFeatures";
 import {
   HOME_PAGE_TITLE,
@@ -35,45 +35,6 @@ const SECTION_THEMES = {
     description: "text-slate-100",
   },
 };
-
-const WHY_SAHNEVA_FEATURES = [
-  {
-    icon: "⭐",
-    title: "Yüksek Müşteri Memnuniyeti",
-    desc: "Her organizasyonda %98'in üzerinde müşteri memnuniyeti. Referanslar ve Google yorumları bizim güvencemiz.",
-    stat: "%98 Memnuniyet",
-  },
-  {
-    icon: "⚡",
-    title: "Hızlı Kurulum ve Teslimat",
-    desc: "Aynı gün profesyonel sahne, LED ekran ve ses-ışık kurulumları.",
-    stat: "2–6 Saat",
-  },
-  {
-    icon: "🖥️",
-    title: "Premium LED Ekran Teknolojisi",
-    desc: "P2–P6 pixel pitch ile yüksek çözünürlüklü indoor/outdoor LED ekran.",
-    stat: "P2–P6",
-  },
-  {
-    icon: "👷",
-    title: "Uzman Teknik Ekip",
-    desc: "10+ yıl deneyimli sahne, ses, ışık ve LED uzmanlarından kadro.",
-    stat: "15+ Uzman",
-  },
-  {
-    icon: "💰",
-    title: "Rekabetçi Fiyat Garantisi",
-    desc: "Kaliteli hizmeti uygun fiyatla, bütçenize uygun çözümler.",
-    stat: "%30 Tasarruf",
-  },
-  {
-    icon: "🏙️",
-    title: "Türkiye Geneli Hizmet",
-    desc: "İstanbul, Ankara, İzmir başta 81 ilde profesyonel hizmet.",
-    stat: "81 İl",
-  },
-];
 
 const SEO_TECH_FEATURES = [
   "IP65 dış mekân LED paneller, 4500+ nit parlaklık",
@@ -430,69 +391,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 7) NEDEN SAHNEVA? */}
-      <section
-        aria-labelledby="neden-tercih-heading"
-        className="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 py-16 md:py-20 overflow-hidden"
-      >
-        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
-          <ScrollReveal>
-            <SectionHeader
-              id="neden-tercih-heading"
-              title="Neden "
-              highlight="Sahneva"
-              afterText="'yı Tercih Etmelisiniz?"
-              description="10 yılı aşkın deneyimimiz, uzman ekibimiz ve kaliteli ekipmanlarımızla fark yaratıyoruz"
-              theme="dark"
-            />
-          </ScrollReveal>
-
-          <ScrollRevealGroup>
-            <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 list-none p-0 m-0">
-              {WHY_SAHNEVA_FEATURES.map(
-                ({ icon, title, desc, stat }, i) => (
-                  <li key={i} className="m-0 p-0">
-                    <ScrollReveal
-                      asChild
-                      delay={String(i % 3)}
-                      direction="scale"
-                    >
-                      <article
-                        className="group relative bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 p-6 border border-neutral-100 hover:border-blue-200/70 hover:scale-105"
-                        aria-labelledby={`why-card-${i}-title`}
-                      >
-                        <div className="absolute top-3 right-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                          {stat}
-                        </div>
-                        <div
-                          className="text-3xl mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text"
-                          aria-hidden="true"
-                        >
-                          {icon}
-                        </div>
-                        <h3
-                          id={`why-card-${i}-title`}
-                          className="font-black text-lg mb-3 text-neutral-900 group-hover:text-blue-600 transition-colors"
-                        >
-                          {title}
-                        </h3>
-                        <p className="text-neutral-700 leading-relaxed text-sm">
-                          {desc}
-                        </p>
-                      </article>
-                    </ScrollReveal>
-                  </li>
-                )
-              )}
-            </ul>
-          </ScrollRevealGroup>
-        </div>
-      </section>
-
-      {/* 8) CORPORATE INTRO */}
+      {/* 7) CORPORATE INTRO */}
       <CorporateIntro />
 
-      {/* 9) SEO METİNLERİ */}
+      {/* 8) SEO METİNLERİ */}
       <section
         aria-labelledby="seo-title"
         className="bg-slate-50 py-16 md:py-20 overflow-hidden"
