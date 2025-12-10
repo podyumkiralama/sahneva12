@@ -149,7 +149,7 @@ const FaqRow = React.memo(function FaqRow({
 // —————————————————————————————————————————
 function SupportCard({ dictionary }) {
   return (
-    <div className="w-full bg-[#0F1623] border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6">
+    <div className="w-full max-w-xl mx-auto bg-[#0F1623] border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6 overflow-hidden">
       <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-2xl shadow-lg">
         💬
       </div>
@@ -172,11 +172,11 @@ function SupportCard({ dictionary }) {
           <span className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
             📞
           </span>
-          <div>
+          <div className="min-w-0">
             <span className="block text-xs text-slate-400 font-medium">
               {dictionary.supportPhoneLabel}
             </span>
-            <span className="block text-sm font-bold text-white group-hover:text-blue-400 transition-colors">
+            <span className="block text-sm font-bold text-white group-hover:text-blue-400 transition-colors break-words">
               {dictionary.contactPhone}
             </span>
           </div>
@@ -193,7 +193,7 @@ function SupportCard({ dictionary }) {
           <span className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center text-green-400 group-hover:bg-green-500 group-hover:text-white transition-colors">
             📱
           </span>
-          <div>
+          <div className="min-w-0">
             <span className="block text-xs text-slate-400 font-medium">
               {dictionary.supportWhatsappLabel}
             </span>
@@ -212,11 +212,11 @@ function SupportCard({ dictionary }) {
           <span className="w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-colors">
             ✉️
           </span>
-          <div>
+          <div className="min-w-0">
             <span className="block text-xs text-slate-400 font-medium">
               {dictionary.supportMailLabel}
             </span>
-            <span className="block text-sm font-bold text-white group-hover:text-purple-400 transition-colors">
+            <span className="block text-sm font-bold text-white group-hover:text-purple-400 transition-colors break-words">
               {dictionary.contactMail}
             </span>
           </div>
@@ -327,7 +327,7 @@ export default function Faq({
           </div>
 
           {/* SAĞ TARAF: DESTEK KARTI */}
-          <div className="lg:col-span-4 mt-8 lg:mt-0 min-w-0">
+          <div className="lg:col-span-4 mt-8 lg:mt-0 min-w-0 w-full">
             <ScrollReveal direction="left" delay="0.2">
               <SupportCard dictionary={dictionary} />
             </ScrollReveal>

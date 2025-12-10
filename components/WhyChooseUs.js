@@ -164,10 +164,10 @@ export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
         {/* ——— KARTLAR GRID ALANI (Spot Işık Swapper) ——— */}
         <ScrollRevealGroup>
           {/* Semantik liste yapısı: <ul> ve <li> kullanıldı. */}
-          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-w-0">
             {DEFAULT_FEATURES.map((feature, index) => (
               <ScrollReveal key={index} delay={String((index % 3) * 0.1)} direction="up" asChild>
-                <li className="group relative bg-white/5 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-500 border border-white/10 hover:border-blue-500/30 overflow-hidden hover:-translate-y-1">
+                <li className="group relative bg-white/5 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-500 border border-white/10 hover:border-blue-500/30 overflow-hidden hover:-translate-y-1 min-w-0">
                   
                   {/* ——— DİNAMİK SPOT IŞIĞI ——— */}
                   <div 
@@ -197,7 +197,7 @@ export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
                     </div>
                   </div>
                   
-                  <div className="relative z-10">
+                  <div className="relative z-10 min-w-0">
                     <div className="inline-flex items-center gap-2 mb-3">
                       <span className="text-xs font-bold px-3 py-1 bg-white/10 text-slate-200 rounded-full group-hover:bg-blue-600/20 transition-colors">
                         {feature.stat}
