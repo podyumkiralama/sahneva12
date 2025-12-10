@@ -21,10 +21,14 @@ html {
   scroll-behavior: smooth;
   font-size: 100%;
   -webkit-tap-highlight-color: transparent;
-  /* Scrollbar değişimlerinde layout kaymasını önlemek için */
-  scrollbar-gutter: stable both-edges;
+
+  /* Scrollbar çıkınca layout kaymasını önler — sadece SAĞDA boşluk bırakır */
+  scrollbar-gutter: stable;
+
+  /* Yatay taşmayı tamamen engeller */
   overflow-x: hidden;
 }
+
 
 /* Erişilebilirlik: Hareket azaltma tercihi */
 @media (prefers-reduced-motion: reduce) {
