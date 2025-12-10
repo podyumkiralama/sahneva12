@@ -376,23 +376,11 @@ export default function HomePage() {
 
 
 
-      {/* 6) KURUMSAL ORGANİZASYON */}
-      <section
-        aria-labelledby="kurumsal-title"
-        className="bg-slate-50 py-16 md:py-20"
-      >
-        <div className="px-4 sm:px-6 lg:px-8">
-          <ScrollReveal>
-            <SectionHeader
-              id="kurumsal-title"
-              title="Kurumsal "
-              highlight="Organizasyon Çözümlerimiz"
-              description="Lansman, konferans, bayi toplantısı ve kurumsal etkinlikleriniz için sahne, podyum, LED ekran, ses–ışık ve teknik operasyonu tek çatı altında sunuyoruz."
-            />
-          </ScrollReveal>
-          <CorporateEvents />
-        </div>
-      </section>
+{/* 6) KURUMSAL ORGANİZASYON (başlıksız, full-width, containersız) */}
+<section className="bg-slate-50 py-0 m-0 w-full">
+  <CorporateEvents />
+</section>
+
 
       {/* 7) CORPORATE INTRO */}
       <CorporateIntro />
