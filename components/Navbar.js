@@ -521,7 +521,7 @@ export default function Navbar({
   return (
     <>
       <nav
-      aria-label={resolvedAriaLabel}
+     aria-label={resolvedAriaLabel}
       aria-labelledby={resolvedAriaLabel ? undefined : resolvedAriaLabelledby}
       aria-describedby={resolvedAriaDescribedby}
       role={navRole}
