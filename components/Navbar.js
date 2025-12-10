@@ -92,6 +92,7 @@ export default function Navbar({
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [scrollbarPadding, setScrollbarPadding] = useState(0);
 
   const computedHeadingId = headingIdProp ?? `navbar-heading-${instanceId}`;
   const computedDescriptionId =
@@ -230,6 +231,22 @@ export default function Navbar({
       servicesOpen,
     ]
   );
+
+  // Kaydırma çubuğu genişliğini ölçerek navbar'ın scrollbar'ın altında kalmasını engelle
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const updateScrollbarPadding = () => {
+      const scrollbarWidth =
+        window.innerWidth - document.documentElement.clientWidth;
+      setScrollbarPadding(scrollbarWidth > 0 ? scrollbarWidth : 0);
+    };
+
+    updateScrollbarPadding();
+    window.addEventListener("resize", updateScrollbarPadding);
+
+    return () => window.removeEventListener("resize", updateScrollbarPadding);
+  }, []);
 
   const handleServiceItemKeyDown = useCallback(
     (event, index) => {
@@ -504,12 +521,13 @@ export default function Navbar({
   return (
     <>
       <nav
-        aria-label={resolvedAriaLabel}
-        aria-labelledby={resolvedAriaLabel ? undefined : resolvedAriaLabelledby}
-        aria-describedby={resolvedAriaDescribedby}
-        role={navRole}
-        className="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur border-b border-neutral-200/80 shadow-lg"
-      >
+      aria-label={resolvedAriaLabel}
+      aria-labelledby={resolvedAriaLabel ? undefined : resolvedAriaLabelledby}
+      aria-describedby={resolvedAriaDescribedby}
+      role={navRole}
+      className="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur border-b border-neutral-200/80 shadow-lg"
+      style={scrollbarPadding ? { paddingRight: scrollbarPadding } : undefined}
+    >
         {shouldRenderHeading && (
           <h2 id={computedHeadingId} className="sr-only">
             {headerStrings.navLabel}
