@@ -165,57 +165,56 @@ export default function CorporateIntro() {
                     </ScrollReveal>
                 </div>
 
-                {/* SAĞ BLOK – GÖRSEL */}
-                <ScrollReveal direction="left" delay="0.2">
-                    <div className="relative w-full max-w-xl mx-auto aspect-[4/5] lg:aspect-[3/4]">
-                        {/* Dış glow çerçeve */}
-                        <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 opacity-25 blur-md transition duration-700 group-hover:opacity-40" />
+              {/* SAĞ BLOK – GÖRSEL */}
+<ScrollReveal direction="left" delay="0.2">
+  <div className="group relative w-full max-w-xl mx-auto aspect-[4/5] lg:aspect-[3/4] overflow-hidden rounded-2xl">
+    {/* Dış glow çerçeve – artık taşmıyor */}
+    <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 opacity-25 blur-md transition duration-700 group-hover:opacity-40" />
 
-                        {/* Görsel kutusu */}
-                        <div className="relative h-full w-full overflow-hidden rounded-2xl border border-white/10 bg-slate-900 shadow-xl">
-                            <Image
-                                src="/img/kurumsal/kurumsal-sahne-led-ekran.webp"
-                                alt="Kurumsal lansman sahnesi, LED ekran ve ışık sistemleriyle profesyonel prodüksiyon kurulumu."
-                                fill
-                                sizes="(max-width: 1024px) 100vw, 480px"
-                                className="object-cover opacity-95 transition-transform duration-700 hover:scale-105"
-                                onError={(e) => {
-                                    e.currentTarget.style.display = "none";
-                                    if (e.currentTarget.parentNode) {
-                                        e.currentTarget.parentNode.style.backgroundColor =
-                                            "#020617";
-                                    }
-                                }}
-                            />
+    {/* Görsel kutusu */}
+    <div className="relative h-full w-full overflow-hidden rounded-2xl border border-white/10 bg-slate-900 shadow-xl">
+      <Image
+        src="/img/kurumsal/kurumsal-sahne-led-ekran.webp"
+        alt="Kurumsal lansman sahnesi, LED ekran ve ışık sistemleriyle profesyonel prodüksiyon kurulumu."
+        fill
+        sizes="(max-width: 1024px) 100vw, 480px"
+        className="object-cover opacity-95 transition-transform duration-700 group-hover:scale-105"
+        onError={(e) => {
+          e.currentTarget.style.display = "none";
+          if (e.currentTarget.parentNode) {
+            e.currentTarget.parentNode.style.backgroundColor = "#020617";
+          }
+        }}
+      />
 
-                            {/* Üstten aşağı gradient */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent" />
+      {/* Üstten aşağı gradient */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent" />
 
-                            {/* Alt bilgi & etiketler */}
-                            <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
-                                <div className="flex flex-wrap gap-2 mb-3">
-                                    <span className="inline-flex items-center gap-1.5 rounded-md border border-emerald-500/40 bg-emerald-500/20 px-2 py-0.5 text-xs font-semibold text-emerald-200 backdrop-blur-md">
-                                        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
-                                        Live System
-                                    </span>
-                                    <span className="inline-flex items-center rounded-md border border-white/15 bg-black/40 px-2 py-0.5 text-xs font-semibold text-slate-50 backdrop-blur-md">
-                                        P3.9 LED Screen
-                                    </span>
-                                </div>
+      {/* Alt bilgi & etiketler */}
+      <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
+        <div className="flex flex-wrap gap-2 mb-3">
+          <span className="inline-flex items-center gap-1.5 rounded-md border border-emerald-500/40 bg-emerald-500/20 px-2 py-0.5 text-xs font-semibold text-emerald-200 backdrop-blur-md">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+            Live System
+          </span>
+          <span className="inline-flex items-center rounded-md border border-white/15 bg-black/40 px-2 py-0.5 text-xs font-semibold text-slate-50 backdrop-blur-md">
+            P3.9 LED Screen
+          </span>
+        </div>
 
-                                <div className="space-y-0.5">
-                                    <h4 className="text-sm sm:text-base font-bold text-white">
-                                        Kurumsal Lansman Sahnesi
-                                    </h4>
-                                    <p className="text-xs text-slate-300">
-                                        İstanbul • 2000+ katılımcı • Çok kameralı reji &amp;
-                                        full teknik prodüksiyon
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </ScrollReveal>
+        <div className="space-y-0.5">
+          <h4 className="text-sm sm:text-base font-bold text-white">
+            Kurumsal Lansman Sahnesi
+          </h4>
+          <p className="text-xs text-slate-300">
+            İstanbul • 2000+ katılımcı • Çok kameralı reji &amp; full teknik prodüksiyon
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ScrollReveal>
+
                 </div>
             </div>
         </div>
