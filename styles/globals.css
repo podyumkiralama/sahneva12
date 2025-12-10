@@ -21,6 +21,8 @@ html {
   scroll-behavior: smooth;
   font-size: 100%;
   -webkit-tap-highlight-color: transparent;
+  /* Scrollbar değişimlerinde layout kaymasını önlemek için */
+  scrollbar-gutter: stable both-edges;
   overflow-x: hidden;
 }
 
