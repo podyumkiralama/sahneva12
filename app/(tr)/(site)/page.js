@@ -50,6 +50,10 @@ const SEO_INFRA_FEATURES = [
   "Jeneratör, UPS ve yedekli enerji altyapısı",
 ];
 
+const BELOW_THE_FOLD_VISIBILITY_STYLE = Object.freeze({
+  contentVisibility: "auto",
+});
+
 export const revalidate = 3600;
 
 // —————————————————————————————————————————
