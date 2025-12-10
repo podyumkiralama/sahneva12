@@ -374,8 +374,7 @@ export default function HomePage() {
       {/* 4) PROJELER (ProjectsGallery kendi section'ını çiziyor) */}
       <ProjectsGalleryDeferred idleTimeout={3200} rootMargin="360px" />
 
-      {/* 5) TECH CAPABILITIES */}
-      <TechCapabilities />
+
 
       {/* 6) KURUMSAL ORGANİZASYON */}
       <section
