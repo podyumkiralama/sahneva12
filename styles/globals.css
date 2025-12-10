@@ -22,28 +22,11 @@ html {
   font-size: 100%;
   -webkit-tap-highlight-color: transparent;
 
-  /* Scrollbar çıkınca layout kaymasını önler — sadece SAĞDA boşluk bırakır */
-  scrollbar-gutter: stable;
+  /* Varsayılan tarayıcı scroll barı korunsun ve tekrar yüklenme olmasın */
+  scrollbar-gutter: auto;
 
   /* Yatay taşmayı tamamen engeller */
   overflow-x: hidden;
-}
-
-
-/* ==== LAYOUT FIX – SAHNEVA ==== */
-
-/* 1. Scrollbar reserved space iptal edildi (layout jump fix) */
-html {
-  scrollbar-gutter: auto !important;
-}
-
-/* 2. Overflow-x sadece body’de olacak */
-html {
-  overflow-x: visible !important;
-}
-
-body {
-  overflow-x: hidden !important;
 }
 
 /* 3. Transition ve animation reset çok agresifti; hafifletildi */
