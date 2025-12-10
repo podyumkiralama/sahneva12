@@ -16,14 +16,12 @@ const FAQ_WHATSAPP_MESSAGE = encodeURIComponent(
 );
 
 const DEFAULT_DICTIONARY = {
-  // ——— BAŞLIK ALANI ———
   sectionPill: "Merak Edilenler",
   sectionTitlePrefix: "Kiralama Süreci ve",
   sectionTitleHighlight: "Sıkça Sorulanlar",
   sectionDesc:
     "Sahne, LED ekran, ses-ışık sistemleri ve teknik operasyon süreçleri hakkında aklınıza takılan tüm soruları yanıtlıyoruz.",
 
-  // SUPPORT CARD
   supportTitle: "Cevabı bulamadınız mı?",
   supportDesc:
     "Projeniz özel bir çözüm gerektiriyor olabilir. Uzman teknik ekibimizle görüşün.",
@@ -31,7 +29,6 @@ const DEFAULT_DICTIONARY = {
   supportWhatsappLabel: "WhatsApp Destek",
   supportMailLabel: "E-posta Gönder",
 
-  // DATA
   contactPhone: "+90 545 304 86 71",
   contactPhoneHref: "tel:+905453048671",
   contactWhatsappHref: `https://wa.me/905453048671?text=${FAQ_WHATSAPP_MESSAGE}`,
@@ -58,9 +55,9 @@ function mergeDictionary(base, override = {}) {
   return result;
 }
 
-// —————————————————————————————————————————
-// TEKİL SORU BİLEŞENİ (ACCORDION)
-// —————————————————————————————————————————
+// --------------------------------------------------
+// TEKİL SORU (ACCORDION)
+// --------------------------------------------------
 const FaqRow = React.memo(function FaqRow({
   question,
   answer,
@@ -144,12 +141,12 @@ const FaqRow = React.memo(function FaqRow({
   );
 });
 
-// —————————————————————————————————————————
-// DESTEK KARTI (SAĞ TARAF – sade)
-// —————————————————————————————————————————
+// --------------------------------------------------
+// DESTEK KARTI
+// --------------------------------------------------
 function SupportCard({ dictionary }) {
   return (
-    <div className="w-full max-w-xl mx-auto bg-[#0F1623] border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6 overflow-hidden">
+    <div className="w-full max-w-xl mx-auto bg-[#0F1623] border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6">
       <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-2xl shadow-lg">
         💬
       </div>
@@ -226,10 +223,9 @@ function SupportCard({ dictionary }) {
   );
 }
 
-// —————————————————————————————————————————
+// --------------------------------------------------
 // ANA BİLEŞEN
-// —————————————————————————————————————————
-
+// --------------------------------------------------
 export default function Faq({
   items = FAQ_ITEMS,
   dictionary: dictionaryOverride,
@@ -245,7 +241,8 @@ export default function Faq({
     [dictionaryOverride]
   );
 
-  const [openIndex, setOpenIndex] = useState(0);
+  // ⬇️ ÖNEMLİ: İlk açılışta hiçbir soru açık değil → yüklemede yükseklik zıplaması yok
+  const [openIndex, setOpenIndex] = useState(-1);
 
   const handleToggle = useCallback((index) => {
     setOpenIndex((prev) => (prev === index ? -1 : index));
@@ -261,24 +258,24 @@ export default function Faq({
 
   return (
     <section
-      className="relative py-16 md:py-24 bg-[#0B1120] overflow-x-hidden"
+      className="relative py-16 md:py-24 bg-[#0B1120]"
       aria-labelledby={headingId}
       aria-describedby={describedBy}
       aria-label={ariaLabel}
       role={role}
     >
-      {/* Arka Plan Efektleri */}
+      {/* Arka Plan Efektleri (sadece dekoratif, scroll yok) */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]" />
         <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-blue-600/10 blur-[120px] rounded-full mix-blend-screen" />
       </div>
 
-      <div className="container relative z-10 px-4 mx-auto overflow-x-hidden">
+      {/* NOT: Burada container kullandık ama yükseklik sınırı YOK, overflow YOK */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* BAŞLIK ALANI */}
         {!ariaLabelledBy && (
           <ScrollReveal direction="up" delay="0.05">
             <div className="text-center max-w-4xl mx-auto mb-16">
-              {/* Hap (Pill) Etiket */}
               <div className="flex justify-center mb-4">
                 <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-bold uppercase tracking-wider shadow-sm">
                   <span
@@ -289,7 +286,6 @@ export default function Faq({
                 </span>
               </div>
 
-              {/* Ana Başlık */}
               <h2
                 id={headingId}
                 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight"
@@ -300,7 +296,6 @@ export default function Faq({
                 </span>
               </h2>
 
-              {/* Açıklama */}
               <p
                 id={descriptionId}
                 className="text-slate-400 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto"
@@ -316,7 +311,11 @@ export default function Faq({
           {/* SOL TARAF: SORULAR */}
           <div className="lg:col-span-8 space-y-4 min-w-0">
             {items.map((item, index) => (
-              <ScrollReveal key={item.slug} direction="up" delay={index * 0.05}>
+              <ScrollReveal
+                key={item.slug}
+                direction="up"
+                delay={0.08 + index * 0.04}
+              >
                 <FaqRow
                   {...item}
                   isOpen={openIndex === index}
