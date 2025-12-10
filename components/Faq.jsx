@@ -146,7 +146,7 @@ const FaqRow = React.memo(function FaqRow({
 // --------------------------------------------------
 function SupportCard({ dictionary }) {
   return (
-    <div className="w-full max-w-xl mx-auto bg-[#0F1623] border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6">
+    <div className="w-full bg-[#0F1623] border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6">
       <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-2xl shadow-lg">
         💬
       </div>
@@ -241,7 +241,7 @@ export default function Faq({
     [dictionaryOverride]
   );
 
-  // ⬇️ ÖNEMLİ: İlk açılışta hiçbir soru açık değil → yüklemede yükseklik zıplaması yok
+  // İlk açılışta hiçbir soru açık olmasın → yükseklik jump yok
   const [openIndex, setOpenIndex] = useState(-1);
 
   const handleToggle = useCallback((index) => {
@@ -264,13 +264,12 @@ export default function Faq({
       aria-label={ariaLabel}
       role={role}
     >
-      {/* Arka Plan Efektleri (sadece dekoratif, scroll yok) */}
+      {/* Arka Plan Efektleri */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]" />
         <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-blue-600/10 blur-[120px] rounded-full mix-blend-screen" />
       </div>
 
-      {/* NOT: Burada container kullandık ama yükseklik sınırı YOK, overflow YOK */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* BAŞLIK ALANI */}
         {!ariaLabelledBy && (
@@ -306,30 +305,32 @@ export default function Faq({
           </ScrollReveal>
         )}
 
-        {/* İÇERİK: SPLIT LAYOUT */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start max-w-6xl mx-auto w-full">
-          {/* SOL TARAF: SORULAR */}
-          <div className="lg:col-span-8 space-y-4 min-w-0">
-            {items.map((item, index) => (
-              <ScrollReveal
-                key={item.slug}
-                direction="up"
-                delay={0.08 + index * 0.04}
-              >
-                <FaqRow
-                  {...item}
-                  isOpen={openIndex === index}
-                  onToggle={() => handleToggle(index)}
-                />
-              </ScrollReveal>
-            ))}
-          </div>
+        {/* İÇERİK: FLEX LAYOUT (üst üste binme yok) */}
+        <div className="max-w-6xl mx-auto w-full">
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
+            {/* SOL: SORULAR */}
+            <div className="flex-1 space-y-4 min-w-0">
+              {items.map((item, index) => (
+                <ScrollReveal
+                  key={item.slug}
+                  direction="up"
+                  delay={0.08 + index * 0.04}
+                >
+                  <FaqRow
+                    {...item}
+                    isOpen={openIndex === index}
+                    onToggle={() => handleToggle(index)}
+                  />
+                </ScrollReveal>
+              ))}
+            </div>
 
-          {/* SAĞ TARAF: DESTEK KARTI */}
-          <div className="lg:col-span-4 mt-8 lg:mt-0 min-w-0 w-full">
-            <ScrollReveal direction="left" delay="0.2">
-              <SupportCard dictionary={dictionary} />
-            </ScrollReveal>
+            {/* SAĞ: DESTEK KARTI */}
+            <div className="w-full lg:max-w-sm xl:max-w-md mt-6 lg:mt-0">
+              <ScrollReveal direction="left" delay="0.2">
+                <SupportCard dictionary={dictionary} />
+              </ScrollReveal>
+            </div>
           </div>
         </div>
       </div>
