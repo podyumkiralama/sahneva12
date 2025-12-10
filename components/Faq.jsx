@@ -245,7 +245,7 @@ export default function Faq({
     [dictionaryOverride]
   );
 
-  const [openIndex, setOpenIndex] = useState(0);
+  const [openIndex, setOpenIndex] = useState(-1);
 
   const handleToggle = useCallback((index) => {
     setOpenIndex((prev) => (prev === index ? -1 : index));
