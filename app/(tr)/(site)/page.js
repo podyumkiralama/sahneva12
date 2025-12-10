@@ -387,7 +387,7 @@ export default function HomePage() {
 
   {/* 10) SSS */}
 <section aria-labelledby="sss-title" className="w-full bg-transparent p-0 m-0">
-  <FaqDeferred idleTimeout={3600} rootMargin="400px" />
+  <FaqDeferred idleTimeout={0} rootMargin="1200px" />
 </section>
     </div>
   );
