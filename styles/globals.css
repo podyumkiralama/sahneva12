@@ -22,13 +22,8 @@ html {
   font-size: 100%;
   -webkit-tap-highlight-color: transparent;
 
-  /*
-   * Layout seviyesinde scroll bar boşluğu sabitlenir; böylece bileşenler
-   * yüklenirken (ör. FAQ deferred içerik) dikey kaydırma çubuğu kaybolup
-   * tekrar görünmez. Hem tr layout hem root layout aynı doğal scroll barı
-   * kullanır.
-   */
-  scrollbar-gutter: stable both-edges;
+  /* Varsayılan tarayıcı scroll barı korunsun ve tekrar yüklenme olmasın */
+  scrollbar-gutter: auto;
 
   /* Yatay taşmayı tamamen engeller */
   overflow-x: hidden;
