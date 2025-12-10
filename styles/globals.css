@@ -30,35 +30,27 @@ html {
 }
 
 
-/* ==========================================================================
-   Erişilebilirlik: Hareket azaltma tercihi (GÜVENLİ SÜRÜM)
-   ========================================================================== */
+/* ==== LAYOUT FIX – SAHNEVA ==== */
+
+/* 1. Scrollbar reserved space iptal edildi (layout jump fix) */
+html {
+  scrollbar-gutter: auto !important;
+}
+
+/* 2. Overflow-x sadece body’de olacak */
+html {
+  overflow-x: visible !important;
+}
+
+body {
+  overflow-x: hidden !important;
+}
+
+/* 3. Transition ve animation reset çok agresifti; hafifletildi */
 @media (prefers-reduced-motion: reduce) {
-
-  /* Scroll davranışını durdur */
-  html {
-    scroll-behavior: auto !important;
-  }
-
-  /* Tailwind scroll-smooth sınıfını pasifleştir */
-  .scroll-smooth {
-    scroll-behavior: auto !important;
-  }
-
-  /* Animasyonları tamamen kapatmak yerine hızını azalt
-     Bu, layout kırılmalarını ÖNLEMEK için kritik. */
   *, ::before, ::after {
     animation-duration: 0.3s !important;
-    animation-iteration-count: 1 !important;
     transition-duration: 0.2s !important;
-  }
-  
-  /* Eğer istersen animasyonları tamamen kaldırabilirsin,
-     fakat yalnızca animation kullanılan elementlerde: */
-  [data-reduce-motion="true"],
-  .reduce-motion {
-    animation: none !important;
-    transition: none !important;
   }
 }
 
