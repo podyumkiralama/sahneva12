@@ -526,11 +526,7 @@ export default function Navbar({
       aria-describedby={resolvedAriaDescribedby}
       role={navRole}
       className="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur border-b border-neutral-200/80 shadow-lg"
-      style={
-        scrollbarPadding
-          ? { right: scrollbarPadding, paddingRight: scrollbarPadding }
-          : undefined
-      }
+      style={scrollbarPadding ? { paddingRight: scrollbarPadding } : undefined}
     >
         {shouldRenderHeading && (
           <h2 id={computedHeadingId} className="sr-only">
