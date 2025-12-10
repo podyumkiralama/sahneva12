@@ -67,7 +67,7 @@ export default function CorporateIntro() {
         </ScrollReveal>
 
         {/* ANA GRID – 2 KOLON */}
-        <div className="grid gap-10 lg:gap-12 lg:grid-cols-[1.15fr_minmax(0,0.95fr)] items-start">
+          <div className="grid gap-10 lg:gap-12 lg:grid-cols-2 items-start">
           {/* SOL KOLON */}
           <ScrollReveal direction="up" delay="0.1">
             <div className="flex flex-col gap-7 rounded-2xl border border-slate-800/80 bg-slate-950/70 p-5 sm:p-6 md:p-7 shadow-[0_18px_55px_rgba(15,23,42,0.9)]">
