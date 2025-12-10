@@ -528,7 +528,7 @@ export default function Navbar({
       className="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur border-b border-neutral-200/80 shadow-lg"
       style={
         scrollbarPadding
-          ? { paddingRight: scrollbarPadding }
+          ? { right: scrollbarPadding, paddingRight: scrollbarPadding }
           : undefined
       }
     >
