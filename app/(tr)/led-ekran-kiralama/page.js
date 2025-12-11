@@ -4,12 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
+import FaqAccordion from "@/components/FaqAccordion";
+import { FAQ_ITEMS, GALLERY_IMAGES, SERVICES, USE_CASES, WHATSAPP_PHONE } from "@/lib/ledEkranData";
+import { slugify } from "@/lib/slugify";
+
 /* ================== Sabitler ================== */
 export const revalidate = 1800;
 const ORIGIN = "https://www.sahneva.com";
-const PHONE = "+905453048671";
 const WA_TEXT = "Merhaba%2C+LED+ekran+kiralama+icin+teklif+istiyorum.+Etkinlik+turu%3A+%5Bkonser%2Ffuar%2Flansman%5D%2C+Tarih%3A+%5Bgg.aa.yyyy%5D%2C+Ekran+boyutu%3A+%5Bxxx%5D.";
-const WHATSAPP = `https://wa.me/${PHONE.replace("+", "")}?text=${WA_TEXT}`;
+const WHATSAPP = `https://wa.me/${WHATSAPP_PHONE.replace("+", "")}?text=${WA_TEXT}`;
 
 const getServiceWhatsappLink = (title) => {
   const text = `Merhaba, ${title} hizmeti icin detayli bilgi ve fiyat teklifi almak istiyorum. Etkinlik tarihi: [gg.aa.yyyy], mekan: [ic/dis], tahmini ekran olcusu: [xx m2]`;
@@ -138,17 +141,6 @@ export const metadata = {
 };
 
 /* ================== Yardımcılar & Sabitler ================== */
-const slugify = (s) =>
-  String(s)
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/&/g, " ve ")
-    .replace(/[^\p{L}\p{N}\s-]/gu, "")
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
-
 const HERO = {
   src: "/img/hizmet-led-ekran.webp",
   alt: "Profesyonel LED ekran kurulumu - Konser sahnesinde büyük LED wall ve görsel şov",
@@ -269,8 +261,9 @@ function Hero() {
           blurDataURL={BLUR_DATA_URL}
           loading="eager"
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/80 via-purple-800/70 to-blue-950/90" aria-hidden="true" />
-        <div className="absolute inset-0 bg-gradient-to-t from-blue-950/80 via-transparent to-purple-900/60" aria-hidden="true" />
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/80 via-purple-800/70 to-blue-950/90" aria-hidden="true" />
+          <div className="absolute inset-0 bg-gradient-to-t from-blue-950/85 via-black/40 to-purple-900/70" aria-hidden="true" />
+          <div className="absolute inset-0 bg-black/35" aria-hidden="true" />
       </div>
 
       <div className="relative z-10 container mx-auto px-4 text-center text-white py-12">
@@ -416,41 +409,6 @@ function Services() {
 }
 
 /* ================== Galeri ================== */
-const GALLERY_IMAGES = [
-  { 
-    src: "/img/galeri/led-ekran-kiralama-1.webp", 
-    alt: "Konser sahnesinde kurulmuş büyük LED ekran, kalabalık önünde canlı performans gösterimi" 
-  },
-  { 
-    src: "/img/galeri/led-ekran-kiralama-2.webp", 
-    alt: "Kurumsal etkinlikte kullanılan LED ekran, sunum sırasında profesyonel aydınlatma ile aydınlatılmış" 
-  },
-  { 
-    src: "/img/galeri/led-ekran-kiralama-3.webp",
-    alt: "Açık hava festivalinde yüksek parlaklıklı LED ekran, gün ışığında net görüntü" 
-  },
-  { 
-    src: "/img/galeri/led-ekran-kiralama-4.webp",
-    alt: "Fuar standında kullanılan video wall sistemi, marka tanıtımı için optimize edilmiş" 
-  },
-  { 
-    src: "/img/galeri/led-ekran-kiralama-5.webp", 
-    alt: "Stadyumda dev LED ekran, spor etkinliği sırasında canlı skor ve görüntüler" 
-  },
-  { 
-    src: "/img/galeri/led-ekran-kiralama-6.webp", 
-    alt: "Düğün organizasyonunda LED ekran, canlı fotoğraf ve video gösterimi" 
-  },
-  { 
-    src: "/img/galeri/led-ekran-kiralama-7.webp", 
-    alt: "TV stüdyosunda kullanılan profesyonel LED ekran, canlı yayın için optimize edilmiş" 
-  },
-  { 
-    src: "/img/galeri/led-ekran-kiralama-8.webp",
-    alt: "Alışveriş merkezinde reklam LED ekranı, yüksek trafikli alanda marka gösterimi" 
-  },
-];
-
 function Gallery() {
   return (
     <section className="py-20 bg-white" aria-labelledby="galeri-baslik">
@@ -1021,7 +979,7 @@ function CTA() {
     <section className="py-20 bg-white" aria-labelledby="cta-baslik">
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="bg-gradient-to-r from-blue-700 to-purple-700 rounded-3xl p-8 md:p-12 text-center text-white relative overflow-hidden">
-          <div className="absolute inset-0 bg-black/10" aria-hidden="true"></div>
+          <div className="absolute inset-0 bg-black/20" aria-hidden="true"></div>
           <div className="relative z-10">
             <h2 id="cta-baslik" className="text-3xl md:text-4xl lg:text-5xl font-black mb-6">
               Profesyonel LED Ekran Çözümlerine Hazır Mısınız?
