@@ -59,12 +59,12 @@ export function ScrollReveal({
   const [isVisible, setIsVisible] = useState(() => !shouldAnimate);
   const [hasPlayed, setHasPlayed] = useState(false);
 
-  const handleIntersect = useCallback(([entry]) => {
-    if (entry.isIntersecting && !hasPlayed) {
+  useEffect(() => {
+    if (!shouldAnimate) {
       setIsVisible(true);
-      setHasPlayed(true); // Animasyonu sadece bir kez oynat
+      hasPlayedRef.current = true;
+      return;
     }
-  }, [hasPlayed]);
 
   useEffect(() => {
     if (!shouldAnimate) {
