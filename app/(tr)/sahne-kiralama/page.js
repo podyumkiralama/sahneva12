@@ -1560,11 +1560,12 @@ function CTA() {
   );
 }
 
-/* ================== JSON-LD ================== */
+/* ================== JSON-LD (FINAL / NO RATING) ================== */
 /* Burada next/script yerine düz <script> kullanıyoruz. */
 function JsonLd() {
   const pageUrl = `${ORIGIN}/sahne-kiralama`;
-  const pageDescription = metadata.description;
+  const pageDescription = metadata?.description || "";
+  const webPageId = `${pageUrl}#webpage`;
 
   const provider = { "@id": ORGANIZATION_ID };
 
@@ -1579,30 +1580,22 @@ function JsonLd() {
     description: pageDescription,
     provider,
     areaServed: { "@type": "Country", name: "Türkiye" },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.9",
-      reviewCount: "183",
-      bestRating: "5",
-    },
+    inLanguage: "tr-TR",
+    // ❌ aggregateRating YOK (yorum yok dedin)
   };
 
-  const serviceNode = serviceSchema
-    ? {
-        ...serviceSchema,
-        ...baseService,
-        provider,
-        url: pageUrl,
-      }
-    : {
-        ...baseService,
-        "@id": `${pageUrl}#service`,
-        url: pageUrl,
-      };
+  // ✅ Çakışmasız merge + WebPage bağlantısı
+  const serviceNode = {
+    ...(serviceSchema || {}),
+    ...baseService,
+    "@type": "Service",
+    "@id": serviceSchema?.["@id"] || `${pageUrl}#service`,
+    provider,
+    url: pageUrl,
+    mainEntityOfPage: { "@id": webPageId },
+  };
 
-  const serviceId = serviceNode["@id"] ?? `${pageUrl}#service`;
-  serviceNode["@id"] = serviceId;
-
+  const serviceId = serviceNode["@id"];
   const productNodes = products ?? [];
   const faqSchema = buildFaqSchema(FAQ_ITEMS);
 
@@ -1612,13 +1605,12 @@ function JsonLd() {
       serviceNode,
       {
         "@type": "WebPage",
+        "@id": webPageId,
         name: "Sahne Kiralama | Profesyonel Sahne Çözümleri | Sahneva",
         description: pageDescription,
         url: pageUrl,
-        mainEntity: {
-          "@type": "Service",
-          name: "Sahne Kiralama",
-        },
+        inLanguage: "tr-TR",
+        mainEntity: { "@id": serviceId },
       },
       ...productNodes,
       ...(faqSchema ? [faqSchema] : []),
@@ -1633,6 +1625,7 @@ function JsonLd() {
     />
   );
 }
+
 
 /* ================== Sayfa Bileşeni ================== */
 export default function Page() {
