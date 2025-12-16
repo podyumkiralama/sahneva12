@@ -1,91 +1,65 @@
 // app/layout.jsx
 import "../styles/globals.css";
-import Script from "next/script";
-import { Inter } from "next/font/google";
 
 import SkipLinks from "@/components/SkipLinks";
-import CriticalAssets from "@/components/CriticalAssets";
+import NonCriticalStylesheet from "@/components/NonCriticalStylesheet";
+import DeferredSpeedInsights from "@/components/DeferredSpeedInsights.client";
+import DocumentDirection from "@/components/i18n/DocumentDirection.client";
+import UtilityBar from "@/components/UtilityBar.client";
+import Navbar from "@/components/Navbar";
+import StickyVideoRailclient from "@/components/StickyVideoRail.client";
+import NewTabAccessibility from "@/components/NewTabAccessibility.client";
+import Footer from "@/components/Footer";
+import AnalyticsConsentWrapper from "@/components/AnalyticsConsentWrapper.client";
 
-const inter = Inter({
-  subsets: ["latin", "latin-ext", "arabic"],
-  preload: true,
-  display: "swap",
-  adjustFontFallback: false,
-});
+import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
+import { HOME_PAGE_TITLE, SITE_URL, getOgImageUrl } from "@/lib/seo/seoConfig";
+import {
+  BASE_SITE_URL,
+  ORGANIZATION_ID,
+  WEBSITE_ID,
+  LOCAL_BUSINESS_ID,
+} from "@/lib/seo/schemaIds";
+import { inter } from "@/app/fonts";
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
-  "https://www.sahneva.com";
+const DEFAULT_LOCALE = LOCALE_CONTENT.tr;
+const DEFAULT_LANG = "tr";
+const DEFAULT_DIR = DEFAULT_LOCALE.direction;
 
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "@id": `${SITE_URL}/#org`,
-  name: "Sahneva",
-  url: SITE_URL,
-  logo: `${SITE_URL}/img/logo.png`,
-  description:
-    "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık ve çadır kiralama hizmetleri sunan profesyonel etkinlik prodüksiyon markası.",
-  sameAs: [
-    "https://www.instagram.com/sahnevaorganizasyon",
-    "https://www.youtube.com/@sahneva",
-  ],
-  contactPoint: {
-    "@type": "ContactPoint",
-    telephone: "+90-545-304-8671",
-    contactType: "customer service",
-    areaServed: "TR",
-    availableLanguage: ["Turkish", "English", "Arabic"],
-  },
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "İstanbul",
-    addressRegion: "TR34",
-    addressCountry: "TR",
-  },
+/* ================== VIEWPORT ================== */
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#6d28d9",
 };
 
-const websiteJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "@id": `${SITE_URL}/#website`,
-  url: SITE_URL,
-  name: "Sahneva",
-  description:
-    "Sahne, podyum, LED ekran, ses-ışık ve çadır kiralama hizmetleri için profesyonel etkinlik prodüksiyon çözümleri.",
-  inLanguage: "tr-TR",
-};
-
+/* ================== METADATA ================== */
 export const metadata = {
   metadataBase: new URL(SITE_URL),
-  title: {
-    default:
-      "Sahne, Podyum, LED Ekran & Ses Işık Kiralama | Sahneva Organizasyon",
-    template: "%s | Sahneva",
-  },
+  title: { default: HOME_PAGE_TITLE, template: "%s | Sahneva" },
   description:
-    "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık ve çadır kiralama. Profesyonel teknik ekip, hızlı kurulum ve uygun fiyatlarla etkinlik prodüksiyon çözümleri.",
-  applicationName: "Sahneva",
-  alternates: {
-    canonical: SITE_URL,
-    languages: {
-      "tr-TR": SITE_URL,
-      en: `${SITE_URL}/en`,
-      ar: `${SITE_URL}/ar`,
-      "x-default": SITE_URL,
-    },
+    "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı kurulum, profesyonel teknik ekip, uygun fiyat. Hemen teklif alın!",
+  applicationName: "Sahneva Organizasyon",
+  manifest: "/manifest.json",
+  icons: {
+    icon: [
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/android-chrome-512x512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
     type: "website",
     url: SITE_URL,
-    title:
-      "Sahne, Podyum, LED Ekran & Ses Işık Kiralama | Sahneva Organizasyon",
+    title: "Sahne, Podyum, LED Ekran & Ses Işık Kiralama | Sahneva Organizasyon",
     description:
       "Kurumsal etkinlikler, konserler, festivaller ve lansmanlar için sahne, podyum, LED ekran, ses-ışık ve çadır kiralama çözümleri.",
-    siteName: "Sahneva",
+    siteName: "Sahneva Organizasyon",
     images: [
       {
-        url: `${SITE_URL}/img/og/hero-og.webp`,
+        url: getOgImageUrl(),
         width: 1200,
         height: 630,
         alt: "Sahneva profesyonel açık hava sahne, LED ekran ve ışık kurulumu",
@@ -94,71 +68,132 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title:
-      "Sahne, Podyum, LED Ekran & Ses Işık Kiralama | Sahneva Organizasyon",
+    title: "Sahne, Podyum, LED Ekran & Ses Işık Kiralama | Sahneva Organizasyon",
     description:
       "Profesyonel etkinlik prodüksiyon çözümleri. Sahne, podyum, LED ekran, ses-ışık ve çadır kiralama.",
-    images: [`${SITE_URL}/img/og/hero-og.webp`],
+    images: [getOgImageUrl()],
   },
 };
 
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
-const gaEnabled = Boolean(GA_MEASUREMENT_ID);
+/* ================== JSON-LD: GLOBAL GRAPH ================== */
+const globalJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": ORGANIZATION_ID,
+      name: "Sahneva Organizasyon",
+      url: BASE_SITE_URL,
+      logo: `${BASE_SITE_URL}/img/logo.png`,
+      description:
+        "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık ve çadır kiralama hizmetleri sunan profesyonel etkinlik prodüksiyon markası.",
+      sameAs: [
+        "https://www.instagram.com/sahnevaorganizasyon",
+        "https://www.youtube.com/@sahneva",
+      ],
+      contactPoint: {
+        "@type": "ContactPoint",
+        telephone: "+90-545-304-8671",
+        contactType: "customer service",
+        areaServed: ["TR"],
+        availableLanguage: ["tr", "en", "ar"],
+      },
+    },
 
+    {
+      "@type": "Organization",
+      "@id": `${BASE_SITE_URL}/#editor`,
+      name: "Sahneva Editör",
+      url: BASE_SITE_URL,
+      parentOrganization: { "@id": ORGANIZATION_ID },
+    },
+
+    {
+      "@type": "LocalBusiness",
+      "@id": LOCAL_BUSINESS_ID,
+      name: "Sahneva Organizasyon",
+      url: BASE_SITE_URL,
+      image: `${BASE_SITE_URL}/img/logo.png`,
+      telephone: "+90-545-304-8671",
+      priceRange: "₺₺₺",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Anadolu Caddesi No:61A, Hamidiye Mahallesi",
+        addressLocality: "İstanbul",
+        addressRegion: "TR34",
+        postalCode: "34400",
+        addressCountry: "TR",
+      },
+      areaServed: { "@type": "AdministrativeArea", name: "Türkiye" },
+      parentOrganization: { "@id": ORGANIZATION_ID },
+      sameAs: [
+        "https://www.instagram.com/sahnevaorganizasyon",
+        "https://www.youtube.com/@sahneva",
+      ],
+    },
+
+    {
+      "@type": "WebSite",
+      "@id": WEBSITE_ID,
+      url: BASE_SITE_URL,
+      name: "Sahneva Organizasyon",
+      description:
+        "Sahne, podyum, LED ekran, ses-ışık ve çadır kiralama hizmetleri için profesyonel etkinlik prodüksiyon çözümleri.",
+      inLanguage: "tr-TR",
+      publisher: { "@id": ORGANIZATION_ID },
+    },
+  ],
+};
+
+
+/* ================== ROOT LAYOUT ================== */
 export default function RootLayout({ children }) {
   return (
     <html
-      lang="tr"
-      dir="ltr"
+      lang={DEFAULT_LANG}
+      dir={DEFAULT_DIR}
       className={inter.className}
       suppressHydrationWarning
     >
-      <head>
-        <CriticalAssets />
-
-        {/* JSON-LD */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
-        />
-
-        {/* GA bağlantıları */}
-        <link rel="dns-prefetch" href="//www.googletagmanager.com" />
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://www.google-analytics.com" />
-      </head>
-
-      <body className="min-h-screen bg-white text-neutral-900 antialiased scroll-smooth flex flex-col">
+      <body className="min-h-screen bg-white text-neutral-900 antialiased flex flex-col font-sans">
         <SkipLinks />
-        {children}
+        <DocumentDirection lang={DEFAULT_LANG} dir={DEFAULT_DIR} />
+        <NewTabAccessibility />
 
-        {gaEnabled && (
-          <>
-            <Script
-              id="ga4-lib"
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script
-              id="ga4-init"
-              strategy="afterInteractive"
-              dangerouslySetInnerHTML={{
-                __html: `
-                  window.dataLayer = window.dataLayer || [];
-                  function gtag(){dataLayer.push(arguments);}
-                  gtag('js', new Date());
-                  gtag('config', '${GA_MEASUREMENT_ID}', {
-                    page_path: window.location.pathname,
-                  });
-                `,
-              }}
-            />
-          </>
-        )}
+        <NonCriticalStylesheet />
+
+        {/* JSON-LD (single script) */}
+        <script
+          type="application/ld+json"
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(globalJsonLd).replace(/</g, "\\u003c"),
+          }}
+        />
+
+        <header
+          id="_main_header"
+          aria-label="Sahneva site başlığı ve ana gezinme"
+          className="w-full relative z-50"
+        >
+          <UtilityBar />
+          <Navbar />
+          {process.env.NODE_ENV === "production" ? <StickyVideoRailclient /> : null}
+        </header>
+
+        <main
+          id="_main_content"
+          aria-label="Sahneva ana içerik"
+          tabIndex={-1}
+          className="flex-1 pt-16 lg:pt-20 focus:outline-none scroll-mt-24"
+        >
+          <div className="overflow-x-hidden">{children}</div>
+        </main>
+
+        <Footer ariaLabel="Sahneva site altbilgi" descriptionId="_main_footer" />
+
+        <DeferredSpeedInsights />
+        <AnalyticsConsentWrapper />
       </body>
     </html>
   );

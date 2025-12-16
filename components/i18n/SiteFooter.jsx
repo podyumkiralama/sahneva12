@@ -7,7 +7,6 @@ export default function SiteFooter({ strings }) {
   return (
     <footer
       id="_main_footer"
-      role="contentinfo"
       tabIndex={-1}
       aria-label={strings?.ariaLabel ?? "Site footer"}
       className="bg-slate-950 text-slate-200"
@@ -71,6 +70,7 @@ export default function SiteFooter({ strings }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`rounded-full border border-white/15 px-3 py-1 hover:border-emerald-300 hover:text-emerald-300 transition ${focusRingClass}`}
+                  aria-label={`${item.label} – yeni sekmede açılır`}
                 >
                   {item.label}
                 </a>

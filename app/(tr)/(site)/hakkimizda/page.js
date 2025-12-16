@@ -1,6 +1,8 @@
 // app/(site)/hakkimizda/page.js
 import Image from "next/image";
 import Link from "next/link";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { BASE_SITE_URL, ORGANIZATION_ID } from "@/lib/seo/schemaIds";
 
 /* ───── META & ISR ───── */
 export const metadata = {
@@ -28,32 +30,20 @@ export const metadata = {
 };
 
 export const revalidate = 3600;
+const SITE_URL = BASE_SITE_URL;
 
 /* ───── STRUCTURED DATA ───── */
 function AboutStructuredData() {
   const schema = {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "Sahneva",
+    "@type": "WebPage",
+    "@id": `${SITE_URL}/hakkimizda#webpage`,
+    url: `${SITE_URL}/hakkimizda`,
+    name: "Hakkımızda | Sahneva - Profesyonel Etkinlik Teknolojileri",
     description:
       "Profesyonel sahne kiralama, LED ekran, ses-ışık sistemleri ve etkinlik prodüksiyon hizmetleri",
-    url: "https://sahneva.com",
-    foundingDate: "2012",
-    founders: [{ "@type": "Person", name: "Sahneva Ekibi" }],
-    numberOfEmployees: "15-50",
-    slogan: "Türkiye'nin 1 Numaralı Etkinlik Teknoloji Partneri",
-    address: { "@type": "PostalAddress", addressCountry: "TR" },
-    contactPoint: {
-      "@type": "ContactPoint",
-      telephone: "+905453048671",
-      contactType: "customer service",
-      availableLanguage: ["Turkish"],
-    },
-    sameAs: [
-      "https://www.instagram.com/sahneva/",
-      "https://www.facebook.com/sahneva/",
-    ],
-    aggregateRating: { "@type": "AggregateRating", ratingValue: "4.9", ratingCount: "500" },
+    mainEntity: { "@id": ORGANIZATION_ID },
+    inLanguage: "tr-TR",
   };
 
   return (
@@ -72,6 +62,11 @@ export default function HakkimizdaPage() {
   const PHONE = "+905453048671";
   const WA_TEXT = "Merhaba%2C+hakkınızda+sayfasından+ulaşıyorum.+Daha+fazla+bilgi+almak+istiyorum.";
   const WHATSAPP = `https://wa.me/${PHONE.replace("+", "")}?text=${WA_TEXT}`;
+  const baseUrl = SITE_URL;
+  const breadcrumbItems = [
+    { name: "Ana Sayfa", url: `${baseUrl}/` },
+    { name: "Hakkımızda", url: `${baseUrl}/hakkimizda` },
+  ];
 
   const TIMELINE = [
     {
@@ -151,6 +146,7 @@ export default function HakkimizdaPage() {
 
   return (
     <div className="min-h-screen bg-white overflow-hidden">
+      <BreadcrumbJsonLd items={breadcrumbItems} baseUrl={baseUrl} />
       <AboutStructuredData />
 
       {/* HERO - LED Ekran Sayfası ile Birebir Aynı (İstatistikler Hero İçinde) */}
@@ -198,7 +194,7 @@ export default function HakkimizdaPage() {
             href={WHATSAPP}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="WhatsApp üzerinden hemen iletişime geçin"
+            aria-label="WhatsApp üzerinden hemen iletişime geçin – yeni sekmede açılır"
               className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring shadow-lg"
               role="button"
             >
@@ -442,7 +438,7 @@ export default function HakkimizdaPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="bg-white/20 hover:bg-white/30 text-white font-bold px-8 py-4 rounded-xl border border-white/30 transition-all duration-300 hover:scale-105"
-                    aria-label="WhatsApp'tan yazın"
+                    aria-label="WhatsApp'tan yazın – yeni sekmede açılır"
                   >
                     💬 WhatsApp'tan Yazın
                   </a>
@@ -526,7 +522,7 @@ export default function HakkimizdaPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-4 rounded-xl shadow-2xl transition-all duration-300 hover:scale-105 min-w-[200px] text-center"
-                aria-label="WhatsApp'tan yaz - Hızlı teklif için"
+                aria-label="WhatsApp'tan yaz - Hızlı teklif için (yeni sekmede açılır)"
               >
                 <span className="flex items-center justify-center gap-2">💬 WhatsApp</span>
               </a>

@@ -5,10 +5,14 @@ import dynamic from "next/dynamic";
 
 import { buildFaqSchema } from "@/lib/structuredData/faq";
 import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 
 /* ================== Sabitler ================== */
 export const revalidate = 1800;
-const ORIGIN = "https://www.sahneva.com";
+const ORIGIN =
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
+  "https://www.sahneva.com";
+const ORGANIZATION_ID = `${ORIGIN}/#org`;
 const PHONE = "+905453048671";
 const WA_TEXT =
   "Merhaba%2C+kurumsal+organizasyon+icin+teklif+istiyorum.+Etkinlik+turu%3A+%5Bkonferans%2Flansman%2Fgala%5D%2C+Tarih%3A+%5Bgg.aa.yyyy%5D%2C+Kisi+sayisi%3A+%5Bxxx%5D.";
@@ -1334,14 +1338,7 @@ function JsonLd() {
   const pageUrl = `${ORIGIN}/kurumsal-organizasyon`;
   const pageDescription = metadata.description;
 
-  const provider = {
-    "@type": "Organization",
-    "@id": `${ORIGIN}#org`,
-    name: "Sahneva",
-    url: ORIGIN,
-    telephone: "+905453048671",
-    logo: `${ORIGIN}/img/logo.png`,
-  };
+  const provider = { "@id": ORGANIZATION_ID };
 
   const { service: serviceSchema, products } = buildServiceProductSchema({
     slug: "/kurumsal-organizasyon",
@@ -1375,23 +1372,6 @@ function JsonLd() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Anasayfa",
-            item: `${ORIGIN}/`,
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Kurumsal Organizasyon",
-            item: `${ORIGIN}/kurumsal-organizasyon`,
-          },
-        ],
-      },
       serviceNode,
       {
         "@type": "WebPage",
@@ -1420,8 +1400,17 @@ function JsonLd() {
 
 /* ================== Sayfa Bileşeni ================== */
 export default function Page() {
+  const baseUrl = ORIGIN;
+  const canonical = `${baseUrl}/kurumsal-organizasyon`;
+  const breadcrumbItems = [
+    { name: "Ana Sayfa", url: `${baseUrl}/` },
+    { name: "Hizmetler", url: `${baseUrl}/hizmetler` },
+    { name: "Kurumsal Organizasyon", url: canonical },
+  ];
+
   return (
     <>
+      <BreadcrumbJsonLd items={breadcrumbItems} baseUrl={baseUrl} />
       <JsonLd />
       <Hero />
       <Services />

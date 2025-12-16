@@ -94,7 +94,6 @@ export default function SiteHeader({ locale, strings }) {
 
   return (
     <header
-      role="banner"
       tabIndex={-1}
       aria-label={ariaStrings.header}
       className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-200/70"
@@ -137,6 +136,7 @@ export default function SiteHeader({ locale, strings }) {
               target="_blank"
               rel="noopener noreferrer"
               className={`inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-4 py-2.5 text-sm font-bold text-white shadow-lg hover:shadow-xl transition-all duration-200 ${focusRingClass}`}
+              aria-label={`${strings.whatsappLabel} – yeni sekmede açılır`}
             >
               <span aria-hidden="true">💬</span>
               {strings.whatsappLabel}
@@ -183,7 +183,6 @@ export default function SiteHeader({ locale, strings }) {
       >
         <nav
           id="primary-navigation-mobile"
-          role="navigation"
           aria-label={ariaStrings.nav}
         >
           <div className="container mx-auto px-4 py-4 space-y-2">
@@ -202,6 +201,7 @@ export default function SiteHeader({ locale, strings }) {
               target="_blank"
               rel="noopener noreferrer"
               className={`flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-4 py-3 text-sm font-bold text-white ${focusRingClass}`}
+              aria-label={`${strings.whatsappLabel} – yeni sekmede açılır`}
             >
               <span aria-hidden="true">💬</span>
               {strings.whatsappLabel}

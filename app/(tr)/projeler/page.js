@@ -2,8 +2,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getProjects } from "@/lib/projects";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 
 export const revalidate = 1800;
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.sahneva.com").replace(/\/$/, "");
 
 export const metadata = {
   title: "Projeler | Sahneva",
@@ -18,10 +20,16 @@ export const metadata = {
 };
 
 export default async function ProjectsIndexPage() {
+  const baseUrl = SITE_URL;
+  const breadcrumbItems = [
+    { name: "Ana Sayfa", url: `${baseUrl}/` },
+    { name: "Projeler", url: `${baseUrl}/projeler` },
+  ];
   const projects = getProjects();
 
   return (
     <div id="main" className="min-h-screen bg-gradient-to-br from-slate-900 via-[#0b0f1a] to-purple-900/20 text-white">
+      <BreadcrumbJsonLd items={breadcrumbItems} baseUrl={baseUrl} />
       {/* Background Effects */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl"></div>

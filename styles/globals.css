@@ -21,30 +21,66 @@ html {
   scroll-behavior: smooth;
   font-size: 100%;
   -webkit-tap-highlight-color: transparent;
+
+  /* Varsayılan tarayıcı scroll barı korunsun ve tekrar yüklenme olmasın */
+  scrollbar-gutter: auto;
+
+  /* Yatay taşmayı tamamen engeller */
+  overflow-x: hidden;
+
+  /*
+   * Kök seviyede scroll'u kilitler, böylece yalnızca body üzerinde tek bir
+   * dikey kaydırma çubuğu kalır. Aksi halde hem html hem body kaydırılabilir
+   * olup iki adet scrollbar çıkabiliyordu.
+   */
+  height: 100%;
+  overflow-y: auto;
 }
 
-/* Erişilebilirlik: Hareket azaltma tercihi */
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto !important;
+/* Deprecation: Avoid relying on user agent heading sizes inside sectioning elements */
+@layer base {
+  h1 {
+    @apply text-4xl md:text-5xl leading-tight font-extrabold;
   }
 
-  /* scroll-smooth class'ını da devre dışı bırak */
-  .scroll-smooth {
-    scroll-behavior: auto !important;
+  h2 {
+    @apply text-3xl md:text-4xl leading-tight font-bold;
   }
-  
+
+  h3 {
+    @apply text-2xl md:text-3xl leading-snug font-semibold;
+  }
+
+  h4 {
+    @apply text-xl md:text-2xl leading-snug font-semibold;
+  }
+
+  h5 {
+    @apply text-lg md:text-xl leading-snug font-semibold;
+  }
+
+  h6 {
+    @apply text-base md:text-lg leading-snug font-semibold;
+  }
+}
+
+/* 3. Transition ve animation reset çok agresifti; hafifletildi */
+@media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+    animation-duration: 0.3s !important;
+    transition-duration: 0.2s !important;
   }
 }
 
 html,
 body {
-  height: 100%;
+  /*
+   * Tek bir kök scroll alanı kullanarak iki adet dikey kaydırma çubuğu
+   * oluşmasını önler. Hem html hem body 100% genişlik ve minimum yükseklikte
+   * tutulur; dikey kaydırma sadece body üzerinde çalışır.
+   */
+  width: 100%;
+  min-height: 100%;
 }
 
 body {
@@ -57,35 +93,9 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-/* ==========================================================================
-   Custom Scrollbar (Webkit)
-   ========================================================================== */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f5f9; /* Slate-100 */
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #cbd5e1; /* Slate-300 */
-  border-radius: 5px;
-  border: 2px solid #f1f5f9;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: #94a3b8; /* Slate-400 */
-}
-
-/* ==========================================================================
-   Text Selection
-   ========================================================================== */
-::selection {
-  background-color: var(--brand-primary);
-  color: #ffffff;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* Medya elementleri */
@@ -98,15 +108,6 @@ svg {
   display: block; /* alt boşluk sorununu önler */
 }
 
-/* ==========================================================================
-   Erişilebilirlik & Etkileşim
-   ========================================================================== */
-:focus-visible {
-  outline: 3px solid var(--brand-secondary);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
 /* Erişilebilirlik modları için değişkenler */
 .accessibility-active {
   --acc-font-size: 16px;
@@ -115,191 +116,111 @@ svg {
   --acc-word-spacing: 0px;
 }
 
-/* ==========================================================================
-   Animations
-   ========================================================================== */
-
-/* Burst Particle (footer mikro animasyon) */
-.burst-particle {
-  position: absolute;
-  left: 0;
-  top: 0;
-  background: radial-gradient(
-    circle,
-    var(--burst-c1, #6d28d9),
-    var(--burst-c2, #22c55e)
-  );
-  border-radius: 9999px;
-  transform: translate(-50%, -50%);
-  animation:
-    burst-move var(--life, 550ms) ease-out forwards,
-    burst-fade var(--life, 550ms) ease-out forwards;
-  pointer-events: none;
-  will-change: transform, opacity;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.12);
-}
-
-@keyframes burst-move {
-  from {
-    transform: translate(-50%, -50%) rotate(0) scale(1);
-  }
-  to {
-    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy)))
-      rotate(var(--dr))
-      scale(0.6);
-  }
-}
-
-@keyframes burst-fade {
-  0% {
-    opacity: 1;
-  }
-  80% {
-    opacity: 0.7;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-/* Hareket azaltma tercihinde burst'i sadeleştir */
-@media (prefers-reduced-motion: reduce) {
-  .burst-particle {
-    animation: burst-fade 200ms ease-out forwards;
-    transform: translate(-50%, -50%) scale(0.8);
-  }
-}
-
-/* Scroll Animasyonları (.reveal) */
-.reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Yönlü Animasyonlar */
-.reveal-left {
-  opacity: 0;
-  transform: translateX(-50px);
-  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-.reveal-left.active {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.reveal-right {
-  opacity: 0;
-  transform: translateX(50px);
-  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-.reveal-right.active {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.reveal-scale {
-  opacity: 0;
-  transform: scale(0.9);
-  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-.reveal-scale.active {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* Gecikmeler */
-.reveal.delay-1,
-.reveal-scale.delay-1 {
-  transition-delay: 0.1s;
-}
-.reveal.delay-2,
-.reveal-scale.delay-2 {
-  transition-delay: 0.2s;
-}
-.reveal.delay-3,
-.reveal-scale.delay-3 {
-  transition-delay: 0.3s;
-}
-.reveal.delay-4,
-.reveal-scale.delay-4 {
-  transition-delay: 0.4s;
-}
-.reveal.delay-5,
-.reveal-scale.delay-5 {
-  transition-delay: 0.5s;
-}
-
-/* ==========================================================================
-   Utilities Layer
-   ========================================================================== */
 @layer utilities {
   .focus-ring {
-    outline: 3px solid transparent;
-    outline-offset: 2px;
-    border-radius: 0.5rem;
-  }
-
-  .focus-ring:focus-visible {
-    outline-color: var(--brand-secondary);
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.35);
-  }
-
-  @keyframes fade-up {
-    from {
-      opacity: 0;
-      transform: translateY(14px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .animate-fade-up {
-    opacity: 0;
-    animation: fade-up 0.7s ease forwards;
-  }
-
-  /* Eski dosyadaki gecikme utilitiy'lerini de koru */
-  .animation-delay-0 {
-    animation-delay: 0ms;
-  }
-  .animation-delay-100 {
-    animation-delay: 100ms;
-  }
-  .animation-delay-200 {
-    animation-delay: 200ms;
-  }
-  .animation-delay-300 {
-    animation-delay: 300ms;
-  }
-  .animation-delay-400 {
-    animation-delay: 400ms;
-  }
-  .animation-delay-500 {
-    animation-delay: 500ms;
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600
+           focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900;
   }
 }
-.reveal-base {
-  opacity: 0;
-  will-change: opacity, transform;
-  transition-property: opacity, transform;
-  transition-duration: 600ms;
-  transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
-}
 
-.reveal-up { transform: translateY(18px); }
-.reveal-left { transform: translateX(-18px); }
-.reveal-right { transform: translateX(18px); }
-.reveal-scale { transform: scale(0.96); }
+@layer components {
+  .grid-overlay {
+    --grid-overlay-top: rgba(56, 189, 248, 0.18);
+    --grid-overlay-bottom: rgba(59, 130, 246, 0.28);
+    --grid-overlay-opacity: 0.7;
+    --grid-overlay-blur: 16px;
+    --grid-line-color: rgba(255, 255, 255, 0.05);
+    --grid-mask: radial-gradient(ellipse at center, white, transparent);
 
-.reveal-in {
-  opacity: 1;
-  transform: translate3d(0, 0, 0) scale(1);
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: var(--grid-overlay-opacity);
+  }
+
+  .grid-overlay::before,
+  .grid-overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
+  .grid-overlay::before {
+    filter: blur(var(--grid-overlay-blur));
+    background-repeat: no-repeat;
+    background-image:
+      radial-gradient(circle at top, var(--grid-overlay-top), transparent 55%),
+      radial-gradient(circle at bottom, var(--grid-overlay-bottom), transparent 55%);
+  }
+
+  .grid-overlay::after {
+    background-image:
+      linear-gradient(to right, var(--grid-line-color) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line-color) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: var(--grid-mask);
+    -webkit-mask-image: var(--grid-mask);
+  }
+
+  .rail-control {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.75rem;
+    background-color: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    color: rgb(226, 232, 240);
+    font-weight: 600;
+    line-height: 1.2;
+    transition: all 150ms ease-out;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.35);
+  }
+
+  .rail-control:hover {
+    background-color: rgba(15, 23, 42, 0.9);
+    border-color: rgba(248, 250, 252, 0.7);
+    color: white;
+  }
+
+  .rail-control:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgb(59, 130, 246), 0 0 0 4px rgb(15, 23, 42);
+  }
+
+  .rail-control[data-variant="primary"] {
+    background-color: rgba(37, 99, 235, 0.85);
+    border-color: rgba(191, 219, 254, 0.7);
+    color: white;
+  }
+
+  .rail-control[data-variant="primary"]:hover {
+    background-color: rgba(37, 99, 235, 0.95);
+    border-color: rgba(219, 234, 254, 0.9);
+  }
+
+  .rail-control[data-variant="muted"] {
+    background-color: rgba(100, 116, 139, 0.6);
+    border-color: rgba(148, 163, 184, 0.7);
+  }
+
+  .rail-control[data-variant="muted"]:hover {
+    background-color: rgba(100, 116, 139, 0.8);
+    border-color: rgba(226, 232, 240, 0.9);
+    color: white;
+  }
+
+  .rail-control[data-variant="danger"] {
+    background-color: rgba(220, 38, 38, 0.85);
+    border-color: rgba(254, 226, 226, 0.8);
+    color: white;
+  }
+
+  .rail-control[data-variant="danger"]:hover {
+    background-color: rgba(185, 28, 28, 0.95);
+    border-color: rgba(254, 226, 226, 1);
+  }
 }

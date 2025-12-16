@@ -1,76 +1,32 @@
 // app/(tr)/(site)/layout.jsx
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import UtilityBar from "@/components/UtilityBar.client";
-import StickyVideoRailclient from "@/components/StickyVideoRail.client";
+import DocumentDirection from "@/components/i18n/DocumentDirection.client";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
-
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
-  "https://www.sahneva.com";
+import {
+  HOME_PAGE_TITLE,
+  buildAlternateLanguages,
+  buildCanonical,
+} from "@/lib/seo/seoConfig";
 
 const content = LOCALE_CONTENT.tr;
+const DEFAULT_LANG = "tr";
 
 export const metadata = {
-  // content.meta tanımlı olduğu için hata vermez
-  title: content?.meta?.title ?? "Sahneva",
-  description: content?.meta?.description ?? "Etkinlik Prodüksiyon Hizmetleri",
+  title: {
+    default: HOME_PAGE_TITLE,
+    template: `%s | Sahneva`,
+  },
+  description: content.meta.description,
   alternates: {
-    canonical: `${SITE_URL}/`,
-    languages: {
-      "tr-TR": `${SITE_URL}/`,
-      en: `${SITE_URL}/en`,
-      ar: `${SITE_URL}/ar`,
-      "x-default": `${SITE_URL}/`,
-    },
+    canonical: buildCanonical("/"),
+    languages: buildAlternateLanguages(),
   },
 };
 
 export default function TurkishLayout({ children }) {
   return (
-    <div className="flex min-h-screen flex-col bg-white text-neutral-900" dir={content.direction}>
-      
-      {/* ---- HEADER ---- 
-          ID: _main_header (SkipLink burayı hedefler)
-      */}
-      <header
-        id="_main_header"
-        role="banner"
-        aria-label="Sahneva site başlığı ve ana gezinme"
-        className="w-full relative z-50"
-      >
-        {/* SiteHeader yerine doğrudan bileşenleri koyduk */}
-        <UtilityBar />
-        <Navbar />
-        <StickyVideoRailclient />
-      </header>
-
-      {/* ---- MAIN CONTENT ---- 
-          ID: _main_content (SkipLink burayı hedefler)
-          Fixed header için üst boşluk: pt-16 (mobil), lg:pt-20 (desktop)
-      */}
-      <main
-        id="_main_content"
-        role="main"
-        aria-label="Sahneva ana içerik bölgesi"
-        aria-live="polite"
-        aria-atomic="true"
-        tabIndex={-1}
-        className="flex-1 pt-16 lg:pt-20 focus:outline-none scroll-mt-24"
-      >
-        <div className="overflow-x-hidden">{children}</div>
-      </main>
-
-      {/* ---- FOOTER ---- 
-          ID: _main_footer (SkipLink burayı hedefler)
-      */}
-      <footer id="_main_footer" role="contentinfo">
-        {/* SiteFooter yerine doğrudan Footer bileşenini koyduk */}
-        <Footer />
-      </footer>
-
-      <SpeedInsights />
-    </div>
+    <>
+      <DocumentDirection lang={DEFAULT_LANG} dir={content.direction} />
+      {children}
+    </>
   );
 }

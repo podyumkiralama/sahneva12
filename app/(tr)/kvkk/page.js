@@ -1,4 +1,6 @@
 // app/kvkk/page.jsx
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+
 export const metadata = {
   title: "KVKK / Gizlilik | Sahneva",
   description:
@@ -7,11 +9,19 @@ export const metadata = {
   robots: { index: true, follow: true },
 };
 
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.sahneva.com").replace(/\/$/, "");
+
 export default function KvkkPage() {
   const updatedAt = "11 Ekim 2025"; // ihtiyaç oldukça güncelle
+  const baseUrl = SITE_URL;
+  const breadcrumbItems = [
+    { name: "Ana Sayfa", url: `${baseUrl}/` },
+    { name: "KVKK", url: `${baseUrl}/kvkk` },
+  ];
 
   return (
     <div className="container max-w-3xl mx-auto px-4 py-10 md:py-14">
+      <BreadcrumbJsonLd items={breadcrumbItems} baseUrl={baseUrl} />
       <header className="mb-8">
         <h1 className="text-2xl md:text-3xl font-bold">KVKK / Gizlilik Politikası</h1>
         <p className="text-sm text-neutral-600 mt-1">Son güncelleme: {updatedAt}</p>

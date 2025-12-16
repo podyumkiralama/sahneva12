@@ -1,16 +1,18 @@
 // app/hizmetler/page.js
 import Image from "next/image";
 import Link from "next/link";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { BASE_SITE_URL, ORGANIZATION_ID } from "@/lib/seo/schemaIds";
 
 /* ───── META & ISR ───── */
 export const metadata = {
   title: "Hizmetlerimiz | Sahneva - Profesyonel Etkinlik Ekipmanları Kiralama",
   description: "Profesyonel sahne kiralama, LED ekran, ses-ışık sistemleri, podyum, çadır kiralama ve etkinlik prodüksiyon hizmetleri. Türkiye geneli hızlı kurulum.",
-  alternates: { canonical: "https://sahneva.com/hizmetler" },
+  alternates: { canonical: `${BASE_SITE_URL}/hizmetler` },
   openGraph: {
     title: "Hizmetlerimiz | Sahneva - Profesyonel Etkinlik Çözümleri",
     description: "Sahne, LED ekran, ses-ışık, podyum, çadır kiralama ve komple etkinlik prodüksiyon hizmetleri. Türkiye genelinde profesyonel çözümler.",
-    url: "https://sahneva.com/hizmetler",
+    url: `${BASE_SITE_URL}/hizmetler`,
     images: [
       {
         url: "/img/og-hizmetler.jpg",
@@ -26,6 +28,7 @@ export const metadata = {
 };
 
 export const revalidate = 3600;
+const SITE_URL = BASE_SITE_URL;
 
 /* ───── STRUCTURED DATA ───── */
 function ServicesStructuredData() {
@@ -34,10 +37,7 @@ function ServicesStructuredData() {
     '@type': 'Service',
     'name': 'Sahneva Hizmetler',
     'description': 'Profesyonel sahne kiralama, LED ekran, ses-ışık sistemleri, podyum, çadır kiralama ve etkinlik prodüksiyon hizmetleri',
-    'provider': {
-      '@type': 'Organization',
-      'name': 'Sahneva'
-    },
+    'provider': { '@id': ORGANIZATION_ID },
     'areaServed': 'TR',
     'hasOfferCatalog': {
       '@type': 'OfferCatalog',
@@ -49,6 +49,12 @@ function ServicesStructuredData() {
             '@type': 'Service',
             'name': 'Sahne Kiralama',
             'description': 'Profesyonel sahne kurulumu ve kiralama hizmetleri'
+          },
+          'priceSpecification': {
+            '@type': 'PriceSpecification',
+            'priceCurrency': 'TRY',
+            'minPrice': '10000.00',
+            'maxPrice': '200000.00'
           }
         },
         {
@@ -57,6 +63,12 @@ function ServicesStructuredData() {
             '@type': 'Service',
             'name': 'LED Ekran Kiralama',
             'description': 'Yüksek çözünürlüklü LED ekran kiralama hizmetleri'
+          },
+          'priceSpecification': {
+            '@type': 'UnitPriceSpecification',
+            'price': '1700.00',
+            'priceCurrency': 'TRY',
+            'unitText': 'günlük'
           }
         },
         {
@@ -65,6 +77,65 @@ function ServicesStructuredData() {
             '@type': 'Service',
             'name': 'Ses ve Işık Sistemleri',
             'description': 'Profesyonel ses ve ışık sistemi kiralama hizmetleri'
+          },
+          'priceSpecification': {
+            '@type': 'PriceSpecification',
+            'priceCurrency': 'TRY',
+            'minPrice': '10000.00',
+            'maxPrice': '300000.00'
+          }
+        },
+        {
+          '@type': 'Offer',
+          'itemOffered': {
+            '@type': 'Service',
+            'name': 'Podyum Kiralama',
+            'description': 'Modüler podyum sahne çözümleri'
+          },
+          'priceSpecification': {
+            '@type': 'PriceSpecification',
+            'priceCurrency': 'TRY',
+            'minPrice': '250.00',
+            'maxPrice': '100000.00'
+          }
+        },
+        {
+          '@type': 'Offer',
+          'itemOffered': { '@type': 'Service', 'name': 'Çadır Kiralama' },
+          'priceSpecification': {
+            '@type': 'PriceSpecification',
+            'priceCurrency': 'TRY',
+            'minPrice': '6000.00',
+            'maxPrice': '800000.00'
+          }
+        },
+        {
+          '@type': 'Offer',
+          'itemOffered': { '@type': 'Service', 'name': 'Sandalye Kiralama' },
+          'priceSpecification': {
+            '@type': 'UnitPriceSpecification',
+            'price': '200.00',
+            'priceCurrency': 'TRY',
+            'unitText': 'adet'
+          }
+        },
+        {
+          '@type': 'Offer',
+          'itemOffered': { '@type': 'Service', 'name': 'Masa Kiralama' },
+          'priceSpecification': {
+            '@type': 'PriceSpecification',
+            'priceCurrency': 'TRY',
+            'minPrice': '1000.00',
+            'maxPrice': '2000.00'
+          }
+        },
+        {
+          '@type': 'Offer',
+          'itemOffered': { '@type': 'Service', 'name': 'İstanbul İçi Nakliye' },
+          'priceSpecification': {
+            '@type': 'PriceSpecification',
+            'priceCurrency': 'TRY',
+            'price': '7000.00'
           }
         }
       ]
@@ -166,6 +237,13 @@ function ServicesTabsFallback() {
 
 /* ───── MAIN COMPONENT ───── */
 export default function ServicesPage() {
+  const baseUrl = SITE_URL;
+  const canonical = `${baseUrl}/hizmetler`;
+  const breadcrumbItems = [
+    { name: "Ana Sayfa", url: `${baseUrl}/` },
+    { name: "Hizmetler", url: canonical },
+  ];
+
   const QUICK_ACCESS = [
     {
       href: "/sahne-kiralama",
@@ -246,6 +324,7 @@ export default function ServicesPage() {
 
   return (
     <div className="min-h-screen bg-white overflow-hidden">
+      <BreadcrumbJsonLd items={breadcrumbItems} baseUrl={baseUrl} />
       <ServicesStructuredData />
 
       {/* Skip to Main Content */}
@@ -269,11 +348,7 @@ export default function ServicesPage() {
             priority
             quality={80}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
-            className="object-cover object-center"
-            style={{
-              transform: 'scale(1.02)',
-              filter: 'brightness(0.6) contrast(1.1) saturate(1.1)'
-            }}
+            className="object-cover object-center nc-HizmetlerPage-hero-1"
           />
         </div>
 
@@ -566,7 +641,7 @@ export default function ServicesPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-4 rounded-xl shadow-2xl transition-all duration-300 hover:scale-105 min-w-[200px] text-center"
-                aria-label="WhatsApp'tan yaz - Hızlı teklif için"
+                aria-label="WhatsApp'tan yaz - Hızlı teklif için (yeni sekmede açılır)"
               >
                 <span className="flex items-center justify-center gap-2">
                   💬 WhatsApp

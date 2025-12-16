@@ -234,7 +234,7 @@ function SelectField({ label, value, onChange, options, name }) {
 function Info({ label, value, emphasize = false }) {
   return (
     <div className="rounded-xl border border-neutral-200 bg-white p-3">
-      <div className="text-[11px] text-neutral-500">{label}</div>
+      <div className="text-xs text-neutral-500">{label}</div>
       <div className={["font-semibold", emphasize ? "text-primary" : ""].join(" ")}>{value}</div>
     </div>
   );

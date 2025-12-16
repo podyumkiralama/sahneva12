@@ -1,7 +1,3 @@
-import bundleAnalyzer from "@next/bundle-analyzer";
-
-const withBundleAnalyzer = bundleAnalyzer({ enabled: process.env.ANALYZE === "true" });
-
 const ONE_DAY_IN_SECONDS = 60 * 60 * 24;
 const ONE_MONTH_IN_SECONDS = ONE_DAY_IN_SECONDS * 30;
 const ONE_YEAR_IN_SECONDS = ONE_DAY_IN_SECONDS * 365;
@@ -86,7 +82,8 @@ const securityHeaders = (() => {
     { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
     {
       key: "Permissions-Policy",
-      value: "camera=(), microphone=(), geolocation=(), browsing-topics=(), payment=(), fullscreen=()",
+      value:
+        "camera=(), microphone=(), geolocation=(), browsing-topics=(), payment=(), fullscreen=()",
     },
     {
       key: "Strict-Transport-Security",
@@ -99,7 +96,10 @@ const securityHeaders = (() => {
 })();
 
 const longTermCacheHeaders = [
-  { key: "Cache-Control", value: `public, max-age=${ONE_YEAR_IN_SECONDS}, immutable` },
+  {
+    key: "Cache-Control",
+    value: `public, max-age=${ONE_YEAR_IN_SECONDS}, immutable`,
+  },
 ];
 
 /** @type {import('next').NextConfig} */
@@ -110,7 +110,6 @@ const nextConfig = {
   generateEtags: true,
   productionBrowserSourceMaps: false,
   trailingSlash: false,
-  // swcMinify: true, -> KALDIRILDI (Next.js 16'da varsayılan, ayar gerektirmez)
 
   compiler: {
     removeConsole: isProd ? { exclude: ["error", "warn"] } : false,
@@ -128,7 +127,6 @@ const nextConfig = {
   experimental: {
     scrollRestoration: true,
     optimizePackageImports: ["lucide-react", "@headlessui/react"],
-    // legacyBrowsers ve browsersListForSwc -> KALDIRILDI (Next.js 16 desteklemiyor)
   },
 
   modularizeImports: {
@@ -154,7 +152,11 @@ const nextConfig = {
         permanent: true,
       },
       { source: "/search", destination: "/", permanent: true },
-      { source: "/sahne-kurulumu", destination: "/sahne-kiralama", permanent: true },
+      {
+        source: "/sahne-kurulumu",
+        destination: "/sahne-kiralama",
+        permanent: true,
+      },
       { source: "/faq", destination: "/en/faq", permanent: true },
       { source: "/faq/", destination: "/en/faq", permanent: true },
     ];
@@ -182,4 +184,4 @@ const nextConfig = {
   },
 };
 
-export default withBundleAnalyzer(nextConfig);
+export default nextConfig;

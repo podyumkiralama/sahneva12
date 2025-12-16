@@ -1,4 +1,5 @@
 // app/sss/page.js
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 
 /* ——— META ——— */
 export const metadata = {
@@ -7,6 +8,8 @@ export const metadata = {
     "Podyum, LED ekran, ses-ışık ve çadır kiralama; kurulum, elektrik, izinler ve fiyatlandırma hakkında detaylı SSS.",
   alternates: { canonical: "https://www.sahneva.com/sss" },
 };
+
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.sahneva.com").replace(/\/$/, "");
 
 /* ——— VERİ ——— */
 const FAQ_CATEGORIES = [
@@ -284,9 +287,9 @@ function FaqSection({ id, icon, title, items }) {
 
       
         <div className="space-y-3">
-          {items.map((it, i) => (
-            
-              <details className="faq-card group rounded-xl bg-white p-4">
+          {items.map((it) => (
+
+              <details key={it.q} className="faq-card group rounded-xl bg-white p-4">
                 <summary
                   className="cursor-pointer select-none list-none font-semibold leading-7 flex items-center justify-between"
                   role="button"
@@ -334,9 +337,15 @@ export default function FaqPage() {
     inLanguage: "tr-TR",
     mainEntity,
   };
+  const baseUrl = SITE_URL;
+  const breadcrumbItems = [
+    { name: "Ana Sayfa", url: `${baseUrl}/` },
+    { name: "SSS", url: `${baseUrl}/sss` },
+  ];
 
   return (
     <>
+      <BreadcrumbJsonLd items={breadcrumbItems} baseUrl={baseUrl} />
       {/* JSON-LD – SSR ile direkt HTML içinde */}
       <script
         type="application/ld+json"
@@ -373,6 +382,7 @@ export default function FaqPage() {
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-lg border px-4 py-2 font-semibold hover:bg-neutral-50"
+              aria-label="WhatsApp’tan Sor — yeni sekmede açılır"
             >
               💬 WhatsApp’tan Sor
             </a>

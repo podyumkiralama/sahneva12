@@ -217,14 +217,9 @@ function CaseGallery({ images = [], visibleCount = 4 }) {
           role="dialog"
           aria-modal="true"
           aria-labelledby="lightbox-title"
-            aria-describedby="lightbox-description"
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm p-4"
-            onClick={handleBackdropClick}
-            style={{
-              overscrollBehavior: "contain",
-              paddingBottom: "env(safe-area-inset-bottom)",
-            paddingTop: "env(safe-area-inset-top)",
-          }}
+          aria-describedby="lightbox-description"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm p-4 nc-CaseGallery-lightbox-1"
+          onClick={handleBackdropClick}
         >
           {/* Erişilebilir başlık ve açıklama */}
           <h2 id="lightbox-title" className="sr-only">

@@ -1,7 +1,7 @@
 // components/StickyVideoRail.jsx
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import DeferredHydration from "@/components/DeferredHydration.client";
 
 const VIDEOS = [
@@ -86,7 +86,12 @@ const VIDEOS = [
 
 const INITIAL_POSITION = { x: -24, y: -24 };
 
-function StickyVideoRailInner() {
+function StickyVideoRailInner({
+  ariaLabel,
+  ariaLabelledby,
+  ariaDescribedby,
+  role,
+}) {
   const [isMounted, setIsMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
@@ -100,6 +105,16 @@ function StickyVideoRailInner() {
 
   const dragRef = useRef(null);
   const startPosRef = useRef({ mouseX: 0, mouseY: 0, x: 0, y: 0 });
+  const headingId = useId();
+  const descriptionId = useId();
+
+  const computedHeadingId = ariaLabelledby ?? `sticky-video-rail-heading-${headingId}`;
+  const computedDescriptionId =
+    ariaDescribedby ?? `sticky-video-rail-description-${descriptionId}`;
+  const computedRole = role ?? (ariaLabel || ariaLabelledby ? "region" : undefined);
+  const accessibleTitle = "Sahneva Video Galerisi";
+  const accessibleDescription =
+    "Sahneva'nın öne çıkan videolarını oynatmak ve listedeki diğer kliplere geçiş yapmak için sürüklenebilir, açılır bir oynatıcı.";
 
   // İlk mount + mobile tespiti
   useEffect(() => {
@@ -113,26 +128,36 @@ function StickyVideoRailInner() {
   useEffect(() => {
     if (!isMounted || hasAutoShown) return;
 
+    let ticking = false;
+
     const onScroll = () => {
-      if (window.scrollY > 300 && !hasAutoShown) {
-        setHasAutoShown(true);
-        if (isMobile) {
-          setIsOpen(true);
-          setIsMinimized(true);
-        } else {
-          setIsOpen(true);
-          setIsMinimized(false);
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        if (window.scrollY > 300 && !hasAutoShown) {
+          setHasAutoShown(true);
+          if (isMobile) {
+            setIsOpen(true);
+            setIsMinimized(true);
+          } else {
+            setIsOpen(true);
+            setIsMinimized(false);
+          }
         }
-      }
+        ticking = false;
+      });
     };
 
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [isMounted, hasAutoShown, isMobile]);
 
   // Drag hareketi
   useEffect(() => {
     if (!dragging || !dragRef.current) return;
+
+    const dragRafRef = { current: null };
+    const pendingPosition = { ...position };
 
     const handleMove = (e) => {
       e.preventDefault();
@@ -142,13 +167,21 @@ function StickyVideoRailInner() {
       const dx = clientX - startPosRef.current.mouseX;
       const dy = clientY - startPosRef.current.mouseY;
 
-      setPosition({
-        x: startPosRef.current.x + dx,
-        y: startPosRef.current.y + dy,
+      pendingPosition.x = startPosRef.current.x + dx;
+      pendingPosition.y = startPosRef.current.y + dy;
+
+      if (dragRafRef.current) return;
+      dragRafRef.current = requestAnimationFrame(() => {
+        setPosition({ ...pendingPosition });
+        dragRafRef.current = null;
       });
     };
 
     const handleUp = () => {
+      if (dragRafRef.current) {
+        cancelAnimationFrame(dragRafRef.current);
+        dragRafRef.current = null;
+      }
       setDragging(false);
     };
 
@@ -158,6 +191,9 @@ function StickyVideoRailInner() {
     window.addEventListener("touchend", handleUp);
 
     return () => {
+      if (dragRafRef.current) {
+        cancelAnimationFrame(dragRafRef.current);
+      }
       window.removeEventListener("mousemove", handleMove);
       window.removeEventListener("mouseup", handleUp);
       window.removeEventListener("touchmove", handleMove);
@@ -225,20 +261,27 @@ function StickyVideoRailInner() {
         className="fixed inset-0 z-[80] bg-black/90 backdrop-blur-sm flex flex-col items-center px-2 sm:px-6 py-2"
         aria-modal="true"
         role="dialog"
-        aria-label="Video oynatıcı"
+        aria-labelledby={ariaLabel ? undefined : computedHeadingId}
+        aria-label={ariaLabel}
+        aria-describedby={computedDescriptionId}
       >
+        <div className="sr-only">
+          <h2 id={computedHeadingId}>{accessibleTitle}</h2>
+          <p id={computedDescriptionId}>{accessibleDescription}</p>
+        </div>
         {/* ÜST BAR */}
         <div className="w-full max-w-6xl flex justify-between items-center mb-4 bg-black/80 rounded-xl px-4 py-3 border border-white/20">
           <div className="flex items-center gap-2">
             <span className="text-white font-semibold text-sm sm:text-base">
-              Sahneva Video Galerisi
+              {accessibleTitle}
             </span>
           </div>
           <div className="flex gap-2">
             <button
               type="button"
               onClick={handleCollapseFromExpanded}
-              className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700 transition-colors flex items-center gap-2 font-medium"
+              className="rail-control group"
+              data-variant="primary"
             >
               <span className="text-lg">↘️</span>
               <span className="hidden sm:inline">Küçült</span>
@@ -246,7 +289,8 @@ function StickyVideoRailInner() {
             <button
               type="button"
               onClick={handleToggleMinimize}
-              className="px-4 py-2 rounded-lg bg-gray-600 text-white text-sm hover:bg-gray-700 transition-colors flex items-center gap-2 font-medium"
+              className="rail-control group"
+              data-variant="muted"
             >
               <span className="text-lg">🗕</span>
               <span className="hidden sm:inline">Simge</span>
@@ -254,7 +298,8 @@ function StickyVideoRailInner() {
             <button
               type="button"
               onClick={handleClose}
-              className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm hover:bg-red-700 transition-colors flex items-center gap-2 font-medium"
+              className="rail-control group"
+              data-variant="danger"
             >
               <span className="text-lg">✕</span>
               <span className="hidden sm:inline">Kapat</span>
@@ -376,7 +421,7 @@ function StickyVideoRailInner() {
                       <p className="truncate font-medium text-xs sm:text-sm">
                         {video.title}
                       </p>
-                      <p className="hidden sm:block text-[11px] text-slate-400 truncate">
+                      <p className="hidden sm:block text-xs text-slate-400 truncate">
                         {video.description}
                       </p>
                     </div>
@@ -425,7 +470,15 @@ function StickyVideoRailInner() {
       style={{
         transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
       }}
+      role={computedRole}
+      aria-labelledby={ariaLabel ? undefined : computedHeadingId}
+      aria-label={ariaLabel}
+      aria-describedby={computedDescriptionId}
     >
+      <div className="sr-only">
+        <h2 id={computedHeadingId}>{accessibleTitle}</h2>
+        <p id={computedDescriptionId}>{accessibleDescription}</p>
+      </div>
       <div className="mb-4 w-[280px] sm:w-[340px] bg-slate-900/95 border border-white/20 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-lg">
         {/* Başlık + drag alanı */}
         <div
@@ -436,7 +489,7 @@ function StickyVideoRailInner() {
           <div className="flex items-center gap-2">
             <span className="text-sm font-semibold text-slate-100 flex items-center gap-2">
               <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              Sahneva Video Galerisi
+              {accessibleTitle}
             </span>
           </div>
           <div className="flex items-center gap-1">
@@ -444,7 +497,8 @@ function StickyVideoRailInner() {
               type="button"
               onClick={handleExpand}
               aria-label="Videoyu büyüt"
-              className="p-2 rounded-lg hover:bg-blue-600 transition-colors text-white bg-blue-500/80 group font-medium"
+              className="rail-control group"
+              data-variant="primary"
             >
               <span className="group-hover:scale-110 transition-transform text-sm">
                 ⤢ BÜYÜT
@@ -454,7 +508,8 @@ function StickyVideoRailInner() {
               type="button"
               onClick={handleToggleMinimize}
               aria-label="Simge durumuna küçült"
-              className="p-2 rounded-lg hover:bg-gray-600 transition-colors text-slate-100 group"
+              className="rail-control group"
+              data-variant="muted"
             >
               <span className="group-hover:scale-110 transition-transform">
                 🗕
@@ -464,7 +519,8 @@ function StickyVideoRailInner() {
               type="button"
               onClick={handleClose}
               aria-label="Kapat"
-              className="p-2 rounded-lg hover:bg-red-600 transition-colors text-slate-100 group"
+              className="rail-control group"
+              data-variant="danger"
             >
               <span className="group-hover:scale-110 transition-transform">
                 ✕
@@ -579,7 +635,13 @@ function StickyVideoRailInner() {
  * - IntersectionObserver + idleTimeout ile geç hydrate olur
  * - CLS etkilemez, sticky player zaten fixed konumda
  */
-export default function StickyVideoRail(props) {
+export default function StickyVideoRail({
+  ariaLabel,
+  ariaLabelledby,
+  ariaDescribedby,
+  role,
+  ...props
+}) {
   return (
     <DeferredHydration
       rootMargin="600px"
@@ -588,7 +650,12 @@ export default function StickyVideoRail(props) {
       as="div"
       {...props}
     >
-      <StickyVideoRailInner />
+      <StickyVideoRailInner
+        ariaLabel={ariaLabel}
+        ariaLabelledby={ariaLabelledby}
+        ariaDescribedby={ariaDescribedby}
+        role={role}
+      />
     </DeferredHydration>
   );
 }

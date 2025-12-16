@@ -2,10 +2,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 
 /* ================== Sabitler ================== */
 export const revalidate = 1800;
-const ORIGIN = "https://www.sahneva.com";
+const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.sahneva.com"
+).replace(/\/$/, "");
+const ORIGIN = SITE_URL;
+const ORGANIZATION_ID = `${SITE_URL}/#org`;
+const LOCAL_BUSINESS_ID = `${SITE_URL}/#local`;
 const PHONE = "+905453048671";
 const WA_TEXT =
   "Merhaba%2C+çadır+kiralama+icin+teklif+istiyorum.+Etkinlik+turu%3A+%5Bdüğün%2Ffuar%2Fkonser%5D%2C+Tarih%3A+%5Bgg.aa.yyyy%5D%2C+Kisi+sayisi%3A+%5Bxxx%5D.";
@@ -313,12 +319,11 @@ function Hero() {
 /* ================== Hizmetler ================== */
 function Services() {
   return (
-    <section
-      id="hizmetler"
-      className="py-20 bg-gradient-to-b from-white to-blue-50/50"
-      aria-labelledby="hizmetler-baslik"
-      style={{ contentVisibility: "auto" }}
-    >
+        <section
+          id="hizmetler"
+          className="py-20 bg-gradient-to-b from-white to-blue-50/50 nc-CadirKiralamaPage-section-1"
+          aria-labelledby="hizmetler-baslik"
+        >
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2
@@ -452,11 +457,10 @@ const GALLERY_IMAGES = [
 
 function Gallery() {
   return (
-    <section
-      className="py-20 bg-white"
-      aria-labelledby="galeri-baslik"
-      style={{ contentVisibility: "auto" }}
-    >
+      <section
+        className="py-20 bg-white nc-CadirKiralamaPage-section-2"
+        aria-labelledby="galeri-baslik"
+      >
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2
@@ -574,11 +578,10 @@ function Technical() {
   ];
 
   return (
-    <section
-      className="py-20 bg-gradient-to-b from-gray-50 to-white"
-      aria-labelledby="altyapi-baslik"
-      style={{ contentVisibility: "auto" }}
-    >
+      <section
+        className="py-20 bg-gradient-to-b from-gray-50 to-white nc-CadirKiralamaPage-section-3"
+        aria-labelledby="altyapi-baslik"
+      >
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2
@@ -647,11 +650,10 @@ function StatsBand() {
   ];
 
   return (
-    <section
-      className="py-20 bg-gradient-to-r from-blue-700 via-purple-700 to-blue-800 text-white"
-      aria-label="Başarı İstatistiklerimiz"
-      style={{ contentVisibility: "auto" }}
-    >
+      <section
+        className="py-20 bg-gradient-to-r from-blue-700 via-purple-700 to-blue-800 text-white nc-CadirKiralamaPage-section-4"
+        aria-label="Başarı İstatistiklerimiz"
+      >
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
           {stats.map((stat, index) => (
@@ -693,11 +695,10 @@ function StatsBand() {
 /* ================== Kullanım Alanları ================== */
 function UseCases() {
   return (
-    <section
-      className="py-20 bg-gradient-to-br from-gray-900 to-blue-900/95"
-      aria-labelledby="kullanim-alanlari-baslik"
-      style={{ contentVisibility: "auto" }}
-    >
+      <section
+        className="py-20 bg-gradient-to-br from-gray-900 to-blue-900/95 nc-CadirKiralamaPage-section-5"
+        aria-labelledby="kullanim-alanlari-baslik"
+      >
       <div className="container max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
           <h2
@@ -766,11 +767,10 @@ function UseCases() {
 /* ================== Bilgi & Rehber ================== */
 function Articles() {
   return (
-    <section
-      className="py-20 bg-gradient-to-b from-white to-gray-50/50"
-      aria-labelledby="bilgi-rehber-baslik"
-      style={{ contentVisibility: "auto" }}
-    >
+      <section
+        className="py-20 bg-gradient-to-b from-white to-gray-50/50 nc-CadirKiralamaPage-section-6"
+        aria-labelledby="bilgi-rehber-baslik"
+      >
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <h2
@@ -1230,11 +1230,10 @@ function RelatedServices() {
   ];
 
   return (
-    <section
-      className="py-20 bg-gradient-to-br from-gray-50 to-blue-100/30"
-      aria-labelledby="tamamlayici-hizmetler-baslik"
-      style={{ contentVisibility: "auto" }}
-    >
+      <section
+        className="py-20 bg-gradient-to-br from-gray-50 to-blue-100/30 nc-CadirKiralamaPage-section-7"
+        aria-labelledby="tamamlayici-hizmetler-baslik"
+      >
       <div className="container max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
           <h2
@@ -1297,11 +1296,10 @@ function RelatedServices() {
 /* ================== CTA ================== */
 function CTA() {
   return (
-    <section
-      className="py-20 bg-white"
-      aria-labelledby="cta-baslik"
-      style={{ contentVisibility: "auto" }}
-    >
+      <section
+        className="py-20 bg-white nc-CadirKiralamaPage-section-8"
+        aria-labelledby="cta-baslik"
+      >
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="bg-gradient-to-r from-blue-700 to-purple-700 rounded-3xl p-8 md:p-12 text-center text-white relative overflow-hidden">
           <div
@@ -1358,18 +1356,13 @@ function JsonLd() {
   const pageDescription = metadata.description;
 
   const providerRef = {
-    "@id": `${ORIGIN}#org`,
+    "@id": ORGANIZATION_ID,
   };
 
-  /* ----------------------------------------
-    LOCAL BUSINESS (layout'taki #localbiz)
-  ---------------------------------------- */
-  const localBusinessNode = {
-    "@type": "LocalBusiness",
-    "@id": `${ORIGIN}#localbiz`,
-    name: "Sahneva",
-    url: ORIGIN,
-  };
+    /* ----------------------------------------
+      LOCAL BUSINESS (layout'taki #local)
+    ---------------------------------------- */
+    const localBusinessRef = { "@id": LOCAL_BUSINESS_ID };
 
   /* ----------------------------------------
     RATING NODE (LocalBusiness'a bağlı)
@@ -1383,9 +1376,7 @@ function JsonLd() {
     bestRating: "5",
     worstRating: "1",
     ratingCount: "180",
-    itemReviewed: {
-      "@id": `${ORIGIN}#localbiz`,
-    },
+      itemReviewed: localBusinessRef,
   };
 
   /* ----------------------------------------
@@ -1444,27 +1435,6 @@ function JsonLd() {
       availability: "https://schema.org/InStock",
       url: pageUrl,
     },
-  };
-
-  /* ----------------------------------------
-    BREADCRUMB
-  ---------------------------------------- */
-  const breadcrumbSchema = {
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Anasayfa",
-        item: `${ORIGIN}/`,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Çadır Kiralama",
-        item: pageUrl,
-      },
-    ],
   };
 
   /* ----------------------------------------
@@ -1570,20 +1540,18 @@ function JsonLd() {
   /* ----------------------------------------
     TOP GRAPH (sıra senin istediğin gibi)
   ---------------------------------------- */
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@graph": [
-      localBusinessNode,   // 1) Önce LocalBusiness
-      webpageSchema,       // 2) WebPage
-      breadcrumbSchema,    // 3) Breadcrumb
-      serviceNode,         // 4) Service
-      productNode,         // 5) Product
-      eventServiceSchema,  // 6) EventService
-      ratingNode,          // 7) Rating
-      ...reviews,          // 8) Reviews
-      faqSchema            // 9) FAQ
-    ],
-  };
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@graph": [
+        webpageSchema,       // 1) WebPage
+        serviceNode,         // 2) Service
+        productNode,         // 3) Product
+        eventServiceSchema,  // 4) EventService
+        ratingNode,          // 5) Rating
+        ...reviews,          // 6) Reviews
+        faqSchema            // 7) FAQ
+      ],
+    };
 
   return (
     <script
@@ -1596,8 +1564,17 @@ function JsonLd() {
 
 /* ================== Sayfa Bileşeni ================== */
 export default function Page() {
+  const baseUrl = SITE_URL;
+  const canonical = `${baseUrl}/cadir-kiralama`;
+  const breadcrumbItems = [
+    { name: "Ana Sayfa", url: `${baseUrl}/` },
+    { name: "Hizmetler", url: `${baseUrl}/hizmetler` },
+    { name: "Çadır Kiralama", url: canonical },
+  ];
+
   return (
     <>
+      <BreadcrumbJsonLd items={breadcrumbItems} baseUrl={baseUrl} />
       <JsonLd />
       <Hero />
       <Services />

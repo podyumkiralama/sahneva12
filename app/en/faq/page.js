@@ -294,9 +294,9 @@ function FaqSection({ id, icon, title, items }) {
 
       
         <div className="space-y-3">
-          {items.map((item, index) => (
-            
-              <details className="faq-card group rounded-xl bg-white p-4">
+          {items.map((item) => (
+
+              <details key={item.q} className="faq-card group rounded-xl bg-white p-4">
                 <summary
                   className="cursor-pointer select-none list-none font-semibold leading-7 flex items-center justify-between"
                   role="button"
@@ -380,8 +380,10 @@ export default function FaqPage() {
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-lg border px-4 py-2 font-semibold hover:bg-neutral-50"
+              aria-label="Chat on WhatsApp (opens in a new tab)"
             >
               💬 Chat on WhatsApp
+              <span className="sr-only">(opens in a new tab)</span>
             </a>
           </div>
         

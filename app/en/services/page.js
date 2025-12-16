@@ -34,6 +34,9 @@ export const metadata = {
 
 export const revalidate = 3600;
 
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.sahneva.com").replace(/\/$/, "");
+const ORGANIZATION_ID = `${SITE_URL}/#org`;
+
 /* ───── STRUCTURED DATA ───── */
 function ServicesStructuredData() {
   const schema = {
@@ -42,10 +45,7 @@ function ServicesStructuredData() {
     name: "Sahneva Services",
     description:
       "Professional stage rentals, LED walls, sound-light systems, podium, tent rentals and event production services",
-    provider: {
-      "@type": "Organization",
-      name: "Sahneva",
-    },
+      provider: { "@id": ORGANIZATION_ID },
     areaServed: "TR",
     hasOfferCatalog: {
       "@type": "OfferCatalog",
@@ -58,6 +58,12 @@ function ServicesStructuredData() {
             name: "Stage Rental",
             description: "Professional stage installation and rental services",
           },
+          priceSpecification: {
+            "@type": "PriceSpecification",
+            priceCurrency: "TRY",
+            minPrice: "10000.00",
+            maxPrice: "200000.00",
+          },
         },
         {
           "@type": "Offer",
@@ -66,6 +72,12 @@ function ServicesStructuredData() {
             name: "LED Wall Rental",
             description: "High-resolution LED wall rental services",
           },
+          priceSpecification: {
+            "@type": "UnitPriceSpecification",
+            price: "1700.00",
+            priceCurrency: "TRY",
+            unitText: "per day",
+          },
         },
         {
           "@type": "Offer",
@@ -73,6 +85,65 @@ function ServicesStructuredData() {
             "@type": "Service",
             name: "Sound and Lighting Systems",
             description: "Professional sound and lighting system rental services",
+          },
+          priceSpecification: {
+            "@type": "PriceSpecification",
+            priceCurrency: "TRY",
+            minPrice: "10000.00",
+            maxPrice: "300000.00",
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Podium Rental",
+            description: "Modular podium and catwalk solutions",
+          },
+          priceSpecification: {
+            "@type": "PriceSpecification",
+            priceCurrency: "TRY",
+            minPrice: "250.00",
+            maxPrice: "100000.00",
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: { "@type": "Service", name: "Event Tent Rental" },
+          priceSpecification: {
+            "@type": "PriceSpecification",
+            priceCurrency: "TRY",
+            minPrice: "6000.00",
+            maxPrice: "800000.00",
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: { "@type": "Service", name: "Chair Rental" },
+          priceSpecification: {
+            "@type": "UnitPriceSpecification",
+            price: "200.00",
+            priceCurrency: "TRY",
+            unitText: "per unit",
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: { "@type": "Service", name: "Table Rental" },
+          priceSpecification: {
+            "@type": "PriceSpecification",
+            priceCurrency: "TRY",
+            minPrice: "1000.00",
+            maxPrice: "2000.00",
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: { "@type": "Service", name: "Istanbul Logistics" },
+          priceSpecification: {
+            "@type": "PriceSpecification",
+            priceCurrency: "TRY",
+            price: "7000.00",
           },
         },
       ],
@@ -287,11 +358,7 @@ export default function EnglishServicesPage() {
             priority
             quality={80}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
-            className="object-cover object-center"
-            style={{
-              transform: "scale(1.02)",
-              filter: "brightness(0.6) contrast(1.1) saturate(1.1)",
-            }}
+            className="object-cover object-center nc-ServicesPage-hero-1"
           />
         </div>
 
@@ -604,7 +671,7 @@ export default function EnglishServicesPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-4 rounded-xl shadow-2xl transition-all duration-300 hover:scale-105 min-w-[200px] text-center"
-                aria-label="Chat on WhatsApp for a quick proposal"
+                aria-label="Chat on WhatsApp for a quick proposal (opens in a new tab)"
               >
                 <span className="flex items-center justify-center gap-2">
                   💬 WhatsApp

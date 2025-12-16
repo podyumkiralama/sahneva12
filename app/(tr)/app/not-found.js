@@ -1,5 +1,8 @@
-const NOT_FOUND_URL = "https://www.sahneva.com/404";
-const ORGANIZATION_ID = "https://www.sahneva.com/#org";
+import Link from "next/link";
+
+import { BASE_SITE_URL, ORGANIZATION_ID, WEBSITE_ID } from "@/lib/seo/schemaIds";
+
+const NOT_FOUND_URL = `${BASE_SITE_URL}/404`;
 const NOT_FOUND_DESCRIPTION = "Aradığınız sayfa bulunamadı veya taşınmış olabilir.";
 
 const buildNotFoundSchema = () => ({
@@ -9,7 +12,7 @@ const buildNotFoundSchema = () => ({
   url: NOT_FOUND_URL,
   name: "Sayfa Bulunamadı",
   description: NOT_FOUND_DESCRIPTION,
-  isPartOf: { "@type": "WebSite", "@id": "https://www.sahneva.com/#website" },
+  isPartOf: { "@type": "WebSite", "@id": WEBSITE_ID },
   about: { "@id": ORGANIZATION_ID },
   inLanguage: "tr-TR",
 });
@@ -38,18 +41,18 @@ export default function NotFound() {
             Aradığınız sayfa kaldırılmış, adı değiştirilmiş veya geçici olarak kullanılamıyor olabilir.
           </p>
           <div className="flex items-center justify-center gap-3">
-            <a
+            <Link
               href="/"
               className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-5 py-3 rounded-lg transition-colors"
             >
               Anasayfaya Dön
-            </a>
-            <a
+            </Link>
+            <Link
               href="/iletisim"
               className="bg-neutral-100 hover:bg-neutral-200 text-neutral-900 font-bold px-5 py-3 rounded-lg transition-colors"
             >
               İletişim
-            </a>
+            </Link>
           </div>
         </section>
       </>

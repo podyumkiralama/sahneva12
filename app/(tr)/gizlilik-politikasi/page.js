@@ -1,9 +1,11 @@
 // app/gizlilik-politikasi/page.jsx
 import Link from "next/link";
 import Script from "next/script";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 
 export const revalidate = 1800;
 const ORIGIN = "https://www.sahneva.com";
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? ORIGIN).replace(/\/$/, "");
 const PHONE = "+905453048671";
 const MAIL = "info@sahneva.com";
 
@@ -43,9 +45,15 @@ export default function PrivacyPolicyPage() {
       url: ORIGIN,
     },
   };
+  const baseUrl = SITE_URL;
+  const breadcrumbItems = [
+    { name: "Ana Sayfa", url: `${baseUrl}/` },
+    { name: "Gizlilik Politikası", url: `${baseUrl}/gizlilik-politikasi` },
+  ];
 
   return (
     <>
+      <BreadcrumbJsonLd items={breadcrumbItems} baseUrl={baseUrl} />
       {/* JSON-LD */}
       <Script id="ld-json-privacy" type="application/ld+json" strategy="afterInteractive">
         {JSON.stringify(jsonLd)}

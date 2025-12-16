@@ -3,7 +3,6 @@ import { getImageProps } from "next/image";
 import heroImg from "@/public/img/hero-bg.webp";
 import CorporateEvents from "@/components/CorporateEvents";
 import {
-  ReviewBannerDeferred,
   ServicesTabsDeferred,
   ProjectsGalleryDeferred,
   FaqDeferred,
@@ -37,6 +36,11 @@ const HERO_FEATURES = [
     color: "from-purple-400 to-pink-400",
   },
 ];
+
+const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.sahneva.com"
+).replace(/\/$/, "");
+const ORGANIZATION_ID = `${SITE_URL}/#org`;
 
 const WHY_SAHNEVA_FEATURES = [
   {
@@ -193,19 +197,22 @@ const SERVICES_DICTIONARY_EN = {
 
 const PROJECT_GALLERIES_EN = {
   "LED Wall Installations": {
-    images: Array.from({ length: 36 }, (_, i) => `/img/galeri/led-ekran-kiralama-${i + 1}.webp`),
+    imagePattern: "/img/galeri/led-ekran-kiralama-{{index}}.webp",
+    imageCount: 36,
     description: "Immersive LED surfaces for conferences, arenas and outdoor brand activations.",
     stats: "50+ Corporate Shows",
     icon: "🖥️",
   },
   "Event Tent Solutions": {
-    images: Array.from({ length: 19 }, (_, i) => `/img/galeri/cadir-kiralama-${i + 1}.webp`),
+    imagePattern: "/img/galeri/cadir-kiralama-{{index}}.webp",
+    imageCount: 19,
     description: "Weatherproof marquees, pagodas and hospitality structures for outdoor gatherings.",
     stats: "100+ Outdoor Events",
     icon: "⛺",
   },
   "Podium & Stage Builds": {
-    images: Array.from({ length: 36 }, (_, i) => `/img/galeri/podyum-kiralama-${i + 1}.webp`),
+    imagePattern: "/img/galeri/podyum-kiralama-{{index}}.webp",
+    imageCount: 36,
     description: "Custom podiums, risers and catwalks supporting product launches and ceremonies.",
     stats: "200+ Installations",
     icon: "👑",
@@ -219,6 +226,7 @@ const PROJECTS_DICTIONARY_EN = {
   cardAlt: "{{title}} by Sahneva",
   seeAllLabel: "View all",
   seeAllSr: " — {{title}} ({{count}} projects)",
+  badgeLabel: "Reference",
   dialogAria: "{{title}} project gallery",
   closeLabel: "Close gallery",
   prevLabel: "‹ Previous",
@@ -402,7 +410,7 @@ function StructuredData() {
         url: "https://www.sahneva.com/en",
         name: "Stage, LED Wall, Sound & Lighting Rentals | Nationwide Türkiye | Sahneva",
         inLanguage: "en-US",
-        about: { "@id": "https://www.sahneva.com/#org" },
+        about: { "@id": ORGANIZATION_ID },
       },
       {
         "@type": "OfferCatalog",
@@ -414,19 +422,99 @@ function StructuredData() {
             "@type": "Offer",
             itemOffered: { "@type": "Service", name: "Stage Rentals", description: "Stage and podium engineering services" },
             priceSpecification: {
-              "@type": "UnitPriceSpecification",
-              price: 250,
-              priceCurrency: "EUR",
-              unitText: "m²",
+              "@type": "PriceSpecification",
+              priceCurrency: "TRY",
+              minPrice: 10000,
+              maxPrice: 200000,
             },
             availability: "https://schema.org/InStock",
             areaServed: "TR",
-            seller: { "@id": "https://www.sahneva.com/#org" },
+            seller: { "@id": ORGANIZATION_ID },
           },
-          { "@type": "Offer", itemOffered: { "@type": "Service", name: "LED Wall Rentals" }, areaServed: "TR", seller: { "@id": "https://www.sahneva.com/#org" } },
-          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Sound & Lighting Systems" }, areaServed: "TR", seller: { "@id": "https://www.sahneva.com/#org" } },
-          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Event Tents" }, areaServed: "TR", seller: { "@id": "https://www.sahneva.com/#org" } },
-          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Corporate Event Production" }, areaServed: "TR", seller: { "@id": "https://www.sahneva.com/#org" } },
+          {
+            "@type": "Offer",
+            itemOffered: { "@type": "Service", name: "LED Wall Rentals" },
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: 1700,
+              priceCurrency: "TRY",
+              unitText: "per day",
+            },
+            areaServed: "TR",
+            seller: { "@id": ORGANIZATION_ID },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: { "@type": "Service", name: "Sound & Lighting Systems" },
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              priceCurrency: "TRY",
+              minPrice: 10000,
+              maxPrice: 300000,
+            },
+            areaServed: "TR",
+            seller: { "@id": ORGANIZATION_ID },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: { "@type": "Service", name: "Podium Rentals" },
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              priceCurrency: "TRY",
+              minPrice: 250,
+              maxPrice: 100000,
+            },
+            areaServed: "TR",
+            seller: { "@id": ORGANIZATION_ID },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: { "@type": "Service", name: "Event Tents" },
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              priceCurrency: "TRY",
+              minPrice: 6000,
+              maxPrice: 800000,
+            },
+            areaServed: "TR",
+            seller: { "@id": ORGANIZATION_ID },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: { "@type": "Service", name: "Chair Rentals" },
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: 200,
+              priceCurrency: "TRY",
+              unitText: "per unit",
+            },
+            areaServed: "TR",
+            seller: { "@id": ORGANIZATION_ID },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: { "@type": "Service", name: "Table Rentals" },
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              priceCurrency: "TRY",
+              minPrice: 1000,
+              maxPrice: 2000,
+            },
+            areaServed: "TR",
+            seller: { "@id": ORGANIZATION_ID },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: { "@type": "Service", name: "Istanbul Logistics" },
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              price: 7000,
+              priceCurrency: "TRY",
+            },
+            areaServed: "TR",
+            seller: { "@id": ORGANIZATION_ID },
+          },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Corporate Event Production" }, areaServed: "TR", seller: { "@id": ORGANIZATION_ID } },
         ],
       },
       {
@@ -437,7 +525,7 @@ function StructuredData() {
           "Turnkey stage, LED wall, sound, lighting and tent solutions with expert crew support across Türkiye.",
         url: "https://www.sahneva.com/en",
         areaServed: { "@type": "Country", name: "TR" },
-        provider: { "@id": "https://www.sahneva.com/#org" },
+        provider: { "@id": ORGANIZATION_ID },
       },
       {
         "@type": "ImageObject",
@@ -489,10 +577,16 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
     },
   });
 
-  const { fetchPriority, ...rest } = props;
+  const { fetchPriority, alt: imageAlt, ...rest } = props;
 
-  // eslint-disable-next-line react/no-unknown-property -- force lowercase attribute for HTML validators
-  return <img {...rest} fetchpriority={fetchPriority} aria-hidden={ariaHidden} />;
+  return (
+    <img
+      {...rest}
+      alt={ariaHidden ? "" : imageAlt || alt}
+      fetchPriority={fetchPriority}
+      aria-hidden={ariaHidden}
+    />
+  );
 }
 
 export default function EnglishHomePage() {
@@ -513,8 +607,7 @@ export default function EnglishHomePage() {
           aria-hidden="true"
         />
         <div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse motion-reduce:animate-none"
-          style={{ animationDuration: "8s" }}
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse motion-reduce:animate-none nc-HomePage-aurora-1"
           aria-hidden="true"
         />
 
@@ -568,6 +661,7 @@ export default function EnglishHomePage() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full sm:w-auto min-w-[180px] text-center group relative bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold text-base px-6 py-3 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-white/20 backdrop-blur-sm focus-ring"
+                  aria-label="WhatsApp quote (opens in a new tab)"
                 >
                   <span className="relative z-10 flex items-center justify-center gap-2">
                     <span aria-hidden="true">💬</span> WhatsApp quote
@@ -581,7 +675,7 @@ export default function EnglishHomePage() {
             
               <h2 className="sr-only">Key highlights</h2>
               <ul className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12 list-none p-0 m-0">
-                {HERO_FEATURES.map((item, index) => (
+                {HERO_FEATURES.map((item) => (
                   <li key={item.title} className="m-0 p-0">
                     
                       <div className="group bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20 hover:border-white/40 transition-all duration-500 hover:scale-105 hover:bg-white/15">
@@ -606,7 +700,7 @@ export default function EnglishHomePage() {
                     </div>
                   </div>
                   <div className="flex-1 text-center md:text-left">
-                    <h2 className="text-white text-xl md:text-2xl font-bold mb-2">Free technical consultation</h2>
+                    <p className="text-white text-xl md:text-2xl font-bold mb-2">Free technical consultation</p>
                     <p className="text-white/90 text-base leading-relaxed">
                       Let's plan the ideal stage, LED wall and AV package for your event with detailed drawings, equipment lists and logistics.<strong className="text-yellow-300"> Same-day proposals guaranteed.</strong>
                     </p>
@@ -638,18 +732,6 @@ export default function EnglishHomePage() {
         <div id="get-a-quote" className="sr-only" aria-hidden="true" />
 
         <div aria-hidden="true" className="h-12 lg:h-16" />
-        <div className="sticky top-0 z-40">
-          <ReviewBannerDeferred
-            idleTimeout={2000}
-            rootMargin="0px"
-            className="block"
-            title="Review Sahneva on Google"
-            subtitle="Your feedback helps us deliver better experiences. Could you spare a minute?"
-            ctaLabel="Write a review"
-            ctaAriaLabel="Write a Google review for Sahneva (opens in a new tab)"
-            closeAriaLabel="Dismiss this notification"
-          />
-        </div>
 
         <section
           className="relative py-12 bg-gradient-to-b from-white to-neutral-50/80"
@@ -768,9 +850,9 @@ export default function EnglishHomePage() {
                         <div className="text-3xl mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text" aria-hidden="true">
                           {icon}
                         </div>
-                        <h3 id={`why-card-${i}-title`} className="font-black text-lg mb-3 text-neutral-900 group-hover:text-blue-600 transition-colors">
+                        <p id={`why-card-${i}-title`} className="font-black text-lg mb-3 text-neutral-900 group-hover:text-blue-600 transition-colors">
                           {title}
-                        </h3>
+                        </p>
                         <p className="text-neutral-700 leading-relaxed text-sm">{desc}</p>
                       </article>
                     
@@ -796,10 +878,10 @@ export default function EnglishHomePage() {
             <div className="grid gap-6 lg:gap-8 lg:grid-cols-2">
               
                 <article className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 shadow-lg border border-blue-100">
-                  <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
+                  <p className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
                     <span className="bg-blue-500 text-white p-2 rounded-lg" aria-hidden="true">🚀</span>
                     End-to-end technical production & logistics
-                  </h3>
+                  </p>
                   <div className="prose max-w-none text-neutral-700">
                     <p className="text-base leading-relaxed">
                       <strong>Sahneva</strong> designs, delivers and operates{' '}
@@ -844,10 +926,10 @@ export default function EnglishHomePage() {
 
               
                 <article className="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-6 shadow-lg border border-purple-100">
-                  <h3 className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
+                  <p className="font-black text-xl mb-4 text-neutral-900 flex items-center gap-3">
                     <span className="bg-purple-500 text-white p-2 rounded-lg" aria-hidden="true">🎤</span>
                     Infrastructure for large-scale audiences
-                  </h3>
+                  </p>
                   <div className="prose max-w-none text-neutral-700">
                     <p className="text-base leading-relaxed">
                       Festivals, political rallies, sporting events and national celebrations benefit from our high-capacity equipment inventory and redundancy planning.

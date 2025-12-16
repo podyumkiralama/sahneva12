@@ -1,14 +1,16 @@
 {
+  "id": "/",
   "name": "Sahneva - Etkinlik Prodüksiyon & Organizasyon",
   "short_name": "Sahneva",
-  "description": "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#6d28d9",
-  "orientation": "portrait-primary",
+  "description": "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama.",
+  "start_url": "/?source=pwa",
   "scope": "/",
-  "lang": "tr",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "orientation": "portrait",
+  "lang": "tr-TR",
+  "dir": "ltr",
   "categories": ["business", "events"],
   "icons": [
     {
