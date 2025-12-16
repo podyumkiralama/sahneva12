@@ -862,13 +862,10 @@ function FAQ() {
               key={index} 
               className="group bg-gray-50 rounded-3xl p-8 hover:bg-gray-100 transition-all duration-500 open:bg-blue-50 open:border-blue-200 border-2 border-transparent open:border"
             >
-              <summary
-                className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900"
+            <summary
+  className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900"
+>
 
-                aria-expanded="false"
-                tabIndex={0}
-                role="button"
-              >
                 <span className="pr-4">{faq.q}</span>
                 <span 
                   aria-hidden="true" 
@@ -1039,10 +1036,11 @@ function CTA() {
   );
 }
 
-/* ================== JSON-LD ================== */
+/* ================== JSON-LD (FINAL / NO RATING) ================== */
 function JsonLd() {
   const pageUrl = `${ORIGIN}/ses-isik-sistemleri`;
-  const pageDescription = metadata.description;
+  const pageDescription = metadata?.description || "";
+  const webPageId = `${pageUrl}#webpage`;
 
   const provider = { "@id": ORGANIZATION_ID };
 
@@ -1051,26 +1049,36 @@ function JsonLd() {
     locale: "tr-TR",
   });
 
+  // Base Service Tanımı (AggregateRating YOK)
   const baseService = {
     "@type": "Service",
     name: "Ses ve Işık Sistemleri Kiralama",
     description: pageDescription,
     provider,
     areaServed: { "@type": "Country", name: "Türkiye" },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.9",
-      reviewCount: "250",
-      bestRating: "5",
+    inLanguage: "tr-TR",
+    offers: {
+      "@type": "AggregateOffer",
+      url: `${pageUrl}#teklif`,
+      priceCurrency: "TRY",
+      lowPrice: 30000,
+      highPrice: 54000,
+      offerCount: 2,
     },
   };
 
-  const serviceNode = serviceSchema
-    ? { ...serviceSchema, ...baseService, provider, url: pageUrl }
-    : { ...baseService, "@id": `${pageUrl}#service`, url: pageUrl };
+  // Service Node (çakışmasız merge)
+  const serviceNode = {
+    ...(serviceSchema || {}),
+    ...baseService,
+    "@type": "Service",
+    "@id": serviceSchema?.["@id"] || `${pageUrl}#service`,
+    provider,
+    url: pageUrl,
+    mainEntityOfPage: { "@id": webPageId },
+  };
 
-  const serviceId = serviceNode["@id"] ?? `${pageUrl}#service`;
-  serviceNode["@id"] = serviceId;
+  const serviceId = serviceNode["@id"];
 
   const productNodes = products ?? [];
   const faqSchema = buildFaqSchema(FAQ_ITEMS);
@@ -1081,13 +1089,13 @@ function JsonLd() {
       serviceNode,
       {
         "@type": "WebPage",
+        "@id": webPageId,
         name: "Ses ve Işık Sistemleri Kiralama | Profesyonel Çözümler | Sahneva",
-        description: "Konser, festival ve kurumsal etkinlikler için profesyonel ses & ışık sistemleri kiralama. Line array, dijital mikser, hareketli ışık, truss ve canlı operasyon. 81 ilde hizmet.",
-        url: `${ORIGIN}/ses-isik-sistemleri`,
-        mainEntity: {
-          "@type": "Service",
-          name: "Ses ve Işık Sistemleri Kiralama"
-        }
+        description:
+          "Konser, festival ve kurumsal etkinlikler için profesyonel ses & ışık sistemleri kiralama. Line array, dijital mikser, hareketli ışık, truss ve canlı operasyon. 81 ilde hizmet.",
+        url: pageUrl,
+        inLanguage: "tr-TR",
+        mainEntity: { "@id": serviceId },
       },
       ...productNodes,
       ...(faqSchema ? [faqSchema] : []),
