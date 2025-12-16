@@ -267,7 +267,7 @@ function StructuredData() {
       },
 
       /* ---------------- VideoObject ---------------- */
-     {
+{
   "@type": "VideoObject",
   "@id": VIDEO_ID,
   name: "Sahneva – Sahne, Podyum ve LED Ekran Kiralama Tanıtım Videosu",
