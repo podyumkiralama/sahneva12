@@ -283,6 +283,7 @@ function StructuredData() {
   embedUrl: "https://www.youtube.com/embed/173gBurWSRQ"
 }
 
+
       /* ---------------- FAQPage ---------------- */
       {
         "@type": "FAQPage",
