@@ -1,0 +1,82 @@
+/* ==========================================================================
+   Tailwind entry
+   ========================================================================== */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   Base Settings
+   ========================================================================== */
+:root {
+  --font-system-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  
+  /* Marka Renkleri */
+  --brand-primary: #6d28d9; /* Purple-700 */
+  --brand-secondary: #4f46e5; /* Indigo-600 */
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 100%;
+  -webkit-tap-highlight-color: transparent;
+
+  /* Varsayılan tarayıcı scroll barı korunsun ve tekrar yüklenme olmasın */
+  scrollbar-gutter: auto;
+
+  /* Yatay taşmayı tamamen engeller */
+  overflow-x: hidden;
+}
+
+/* 3. Transition ve animation reset çok agresifti; hafifletildi */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.3s !important;
+    transition-duration: 0.2s !important;
+  }
+}
+
+html,
+body {
+  height: auto;
+}
+
+body {
+  /* Layout ile uyumlu */
+  @apply bg-white text-neutral-900 antialiased;
+  font-family: var(
+    --font-inter,
+    var(--font-inter-fallback, var(--font-system-stack))
+  );
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Medya elementleri */
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+  display: block; /* alt boşluk sorununu önler */
+}
+
+/* Erişilebilirlik modları için değişkenler */
+.accessibility-active {
+  --acc-font-size: 16px;
+  --acc-line-height: 1.6;
+  --acc-letter-spacing: 0px;
+  --acc-word-spacing: 0px;
+}
+
+@layer utilities {
+  .focus-ring {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600
+           focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900;
+  }
+}
+

@@ -34,8 +34,6 @@ export default function JsonLdService({
 
   const image = Array.from(new Set(imgListRaw.map((p) => absUrl(site, p))));
 
-  const organizationRef = { "@id": `${absUrl(site, "#org")}` };
-
   const data = compact({
     "@context": "https://schema.org",
     "@type": "Service",
@@ -49,7 +47,13 @@ export default function JsonLdService({
     keywords: Array.isArray(service.keywords)
       ? service.keywords.join(", ")
       : service.keywords,
-    provider: organizationRef,
+    provider: {
+      "@type": "Organization",
+      name: "Sahneva",
+      url: site,
+      telephone: "+90 545 304 8671",
+      logo: absUrl(site, "/img/logo.png"),
+    },
     hasOfferCatalog:
       Array.isArray(service.faqs) && service.faqs.length
         ? {

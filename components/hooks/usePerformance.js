@@ -44,14 +44,14 @@ export function useLayoutShiftProtection() {
 }
 
 // ✅ Debounce ile DOM Operasyonları
-export function useDebouncedEffect(callback, delay, deps = []) {
+export function useDebouncedEffect(callback, delay, deps) {
   useEffect(() => {
     const handler = setTimeout(() => {
       callback();
     }, delay);
-
+    
     return () => clearTimeout(handler);
-  }, [callback, delay, ...deps]);
+  }, deps);
 }
 
 // ✅ Performance Observer Hook'u

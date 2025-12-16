@@ -1,0 +1,61 @@
+{
+  "name": "sahneva12",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --turbo",
+    "dev:webpack": "NEXT_DISABLE_TURBOPACK=1 next dev",
+    "prebuild": "npm dedupe",
+    "build": "next build --turbopack",
+    "build:webpack": "NEXT_DISABLE_TURBOPACK=1 next build",
+    "build:web": "next build",
+    "start": "next start",
+    "lint": "eslint . --max-warnings=0",
+    "analyze": "ANALYZE=true next build",
+    "security:check": "npx @next/security-headers-check",
+    "find:unused-css": "node tools/find-unused-css-classes.js"
+  },
+  "dependencies": {
+    "@next/third-parties": "^16.0.8",
+    "@vercel/analytics": "^1.2.0",
+    "@vercel/speed-insights": "1.2.0",
+    "autoprefixer": "10.4.19",
+    "clsx": "^2.1.1",
+    "critters": "^0.0.23",
+    "framer-motion": "^12.23.26",
+    "next": "^16.0.7",
+    "postcss": "8.4.38",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "tailwindcss": "3.4.8"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.38.0",
+    "@next/bundle-analyzer": "15.5.2",
+    "@tailwindcss/forms": "0.5.7",
+    "@tailwindcss/line-clamp": "0.4.4",
+    "@tailwindcss/typography": "0.5.10",
+    "eslint": "9.38.0",
+    "eslint-config-next": "^16.0.7",
+    "eslint-plugin-react": "7.37.5",
+    "globals": "16.4.0"
+  },
+  "browserslist": {
+    "production": [
+      "chrome >= 120",
+      "edge >= 120",
+      "firefox >= 120",
+      "safari >= 17.4"
+    ],
+    "development": [
+      "chrome >= 120",
+      "edge >= 120",
+      "firefox >= 120",
+      "safari >= 17.4"
+    ]
+  },
+  "engines": {
+    "node": ">=20 <23"
+  }
+}

@@ -5,15 +5,10 @@ import dynamic from "next/dynamic";
 
 import { buildFaqSchema } from "@/lib/structuredData/faq";
 import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
-import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 
 /* ================== Sabitler ================== */
 export const revalidate = 1800;
-const ORIGIN =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
-  "https://www.sahneva.com";
-const ORGANIZATION_ID = `${ORIGIN}/#org`;
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? ORIGIN).replace(/\/$/, "");
+const ORIGIN = "https://www.sahneva.com";
 const PHONE = "+905453048671";
 const WA_TEXT =
   "Merhaba%2C+sahne+kiralama+icin+teklif+istiyorum.+Etkinlik+turu%3A+%5Bkonser%2Fkonferans%2Flansman%5D%2C+Tarih%3A+%5Bgg.aa.yyyy%5D%2C+Katilimci+sayisi%3A+%5Bxxx%5D%2C+Tahmini+sahne+olcusu%3A+%5Bm%C2%B2%5D.";
@@ -578,12 +573,12 @@ function Packages() {
                   {/* Fiyat */}
                   <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-200">
                     <div className="text-center mb-4">
-                      <div className="text-sm text-gray-800 uppercase tracking-wider font-semibold">
+                      <div className="text-sm text-gray-500 uppercase tracking-wider font-semibold">
                         Günlük Kira (İstanbul)
                       </div>
                       <div className="text-3xl font-black text-gray-900 mt-2">
                         {formatTRY(packagePrices[pkg.id])}
-                        <span className="text-sm text-gray-800 font-normal ml-2">
+                        <span className="text-sm text-gray-500 font-normal ml-2">
                           + KDV
                         </span>
                       </div>
@@ -1566,7 +1561,14 @@ function JsonLd() {
   const pageUrl = `${ORIGIN}/sahne-kiralama`;
   const pageDescription = metadata.description;
 
-  const provider = { "@id": ORGANIZATION_ID };
+  const provider = {
+    "@type": "Organization",
+    "@id": `${ORIGIN}#org`,
+    name: "Sahneva",
+    url: ORIGIN,
+    telephone: PHONE,
+    logo: `${ORIGIN}/img/logo.png`,
+  };
 
   const { service: serviceSchema, products } = buildServiceProductSchema({
     slug: "/sahne-kiralama",
@@ -1609,6 +1611,23 @@ function JsonLd() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Anasayfa",
+            item: `${ORIGIN}/`,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Sahne Kiralama",
+            item: pageUrl,
+          },
+        ],
+      },
       serviceNode,
       {
         "@type": "WebPage",
@@ -1636,17 +1655,8 @@ function JsonLd() {
 
 /* ================== Sayfa Bileşeni ================== */
 export default function Page() {
-  const baseUrl = SITE_URL;
-  const canonical = `${baseUrl}/sahne-kiralama`;
-  const breadcrumbItems = [
-    { name: "Ana Sayfa", url: `${baseUrl}/` },
-    { name: "Hizmetler", url: `${baseUrl}/hizmetler` },
-    { name: "Sahne Kiralama", url: canonical },
-  ];
-
   return (
     <>
-      <BreadcrumbJsonLd items={breadcrumbItems} baseUrl={baseUrl} />
       <JsonLd />
       <Hero />
       <Services />

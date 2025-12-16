@@ -4,8 +4,6 @@ import Image from "next/image";
 import { readdir } from "fs/promises"; // Promise tabanlı fs kullanımı
 import { existsSync } from "fs";
 import path from "path";
-import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
-import { normalizeBaseUrl } from "@/lib/seo/breadcrumbs";
 
 /* ================== RUNTIME & ISR ================== */
 export const runtime = "nodejs";
@@ -13,11 +11,6 @@ export const revalidate = 1800; // 30 dakikada bir yenile
 
 /* ================== SABİTLER ================== */
 const ORIGIN = "https://www.sahneva.com";
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? ORIGIN;
-
-function getBaseUrl() {
-  return normalizeBaseUrl(SITE_URL || ORIGIN);
-}
 
 /* ================== META DATA ================== */
 export const metadata = {
@@ -28,7 +21,7 @@ export const metadata = {
     title: "Sahneva Blog | Etkinlik Teknolojileri Rehberi",
     description:
       "Sahneva ekibinden kurumsal organizasyon ve teknik ekipmanlar üzerine güncel blog yazıları.",
-    url: `${getBaseUrl()}/blog`,
+    url: `${ORIGIN}/blog`,
     type: "website",
     images: [
       {
@@ -115,72 +108,38 @@ async function getBlogPosts() {
 }
 
 /* ================== JSON-LD BİLEŞENİ ================== */
-function BlogJsonLd({ posts, baseUrl }) {
+function BlogJsonLd({ posts }) {
   if (!posts?.length) return null;
-
-  const site = String(baseUrl || "").replace(/\/$/, "");
-  const orgId = `${site}/#org`;
-  const editorId = `${site}/#editor`;
-  const blogUrl = `${site}/blog`;
-
-  const title =
-    typeof metadata?.title === "string"
-      ? metadata.title
-      : metadata?.title?.default || "Sahneva Blog";
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Blog",
-        "@id": `${blogUrl}#blog`,
-        url: blogUrl,
-        name: title,
-        description: metadata?.description,
-        publisher: { "@id": orgId },
-        inLanguage: "tr-TR",
+    "@type": "Blog", // ItemList yerine Blog tipi daha spesifik olabilir ama ItemList de uygundur.
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `${ORIGIN}/blog`
+    },
+    "headline": metadata.title,
+    "description": metadata.description,
+    "blogPost": posts.map((post) => ({
+      "@type": "BlogPosting",
+      "headline": post.title,
+      "image": post.image.startsWith("http") ? post.image : `${ORIGIN}${post.image}`,
+      "datePublished": post.date,
+      "author": {
+        "@type": "Organization",
+        "name": post.author
       },
-      {
-        "@type": "ItemList",
-        "@id": `${blogUrl}#posts`,
-        itemListElement: posts.map((post, idx) => {
-          const postUrl = `${blogUrl}/${post.slug}`;
-          const img = String(post.image || "");
-          const absImg = /^https?:\/\//i.test(img) ? img : `${site}${img}`;
-
-          return {
-            "@type": "ListItem",
-            position: idx + 1,
-            url: postUrl,
-            item: {
-              "@type": "BlogPosting",
-              "@id": `${postUrl}#blogposting`,
-              headline: post.title,
-              description: post.description,
-              image: absImg,
-              datePublished: post.date,
-              author: { "@id": editorId },
-              publisher: { "@id": orgId },
-              mainEntityOfPage: { "@type": "WebPage", "@id": postUrl },
-              isPartOf: { "@id": `${blogUrl}#blog` },
-            },
-          };
-        }),
-      },
-    ],
+      "url": `${ORIGIN}/blog/${post.slug}`
+    }))
   };
 
   return (
     <script
       type="application/ld+json"
-      suppressHydrationWarning
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(jsonLd).replace(/</g, "\u003c"),
-      }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
     />
   );
 }
-
 
 /* ================== BLOG KART BİLEŞENİ ================== */
 function BlogCard({ post, isFeatured = false }) {
@@ -246,16 +205,10 @@ function BlogCard({ post, isFeatured = false }) {
 export default async function BlogPage() {
   const posts = await getBlogPosts();
   const hasPosts = posts.length > 0;
-  const baseUrl = getBaseUrl();
-  const breadcrumbItems = [
-    { name: "Ana Sayfa", url: `${baseUrl}/` },
-    { name: "Blog", url: `${baseUrl}/blog` },
-  ];
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      <BreadcrumbJsonLd items={breadcrumbItems} baseUrl={baseUrl} />
-      <BlogJsonLd posts={posts} baseUrl={baseUrl} />
+      <BlogJsonLd posts={posts} />
 
       {/* HERO SECTION */}
       <section className="relative bg-[#0f172a] text-white py-24 overflow-hidden">

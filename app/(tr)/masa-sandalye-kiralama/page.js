@@ -3,17 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
-import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
-
 import { buildFaqSchema } from "@/lib/structuredData/faq";
 import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
 
 /* ================== Sabitler ================== */
 export const revalidate = 1800;
-const ORIGIN =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
-  "https://www.sahneva.com";
-const ORGANIZATION_ID = `${ORIGIN}/#org`;
+const ORIGIN = "https://www.sahneva.com";
 const PHONE = "+905453048671";
 const WA_TEXT =
   "Merhaba%2C+masa+sandalye+kiralama+icin+teklif+istiyorum.+Etkinlik+turu%3A+%5Bdavet%2Fkonferans%2Fkokteyl%5D%2C+Tarih%3A+%5Bgg.aa.yyyy%5D%2C+Kisi+sayisi%3A+%5Bxxx%5D.";
@@ -530,16 +525,10 @@ function Packages() {
                   {/* HEADER */}
                   <header className="relative p-8 text-white bg-gradient-to-r from-blue-900 via-purple-900 to-blue-900 overflow-hidden">
                     {/* Hafif pattern / overlay */}
-                  <div
-                    className="absolute inset-0 grid-overlay"
-                    aria-hidden="true"
-                    style={{
-                      "--grid-overlay-top": "rgba(59,130,246,0.6)",
-                      "--grid-overlay-bottom": "rgba(147,51,234,0.6)",
-                      "--grid-overlay-opacity": "0.4",
-                      "--grid-overlay-blur": "28px",
-                    }}
-                  />
+                    <div
+                      className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.6),_transparent_55%),radial-gradient(circle_at_bottom,_rgba(147,51,234,0.6),_transparent_55%)]"
+                      aria-hidden="true"
+                    />
                     <div className="relative z-10">
                       {/* Badge */}
                       {pkg.badge && (
@@ -1610,7 +1599,14 @@ function JsonLd() {
   const pageUrl = `${ORIGIN}/masa-sandalye-kiralama`;
   const pageDescription = metadata.description;
 
-  const provider = { "@id": ORGANIZATION_ID };
+  const provider = {
+    "@type": "Organization",
+    "@id": `${ORIGIN}#org`,
+    name: "Sahneva",
+    url: ORIGIN,
+    telephone: "+905453048671",
+    logo: `${ORIGIN}/img/logo.png`,
+  };
 
   const { service: serviceSchema, products } = buildServiceProductSchema({
     slug: "/masa-sandalye-kiralama",
@@ -1639,6 +1635,23 @@ function JsonLd() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Anasayfa",
+            item: `${ORIGIN}/`,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Masa Sandalye Kiralama",
+            item: `${ORIGIN}/masa-sandalye-kiralama`,
+          },
+        ],
+      },
       serviceNode,
       {
         "@type": "WebPage",
@@ -1667,17 +1680,8 @@ function JsonLd() {
 
 /* ================== Sayfa Bileşeni ================== */
 export default function Page() {
-  const baseUrl = ORIGIN;
-  const canonical = `${baseUrl}/masa-sandalye-kiralama`;
-  const breadcrumbItems = [
-    { name: "Ana Sayfa", url: `${baseUrl}/` },
-    { name: "Hizmetler", url: `${baseUrl}/hizmetler` },
-    { name: "Masa Sandalye Kiralama", url: canonical },
-  ];
-
   return (
     <>
-      <BreadcrumbJsonLd items={breadcrumbItems} baseUrl={baseUrl} />
       <JsonLd />
       <Hero />
       <Services />

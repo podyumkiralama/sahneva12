@@ -4,12 +4,9 @@ import Link from "next/link";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 
-import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
-
 /* ================== Constants ================== */
 export const revalidate = 1800;
 const ORIGIN = "https://www.sahneva.com";
-const ORGANIZATION_ID = `${ORIGIN}/#org`;
 const PHONE = "+905453048671";
 const WA_TEXT =
   "Hello%2C+I'd+like+to+request+a+quote+for+sound+and+lighting+rental.+Event+type%3A+%5Bconcert%2Fcorporate%5D%2C+Date%3A+%5Bdd.mm.yyyy%5D%2C+Audience+size%3A+%5Bxxx%5D.";
@@ -1032,10 +1029,38 @@ function JsonLd() {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: `${ORIGIN}/en`
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Sound & Lighting Rental",
+            item: `${ORIGIN}/en/sound-light-rental`
+          },
+        ],
+      },
+      {
         "@type": "Service",
         name: "Sound & Lighting System Rental",
         description: "Professional sound and lighting rental services with line-array speakers, digital consoles, wireless microphones, moving-head lights, truss systems and live operation across Türkiye.",
-          provider: { "@id": ORGANIZATION_ID },
+        provider: {
+          "@type": "Organization",
+          name: "Sahneva",
+          telephone: "+905453048671",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Istanbul",
+            addressCountry: "TR"
+          },
+          url: ORIGIN,
+          logo: `${ORIGIN}/logo.png`,
+        },
         areaServed: "TR",
         serviceType: "EventProduction",
         offers: {
@@ -1075,17 +1100,8 @@ function JsonLd() {
 
 /* ================== Page component ================== */
 export default function Page() {
-  const baseUrl = ORIGIN;
-  const canonical = `${baseUrl}/en/sound-light-rental`;
-  const breadcrumbItems = [
-    { name: "Home", url: `${baseUrl}/en` },
-    { name: "Services", url: `${baseUrl}/en/services` },
-    { name: "Sound & Light Rental", url: canonical },
-  ];
-
   return (
     <>
-      <BreadcrumbJsonLd items={breadcrumbItems} baseUrl={baseUrl} />
       <JsonLd />
       <Hero />
       <Services />

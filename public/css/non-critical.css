@@ -1,0 +1,184 @@
+/* Non-critical UI polish loaded asynchronously to avoid render-blocking. */
+
+/* Custom scrollbar styling (non-essential for first paint) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9; /* Slate-100 */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1; /* Slate-300 */
+  border-radius: 5px;
+  border: 2px solid #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8; /* Slate-400 */
+}
+
+/* Text selection highlight */
+::selection {
+  background-color: var(--brand-primary);
+  color: #ffffff;
+}
+
+/* Accessibility & focus helpers */
+:focus-visible {
+  outline: 3px solid var(--brand-secondary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.focus-ring {
+  outline: 3px solid transparent;
+  outline-offset: 2px;
+  border-radius: 0.5rem;
+}
+
+.focus-ring:focus-visible {
+  outline-color: var(--brand-secondary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.35);
+}
+
+/* Animation helpers */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  opacity: 0;
+  animation: fade-up 0.7s ease forwards;
+}
+
+.animation-delay-0 {
+  animation-delay: 0ms;
+}
+.animation-delay-100 {
+  animation-delay: 100ms;
+}
+.animation-delay-200 {
+  animation-delay: 200ms;
+}
+.animation-delay-300 {
+  animation-delay: 300ms;
+}
+.animation-delay-400 {
+  animation-delay: 400ms;
+}
+.animation-delay-500 {
+  animation-delay: 500ms;
+}
+
+/* === HizmetlerPage inline -> non-critical === */
+.nc-HizmetlerPage-hero-1 {
+  transform: scale(1.02);
+  filter: brightness(0.6) contrast(1.1) saturate(1.1);
+}
+
+/* === ServicesPage inline -> non-critical === */
+.nc-ServicesPage-hero-1 {
+  transform: scale(1.02);
+  filter: brightness(0.6) contrast(1.1) saturate(1.1);
+}
+
+/* === DeferredSections inline -> non-critical === */
+.nc-DeferredSections-wrapper-1 {
+  contain: layout paint;
+  min-height: 400px;
+}
+
+.nc-DeferredSections-wrapper-2 {
+  contain: layout paint;
+  min-height: 320px;
+}
+
+.nc-DeferredSections-wrapper-3 {
+  contain: layout paint;
+  min-height: 260px;
+}
+
+.nc-DeferredSections-wrapper-4 {
+  min-height: 400px;
+}
+
+.nc-DeferredSections-wrapper-5 {
+  min-height: 320px;
+}
+
+.nc-DeferredSections-wrapper-6 {
+  /*
+   * FAQ bileşeni yüklenirken belirgin bir yükseklik rezervi oluşturup
+   * kaydırma çubuğunun anlık görünmesini önler. Gerçek bileşenin yüksekliği
+   * 700px üzerini bulabildiği için, minimum yüksekliği artırıp yatay taşmayı
+   * da tamamen kapatıyoruz.
+   */
+  min-height: 780px;
+  contain: layout paint;
+  overflow: clip;
+}
+
+/* === IletisimPage inline -> non-critical === */
+.nc-IletisimPage-map-1 {
+  border: 0;
+}
+
+/* === CaseGallery inline -> non-critical === */
+.nc-CaseGallery-lightbox-1 {
+  overscroll-behavior: contain;
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-top: env(safe-area-inset-top);
+}
+
+/* === Navbar inline -> non-critical === */
+.nc-Navbar-logo-1 {
+  color: transparent;
+}
+
+/* === CadirKiralamaPage inline -> non-critical === */
+.nc-CadirKiralamaPage-section-1,
+.nc-CadirKiralamaPage-section-2,
+.nc-CadirKiralamaPage-section-3,
+.nc-CadirKiralamaPage-section-4,
+.nc-CadirKiralamaPage-section-5,
+.nc-CadirKiralamaPage-section-6,
+.nc-CadirKiralamaPage-section-7,
+.nc-CadirKiralamaPage-section-8 {
+  content-visibility: auto;
+}
+
+/* === ContactPage inline -> non-critical === */
+.nc-ContactPage-map-1 {
+  border: 0;
+}
+
+/* === HomePage inline -> non-critical === */
+.nc-HomePage-aurora-1 {
+  animation-duration: 8s;
+}
+
+/* === ArHomePage inline -> non-critical === */
+.nc-ArHomePage-aurora-1 {
+  animation-duration: 8s;
+}
+
+/* === SitePage inline -> non-critical === */
+.nc-SitePage-section-1 {
+  content-visibility: auto;
+}
+
+/* === ServicesTabs inline -> non-critical === */
+.nc-ServicesTabs-image-1 {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}

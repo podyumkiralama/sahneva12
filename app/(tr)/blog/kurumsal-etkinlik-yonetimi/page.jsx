@@ -1,14 +1,10 @@
 // app/blog/kurumsal-etkinlik-yonetimi/page.jsx
 import Image from "next/image";
 import Link from "next/link";
-import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 
 /* ================== YAPILANDIRMA & SABİTLER ================== */
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.sahneva.com").replace(/\/$/, "");
-const BLOG_URL = `${SITE_URL}/blog/kurumsal-etkinlik-yonetimi`;
-// ✅ Rich Results için timezone dahil ISO 8601
-const PUBLISH_DATE = "2025-12-15T00:00:00+03:00";
-const MODIFIED_DATE = "2025-12-15T00:00:00+03:00";
+const BLOG_URL = "https://www.sahneva.com/blog/kurumsal-etkinlik-yonetimi";
+const PUBLISH_DATE = "2025-05-20";
 const AUTHOR_NAME = "Sahneva İçerik Ekibi";
 
 /* ================== META DATA ================== */
@@ -30,7 +26,7 @@ export const metadata = {
     siteName: "Sahneva",
     images: [
       {
-        url: `${SITE_URL}/img/blog/kurumsal-etkinlik-hero.webp`,
+        url: "https://www.sahneva.com/img/blog/kurumsal-etkinlik-hero.webp",
         width: 1200,
         height: 630,
         alt: "Kurumsal etkinlik sahne ve LED ekran kurulumu",
@@ -41,7 +37,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Kurumsal Etkinlik Yönetimi Rehberi",
     description: "Etkinlikleriniz için teknik planlama ipuçları.",
-    images: [`${SITE_URL}/img/blog/kurumsal-etkinlik-hero.webp`],
+    images: ["https://www.sahneva.com/img/blog/kurumsal-etkinlik-hero.webp"],
   },
   keywords: [
     "kurumsal etkinlik yönetimi",
@@ -86,60 +82,61 @@ const FAQ_ITEMS = [
       "Sahneva; sahne ve podyum kurulumundan LED ekranlara, ses-ışık sistemlerinden truss ve rigging altyapısına, çadır ve zemin kaplamadan jeneratör desteğine kadar teknik süreci anahtar teslim yönetir.",
   },
 ];
+
 /* ================== SCHEMA (JSON-LD) ================== */
 function ArticleSchema() {
-  const site = String(SITE_URL || "").replace(/\/$/, "");
-  
-  // RootLayout'ta tanımlı ID'leri kullanmak için sabit tanımlarınızı burada yapıyorsunuz.
-  // Bu değişkenler, RootLayout'taki BASE_SITE_URL, ORGANIZATION_ID, etc. ile tutarlı olmalıdır.
-  const orgId = `${site}/#org`;
-  const editorId = `${site}/#editor`;
-
-  // MODIFIED_DATE yoksa publish'i kullan
-  const modified =
-    typeof MODIFIED_DATE !== "undefined" && MODIFIED_DATE ? MODIFIED_DATE : PUBLISH_DATE;
-
-  const schema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      
-      // BlogPosting
-      {
-        "@type": "BlogPosting",
-        "@id": `${BLOG_URL}#blogposting`,
-        headline: metadata?.title || "Blog Yazısı",
-        description: metadata?.description,
-        image: `${site}/img/blog/kurumsal-etkinlik-hero.webp`,
-        datePublished: PUBLISH_DATE,
-        dateModified: modified,
-        inLanguage: "tr-TR",
-        // RootLayout'taki tanımlara referans veriliyor:
-        author: { "@id": editorId },
-        publisher: { "@id": orgId },
-        mainEntityOfPage: { "@type": "WebPage", "@id": BLOG_URL },
-        isPartOf: { "@type": "Blog", "@id": `${site}/blog#blog` },
-      },
-
-      // FAQ rich result
-      {
-        "@type": "FAQPage",
-        "@id": `${BLOG_URL}#faq`,
-        mainEntity: FAQ_ITEMS.map((item) => ({
-          "@type": "Question",
-          name: item.question,
-          acceptedAnswer: { "@type": "Answer", text: item.answer },
-        })),
-      },
-    ],
-  };
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "@id": `${BLOG_URL}#article`,
+        "headline": "Kurumsal Etkinlik Yönetimi: Kusursuz Organizasyon İçin Teknik Rehber",
+        "description": metadata.description,
+        "image": "https://www.sahneva.com/img/blog/kurumsal-etkinlik-hero.webp",
+        "datePublished": PUBLISH_DATE,
+        "dateModified": new Date().toISOString().split("T")[0],
+        "author": {
+          "@type": "Organization",
+          "name": AUTHOR_NAME,
+          "url": "https://www.sahneva.com"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Sahneva",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://www.sahneva.com/img/logo.png"
+          }
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": BLOG_URL
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Anasayfa", "item": "https://www.sahneva.com" },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://www.sahneva.com/blog" },
+          { "@type": "ListItem", "position": 3, "name": "Kurumsal Etkinlik Yönetimi", "item": BLOG_URL }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": FAQ_ITEMS.map(item => ({
+          "@type": "Question",
+          "name": item.question,
+          "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+        }))
+      }
+    ]
+  };
 
   return (
     <script
       type="application/ld+json"
-      suppressHydrationWarning
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(schema).replace(/</g, "\\u003c"),
-      }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
   );
 }
@@ -185,15 +182,8 @@ const TableOfContents = () => (
 
 /* ================== ANA SAYFA ================== */
 export default function BlogPostCorporate() {
-  const breadcrumbItems = [
-    { name: "Ana Sayfa", url: `${SITE_URL}/` },
-    { name: "Blog", url: `${SITE_URL}/blog` },
-    { name: "Kurumsal Etkinlik Yönetimi", url: BLOG_URL },
-  ];
-
   return (
     <>
-      <BreadcrumbJsonLd items={breadcrumbItems} baseUrl={SITE_URL} />
       <ArticleSchema />
 
       {/* --- HERO SECTION --- */}
@@ -585,13 +575,7 @@ export default function BlogPostCorporate() {
                     Etkinlik detaylarınızı paylaşın, 2 saat içinde projelendirilmiş teklifinizi sunalım.
                   </p>
                   <div className="space-y-3">
-                    <a
-                      href="https://wa.me/905453048671"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="WhatsApp ile hızlı teklif isteyin — yeni sekmede açılır"
-                      className="flex items-center justify-center gap-2 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3.5 rounded-xl transition-all shadow-md hover:shadow-green-200"
-                    >
+                    <a href="https://wa.me/905453048671" className="flex items-center justify-center gap-2 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3.5 rounded-xl transition-all shadow-md hover:shadow-green-200">
                       <span>📱</span> WhatsApp
                     </a>
                     <Link href="/iletisim" className="flex items-center justify-center gap-2 w-full bg-gray-50 hover:bg-gray-100 text-gray-900 font-bold py-3.5 rounded-xl transition-all border border-gray-200">

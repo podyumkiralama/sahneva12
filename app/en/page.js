@@ -37,11 +37,6 @@ const HERO_FEATURES = [
   },
 ];
 
-const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.sahneva.com"
-).replace(/\/$/, "");
-const ORGANIZATION_ID = `${SITE_URL}/#org`;
-
 const WHY_SAHNEVA_FEATURES = [
   {
     icon: "⭐",
@@ -410,7 +405,7 @@ function StructuredData() {
         url: "https://www.sahneva.com/en",
         name: "Stage, LED Wall, Sound & Lighting Rentals | Nationwide Türkiye | Sahneva",
         inLanguage: "en-US",
-        about: { "@id": ORGANIZATION_ID },
+        about: { "@id": "https://www.sahneva.com/#org" },
       },
       {
         "@type": "OfferCatalog",
@@ -422,99 +417,19 @@ function StructuredData() {
             "@type": "Offer",
             itemOffered: { "@type": "Service", name: "Stage Rentals", description: "Stage and podium engineering services" },
             priceSpecification: {
-              "@type": "PriceSpecification",
-              priceCurrency: "TRY",
-              minPrice: 10000,
-              maxPrice: 200000,
+              "@type": "UnitPriceSpecification",
+              price: 250,
+              priceCurrency: "EUR",
+              unitText: "m²",
             },
             availability: "https://schema.org/InStock",
             areaServed: "TR",
-            seller: { "@id": ORGANIZATION_ID },
+            seller: { "@id": "https://www.sahneva.com/#org" },
           },
-          {
-            "@type": "Offer",
-            itemOffered: { "@type": "Service", name: "LED Wall Rentals" },
-            priceSpecification: {
-              "@type": "UnitPriceSpecification",
-              price: 1700,
-              priceCurrency: "TRY",
-              unitText: "per day",
-            },
-            areaServed: "TR",
-            seller: { "@id": ORGANIZATION_ID },
-          },
-          {
-            "@type": "Offer",
-            itemOffered: { "@type": "Service", name: "Sound & Lighting Systems" },
-            priceSpecification: {
-              "@type": "PriceSpecification",
-              priceCurrency: "TRY",
-              minPrice: 10000,
-              maxPrice: 300000,
-            },
-            areaServed: "TR",
-            seller: { "@id": ORGANIZATION_ID },
-          },
-          {
-            "@type": "Offer",
-            itemOffered: { "@type": "Service", name: "Podium Rentals" },
-            priceSpecification: {
-              "@type": "PriceSpecification",
-              priceCurrency: "TRY",
-              minPrice: 250,
-              maxPrice: 100000,
-            },
-            areaServed: "TR",
-            seller: { "@id": ORGANIZATION_ID },
-          },
-          {
-            "@type": "Offer",
-            itemOffered: { "@type": "Service", name: "Event Tents" },
-            priceSpecification: {
-              "@type": "PriceSpecification",
-              priceCurrency: "TRY",
-              minPrice: 6000,
-              maxPrice: 800000,
-            },
-            areaServed: "TR",
-            seller: { "@id": ORGANIZATION_ID },
-          },
-          {
-            "@type": "Offer",
-            itemOffered: { "@type": "Service", name: "Chair Rentals" },
-            priceSpecification: {
-              "@type": "UnitPriceSpecification",
-              price: 200,
-              priceCurrency: "TRY",
-              unitText: "per unit",
-            },
-            areaServed: "TR",
-            seller: { "@id": ORGANIZATION_ID },
-          },
-          {
-            "@type": "Offer",
-            itemOffered: { "@type": "Service", name: "Table Rentals" },
-            priceSpecification: {
-              "@type": "PriceSpecification",
-              priceCurrency: "TRY",
-              minPrice: 1000,
-              maxPrice: 2000,
-            },
-            areaServed: "TR",
-            seller: { "@id": ORGANIZATION_ID },
-          },
-          {
-            "@type": "Offer",
-            itemOffered: { "@type": "Service", name: "Istanbul Logistics" },
-            priceSpecification: {
-              "@type": "PriceSpecification",
-              price: 7000,
-              priceCurrency: "TRY",
-            },
-            areaServed: "TR",
-            seller: { "@id": ORGANIZATION_ID },
-          },
-          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Corporate Event Production" }, areaServed: "TR", seller: { "@id": ORGANIZATION_ID } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "LED Wall Rentals" }, areaServed: "TR", seller: { "@id": "https://www.sahneva.com/#org" } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Sound & Lighting Systems" }, areaServed: "TR", seller: { "@id": "https://www.sahneva.com/#org" } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Event Tents" }, areaServed: "TR", seller: { "@id": "https://www.sahneva.com/#org" } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Corporate Event Production" }, areaServed: "TR", seller: { "@id": "https://www.sahneva.com/#org" } },
         ],
       },
       {
@@ -525,7 +440,7 @@ function StructuredData() {
           "Turnkey stage, LED wall, sound, lighting and tent solutions with expert crew support across Türkiye.",
         url: "https://www.sahneva.com/en",
         areaServed: { "@type": "Country", name: "TR" },
-        provider: { "@id": ORGANIZATION_ID },
+        provider: { "@id": "https://www.sahneva.com/#org" },
       },
       {
         "@type": "ImageObject",
@@ -577,16 +492,10 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
     },
   });
 
-  const { fetchPriority, alt: imageAlt, ...rest } = props;
+  const { fetchPriority, ...rest } = props;
 
-  return (
-    <img
-      {...rest}
-      alt={ariaHidden ? "" : imageAlt || alt}
-      fetchPriority={fetchPriority}
-      aria-hidden={ariaHidden}
-    />
-  );
+  // eslint-disable-next-line react/no-unknown-property -- force lowercase attribute for HTML validators
+  return <img {...rest} fetchpriority={fetchPriority} aria-hidden={ariaHidden} />;
 }
 
 export default function EnglishHomePage() {
@@ -675,7 +584,7 @@ export default function EnglishHomePage() {
             
               <h2 className="sr-only">Key highlights</h2>
               <ul className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12 list-none p-0 m-0">
-                {HERO_FEATURES.map((item) => (
+                {HERO_FEATURES.map((item, index) => (
                   <li key={item.title} className="m-0 p-0">
                     
                       <div className="group bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20 hover:border-white/40 transition-all duration-500 hover:scale-105 hover:bg-white/15">

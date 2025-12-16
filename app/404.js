@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 export const metadata = {
   title: "Sayfa bulunamadı",
 };
@@ -11,12 +9,12 @@ export default function NotFound() {
       <p className="mt-4 text-neutral-600">
         Aradığınız sayfa taşınmış veya hiç var olmamış olabilir.
       </p>
-      <Link
+      <a
         href="/"
         className="inline-flex items-center justify-center mt-8 rounded-xl px-5 py-3 font-semibold bg-violet-700 text-white hover:bg-violet-800 focus-ring"
       >
         Ana sayfaya dön
-      </Link>
+      </a>
     </div>
   );
 }

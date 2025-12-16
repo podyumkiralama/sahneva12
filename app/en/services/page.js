@@ -34,9 +34,6 @@ export const metadata = {
 
 export const revalidate = 3600;
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.sahneva.com").replace(/\/$/, "");
-const ORGANIZATION_ID = `${SITE_URL}/#org`;
-
 /* ───── STRUCTURED DATA ───── */
 function ServicesStructuredData() {
   const schema = {
@@ -45,7 +42,10 @@ function ServicesStructuredData() {
     name: "Sahneva Services",
     description:
       "Professional stage rentals, LED walls, sound-light systems, podium, tent rentals and event production services",
-      provider: { "@id": ORGANIZATION_ID },
+    provider: {
+      "@type": "Organization",
+      name: "Sahneva",
+    },
     areaServed: "TR",
     hasOfferCatalog: {
       "@type": "OfferCatalog",
@@ -58,12 +58,6 @@ function ServicesStructuredData() {
             name: "Stage Rental",
             description: "Professional stage installation and rental services",
           },
-          priceSpecification: {
-            "@type": "PriceSpecification",
-            priceCurrency: "TRY",
-            minPrice: "10000.00",
-            maxPrice: "200000.00",
-          },
         },
         {
           "@type": "Offer",
@@ -72,12 +66,6 @@ function ServicesStructuredData() {
             name: "LED Wall Rental",
             description: "High-resolution LED wall rental services",
           },
-          priceSpecification: {
-            "@type": "UnitPriceSpecification",
-            price: "1700.00",
-            priceCurrency: "TRY",
-            unitText: "per day",
-          },
         },
         {
           "@type": "Offer",
@@ -85,65 +73,6 @@ function ServicesStructuredData() {
             "@type": "Service",
             name: "Sound and Lighting Systems",
             description: "Professional sound and lighting system rental services",
-          },
-          priceSpecification: {
-            "@type": "PriceSpecification",
-            priceCurrency: "TRY",
-            minPrice: "10000.00",
-            maxPrice: "300000.00",
-          },
-        },
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service",
-            name: "Podium Rental",
-            description: "Modular podium and catwalk solutions",
-          },
-          priceSpecification: {
-            "@type": "PriceSpecification",
-            priceCurrency: "TRY",
-            minPrice: "250.00",
-            maxPrice: "100000.00",
-          },
-        },
-        {
-          "@type": "Offer",
-          itemOffered: { "@type": "Service", name: "Event Tent Rental" },
-          priceSpecification: {
-            "@type": "PriceSpecification",
-            priceCurrency: "TRY",
-            minPrice: "6000.00",
-            maxPrice: "800000.00",
-          },
-        },
-        {
-          "@type": "Offer",
-          itemOffered: { "@type": "Service", name: "Chair Rental" },
-          priceSpecification: {
-            "@type": "UnitPriceSpecification",
-            price: "200.00",
-            priceCurrency: "TRY",
-            unitText: "per unit",
-          },
-        },
-        {
-          "@type": "Offer",
-          itemOffered: { "@type": "Service", name: "Table Rental" },
-          priceSpecification: {
-            "@type": "PriceSpecification",
-            priceCurrency: "TRY",
-            minPrice: "1000.00",
-            maxPrice: "2000.00",
-          },
-        },
-        {
-          "@type": "Offer",
-          itemOffered: { "@type": "Service", name: "Istanbul Logistics" },
-          priceSpecification: {
-            "@type": "PriceSpecification",
-            priceCurrency: "TRY",
-            price: "7000.00",
           },
         },
       ],
