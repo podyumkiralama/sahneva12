@@ -5,6 +5,7 @@ import { readdir } from "fs/promises";
 import { existsSync } from "fs";
 import path from "path";
 import { normalizeBaseUrl } from "@/lib/seo/breadcrumbs";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 
 /* ================== RUNTIME & ISR ================== */
 export const runtime = "nodejs";
