@@ -8,18 +8,11 @@ function HeroFeatureGrid() {
     <ul className="grid grid-cols-1 md:grid-cols-3 gap-4 list-none p-0 m-0">
       {HERO_FEATURES_TR.map((item, index) => (
         <li key={item.title} className="m-0 p-0">
-          {/* ✅ CLS FIX: scale yok → sadece fade (veya direction propunu kaldır) */}
-          <ScrollReveal asChild delay={String(index * 0.5)} direction="fade">
+          <ScrollReveal asChild delay={String(index * 0.5)} direction="scale">
             <div className="group bg-slate-900/80 rounded-xl p-4 border border-white/10">
-              <div
-                className="mb-2 inline-flex h-8 w-8 items-center justify-center leading-none text-2xl"
-                aria-hidden="true"
-              >
-                <span className={`${item.color} inline-block w-full text-center`}>
-                  {item.icon}
-                </span>
+              <div className={`text-2xl mb-2 ${item.color}`} aria-hidden="true">
+                {item.icon}
               </div>
-
               <div className="text-white font-bold text-base mb-1">
                 {item.title}
               </div>
@@ -62,8 +55,7 @@ function ConsultationCard() {
           <a
             href="#teklif-al"
             className="bg-white text-blue-800 hover:bg-gray-100 font-bold px-5 py-2 rounded-lg transition-colors text-sm focus-ring min-h-[44px] flex items-center justify-center"
-            // ✅ ARIA FIX: visible text ile uyumlu olsun
-            aria-label="Hemen Teklif Al (sayfada aşağı kaydırır)"
+            aria-label="Ücretsiz danışmanlık ve teklif almak için aşağı kaydır"
           >
             Hemen Teklif Al
           </a>
