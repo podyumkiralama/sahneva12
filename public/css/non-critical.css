@@ -1,24 +1,5 @@
 /* Non-critical UI polish loaded asynchronously to avoid render-blocking. */
 
-/* Custom scrollbar styling (non-essential for first paint) */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f5f9; /* Slate-100 */
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #cbd5e1; /* Slate-300 */
-  border-radius: 5px;
-  border: 2px solid #f1f5f9;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: #94a3b8; /* Slate-400 */
-}
-
 /* Text selection highlight */
 ::selection {
   background-color: var(--brand-primary);
@@ -92,38 +73,13 @@
 }
 
 /* === DeferredSections inline -> non-critical === */
-.nc-DeferredSections-wrapper-1 {
+.nc-DeferredSections-wrapper {
   contain: layout paint;
-  min-height: 400px;
+  min-height: var(--nc-min-h, 320px);
 }
 
-.nc-DeferredSections-wrapper-2 {
-  contain: layout paint;
-  min-height: 320px;
-}
-
-.nc-DeferredSections-wrapper-3 {
-  contain: layout paint;
-  min-height: 260px;
-}
-
-.nc-DeferredSections-wrapper-4 {
-  min-height: 400px;
-}
-
-.nc-DeferredSections-wrapper-5 {
-  min-height: 320px;
-}
-
-.nc-DeferredSections-wrapper-6 {
-  /*
-   * FAQ bileşeni yüklenirken belirgin bir yükseklik rezervi oluşturup
-   * kaydırma çubuğunun anlık görünmesini önler. Gerçek bileşenin yüksekliği
-   * 700px üzerini bulabildiği için, minimum yüksekliği artırıp yatay taşmayı
-   * da tamamen kapatıyoruz.
-   */
-  min-height: 780px;
-  contain: layout paint;
+/* Sadece ihtiyaç olan placeholder'larda kullan (eski wrapper-6'nın amacı) */
+.nc-DeferredSections-clip {
   overflow: clip;
 }
 

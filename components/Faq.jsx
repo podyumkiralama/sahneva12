@@ -66,15 +66,58 @@ const FaqRow = React.memo(function FaqRow({
   onToggle,
 }) {
   const contentRef = useRef(null);
-  const [height, setHeight] = useState("0px");
+  const contentInnerRef = useRef(null);
+  const measuredHeightRef = useRef(0);
+  const rafIdRef = useRef(null);
+
+  const scheduleHeightWrite = useCallback(
+    (nextHeight) => {
+      if (rafIdRef.current) {
+        cancelAnimationFrame(rafIdRef.current);
+      }
+
+      rafIdRef.current = requestAnimationFrame(() => {
+        const host = contentRef.current;
+        if (!host) return;
+
+        const heightValue = isOpen ? `${Math.ceil(nextHeight)}px` : "0px";
+
+        if (host.style.height !== heightValue) {
+          host.style.height = heightValue;
+        }
+      });
+    },
+    [isOpen]
+  );
 
   useEffect(() => {
-    if (isOpen && contentRef.current) {
-      setHeight(`${contentRef.current.scrollHeight}px`);
-    } else {
-      setHeight("0px");
-    }
-  }, [isOpen]);
+    const innerEl = contentInnerRef.current;
+    if (!innerEl) return undefined;
+
+    const observer = new ResizeObserver((entries) => {
+      const entry = entries[0];
+      if (!entry) return;
+
+      measuredHeightRef.current = entry.contentRect.height;
+      scheduleHeightWrite(entry.contentRect.height);
+    });
+
+    observer.observe(innerEl);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [scheduleHeightWrite]);
+
+  useEffect(() => {
+    scheduleHeightWrite(measuredHeightRef.current);
+
+    return () => {
+      if (rafIdRef.current) {
+        cancelAnimationFrame(rafIdRef.current);
+      }
+    };
+  }, [isOpen, scheduleHeightWrite]);
 
   return (
     <div
@@ -128,10 +171,10 @@ const FaqRow = React.memo(function FaqRow({
         role="region"
         aria-labelledby={`${slug}-header`}
         ref={contentRef}
-        style={{ height }}
+        style={{ height: "0px" }}
         className="transition-all duration-300 ease-in-out overflow-hidden"
       >
-        <div className="px-5 pb-5">
+        <div ref={contentInnerRef} className="px-5 pb-5">
           <div className="pt-4 border-t border-white/10 text-slate-400 text-sm md:text-base leading-relaxed">
             {answer}
           </div>
@@ -183,9 +226,9 @@ function SupportCard({ dictionary }) {
         <a
           href={dictionary.contactWhatsappHref}
           target="_blank"
-          rel="noopener noreferrer nofollow"
+          rel="noopener noreferrer"
           className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-green-500/30 transition-all group"
-          aria-label={`${dictionary.supportWhatsappLabel} – WhatsApp (yeni sekmede açılır)`}
+          aria-label={`${dictionary.supportWhatsappLabel} – yeni sekmede açılır`}
         >
           <span className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center text-green-400 group-hover:bg-green-500 group-hover:text-white transition-colors">
             📱
@@ -197,7 +240,6 @@ function SupportCard({ dictionary }) {
             <span className="block text-sm font-bold text-white group-hover:text-green-400 transition-colors">
               Hızlı Mesaj Gönder
             </span>
-            <span className="sr-only">(yeni sekmede açılır)</span>
           </div>
         </a>
 
@@ -274,7 +316,7 @@ export default function Faq({
     >
       {/* Arka Plan Efektleri */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]" />
+        <div className="absolute inset-0 grid-overlay" />
         <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-blue-600/10 blur-[120px] rounded-full mix-blend-screen" />
       </div>
 

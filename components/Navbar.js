@@ -25,42 +25,36 @@ const SERVICE_LINKS = [
   {
     href: "/podyum-kiralama",
     label: "Podyum Kiralama",
-    title: "Modüler podyum kiralama ve kurulum hizmeti - Sahneva",
     icon: "👑",
     description: "Profesyonel modüler podyum sistemleri",
   },
   {
     href: "/led-ekran-kiralama",
     label: "LED Ekran Kiralama",
-    title: "Yüksek çözünürlüklü LED ekran kiralama - Sahneva",
     icon: "🖥️",
     description: "HD LED ekran ve video wall çözümleri",
   },
   {
     href: "/ses-isik-sistemleri",
     label: "Ses & Işık Sistemleri",
-    title: "Profesyonel ses ve ışık sistemi kiralama - Sahneva",
     icon: "🎭",
     description: "Konser kalitesinde ses ve ışık ekipmanları",
   },
   {
     href: "/cadir-kiralama",
     label: "Çadır Kiralama",
-    title: "Etkinlik çadırı kiralama ve kurulum - Sahneva",
     icon: "⛺",
     description: "Her türlü etkinlik için çadır çözümleri",
   },
   {
     href: "/masa-sandalye-kiralama",
     label: "Masa Sandalye Kiralama",
-    title: "Masa sandalye kiralama hizmeti - Sahneva",
     icon: "🪑",
     description: "Toplantı ve davetler için masa sandalye",
   },
   {
     href: "/sahne-kiralama",
     label: "Sahne Kiralama",
-    title: "Profesyonel sahne kiralama ve kurulum - Sahneva",
     icon: "🎪",
     description: "Portatif ve modüler sahne sistemleri",
   },
@@ -84,8 +78,8 @@ export default function Navbar({
   // Lokalizasyon fallback
   const headerStrings = LOCALE_CONTENT?.tr?.header || {
     navLabel: "Ana gezinme menüsü",
-    mobileToggleOpenLabel: "Menüyü aç",
-    mobileToggleCloseLabel: "Menüyü kapat",
+    mobileToggleOpenLabel: "Menüyü Aç",
+    mobileToggleCloseLabel: "Menüyü Kapat",
   };
 
   // State
@@ -96,15 +90,13 @@ export default function Navbar({
   const computedHeadingId = headingIdProp ?? `navbar-heading-${instanceId}`;
   const computedDescriptionId =
     descriptionIdProp ?? `navbar-description-${instanceId}`;
-  const resolvedAriaLabel = ariaLabel ??
-    (ariaLabelledby ? undefined : headerStrings.navLabel);
+  const resolvedAriaLabel =
+    ariaLabel ?? (ariaLabelledby ? undefined : headerStrings.navLabel);
   const resolvedAriaLabelledby =
-    ariaLabel || ariaLabelledby
-      ? ariaLabelledby
-      : computedHeadingId;
+    ariaLabel || ariaLabelledby ? ariaLabelledby : computedHeadingId;
   const resolvedAriaDescribedby =
     ariaDescribedby ?? computedDescriptionId;
-  const navRole = roleOverride ?? "navigation";
+  const navRole = roleOverride;
   const shouldRenderHeading = !resolvedAriaLabel && !ariaLabelledby;
   const shouldRenderDescription = !ariaDescribedby;
 
@@ -114,6 +106,7 @@ export default function Navbar({
   const mobileMenuRef = useRef(null);
   const toggleButtonRef = useRef(null);
   const servicesButtonRef = useRef(null);
+  const firstServiceItemRef = useRef(null);
   const serviceItemRefs = useRef([]);
   const mobileMenuOpenedRef = useRef(false);
 
@@ -146,11 +139,11 @@ export default function Navbar({
 
   const mobileWhatsappBtnClass = useMemo(
     () =>
-      `block text-center mt-4 rounded-xl px-5 py-3 text-white text-sm font-bold
+      `inline-flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-white text-sm font-bold
         bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700
         transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105
-        min-h-[44px] flex items-center justify-center gap-2 border border-green-700/20 ${FOCUS_RING_CLASS}`,
-    []
+        min-h-[44px] border border-green-700/20 ${FOCUS_RING_CLASS}`,
+    [],
   );
 
   /* =============== Hover/Focus Yönetimi (Hizmetler) =============== */
@@ -260,6 +253,15 @@ export default function Navbar({
     },
     [focusServiceItem]
   );
+
+  /* =============== Menü Açıldığında İlk Öğeye Odakla =============== */
+  useEffect(() => {
+    if (!servicesOpen) return;
+
+    requestAnimationFrame(() => {
+      firstServiceItemRef.current?.focus();
+    });
+  }, [servicesOpen]);
 
   /* =============== ESC ile Global Kapatma ve Odak Geri Taşıma =============== */
   useEffect(() => {
@@ -428,7 +430,7 @@ export default function Navbar({
   /* =============== Tekrarlı NavLink helper =============== */
   // NavLink, aktif durumu ve odak halkası yönetimi içerir
   const NavLink = useCallback(
-    ({ href, children, title, className = "" }) => (
+    ({ href, children, className = "" }) => (
       <Link
         href={href}
         className={`
@@ -441,7 +443,6 @@ export default function Navbar({
           ${FOCUS_RING_CLASS} ${className}
         `}
         aria-current={active(href) ? "page" : undefined}
-        title={title}
       >
         {children}
       </Link>
@@ -455,17 +456,19 @@ export default function Navbar({
     ({
       href,
       label,
-      title,
       icon,
       description,
       index,
+      isOpen,
+      firstItemRef,
     }) => (
-      // Link etrafındaki li öğesi kaldırıldı, çünkü bu bir Link bileşeni.
-      // Dışarıda <li> kullanılıyor.
       <Link
         href={href}
         ref={(node) => {
           serviceItemRefs.current[index] = node;
+          if (index === 0 && firstItemRef) {
+            firstItemRef.current = node;
+          }
         }}
         className={`
           group flex items-start gap-3 px-3 py-2 text-sm text-neutral-700
@@ -476,11 +479,9 @@ export default function Navbar({
         onKeyDown={(event) =>
           handleServiceItemKeyDown(event, index)
         }
-        // ARIA: Aktif sayfayı belirt
         aria-current={active(href) ? "page" : undefined}
-        title={title}
-        // role="menuitem" kullanımı tartışmalı olduğu için (navigasyon bağlantısı yerine menü öğesi),
-        // standart <Link> olarak bırakıldı ve klavye yönetimi (ArrowDown/Up) eklendi.
+        role="menuitem"
+        tabIndex={isOpen ? 0 : -1}
       >
         <span
           className="text-lg opacity-80 group-hover:opacity-100 transition-opacity mt-0.5 flex-shrink-0"
@@ -566,7 +567,7 @@ export default function Navbar({
                     }
                     ${FOCUS_RING_CLASS}
                   `}
-                  aria-haspopup="true"
+                  aria-haspopup="menu"
                   aria-expanded={servicesOpen ? "true" : "false"}
                   aria-controls={servicesMenuId}
                   data-open={servicesOpen ? "true" : undefined}
@@ -612,7 +613,10 @@ export default function Navbar({
 
                 <ul
                   id={servicesMenuId}
+                  role="menu"
+                  aria-label="Hizmetler"
                   aria-labelledby={servicesBtnId}
+                  aria-hidden={!servicesOpen}
                   data-open={servicesOpen ? "true" : undefined}
                   className={`
                     absolute left-0 top-full mt-2 w-80 bg-white border border-neutral-200 rounded-xl shadow-xl
@@ -626,18 +630,19 @@ export default function Navbar({
                   onMouseEnter={openNow}
                   onMouseLeave={closeWithDelay}
                 >
-                  <li className="part-category space-y-1">
-                    <span className="part-menu-head text-xs font-semibold text-neutral-500 px-3 uppercase tracking-wider">
-                      Hizmetler
-                    </span>
-                    <ul className="flex flex-col gap-1">
-                      {SERVICE_LINKS.map((service, index) => (
-                        <li key={service.href}>
-                          <ServiceLink index={index} {...service} />
-                        </li>
-                      ))}
-                    </ul>
+                  <li role="none" className="part-menu-head text-xs font-semibold text-neutral-500 px-3 uppercase tracking-wider">
+                    Hizmetler
                   </li>
+                  {SERVICE_LINKS.map((service, index) => (
+                    <li key={service.href} role="none" className="flex flex-col gap-1">
+                      <ServiceLink
+                        index={index}
+                        isOpen={servicesOpen}
+                        firstItemRef={firstServiceItemRef}
+                        {...service}
+                      />
+                    </li>
+                  ))}
                 </ul>
               </div>
 
@@ -647,15 +652,14 @@ export default function Navbar({
               <a
                 href={`https://wa.me/905453048671?text=${NAVBAR_WHATSAPP_MESSAGE}&utm_source=navbar&utm_medium=desktop_whatsapp`}
                 target="_blank"
-                rel="noopener noreferrer nofollow"
-                aria-label="WhatsApp Destek — WhatsApp üzerinden hızlı destek ve teklif alın (yeni sekmede açılır)"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp Destek – yeni sekmede açılır"
                 className={whatsappBtnClass}
               >
                 <span aria-hidden="true" className="text-base">
                   💬
                 </span>
                 <span>WhatsApp Destek</span>
-                <span className="sr-only">— yeni sekmede açılır</span>
               </a>
             </div>
 
@@ -831,8 +835,7 @@ export default function Navbar({
 >
 
                 <div className="ml-4 rounded-lg border border-neutral-200 bg-white p-2 space-y-1">
-                  {SERVICE_LINKS.map(
-                    ({ href, label, title, icon, description }) => (
+                  {SERVICE_LINKS.map(({ href, label, icon, description }) => (
                       <Link
                         key={href}
                         href={href}
@@ -843,8 +846,8 @@ export default function Navbar({
                           transition-all duration-200 w-full transform hover:scale-[1.01]
                           ${FOCUS_RING_CLASS}
                         `}
-                        title={title}
                         aria-current={active(href) ? "page" : undefined}
+                        tabIndex={mobileServicesOpen ? 0 : -1}
                       >
                         <span
                           className="text-base opacity-70 mt-0.5 flex-shrink-0"
@@ -885,20 +888,32 @@ export default function Navbar({
             </Link>
 
             {/* Mobil WhatsApp CTA */}
-            <a
-              href={`https://wa.me/905453048671?text=${NAVBAR_WHATSAPP_MESSAGE}&utm_source=navbar&utm_medium=mobile_whatsapp`}
-              target="_blank"
-              rel="noopener noreferrer nofollow"
-              aria-label="WhatsApp Destek — Mobil menüden WhatsApp destek hattını açın (yeni sekmede açılır)"
-              className={mobileWhatsappBtnClass}
-              onClick={() => setMobileOpen(false)}
-            >
-              <span aria-hidden="true" className="text-base">
-                💬
-              </span>
-              <span>WhatsApp Destek</span>
-              <span className="sr-only">— yeni sekmede açılır</span>
-            </a>
+            <div className="mt-4 rounded-2xl border border-green-700/20 bg-gradient-to-r from-emerald-700 to-green-600 p-4 shadow-xl">
+              <div className="flex items-start gap-3">
+                <span aria-hidden="true" className="text-2xl">
+                  💬
+                </span>
+                <div className="space-y-1 text-white">
+                  <h3 className="text-lg font-extrabold">WhatsApp Destek</h3>
+                  <p className="text-sm font-medium text-emerald-50">
+                    WhatsApp üzerinden anında teklif alın ve sorularınızı iletin.
+                  </p>
+                </div>
+              </div>
+              <a
+                href={`https://wa.me/905453048671?text=${NAVBAR_WHATSAPP_MESSAGE}&utm_source=navbar&utm_medium=mobile_whatsapp`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp Destek – WhatsApp üzerinden destek alın; yeni sekmede açılır"
+                className={`${mobileWhatsappBtnClass} mt-4`}
+                onClick={() => setMobileOpen(false)}
+              >
+                <span aria-hidden="true" className="text-base">
+                  🚀
+                </span>
+                <span>WhatsApp Destek</span>
+              </a>
+            </div>
           </div>
         </nav>
       </div>

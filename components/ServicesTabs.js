@@ -278,7 +278,7 @@ function ServicesTabsComponent({
     >
       {/* Arka Plan – Faq.jsx ile aynı ton/grid/glow */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]" />
+        <div className="absolute inset-0 grid-overlay" />
         <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-blue-600/10 blur-[120px] rounded-full mix-blend-screen" />
       </div>
 
@@ -351,7 +351,7 @@ function ServicesTabsComponent({
                           ${
                             isActive
                               ? "text-white bg-sky-500 shadow-lg shadow-sky-500/40 border border-sky-300"
-                              : "text-slate-300 bg-slate-900/80 border border-slate-700 hover:border-sky-400/70 hover:text-sky-300"
+                              : "text-slate-100 bg-slate-900/80 border border-slate-700 hover:border-sky-400/70 hover:text-white"
                           }
                         `}
                       >
@@ -386,7 +386,15 @@ function ServicesTabsComponent({
                 className="pointer-events-none absolute inset-0 z-0"
                 aria-hidden="true"
               >
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,#0ea5e933,transparent_55%),radial-gradient(circle_at_bottom_right,#22d3ee22,transparent_55%)]" />
+                <div
+                  className="grid-overlay"
+                  style={{
+                    "--grid-overlay-top": "#0ea5e933",
+                    "--grid-overlay-bottom": "#22d3ee22",
+                    "--grid-overlay-opacity": "0.5",
+                    "--grid-overlay-blur": "24px",
+                  }}
+                />
               </div>
 
               {activeService && (
@@ -414,7 +422,7 @@ function ServicesTabsComponent({
                         {activeService.features.map((feature, idx) => (
                           <li
                             key={idx}
-                            className="group flex items-center gap-2.5 p-2.5 rounded-lg bg:white/5 border border-white/5 hover:bg-white/10 hover:border-white/15 transition-colors"
+                            className="group flex items-center gap-2.5 p-2.5 rounded-lg bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/15 transition-colors"
                           >
                             <TechCheckIcon />
                             <span className="text-xs md:text-sm font-medium text-slate-200 group-hover:text-white transition-colors">
@@ -461,7 +469,7 @@ function ServicesTabsComponent({
                         DEFAULT_DICTIONARY.imageAlt
                       )}
                       fill
-                      className="object-cover transition-transform duration-800 group-hover:scale-105 nc-ServicesTabs-image-1"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105 nc-ServicesTabs-image-1"
                       sizes="(max-width: 1024px) 100vw, 50vw"
                       quality={78}
                       priority={activeService?.id === initialServiceId}

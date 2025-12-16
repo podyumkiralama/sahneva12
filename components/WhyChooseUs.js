@@ -1,7 +1,7 @@
 // components/WhyChooseUs.js
 "use client";
 
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
 
 // —————————————————————————————————————————
@@ -219,14 +219,12 @@ export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
         <div
           className="
             absolute inset-0
-            bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),
-                linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)]
-            bg-[size:32px_32px]
+            grid-overlay
           "
         />
         <div
           className="
-            absolute top-0 left-0 
+            absolute top-0 left-0
             w-[420px] h-[420px] 
             bg-blue-600/10 
             blur-[120px] 

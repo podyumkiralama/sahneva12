@@ -4,9 +4,12 @@ import Link from "next/link";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+
 /* ================== Constants ================== */
 export const revalidate = 1800;
 const ORIGIN = "https://www.sahneva.com";
+const ORGANIZATION_ID = `${ORIGIN}/#org`;
 const PHONE = "+905453048671";
 const WA_TEXT =
   "Hello%2C+I'd+like+to+request+a+quote+for+stage+rental.+Event+type%3A+%5Bconcert%2Fconference%2Flaunch%5D%2C+Date%3A+%5Bdd.mm.yyyy%5D%2C+Estimated+audience%3A+%5Bxxx%5D%2C+Stage+size%3A+%5Bsqm%5D.";
@@ -462,12 +465,12 @@ function Packages() {
 
                   <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-200">
                     <div className="text-center mb-4">
-                      <div className="text-sm text-gray-500 uppercase tracking-wider font-semibold">
+                      <div className="text-sm text-gray-800 uppercase tracking-wider font-semibold">
                         Daily Rental (Istanbul)
                       </div>
                       <div className="text-3xl font-black text-gray-900 mt-2">
                         {formatTRY(packagePrices[pkg.id])}
-                        <span className="text-sm text-gray-500 font-normal ml-2">+ VAT</span>
+                        <span className="text-sm text-gray-800 font-normal ml-2">+ VAT</span>
                       </div>
                     </div>
                   </div>
@@ -1161,39 +1164,11 @@ function JsonLd() {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: `${ORIGIN}/en`,
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Stage Rental",
-            item: `${ORIGIN}/en/stage-rental`,
-          },
-        ],
-      },
-      {
         "@type": "Service",
         name: "Stage Rental Service",
         description:
           "Professional stage rental for concerts, conferences, launches, rallies and festivals. Turnkey truss, podium, LED screen, sound and lighting solutions with nationwide coverage.",
-        provider: {
-          "@type": "Organization",
-          name: "Sahneva",
-          telephone: "+905453048671",
-          address: {
-            "@type": "PostalAddress",
-            addressLocality: "Istanbul",
-            addressCountry: "TR",
-          },
-          url: ORIGIN,
-          logo: `${ORIGIN}/logo.png`,
-        },
+          provider: { "@id": ORGANIZATION_ID },
         areaServed: "TR",
         serviceType: "EventProduction",
         offers: {
@@ -1234,8 +1209,17 @@ function JsonLd() {
 
 /* ================== Page Component ================== */
 export default function Page() {
+  const baseUrl = ORIGIN;
+  const canonical = `${baseUrl}/en/stage-rental`;
+  const breadcrumbItems = [
+    { name: "Home", url: `${baseUrl}/en` },
+    { name: "Services", url: `${baseUrl}/en/services` },
+    { name: "Stage Rental", url: canonical },
+  ];
+
   return (
     <>
+      <BreadcrumbJsonLd items={breadcrumbItems} baseUrl={baseUrl} />
       <JsonLd />
       <Hero />
       <Services />

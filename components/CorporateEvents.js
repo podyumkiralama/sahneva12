@@ -198,7 +198,7 @@ export default function CorporateEvents({
   const whatsappAriaDescribedBy = whatsappDescription ? whatsappHintId : undefined;
   const computedHeadingId = ariaLabelledby ?? "corporate-events-heading";
   const computedDescribedBy = ariaDescribedby ?? introId;
-  const computedRole = role ?? (ariaLabel || computedHeadingId ? "region" : undefined);
+  const computedRole = role ?? (ariaLabel ? "region" : undefined);
 
   return (
     <section
@@ -210,7 +210,7 @@ export default function CorporateEvents({
     >
       {/* Modern Arka Plan Efektleri (Dark Tech) */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]"></div>
+        <div className="absolute inset-0 grid-overlay"></div>
         <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-blue-600/10 blur-[120px] rounded-full mix-blend-screen"></div>
         <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-purple-600/10 blur-[120px] rounded-full mix-blend-screen"></div>
       </div>
@@ -411,7 +411,7 @@ export default function CorporateEvents({
                 <a
                   href={dictionary.whatsappCtaHref}
                   target="_blank"
-                  rel="nofollow noopener noreferrer"
+                  rel="noopener noreferrer"
                   className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm text-white font-bold px-6 text-sm md:text-base transition-all hover:bg-white/20 hover:scale-105"
                   aria-describedby={whatsappAriaDescribedBy}
                   aria-label={whatsappAccessibleLabel}

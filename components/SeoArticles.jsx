@@ -10,6 +10,8 @@ const SITE =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
   "https://www.sahneva.com";
 
+const ORG_ID = `${SITE}/#org`;
+
 const abs = (p) =>
   /^https?:\/\//i.test(p || "")
     ? p
@@ -117,14 +119,8 @@ function ArticlesJsonLd({ items }) {
         image,
         datePublished: a.datePublished || undefined,
         dateModified: a.dateModified || a.datePublished || undefined,
-        author: {
-          "@type": "Organization",
-          name: a.author || "Sahneva Organizasyon",
-        },
-        publisher: {
-          "@type": "Organization",
-          name: "Sahneva Organizasyon",
-        },
+        author: { "@id": ORG_ID },
+        publisher: { "@id": ORG_ID },
         mainEntityOfPage: { "@type": "WebPage", "@id": url },
       },
     };
@@ -178,7 +174,7 @@ export default async function SeoArticles({
 
         {/* role=list semantiği kartların liste olarak algılanmasını sağlar */}
         <ul className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3 list-none">
-          {items.map((a, idx) => {
+          {items.map((a) => {
             const formattedDate =
               a.date &&
               a.date.toLocaleDateString("tr-TR", {
@@ -208,7 +204,7 @@ export default async function SeoArticles({
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                         sizes={CARD_SIZES}
                         quality={80}
-                        loading={idx < 2 ? "eager" : "lazy"}
+                        loading="lazy"
                         placeholder="blur"
                         blurDataURL={BLUR}
                       />

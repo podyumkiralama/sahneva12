@@ -29,6 +29,7 @@ const CTA_BUTTONS = [
     target: "_blank",
     rel: "noopener noreferrer nofollow",
     srHint: "(yeni sekmede açılır)",
+    // kalsa da sorun değil → label olduğu için kullanılmayacak
     ariaLabel:
       "WhatsApp Teklif — WhatsApp üzerinden teklif isteyin (bağlantı yeni sekmede açılır)",
     gradient: "from-green-600 to-emerald-700",
@@ -65,6 +66,9 @@ function KeywordPills({ id }) {
   );
 }
 
+/* ============================================================
+   CTA BUTTON (ARIA FIXED – LABEL VARSA aria-label YOK)
+   ============================================================ */
 function CTAButton({
   href,
   label,
@@ -74,16 +78,20 @@ function CTAButton({
   ariaLabel,
   ...rest
 }) {
+  // ✅ label varsa aria-label set ETME
+  const ariaProps = !label && ariaLabel ? { "aria-label": ariaLabel } : {};
+
   return (
     <a
       href={href}
       className={`${CTA_BASE_CLASS} bg-gradient-to-r ${gradient}`}
-      aria-label={ariaLabel || (srHint ? `${label} ${srHint}` : label)}
+      {...ariaProps}
       {...rest}
     >
       <span className="relative z-10 flex items-center justify-center gap-2">
-        <span aria-hidden="true">{icon}</span> {label}
-        {srHint ? <span className="sr-only">{srHint}</span> : null}
+        <span aria-hidden="true">{icon}</span>
+        {label}
+        {srHint && <span className="sr-only">{srHint}</span>}
       </span>
       <div className={CTA_OVERLAY_CLASS} aria-hidden="true" />
     </a>
@@ -134,26 +142,20 @@ export default function HeroSection() {
       aria-labelledby="hero-title"
       aria-describedby="hero-description hero-keywords"
     >
-      {/* Arka plan görseli */}
+      {/* Arka plan */}
       <div className="absolute inset-0" aria-hidden="true">
         <HeroBackgroundImage ariaHidden />
-        {/* Tek, hafif overlay – fazla koyulaştırmadan okunabilirlik sağlar */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/70" />
       </div>
 
       {/* İçerik */}
       <div className="relative z-10 container py-10">
         <div className="max-w-3xl mx-auto text-center">
-          {/* Badge */}
           <p className="inline-flex items-center gap-3 bg-black/50 rounded-full px-4 py-2 border border-white/10 text-xs md:text-sm text-slate-100">
-            <span
-              className="w-2 h-2 bg-green-400 rounded-full"
-              aria-hidden="true"
-            />
+            <span className="w-2 h-2 bg-green-400 rounded-full" aria-hidden="true" />
             Sahneva Organizasyon • Türkiye Geneli Profesyonel Hizmet
           </p>
 
-          {/* Başlık */}
           <h1
             id="hero-title"
             className="mt-4 text-white text-3xl md:text-5xl lg:text-6xl font-black leading-tight"
@@ -164,10 +166,8 @@ export default function HeroSection() {
             </span>
           </h1>
 
-          {/* Keyword pill’ler */}
           <KeywordPills id="hero-keywords" />
 
-          {/* Alt açıklama */}
           <p
             id="hero-description"
             className="text-slate-100 text-sm md:text-lg mt-2 md:mt-4 max-w-xl mx-auto"
@@ -176,12 +176,10 @@ export default function HeroSection() {
             kurulum ile etkinliğinizde yanınızdayız.
           </p>
 
-          {/* CTA’lar */}
           <CTAGroup />
         </div>
       </div>
 
-      {/* Scroll cue (istersen silebilirsin) */}
       <div
         className="absolute bottom-6 left-1/2 -translate-x-1/2"
         aria-hidden="true"

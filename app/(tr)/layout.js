@@ -13,7 +13,7 @@ const DEFAULT_LANG = "tr";
 export const metadata = {
   title: {
     default: HOME_PAGE_TITLE,
-    template: `%s | Sahneva Organizasyon`,
+    template: `%s | Sahneva`,
   },
   description: content.meta.description,
   alternates: {

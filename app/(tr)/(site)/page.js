@@ -1,79 +1,55 @@
 // app/(tr)/(site)/page.js
-import Link from "next/link";
 
-// Statik bileşenler
 import HeroSection from "@/components/HeroSection";
-import CorporateEvents from "@/components/CorporateEvents";
-import CorporateIntro from "@/components/CorporateIntro";
-import TechCapabilities from "@/components/TechCapabilities";
-import WhyChooseUs from "@/components/WhyChooseUs";
-import SeoArticles from "@/components/SeoArticles";
+import HeroBelow from "@/components/HeroBelow";
 import {
   ServicesTabsDeferred,
   ProjectsGalleryDeferred,
+  CorporateEventsDeferred,
+  CorporateIntroDeferred,
+  TechCapabilitiesDeferred,
+  WhyChooseUsDeferred,
   FaqDeferred,
 } from "@/components/DeferredSections.client";
 
-import { ScrollReveal } from "@/components/ScrollReveal";
-import { HERO_FEATURES_TR } from "@/lib/heroFeatures";
-import {
-  HOME_PAGE_TITLE,
-  SITE_URL,
-  getOgImageUrl,
-} from "@/lib/seo/seoConfig";
+import { HOME_PAGE_TITLE, getOgImageUrl } from "@/lib/seo/seoConfig";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { BASE_SITE_URL, ORGANIZATION_ID, WEBSITE_ID } from "@/lib/seo/schemaIds";
 
-// —————————————————————————————————————————
-// SABİT VERİLER
-// —————————————————————————————————————————
-
-const SECTION_THEMES = {
-  light: {
-    title: "text-neutral-900",
-    description: "text-neutral-700",
-  },
-  dark: {
-    title: "text-white",
-    description: "text-slate-100",
-  },
+/* -------------------
+   Below-the-fold: content-visibility (perf)
+------------------- */
+const BELOW_THE_FOLD_VISIBILITY_STYLE = {
+  contentVisibility: "auto",
+  containIntrinsicSize: "1px 1200px",
 };
 
-const SEO_TECH_FEATURES = [
-  "IP65 dış mekân LED paneller, 4500+ nit parlaklık",
-  "Profesyonel line-array ses sistemleri, dijital mikserler",
-  "Modüler podyum ve sahne platformları, truss sistemleri",
-  "DMX kontrollü ışık sistemleri ve ambiyans aydınlatma",
-];
-
-const SEO_INFRA_FEATURES = [
-  "100m²+ LED ekran kurulumu (P3.9 outdoor)",
-  "Line-array ses sistemleri (JBL, RCF, dB)",
-  "Truss kule sistemleri ve roof sahne çözümleri",
-  "Jeneratör, UPS ve yedekli enerji altyapısı",
-];
-
-const BELOW_THE_FOLD_VISIBILITY_STYLE = Object.freeze({
-  contentVisibility: "auto",
-});
-
-export const revalidate = 3600;
-
-// —————————————————————————————————————————
-// JSON-LD (Schema.org)
-// —————————————————————————————————————————
-
+/* --------------------
+   JSON-LD (Schema.org) - Home rich snippets
+   Not: Organization/WebSite/LocalBusiness layout.jsx'te zaten var.
+-------------------- */
 function StructuredData() {
-  const HOME_URL = SITE_URL;
-  const ORGANIZATION_ID = `${SITE_URL}/#org`;
-  const WEBSITE_ID = `${SITE_URL}/#website`;
+  const HOME_URL = `${BASE_SITE_URL}/`;
+
   const WEBPAGE_ID = `${HOME_URL}#webpage`;
   const SERVICE_ID = `${HOME_URL}#primary-service`;
   const CATALOG_ID = `${HOME_URL}#catalog`;
   const FAQ_ID = `${HOME_URL}#sss`;
-  const IMAGE_ID = `${HOME_URL}#og`;
+
+  // Görseller
+  const HERO_IMAGE_ID = `${HOME_URL}#hero-image`;
+  const OG_IMAGE_ID = `${HOME_URL}#og-image`;
+
+  const VIDEO_ID = `${HOME_URL}#intro-video`;
+
+  const ogUrl =
+    getOgImageUrl?.({ path: "/img/og/sahneva-og.webp", absolute: true }) ??
+    `${BASE_SITE_URL}/img/og/sahneva-og.webp`;
 
   const data = {
     "@context": "https://schema.org",
     "@graph": [
+      /* ---------------- WebPage ---------------- */
       {
         "@type": "WebPage",
         "@id": WEBPAGE_ID,
@@ -84,8 +60,26 @@ function StructuredData() {
         inLanguage: "tr-TR",
         isPartOf: { "@id": WEBSITE_ID },
         about: { "@id": ORGANIZATION_ID },
-        primaryImageOfPage: { "@id": IMAGE_ID },
+        primaryImageOfPage: { "@id": HERO_IMAGE_ID },
       },
+
+      /* ---------------- Images ---------------- */
+      {
+        "@type": "ImageObject",
+        "@id": HERO_IMAGE_ID,
+        contentUrl: `${BASE_SITE_URL}/img/hero-bg.webp`,
+        width: 1600,
+        height: 900,
+      },
+      {
+        "@type": "ImageObject",
+        "@id": OG_IMAGE_ID,
+        contentUrl: ogUrl,
+        width: 1200,
+        height: 630,
+      },
+
+      /* ---------------- OfferCatalog ---------------- */
       {
         "@type": "OfferCatalog",
         "@id": CATALOG_ID,
@@ -94,10 +88,15 @@ function StructuredData() {
         itemListElement: [
           {
             "@type": "Offer",
+            url: `${BASE_SITE_URL}/podyum-kiralama`,
             itemOffered: {
               "@type": "Service",
               name: "Podyum Kiralama",
+              url: `${BASE_SITE_URL}/podyum-kiralama`,
+              image: `${BASE_SITE_URL}/img/hizmet-podyum.webp`,
               description: "Modüler podyum sahne kiralama hizmeti",
+              provider: { "@id": ORGANIZATION_ID },
+              areaServed: { "@type": "Country", name: "Türkiye" },
             },
             priceSpecification: {
               "@type": "UnitPriceSpecification",
@@ -112,10 +111,15 @@ function StructuredData() {
           },
           {
             "@type": "Offer",
+            url: `${BASE_SITE_URL}/led-ekran-kiralama`,
             itemOffered: {
               "@type": "Service",
               name: "LED Ekran Kiralama",
+              url: `${BASE_SITE_URL}/led-ekran-kiralama`,
+              image: `${BASE_SITE_URL}/img/hizmet-led.webp`,
               description: "İç/dış mekan LED ekran kiralama",
+              provider: { "@id": ORGANIZATION_ID },
+              areaServed: { "@type": "Country", name: "Türkiye" },
             },
             priceSpecification: {
               "@type": "UnitPriceSpecification",
@@ -130,41 +134,125 @@ function StructuredData() {
           },
           {
             "@type": "Offer",
-            itemOffered: { "@type": "Service", name: "Çadır Kiralama" },
+            url: `${BASE_SITE_URL}/cadir-kiralama`,
+            itemOffered: {
+              "@type": "Service",
+              name: "Çadır Kiralama",
+              url: `${BASE_SITE_URL}/cadir-kiralama`,
+              // Çadır için hizmet görselin varsa burayı güncelleyebilirsin:
+              // image: `${BASE_SITE_URL}/img/hizmet-cadir.webp`,
+              provider: { "@id": ORGANIZATION_ID },
+              areaServed: { "@type": "Country", name: "Türkiye" },
+            },
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              priceCurrency: "TRY",
+              minPrice: "6000.00",
+              maxPrice: "800000.00",
+            },
             availability: "https://schema.org/InStock",
             areaServed: { "@type": "Country", name: "Türkiye" },
             seller: { "@id": ORGANIZATION_ID },
           },
           {
             "@type": "Offer",
-            itemOffered: { "@type": "Service", name: "Sandalye Kiralama" },
+            itemOffered: {
+              "@type": "Service",
+              name: "Sandalye Kiralama",
+              provider: { "@id": ORGANIZATION_ID },
+              areaServed: { "@type": "Country", name: "Türkiye" },
+            },
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: "200.00",
+              priceCurrency: "TRY",
+              unitText: "adet",
+            },
             availability: "https://schema.org/InStock",
             areaServed: { "@type": "Country", name: "Türkiye" },
             seller: { "@id": ORGANIZATION_ID },
           },
           {
             "@type": "Offer",
-            itemOffered: { "@type": "Service", name: "Masa Kiralama" },
+            itemOffered: {
+              "@type": "Service",
+              name: "Masa Kiralama",
+              provider: { "@id": ORGANIZATION_ID },
+              areaServed: { "@type": "Country", name: "Türkiye" },
+            },
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              priceCurrency: "TRY",
+              minPrice: "1000.00",
+              maxPrice: "2000.00",
+            },
             availability: "https://schema.org/InStock",
             areaServed: { "@type": "Country", name: "Türkiye" },
             seller: { "@id": ORGANIZATION_ID },
           },
           {
             "@type": "Offer",
-            itemOffered: { "@type": "Service", name: "Sahne Kiralama" },
+            url: `${BASE_SITE_URL}/sahne-kiralama`,
+            itemOffered: {
+              "@type": "Service",
+              name: "Sahne Kiralama",
+              url: `${BASE_SITE_URL}/sahne-kiralama`,
+              image: `${BASE_SITE_URL}/img/hizmet-sahne.webp`,
+              provider: { "@id": ORGANIZATION_ID },
+              areaServed: { "@type": "Country", name: "Türkiye" },
+            },
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              priceCurrency: "TRY",
+              minPrice: "10000.00",
+              maxPrice: "200000.00",
+            },
             availability: "https://schema.org/InStock",
             areaServed: { "@type": "Country", name: "Türkiye" },
             seller: { "@id": ORGANIZATION_ID },
           },
           {
             "@type": "Offer",
-            itemOffered: { "@type": "Service", name: "Ses-Işık Sistemleri" },
+            url: `${BASE_SITE_URL}/ses-isik-sistemleri`,
+            itemOffered: {
+              "@type": "Service",
+              name: "Ses-Işık Sistemleri",
+              url: `${BASE_SITE_URL}/ses-isik-sistemleri`,
+              // image: `${BASE_SITE_URL}/img/hizmet-ses-isik.webp`, // varsa ekle
+              provider: { "@id": ORGANIZATION_ID },
+              areaServed: { "@type": "Country", name: "Türkiye" },
+            },
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              priceCurrency: "TRY",
+              minPrice: "10000.00",
+              maxPrice: "300000.00",
+            },
+            availability: "https://schema.org/InStock",
+            areaServed: { "@type": "Country", name: "Türkiye" },
+            seller: { "@id": ORGANIZATION_ID },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "İstanbul İçi Nakliye",
+              provider: { "@id": ORGANIZATION_ID },
+              areaServed: { "@type": "Country", name: "Türkiye" },
+            },
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              price: "7000.00",
+              priceCurrency: "TRY",
+            },
             availability: "https://schema.org/InStock",
             areaServed: { "@type": "Country", name: "Türkiye" },
             seller: { "@id": ORGANIZATION_ID },
           },
         ],
       },
+
+      /* ---------------- Primary Service ---------------- */
       {
         "@type": "Service",
         "@id": SERVICE_ID,
@@ -177,16 +265,11 @@ function StructuredData() {
         hasOfferCatalog: { "@id": CATALOG_ID },
         serviceType: "Event Production",
       },
-      {
-        "@type": "ImageObject",
-        "@id": IMAGE_ID,
-        contentUrl: getOgImageUrl(),
-        width: 1200,
-        height: 630,
-      },
+
+      /* ---------------- VideoObject ---------------- */
       {
         "@type": "VideoObject",
-        "@id": `${HOME_URL}#intro-video`,
+        "@id": VIDEO_ID,
         name: "Sahneva – Sahne, Podyum ve LED Ekran Kiralama Tanıtım Videosu",
         description:
           "Sahneva’nın sahne, podyum, LED ekran ve ses-ışık sistemleriyle gerçekleştirdiği kurulum ve etkinliklerden kısa bir özet.",
@@ -197,10 +280,12 @@ function StructuredData() {
         contentUrl: "https://www.youtube.com/watch?v=173gBurWSRQ",
         embedUrl: "https://www.youtube.com/embed/173gBurWSRQ",
       },
+
+      /* ---------------- FAQPage ---------------- */
       {
         "@type": "FAQPage",
         "@id": FAQ_ID,
-        url: FAQ_ID,
+        url: `${HOME_URL}#sss`,
         mainEntity: [
           {
             "@type": "Question",
@@ -251,200 +336,92 @@ function StructuredData() {
     <script
       type="application/ld+json"
       suppressHydrationWarning
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(data).replace(/</g, "\\u003c"),
+      }}
     />
   );
 }
 
-// —————————————————————————————————————————
-// PARÇALI BİLEŞENLER
-// —————————————————————————————————————————
-
-function SectionHeader({
-  id,
-  title,
-  highlight,
-  description,
-  afterText = "",
-  align = "center",
-  theme = "light",
-}) {
-  const themeClasses = SECTION_THEMES[theme];
-  const alignment = align === "left" ? "text-left" : "text-center";
-
-  return (
-    <header className={`${alignment} mb-12`}>
-      <h2
-        id={id}
-        className={`text-3xl md:text-4xl font-black ${themeClasses.title} mb-4`}
-      >
-        {title}
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-          {highlight}
-        </span>
-        {afterText}
-      </h2>
-      {description ? (
-        <p
-          className={`text-lg ${themeClasses.description} max-w-3xl mx-auto ${
-            alignment === "left" ? "md:mx-0" : ""
-          }`}
-        >
-          {description}
-        </p>
-      ) : null}
-    </header>
-  );
-}
-
-function HeroFeatureGrid() {
-  return (
-    <ul className="grid grid-cols-1 md:grid-cols-3 gap-4 list-none p-0 m-0">
-      {HERO_FEATURES_TR.map((item, index) => (
-        <li key={item.title} className="m-0 p-0">
-          <ScrollReveal asChild delay={String(index * 0.5)} direction="scale">
-            <div className="group bg-slate-900/80 rounded-xl p-4 border border-white/10">
-              <div className={`text-2xl mb-2 ${item.color}`} aria-hidden="true">
-                {item.icon}
-              </div>
-              <div className="text-white font-bold text-base mb-1">
-                {item.title}
-              </div>
-              <div className="text-gray-200 text-xs">{item.description}</div>
-            </div>
-          </ScrollReveal>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function ConsultationCard() {
-  return (
-    <div className="bg-gradient-to-r from-blue-700/90 to-purple-700/90 rounded-2xl p-6 md:p-8 border border-white/20">
-      <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
-        <div className="flex-shrink-0">
-          <div
-            className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center text-xl"
-            aria-hidden="true"
-          >
-            🎯
-          </div>
-        </div>
-        <div className="flex-1 text-center md:text-left">
-          <h2 className="text-white text-xl md:text-2xl font-bold mb-2">
-            Ücretsiz Profesyonel Danışmanlık
-          </h2>
-          <p className="text-slate-100 text-base leading-relaxed">
-            Etkinliğiniz için <strong>en uygun sahne çözümleri</strong>, LED
-            ekran seçenekleri ve ses-ışık sistemlerini ücretsiz teknik
-            danışmanlık ile planlayalım.{" "}
-            <strong className="text-yellow-200">
-              2 saat içinde detaylı teklif
-            </strong>{" "}
-            sunuyoruz.
-          </p>
-        </div>
-        <div className="flex-shrink-0">
-          <a
-            href="#teklif-al"
-            className="bg-white text-blue-800 hover:bg-gray-100 font-bold px-5 py-2 rounded-lg transition-colors text-sm focus-ring min-h-[44px] flex items-center justify-center"
-            aria-label="Ücretsiz danışmanlık ve teklif almak için aşağı kaydır"
-          >
-            Hemen Teklif Al
-          </a>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// —————————————————————————————————————————
-// ANA SAYFA
-// —————————————————————————————————————————
-
 export default function HomePage() {
+  const baseUrl = BASE_SITE_URL;
+  const breadcrumbItems = [{ name: "Ana Sayfa", url: `${baseUrl}/` }];
+
+  // SEO lists used in TechCapabilities
+  const SEO_TECH_FEATURES = [
+    {
+      title: "LED Ekran Kurulum & Teknik Operasyon",
+      desc: "Indoor/Outdoor LED panel kurulumları, canlı yayın/stream ve içerik yönetimi.",
+    },
+    {
+      title: "Ses & Işık Sistemleri",
+      desc: "Profesyonel ses sistemleri, ışık tasarımı ve teknik ekip desteği.",
+    },
+    {
+      title: "Sahne, Podyum & Truss",
+      desc: "Modüler sahne/podyum, truss sistemleri ve güvenli kurulum çözümleri.",
+    },
+  ];
+
+  const SEO_INFRA_FEATURES = [
+    { title: "Keşif & Planlama", desc: "Mekân keşfi, teknik ihtiyaç analizi ve proje planı." },
+    { title: "Kurulum & Operasyon", desc: "Zamanında kurulum, sahada teknik ekip ve operasyon yönetimi." },
+    { title: "Söküm & Teslim", desc: "Etkinlik sonrası güvenli söküm ve raporlama." },
+  ];
+
   return (
     <div className="overflow-x-hidden bg-black">
+      {/* Home Rich Snippets */}
       <StructuredData />
+      <BreadcrumbJsonLd items={breadcrumbItems} />
 
-      {/* 1) HERO */}
+      {/* 1) HERO (statik kalsın: LCP için en iyisi) */}
       <HeroSection />
 
-      {/* 2) HERO ALTI: HeroFeatureGrid + Danışmanlık Kartı */}
-      <section
-        className="py-10 bg-gradient-to-b from-slate-950 to-slate-900"
-        aria-labelledby="hero-supporting-features"
-        role="region"
-      >
-        <h2 id="hero-supporting-features" className="sr-only">
-          Hızlı öne çıkan özellikler ve ücretsiz danışmanlık bağlantısı
-        </h2>
-        <div className="space-y-8 px-4 sm:px-6 lg:px-8">
-          <HeroFeatureGrid />
-          <ScrollReveal delay="1">
-            <ConsultationCard />
-          </ScrollReveal>
-        </div>
-      </section>
+      {/* 2) HERO ALTI */}
+      <HeroBelow />
 
       {/* anchor */}
       <div id="teklif-al" className="sr-only" />
 
-{/* 3) HİZMETLER TABS */}
-<section
-  aria-labelledby="hizmetler-title"
-  className="relative bg-slate-950 overflow-hidden"
->
-  <h2 id="hizmetler-title" className="sr-only">
-    Hizmetlerimiz
-  </h2>
+      {/* 3) HİZMETLER TABS */}
+      <section aria-labelledby="hizmetler-title" className="bg-black">
+        <h2 id="hizmetler-title" className="sr-only">
+          Hizmetler
+        </h2>
+        <ServicesTabsDeferred idleTimeout={1800} rootMargin="260px" />
+      </section>
 
-  {/* Tam genişlik: ekstra container ve -mx/px kaldırıldı */}
-  <ServicesTabsDeferred idleTimeout={2800} rootMargin="320px" />
-</section>
-
-
-      {/* 4) PROJELER (ProjectsGallery kendi section'ını çiziyor) */}
+      {/* 4) PROJELER */}
       <ProjectsGalleryDeferred idleTimeout={3200} rootMargin="360px" />
 
-{/* 5) TECH CAPABILITIES */}
-<section
-  aria-labelledby="tech-capabilities-title"
-  className="bg-slate-900 py-16"
-  style={BELOW_THE_FOLD_VISIBILITY_STYLE}
->
-  {/* Tam genişlik — container tamamen kaldırıldı */}
-  <TechCapabilities
-    techFeatures={SEO_TECH_FEATURES}
-    infraFeatures={SEO_INFRA_FEATURES}
-  />
-</section>
+      {/* 5) TECH CAPABILITIES (below-the-fold) */}
+      <div className="bg-slate-900 py-16" style={BELOW_THE_FOLD_VISIBILITY_STYLE}>
+        <TechCapabilitiesDeferred
+          techFeatures={SEO_TECH_FEATURES}
+          infraFeatures={SEO_INFRA_FEATURES}
+        />
+      </div>
 
+      {/* 6) KURUMSAL ORGANİZASYON */}
+      <div className="bg-slate-50 py-0 m-0 w-full">
+        <CorporateEventsDeferred />
+      </div>
 
-
-      {/* 6) KURUMSAL ORGANİZASYON (full-width, containersız) */}
-      <section className="bg-slate-50 py-0 m-0 w-full">
-        <CorporateEvents />
-      </section>
-
-      {/* 7) CORPORATE INTRO */}
-      <CorporateIntro />
+      {/* 7) KURUMSAL INTRO (below-the-fold) */}
+      <div className="bg-black py-0 m-0 w-full" style={BELOW_THE_FOLD_VISIBILITY_STYLE}>
+        <CorporateIntroDeferred />
+      </div>
 
       {/* 8) WHY CHOOSE US */}
-      <section aria-labelledby="neden-biz-title" className="w-full p-0 m-0">
-        <WhyChooseUs />
-      </section>
-
-      {/* 9) SEO MAKALELERİ */}
-      <section aria-labelledby="seo-articles-title" className="w-full p-0 m-0">
-        <SeoArticles />
-      </section>
+      <div className="w-full p-0 m-0">
+        <WhyChooseUsDeferred />
+      </div>
 
       {/* 10) SSS */}
-      <section className="w-full bg-transparent p-0 m-0">
+      <div className="w-full bg-transparent p-0 m-0">
         <FaqDeferred />
-      </section>
+      </div>
     </div>
   );
 }

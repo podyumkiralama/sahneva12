@@ -130,6 +130,7 @@ const GalleryCard = memo(function GalleryCard({
       <button
         type="button"
         onClick={handleOpen}
+        aria-label={`${title} galerisini aç`}
         className="relative block w-full aspect-[4/3] overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
       >
         <Image
@@ -400,9 +401,7 @@ export default function ProjectsGallery({
         <div
           className="
             absolute inset-0
-            bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),
-                linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)]
-            bg-[size:32px_32px]
+            grid-overlay
           "
         />
         {/* Glow */}

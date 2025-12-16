@@ -1,16 +1,19 @@
 // app/(site)/iletisim/page.jsx
 import Link from "next/link";
+import { BASE_SITE_URL, ORGANIZATION_ID } from "@/lib/seo/schemaIds";
+
+const PAGE_URL = `${BASE_SITE_URL}/iletisim`;
 
 export const metadata = {
   title: "İletişim | Sahneva - Profesyonel Etkinlik Çözümleri",
   description:
     "Sahne kiralama, LED ekran, ses-ışık sistemleri için hemen ulaşın. Türkiye geneli hızlı kurulum ve profesyonel danışmanlık.",
-  alternates: { canonical: "https://www.sahneva.com/iletisim" },
+  alternates: { canonical: PAGE_URL },
   openGraph: {
     title: "İletişim | Sahneva - Profesyonel Etkinlik Çözümleri",
     description:
       "Sahne, LED ekran, ses-ışık sistemleri için hemen teklif alın. Türkiye geneli hızlı kurulum ve profesyonel danışmanlık.",
-    url: "https://www.sahneva.com/iletisim",
+    url: PAGE_URL,
     images: [
       {
         url: "/img/og-iletisim.jpg",
@@ -42,21 +45,9 @@ function ContactStructuredData() {
     name: "Sahneva İletişim",
     description:
       "Profesyonel sahne kiralama, LED ekran, ses-ışık sistemleri iletişim bilgileri",
-    url: "https://www.sahneva.com/iletisim",
+    url: PAGE_URL,
     mainEntity: {
-      "@type": "Organization",
-      "@id": "https://www.sahneva.com/#org",
-      name: "Sahneva",
-      telephone: PHONE,
-      email: MAIL,
-      address: {
-        "@type": "PostalAddress",
-        addressCountry: "TR",
-      },
-      sameAs: [
-        "https://www.instagram.com/sahnevaorganizasyon",
-        "https://www.youtube.com/@sahneva",
-      ],
+      "@id": ORGANIZATION_ID,
     },
   };
 
@@ -248,7 +239,7 @@ export default function ContactPage() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex-1 bg-gradient-to-r from-blue-700 to-purple-800 hover:from-blue-800 hover:to-purple-900 text-white font-bold py-4 px-6 rounded-xl text-center transition-all duration-300 hover:scale-105 shadow-lg"
-                      aria-label="Google Haritalar'da Sahneva profilini aç"
+                      aria-label="Google Haritalar'da Sahneva profilini aç (yeni sekmede açılır)"
                     >
                       <span className="flex items-center justify-center gap-2">
                         📍 Haritalar'da Aç
@@ -259,7 +250,7 @@ export default function ContactPage() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex-1 bg-gradient-to-r from-amber-800 to-orange-800 hover:from-amber-900 hover:to-orange-900 text-white font-bold py-4 px-6 rounded-xl text-center transition-all duration-300 hover:scale-105 shadow-lg"
-                      aria-label="Google üzerinde Sahneva için yorum yaz"
+                      aria-label="Google üzerinde Sahneva için yorum yaz (yeni sekmede açılır)"
                     >
                       <span className="flex items-center justify-center gap-2">
                         ⭐ Google'da Yorum Yap
@@ -289,6 +280,7 @@ export default function ContactPage() {
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-green-600 hover:text-green-700 font-medium"
+                          aria-label="WhatsApp üzerinden hızlı mesaj gönder (yeni sekmede açılır)"
                         >
                           Hızlı Mesaj Gönder
                         </a>
@@ -545,7 +537,7 @@ export default function ContactPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-4 rounded-xl shadow-2xl transition-all duration-300 hover:scale-105 min-w-[200px] text-center"
-                    aria-label="WhatsApp'tan acil destek iste"
+                    aria-label="WhatsApp'tan acil destek iste (yeni sekmede açılır)"
                   >
                     <span className="flex items-center justify-center gap-2">
                       💬 WhatsApp Destek
@@ -584,7 +576,7 @@ export default function ContactPage() {
           target="_blank"
           rel="noopener noreferrer"
           className="flex flex-col items-center text-green-600 font-bold text-sm"
-          aria-label="WhatsApp üzerinden Sahneva'ya yaz"
+          aria-label="WhatsApp üzerinden Sahneva'ya yaz (yeni sekmede açılır)"
         >
           <span className="text-lg">💬</span>
           <span>WhatsApp</span>
@@ -632,6 +624,7 @@ function ContactCard({ icon, title, info, description, href, color, buttonText }
         target="_blank"
         rel="noopener noreferrer"
         aria-describedby={`${headingId} ${descriptionId}`}
+        aria-label={`${title} – ${buttonText} (yeni sekmede açılır)`}
         className={`inline-flex items-center justify-center bg-gradient-to-r ${color} hover:shadow-xl text-white font-bold px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg`}
       >
         <span className="flex items-center gap-2">{buttonText}</span>

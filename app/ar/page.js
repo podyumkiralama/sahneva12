@@ -37,6 +37,11 @@ const HERO_FEATURES_AR = [
   },
 ];
 
+const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.sahneva.com"
+).replace(/\/$/, "");
+const ORGANIZATION_ID = `${SITE_URL}/#org`;
+
 const WHY_SAHNEVA_FEATURES_AR = [
   {
     icon: "⭐",
@@ -405,7 +410,7 @@ function StructuredData() {
         url: "https://www.sahneva.com/ar",
         name: "تأجير منصات وشاشات LED وأنظمة صوت وإضاءة | سحنيفا",
         inLanguage: "ar",
-        about: { "@id": "https://www.sahneva.com/#org" },
+        about: { "@id": ORGANIZATION_ID },
       },
       {
         "@type": "OfferCatalog",
@@ -421,38 +426,103 @@ function StructuredData() {
               description: "خدمات هندسة المنصات والبوديوم",
             },
             priceSpecification: {
-              "@type": "UnitPriceSpecification",
-              price: 250,
-              priceCurrency: "EUR",
-              unitText: "m²",
+              "@type": "PriceSpecification",
+              priceCurrency: "TRY",
+              minPrice: 10000,
+              maxPrice: 200000,
             },
             availability: "https://schema.org/InStock",
             areaServed: "TR",
-            seller: { "@id": "https://www.sahneva.com/#org" },
+            seller: { "@id": ORGANIZATION_ID },
           },
           {
             "@type": "Offer",
             itemOffered: { "@type": "Service", name: "تأجير شاشات LED" },
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: 1700,
+              priceCurrency: "TRY",
+              unitText: "في اليوم",
+            },
             areaServed: "TR",
-            seller: { "@id": "https://www.sahneva.com/#org" },
+            seller: { "@id": ORGANIZATION_ID },
           },
           {
             "@type": "Offer",
             itemOffered: { "@type": "Service", name: "أنظمة الصوت والإضاءة" },
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              priceCurrency: "TRY",
+              minPrice: 10000,
+              maxPrice: 300000,
+            },
             areaServed: "TR",
-            seller: { "@id": "https://www.sahneva.com/#org" },
+            seller: { "@id": ORGANIZATION_ID },
           },
           {
             "@type": "Offer",
             itemOffered: { "@type": "Service", name: "خيام الفعاليات" },
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              priceCurrency: "TRY",
+              minPrice: 6000,
+              maxPrice: 800000,
+            },
             areaServed: "TR",
-            seller: { "@id": "https://www.sahneva.com/#org" },
+            seller: { "@id": ORGANIZATION_ID },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: { "@type": "Service", name: "تأجير المنصات (بوديوم)" },
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              priceCurrency: "TRY",
+              minPrice: 250,
+              maxPrice: 100000,
+            },
+            areaServed: "TR",
+            seller: { "@id": ORGANIZATION_ID },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: { "@type": "Service", name: "تأجير الكراسي" },
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: 200,
+              priceCurrency: "TRY",
+              unitText: "للوحدة",
+            },
+            areaServed: "TR",
+            seller: { "@id": ORGANIZATION_ID },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: { "@type": "Service", name: "تأجير الطاولات" },
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              priceCurrency: "TRY",
+              minPrice: 1000,
+              maxPrice: 2000,
+            },
+            areaServed: "TR",
+            seller: { "@id": ORGANIZATION_ID },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: { "@type": "Service", name: "خدمة النقل داخل إسطنبول" },
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              price: 7000,
+              priceCurrency: "TRY",
+            },
+            areaServed: "TR",
+            seller: { "@id": ORGANIZATION_ID },
           },
           {
             "@type": "Offer",
             itemOffered: { "@type": "Service", name: "إنتاج الفعاليات المؤسسية" },
             areaServed: "TR",
-            seller: { "@id": "https://www.sahneva.com/#org" },
+            seller: { "@id": ORGANIZATION_ID },
           },
         ],
       },
@@ -464,7 +534,7 @@ function StructuredData() {
           "حلول متكاملة للمنصات، شاشات LED، الصوت، الإضاءة والخيام مع فرق تشغيل محترفة في كل تركيا.",
         url: "https://www.sahneva.com/ar",
         areaServed: { "@type": "Country", name: "TR" },
-        provider: { "@id": "https://www.sahneva.com/#org" },
+        provider: { "@id": ORGANIZATION_ID },
       },
       {
         "@type": "ImageObject",
@@ -515,10 +585,16 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT_AR, ariaHidden = false }) {
     },
   });
 
-  const { fetchPriority, ...rest } = props;
+  const { fetchPriority, alt: imageAlt, ...rest } = props;
 
-  // eslint-disable-next-line react/no-unknown-property -- force lowercase attribute for HTML validators
-  return <img {...rest} fetchpriority={fetchPriority} aria-hidden={ariaHidden} />;
+  return (
+    <img
+      {...rest}
+      alt={ariaHidden ? "" : imageAlt || alt}
+      fetchPriority={fetchPriority}
+      aria-hidden={ariaHidden}
+    />
+  );
 }
 
 export default function ArabicHomePage() {
@@ -596,6 +672,7 @@ export default function ArabicHomePage() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full sm:w-auto min-w-[180px] text-center group relative bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold text-base px-6 py-3 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-white/20 backdrop-blur-sm focus-ring"
+                  aria-label="عرض واتساب – يفتح في علامة تبويب جديدة"
                 >
                   <span className="relative z-10 flex items-center justify-center gap-2">
                     <span aria-hidden="true">💬</span> عرض واتساب
@@ -612,7 +689,7 @@ export default function ArabicHomePage() {
             
               <h2 className="sr-only">أبرز الميزات</h2>
               <ul className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12 list-none p-0 m-0">
-                {HERO_FEATURES_AR.map((item, index) => (
+                {HERO_FEATURES_AR.map((item) => (
                   <li key={item.title} className="m-0 p-0">
                     
                       <div className="group bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20 hover:border-white/40 transition-all duration-500 hover:scale-105 hover:bg-white/15">

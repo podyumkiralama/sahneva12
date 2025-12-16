@@ -1,7 +1,7 @@
 // components/TechCapabilities.js
 "use client";
 
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { ScrollReveal } from "@/components/ScrollReveal";
 
 const SEO_TECH_FEATURES = [
@@ -48,7 +48,7 @@ export default function TechCapabilities({ dictionary: dictionaryOverride }) {
     >
       {/* Arka Plan Efekti */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]" />
+        <div className="absolute inset-0 grid-overlay" />
         <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-600/10 blur-[120px] rounded-full mix-blend-screen" />
       </div>
 

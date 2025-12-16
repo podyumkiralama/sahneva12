@@ -1,7 +1,5 @@
 // components/CorporateIntro.jsx
 "use client";
-
-import React from "react";
 import Image from "next/image";
 import { ScrollReveal } from "@/components/ScrollReveal";
 
@@ -27,7 +25,7 @@ export default function CorporateIntro() {
       {/* Arka Plan Efektleri – Faq.jsx ile aynı tema */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         {/* GRID */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]" />
+        <div className="absolute inset-0 grid-overlay" />
         {/* Mavi Glow */}
         <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-blue-600/10 blur-[120px] rounded-full mix-blend-screen" />
       </div>

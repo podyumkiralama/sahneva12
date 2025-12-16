@@ -4,9 +4,12 @@ import Link from "next/link";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+
 /* ================== Constants ================== */
 export const revalidate = 1800;
 const ORIGIN = "https://www.sahneva.com";
+const ORGANIZATION_ID = `${ORIGIN}/#org`;
 const PHONE = "+905453048671";
 const WA_TEXT =
   "Hello%2C+I'd+like+to+request+a+quote+for+LED+screen+rental.+Event+type%3A+%5Bconcert%2Fexpo%2Flaunch%5D%2C+Date%3A+%5Bdd.mm.yyyy%5D%2C+Screen+size%3A+%5Bxxx%5D.";
@@ -198,7 +201,7 @@ function Hero() {
           <Link
             href={WHATSAPP}
             target="_blank"
-            rel="noopener noreferrer nofollow"
+            rel="noopener noreferrer"
             aria-label="Request an LED screen quote on WhatsApp (opens in a new tab)"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring shadow-lg"
             role="button"
@@ -291,7 +294,7 @@ function Services() {
           <Link
             href={WHATSAPP}
             target="_blank"
-            rel="noopener noreferrer nofollow"
+            rel="noopener noreferrer"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring"
             role="button"
             aria-label="Request a detailed proposal on WhatsApp (opens in a new tab)"
@@ -552,7 +555,7 @@ function UseCases() {
           <Link
             href={WHATSAPP}
             target="_blank"
-            rel="noopener noreferrer nofollow"
+            rel="noopener noreferrer"
             className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl bg-white text-blue-700 hover:scale-105 transform transition-all duration-300 hover:shadow-xl focus-ring"
             role="button"
             aria-label="Request a tailored solution for your event on WhatsApp (opens in a new tab)"
@@ -1014,7 +1017,7 @@ function CTA() {
               <a
                 href={WHATSAPP}
                 target="_blank"
-                rel="noopener noreferrer nofollow"
+                rel="noopener noreferrer"
                 className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-2xl border-2 border-white text-white bg-transparent hover:bg-white/20 hover:scale-105 transform transition-all duration-300 focus-ring shadow-lg"
                 role="button"
                 aria-label="Message us on WhatsApp (opens in a new tab)"
@@ -1040,38 +1043,10 @@ function JsonLd() {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: `${ORIGIN}/en`
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "LED Screen Rental",
-            item: `${ORIGIN}/en/led-screen-rental`
-          },
-        ],
-      },
-      {
         "@type": "Service",
         name: "LED Screen Rental Service",
         description: "Professional LED screen rental with P2–P6 pixel pitch, indoor/outdoor LED walls, video wall processors and nationwide certified installation teams.",
-        provider: {
-          "@type": "Organization",
-          name: "Sahneva",
-          telephone: "+905453048671",
-          address: {
-            "@type": "PostalAddress",
-            addressLocality: "Istanbul",
-            addressCountry: "TR"
-          },
-          url: ORIGIN,
-          logo: `${ORIGIN}/logo.png`,
-        },
+          provider: { "@id": ORGANIZATION_ID },
         areaServed: "TR",
         serviceType: "EventProduction",
         offers: {
@@ -1111,8 +1086,17 @@ function JsonLd() {
 
 /* ================== Page component ================== */
 export default function Page() {
+  const baseUrl = ORIGIN;
+  const canonical = `${baseUrl}/en/led-screen-rental`;
+  const breadcrumbItems = [
+    { name: "Home", url: `${baseUrl}/en` },
+    { name: "Services", url: `${baseUrl}/en/services` },
+    { name: "LED Screen Rental", url: canonical },
+  ];
+
   return (
     <>
+      <BreadcrumbJsonLd items={breadcrumbItems} baseUrl={baseUrl} />
       <JsonLd />
       <Hero />
       <Services />

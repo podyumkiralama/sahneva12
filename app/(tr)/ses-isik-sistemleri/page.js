@@ -6,10 +6,15 @@ import dynamic from "next/dynamic";
 
 import { buildFaqSchema } from "@/lib/structuredData/faq";
 import { buildServiceProductSchema } from "@/lib/structuredData/serviceProducts";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 
 /* ================== Sabitler ================== */
 export const revalidate = 1800;
-const ORIGIN = "https://www.sahneva.com";
+const ORIGIN =
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
+  "https://www.sahneva.com";
+const ORGANIZATION_ID = `${ORIGIN}/#org`;
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? ORIGIN).replace(/\/$/, "");
 const PHONE = "+905453048671";
 const WA_TEXT = "Merhaba%2C+ses+ve+isik+sistemleri+icin+teklif+istiyorum.+Etkinlik+turu%3A+%5Bkonser%2Fkurumsal%5D%2C+Tarih%3A+%5Bgg.aa.yyyy%5D%2C+Kisi+sayisi%3A+%5Bxxx%5D.";
 const WHATSAPP = `https://wa.me/${PHONE.replace("+", "")}?text=${WA_TEXT}`;
@@ -1039,14 +1044,7 @@ function JsonLd() {
   const pageUrl = `${ORIGIN}/ses-isik-sistemleri`;
   const pageDescription = metadata.description;
 
-  const provider = {
-    "@type": "Organization",
-    "@id": `${ORIGIN}#org`,
-    name: "Sahneva",
-    url: ORIGIN,
-    telephone: "+905453048671",
-    logo: `${ORIGIN}/img/logo.png`,
-  };
+  const provider = { "@id": ORGANIZATION_ID };
 
   const { service: serviceSchema, products } = buildServiceProductSchema({
     slug: "/ses-isik-sistemleri",
@@ -1080,23 +1078,6 @@ function JsonLd() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Anasayfa",
-            item: `${ORIGIN}/`
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Ses ve Işık Sistemleri",
-            item: `${ORIGIN}/ses-isik-sistemleri`
-          },
-        ],
-      },
       serviceNode,
       {
         "@type": "WebPage",
@@ -1125,8 +1106,17 @@ function JsonLd() {
 
 /* ================== Sayfa Bileşeni ================== */
 export default function Page() {
+  const baseUrl = SITE_URL;
+  const canonical = `${baseUrl}/ses-isik-sistemleri`;
+  const breadcrumbItems = [
+    { name: "Ana Sayfa", url: `${baseUrl}/` },
+    { name: "Hizmetler", url: `${baseUrl}/hizmetler` },
+    { name: "Ses ve Işık Sistemleri", url: canonical },
+  ];
+
   return (
     <>
+      <BreadcrumbJsonLd items={breadcrumbItems} baseUrl={baseUrl} />
       <JsonLd />
       <Hero />
       <Services />

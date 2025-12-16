@@ -280,7 +280,8 @@ function StickyVideoRailInner({
             <button
               type="button"
               onClick={handleCollapseFromExpanded}
-              className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700 transition-colors flex items-center gap-2 font-medium"
+              className="rail-control group"
+              data-variant="primary"
             >
               <span className="text-lg">↘️</span>
               <span className="hidden sm:inline">Küçült</span>
@@ -288,7 +289,8 @@ function StickyVideoRailInner({
             <button
               type="button"
               onClick={handleToggleMinimize}
-              className="px-4 py-2 rounded-lg bg-gray-600 text-white text-sm hover:bg-gray-700 transition-colors flex items-center gap-2 font-medium"
+              className="rail-control group"
+              data-variant="muted"
             >
               <span className="text-lg">🗕</span>
               <span className="hidden sm:inline">Simge</span>
@@ -296,7 +298,8 @@ function StickyVideoRailInner({
             <button
               type="button"
               onClick={handleClose}
-              className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm hover:bg-red-700 transition-colors flex items-center gap-2 font-medium"
+              className="rail-control group"
+              data-variant="danger"
             >
               <span className="text-lg">✕</span>
               <span className="hidden sm:inline">Kapat</span>
@@ -494,7 +497,8 @@ function StickyVideoRailInner({
               type="button"
               onClick={handleExpand}
               aria-label="Videoyu büyüt"
-              className="p-2 rounded-lg hover:bg-blue-600 transition-colors text-white bg-blue-500/80 group font-medium"
+              className="rail-control group"
+              data-variant="primary"
             >
               <span className="group-hover:scale-110 transition-transform text-sm">
                 ⤢ BÜYÜT
@@ -504,7 +508,8 @@ function StickyVideoRailInner({
               type="button"
               onClick={handleToggleMinimize}
               aria-label="Simge durumuna küçült"
-              className="p-2 rounded-lg hover:bg-gray-600 transition-colors text-slate-100 group"
+              className="rail-control group"
+              data-variant="muted"
             >
               <span className="group-hover:scale-110 transition-transform">
                 🗕
@@ -514,7 +519,8 @@ function StickyVideoRailInner({
               type="button"
               onClick={handleClose}
               aria-label="Kapat"
-              className="p-2 rounded-lg hover:bg-red-600 transition-colors text-slate-100 group"
+              className="rail-control group"
+              data-variant="danger"
             >
               <span className="group-hover:scale-110 transition-transform">
                 ✕
