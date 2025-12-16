@@ -272,17 +272,20 @@ function StructuredData() {
   "@id": VIDEO_ID,
   name: "Sahneva – Sahne, Podyum ve LED Ekran Kiralama Tanıtım Videosu",
   description:
-    "Sahneva’nın sahne, podyum, LED ekran ve ses-ışık sistemleriyle gerçekleştirdiği kurulum ve etkinliklerden kısa bir özet.",
+    "Sahneva’nın sahne, podyum, LED ekran, ses ve ışık sistemleriyle gerçekleştirdiği profesyonel etkinlik kurulumlarından kısa bir tanıtım videosu.",
   thumbnailUrl: [
     "https://img.youtube.com/vi/173gBurWSRQ/hqdefault.jpg"
   ],
   uploadDate: "2025-11-17T10:30:00+03:00",
   duration: "PT1M30S",
+  inLanguage: "tr-TR",
+  isFamilyFriendly: true,
   publisher: { "@id": ORGANIZATION_ID },
   contentUrl: "https://www.youtube.com/watch?v=173gBurWSRQ",
-  embedUrl: "https://www.youtube.com/embed/173gBurWSRQ"
-}
-
+  embedUrl: "https://www.youtube.com/embed/173gBurWSRQ",
+  isPartOf: { "@id": WEBPAGE_ID },
+  about: { "@id": SERVICE_ID }
+},
 
       /* ---------------- FAQPage ---------------- */
       {
