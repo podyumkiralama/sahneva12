@@ -119,7 +119,7 @@ async function getBlogPosts() {
   }
 }
 
-/* ================== JSON-LD (FINAL / NO ITEMLIST) ================== */
+/* ================== JSON-LD (FINAL / BLOG + POSTS + BREADCRUMB) ================== */
 function BlogJsonLd({ posts, baseUrl }) {
   if (!posts?.length) return null;
 
@@ -136,6 +136,7 @@ function BlogJsonLd({ posts, baseUrl }) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
+      /* ================== BLOG ================== */
       {
         "@type": "Blog",
         "@id": `${blogUrl}#blog`,
@@ -146,6 +147,27 @@ function BlogJsonLd({ posts, baseUrl }) {
         inLanguage: "tr-TR",
       },
 
+      /* ================== BREADCRUMB ================== */
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${blogUrl}#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Anasayfa",
+            item: site,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Blog",
+            item: blogUrl,
+          },
+        ],
+      },
+
+      /* ================== BLOG POSTS ================== */
       ...posts.map((post) => {
         const postUrl = `${blogUrl}/${post.slug}`;
         const img = String(post.image || "");
@@ -154,7 +176,7 @@ function BlogJsonLd({ posts, baseUrl }) {
         return {
           "@type": "BlogPosting",
           "@id": `${postUrl}#blogposting`,
-          url: postUrl, // ✅ "url alanı eksik" uyarısı gider
+          url: postUrl,
           headline: post.title,
           description: post.description,
           image: absImg,
@@ -163,8 +185,13 @@ function BlogJsonLd({ posts, baseUrl }) {
           inLanguage: "tr-TR",
           author: { "@id": editorId },
           publisher: { "@id": orgId },
-          mainEntityOfPage: { "@type": "WebPage", "@id": postUrl },
-          isPartOf: { "@id": `${blogUrl}#blog` },
+          mainEntityOfPage: {
+            "@type": "WebPage",
+            "@id": postUrl,
+          },
+          isPartOf: {
+            "@id": `${blogUrl}#blog`,
+          },
         };
       }),
     ],
