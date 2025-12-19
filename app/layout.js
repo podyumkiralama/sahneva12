@@ -2,9 +2,7 @@
 import "../styles/globals.css";
 
 import SkipLinks from "@/components/SkipLinks";
-import UtilityBar from "@/components/UtilityBar.client";
 import Navbar from "@/components/Navbar";
-import StickyVideoRailclient from "@/components/StickyVideoRail.client";
 import Footer from "@/components/Footer";
 import LayoutClientShell from "@/components/LayoutClientShell.client";
 
@@ -153,7 +151,7 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-screen bg-white text-neutral-900 antialiased flex flex-col font-sans">
         <SkipLinks />
-        <LayoutClientShell />
+        <LayoutClientShell lang={DEFAULT_LANG} dir={DEFAULT_DIR} />
 
         {/* JSON-LD (single script) */}
         <script
@@ -169,9 +167,7 @@ export default function RootLayout({ children }) {
           aria-label="Sahneva site başlığı ve ana gezinme"
           className="w-full relative z-50"
         >
-          <UtilityBar />
           <Navbar />
-          {process.env.NODE_ENV === "production" ? <StickyVideoRailclient /> : null}
         </header>
 
         <main
