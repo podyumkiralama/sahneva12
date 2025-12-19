@@ -7,7 +7,6 @@ import {
 } from "@/lib/seo/seoConfig";
 
 const content = LOCALE_CONTENT.tr;
-const DEFAULT_LANG = "tr";
 
 export const metadata = {
   title: {
