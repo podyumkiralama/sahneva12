@@ -1,4 +1,3 @@
-import DocumentDirection from "../../components/i18n/DocumentDirection.client";
 import SiteHeader from "../../components/i18n/SiteHeader";
 import SiteFooter from "../../components/i18n/SiteFooter";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -26,7 +25,6 @@ export const metadata = {
 export default function EnglishLayout({ children }) {
   return (
     <div className="flex min-h-screen flex-col bg-white text-neutral-900">
-      <DocumentDirection lang="en" dir={content.direction} />
       <SiteHeader
         locale="en"
         strings={{ ...content.header, direction: content.direction }}

@@ -2,18 +2,10 @@
 import "../styles/globals.css";
 
 import SkipLinks from "@/components/SkipLinks";
-import NonCriticalStylesheet from "@/components/NonCriticalStylesheet";
-import DeferredSpeedInsights from "@/components/DeferredSpeedInsights.client";
-import DocumentDirection from "@/components/i18n/DocumentDirection.client";
-import UtilityBar from "@/components/UtilityBar.client";
 import Navbar from "@/components/Navbar";
-import StickyVideoRailclient from "@/components/StickyVideoRail.client";
-import NewTabAccessibility from "@/components/NewTabAccessibility.client";
 import Footer from "@/components/Footer";
-import AnalyticsConsentWrapper from "@/components/AnalyticsConsentWrapper.client";
+import LayoutClientShell from "@/components/LayoutClientShell.client";
 
-import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
-import { HOME_PAGE_TITLE, SITE_URL, getOgImageUrl } from "@/lib/seo/seoConfig";
 import {
   BASE_SITE_URL,
   ORGANIZATION_ID,
@@ -22,9 +14,10 @@ import {
 } from "@/lib/seo/schemaIds";
 import { inter } from "@/app/fonts";
 
-const DEFAULT_LOCALE = LOCALE_CONTENT.tr;
 const DEFAULT_LANG = "tr";
-const DEFAULT_DIR = DEFAULT_LOCALE.direction;
+const DEFAULT_DIR = "ltr";
+const HOME_PAGE_TITLE = "Sahne, Podyum, LED Ekran & Ses Işık Kiralama";
+const OG_IMAGE_URL = `${BASE_SITE_URL}/img/og/hero-og.webp`;
 
 /* ================== VIEWPORT ================== */
 export const viewport = {
@@ -35,7 +28,7 @@ export const viewport = {
 
 /* ================== METADATA ================== */
 export const metadata = {
-  metadataBase: new URL(SITE_URL),
+  metadataBase: new URL(BASE_SITE_URL),
   title: { default: HOME_PAGE_TITLE, template: "%s | Sahneva" },
   description:
     "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı kurulum, profesyonel teknik ekip, uygun fiyat. Hemen teklif alın!",
@@ -52,14 +45,14 @@ export const metadata = {
   },
   openGraph: {
     type: "website",
-    url: SITE_URL,
+    url: BASE_SITE_URL,
     title: "Sahne, Podyum, LED Ekran & Ses Işık Kiralama | Sahneva Organizasyon",
     description:
       "Kurumsal etkinlikler, konserler, festivaller ve lansmanlar için sahne, podyum, LED ekran, ses-ışık ve çadır kiralama çözümleri.",
     siteName: "Sahneva Organizasyon",
     images: [
       {
-        url: getOgImageUrl(),
+        url: OG_IMAGE_URL,
         width: 1200,
         height: 630,
         alt: "Sahneva profesyonel açık hava sahne, LED ekran ve ışık kurulumu",
@@ -71,7 +64,7 @@ export const metadata = {
     title: "Sahne, Podyum, LED Ekran & Ses Işık Kiralama | Sahneva Organizasyon",
     description:
       "Profesyonel etkinlik prodüksiyon çözümleri. Sahne, podyum, LED ekran, ses-ışık ve çadır kiralama.",
-    images: [getOgImageUrl()],
+    images: [OG_IMAGE_URL],
   },
 };
 
@@ -157,10 +150,7 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-screen bg-white text-neutral-900 antialiased flex flex-col font-sans">
         <SkipLinks />
-        <DocumentDirection lang={DEFAULT_LANG} dir={DEFAULT_DIR} />
-        <NewTabAccessibility />
-
-        <NonCriticalStylesheet />
+        <LayoutClientShell lang={DEFAULT_LANG} dir={DEFAULT_DIR} />
 
         {/* JSON-LD (single script) */}
         <script
@@ -176,9 +166,7 @@ export default function RootLayout({ children }) {
           aria-label="Sahneva site başlığı ve ana gezinme"
           className="w-full relative z-50"
         >
-          <UtilityBar />
           <Navbar />
-          {process.env.NODE_ENV === "production" ? <StickyVideoRailclient /> : null}
         </header>
 
         <main
@@ -191,9 +179,6 @@ export default function RootLayout({ children }) {
         </main>
 
         <Footer ariaLabel="Sahneva site altbilgi" descriptionId="_main_footer" />
-
-        <DeferredSpeedInsights />
-        <AnalyticsConsentWrapper />
       </body>
     </html>
   );

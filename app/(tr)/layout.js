@@ -1,5 +1,4 @@
 // app/(tr)/(site)/layout.jsx
-import DocumentDirection from "@/components/i18n/DocumentDirection.client";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 import {
   HOME_PAGE_TITLE,
@@ -25,7 +24,6 @@ export const metadata = {
 export default function TurkishLayout({ children }) {
   return (
     <>
-      <DocumentDirection lang={DEFAULT_LANG} dir={content.direction} />
       {children}
     </>
   );
