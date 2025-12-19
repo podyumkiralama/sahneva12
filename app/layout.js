@@ -6,8 +6,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import LayoutClientShell from "@/components/LayoutClientShell.client";
 
-import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
-import { HOME_PAGE_TITLE, SITE_URL, getOgImageUrl } from "@/lib/seo/seoConfig";
 import {
   BASE_SITE_URL,
   ORGANIZATION_ID,
@@ -16,9 +14,10 @@ import {
 } from "@/lib/seo/schemaIds";
 import { inter } from "@/app/fonts";
 
-const DEFAULT_LOCALE = LOCALE_CONTENT.tr;
 const DEFAULT_LANG = "tr";
-const DEFAULT_DIR = DEFAULT_LOCALE.direction;
+const DEFAULT_DIR = "ltr";
+const HOME_PAGE_TITLE = "Sahne, Podyum, LED Ekran & Ses Işık Kiralama";
+const OG_IMAGE_URL = `${BASE_SITE_URL}/img/og/hero-og.webp`;
 
 /* ================== VIEWPORT ================== */
 export const viewport = {
@@ -29,7 +28,7 @@ export const viewport = {
 
 /* ================== METADATA ================== */
 export const metadata = {
-  metadataBase: new URL(SITE_URL),
+  metadataBase: new URL(BASE_SITE_URL),
   title: { default: HOME_PAGE_TITLE, template: "%s | Sahneva" },
   description:
     "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık sistemleri ve çadır kiralama. Hızlı kurulum, profesyonel teknik ekip, uygun fiyat. Hemen teklif alın!",
@@ -46,14 +45,14 @@ export const metadata = {
   },
   openGraph: {
     type: "website",
-    url: SITE_URL,
+    url: BASE_SITE_URL,
     title: "Sahne, Podyum, LED Ekran & Ses Işık Kiralama | Sahneva Organizasyon",
     description:
       "Kurumsal etkinlikler, konserler, festivaller ve lansmanlar için sahne, podyum, LED ekran, ses-ışık ve çadır kiralama çözümleri.",
     siteName: "Sahneva Organizasyon",
     images: [
       {
-        url: getOgImageUrl(),
+        url: OG_IMAGE_URL,
         width: 1200,
         height: 630,
         alt: "Sahneva profesyonel açık hava sahne, LED ekran ve ışık kurulumu",
@@ -65,7 +64,7 @@ export const metadata = {
     title: "Sahne, Podyum, LED Ekran & Ses Işık Kiralama | Sahneva Organizasyon",
     description:
       "Profesyonel etkinlik prodüksiyon çözümleri. Sahne, podyum, LED ekran, ses-ışık ve çadır kiralama.",
-    images: [getOgImageUrl()],
+    images: [OG_IMAGE_URL],
   },
 };
 
