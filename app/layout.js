@@ -190,7 +190,11 @@ export default function RootLayout({ children }) {
           <div className="overflow-x-hidden">{children}</div>
         </main>
 
-        <Footer ariaLabel="Sahneva site altbilgi" descriptionId="_main_footer" />
+        <Footer
+          id="_main_footer"
+          ariaLabel="Sahneva site altbilgi"
+          descriptionId="_main_footer_desc"
+        />
 
         <DeferredSpeedInsights />
         <AnalyticsConsentWrapper />

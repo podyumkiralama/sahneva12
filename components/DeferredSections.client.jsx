@@ -14,6 +14,11 @@ const CorporateIntro = dynamic(() => import("./CorporateIntro"), { ssr: false })
 const TechCapabilities = dynamic(() => import("./TechCapabilities"), { ssr: false });
 const WhyChooseUs = dynamic(() => import("./WhyChooseUs"), { ssr: false });
 
+const visibilityStyle = (minHeightPx) => ({
+  contentVisibility: "auto",
+  containIntrinsicSize: `1px ${minHeightPx}px`,
+});
+
 // Lazy-load görünürlük hook'u
 function useDeferredVisible(options) {
   const [visible, setVisible] = useState(false);
@@ -54,15 +59,16 @@ export function ServicesTabsDeferred(props) {
     rootMargin: "200px 0px",
     threshold: 0.1,
   });
+  const style = visibilityStyle(400);
 
   return (
-    <section ref={ref} className="w-full min-w-0">
+    <section ref={ref} className="w-full min-w-0" style={style}>
       {visible ? (
         <ServicesTabs {...props} />
       ) : (
         <div
           className="nc-DeferredSections-wrapper w-full"
-          style={{ "--nc-min-h": "400px" }}
+          style={{ ...style, minHeight: "400px" }}
           aria-hidden="true"
         />
       )}
@@ -77,15 +83,16 @@ export function ProjectsGalleryDeferred(props) {
     rootMargin: "400px 0px",
     threshold: 0.05,
   });
+  const style = visibilityStyle(320);
 
   return (
-    <section ref={ref} className="w-full min-w-0">
+    <section ref={ref} className="w-full min-w-0" style={style}>
       {visible ? (
         <ProjectsGallery {...props} />
       ) : (
         <div
           className="nc-DeferredSections-wrapper w-full"
-          style={{ "--nc-min-h": "320px" }}
+          style={{ ...style, minHeight: "320px" }}
           aria-hidden="true"
         />
       )}
@@ -100,15 +107,16 @@ export function FaqDeferred(props) {
     rootMargin: "200px 0px",
     threshold: 0.1,
   });
+  const style = visibilityStyle(780);
 
   return (
-    <section ref={ref} className="w-full min-w-0">
+    <section ref={ref} className="w-full min-w-0" style={style}>
       {visible ? (
         <Faq {...props} />
       ) : (
         <div
           className="nc-DeferredSections-wrapper nc-DeferredSections-clip w-full"
-          style={{ "--nc-min-h": "780px" }}
+          style={{ ...style, minHeight: "780px" }}
           aria-hidden="true"
         />
       )}
@@ -123,15 +131,16 @@ export function CorporateEventsDeferred(props) {
     rootMargin: "200px 0px",
     threshold: 0.1,
   });
+  const style = visibilityStyle(320);
 
   return (
-    <section ref={ref} className="w-full min-w-0">
+    <section ref={ref} className="w-full min-w-0" style={style}>
       {visible ? (
         <CorporateEvents {...props} />
       ) : (
         <div
           className="nc-DeferredSections-wrapper w-full"
-          style={{ "--nc-min-h": "320px" }}
+          style={{ ...style, minHeight: "320px" }}
           aria-hidden="true"
         />
       )}
@@ -146,15 +155,16 @@ export function CorporateIntroDeferred(props) {
     rootMargin: "200px 0px",
     threshold: 0.1,
   });
+  const style = visibilityStyle(240);
 
   return (
-    <section ref={ref} className="w-full min-w-0">
+    <section ref={ref} className="w-full min-w-0" style={style}>
       {visible ? (
         <CorporateIntro {...props} />
       ) : (
         <div
           className="nc-DeferredSections-wrapper w-full"
-          style={{ "--nc-min-h": "240px" }}
+          style={{ ...style, minHeight: "240px" }}
           aria-hidden="true"
         />
       )}
@@ -169,15 +179,16 @@ export function TechCapabilitiesDeferred(props) {
     rootMargin: "200px 0px",
     threshold: 0.1,
   });
+  const style = visibilityStyle(360);
 
   return (
-    <section ref={ref} className="w-full min-w-0">
+    <section ref={ref} className="w-full min-w-0" style={style}>
       {visible ? (
         <TechCapabilities {...props} />
       ) : (
         <div
           className="nc-DeferredSections-wrapper w-full"
-          style={{ "--nc-min-h": "360px" }}
+          style={{ ...style, minHeight: "360px" }}
           aria-hidden="true"
         />
       )}
@@ -192,15 +203,16 @@ export function WhyChooseUsDeferred(props) {
     rootMargin: "200px 0px",
     threshold: 0.1,
   });
+  const style = visibilityStyle(320);
 
   return (
-    <section ref={ref} className="w-full min-w-0">
+    <section ref={ref} className="w-full min-w-0" style={style}>
       {visible ? (
         <WhyChooseUs {...props} />
       ) : (
         <div
           className="nc-DeferredSections-wrapper w-full"
-          style={{ "--nc-min-h": "320px" }}
+          style={{ ...style, minHeight: "320px" }}
           aria-hidden="true"
         />
       )}
