@@ -1,9 +1,6 @@
 "use client";
 
 import DocumentDirection from "./i18n/DocumentDirection.client";
-import DeferredHydration from "./DeferredHydration.client";
-import DeferredSpeedInsights from "./DeferredSpeedInsights.client";
-import AnalyticsConsentWrapper from "./AnalyticsConsentWrapper.client";
 import NewTabAccessibility from "./NewTabAccessibility.client";
 
 /**
@@ -15,14 +12,6 @@ export default function LayoutClientShell({ lang, dir }) {
     <>
       <DocumentDirection lang={lang} dir={dir} />
       <NewTabAccessibility />
-
-      <DeferredHydration idleTimeout={3000} rootMargin="250px" fallback={null}>
-        <AnalyticsConsentWrapper />
-      </DeferredHydration>
-
-      <DeferredHydration idleTimeout={4000} rootMargin="250px" fallback={null}>
-        <DeferredSpeedInsights />
-      </DeferredHydration>
     </>
   );
 }

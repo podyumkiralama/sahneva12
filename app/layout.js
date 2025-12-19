@@ -6,6 +6,12 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import LayoutClientShell from "@/components/LayoutClientShell.client";
 
+import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
+import {
+  HOME_PAGE_TITLE,
+  SITE_URL,
+  getOgImageUrl,
+} from "@/lib/seo/seoConfig";
 import {
   BASE_SITE_URL,
   ORGANIZATION_ID,
