@@ -153,7 +153,7 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-screen bg-white text-neutral-900 antialiased flex flex-col font-sans">
         <SkipLinks />
-        <LayoutClientShell lang={DEFAULT_LANG} dir={DEFAULT_DIR} />
+        <LayoutClientShell />
 
         {/* JSON-LD (single script) */}
         <script

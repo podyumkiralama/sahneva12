@@ -3,7 +3,6 @@
 import DeferredHydration from "./DeferredHydration.client";
 import DeferredSpeedInsights from "./DeferredSpeedInsights.client";
 import AnalyticsConsentWrapper from "./AnalyticsConsentWrapper.client";
-import DocumentDirection from "./i18n/DocumentDirection.client";
 import NewTabAccessibility from "./NewTabAccessibility.client";
 import NonCriticalStylesheet from "./NonCriticalStylesheet";
 
@@ -11,10 +10,9 @@ import NonCriticalStylesheet from "./NonCriticalStylesheet";
  * Layout genelinde zorunlu olmayan scriptleri geciktirerek
  * ilk render yükünü azaltır.
  */
-export default function LayoutClientShell({ lang, dir }) {
+export default function LayoutClientShell() {
   return (
     <>
-      <DocumentDirection lang={lang} dir={dir} />
       <NewTabAccessibility />
       <NonCriticalStylesheet />
 
