@@ -151,7 +151,7 @@ export default function RootLayout({ children }) {
     <html
       lang={DEFAULT_LANG}
       dir={DEFAULT_DIR}
-      className={inter.className}
+      className={`${inter.variable} ${inter.className}`}
       suppressHydrationWarning
     >
       <body className="min-h-screen bg-white text-neutral-900 antialiased flex flex-col font-sans">
