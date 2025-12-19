@@ -111,6 +111,7 @@ const SocialLink = ({ href, label, title, icon, gradient, rel }) => {
 };
 
 export default function Footer({
+  id = "_main_footer",
   ariaLabel,
   ariaLabelledby,
   ariaDescribedby,
@@ -123,6 +124,8 @@ export default function Footer({
 
   const footerStrings = LOCALE_CONTENT?.tr?.footer || {
     ariaLabel: "Site altbilgisi",
+    description:
+      "İletişim bilgileri, hizmet bağlantıları ve sosyal medya hesaplarının bulunduğu altbilgi alanı",
   };
 
   const computedHeadingId =
@@ -132,9 +135,11 @@ export default function Footer({
   const hasAccessibleName = Boolean(ariaLabel || computedHeadingId);
   const computedRole = roleOverride ?? (hasAccessibleName ? "contentinfo" : undefined);
   const ariaLabelledbyValue = ariaLabel ? undefined : computedHeadingId;
+  const footerDescription = footerStrings.description;
 
   return (
     <footer
+      id={id}
       className="
         relative w-full flex-shrink-0
         bg-gradient-to-br from-[#020617] via-[#020617] to-[#020617]
@@ -145,6 +150,7 @@ export default function Footer({
       aria-label={ariaLabel}
       aria-describedby={computedDescriptionId}
       role={computedRole}
+      tabIndex={-1}
     >
       {/* Dekoratif arka plan efektleri */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
@@ -171,6 +177,12 @@ export default function Footer({
           {footerStrings.ariaLabel}
         </h2>
       )}
+
+      {footerDescription ? (
+        <p id={computedDescriptionId} className="sr-only">
+          {footerDescription}
+        </p>
+      ) : null}
 
       {/* Üst grid */}
       <div className="relative z-10 container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 xl:gap-10 pt-16 pb-14 px-6">
