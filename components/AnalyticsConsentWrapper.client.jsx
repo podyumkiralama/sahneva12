@@ -54,28 +54,70 @@ export default function AnalyticsConsentWrapper() {
   useEffect(() => {
     if (!GA_ID) return;
 
-    // 1) Consent Mode default state: denied
-    initConsentMode();
+    let idleHandle;
+    let timeoutHandle;
+    let listenersAttached = false;
+    let activated = false;
 
-    // 2) LocalStorage'dan daha önceki kullanıcı onayını oku
-    const stored = typeof window !== "undefined"
-      ? window.localStorage.getItem(CONSENT_KEY)
-      : null;
+    const events = ["pointerdown", "keydown", "touchstart", "scroll"];
 
-    if (stored === "granted") {
-      // 3) Daha önce onay vermiş kullanıcı için consent'i granted yap
-      window.gtag("consent", "update", {
-        ad_storage: "granted",
-        analytics_storage: "granted",
-        ad_user_data: "granted",
-        ad_personalization: "granted",
-      });
+    const activate = () => {
+      if (activated) return;
+      activated = true;
 
-      // 4) GA script'ini yükle
-      loadGAScript(GA_ID);
+      initConsentMode();
+
+      const stored =
+        typeof window !== "undefined"
+          ? window.localStorage.getItem(CONSENT_KEY)
+          : null;
+
+      if (stored === "granted") {
+        window.gtag("consent", "update", {
+          ad_storage: "granted",
+          analytics_storage: "granted",
+          ad_user_data: "granted",
+          ad_personalization: "granted",
+        });
+
+        loadGAScript(GA_ID);
+      }
+    };
+
+    const handleInteraction = () => {
+      activate();
+      cleanup();
+    };
+
+    const cleanup = () => {
+      if (listenersAttached) {
+        events.forEach((event) =>
+          window.removeEventListener(event, handleInteraction)
+        );
+      }
+      if (idleHandle && typeof window !== "undefined" && "cancelIdleCallback" in window) {
+        window.cancelIdleCallback(idleHandle);
+      }
+      if (timeoutHandle && typeof window !== "undefined") {
+        window.clearTimeout(timeoutHandle);
+      }
+    };
+
+    if (typeof window !== "undefined") {
+      listenersAttached = true;
+      events.forEach((event) =>
+        window.addEventListener(event, handleInteraction, { passive: true })
+      );
+
+      if ("requestIdleCallback" in window) {
+        idleHandle = window.requestIdleCallback(activate, { timeout: 6000 });
+      } else {
+        timeoutHandle = window.setTimeout(activate, 3500);
+      }
     }
+
+    return cleanup;
   }, []);
 
-  // UI render etmiyor, sadece arkada çalışıyor
   return null;
 }
