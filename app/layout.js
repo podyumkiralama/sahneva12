@@ -2,18 +2,16 @@
 import "../styles/globals.css";
 
 import SkipLinks from "@/components/SkipLinks";
-import NonCriticalStylesheet from "@/components/NonCriticalStylesheet";
-import DeferredSpeedInsights from "@/components/DeferredSpeedInsights.client";
-import DocumentDirection from "@/components/i18n/DocumentDirection.client";
-import UtilityBar from "@/components/UtilityBar.client";
 import Navbar from "@/components/Navbar";
-import StickyVideoRailclient from "@/components/StickyVideoRail.client";
-import NewTabAccessibility from "@/components/NewTabAccessibility.client";
 import Footer from "@/components/Footer";
-import AnalyticsConsentWrapper from "@/components/AnalyticsConsentWrapper.client";
+import LayoutClientShell from "@/components/LayoutClientShell.client";
 
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
-import { HOME_PAGE_TITLE, SITE_URL, getOgImageUrl } from "@/lib/seo/seoConfig";
+import {
+  HOME_PAGE_TITLE,
+  SITE_URL,
+  getOgImageUrl,
+} from "@/lib/seo/seoConfig";
 import {
   BASE_SITE_URL,
   ORGANIZATION_ID,
@@ -157,10 +155,7 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-screen bg-white text-neutral-900 antialiased flex flex-col font-sans">
         <SkipLinks />
-        <DocumentDirection lang={DEFAULT_LANG} dir={DEFAULT_DIR} />
-        <NewTabAccessibility />
-
-        <NonCriticalStylesheet />
+        <LayoutClientShell lang={DEFAULT_LANG} dir={DEFAULT_DIR} />
 
         {/* JSON-LD (single script) */}
         <script
@@ -176,9 +171,7 @@ export default function RootLayout({ children }) {
           aria-label="Sahneva site başlığı ve ana gezinme"
           className="w-full relative z-50"
         >
-          <UtilityBar />
           <Navbar />
-          {process.env.NODE_ENV === "production" ? <StickyVideoRailclient /> : null}
         </header>
 
         <main
@@ -191,9 +184,6 @@ export default function RootLayout({ children }) {
         </main>
 
         <Footer ariaLabel="Sahneva site altbilgi" descriptionId="_main_footer" />
-
-        <DeferredSpeedInsights />
-        <AnalyticsConsentWrapper />
       </body>
     </html>
   );
