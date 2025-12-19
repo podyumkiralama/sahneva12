@@ -20,9 +20,10 @@ import {
 } from "@/lib/seo/schemaIds";
 import { inter } from "@/app/fonts";
 
-const DEFAULT_LOCALE = LOCALE_CONTENT.tr;
 const DEFAULT_LANG = "tr";
-const DEFAULT_DIR = DEFAULT_LOCALE.direction;
+const DEFAULT_DIR = "ltr";
+const HOME_PAGE_TITLE = "Sahne, Podyum, LED Ekran & Ses Işık Kiralama";
+const OG_IMAGE_URL = `${BASE_SITE_URL}/img/og/hero-og.webp`;
 
 /* ================== VIEWPORT ================== */
 export const viewport = {
@@ -142,7 +143,6 @@ const globalJsonLd = {
     },
   ],
 };
-
 
 /* ================== ROOT LAYOUT ================== */
 export default function RootLayout({ children }) {
