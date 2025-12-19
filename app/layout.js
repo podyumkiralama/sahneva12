@@ -4,7 +4,6 @@ import "../styles/globals.css";
 import SkipLinks from "@/components/SkipLinks";
 import NonCriticalStylesheet from "@/components/NonCriticalStylesheet";
 import DeferredSpeedInsights from "@/components/DeferredSpeedInsights.client";
-import DocumentDirection from "@/components/i18n/DocumentDirection.client";
 import UtilityBar from "@/components/UtilityBar.client";
 import Navbar from "@/components/Navbar";
 import StickyVideoRailclient from "@/components/StickyVideoRail.client";
@@ -157,7 +156,6 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-screen bg-white text-neutral-900 antialiased flex flex-col font-sans">
         <SkipLinks />
-        <DocumentDirection lang={DEFAULT_LANG} dir={DEFAULT_DIR} />
         <NewTabAccessibility />
 
         <NonCriticalStylesheet />
