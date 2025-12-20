@@ -7,7 +7,6 @@ import SkipLinks from "@/components/SkipLinks";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 import { HOME_PAGE_TITLE, SITE_URL, getOgImageUrl } from "@/lib/seo/seoConfig";
 import {
   BASE_SITE_URL,
