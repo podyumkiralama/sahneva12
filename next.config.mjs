@@ -1,3 +1,5 @@
+/** @type {import('next').NextConfig} */
+
 const ONE_DAY_IN_SECONDS = 60 * 60 * 24;
 const ONE_MONTH_IN_SECONDS = ONE_DAY_IN_SECONDS * 30;
 const ONE_YEAR_IN_SECONDS = ONE_DAY_IN_SECONDS * 365;
@@ -102,7 +104,6 @@ const longTermCacheHeaders = [
   },
 ];
 
-/** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
@@ -116,7 +117,8 @@ const nextConfig = {
   },
 
   images: {
-    deviceSizes: [320, 420, 640, 750, 828, 1080, 1200, 1920],
+    // ✅ GÜNCELLEME: 1440px (Laptop) eklendi. LCP için önemli.
+    deviceSizes: [320, 420, 640, 750, 828, 1080, 1200, 1440, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: ONE_MONTH_IN_SECONDS,
