@@ -5,7 +5,7 @@ import SkipLinks from "@/components/SkipLinks";
 
 
 import Navbar from "@/components/Navbar";
-import StickyVideoRailclient from "@/components/StickyVideoRail.client";
+
 import NewTabAccessibility from "@/components/NewTabAccessibility.client";
 import Footer from "@/components/Footer";
 import AnalyticsConsentWrapper from "@/components/AnalyticsConsentWrapper.client";
@@ -174,7 +174,7 @@ export default function RootLayout({ children }) {
         >
           
           <Navbar />
-          {process.env.NODE_ENV === "production" ? <StickyVideoRailclient /> : null}
+      
         </header>
 
         <main
