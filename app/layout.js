@@ -3,7 +3,7 @@ import "../styles/globals.css";
 
 import SkipLinks from "@/components/SkipLinks";
 
-import DeferredSpeedInsights from "@/components/DeferredSpeedInsights.client";
+
 import UtilityBar from "@/components/UtilityBar.client";
 import Navbar from "@/components/Navbar";
 import StickyVideoRailclient from "@/components/StickyVideoRail.client";
@@ -13,7 +13,13 @@ import AnalyticsConsentWrapper from "@/components/AnalyticsConsentWrapper.client
 
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 import { HOME_PAGE_TITLE, SITE_URL, getOgImageUrl } from "@/lib/seo/seoConfig";
-
+import {
+  BASE_SITE_URL,
+  ORGANIZATION_ID,
+  WEBSITE_ID,
+  LOCAL_BUSINESS_ID,
+} from "@/lib/seo/schemaIds";
+import { inter } from "@/app/fonts";
 
 const DEFAULT_LOCALE = LOCALE_CONTENT.tr;
 const DEFAULT_LANG = "tr";
@@ -188,7 +194,7 @@ export default function RootLayout({ children }) {
           descriptionId="_main_footer_desc"
         />
 
-        <DeferredSpeedInsights />
+        
         <AnalyticsConsentWrapper />
       </body>
     </html>
