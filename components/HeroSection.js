@@ -118,7 +118,7 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
       // ✅ LCP ve PERFORMANS OPTİMİZASYONLARI
       priority={true}
       fetchPriority="high"
-      decoding="async"
+      decoding="sync"
       sizes="100vw"
       quality={45}
       placeholder="empty"
