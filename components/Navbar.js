@@ -803,12 +803,11 @@ export default function Navbar({
           kullanabilirsiniz.
         </p>
 
-<div
-  role="navigation"
-  aria-label={resolvedAriaLabel ?? "Ana Gezinme"}
-  aria-labelledby={resolvedAriaLabel ? undefined : resolvedAriaLabelledby}
-  aria-describedby={resolvedAriaDescribedby}
+<nav
+  aria-labelledby={MOBILE_MENU_HEADING_ID}
+  aria-describedby={MOBILE_MENU_DESCRIPTION_ID}
 >
+
           <div className="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
             <Link
               href="/hakkimizda"
@@ -873,7 +872,7 @@ export default function Navbar({
                 </svg>
               </button>
 
- <div
+              <div
   id="mobile-services-list"
   role="region"
   aria-labelledby="mobile-services-button"
