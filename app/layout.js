@@ -18,7 +18,6 @@ import {
   WEBSITE_ID,
   LOCAL_BUSINESS_ID,
 } from "@/lib/seo/schemaIds";
-import { inter } from "@/app/fonts";
 
 const DEFAULT_LOCALE = LOCALE_CONTENT.tr;
 const DEFAULT_LANG = "tr";
