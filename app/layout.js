@@ -2,16 +2,13 @@
 import "../styles/globals.css";
 
 import SkipLinks from "@/components/SkipLinks";
-
-
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
+import { inter } from "./fonts";
+
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 import { HOME_PAGE_TITLE, SITE_URL, getOgImageUrl } from "@/lib/seo/seoConfig";
-
-
-
 const DEFAULT_LOCALE = LOCALE_CONTENT.tr;
 const DEFAULT_LANG = "tr";
 const DEFAULT_DIR = DEFAULT_LOCALE.direction;
@@ -31,7 +28,7 @@ export default function RootLayout({ children }) {
     <html
       lang={DEFAULT_LANG}
       dir={DEFAULT_DIR}
-      className={`${inter.variable} ${inter.className}`}
+      className={`${inter.className} ${inter.variable}`}
       suppressHydrationWarning
     >
       <body className="min-h-screen bg-white text-neutral-900 antialiased flex flex-col font-sans">
