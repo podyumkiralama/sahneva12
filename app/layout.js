@@ -6,7 +6,6 @@ import SkipLinks from "@/components/SkipLinks";
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import AnalyticsConsentWrapper from "@/components/AnalyticsConsentWrapper.client";
 
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 import { HOME_PAGE_TITLE, SITE_URL, getOgImageUrl } from "@/lib/seo/seoConfig";
@@ -191,7 +190,6 @@ export default function RootLayout({ children }) {
         />
 
         
-        <AnalyticsConsentWrapper />
       </body>
     </html>
   );
