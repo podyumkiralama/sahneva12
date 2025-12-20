@@ -19,6 +19,8 @@ const visibilityStyle = (minHeightPx) => ({
   containIntrinsicSize: `1px ${minHeightPx}px`,
 });
 
+const servicesContainSize = "1px 900px";
+
 // Lazy-load görünürlük hook'u
 function useDeferredVisible(options) {
   const [visible, setVisible] = useState(false);
@@ -59,7 +61,10 @@ export function ServicesTabsDeferred(props) {
     rootMargin: "200px 0px",
     threshold: 0.1,
   });
-  const style = visibilityStyle(400);
+  const style = {
+    contentVisibility: "auto",
+    containIntrinsicSize: servicesContainSize,
+  };
 
   return (
     <section ref={ref} className="w-full min-w-0" style={style}>
@@ -68,7 +73,7 @@ export function ServicesTabsDeferred(props) {
       ) : (
         <div
           className="nc-DeferredSections-wrapper w-full"
-          style={{ ...style, minHeight: "400px" }}
+          style={{ ...style, minHeight: "900px" }}
           aria-hidden="true"
         />
       )}
