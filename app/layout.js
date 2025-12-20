@@ -5,7 +5,6 @@ import SkipLinks from "@/components/SkipLinks";
 
 
 import Navbar from "@/components/Navbar";
-import NewTabAccessibility from "@/components/NewTabAccessibility.client";
 import Footer from "@/components/Footer";
 import AnalyticsConsentWrapper from "@/components/AnalyticsConsentWrapper.client";
 
@@ -154,7 +153,6 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-screen bg-white text-neutral-900 antialiased flex flex-col font-sans">
         <SkipLinks />
-        <NewTabAccessibility />
 
         
 
