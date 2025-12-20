@@ -501,7 +501,7 @@ export default function Navbar({
               aria-label="Sahneva - Ana Sayfa"
             >
               <Image
-                src="/img/logo.webp"
+                src="/img/logo.png"
                 alt="Sahneva Logo"
                 width={160}
                 height={40}
@@ -803,12 +803,12 @@ export default function Navbar({
           kullanabilirsiniz.
         </p>
 
-        <nav
-          aria-label={resolvedAriaLabel}
-          aria-labelledby={resolvedAriaLabel ? undefined : resolvedAriaLabelledby}
-          aria-describedby={resolvedAriaDescribedby}
-          role={navRole}
-        >
+<div
+  role="navigation"
+  aria-label={resolvedAriaLabel ?? "Ana Gezinme"}
+  aria-labelledby={resolvedAriaLabel ? undefined : resolvedAriaLabelledby}
+  aria-describedby={resolvedAriaDescribedby}
+>
           <div className="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
             <Link
               href="/hakkimizda"
@@ -873,17 +873,16 @@ export default function Navbar({
                 </svg>
               </button>
 
-              <div
-                id="mobile-services-list"
-                role="region"
-                aria-labelledby="mobile-services-button"
-                aria-hidden={!mobileServicesOpen}
-                data-inert={mobileServicesOpen ? undefined : true}
-                className={`
-                  overflow-hidden transition-all duration-300 ease-in-out
-                  ${mobileServicesOpen ? "max-h-[700px] opacity-100 py-2" : "max-h-0 opacity-0 py-0"}
-                `}
-              >
+ <div
+  id="mobile-services-list"
+  role="region"
+  aria-labelledby="mobile-services-button"
+  className={`
+    overflow-hidden transition-all duration-300 ease-in-out
+    ${mobileServicesOpen ? "max-h-[700px] opacity-100 py-2" : "max-h-0 opacity-0 py-0"}
+  `}
+>
+
                 <div className="ml-4 rounded-lg border border-neutral-200 bg-white p-2 space-y-1">
                   {SERVICE_LINKS.map(({ href, label, icon, description }) => (
                     <Link
