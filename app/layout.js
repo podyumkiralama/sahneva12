@@ -4,7 +4,6 @@ import "../styles/globals.css";
 import SkipLinks from "@/components/SkipLinks";
 
 
-import UtilityBar from "@/components/UtilityBar.client";
 import Navbar from "@/components/Navbar";
 import StickyVideoRailclient from "@/components/StickyVideoRail.client";
 import NewTabAccessibility from "@/components/NewTabAccessibility.client";
@@ -174,7 +173,7 @@ export default function RootLayout({ children }) {
           aria-label="Sahneva site başlığı ve ana gezinme"
           className="w-full relative z-50"
         >
-          <UtilityBar />
+          
           <Navbar />
           {process.env.NODE_ENV === "production" ? <StickyVideoRailclient /> : null}
         </header>
