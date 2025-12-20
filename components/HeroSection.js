@@ -1,9 +1,12 @@
+```javascript
 // components/HeroSection.js
 import Image from "next/image";
+import Link from "next/link";
+// NOT: Resim dosyasının yolunun projenizde doğru olduğundan emin olun.
 import heroImg from "@/public/img/hero-bg.webp";
 
 // —————————————————————————————————————————
-// SABİT VERİLER
+// SABİT VERİLER (CONSTANTS)
 // —————————————————————————————————————————
 
 const HERO_IMAGE_ALT =
@@ -42,7 +45,7 @@ const CTA_OVERLAY_CLASS =
   "absolute inset-0 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200";
 
 // —————————————————————————————————————————
-// ALT PARÇALAR
+// ALT PARÇALAR (HELPER COMPONENTS)
 // —————————————————————————————————————————
 
 function KeywordPills({ id }) {
@@ -113,13 +116,12 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
       src={heroImg}
       alt={ariaHidden ? "" : alt}
       fill
-      priority
+      // ✅ LCP ve PERFORMANS OPTİMİZASYONLARI
+      priority={true}
       fetchPriority="high"
-      // ✅ LCP için en doğru ve güvenli: full-bleed hero = 100vw
+      decoding="sync"
       sizes="100vw"
-      // ✅ ağırlaşmasın
-      quality={45}
-      // ✅ blur yok (desktop blocking artmasın)
+      quality={60}
       placeholder="empty"
       className="absolute inset-0 h-full w-full object-cover object-center"
       aria-hidden={ariaHidden}
@@ -128,7 +130,7 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
 }
 
 // —————————————————————————————————————————
-// ANA HERO BİLEŞEN
+// ANA HERO BİLEŞEN (MAIN EXPORT)
 // —————————————————————————————————————————
 
 export default function HeroSection() {
@@ -138,63 +140,64 @@ export default function HeroSection() {
       aria-labelledby="hero-title"
       aria-describedby="hero-description hero-keywords"
     >
-      {/* Arka plan görseli */}
+      {/* 1. KATMAN: Arka Plan Görseli */}
       <div className="absolute inset-0" aria-hidden="true">
-        {/* dekoratif: SR görmesin */}
         <HeroBackgroundImage ariaHidden />
-
-        {/* ✅ Eskisi gibi ama “simsiyah” yapmayacak kadar hafif overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/25 to-black/55" />
+        {/* Okunabilirlik için hafif karartma */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/60" />
       </div>
 
-      {/* İçerik */}
-      <div className="relative z-10 container py-10">
-        <div className="max-w-3xl mx-auto text-center">
-          {/* Badge */}
-          <p className="inline-flex items-center gap-3 bg-black/45 rounded-full px-4 py-2 border border-white/10 text-xs md:text-sm text-slate-100">
-            <span
-              className="w-2 h-2 bg-green-400 rounded-full"
-              aria-hidden="true"
-            />
-            Sahneva Organizasyon • Türkiye Geneli Profesyonel Hizmet
-          </p>
+      {/* 2. KATMAN: İçerik */}
+      <div className="relative z-10 container py-10 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          
+          {/* Üst Rozet (Badge) */}
+          <div className="flex justify-center mb-4">
+            <p className="inline-flex items-center gap-3 bg-black/40 backdrop-blur-md rounded-full px-4 py-1.5 border border-white/10 text-xs md:text-sm text-slate-100 shadow-sm">
+              <span
+                className="w-2 h-2 bg-green-400 rounded-full animate-pulse"
+                aria-hidden="true"
+              />
+              Sahneva Organizasyon • Türkiye Geneli Profesyonel Hizmet
+            </p>
+          </div>
 
-          {/* Başlık */}
+          {/* Ana Başlık (H1) */}
           <h1
             id="hero-title"
-            className="mt-4 text-white text-3xl md:text-5xl lg:text-6xl font-black leading-tight"
+            className="text-white text-4xl sm:text-5xl lg:text-7xl font-black leading-tight tracking-tight drop-shadow-xl"
           >
             Türkiye genelinde
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400 block">
+            <span className="block mt-1 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-300 pb-2">
               Sahne &amp; LED Ekran Kiralama
             </span>
           </h1>
 
-          {/* Keyword pill’ler */}
+          {/* Anahtar Kelimeler (Pills) */}
           <KeywordPills id="hero-keywords" />
 
-          {/* Alt açıklama */}
+          {/* Alt Açıklama (Subtitle) */}
           <p
             id="hero-description"
-            className="text-slate-100 text-sm md:text-lg mt-2 md:mt-4 max-w-xl mx-auto"
+            className="text-slate-100 text-base md:text-xl mt-4 max-w-2xl mx-auto leading-relaxed font-medium drop-shadow-md text-opacity-90"
           >
             500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli hızlı
             kurulum ile etkinliğinizde yanınızdayız.
           </p>
 
-          {/* CTA’lar */}
+          {/* Aksiyon Butonları (CTA) */}
           <CTAGroup />
         </div>
       </div>
 
-      {/* Scroll cue: ✅ mobilde kapalı, desktop’ta kalsın (performans + çakışma) */}
+      {/* 3. KATMAN: Scroll İkonu (Mobilde gizli) */}
       <div
-        className="hidden lg:block absolute bottom-6 left-1/2 -translate-x-1/2"
+        className="hidden lg:block absolute bottom-8 left-1/2 -translate-x-1/2 opacity-80"
         aria-hidden="true"
       >
         <div className="animate-bounce motion-reduce:animate-none">
-          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-white/70 rounded-full mt-2" />
+          <div className="w-6 h-10 border-2 border-white/40 rounded-full flex justify-center p-1">
+            <div className="w-1 h-2 bg-white rounded-full mt-1" />
           </div>
         </div>
       </div>
