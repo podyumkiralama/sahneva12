@@ -5,7 +5,6 @@ import SkipLinks from "@/components/SkipLinks";
 
 
 import Navbar from "@/components/Navbar";
-
 import NewTabAccessibility from "@/components/NewTabAccessibility.client";
 import Footer from "@/components/Footer";
 import AnalyticsConsentWrapper from "@/components/AnalyticsConsentWrapper.client";
@@ -18,6 +17,7 @@ import {
   WEBSITE_ID,
   LOCAL_BUSINESS_ID,
 } from "@/lib/seo/schemaIds";
+import { inter } from "@/app/fonts";
 
 const DEFAULT_LOCALE = LOCALE_CONTENT.tr;
 const DEFAULT_LANG = "tr";
