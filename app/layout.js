@@ -2,7 +2,7 @@
 import "../styles/globals.css";
 
 import SkipLinks from "@/components/SkipLinks";
-import NonCriticalStylesheet from "@/components/NonCriticalStylesheet";
+
 import DeferredSpeedInsights from "@/components/DeferredSpeedInsights.client";
 import UtilityBar from "@/components/UtilityBar.client";
 import Navbar from "@/components/Navbar";
@@ -158,7 +158,7 @@ export default function RootLayout({ children }) {
         <SkipLinks />
         <NewTabAccessibility />
 
-        <NonCriticalStylesheet />
+        
 
         {/* JSON-LD (single script) */}
         <script
