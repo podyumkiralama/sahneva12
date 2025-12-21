@@ -55,6 +55,11 @@ const BUSINESS_LINKS = [
   },
 ];
 
+const FOOTER_VISIBILITY_STYLE = {
+  contentVisibility: "auto",
+  containIntrinsicSize: "1px 1200px",
+};
+
 /* --- Yardımcı Bileşen: Standart Footer Link --- */
 const FooterLink = ({
   href,
@@ -147,6 +152,7 @@ export default function Footer({
         border-t border-white/10
         overflow-hidden
       "
+      style={FOOTER_VISIBILITY_STYLE}
       aria-labelledby={ariaLabelledbyValue}
       aria-label={ariaLabel}
       aria-describedby={computedDescriptionId}
