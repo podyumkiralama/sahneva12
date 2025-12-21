@@ -28,7 +28,9 @@ const deferredCssHrefs = shouldDeferCss ? getCssAssetHrefs() : [];
 
 const CSS_DEFER_BOOTSTRAP = `
   (() => {
-    const selector =   'link[rel="stylesheet"][href*="/_next/static/"][href$=".css"]';
+    const selector =
+      'link[rel="stylesheet"][href*="/_next/static/"][href$=".css"]';
+
     const makeNonBlocking = (link) => {
       if (!link || link.dataset.deferredBootstrap === "true") return;
 
@@ -44,7 +46,6 @@ const CSS_DEFER_BOOTSTRAP = `
 
       link.addEventListener("load", enable, { once: true });
 
-      // Fallback in case the load event fires before this script runs.
       requestAnimationFrame(() => {
         if (link.dataset.deferredApplied === "true") return;
         enable();
@@ -62,6 +63,7 @@ const CSS_DEFER_BOOTSTRAP = `
     }
   })();
 `;
+
 
 /* ================== VIEWPORT ================== */
 export const viewport = {
