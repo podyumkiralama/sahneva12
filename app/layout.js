@@ -28,7 +28,7 @@ const deferredCssHrefs = shouldDeferCss ? getCssAssetHrefs() : [];
 
 const CSS_DEFER_BOOTSTRAP = `
   (() => {
-    const selector = 'link[rel="stylesheet"][href*="/_next/static/css/"]';
+    const selector = 'link[rel="stylesheet"][href*="/_next/static/css/"], link[rel="stylesheet"][href*="/_chunks/"]';
     const makeNonBlocking = (link) => {
       if (!link || link.dataset.deferredBootstrap === "true") return;
 
