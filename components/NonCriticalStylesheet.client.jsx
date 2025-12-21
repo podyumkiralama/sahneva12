@@ -65,8 +65,22 @@ export default function NonCriticalStylesheet({ hrefs = [] }) {
 
       const enable = () => activateStylesheet(preload, originalStyles);
 
+      // If hydration happens after the preload finished, the load event might
+      // have already fired. Apply immediately in that case to avoid a missed
+      // swap and FOUC.
+      if (preload.rel === "stylesheet" || preload.dataset.deferredApplied === "true") {
+        enable();
+        return;
+      }
+
       preload.addEventListener("load", enable, { once: true });
       preload.dataset.deferProcessed = "true";
+
+      // Fallback to ensure activation even if the load event is missed.
+      window.requestAnimationFrame(() => {
+        if (preload.dataset.deferredApplied === "true") return;
+        enable();
+      });
     });
   }, [hrefs]);
 
