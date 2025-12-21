@@ -50,7 +50,7 @@ export default function TechCapabilities({ dictionary: dictionaryOverride }) {
       {/* Arka Plan Efekti */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute inset-0 grid-overlay" />
-        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-600/10 blur-[120px] rounded-full mix-blend-screen" />
+        <div className="absolute top-0 right-0 w-[340px] h-[340px] bg-blue-600/15 blur-[80px] rounded-full opacity-70 lg:mix-blend-screen motion-reduce:opacity-0" />
       </div>
 
       {/* İçerik */}

@@ -1,7 +1,7 @@
 // components/ScrollReveal.jsx
 "use client";
 
-import { cloneElement, isValidElement } from "react";
+import { cloneElement, isValidElement, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import clsx from "clsx";
 
@@ -41,6 +41,7 @@ export function ScrollReveal({
 }) {
   const shouldReduceMotion = useReducedMotion();
   const numericDelay = Number(delay) || 0;
+  const [shouldHintWillChange, setShouldHintWillChange] = useState(false);
 
   // Reduce motion: hiç animasyon yok
   if (shouldReduceMotion) {
@@ -62,7 +63,22 @@ export function ScrollReveal({
     show: { opacity: 1, x: 0, y: 0, scale: 1 },
   };
 
-  const combinedClassName = clsx("will-change-[opacity,transform]", className);
+  const combinedClassName = clsx(
+    shouldHintWillChange && "will-change-[opacity,transform]",
+    className,
+  );
+
+  const handleAnimationComplete = () => {
+    if (shouldHintWillChange) {
+      setShouldHintWillChange(false);
+    }
+  };
+
+  const handleAnimationStart = () => {
+    if (!shouldHintWillChange) {
+      setShouldHintWillChange(true);
+    }
+  };
 
   const motionProps = {
     variants,
@@ -82,6 +98,8 @@ export function ScrollReveal({
       // CLS-safe: stable rendering hints
       transformOrigin: "center",
     },
+    onAnimationComplete: handleAnimationComplete,
+    onAnimationStart: handleAnimationStart,
   };
 
   if (asChild && isValidElement(children)) {

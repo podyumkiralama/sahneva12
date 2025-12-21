@@ -318,7 +318,7 @@ export default function Faq({
       {/* Arka Plan Efektleri */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute inset-0 grid-overlay" />
-        <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-blue-600/10 blur-[120px] rounded-full mix-blend-screen" />
+        <div className="absolute top-0 left-0 w-[340px] h-[340px] bg-blue-600/15 blur-[80px] rounded-full opacity-70 lg:mix-blend-screen motion-reduce:opacity-0" />
       </div>
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

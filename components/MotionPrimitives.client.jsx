@@ -2,6 +2,7 @@
 'use client';
 
 import { useRef, useEffect, useState } from 'react';
+import clsx from 'clsx';
 
 /**
  * 2026 Standardı: "Progressive Enhancement" Animasyonları.
@@ -10,21 +11,26 @@ import { useRef, useEffect, useState } from 'react';
  */
 export function MotionWrapper({ 
   children, 
-  animation = 'fade-up', 
-  delay = 0, 
+  animation = 'fade-up',
+  delay = 0,
   className = '',
   as: Component = 'div', // Semantik HTML için esneklik (section, article, li vs.)
- ...props 
+  ...props
 }) {
   const ref = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [prefersReduce, setPrefersReduce] = useState(false);
+  const [shouldHintWillChange, setShouldHintWillChange] = useState(false);
 
   useEffect(() => {
     // Tarayıcı desteği kontrolü ve Reduced Motion kontrolü
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    setPrefersReduce(prefersReducedMotion);
+
     if (prefersReducedMotion) {
       setIsVisible(true); // Animasyonu atla, direkt göster
+      setShouldHintWillChange(false);
       return;
     }
 
@@ -62,10 +68,30 @@ export function MotionWrapper({
     }
   };
 
+  useEffect(() => {
+    if (!isVisible || prefersReduce || shouldHintWillChange) return;
+
+    setShouldHintWillChange(true);
+
+    const timer = window.setTimeout(() => setShouldHintWillChange(false), 600);
+    return () => window.clearTimeout(timer);
+  }, [isVisible, prefersReduce, shouldHintWillChange]);
+
+  const transitionClasses = prefersReduce
+    ? ''
+    : 'transition-all duration-700 ease-out';
+
+  const combinedClassName = clsx(
+    className,
+    transitionClasses,
+    shouldHintWillChange && 'will-change-transform',
+    isVisible ? getVisibleStyle() : getInitialStyle(),
+  );
+
   return (
     <Component
       ref={ref}
-      className={`${className} transition-all duration-700 ease-out will-change-transform ${isVisible? getVisibleStyle() : getInitialStyle()}`}
+      className={combinedClassName}
       style={{ transitionDelay: `${delay}ms` }}
       {...props}
     >
