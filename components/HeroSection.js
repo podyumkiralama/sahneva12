@@ -135,7 +135,7 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
 export default function HeroSection() {
   return (
     <section
-      className="relative min-h-[75vh] pt-16 lg:pt-20 flex items-center justify-center overflow-hidden bg-black"
+      className="relative min-h-[75vh] pt-16 lg:pt-20 flex items-center justify-center overflow-hidden bg-black hero-inline-safe"
       aria-labelledby="hero-title"
       aria-describedby="hero-description hero-keywords"
     >
