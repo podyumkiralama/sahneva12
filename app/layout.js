@@ -6,7 +6,7 @@ import "../styles/globals.css";
 import SkipLinks from "@/components/SkipLinks";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import NonCriticalStylesheet from "@/components/NonCriticalStylesheet.client";
+import NonCriticalStylesheet from "@/components/NonCriticalStylesheet";
 import { getCssAssetHrefs } from "@/lib/cssManifest";
 import Script from "next/script";
 
