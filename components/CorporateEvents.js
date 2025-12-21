@@ -4,6 +4,7 @@
 import { useId } from "react";
 import Link from "next/link";
 import { ScrollReveal } from "@/components/ScrollReveal";
+import "@/styles/grid-overlay.css";
 
 // —————————————————————————————————————————
 // YAPILANDIRMA & VERİLER

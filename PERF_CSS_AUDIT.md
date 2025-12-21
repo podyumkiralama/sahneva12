@@ -1,33 +1,36 @@
 # Render-blocking CSS audit checklist
 
-## Goals
-- Homepage CSS deferral keeps LCP at or better than baseline (~0.35–0.40s) and CLS at 0.
-- Navbar, HeroSection, and HeroBelow remain visually stable without FOUC when main stylesheet is deferred.
+## Inventory and entry points
+- `styles/globals.css`: Tailwind base/components/utilities plus shared tokens (font vars, brand colors, base html/body defaults, focus ring, media element resets).
+- `styles/critical.css`: inline above-the-fold shell (~1.0 KB raw) that covers body typography/background, header offset, main padding (mobile+lg), and the hero skeleton wrapper (`.hero-inline-safe`).
+- `styles/grid-overlay.css`: shared grid overlay utility imported only by sections/components that render the decorative grid background (Hero adjacents, tabs, gallery, footer, etc.).
+- `styles/rail-controls.css`: styles for sticky video rail controls, imported where the rail is rendered.
+- Next-generated CSS (`/_next/static/css/*.css`, `/_next/static/chunks/*.css`, and Turbopack `/_chunks/*.css`) continues to load via the defer/prefetch pipeline in `app/layout.js`; toggle with `NEXT_PUBLIC_DEFER_MAIN_CSS=false` if needed.
 
 ## What changed
-- Inline a minimal critical CSS block (navbar/header positioning, hero shell, base colors and typography) in `app/layout.js` via `styles/critical.css`.
-- Preload + swap main `_next/static/css/*.css` assets in production using `NonCriticalStylesheet` and manifest-based discovery.
-- Added `content-visibility: auto` and `contain-intrinsic-size: 1px 900px` to the ServicesTabs wrapper to reduce below-the-fold cost without layout jumps.
-- Added `NEXT_PUBLIC_DEFER_MAIN_CSS` flag to opt out quickly if any issues appear.
+- Trimmed `globals.css` to only global foundations; moved `grid-overlay` and `rail-control` rules into scoped CSS files and imported them where used.
+- Rebuilt `critical.css` to a minimal palette-aligned shell (body color/typography, header/main spacing, hero height/overlay) to prevent FOUC/CLS while deferral is enabled; kept size under 2 KB (raw: ~1,059 bytes).
+- Added a Playwright-powered coverage helper (`scripts/css-coverage.js`) and npm alias (`npm run css:coverage`) to report used/unused bytes per stylesheet across `/`, `/sss`, and `/sahne-kiralama` (configurable via `BASE_URL` and `COVERAGE_ROUTES`).
 
 ## How to verify
 1) **Build & serve production**
    - `npm run build && npm run start`
-   - Ensure `.next` manifests are present (or provide `public/css-manifest.json` if using a custom build step).
-2) **Check render-blocking requests**
-   - Open DevTools > Performance insights > Diagnostics
-   - Confirm `_next/static/css/*.css` is no longer flagged as render-blocking (should show as preloaded or lower impact).
-3) **Measure LCP/CLS**
-   - Run Lighthouse or Performance panel on homepage (`/` and `/tr` route):
-     - Expected: LCP near baseline (~0.35–0.40s), CLS = 0.000.
-4) **FOUC guard**
-   - Throttle to Slow 3G + 4x CPU in DevTools.
-   - Reload and confirm Navbar, Hero, and HeroBelow remain styled from the inline critical CSS until the main stylesheet swaps in.
-5) **Coverage sanity**
-   - Performance > Coverage: main CSS coverage should improve for above-the-fold load; inline block should cover only essentials.
-6) **ServicesTabs lazy section**
-   - Scroll to ServicesTabs and ensure layout does not jump; `content-visibility` placeholder height (~900px) should keep CLS at 0.
+   - Confirm the inline critical block renders the header/hero shell without CLS before the deferred CSS swaps in.
+2) **CSS deferral checks**
+- With `NEXT_PUBLIC_DEFER_MAIN_CSS` unset/true in production, ensure `_next/static/css/*.css`, `_next/static/chunks/*.css`, and `/_chunks/*.css` are preloaded then swapped; nav/hero should stay styled from `critical.css`.
+   - Flip `NEXT_PUBLIC_DEFER_MAIN_CSS=false` to disable deferral quickly if regressions appear.
+3) **Coverage (data-driven cleanup)**
+   - Install Playwright locally (`npm install -D playwright`) if not already available.
+   - Start the app (`BASE_URL` defaults to `http://localhost:3000`), then run `npm run css:coverage`.
+   - The script prints unused bytes per stylesheet by route; use it to prune stale rules and validate Tailwind content globs.
+4) **Lighthouse/visual sanity**
+   - Run Lighthouse (mobile+desktop) on `/`, `/sss`, and a service page; target 100s with CLS 0 and LCP at/below baseline.
+   - Compare above-the-fold screenshots before/after; hero/nav should remain identical.
 
-## Rollback / toggle
-- Set `NEXT_PUBLIC_DEFER_MAIN_CSS=false` (or run in non-production) to disable deferral and use standard stylesheet loading.
-- Remove `styles/critical.css` injection from `app/layout.js` to revert to default Next.js behavior if needed.
+## Rollback / toggles
+- Disable deferral: set `NEXT_PUBLIC_DEFER_MAIN_CSS=false` or remove the deferred loading block in `app/layout.js`.
+- Critical inline: remove `styles/critical.css` injection in `app/layout.js` to revert to default Next.js CSS delivery.
+
+## Risks / notes
+- Playwright is not vendored; install it before running `npm run css:coverage` in environments without registry restrictions.
+- Keep `styles/critical.css` small (<5–8 KB minified) to avoid pushing render-blocking costs back up.
