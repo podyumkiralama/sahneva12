@@ -1,11 +1,16 @@
-import { Inter } from "next/font/google";
+// app/fonts.js
+import localFont from "next/font/local";
 
-export const inter = Inter({
-  subsets: ["latin", "latin-ext"],
-  // Keep text paint unblocked; allow font to swap in after first render.
+export const inter = localFont({
+  src: [
+    {
+      path: "../public/fonts/inter/Inter-VariableFont_opsz,wght.ttf",
+      weight: "100 900",
+      style: "normal",
+    },
+  ],
   display: "swap",
-  // Defer font loading so the hero visual can appear first.
-  preload: false,
-  adjustFontFallback: true,
+  preload: true,
   variable: "--font-inter",
+  fallback: ["system-ui", "Segoe UI", "Arial"],
 });
