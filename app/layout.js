@@ -34,6 +34,7 @@ const CSS_DEFER_BOOTSTRAP = `
 
       link.rel = "preload";
       link.as = "style";
+      link.media = "print";
       link.crossOrigin = "anonymous";
       link.fetchPriority = link.fetchPriority || "high";
       link.dataset.deferredBootstrap = "true";
@@ -41,8 +42,8 @@ const CSS_DEFER_BOOTSTRAP = `
       link.dataset.deferredStylesheet = "true";
 
       const enable = () => {
-        link.media = "all";
         link.rel = "stylesheet";
+        link.media = "all";
         link.as = "";
         link.dataset.deferredApplied = "true";
       };

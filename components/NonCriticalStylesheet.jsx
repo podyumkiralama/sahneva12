@@ -43,6 +43,7 @@ function buildScript(hrefs = []) {
 
           stylesheetMatch.rel = "preload";
           stylesheetMatch.as = "style";
+          stylesheetMatch.media = "print";
           stylesheetMatch.crossOrigin = "anonymous";
           stylesheetMatch.dataset.deferProcessed = "true";
           stylesheetMatch.dataset.deferredCss = "true";
@@ -53,6 +54,7 @@ function buildScript(hrefs = []) {
         const preload = document.createElement("link");
         preload.rel = "preload";
         preload.as = "style";
+        preload.media = "print";
         preload.href = href;
         preload.fetchPriority = "high";
         preload.dataset.deferredCss = "true";
