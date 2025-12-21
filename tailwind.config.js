@@ -3,11 +3,9 @@ const config = {
   darkMode: "class", // 🌙 Dark mode toggle desteği
 
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./lib/**/*.{js,ts,jsx,tsx,mdx}",      // ⭐ JSON-LD, util, i18n klasörlerini dahil et
-    "./sections/**/*.{js,ts,jsx,tsx,mdx}", // ⭐ Bölüm tabanlı component dizinlerin varsa
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./lib/**/*.{js,ts,jsx,tsx,mdx}", // ⭐ JSON-LD, util, i18n klasörlerini dahil et
   ],
 
   theme: {
