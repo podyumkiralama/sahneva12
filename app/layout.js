@@ -95,14 +95,12 @@ export default function RootLayout({ children }) {
             </Script>
             {deferredCssHrefs.map((href) => (
               <link
-                key={href}
-                rel="preload"
-                as="style"
-                href={href}
-                crossOrigin="anonymous"
-                data-deferred-css="true"
-                fetchPriority="high"
-              />
+  rel="preload"
+  as="style"
+  href={href}
+  data-deferred-css="true"
+  fetchPriority="high"
+/>
             ))}
             <noscript
               dangerouslySetInnerHTML={{
