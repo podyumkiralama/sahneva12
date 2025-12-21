@@ -2,8 +2,7 @@ import Script from "next/script";
 
 const isProd = process.env.NODE_ENV === "production";
 const shouldDefer = process.env.NEXT_PUBLIC_DEFER_MAIN_CSS !== "false";
-const allCssSelector = 'link[href*="/_next/static/css/"]';
-const stylesheetSelector = 'link[rel="stylesheet"][href*="/_next/static/css/"]';
+const mainCssSelector = 'link[rel="stylesheet"][href*="/_next/static/css/"]';
 const preloadSelector = 'link[rel="preload"][data-deferred-css="true"]';
 
 function buildScript(hrefs = []) {
@@ -13,48 +12,18 @@ function buildScript(hrefs = []) {
       if (!${isProd} || !${shouldDefer}) return;
       if (typeof document === "undefined") return;
 
-      const allCssSelector = ${JSON.stringify(allCssSelector)};
-      const stylesheetSelector = ${JSON.stringify(stylesheetSelector)};
+      const mainCssSelector = ${JSON.stringify(mainCssSelector)};
       const preloadSelector = ${JSON.stringify(preloadSelector)};
 
-      const tagAsDeferred = () => {
-        document.querySelectorAll(stylesheetSelector).forEach((link) => {
-          link.dataset.deferredCss = link.dataset.deferredCss || "true";
-          link.dataset.deferredStylesheet = link.dataset.deferredStylesheet || "true";
-        });
-      };
-
-      tagAsDeferred();
-
       const ensurePreload = (href) => {
-        const preloadMatch = Array.from(document.querySelectorAll(preloadSelector)).find(
+        const existing = Array.from(document.querySelectorAll(preloadSelector)).find(
           (node) => node.getAttribute("href") === href,
         );
-        if (preloadMatch) return preloadMatch;
-
-        const stylesheetMatch = Array.from(document.querySelectorAll(stylesheetSelector)).find(
-          (node) => node.getAttribute("href") === href,
-        );
-
-        if (stylesheetMatch) {
-          if (stylesheetMatch.dataset.deferredApplied === "true") {
-            return stylesheetMatch;
-          }
-
-          stylesheetMatch.rel = "preload";
-          stylesheetMatch.as = "style";
-          stylesheetMatch.media = "print";
-          stylesheetMatch.crossOrigin = "anonymous";
-          stylesheetMatch.dataset.deferProcessed = "true";
-          stylesheetMatch.dataset.deferredCss = "true";
-          stylesheetMatch.dataset.deferredStylesheet = "true";
-          return stylesheetMatch;
-        }
+        if (existing) return existing;
 
         const preload = document.createElement("link");
         preload.rel = "preload";
         preload.as = "style";
-        preload.media = "print";
         preload.href = href;
         preload.fetchPriority = "high";
         preload.dataset.deferredCss = "true";
@@ -64,9 +33,7 @@ function buildScript(hrefs = []) {
         return preload;
       };
 
-      const originals = Array.from(
-        document.querySelectorAll(allCssSelector + '[data-deferred-css="true"]'),
-      );
+      const originals = Array.from(document.querySelectorAll(mainCssSelector));
       const targetHrefs = ${JSON.stringify(targets)}.length
         ? ${JSON.stringify(targets)}
         : Array.from(new Set(originals.map((link) => link.getAttribute("href")).filter(Boolean)));
@@ -75,13 +42,17 @@ function buildScript(hrefs = []) {
 
       const preloads = targetHrefs.map((href) => ensurePreload(href));
 
+      originals.forEach((link) => {
+        link.media = "print";
+        link.dataset.deferProcessed = "true";
+      });
+
       const activate = (preload) => {
         preload.rel = "stylesheet";
         preload.media = "all";
         preload.dataset.deferredApplied = "true";
 
         originals.forEach((original) => {
-          if (original === preload) return;
           if (original.getAttribute("href") === preload.getAttribute("href")) {
             original.disabled = true;
             original.media = "all";
