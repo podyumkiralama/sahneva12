@@ -32,19 +32,13 @@ const CSS_DEFER_BOOTSTRAP = `
     const makeNonBlocking = (link) => {
       if (!link || link.dataset.deferredBootstrap === "true") return;
 
-      link.rel = "preload";
-      link.as = "style";
       link.media = "print";
-      link.crossOrigin = "anonymous";
       link.fetchPriority = link.fetchPriority || "high";
       link.dataset.deferredBootstrap = "true";
-      link.dataset.deferredCss = "true";
-      link.dataset.deferredStylesheet = "true";
 
       const enable = () => {
-        link.rel = "stylesheet";
         link.media = "all";
-        link.as = "";
+        link.rel = "stylesheet";
         link.dataset.deferredApplied = "true";
       };
 
