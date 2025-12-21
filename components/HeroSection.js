@@ -120,7 +120,7 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
       fetchPriority="high"
       decoding="sync"
       sizes="100vw"
-      quality={60}
+      quality={45}
       placeholder="empty"
       className="absolute inset-0 h-full w-full object-cover object-center"
       aria-hidden={ariaHidden}

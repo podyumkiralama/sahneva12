@@ -501,7 +501,7 @@ export default function Navbar({
               aria-label="Sahneva - Ana Sayfa"
             >
               <Image
-                src="/img/logo.png"
+                src="/img/logo.webp"
                 alt="Sahneva Logo"
                 width={160}
                 height={40}
