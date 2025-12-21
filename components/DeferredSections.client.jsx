@@ -16,10 +16,14 @@ const WhyChooseUs = dynamic(() => import("./WhyChooseUs"), { ssr: false });
 
 const visibilityStyle = (minHeightPx) => ({
   contentVisibility: "auto",
-  containIntrinsicSize: `1px ${minHeightPx}px`,
+  containIntrinsicBlockSize: `${minHeightPx}px`,
+  containIntrinsicInlineSize: "1px",
 });
 
-const servicesContainSize = "1px 900px";
+const servicesContainSize = {
+  containIntrinsicBlockSize: "900px",
+  containIntrinsicInlineSize: "1px",
+};
 
 // Lazy-load görünürlük hook'u
 function useDeferredVisible(options) {
@@ -63,7 +67,7 @@ export function ServicesTabsDeferred(props) {
   });
   const style = {
     contentVisibility: "auto",
-    containIntrinsicSize: servicesContainSize,
+    ...servicesContainSize,
   };
 
   return (
