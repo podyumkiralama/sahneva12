@@ -10,6 +10,7 @@ import React, {
 } from "react";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { FAQ_ITEMS } from "../lib/faqData";
+import "@/styles/grid-overlay.css";
 
 const FAQ_WHATSAPP_MESSAGE = encodeURIComponent(
   "Merhaba, SSS bölümünden ulaşıyorum. Etkinlik ve ekipman kiralama için bilgi almak istiyorum."

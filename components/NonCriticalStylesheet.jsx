@@ -2,7 +2,8 @@ import Script from "next/script";
 
 const isProd = process.env.NODE_ENV === "production";
 const shouldDefer = process.env.NEXT_PUBLIC_DEFER_MAIN_CSS !== "false";
-const mainCssSelector = 'link[rel="stylesheet"][href*="/_next/static/css/"]';
+const mainCssSelector =
+  'link[rel="stylesheet"][href*="/_next/static/css/"], link[rel="stylesheet"][href*="/_chunks/"]';
 const preloadSelector = 'link[rel="preload"][data-deferred-css="true"]';
 
 function buildScript(hrefs = []) {
