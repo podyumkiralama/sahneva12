@@ -7,11 +7,11 @@ import SkipLinks from "@/components/SkipLinks";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import NonCriticalStylesheet from "@/components/NonCriticalStylesheet.client";
+import { getCssAssetHrefs } from "@/lib/cssManifest";
 
 import { inter } from "./fonts";
 
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
-import { HOME_PAGE_TITLE, SITE_URL, getOgImageUrl } from "@/lib/seo/seoConfig";
 const DEFAULT_LOCALE = LOCALE_CONTENT.tr;
 const DEFAULT_LANG = "tr";
 const DEFAULT_DIR = DEFAULT_LOCALE.direction;
@@ -23,6 +23,7 @@ const criticalCss = fs.readFileSync(
 const shouldDeferCss =
   process.env.NODE_ENV === "production" &&
   process.env.NEXT_PUBLIC_DEFER_MAIN_CSS !== "false";
+const deferredCssHrefs = shouldDeferCss ? getCssAssetHrefs() : [];
 
 /* ================== VIEWPORT ================== */
 export const viewport = {
@@ -47,21 +48,43 @@ export default function RootLayout({ children }) {
           data-critical="above-the-fold"
           dangerouslySetInnerHTML={{ __html: criticalCss }}
         />
-        {shouldDeferCss ? <NonCriticalStylesheet /> : null}
+        {shouldDeferCss ? (
+          <>
+            {deferredCssHrefs.map((href) => (
+              <link
+                key={href}
+                rel="preload"
+                as="style"
+                href={href}
+                crossOrigin="anonymous"
+                data-deferred-css="true"
+                fetchPriority="high"
+              />
+            ))}
+            <noscript
+              dangerouslySetInnerHTML={{
+                __html: deferredCssHrefs
+                  .map((href) => `<link rel="stylesheet" href="${href}" />`)
+                  .join(""),
+              }}
+            />
+            <NonCriticalStylesheet hrefs={deferredCssHrefs} />
+          </>
+        ) : null}
       </head>
       <body className="min-h-screen bg-white text-neutral-900 antialiased flex flex-col font-sans">
         <SkipLinks />
 
-      
+
 
         <header
           id="_main_header"
           aria-label="Sahneva site başlığı ve ana gezinme"
           className="w-full relative z-50"
         >
-          
+
           <Navbar />
-      
+
         </header>
 
         <main
@@ -79,7 +102,7 @@ export default function RootLayout({ children }) {
           descriptionId="_main_footer_desc"
         />
 
-        
+
       </body>
     </html>
   );
