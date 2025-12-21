@@ -4,18 +4,18 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "next dev --turbo",
-    "dev:webpack": "NEXT_DISABLE_TURBOPACK=1 next dev",
-    "prebuild": "npm dedupe",
-    "build": "next build --turbopack",
-    "build:webpack": "NEXT_DISABLE_TURBOPACK=1 next build",
-    "build:web": "next build",
-    "start": "next start",
-    "lint": "eslint . --max-warnings=0",
-    "analyze": "ANALYZE=true next build",
-    "security:check": "npx @next/security-headers-check",
-  },
-  "dependencies": {
+  "dev": "next dev --turbo",
+  "dev:webpack": "NEXT_DISABLE_TURBOPACK=1 next dev",
+  "prebuild": "npm dedupe",
+  "build": "next build --turbopack",
+  "build:webpack": "NEXT_DISABLE_TURBOPACK=1 next build",
+  "build:web": "next build",
+  "start": "next start",
+  "lint": "eslint . --max-warnings=0",
+  "analyze": "ANALYZE=true next build",
+  "security:check": "npx @next/security-headers-check"
+}
+    "dependencies": {
     "@next/third-parties": "^16.0.8",
     "@vercel/analytics": "^1.2.0",
     "@vercel/speed-insights": "1.2.0",
