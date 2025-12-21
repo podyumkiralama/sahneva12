@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import NonCriticalStylesheet from "@/components/NonCriticalStylesheet.client";
 import { getCssAssetHrefs } from "@/lib/cssManifest";
+import Script from "next/script";
 
 import { inter } from "./fonts";
 
@@ -24,6 +25,43 @@ const shouldDeferCss =
   process.env.NODE_ENV === "production" &&
   process.env.NEXT_PUBLIC_DEFER_MAIN_CSS !== "false";
 const deferredCssHrefs = shouldDeferCss ? getCssAssetHrefs() : [];
+
+const CSS_DEFER_BOOTSTRAP = `
+  (() => {
+    const selector = 'link[rel="stylesheet"][href*="/_next/static/css/"]';
+    const makeNonBlocking = (link) => {
+      if (!link || link.dataset.deferredBootstrap === "true") return;
+
+      link.media = "print";
+      link.fetchPriority = link.fetchPriority || "high";
+      link.dataset.deferredBootstrap = "true";
+
+      const enable = () => {
+        link.media = "all";
+        link.rel = "stylesheet";
+        link.dataset.deferredApplied = "true";
+      };
+
+      link.addEventListener("load", enable, { once: true });
+
+      // Fallback in case the load event fires before this script runs.
+      requestAnimationFrame(() => {
+        if (link.dataset.deferredApplied === "true") return;
+        enable();
+      });
+    };
+
+    const upgradeExisting = () => {
+      document.querySelectorAll(selector).forEach((link) => makeNonBlocking(link));
+    };
+
+    if (document.readyState === "complete" || document.readyState === "interactive") {
+      upgradeExisting();
+    } else {
+      document.addEventListener("DOMContentLoaded", upgradeExisting, { once: true });
+    }
+  })();
+`;
 
 /* ================== VIEWPORT ================== */
 export const viewport = {
@@ -50,6 +88,9 @@ export default function RootLayout({ children }) {
         />
         {shouldDeferCss ? (
           <>
+            <Script id="defer-main-css" strategy="beforeInteractive">
+              {CSS_DEFER_BOOTSTRAP}
+            </Script>
             {deferredCssHrefs.map((href) => (
               <link
                 key={href}
