@@ -23,7 +23,7 @@ const criticalCss = fs.readFileSync(
 );
 const shouldDeferCss =
   process.env.NODE_ENV === "production" &&
-  process.env.NEXT_PUBLIC_DEFER_MAIN_CSS !== "false";
+  process.env.NEXT_PUBLIC_DEFER_MAIN_CSS === "true";
 const deferredCssHrefs = shouldDeferCss ? getCssAssetHrefs() : [];
 
 const CSS_DEFER_BOOTSTRAP = `
