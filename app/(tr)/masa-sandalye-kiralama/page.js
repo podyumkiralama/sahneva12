@@ -3,8 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
-import "@/styles/grid-overlay.css";
-
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 
 import { buildFaqSchema } from "@/lib/structuredData/faq";

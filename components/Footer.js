@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useId } from "react";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
-import "@/styles/grid-overlay.css";
 
 // Navbar ile uyumlu focus ring (Offset rengi footer background'a göre ayarlandı)
 const FOCUS_RING_CLASS =
@@ -54,11 +53,6 @@ const BUSINESS_LINKS = [
     icon: "⭐",
   },
 ];
-
-const FOOTER_VISIBILITY_STYLE = {
-  contentVisibility: "auto",
-  containIntrinsicSize: "1px 1200px",
-};
 
 /* --- Yardımcı Bileşen: Standart Footer Link --- */
 const FooterLink = ({
@@ -152,7 +146,6 @@ export default function Footer({
         border-t border-white/10
         overflow-hidden
       "
-      style={FOOTER_VISIBILITY_STYLE}
       aria-labelledby={ariaLabelledbyValue}
       aria-label={ariaLabel}
       aria-describedby={computedDescriptionId}

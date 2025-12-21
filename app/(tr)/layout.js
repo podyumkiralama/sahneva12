@@ -11,6 +11,7 @@ import {
   ORGANIZATION_ID,
   WEBSITE_ID,
 } from "@/lib/seo/schemaIds";
+import Script from "next/script";
 
 const content = LOCALE_CONTENT.tr;
 
@@ -101,11 +102,9 @@ export const metadata = {
 export default function TurkishLayout({ children }) {
   return (
     <>
-      <script
-        id="global-ld-json"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(globalJsonLd) }}
-      />
+      <Script id="global-ld-json" type="application/ld+json" strategy="afterInteractive">
+        {JSON.stringify(globalJsonLd)}
+      </Script>
       {children}
     </>
   );

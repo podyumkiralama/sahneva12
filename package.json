@@ -12,7 +12,6 @@
     "build:web": "next build",
     "start": "next start",
     "lint": "eslint . --max-warnings=0",
-    "css:coverage": "node scripts/css-coverage.js",
     "analyze": "ANALYZE=true next build",
     "security:check": "npx @next/security-headers-check"
   },

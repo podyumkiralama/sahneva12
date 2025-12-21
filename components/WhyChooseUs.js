@@ -3,7 +3,6 @@
 
 import { useMemo } from "react";
 import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
-import "@/styles/grid-overlay.css";
 
 // —————————————————————————————————————————
 // İKONLAR (modern)
@@ -226,13 +225,11 @@ export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
         <div
           className="
             absolute top-0 left-0
-            w-[360px] h-[360px]
-            bg-blue-600/15
-            blur-[80px]
-            rounded-full
-            opacity-70
-            lg:mix-blend-screen
-            motion-reduce:opacity-0
+            w-[420px] h-[420px] 
+            bg-blue-600/10 
+            blur-[120px] 
+            rounded-full 
+            mix-blend-screen
           "
         />
       </div>

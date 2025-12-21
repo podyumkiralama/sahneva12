@@ -2,7 +2,6 @@
 "use client";
 import Image from "next/image";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import "@/styles/grid-overlay.css";
 
 const CheckIcon = () => (
   <svg
@@ -28,7 +27,7 @@ export default function CorporateIntro() {
         {/* GRID */}
         <div className="absolute inset-0 grid-overlay" />
         {/* Mavi Glow */}
-        <div className="absolute top-0 left-0 w-[340px] h-[340px] bg-blue-600/15 blur-[80px] rounded-full opacity-70 lg:mix-blend-screen motion-reduce:opacity-0" />
+        <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-blue-600/10 blur-[120px] rounded-full mix-blend-screen" />
       </div>
 
       {/* İÇERİK WRAPPER */}

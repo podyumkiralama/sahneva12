@@ -4,7 +4,6 @@
 import { useId } from "react";
 import Link from "next/link";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import "@/styles/grid-overlay.css";
 
 // —————————————————————————————————————————
 // YAPILANDIRMA & VERİLER
@@ -212,8 +211,8 @@ export default function CorporateEvents({
       {/* Modern Arka Plan Efektleri (Dark Tech) */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute inset-0 grid-overlay"></div>
-        <div className="absolute top-0 left-0 w-[420px] h-[420px] bg-blue-600/15 blur-[80px] rounded-full opacity-70 lg:mix-blend-screen motion-reduce:opacity-0"></div>
-        <div className="absolute bottom-0 right-0 w-[420px] h-[420px] bg-purple-600/15 blur-[80px] rounded-full opacity-70 lg:mix-blend-screen motion-reduce:opacity-0"></div>
+        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-blue-600/10 blur-[120px] rounded-full mix-blend-screen"></div>
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-purple-600/10 blur-[120px] rounded-full mix-blend-screen"></div>
       </div>
 
       <div className="container relative z-10 px-4 mx-auto">
@@ -261,7 +260,7 @@ export default function CorporateEvents({
                       <OptimizedImage
                         src={card.img}
                         alt={card.alt}
-                        className="transition-transform duration-700 group-hover:scale-110 group-hover:will-change-transform"
+                        className="transition-transform duration-700 group-hover:scale-110 will-change-transform"
                       />
                       {/* Dark Gradient Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-transparent to-transparent opacity-90" />
@@ -376,8 +375,8 @@ export default function CorporateEvents({
           >
             {/* Arka Plan Efektleri */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-               <div className="absolute top-[-50%] left-[-20%] w-[70%] h-[70%] bg-blue-500/20 rounded-full blur-[80px] opacity-70 lg:mix-blend-screen motion-reduce:opacity-0" />
-               <div className="absolute bottom-[-50%] right-[-20%] w-[70%] h-[70%] bg-purple-500/20 rounded-full blur-[80px] opacity-70 lg:mix-blend-screen motion-reduce:opacity-0" />
+               <div className="absolute top-[-50%] left-[-20%] w-[80%] h-[80%] bg-blue-500/20 rounded-full blur-[120px]" />
+               <div className="absolute bottom-[-50%] right-[-20%] w-[80%] h-[80%] bg-purple-500/20 rounded-full blur-[120px]" />
             </div>
 
             <div className="relative z-10 max-w-3xl mx-auto">

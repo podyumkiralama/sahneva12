@@ -8,7 +8,6 @@ import { useEffect, useRef, useState } from "react";
 const ServicesTabs = dynamic(() => import("./ServicesTabs"), { ssr: false });
 const ProjectsGallery = dynamic(() => import("./ProjectsGallery"), { ssr: false });
 const Faq = dynamic(() => import("./Faq"), { ssr: false });
-const HeroBelow = dynamic(() => import("./HeroBelow"), { ssr: false });
 
 const CorporateEvents = dynamic(() => import("./CorporateEvents"), { ssr: false });
 const CorporateIntro = dynamic(() => import("./CorporateIntro"), { ssr: false });
@@ -21,7 +20,6 @@ const visibilityStyle = (minHeightPx) => ({
 });
 
 const servicesContainSize = "1px 900px";
-const HERO_BELOW_INTRINSIC_SIZE = "1px 760px";
 
 // Lazy-load görünürlük hook'u
 function useDeferredVisible(options) {
@@ -54,34 +52,6 @@ function useDeferredVisible(options) {
   }, [visible, options]);
 
   return [ref, visible];
-}
-
-/* ───────────────── HeroBelow (kritik sonrası ertelemeli yükleme) ───────────────── */
-
-export function HeroBelowDeferred(props) {
-  const [ref, visible] = useDeferredVisible({
-    rootMargin: "160px 0px",
-    threshold: 0.05,
-  });
-
-  const style = {
-    contentVisibility: "auto",
-    containIntrinsicSize: HERO_BELOW_INTRINSIC_SIZE,
-  };
-
-  return (
-    <section ref={ref} className="w-full min-w-0" style={style}>
-      {visible ? (
-        <HeroBelow {...props} />
-      ) : (
-        <div
-          className="nc-DeferredSections-wrapper w-full bg-slate-950 border-t border-white/5"
-          style={{ ...style, minHeight: "720px" }}
-          aria-hidden="true"
-        />
-      )}
-    </section>
-  );
 }
 
 /* ───────────────── ServicesTabs (temiz wrapper) ───────────────── */

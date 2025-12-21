@@ -1,6 +1,17 @@
 // app/(tr)/(site)/page.js
 
 import HeroSection from "@/components/HeroSection";
+import dynamic from "next/dynamic";
+
+const HeroBelow = dynamic(() => import("@/components/HeroBelow"), {
+  ssr: true,
+  loading: () => (
+    <div
+      className="w-full h-80 bg-slate-950 border-t border-white/5"
+      aria-hidden="true"
+    />
+  ),
+});
 
 import {
   ServicesTabsDeferred,
@@ -10,7 +21,6 @@ import {
   TechCapabilitiesDeferred,
   WhyChooseUsDeferred,
   FaqDeferred,
-  HeroBelowDeferred,
 } from "@/components/DeferredSections.client";
 
 import { HOME_PAGE_TITLE, getOgImageUrl } from "@/lib/seo/seoConfig";
@@ -95,8 +105,20 @@ function StructuredData() {
               name: "Podyum Kiralama",
               url: `${BASE_SITE_URL}/podyum-kiralama`,
               image: `${BASE_SITE_URL}/img/hizmet-podyum.webp`,
+              description: "Modüler podyum sahne kiralama hizmeti",
               provider: { "@id": ORGANIZATION_ID },
+              areaServed: { "@type": "Country", name: "Türkiye" },
             },
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: "250.00",
+              priceCurrency: "TRY",
+              unitText: "m²",
+              unitCode: "MTK",
+            },
+            availability: "https://schema.org/InStock",
+            areaServed: { "@type": "Country", name: "Türkiye" },
+            seller: { "@id": ORGANIZATION_ID },
           },
           {
             "@type": "Offer",
@@ -106,8 +128,78 @@ function StructuredData() {
               name: "LED Ekran Kiralama",
               url: `${BASE_SITE_URL}/led-ekran-kiralama`,
               image: `${BASE_SITE_URL}/img/hizmet-led.webp`,
+              description: "İç/dış mekan LED ekran kiralama",
               provider: { "@id": ORGANIZATION_ID },
+              areaServed: { "@type": "Country", name: "Türkiye" },
             },
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: "1700.00",
+              priceCurrency: "TRY",
+              unitText: "günlük",
+              unitCode: "DAY",
+            },
+            availability: "https://schema.org/InStock",
+            areaServed: { "@type": "Country", name: "Türkiye" },
+            seller: { "@id": ORGANIZATION_ID },
+          },
+          {
+            "@type": "Offer",
+            url: `${BASE_SITE_URL}/cadir-kiralama`,
+            itemOffered: {
+              "@type": "Service",
+              name: "Çadır Kiralama",
+              url: `${BASE_SITE_URL}/cadir-kiralama`,
+              // Çadır için hizmet görselin varsa burayı güncelleyebilirsin:
+              // image: `${BASE_SITE_URL}/img/hizmet-cadir.webp`,
+              provider: { "@id": ORGANIZATION_ID },
+              areaServed: { "@type": "Country", name: "Türkiye" },
+            },
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              priceCurrency: "TRY",
+              minPrice: "6000.00",
+              maxPrice: "800000.00",
+            },
+            availability: "https://schema.org/InStock",
+            areaServed: { "@type": "Country", name: "Türkiye" },
+            seller: { "@id": ORGANIZATION_ID },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Sandalye Kiralama",
+              provider: { "@id": ORGANIZATION_ID },
+              areaServed: { "@type": "Country", name: "Türkiye" },
+            },
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: "200.00",
+              priceCurrency: "TRY",
+              unitText: "adet",
+            },
+            availability: "https://schema.org/InStock",
+            areaServed: { "@type": "Country", name: "Türkiye" },
+            seller: { "@id": ORGANIZATION_ID },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Masa Kiralama",
+              provider: { "@id": ORGANIZATION_ID },
+              areaServed: { "@type": "Country", name: "Türkiye" },
+            },
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              priceCurrency: "TRY",
+              minPrice: "1000.00",
+              maxPrice: "2000.00",
+            },
+            availability: "https://schema.org/InStock",
+            areaServed: { "@type": "Country", name: "Türkiye" },
+            seller: { "@id": ORGANIZATION_ID },
           },
           {
             "@type": "Offer",
@@ -118,7 +210,17 @@ function StructuredData() {
               url: `${BASE_SITE_URL}/sahne-kiralama`,
               image: `${BASE_SITE_URL}/img/hizmet-sahne.webp`,
               provider: { "@id": ORGANIZATION_ID },
+              areaServed: { "@type": "Country", name: "Türkiye" },
             },
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              priceCurrency: "TRY",
+              minPrice: "10000.00",
+              maxPrice: "200000.00",
+            },
+            availability: "https://schema.org/InStock",
+            areaServed: { "@type": "Country", name: "Türkiye" },
+            seller: { "@id": ORGANIZATION_ID },
           },
           {
             "@type": "Offer",
@@ -127,18 +229,36 @@ function StructuredData() {
               "@type": "Service",
               name: "Ses-Işık Sistemleri",
               url: `${BASE_SITE_URL}/ses-isik-sistemleri`,
+              // image: `${BASE_SITE_URL}/img/hizmet-ses-isik.webp`, // varsa ekle
               provider: { "@id": ORGANIZATION_ID },
+              areaServed: { "@type": "Country", name: "Türkiye" },
             },
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              priceCurrency: "TRY",
+              minPrice: "10000.00",
+              maxPrice: "300000.00",
+            },
+            availability: "https://schema.org/InStock",
+            areaServed: { "@type": "Country", name: "Türkiye" },
+            seller: { "@id": ORGANIZATION_ID },
           },
           {
             "@type": "Offer",
-            url: `${BASE_SITE_URL}/cadir-kiralama`,
             itemOffered: {
               "@type": "Service",
-              name: "Çadır Kiralama",
-              url: `${BASE_SITE_URL}/cadir-kiralama`,
+              name: "İstanbul İçi Nakliye",
               provider: { "@id": ORGANIZATION_ID },
+              areaServed: { "@type": "Country", name: "Türkiye" },
             },
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              price: "7000.00",
+              priceCurrency: "TRY",
+            },
+            availability: "https://schema.org/InStock",
+            areaServed: { "@type": "Country", name: "Türkiye" },
+            seller: { "@id": ORGANIZATION_ID },
           },
         ],
       },
@@ -276,7 +396,7 @@ export default function HomePage() {
       <HeroSection />
 
       {/* 2) HERO ALTI */}
-      <HeroBelowDeferred />
+      <HeroBelow />
 
       {/* anchor */}
       <div id="teklif-al" className="sr-only" />

@@ -23,12 +23,12 @@ const criticalCss = fs.readFileSync(
 );
 const shouldDeferCss =
   process.env.NODE_ENV === "production" &&
-  process.env.NEXT_PUBLIC_DEFER_MAIN_CSS === "true";
+  process.env.NEXT_PUBLIC_DEFER_MAIN_CSS !== "false";
 const deferredCssHrefs = shouldDeferCss ? getCssAssetHrefs() : [];
 
 const CSS_DEFER_BOOTSTRAP = `
   (() => {
-    const selector = 'link[rel="stylesheet"][href*="/_next/static/css/"], link[rel="stylesheet"][href*="/_next/static/chunks/"], link[rel="stylesheet"][href*="/_chunks/"]';
+    const selector = 'link[rel="stylesheet"][href*="/_next/static/css/"]';
     const makeNonBlocking = (link) => {
       if (!link || link.dataset.deferredBootstrap === "true") return;
 

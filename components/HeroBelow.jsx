@@ -1,6 +1,7 @@
 "use client";
 
 // components/HeroBelow.jsx
+import React from "react";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { HERO_FEATURES_TR } from "@/lib/heroFeatures";
 
@@ -14,7 +15,7 @@ function HeroFeatureGrid() {
         <li key={item.title} className="flex h-full">
           {/* ✅ delay: number + daha güvenli stagger */}
           <ScrollReveal asChild delay={index * 0.1} direction="up">
-            <article className="w-full flex flex-col items-start bg-slate-900/60 backdrop-blur-sm motion-reduce:backdrop-blur-0 rounded-xl p-6 border border-white/10 shadow-lg hover:bg-slate-800/60 transition-colors duration-300">
+            <article className="w-full flex flex-col items-start bg-slate-900/60 backdrop-blur-sm rounded-xl p-6 border border-white/10 shadow-lg hover:bg-slate-800/60 transition-colors duration-300">
               <div
                 className={`text-3xl mb-4 p-3 rounded-lg bg-white/5 ${item.color}`}
                 aria-hidden="true"
@@ -43,7 +44,7 @@ function ConsultationCard() {
       {/* Dekoratif glow */}
       <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-white/10 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="bg-slate-950/30 rounded-xl p-6 md:p-8 backdrop-blur-sm motion-reduce:backdrop-blur-0 h-full">
+      <div className="bg-slate-950/30 rounded-xl p-6 md:p-8 backdrop-blur-sm h-full">
         <div className="flex flex-col md:flex-row items-center gap-6">
           <div className="flex-shrink-0">
             <div

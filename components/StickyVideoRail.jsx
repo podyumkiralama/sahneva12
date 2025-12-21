@@ -3,7 +3,6 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import DeferredHydration from "@/components/DeferredHydration.client";
-import "@/styles/rail-controls.css";
 
 const VIDEOS = [
   {
