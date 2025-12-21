@@ -14,9 +14,6 @@
     "lint": "eslint . --max-warnings=0",
     "analyze": "ANALYZE=true next build",
     "security:check": "npx @next/security-headers-check",
-    "find:unused-css": "node tools/find-unused-css-classes.js",
-    "criticalcss": "node scripts/criticalcss.js",
-    "postbuild": "npm run criticalcss"
   },
   "dependencies": {
     "@next/third-parties": "^16.0.8",
