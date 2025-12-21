@@ -5,7 +5,7 @@
 - `styles/critical.css`: inline above-the-fold shell (~1.0 KB raw) that covers body typography/background, header offset, main padding (mobile+lg), and the hero skeleton wrapper (`.hero-inline-safe`).
 - `styles/grid-overlay.css`: shared grid overlay utility imported only by sections/components that render the decorative grid background (Hero adjacents, tabs, gallery, footer, etc.).
 - `styles/rail-controls.css`: styles for sticky video rail controls, imported where the rail is rendered.
-- Next-generated CSS (`/_next/static/css/*.css`) continues to load via the defer/prefetch pipeline in `app/layout.js`; toggle with `NEXT_PUBLIC_DEFER_MAIN_CSS=false` if needed.
+- Next-generated CSS (`/_next/static/css/*.css`, `/_next/static/chunks/*.css`, and Turbopack `/_chunks/*.css`) continues to load via the defer/prefetch pipeline in `app/layout.js`; toggle with `NEXT_PUBLIC_DEFER_MAIN_CSS=false` if needed.
 
 ## What changed
 - Trimmed `globals.css` to only global foundations; moved `grid-overlay` and `rail-control` rules into scoped CSS files and imported them where used.
@@ -17,7 +17,7 @@
    - `npm run build && npm run start`
    - Confirm the inline critical block renders the header/hero shell without CLS before the deferred CSS swaps in.
 2) **CSS deferral checks**
-   - With `NEXT_PUBLIC_DEFER_MAIN_CSS` unset/true in production, ensure `_next/static/css/*.css` is preloaded then swapped; nav/hero should stay styled from `critical.css`.
+- With `NEXT_PUBLIC_DEFER_MAIN_CSS` unset/true in production, ensure `_next/static/css/*.css`, `_next/static/chunks/*.css`, and `/_chunks/*.css` are preloaded then swapped; nav/hero should stay styled from `critical.css`.
    - Flip `NEXT_PUBLIC_DEFER_MAIN_CSS=false` to disable deferral quickly if regressions appear.
 3) **Coverage (data-driven cleanup)**
    - Install Playwright locally (`npm install -D playwright`) if not already available.
