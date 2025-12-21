@@ -13,6 +13,7 @@ import {
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { ScrollReveal } from "@/components/ScrollReveal";
+import "@/styles/grid-overlay.css";
 
 // ===============================================================
 // GALERİ VERİLERİ — Sabit 3 kategori (A seçildi)

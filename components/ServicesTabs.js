@@ -5,6 +5,7 @@ import { useRef, useState, useCallback, useMemo, memo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ScrollReveal } from "@/components/ScrollReveal";
+import "@/styles/grid-overlay.css";
 
 // —————————————————————————————————————————
 // İKONLAR

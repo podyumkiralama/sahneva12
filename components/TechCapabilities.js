@@ -3,6 +3,7 @@
 
 import { useMemo } from "react";
 import { ScrollReveal } from "@/components/ScrollReveal";
+import "@/styles/grid-overlay.css";
 
 const SEO_TECH_FEATURES = [
   "LED ekran, projeksiyon, mapping ve sahne ışıklandırmada son nesil ekipman kullanımı",
