@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useId } from "react";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
+import "@/styles/grid-overlay.css";
 
 // Navbar ile uyumlu focus ring (Offset rengi footer background'a göre ayarlandı)
 const FOCUS_RING_CLASS =
