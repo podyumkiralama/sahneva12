@@ -3,6 +3,7 @@
 
 import { useMemo } from "react";
 import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
+import "@/styles/grid-overlay.css";
 
 // —————————————————————————————————————————
 // İKONLAR (modern)
