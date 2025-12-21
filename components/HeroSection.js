@@ -1,6 +1,5 @@
 // components/HeroSection.js
 import Image from "next/image";
-import Link from "next/link";
 // NOT: Resim dosyasının yolunun projenizde doğru olduğundan emin olun.
 import heroImg from "@/public/img/hero-bg.webp";
 
@@ -152,9 +151,9 @@ export default function HeroSection() {
           
           {/* Üst Rozet (Badge) */}
           <div className="flex justify-center mb-4">
-            <p className="inline-flex items-center gap-3 bg-black/40 backdrop-blur-md rounded-full px-4 py-1.5 border border-white/10 text-xs md:text-sm text-slate-100 shadow-sm">
+            <p className="inline-flex items-center gap-3 bg-black/60 backdrop-blur-0 supports-[backdrop-filter]:backdrop-blur-sm motion-reduce:backdrop-blur-0 rounded-full px-4 py-1.5 border border-white/10 text-xs md:text-sm text-slate-100 shadow-sm">
               <span
-                className="w-2 h-2 bg-green-400 rounded-full animate-pulse"
+                className="w-2 h-2 bg-green-400 rounded-full animate-[pulse_2s_ease-in-out_3] motion-reduce:animate-none"
                 aria-hidden="true"
               />
               Sahneva Organizasyon • Türkiye Geneli Profesyonel Hizmet
@@ -194,7 +193,7 @@ export default function HeroSection() {
         className="hidden lg:block absolute bottom-8 left-1/2 -translate-x-1/2 opacity-80"
         aria-hidden="true"
       >
-        <div className="animate-bounce motion-reduce:animate-none">
+        <div className="animate-[bounce_2.2s_ease-in-out_4] motion-reduce:animate-none">
           <div className="w-6 h-10 border-2 border-white/40 rounded-full flex justify-center p-1">
             <div className="w-1 h-2 bg-white rounded-full mt-1" />
           </div>
