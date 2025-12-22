@@ -1,6 +1,5 @@
 // components/HeroSection.js
 import Image from "next/image";
-import Link from "next/link";
 // NOT: Resim dosyasının yolunun projenizde doğru olduğundan emin olun.
 import heroImg from "@/public/img/hero-bg.webp";
 
@@ -15,6 +14,24 @@ const HERO_KEYWORDS = [
   { text: "Sahne Kiralama", gradient: "text-blue-300" },
   { text: "LED Ekran", gradient: "text-purple-300" },
   { text: "Ses-Işık Sistemleri", gradient: "text-cyan-300" },
+];
+
+const HERO_STATS = [
+  {
+    icon: "🚚",
+    title: "Aynı Gün Kurulum",
+    desc: "81 ilde hızlı lojistik ve ekip",
+  },
+  {
+    icon: "🛡️",
+    title: "%98 Memnuniyet",
+    desc: "Yedekli altyapı, sigortalı teslim",
+  },
+  {
+    icon: "🎛️",
+    title: "Son Teknoloji Parkur",
+    desc: "LED, ses, ışık ve truss stokta",
+  },
 ];
 
 const CTA_BUTTONS = [
@@ -109,17 +126,45 @@ function CTAGroup() {
   );
 }
 
+function HeroStatGrid() {
+  return (
+    <div
+      className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 text-left"
+      role="list"
+      aria-label="Sahneva hizmet güvenilirlik istatistikleri"
+    >
+      {HERO_STATS.map((item) => (
+        <article
+          key={item.title}
+          role="listitem"
+          className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/5 px-4 py-4 backdrop-blur-sm shadow-lg hover:border-white/30 transition-colors duration-200"
+        >
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-white/10 to-transparent transition-opacity duration-200" aria-hidden="true" />
+          <div className="flex items-start gap-3">
+            <span className="text-lg" aria-hidden="true">
+              {item.icon}
+            </span>
+            <div className="space-y-1">
+              <p className="text-sm font-semibold text-white">{item.title}</p>
+              <p className="text-xs text-slate-200/80 leading-snug">{item.desc}</p>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  );
+}
+
 function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
   return (
     <Image
       src={heroImg}
       alt={ariaHidden ? "" : alt}
       fill
-      // ✅ LCP ve PERFORMANS OPTİMİZASYONLARI
       priority={true}
       fetchPriority="high"
       decoding="sync"
-      sizes="100vw"
+      sizes="(min-width: 1600px) 1600px, 100vw"
       quality={45}
       placeholder="empty"
       className="absolute inset-0 h-full w-full object-cover object-center"
@@ -135,21 +180,23 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
 export default function HeroSection() {
   return (
     <section
-      className="relative min-h-[75vh] pt-16 lg:pt-20 flex items-center justify-center overflow-hidden bg-black hero-inline-safe"
+      className="home-hero home-section"
       aria-labelledby="hero-title"
       aria-describedby="hero-description hero-keywords"
     >
-      {/* 1. KATMAN: Arka Plan Görseli */}
-      <div className="absolute inset-0" aria-hidden="true">
+      {/* 1. KATMAN: Arka Plan Görseli ve örtüleri */}
+      <div className="home-hero__backdrop" aria-hidden="true">
         <HeroBackgroundImage ariaHidden />
-        {/* Okunabilirlik için hafif karartma */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/60" />
       </div>
 
       {/* 2. KATMAN: İçerik */}
-      <div className="relative z-10 container py-10 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          
+      <div className="home-container">
+        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-6 py-10">
+          <div
+            className="home-hero__frame"
+            aria-hidden="true"
+          />
+
           {/* Üst Rozet (Badge) */}
           <div className="flex justify-center mb-4">
             <p className="inline-flex items-center gap-3 bg-black/40 backdrop-blur-md rounded-full px-4 py-1.5 border border-white/10 text-xs md:text-sm text-slate-100 shadow-sm">
@@ -186,12 +233,14 @@ export default function HeroSection() {
 
           {/* Aksiyon Butonları (CTA) */}
           <CTAGroup />
+
+          <HeroStatGrid />
         </div>
       </div>
 
       {/* 3. KATMAN: Scroll İkonu (Mobilde gizli) */}
       <div
-        className="hidden lg:block absolute bottom-8 left-1/2 -translate-x-1/2 opacity-80"
+        className="home-hero__scroll"
         aria-hidden="true"
       >
         <div className="animate-bounce motion-reduce:animate-none">
