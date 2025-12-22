@@ -1,5 +1,5 @@
 // components/HeroSection.js
-import Image from "next/image";
+import { getImageProps } from "next/image";
 import Link from "next/link";
 // NOT: Resim dosyasının yolunun projenizde doğru olduğundan emin olun.
 import heroImg from "@/public/img/hero-bg.webp";
@@ -109,21 +109,27 @@ function CTAGroup() {
   );
 }
 
+const HERO_IMAGE_PROPS = getImageProps({
+  alt: HERO_IMAGE_ALT,
+  src: heroImg,
+  sizes: "100vw",
+  fetchPriority: "high",
+  loading: "eager",
+  quality: 50,
+  placeholder: "blur",
+  className: "absolute inset-0 h-full w-full object-cover object-center",
+});
+
 function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
+  const { fetchPriority, alt: imageAlt, ...rest } = HERO_IMAGE_PROPS.props;
+
   return (
-    <Image
-      src={heroImg}
-      alt={ariaHidden ? "" : alt}
-      fill
-      // ✅ LCP ve PERFORMANS OPTİMİZASYONLARI
-      priority={true}
-      fetchPriority="high"
-      decoding="sync"
-      sizes="100vw"
-      quality={45}
-      placeholder="empty"
-      className="absolute inset-0 h-full w-full object-cover object-center"
+    <img
+      {...rest}
+      alt={ariaHidden ? "" : imageAlt || alt}
+      fetchPriority={fetchPriority}
       aria-hidden={ariaHidden}
+      decoding="sync"
     />
   );
 }
