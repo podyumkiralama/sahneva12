@@ -61,6 +61,7 @@ export default function HeroSection() {
           alt=""
           fill
           priority
+          fetchPriority="high"
           sizes="100vw"
           quality={60}
           placeholder="empty"
