@@ -113,7 +113,7 @@ export default function NonCriticalStylesheet({ hrefs = [] }) {
 
   // Important: run early to flip main CSS links to media=print before they block too much
   return (
-    <Script id="non-critical-stylesheet" strategy="beforeInteractive">
+    <Script id="non-critical-stylesheet" strategy="afterInteractive">
       {inlineScript}
     </Script>
   );

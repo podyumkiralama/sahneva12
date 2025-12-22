@@ -531,14 +531,8 @@ function Packages() {
                   <header className="relative p-8 text-white bg-gradient-to-r from-blue-900 via-purple-900 to-blue-900 overflow-hidden">
                     {/* Hafif pattern / overlay */}
                   <div
-                    className="absolute inset-0 grid-overlay"
+                    className="absolute inset-0 grid-overlay grid-overlay--rental"
                     aria-hidden="true"
-                    style={{
-                      "--grid-overlay-top": "rgba(59,130,246,0.6)",
-                      "--grid-overlay-bottom": "rgba(147,51,234,0.6)",
-                      "--grid-overlay-opacity": "0.4",
-                      "--grid-overlay-blur": "28px",
-                    }}
                   />
                     <div className="relative z-10">
                       {/* Badge */}

@@ -129,6 +129,7 @@ const nextConfig = {
   experimental: {
     scrollRestoration: true,
     optimizePackageImports: ["lucide-react", "@headlessui/react"],
+    turbopackUseSystemTlsCerts: true,
   },
 
   modularizeImports: {
