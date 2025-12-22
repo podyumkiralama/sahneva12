@@ -16,6 +16,24 @@ const HERO_KEYWORDS = [
   { text: "Ses-Işık Sistemleri", gradient: "text-cyan-300" },
 ];
 
+const HERO_STATS = [
+  {
+    icon: "🚚",
+    title: "Aynı Gün Kurulum",
+    desc: "81 ilde hızlı lojistik ve ekip",
+  },
+  {
+    icon: "🛡️",
+    title: "%98 Memnuniyet",
+    desc: "Yedekli altyapı, sigortalı teslim",
+  },
+  {
+    icon: "🎛️",
+    title: "Son Teknoloji Parkur",
+    desc: "LED, ses, ışık ve truss stokta",
+  },
+];
+
 const CTA_BUTTONS = [
   {
     href: "tel:+905453048671",
@@ -108,6 +126,35 @@ function CTAGroup() {
   );
 }
 
+function HeroStatGrid() {
+  return (
+    <div
+      className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 text-left"
+      role="list"
+      aria-label="Sahneva hizmet güvenilirlik istatistikleri"
+    >
+      {HERO_STATS.map((item) => (
+        <article
+          key={item.title}
+          role="listitem"
+          className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/5 px-4 py-4 backdrop-blur-sm shadow-lg hover:border-white/30 transition-colors duration-200"
+        >
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-white/10 to-transparent transition-opacity duration-200" aria-hidden="true" />
+          <div className="flex items-start gap-3">
+            <span className="text-lg" aria-hidden="true">
+              {item.icon}
+            </span>
+            <div className="space-y-1">
+              <p className="text-sm font-semibold text-white">{item.title}</p>
+              <p className="text-xs text-slate-200/80 leading-snug">{item.desc}</p>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  );
+}
+
 function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
   return (
     <Image
@@ -142,13 +189,22 @@ export default function HeroSection() {
       <div className="absolute inset-0" aria-hidden="true">
         <HeroBackgroundImage ariaHidden />
         {/* Okunabilirlik için hafif karartma */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
+        <div className="absolute inset-x-0 -bottom-10 h-40 bg-gradient-to-t from-slate-950 to-transparent" />
       </div>
 
       {/* 2. KATMAN: İçerik */}
       <div className="relative z-10 container py-10 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          
+        <div
+          className="absolute inset-0 -z-10"
+          aria-hidden="true"
+        >
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(96,165,250,0.2),transparent_35%),radial-gradient(circle_at_80%_0,rgba(168,85,247,0.15),transparent_30%),radial-gradient(circle_at_50%_80%,rgba(45,212,191,0.18),transparent_30%)]" />
+          <div className="absolute inset-10 border border-white/5 rounded-3xl" />
+        </div>
+
+        <div className="max-w-5xl mx-auto text-center space-y-6">
+
           {/* Üst Rozet (Badge) */}
           <div className="flex justify-center mb-4">
             <p className="inline-flex items-center gap-3 bg-black/40 backdrop-blur-md rounded-full px-4 py-1.5 border border-white/10 text-xs md:text-sm text-slate-100 shadow-sm">
@@ -185,6 +241,8 @@ export default function HeroSection() {
 
           {/* Aksiyon Butonları (CTA) */}
           <CTAGroup />
+
+          <HeroStatGrid />
         </div>
       </div>
 
