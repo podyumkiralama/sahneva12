@@ -88,50 +88,50 @@ const FAQ_ITEMS = [
 ];
 /* ================== SCHEMA (JSON-LD) ================== */
 function ArticleSchema() {
-  const site = String(SITE_URL || "").replace(/\/$/, "");
-  
-  // RootLayout'ta tanımlı ID'leri kullanmak için sabit tanımlarınızı burada yapıyorsunuz.
-  // Bu değişkenler, RootLayout'taki BASE_SITE_URL, ORGANIZATION_ID, etc. ile tutarlı olmalıdır.
-  const orgId = `${site}/#org`;
-  const editorId = `${site}/#editor`;
+   const site = String(SITE_URL || "").replace(/\/$/, "");
+   
+   // RootLayout'ta tanımlı ID'leri kullanmak için sabit tanımlarınızı burada yapıyorsunuz.
+   // Bu değişkenler, RootLayout'taki BASE_SITE_URL, ORGANIZATION_ID, etc. ile tutarlı olmalıdır.
+   const orgId = `${site}/#org`;
+   const editorId = `${site}/#editor`;
 
-  // MODIFIED_DATE yoksa publish'i kullan
-  const modified =
-    typeof MODIFIED_DATE !== "undefined" && MODIFIED_DATE ? MODIFIED_DATE : PUBLISH_DATE;
+   // MODIFIED_DATE yoksa publish'i kullan
+   const modified =
+      typeof MODIFIED_DATE !== "undefined" && MODIFIED_DATE ? MODIFIED_DATE : PUBLISH_DATE;
 
-  const schema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      
-      // BlogPosting
-      {
-        "@type": "BlogPosting",
-        "@id": `${BLOG_URL}#blogposting`,
-        headline: metadata?.title || "Blog Yazısı",
-        description: metadata?.description,
-        image: `${site}/img/blog/kurumsal-etkinlik-hero.webp`,
-        datePublished: PUBLISH_DATE,
-        dateModified: modified,
-        inLanguage: "tr-TR",
-        // RootLayout'taki tanımlara referans veriliyor:
-        author: { "@id": editorId },
-        publisher: { "@id": orgId },
-        mainEntityOfPage: { "@type": "WebPage", "@id": BLOG_URL },
-        isPartOf: { "@type": "Blog", "@id": `${site}/blog#blog` },
-      },
+   const schema = {
+      "@context": "https://schema.org",
+      "@graph": [
+         
+         // BlogPosting
+         {
+            "@type": "BlogPosting",
+            "@id": `${BLOG_URL}#blogposting`,
+            headline: metadata?.title || "Blog Yazısı",
+            description: metadata?.description,
+            image: `${site}/img/blog/kurumsal-etkinlik-hero.webp`,
+            datePublished: PUBLISH_DATE,
+            dateModified: modified,
+            inLanguage: "tr-TR",
+            // RootLayout'taki tanımlara referans veriliyor:
+            author: { "@id": editorId },
+            publisher: { "@id": orgId },
+            mainEntityOfPage: { "@type": "WebPage", "@id": BLOG_URL },
+            isPartOf: { "@type": "Blog", "@id": `${site}/blog#blog` },
+         },
 
-      // FAQ rich result
-      {
-        "@type": "FAQPage",
-        "@id": `${BLOG_URL}#faq`,
-        mainEntity: FAQ_ITEMS.map((item) => ({
-          "@type": "Question",
-          name: item.question,
-          acceptedAnswer: { "@type": "Answer", text: item.answer },
-        })),
-      },
-    ],
-  };
+         // FAQ rich result
+         {
+            "@type": "FAQPage",
+            "@id": `${BLOG_URL}#faq`,
+            mainEntity: FAQ_ITEMS.map((item) => ({
+               "@type": "Question",
+               name: item.question,
+               acceptedAnswer: { "@type": "Answer", text: item.answer },
+            })),
+         },
+      ],
+   };
 
   return (
     <script
