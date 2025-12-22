@@ -10,7 +10,6 @@ export const inter = localFont({
     },
   ],
   display: "swap",
-  preload: true,                 // 🔥 Font gecikmesini düşürür
   variable: "--font-inter",
   fallback: ["system-ui", "Segoe UI", "Arial"],
 });
