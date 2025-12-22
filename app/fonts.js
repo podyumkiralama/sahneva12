@@ -4,7 +4,7 @@ import localFont from "next/font/local";
 export const inter = localFont({
   src: [
     {
-      path: "../public/fonts/inter/Inter-Variable.woff2",
+      path: "../public/fonts/inter/InterVariable.woff2",
       weight: "100 900",
       style: "normal",
     },
