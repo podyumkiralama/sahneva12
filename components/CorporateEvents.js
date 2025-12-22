@@ -138,11 +138,13 @@ function escapeHtmlAttribute(value = "") {
     .replace(/>/g, "&gt;");
 }
 
-function OptimizedImage({ src, alt, className }) {
+function OptimizedImage({ src, alt, className, width = 1600, height = 1200 }) {
   const safeAlt = escapeHtmlAttribute(alt);
   const safeSrc = escapeHtmlAttribute(src);
   const safeClass = className ? ` ${escapeHtmlAttribute(className)}` : "";
-  const html = `<img src="${safeSrc}" alt="${safeAlt}" class="absolute inset-0 h-full w-full object-cover${safeClass}" loading="lazy" decoding="async">`;
+  const safeWidth = Number.parseInt(width, 10) || 1600;
+  const safeHeight = Number.parseInt(height, 10) || 1200;
+  const html = `<img src="${safeSrc}" alt="${safeAlt}" width="${safeWidth}" height="${safeHeight}" class="absolute inset-0 h-full w-full object-cover${safeClass}" loading="lazy" decoding="async">`;
 
   return (
     <div role="img" aria-label={alt} className="absolute inset-0">

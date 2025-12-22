@@ -540,8 +540,12 @@ function StickyVideoRailInner({
               <img
                 src={currentVideo.thumbnail}
                 alt={currentVideo.title}
+                width="640"
+                height="360"
                 className="absolute inset-0 w-full h-full object-cover -z-10"
                 loading="lazy"
+                decoding="async"
+                fetchPriority="low"
               />
               <div className="flex items-center justify-center w-16 h-16 rounded-full bg-white/90 shadow-xl mb-3 group-hover:scale-110 transition-transform">
                 <span className="ml-1 text-2xl text-red-500">▶</span>
