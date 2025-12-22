@@ -6,13 +6,13 @@ import "../styles/globals.css";
 import SkipLinks from "@/components/SkipLinks";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+
 import NonCriticalStylesheet from "@/components/NonCriticalStylesheet";
 import { getCssAssetHrefs } from "@/lib/cssManifest";
-import Script from "next/script";
 
 import { inter } from "./fonts";
-
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
+
 const DEFAULT_LOCALE = LOCALE_CONTENT.tr;
 const DEFAULT_LANG = "tr";
 const DEFAULT_DIR = DEFAULT_LOCALE.direction;
@@ -21,47 +21,12 @@ const criticalCss = fs.readFileSync(
   path.join(process.cwd(), "styles", "critical.css"),
   "utf8",
 );
+
 const shouldDeferCss =
   process.env.NODE_ENV === "production" &&
   process.env.NEXT_PUBLIC_DEFER_MAIN_CSS !== "false";
+
 const deferredCssHrefs = shouldDeferCss ? getCssAssetHrefs() : [];
-
-const CSS_DEFER_BOOTSTRAP = `
-  (() => {
-    const selector = 'link[rel="stylesheet"][href*="/_next/static/css/"]';
-    const makeNonBlocking = (link) => {
-      if (!link || link.dataset.deferredBootstrap === "true") return;
-
-      link.media = "print";
-      link.fetchPriority = link.fetchPriority || "high";
-      link.dataset.deferredBootstrap = "true";
-
-      const enable = () => {
-        link.media = "all";
-        link.rel = "stylesheet";
-        link.dataset.deferredApplied = "true";
-      };
-
-      link.addEventListener("load", enable, { once: true });
-
-      // Fallback in case the load event fires before this script runs.
-      requestAnimationFrame(() => {
-        if (link.dataset.deferredApplied === "true") return;
-        enable();
-      });
-    };
-
-    const upgradeExisting = () => {
-      document.querySelectorAll(selector).forEach((link) => makeNonBlocking(link));
-    };
-
-    if (document.readyState === "complete" || document.readyState === "interactive") {
-      upgradeExisting();
-    } else {
-      document.addEventListener("DOMContentLoaded", upgradeExisting, { once: true });
-    }
-  })();
-`;
 
 /* ================== VIEWPORT ================== */
 export const viewport = {
@@ -69,8 +34,6 @@ export const viewport = {
   initialScale: 1,
   themeColor: "#6d28d9",
 };
-
-
 
 /* ================== ROOT LAYOUT ================== */
 export default function RootLayout({ children }) {
@@ -82,15 +45,16 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
     >
       <head>
+        {/* Above-the-fold critical CSS */}
         <style
           data-critical="above-the-fold"
           dangerouslySetInnerHTML={{ __html: criticalCss }}
         />
+
+        {/* Defer main CSS (only in prod unless env disables) */}
         {shouldDeferCss ? (
           <>
-            <Script id="defer-main-css" strategy="beforeInteractive">
-              {CSS_DEFER_BOOTSTRAP}
-            </Script>
+            {/* Preload discovered CSS assets (helps warm cache) */}
             {deferredCssHrefs.map((href) => (
               <link
                 key={href}
@@ -102,6 +66,8 @@ export default function RootLayout({ children }) {
                 fetchPriority="high"
               />
             ))}
+
+            {/* No-JS fallback */}
             <noscript
               dangerouslySetInnerHTML={{
                 __html: deferredCssHrefs
@@ -109,23 +75,22 @@ export default function RootLayout({ children }) {
                   .join(""),
               }}
             />
+
+            {/* Single source of truth: one script to switch /_next/static/css/ links non-blocking */}
             <NonCriticalStylesheet hrefs={deferredCssHrefs} />
           </>
         ) : null}
       </head>
+
       <body className="min-h-screen bg-white text-neutral-900 antialiased flex flex-col font-sans">
         <SkipLinks />
-
-
 
         <header
           id="_main_header"
           aria-label="Sahneva site başlığı ve ana gezinme"
           className="w-full relative z-50"
         >
-
           <Navbar />
-
         </header>
 
         <main
@@ -142,8 +107,6 @@ export default function RootLayout({ children }) {
           ariaLabel="Sahneva site altbilgi"
           descriptionId="_main_footer_desc"
         />
-
-
       </body>
     </html>
   );
