@@ -27,14 +27,6 @@ import { HOME_PAGE_TITLE, getOgImageUrl } from "@/lib/seo/seoConfig";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { BASE_SITE_URL, ORGANIZATION_ID, WEBSITE_ID } from "@/lib/seo/schemaIds";
 
-/* -------------------
-   Below-the-fold: content-visibility (perf)
-------------------- */
-const BELOW_THE_FOLD_VISIBILITY_STYLE = {
-  contentVisibility: "auto",
-  containIntrinsicSize: "1px 1200px",
-};
-
 /* --------------------
    JSON-LD (Schema.org) - Home rich snippets
    Not: Organization/WebSite/LocalBusiness layout.jsx'te zaten var.
@@ -419,17 +411,12 @@ export default function HomePage() {
       </section>
 
       {/* 5) TECH CAPABILITIES (below-the-fold) */}
-      <section
-        className="home-section home-section--deep"
-        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
-      >
-        <div className="home-container">
-          <TechCapabilitiesDeferred
-            techFeatures={SEO_TECH_FEATURES}
-            infraFeatures={SEO_INFRA_FEATURES}
-          />
-        </div>
-      </section>
+      <div className="bg-slate-900 py-16">
+        <TechCapabilitiesDeferred
+          techFeatures={SEO_TECH_FEATURES}
+          infraFeatures={SEO_INFRA_FEATURES}
+        />
+      </div>
 
       {/* 6) KURUMSAL ORGANİZASYON */}
       <section className="home-section home-section--light">
@@ -439,14 +426,9 @@ export default function HomePage() {
       </section>
 
       {/* 7) KURUMSAL INTRO (below-the-fold) */}
-      <section
-        className="home-section home-section--dark"
-        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
-      >
-        <div className="home-container">
-          <CorporateIntroDeferred />
-        </div>
-      </section>
+      <div className="bg-black py-0 m-0 w-full">
+        <CorporateIntroDeferred />
+      </div>
 
       {/* 8) WHY CHOOSE US */}
       <section className="home-section home-section--surface">
