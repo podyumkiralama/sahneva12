@@ -10,6 +10,17 @@ export const inter = localFont({
     },
   ],
   display: "swap",
+  // Leave fonts to load with page CSS instead of preloading so hero media can start sooner.
+  preload: false,
   variable: "--font-inter",
-  fallback: ["system-ui", "Segoe UI", "Arial"],
+  fallback: [
+    "system-ui",
+    "-apple-system",
+    "BlinkMacSystemFont",
+    "Segoe UI",
+    "Roboto",
+    "Helvetica Neue",
+    "Arial",
+    "sans-serif",
+  ],
 });
