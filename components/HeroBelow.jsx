@@ -1,9 +1,26 @@
 "use client";
 
 // components/HeroBelow.jsx
-import React from "react";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { HERO_FEATURES_TR } from "@/lib/heroFeatures";
+
+const PROCESS_STEPS = [
+  {
+    title: "Keşif & Planlama",
+    desc: "Mekân ölçüleri, kapasite ve konsept doğrulaması ile doğru paket seçimi",
+    badge: "1",
+  },
+  {
+    title: "Kurulum & Test",
+    desc: "Saha ekibi, güvenlik ve yedek güç kontrolleriyle aynı gün devreye alma",
+    badge: "2",
+  },
+  {
+    title: "Canlı Yönetim",
+    desc: "Operatör, rejisör ve teknik sorumlu ile kesintisiz etkinlik akışı",
+    badge: "3",
+  },
+];
 
 function HeroFeatureGrid() {
   return (
@@ -90,22 +107,55 @@ function ConsultationCard() {
   );
 }
 
+function ProcessList() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4" aria-label="Proje akış adımları">
+      {PROCESS_STEPS.map((step, idx) => (
+        <ScrollReveal key={step.title} asChild delay={0.1 * idx} direction="up">
+          <article className="relative h-full rounded-2xl border border-white/10 bg-slate-900/60 p-5 backdrop-blur-sm shadow-md">
+            <div className="absolute -top-3 left-4 inline-flex items-center justify-center rounded-full bg-white text-blue-900 font-bold w-8 h-8 shadow-lg">
+              {step.badge}
+            </div>
+            <h3 className="text-white font-semibold text-lg mt-2 mb-2">{step.title}</h3>
+            <p className="text-slate-200/80 text-sm leading-relaxed">{step.desc}</p>
+          </article>
+        </ScrollReveal>
+      ))}
+    </div>
+  );
+}
+
 export default function HeroBelow() {
   return (
     <section
-      className="py-12 bg-slate-950 border-t border-white/5 relative z-20"
+      className="home-section home-section--surface"
       aria-labelledby="hero-supporting-title"
     >
       <h2 id="hero-supporting-title" className="sr-only">
         Sahne Kiralama Hizmet Özellikleri ve Danışmanlık
       </h2>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <div className="home-container space-y-12">
+        <div className="max-w-3xl space-y-3">
+          <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-blue-200/80 bg-white/5 border border-white/10 px-3 py-1 rounded-full">
+            <span className="w-2 h-2 rounded-full bg-emerald-300 animate-pulse" aria-hidden="true" />
+            Süreç & Güvence
+          </p>
+          <h3 className="text-2xl md:text-3xl font-black text-white leading-tight">
+            Kurulumdan canlı yönetimine kadar tek ekip, tek zaman çizelgesi
+          </h3>
+          <p className="text-slate-200/80 text-base md:text-lg leading-relaxed max-w-3xl">
+            Sahneva ekibi keşif, statik hesap, LED içerik hazırlığı ve sahne üstü operasyonu aynı çatı altında toparlar; bu da hem hız hem de hatasız teslimat sağlar.
+          </p>
+        </div>
+
         <HeroFeatureGrid />
 
         <ScrollReveal delay={0.2} direction="up">
           <ConsultationCard />
         </ScrollReveal>
+
+        <ProcessList />
       </div>
     </section>
   );
