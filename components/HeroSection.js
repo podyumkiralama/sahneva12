@@ -1,5 +1,4 @@
 // components/HeroSection.js
-import Link from "next/link";
 // NOT: Resim dosyasının yolunun projenizde doğru olduğundan emin olun.
 import heroImg from "@/public/img/hero-bg.webp";
 
