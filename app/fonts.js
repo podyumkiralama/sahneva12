@@ -10,7 +10,7 @@ export const inter = localFont({
     },
   ],
   display: "swap",
-  preload: true,
+  
   variable: "--font-inter",
   fallback: [
     "system-ui",
