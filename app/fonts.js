@@ -10,7 +10,8 @@ export const inter = localFont({
     },
   ],
   display: "swap",
-  
+  // Leave fonts to load with page CSS instead of preloading so hero media can start sooner.
+  preload: false,
   variable: "--font-inter",
   fallback: [
     "system-ui",
