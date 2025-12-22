@@ -109,19 +109,19 @@ function CTAGroup() {
   );
 }
 
-function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
-  const { props } = getImageProps({
-    alt,
-    src: heroImg,
-    sizes: "100vw",
-    fetchPriority: "high",
-    loading: "eager",
-    quality: 50,
-    placeholder: "blur",
-    className: "absolute inset-0 h-full w-full object-cover object-center",
-  });
+const HERO_IMAGE_PROPS = getImageProps({
+  alt: HERO_IMAGE_ALT,
+  src: heroImg,
+  sizes: "100vw",
+  fetchPriority: "high",
+  loading: "eager",
+  quality: 50,
+  placeholder: "blur",
+  className: "absolute inset-0 h-full w-full object-cover object-center",
+});
 
-  const { fetchPriority, alt: imageAlt, ...rest } = props;
+function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
+  const { fetchPriority, alt: imageAlt, ...rest } = HERO_IMAGE_PROPS.props;
 
   return (
     <img
