@@ -387,7 +387,7 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="overflow-x-hidden bg-black">
+    <main className="home-shell">
       {/* Home Rich Snippets */}
       <StructuredData />
       <BreadcrumbJsonLd items={breadcrumbItems} />
@@ -402,43 +402,65 @@ export default function HomePage() {
       <div id="teklif-al" className="sr-only" />
 
       {/* 3) HİZMETLER TABS */}
-      <section aria-labelledby="hizmetler-title" className="bg-black">
-        <h2 id="hizmetler-title" className="sr-only">
-          Hizmetler
-        </h2>
-        <ServicesTabsDeferred idleTimeout={1800} rootMargin="260px" />
+      <section aria-labelledby="hizmetler-title" className="home-section home-section--dark">
+        <div className="home-container">
+          <h2 id="hizmetler-title" className="sr-only">
+            Hizmetler
+          </h2>
+          <ServicesTabsDeferred idleTimeout={1800} rootMargin="260px" />
+        </div>
       </section>
 
       {/* 4) PROJELER */}
-      <ProjectsGalleryDeferred idleTimeout={3200} rootMargin="360px" />
+      <section className="home-section home-section--panel">
+        <div className="home-container">
+          <ProjectsGalleryDeferred idleTimeout={3200} rootMargin="360px" />
+        </div>
+      </section>
 
       {/* 5) TECH CAPABILITIES (below-the-fold) */}
-      <div className="bg-slate-900 py-16" style={BELOW_THE_FOLD_VISIBILITY_STYLE}>
-        <TechCapabilitiesDeferred
-          techFeatures={SEO_TECH_FEATURES}
-          infraFeatures={SEO_INFRA_FEATURES}
-        />
-      </div>
+      <section
+        className="home-section home-section--deep"
+        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+      >
+        <div className="home-container">
+          <TechCapabilitiesDeferred
+            techFeatures={SEO_TECH_FEATURES}
+            infraFeatures={SEO_INFRA_FEATURES}
+          />
+        </div>
+      </section>
 
       {/* 6) KURUMSAL ORGANİZASYON */}
-      <div className="bg-slate-50 py-0 m-0 w-full">
-        <CorporateEventsDeferred />
-      </div>
+      <section className="home-section home-section--light">
+        <div className="home-container">
+          <CorporateEventsDeferred />
+        </div>
+      </section>
 
       {/* 7) KURUMSAL INTRO (below-the-fold) */}
-      <div className="bg-black py-0 m-0 w-full" style={BELOW_THE_FOLD_VISIBILITY_STYLE}>
-        <CorporateIntroDeferred />
-      </div>
+      <section
+        className="home-section home-section--dark"
+        style={BELOW_THE_FOLD_VISIBILITY_STYLE}
+      >
+        <div className="home-container">
+          <CorporateIntroDeferred />
+        </div>
+      </section>
 
       {/* 8) WHY CHOOSE US */}
-      <div className="w-full p-0 m-0">
-        <WhyChooseUsDeferred />
-      </div>
+      <section className="home-section home-section--surface">
+        <div className="home-container">
+          <WhyChooseUsDeferred />
+        </div>
+      </section>
 
       {/* 10) SSS */}
-      <div className="w-full bg-transparent p-0 m-0">
-        <FaqDeferred />
-      </div>
-    </div>
+      <section className="home-section home-section--panel">
+        <div className="home-container">
+          <FaqDeferred />
+        </div>
+      </section>
+    </main>
   );
 }
