@@ -42,26 +42,6 @@ main#_main_content {
   max-width: 1200px;
 }
 
-.hero-inline-safe {
-  min-height: 75vh;
-  position: relative;
-  overflow: hidden;
-  background: #0b0b0f;
-}
-
-.hero-inline-safe::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.2) 40%, rgba(0, 0, 0, 0.6));
-  pointer-events: none;
-}
-
-.hero-inline-safe h1,
-.hero-inline-safe p {
-  margin: 0;
-}
-
 footer#_main_footer {
   margin-top: 2rem;
 }
