@@ -78,7 +78,7 @@ export default function RootLayout({ children }) {
     <html
       lang={DEFAULT_LANG}
       dir={DEFAULT_DIR}
-      className={`${inter.className} ${inter.variable}`}
+      className={`${inter.variable} font-sans`}
       suppressHydrationWarning
     >
       <head>
