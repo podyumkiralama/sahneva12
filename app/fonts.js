@@ -5,8 +5,9 @@ export const inter = Inter({
   subsets: ["latin", "latin-ext"],
   // Keep text paint unblocked; allow font to swap in after first render.
   display: "swap",
-  // Defer font loading so the hero visual can appear first.
-  preload: false,
+  // Preload to start the font fetch during initial navigation instead of waiting
+  // for layout hydration, reducing perceived latency on slow networks.
+  preload: true,
   adjustFontFallback: true,
   variable: "--font-inter",
   fallback: [
