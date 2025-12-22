@@ -136,6 +136,27 @@
     -webkit-mask-image: var(--grid-mask);
   }
 
+  .grid-overlay--footer {
+    --grid-overlay-top: #1d4ed833;
+    --grid-overlay-bottom: #7c3aed33;
+    --grid-overlay-opacity: 0.4;
+    --grid-overlay-blur: 32px;
+  }
+
+  .grid-overlay--services {
+    --grid-overlay-top: #0ea5e933;
+    --grid-overlay-bottom: #22d3ee22;
+    --grid-overlay-opacity: 0.5;
+    --grid-overlay-blur: 24px;
+  }
+
+  .grid-overlay--rental {
+    --grid-overlay-top: rgba(59, 130, 246, 0.6);
+    --grid-overlay-bottom: rgba(147, 51, 234, 0.6);
+    --grid-overlay-opacity: 0.4;
+    --grid-overlay-blur: 28px;
+  }
+
   /* Rail Control (Özel Buton/Kontrol Elemanı) */
   .rail-control {
     @apply inline-flex h-10 min-w-[2.5rem] items-center justify-center gap-2 rounded-xl 
