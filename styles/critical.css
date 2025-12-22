@@ -45,3 +45,118 @@ main#_main_content {
 footer#_main_footer {
   margin-top: 2rem;
 }
+
+/* -------------------------------------------------------------
+   Ana Sayfa Yerleşim Yardımcıları
+   ------------------------------------------------------------- */
+.home-shell {
+  background: #0b0b0f;
+  color: #e5e7eb;
+  overflow-x: hidden;
+}
+
+.home-container {
+  width: min(1200px, 100% - 2.5rem);
+  margin: 0 auto;
+}
+
+@media (min-width: 1024px) {
+  .home-container {
+    width: min(1280px, 100% - 3.5rem);
+  }
+}
+
+.home-section {
+  position: relative;
+  padding: clamp(2.75rem, 3vw, 4rem) 0;
+}
+
+.home-section + .home-section {
+  border-top: 1px solid rgba(148, 163, 184, 0.08);
+}
+
+.home-section--dark {
+  background: #030712;
+}
+
+.home-section--panel {
+  background: #0b1220;
+}
+
+.home-section--light {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+.home-section--surface {
+  background: linear-gradient(180deg, #0b1120 0%, #0f172a 35%, #0b1120 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.home-section--deep {
+  background: radial-gradient(circle at 20% 10%, rgba(56, 189, 248, 0.12), transparent 30%),
+    radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.12), transparent 28%),
+    #0f172a;
+}
+
+.home-hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 78vh;
+  padding-top: clamp(4rem, 6vw, 5.5rem);
+  background: #0b1120;
+  overflow: hidden;
+}
+
+.home-hero__backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.home-hero__backdrop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(3, 7, 18, 0.65) 0%, rgba(3, 7, 18, 0.25) 55%, #0b1120 100%),
+    radial-gradient(circle at 20% 25%, rgba(96, 165, 250, 0.18), transparent 45%),
+    radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.18), transparent 40%),
+    radial-gradient(circle at 50% 78%, rgba(45, 212, 191, 0.18), transparent 40%);
+}
+
+.home-hero__backdrop::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -4rem;
+  height: 6rem;
+  background: linear-gradient(180deg, transparent 0%, #0b1120 100%);
+}
+
+.home-hero__frame {
+  pointer-events: none;
+  position: absolute;
+  inset: 1.25rem;
+  z-index: -1;
+  border-radius: 1.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.35);
+}
+
+.home-hero__scroll {
+  position: absolute;
+  left: 50%;
+  bottom: 2rem;
+  transform: translateX(-50%);
+  opacity: 0.8;
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .home-hero__scroll {
+    display: block;
+  }
+}

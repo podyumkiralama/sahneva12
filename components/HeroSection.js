@@ -181,24 +181,20 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
 export default function HeroSection() {
   return (
     <section
-      className="relative isolate min-h-[75vh] pt-16 lg:pt-20 flex items-center justify-center overflow-hidden bg-slate-950"
+      className="home-hero home-section"
       aria-labelledby="hero-title"
       aria-describedby="hero-description hero-keywords"
     >
       {/* 1. KATMAN: Arka Plan Görseli ve örtüleri */}
-      <div className="absolute inset-0" aria-hidden="true">
+      <div className="home-hero__backdrop" aria-hidden="true">
         <HeroBackgroundImage ariaHidden />
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/40 to-slate-950" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_25%,rgba(96,165,250,0.18),transparent_40%),radial-gradient(circle_at_80%_20%,rgba(168,85,247,0.18),transparent_35%),radial-gradient(circle_at_50%_80%,rgba(45,212,191,0.16),transparent_35%)]" />
-        <div className="absolute inset-x-0 -bottom-14 h-36 bg-gradient-to-t from-slate-950 to-transparent" />
       </div>
 
       {/* 2. KATMAN: İçerik */}
-      <div className="relative z-10 container py-10 px-4">
-        <div className="max-w-5xl mx-auto text-center space-y-6">
-
+      <div className="home-container">
+        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-6 py-10">
           <div
-            className="pointer-events-none absolute inset-4 -z-10 rounded-3xl border border-white/10"
+            className="home-hero__frame"
             aria-hidden="true"
           />
 
@@ -245,7 +241,7 @@ export default function HeroSection() {
 
       {/* 3. KATMAN: Scroll İkonu (Mobilde gizli) */}
       <div
-        className="hidden lg:block absolute bottom-8 left-1/2 -translate-x-1/2 opacity-80"
+        className="home-hero__scroll"
         aria-hidden="true"
       >
         <div className="animate-bounce motion-reduce:animate-none">
