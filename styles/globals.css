@@ -11,10 +11,7 @@
 :root {
   --font-system-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
-
-  /* Inter yüklenene kadar sistem stack'ine hızlı fallback */
-  --font-inter-fallback: var(--font-system-stack);
-
+  
   /* Marka Renkleri */
   --brand-primary: #6d28d9; /* Purple-700 */
   --brand-secondary: #4f46e5; /* Indigo-600 */
@@ -227,4 +224,3 @@ svg {
     border-color: rgba(254, 226, 226, 1);
   }
 }
-
