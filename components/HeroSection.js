@@ -1,6 +1,5 @@
 // components/HeroSection.js
 import Image from "next/image";
-import Link from "next/link";
 // NOT: Resim dosyasının yolunun projenizde doğru olduğundan emin olun.
 import heroImg from "@/public/img/hero-bg.webp";
 
@@ -119,7 +118,7 @@ function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
       priority={true}
       fetchPriority="high"
       decoding="sync"
-      sizes="100vw"
+      sizes="(min-width: 1600px) 1600px, 100vw"
       quality={45}
       placeholder="empty"
       className="absolute inset-0 h-full w-full object-cover object-center"
