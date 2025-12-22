@@ -1,17 +1,13 @@
 // app/fonts.js
-import localFont from "next/font/local";
+import { Inter } from "next/font/google";
 
-export const inter = localFont({
-  src: [
-    {
-      path: "../public/fonts/inter/InterVariable.woff2",
-      weight: "100 900",
-      style: "normal",
-    },
-  ],
+export const inter = Inter({
+  subsets: ["latin", "latin-ext"],
+  // Keep text paint unblocked; allow font to swap in after first render.
   display: "swap",
-  // Leave fonts to load with page CSS instead of preloading so hero media can start sooner.
+  // Defer font loading so the hero visual can appear first.
   preload: false,
+  adjustFontFallback: true,
   variable: "--font-inter",
   fallback: [
     "system-ui",
@@ -24,3 +20,4 @@ export const inter = localFont({
     "sans-serif",
   ],
 });
+
