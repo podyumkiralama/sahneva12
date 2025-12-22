@@ -1,21 +1,63 @@
 // components/HeroSection.js
 import Image from "next/image";
+// NOT: Resim dosyasının yolunun projenizde doğru olduğundan emin olun.
 import heroImg from "@/public/img/hero-bg.webp";
 
-const HERO_KEYWORDS = ["Sahne Kiralama", "LED Ekran", "Ses-Işık Sistemleri"];
+// —————————————————————————————————————————
+// SABİT VERİLER (CONSTANTS)
+// —————————————————————————————————————————
 
-const CTA_BASE =
-  "w-full sm:w-auto min-w-[180px] min-h-[44px] inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 font-bold text-base text-white shadow-md hover:shadow-lg border border-white/15 transition-transform duration-200 hover:scale-[1.02] focus-ring";
+const HERO_IMAGE_ALT =
+  "LED ekran, truss çatı ve ışık sistemi içeren Sahneva sahne kurulumunu gösteren arka plan görseli";
 
-function KeywordPills() {
+const HERO_KEYWORDS = [
+  { text: "Sahne Kiralama", gradient: "text-blue-300" },
+  { text: "LED Ekran", gradient: "text-purple-300" },
+  { text: "Ses-Işık Sistemleri", gradient: "text-cyan-300" },
+];
+
+const CTA_BUTTONS = [
+  {
+    href: "tel:+905453048671",
+    label: "Hemen Ara",
+    icon: "📞",
+    srHint: "",
+  },
+  {
+    href: "https://wa.me/905453048671?text=Merhaba%2C+web+sitenizden+ula%C5%9F%C4%B1yorum.+Sahne+kiralama+ve+LED+ekran+fiyatlar%C4%B1+hakk%C4%B1nda+detayl%C4%B1+teklif+almak+istiyorum.&utm_source=homepage&utm_medium=hero_cta&utm_campaign=whatsapp",
+    label: "WhatsApp Teklif",
+    icon: "💬",
+    target: "_blank",
+    rel: "noopener noreferrer nofollow",
+    srHint: "(yeni sekmede açılır)",
+    ariaLabel:
+      "WhatsApp Teklif — WhatsApp üzerinden teklif isteyin (bağlantı yeni sekmede açılır)",
+    gradient: "from-green-600 to-emerald-700",
+  },
+];
+
+const CTA_BASE_CLASS =
+  "w-full sm:w-auto min-w-[180px] min-h-[44px] text-center group relative text-white font-bold text-base px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition-transform duration-200 hover:scale-105 border border-white/20 focus-ring";
+
+const CTA_OVERLAY_CLASS =
+  "absolute inset-0 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200";
+
+// —————————————————————————————————————————
+// ALT PARÇALAR (HELPER COMPONENTS)
+// —————————————————————————————————————————
+
+function KeywordPills({ id }) {
   return (
     <ul
-      className="mt-4 mb-6 flex flex-wrap justify-center gap-2"
+      id={id}
+      className="flex flex-wrap justify-center gap-2 mt-4 mb-6 max-w-4xl mx-auto"
       aria-label="Öne çıkan hizmet başlıkları"
     >
-      {HERO_KEYWORDS.map((text) => (
+      {HERO_KEYWORDS.map(({ text, gradient }) => (
         <li key={text} className="list-none">
-          <span className="text-sm md:text-base font-semibold px-3 py-1 text-slate-100 bg-white/15 rounded-lg border border-white/10">
+          <span
+            className={`text-sm md:text-base font-semibold px-3 py-1 ${gradient} bg-white/15 rounded-lg border border-white/10`}
+          >
             {text}
           </span>
         </li>
@@ -24,97 +66,129 @@ function KeywordPills() {
   );
 }
 
-function CTAButtons() {
+function CTAButton({
+  href,
+  label,
+  icon,
+  gradient = "from-blue-600 to-purple-600",
+  srHint,
+  ariaLabel,
+  ...rest
+}) {
   return (
-    <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
-      <a href="tel:+905453048671" className={`${CTA_BASE} bg-gradient-to-r from-blue-600 to-purple-600`}>
-        <span aria-hidden="true">📞</span>
-        Hemen Ara
-      </a>
+    <a
+      href={href}
+      className={`${CTA_BASE_CLASS} bg-gradient-to-r ${gradient}`}
+      aria-label={ariaLabel || (srHint ? `${label} ${srHint}` : label)}
+      {...rest}
+    >
+      <span className="relative z-10 flex items-center justify-center gap-2">
+        <span aria-hidden="true">{icon}</span>
+        {label}
+        {srHint ? <span className="sr-only">{srHint}</span> : null}
+      </span>
+      <div className={CTA_OVERLAY_CLASS} aria-hidden="true" />
+    </a>
+  );
+}
 
-      <a
-        href="https://wa.me/905453048671?text=Merhaba%2C+web+sitenizden+ula%C5%9F%C4%B1yorum.+Sahne+kiralama+ve+LED+ekran+fiyatlar%C4%B1+hakk%C4%B1nda+detayl%C4%B1+teklif+almak+istiyorum.&utm_source=homepage&utm_medium=hero_cta&utm_campaign=whatsapp"
-        target="_blank"
-        rel="noopener noreferrer nofollow"
-        aria-label="WhatsApp Teklif — WhatsApp üzerinden teklif isteyin (bağlantı yeni sekmede açılır)"
-        className={`${CTA_BASE} bg-gradient-to-r from-green-600 to-emerald-700`}
-      >
-        <span aria-hidden="true">💬</span>
-        WhatsApp Teklif
-        <span className="sr-only">(yeni sekmede açılır)</span>
-      </a>
+function CTAGroup() {
+  return (
+    <div className="mt-6 flex flex-col sm:flex-row justify-center items-center gap-3">
+      {CTA_BUTTONS.map(({ srHint, gradient, ariaLabel, ...cta }) => (
+        <CTAButton
+          key={cta.href}
+          gradient={gradient}
+          srHint={srHint}
+          ariaLabel={ariaLabel}
+          {...cta}
+        />
+      ))}
     </div>
   );
 }
 
+function HeroBackgroundImage({ alt = HERO_IMAGE_ALT, ariaHidden = false }) {
+  return (
+    <Image
+      src={heroImg}
+      alt={ariaHidden ? "" : alt}
+      fill
+      // ✅ LCP ve PERFORMANS OPTİMİZASYONLARI
+      priority={true}
+      fetchPriority="high"
+      decoding="sync"
+      sizes="(min-width: 1600px) 1600px, 100vw"
+      quality={45}
+      placeholder="empty"
+      className="absolute inset-0 h-full w-full object-cover object-center"
+      aria-hidden={ariaHidden}
+    />
+  );
+}
+
+// —————————————————————————————————————————
+// ANA HERO BİLEŞEN (MAIN EXPORT)
+// —————————————————————————————————————————
+
 export default function HeroSection() {
   return (
     <section
-      className="relative min-h-[75vh] pt-16 lg:pt-20 flex items-center justify-center overflow-hidden bg-black"
+      className="relative min-h-[75vh] pt-16 lg:pt-20 flex items-center justify-center overflow-hidden bg-black hero-inline-safe"
       aria-labelledby="hero-title"
       aria-describedby="hero-description hero-keywords"
     >
-      {/* Background image (LCP) */}
+      {/* 1. KATMAN: Arka Plan Görseli */}
       <div className="absolute inset-0" aria-hidden="true">
-        <Image
-          src={heroImg}
-          alt=""
-          fill
-          priority
-          fetchPriority="high"
-          sizes="100vw"
-          quality={60}
-          placeholder="empty"
-          className="absolute inset-0 h-full w-full object-cover object-center"
-        />
+        <HeroBackgroundImage ariaHidden />
+        {/* Okunabilirlik için hafif karartma */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/60" />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 container px-4 py-10">
-        <div className="mx-auto max-w-4xl text-center">
-          {/* Badge */}
-          <div className="mb-4 flex justify-center">
-            <p className="inline-flex items-center gap-3 rounded-full bg-black/40 backdrop-blur-md px-4 py-1.5 text-xs md:text-sm text-slate-100 border border-white/10 shadow-sm">
+      {/* 2. KATMAN: İçerik */}
+      <div className="relative z-10 container py-10 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          
+          {/* Üst Rozet (Badge) */}
+          <div className="flex justify-center mb-4">
+            <p className="inline-flex items-center gap-3 bg-black/40 backdrop-blur-md rounded-full px-4 py-1.5 border border-white/10 text-xs md:text-sm text-slate-100 shadow-sm">
               <span
-                className="h-2 w-2 rounded-full bg-green-400 animate-pulse motion-reduce:animate-none"
+                className="w-2 h-2 bg-green-400 rounded-full animate-pulse"
                 aria-hidden="true"
               />
               Sahneva Organizasyon • Türkiye Geneli Profesyonel Hizmet
             </p>
           </div>
 
-          {/* H1 */}
+          {/* Ana Başlık (H1) */}
           <h1
             id="hero-title"
             className="text-white text-4xl sm:text-5xl lg:text-7xl font-black leading-tight tracking-tight drop-shadow-xl"
           >
             Türkiye genelinde
-            <span className="block mt-1 pb-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-300">
+            <span className="block mt-1 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-300 pb-2">
               Sahne &amp; LED Ekran Kiralama
             </span>
           </h1>
 
-          {/* Keywords */}
-          <div id="hero-keywords">
-            <KeywordPills />
-          </div>
+          {/* Anahtar Kelimeler (Pills) */}
+          <KeywordPills id="hero-keywords" />
 
-          {/* Subtitle */}
+          {/* Alt Açıklama (Subtitle) */}
           <p
             id="hero-description"
-            className="mt-4 mx-auto max-w-2xl text-slate-100 text-base md:text-xl leading-relaxed font-medium drop-shadow-md"
+            className="text-slate-100 text-base md:text-xl mt-4 max-w-2xl mx-auto leading-relaxed font-medium drop-shadow-md text-opacity-90"
           >
             500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli hızlı
             kurulum ile etkinliğinizde yanınızdayız.
           </p>
 
-          {/* CTAs */}
-          <CTAButtons />
+          {/* Aksiyon Butonları (CTA) */}
+          <CTAGroup />
         </div>
       </div>
 
-      {/* Scroll hint */}
+      {/* 3. KATMAN: Scroll İkonu (Mobilde gizli) */}
       <div
         className="hidden lg:block absolute bottom-8 left-1/2 -translate-x-1/2 opacity-80"
         aria-hidden="true"
