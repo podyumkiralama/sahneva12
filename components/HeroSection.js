@@ -56,16 +56,22 @@ export default function HeroSection() {
     >
       {/* Background image (LCP) */}
       <div className="absolute inset-0" aria-hidden="true">
-        <Image
-          src={heroImg}
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          quality={60}
-          placeholder="empty"
-          className="absolute inset-0 h-full w-full object-cover object-center"
-        />
+
+    <Image
+      src={heroImg}
+      alt={ariaHidden ? "" : alt}
+      fill
+      // ✅ LCP ve PERFORMANS OPTİMİZASYONLARI
+      priority={true}
+      fetchPriority="high"
+      decoding="sync"
+      sizes="(min-width: 1600px) 1600px, 100vw"
+      quality={45}
+      placeholder="empty"
+      className="absolute inset-0 h-full w-full object-cover object-center"
+      aria-hidden={ariaHidden}
+    />
+
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/60" />
       </div>
 
