@@ -1,9 +1,13 @@
 /* ==========================================================================
    Tailwind Girişi (Entry)
    ========================================================================== */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@source "./pages/**/*.{js,ts,jsx,tsx,mdx}";
+@source "./components/**/*.{js,ts,jsx,tsx,mdx}";
+@source "./app/**/*.{js,ts,jsx,tsx,mdx}";
+@source "./lib/**/*.{js,ts,jsx,tsx,mdx}";
+@source "./sections/**/*.{js,ts,jsx,tsx,mdx}";
 
 /* ==========================================================================
    Değişkenler ve Temel Ayarlar
