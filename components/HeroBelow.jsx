@@ -128,14 +128,14 @@ function ProcessList() {
 export default function HeroBelow() {
   return (
     <section
-      className="home-section home-section--surface"
+      className="home-section home-section--surface relative overflow-hidden bg-slate-950"
       aria-labelledby="hero-supporting-title"
     >
       <h2 id="hero-supporting-title" className="sr-only">
         Sahne Kiralama Hizmet Özellikleri ve Danışmanlık
       </h2>
 
-      <div className="home-container space-y-12">
+      <div className="home-container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="max-w-3xl space-y-3">
           <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-blue-200/80 bg-white/5 border border-white/10 px-3 py-1 rounded-full">
             <span className="w-2 h-2 rounded-full bg-emerald-300 animate-pulse" aria-hidden="true" />
