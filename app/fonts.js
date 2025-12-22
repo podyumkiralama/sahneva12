@@ -10,6 +10,16 @@ export const inter = localFont({
     },
   ],
   display: "swap",
+  preload: true,
   variable: "--font-inter",
-  fallback: ["system-ui", "Segoe UI", "Arial"],
+  fallback: [
+    "system-ui",
+    "-apple-system",
+    "BlinkMacSystemFont",
+    "Segoe UI",
+    "Roboto",
+    "Helvetica Neue",
+    "Arial",
+    "sans-serif",
+  ],
 });
