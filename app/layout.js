@@ -6,7 +6,7 @@ import "../styles/globals.css";
 import SkipLinks from "@/components/SkipLinks";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
+import NonCriticalStylesheet from "@/components/NonCriticalStylesheet";
 import { getCssAssetHrefs } from "@/lib/cssManifest";
 import Script from "next/script";
 
@@ -17,7 +17,10 @@ const DEFAULT_LOCALE = LOCALE_CONTENT.tr;
 const DEFAULT_LANG = "tr";
 const DEFAULT_DIR = DEFAULT_LOCALE.direction;
 
-
+const criticalCss = fs.readFileSync(
+  path.join(process.cwd(), "styles", "critical.css"),
+  "utf8",
+);
 const shouldDeferCss =
   process.env.NODE_ENV === "production" &&
   process.env.NEXT_PUBLIC_DEFER_MAIN_CSS !== "false";
