@@ -34,20 +34,20 @@
 
 /* Non-theme runtime vars */
 :root {
-  --font-inter-fallback: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  --font-inter-fallback: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
 }
 
 /* Base */
 @layer base {
   html {
-    @apply scroll-smooth overflow-x-hidden h-full;
+    @apply h-full overflow-x-hidden scroll-smooth;
     scrollbar-gutter: stable;
     -webkit-tap-highlight-color: transparent;
   }
 
   body {
-    @apply text-neutral-900 antialiased min-h-screen font-sans;
+    @apply min-h-screen font-sans text-neutral-900 antialiased;
     text-rendering: optimizeLegibility;
     width: 100%;
     overflow-x: hidden;
@@ -55,22 +55,22 @@
 
   /* Headings */
   h1 {
-    @apply text-4xl md:text-5xl leading-tight font-extrabold;
+    @apply text-4xl leading-tight font-extrabold md:text-5xl;
   }
   h2 {
-    @apply text-3xl md:text-4xl leading-tight font-bold;
+    @apply text-3xl leading-tight font-bold md:text-4xl;
   }
   h3 {
-    @apply text-2xl md:text-3xl leading-snug font-semibold;
+    @apply text-2xl leading-snug font-semibold md:text-3xl;
   }
   h4 {
-    @apply text-xl md:text-2xl leading-snug font-semibold;
+    @apply text-xl leading-snug font-semibold md:text-2xl;
   }
   h5 {
-    @apply text-lg md:text-xl leading-snug font-semibold;
+    @apply text-lg leading-snug font-semibold md:text-xl;
   }
   h6 {
-    @apply text-base md:text-lg leading-snug font-semibold;
+    @apply text-base leading-snug font-semibold md:text-lg;
   }
 
   /* Media defaults */
@@ -78,7 +78,7 @@
   video,
   canvas,
   svg {
-    @apply max-w-full h-auto block;
+    @apply block h-auto max-w-full;
   }
 
   /* ✅ Guaranteed container behavior (works regardless of Tailwind container defaults) */
@@ -119,7 +119,7 @@
 /* Components */
 @layer components {
   .rail-control {
-    @apply inline-flex items-center justify-center gap-2 min-w-10 h-10 px-3 rounded-xl font-semibold transition-all duration-150;
+    @apply inline-flex h-10 min-w-10 items-center justify-center gap-2 rounded-xl px-3 font-semibold transition-all duration-150;
     background-color: rgba(15, 23, 42, 0.6);
     border: 1px solid rgba(148, 163, 184, 0.4);
     color: rgb(226, 232, 240);
@@ -127,22 +127,14 @@
 
   /* Grid overlay (used in your dark “faq js ile aynı” backgrounds) */
   .grid-overlay {
-    @apply absolute inset-0 pointer-events-none opacity-70;
-    background-image: radial-gradient(
-        circle at top,
-        rgba(56, 189, 248, 0.18),
-        transparent 55%
-      ),
-      radial-gradient(
-        circle at bottom,
-        rgba(59, 130, 246, 0.28),
-        transparent 55%
-      );
+    @apply pointer-events-none absolute inset-0 opacity-70;
+    background-image: radial-gradient(circle at top, rgba(56, 189, 248, 0.18), transparent 55%),
+      radial-gradient(circle at bottom, rgba(59, 130, 246, 0.28), transparent 55%);
   }
 
   /* Optional: a11y focus helper if you use .focus-ring class */
   .focus-ring {
-    @apply outline-none ring-2 ring-blue-600 ring-offset-2;
+    @apply ring-2 ring-blue-600 ring-offset-2 outline-none;
   }
 }
 
