@@ -11,13 +11,9 @@ export function useLayoutShiftProtection() {
     const element = ref.current;
     if (!element) return;
 
-    // ✅ Önceden boyut ayarla ve layout shift önle
-    const rect = element.getBoundingClientRect();
-    if (rect.height > 0) {
-      element.style.minHeight = `${rect.height}px`;
-    }
-
     // ✅ ResizeObserver ile layout değişikliklerini izle
+    // İlk ölçümü de observer üzerinden alarak layout thrash'ini önlüyoruz
+    // (getBoundingClientRect gibi senkron ölçümler zorunlu reflow tetikleyebiliyor).
     const observer = new ResizeObserver((entries) => {
       for (let entry of entries) {
         const { height } = entry.contentRect;
