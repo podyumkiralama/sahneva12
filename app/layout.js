@@ -1,14 +1,10 @@
 // app/layout.jsx
-import fs from "node:fs";
-import path from "node:path";
 import "../styles/globals.css";
 
 import SkipLinks from "@/components/SkipLinks";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-import NonCriticalStylesheet from "@/components/NonCriticalStylesheet";
-import { getCssAssetHrefs } from "@/lib/cssManifest";
 
 import { inter } from "./fonts";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
@@ -17,16 +13,6 @@ const DEFAULT_LOCALE = LOCALE_CONTENT.tr;
 const DEFAULT_LANG = "tr";
 const DEFAULT_DIR = DEFAULT_LOCALE.direction;
 
-const criticalCss = fs.readFileSync(
-  path.join(process.cwd(), "styles", "critical.css"),
-  "utf8",
-);
-
-const shouldDeferCss =
-  process.env.NODE_ENV === "production" &&
-  process.env.NEXT_PUBLIC_DEFER_MAIN_CSS !== "false";
-
-const deferredCssHrefs = shouldDeferCss ? getCssAssetHrefs() : [];
 
 /* ================== VIEWPORT ================== */
 export const viewport = {
@@ -44,43 +30,7 @@ export default function RootLayout({ children }) {
       className={`${inter.variable} font-sans`}
       suppressHydrationWarning
     >
-      <head>
-        {/* Above-the-fold critical CSS */}
-        <style
-          data-critical="above-the-fold"
-          dangerouslySetInnerHTML={{ __html: criticalCss }}
-        />
-
-        {/* Defer main CSS (only in prod unless env disables) */}
-        {shouldDeferCss ? (
-          <>
-            {/* Preload discovered CSS assets (helps warm cache) */}
-            {deferredCssHrefs.map((href) => (
-              <link
-                key={href}
-                rel="preload"
-                as="style"
-                href={href}
-                crossOrigin="anonymous"
-                data-deferred-css="true"
-                fetchPriority="high"
-              />
-            ))}
-
-            {/* No-JS fallback */}
-            <noscript
-              dangerouslySetInnerHTML={{
-                __html: deferredCssHrefs
-                  .map((href) => `<link rel="stylesheet" href="${href}" />`)
-                  .join(""),
-              }}
-            />
-
-            {/* Single source of truth: one script to switch /_next/static/css/ links non-blocking */}
-            <NonCriticalStylesheet hrefs={deferredCssHrefs} />
-          </>
-        ) : null}
-      </head>
+      <head />
 
       <body className="min-h-screen bg-white text-neutral-900 antialiased flex flex-col font-sans">
         <SkipLinks />

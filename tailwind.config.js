@@ -37,12 +37,6 @@ const config = {
       },
     },
   },
-
-  plugins: [
-    require("@tailwindcss/line-clamp"),
-    require("@tailwindcss/typography"),
-    require("@tailwindcss/forms"), // ⭐ Formlar için ekledik
-  ],
 };
 
 export default config;
