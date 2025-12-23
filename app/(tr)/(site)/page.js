@@ -1,17 +1,7 @@
 // app/(tr)/(site)/page.js
 
 import HeroSection from "@/components/HeroSection";
-import dynamic from "next/dynamic";
-
-const HeroBelow = dynamic(() => import("@/components/HeroBelow"), {
-  ssr: true,
-  loading: () => (
-    <div
-      className="w-full h-80 bg-slate-950 border-t border-white/5"
-      aria-hidden="true"
-    />
-  ),
-});
+import HeroBelow from "@/components/HeroBelow";
 
 import {
   ServicesTabsDeferred,
