@@ -1,5 +1,4 @@
 // components/HeroSection.js
-import Image from "next/image";
 import heroImg from "@/public/img/hero-bg.webp";
 
 const HERO_KEYWORDS = [
@@ -83,15 +82,11 @@ function CTAGroup() {
 function HeroBackgroundImage() {
   // Dekoratif arka plan: SR için alt boş + aria-hidden
   return (
-    <Image
-      src={heroImg}
+    <img
+      src={heroImg.src}
       alt=""
-      fill
-      priority
       fetchPriority="high"
-      sizes="100vw"
-      quality={50}
-      placeholder="empty"
+      loading="eager"
       className="absolute inset-0 h-full w-full object-cover object-center"
       aria-hidden="true"
     />
