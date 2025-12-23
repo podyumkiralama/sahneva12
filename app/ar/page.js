@@ -1,4 +1,4 @@
-import { getImageProps } from "next/image";
+import Image from "next/image";
 
 import heroImg from "@/public/img/hero-bg.webp";
 import CorporateEvents from "@/components/CorporateEvents";
@@ -569,29 +569,18 @@ function StructuredData() {
 }
 
 function HeroBackgroundImage({ alt = HERO_IMAGE_ALT_AR, ariaHidden = false }) {
-  const { props } = getImageProps({
-    alt,
-    src: heroImg,
-    sizes: "100vw",
-
-    // Avoid Next.js <link rel="preload"> during route prefetches (causes console warnings)
-    // while still keeping the hero image eagerly loaded on actual visits.
-    fetchPriority: "high",
-    placeholder: "blur",
-    quality: 70,
-    className: "absolute inset-0 h-full w-full object-cover object-center",
-    style: {
-      filter: "brightness(0.7) contrast(1.1) saturate(1.05)",
-    },
-  });
-
-  const { fetchPriority, alt: imageAlt, ...rest } = props;
-
   return (
-    <img
-      {...rest}
-      alt={ariaHidden ? "" : imageAlt || alt}
-      fetchPriority={fetchPriority}
+    <Image
+      src={heroImg}
+      alt={ariaHidden ? "" : alt}
+      fill
+      priority
+      fetchPriority="high"
+      sizes="100vw"
+      placeholder="blur"
+      quality={70}
+      className="absolute inset-0 h-full w-full object-cover object-center"
+      style={{ filter: "brightness(0.7) contrast(1.1) saturate(1.05)" }}
       aria-hidden={ariaHidden}
     />
   );
