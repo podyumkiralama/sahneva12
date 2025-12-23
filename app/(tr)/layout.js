@@ -86,6 +86,8 @@ const globalJsonLd = {
   ],
 };
 
+const globalJsonLdSafe = JSON.stringify(globalJsonLd).replace(/</g, "\\u003c");
+
 export const metadata = {
   title: {
     default: HOME_PAGE_TITLE,
@@ -99,8 +101,6 @@ export const metadata = {
 };
 
 export default function TurkishLayout({ children }) {
-  const globalJsonLdSafe = JSON.stringify(globalJsonLd).replace(/</g, "\\u003c");
-
   return (
     <>
       <script
