@@ -139,35 +139,86 @@ export default function Navbar(props) {
                   </span>
                 </summary>
 
+                {/*
+                  Desktop mega menu
+                  - fixed panel: viewport'a göre hizalanır, sağa taşmaz
+                  - main zaten pt-16/lg:pt-20 verdiği için navbar altında ekstra "spacer" yok
+                */}
                 <div
                   role="menu"
                   aria-label="Hizmetler menüsü"
-                  className="absolute left-0 top-full mt-3 w-[min(880px,calc(100vw-2rem))] rounded-3xl border border-neutral-200 bg-white shadow-2xl overflow-hidden"
+                  className="hidden group-open:block fixed inset-x-0 top-16 lg:top-20 z-[70]"
                 >
-                  <div className="grid gap-4 p-6 md:grid-cols-2">
-                    {SERVICE_LINKS.map((s) => (
-                      <Link
-                        key={s.href}
-                        href={s.href}
-                        className={`group flex items-start gap-3 rounded-xl px-5 py-3.5 text-sm text-neutral-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 ${FOCUS_RING_CLASS}`}
-                        role="menuitem"
-                      >
-                        <span className="mt-0.5 text-lg opacity-80 group-hover:opacity-100" aria-hidden="true">
-                          {s.icon}
-                        </span>
-                        <div className="min-w-0 flex-1">
-                          <div className="font-extrabold text-neutral-900 group-hover:text-blue-700">
-                            {s.label}
+                  <div className="container">
+                    <div className="rounded-3xl border border-neutral-200 bg-white shadow-2xl overflow-hidden">
+                      <div className="grid gap-6 p-6 lg:grid-cols-[360px_1fr] items-stretch">
+                        {/* Sol görsel alanı yerine güvenli gradient + grid (asset bağımlılığı yok) */}
+                        <Link
+                          href="/hizmetler"
+                          className={`group relative overflow-hidden rounded-2xl border border-neutral-200 ${FOCUS_RING_CLASS}`}
+                        >
+                          <div className="relative min-h-[360px] h-full bg-[#0B1120]">
+                            <div className="grid-overlay" aria-hidden="true" />
+                            <div
+                              className="absolute inset-0 opacity-70"
+                              aria-hidden="true"
+                              style={{
+                                background:
+                                  "radial-gradient(circle at 20% 10%, rgba(56, 189, 248, 0.20), transparent 55%), radial-gradient(circle at 80% 90%, rgba(59, 130, 246, 0.30), transparent 55%)",
+                              }}
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                            <div className="relative z-10 p-5">
+                              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-bold text-white ring-1 ring-white/20">
+                                Sahneva Organizasyon
+                              </div>
+                              <div className="mt-3 text-3xl font-black tracking-tight text-white">
+                                Hizmetler
+                              </div>
+                              <p className="mt-2 text-sm font-medium text-white/85">
+                                Sahne, podyum, LED ekran, ses-ışık ve daha fazlası.
+                              </p>
+                              <div className="mt-4 inline-flex items-center gap-2 text-sm font-extrabold text-white">
+                                Tümünü gör <span aria-hidden="true">›</span>
+                              </div>
+                            </div>
                           </div>
-                          <div className="mt-0.5 text-xs font-medium text-neutral-600">
-                            {s.description}
-                          </div>
+                        </Link>
+
+                        {/* Link list */}
+                        <div className="grid gap-4 md:grid-cols-2">
+                          {SERVICE_LINKS.map((s) => (
+                            <Link
+                              key={s.href}
+                              href={s.href}
+                              className={`group flex items-start gap-3 rounded-xl px-5 py-3.5 text-sm text-neutral-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 ${FOCUS_RING_CLASS}`}
+                              role="menuitem"
+                            >
+                              <span
+                                className="mt-0.5 text-lg opacity-80 group-hover:opacity-100"
+                                aria-hidden="true"
+                              >
+                                {s.icon}
+                              </span>
+                              <div className="min-w-0 flex-1">
+                                <div className="font-extrabold text-neutral-900 group-hover:text-blue-700">
+                                  {s.label}
+                                </div>
+                                <div className="mt-0.5 text-xs font-medium text-neutral-600">
+                                  {s.description}
+                                </div>
+                              </div>
+                              <span
+                                className="ml-2 text-neutral-400 group-hover:text-blue-600"
+                                aria-hidden="true"
+                              >
+                                ›
+                              </span>
+                            </Link>
+                          ))}
                         </div>
-                        <span className="ml-2 text-neutral-400 group-hover:text-blue-600" aria-hidden="true">
-                          ›
-                        </span>
-                      </Link>
-                    ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </details>
@@ -197,8 +248,10 @@ export default function Navbar(props) {
         </div>
       </nav>
 
-      {/* Spacer to keep layout stable under fixed nav */}
-      <div className="h-16 lg:h-20" aria-hidden="true" />
+      {/*
+        NOT: Layout zaten <main className="pt-16 lg:pt-20"> verdiği için burada ekstra spacer kullanmıyoruz.
+        Aksi halde sayfa ile navbar arasında çift boşluk oluşur.
+      */}
     </>
   );
 }
