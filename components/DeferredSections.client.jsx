@@ -2,7 +2,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 // Dinamik componentler
 const ServicesTabs = dynamic(() => import("./ServicesTabs"), { ssr: false });
@@ -22,9 +22,21 @@ const visibilityStyle = (minHeightPx) => ({
 const servicesContainSize = "1px 900px";
 
 // Lazy-load görünürlük hook'u
-function useDeferredVisible(options) {
+function useDeferredVisible({
+  rootMargin = "0px 0px",
+  threshold = 0,
+  idleTimeout,
+}) {
   const [visible, setVisible] = useState(false);
   const ref = useRef(null);
+
+  const observerOptions = useMemo(
+    () => ({
+      rootMargin,
+      threshold,
+    }),
+    [rootMargin, threshold],
+  );
 
   useEffect(() => {
     if (visible) return;
@@ -45,21 +57,39 @@ function useDeferredVisible(options) {
         setVisible(true);
         observer.disconnect();
       }
-    }, options);
+    }, observerOptions);
 
     observer.observe(el);
-    return () => observer.disconnect();
-  }, [visible, options]);
+    let idleTimer;
+
+    if (typeof idleTimeout === "number" && idleTimeout > 0) {
+      idleTimer = window.setTimeout(() => {
+        setVisible(true);
+        observer.disconnect();
+      }, idleTimeout);
+    }
+
+    return () => {
+      observer.disconnect();
+      if (idleTimer) window.clearTimeout(idleTimer);
+    };
+  }, [visible, observerOptions, idleTimeout]);
 
   return [ref, visible];
 }
 
 /* ───────────────── ServicesTabs (temiz wrapper) ───────────────── */
 
-export function ServicesTabsDeferred(props) {
+export function ServicesTabsDeferred({
+  rootMargin = "200px 0px",
+  threshold = 0.1,
+  idleTimeout,
+  ...props
+}) {
   const [ref, visible] = useDeferredVisible({
-    rootMargin: "200px 0px",
-    threshold: 0.1,
+    rootMargin,
+    threshold,
+    idleTimeout,
   });
   const style = {
     contentVisibility: "auto",
@@ -83,10 +113,16 @@ export function ServicesTabsDeferred(props) {
 
 /* ───────────────── ProjectsGallery (temiz wrapper) ───────────────── */
 
-export function ProjectsGalleryDeferred(props) {
+export function ProjectsGalleryDeferred({
+  rootMargin = "400px 0px",
+  threshold = 0.05,
+  idleTimeout,
+  ...props
+}) {
   const [ref, visible] = useDeferredVisible({
-    rootMargin: "400px 0px",
-    threshold: 0.05,
+    rootMargin,
+    threshold,
+    idleTimeout,
   });
   const style = visibilityStyle(320);
 
@@ -107,10 +143,16 @@ export function ProjectsGalleryDeferred(props) {
 
 /* ───────────────── FAQ (temiz wrapper) ───────────────── */
 
-export function FaqDeferred(props) {
+export function FaqDeferred({
+  rootMargin = "200px 0px",
+  threshold = 0.1,
+  idleTimeout,
+  ...props
+}) {
   const [ref, visible] = useDeferredVisible({
-    rootMargin: "200px 0px",
-    threshold: 0.1,
+    rootMargin,
+    threshold,
+    idleTimeout,
   });
   const style = visibilityStyle(780);
 
@@ -131,10 +173,16 @@ export function FaqDeferred(props) {
 
 /* ───────────────── Corporate Events (temiz wrapper) ───────────────── */
 
-export function CorporateEventsDeferred(props) {
+export function CorporateEventsDeferred({
+  rootMargin = "200px 0px",
+  threshold = 0.1,
+  idleTimeout,
+  ...props
+}) {
   const [ref, visible] = useDeferredVisible({
-    rootMargin: "200px 0px",
-    threshold: 0.1,
+    rootMargin,
+    threshold,
+    idleTimeout,
   });
   const style = visibilityStyle(320);
 
@@ -155,10 +203,16 @@ export function CorporateEventsDeferred(props) {
 
 /* ───────────────── Corporate Intro (temiz wrapper) ───────────────── */
 
-export function CorporateIntroDeferred(props) {
+export function CorporateIntroDeferred({
+  rootMargin = "200px 0px",
+  threshold = 0.1,
+  idleTimeout,
+  ...props
+}) {
   const [ref, visible] = useDeferredVisible({
-    rootMargin: "200px 0px",
-    threshold: 0.1,
+    rootMargin,
+    threshold,
+    idleTimeout,
   });
   const style = visibilityStyle(240);
 
@@ -179,10 +233,16 @@ export function CorporateIntroDeferred(props) {
 
 /* ───────────────── Tech Capabilities (temiz wrapper) ───────────────── */
 
-export function TechCapabilitiesDeferred(props) {
+export function TechCapabilitiesDeferred({
+  rootMargin = "200px 0px",
+  threshold = 0.1,
+  idleTimeout,
+  ...props
+}) {
   const [ref, visible] = useDeferredVisible({
-    rootMargin: "200px 0px",
-    threshold: 0.1,
+    rootMargin,
+    threshold,
+    idleTimeout,
   });
   const style = visibilityStyle(360);
 
@@ -203,10 +263,16 @@ export function TechCapabilitiesDeferred(props) {
 
 /* ───────────────── Why Choose Us (temiz wrapper) ───────────────── */
 
-export function WhyChooseUsDeferred(props) {
+export function WhyChooseUsDeferred({
+  rootMargin = "200px 0px",
+  threshold = 0.1,
+  idleTimeout,
+  ...props
+}) {
   const [ref, visible] = useDeferredVisible({
-    rootMargin: "200px 0px",
-    threshold: 0.1,
+    rootMargin,
+    threshold,
+    idleTimeout,
   });
   const style = visibilityStyle(320);
 

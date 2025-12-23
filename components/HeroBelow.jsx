@@ -1,7 +1,4 @@
-"use client";
-
 // components/HeroBelow.jsx
-import { ScrollReveal } from "@/components/ScrollReveal";
 import { HERO_FEATURES_TR } from "@/lib/heroFeatures";
 
 const PROCESS_STEPS = [
@@ -28,27 +25,22 @@ function HeroFeatureGrid() {
       className="grid grid-cols-1 md:grid-cols-3 gap-5 list-none p-0 m-0"
       aria-label="Öne çıkan hizmet avantajları"
     >
-      {HERO_FEATURES_TR.map((item, index) => (
+      {HERO_FEATURES_TR.map((item) => (
         <li key={item.title} className="flex h-full">
-          {/* ✅ delay: number + daha güvenli stagger */}
-          <ScrollReveal asChild delay={index * 0.1} direction="up">
-            <article className="w-full flex flex-col items-start bg-slate-900/60 backdrop-blur-sm rounded-xl p-6 border border-white/10 shadow-lg hover:bg-slate-800/60 transition-colors duration-300">
-              <div
-                className={`text-3xl mb-4 p-3 rounded-lg bg-white/5 ${item.color}`}
-                aria-hidden="true"
-              >
-                {item.icon}
-              </div>
+          <article className="w-full flex flex-col items-start bg-slate-900/60 backdrop-blur-sm rounded-xl p-6 border border-white/10 shadow-lg hover:bg-slate-800/60 transition-colors duration-300">
+            <div
+              className={`text-3xl mb-4 p-3 rounded-lg bg-white/5 ${item.color}`}
+              aria-hidden="true"
+            >
+              {item.icon}
+            </div>
 
-              <h3 className="text-white font-bold text-lg mb-2">
-                {item.title}
-              </h3>
+            <h3 className="text-white font-bold text-lg mb-2">{item.title}</h3>
 
-              <p className="text-gray-300 text-sm leading-relaxed">
-                {item.description}
-              </p>
-            </article>
-          </ScrollReveal>
+            <p className="text-gray-300 text-sm leading-relaxed">
+              {item.description}
+            </p>
+          </article>
         </li>
       ))}
     </ul>
@@ -110,16 +102,17 @@ function ConsultationCard() {
 function ProcessList() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4" aria-label="Proje akış adımları">
-      {PROCESS_STEPS.map((step, idx) => (
-        <ScrollReveal key={step.title} asChild delay={0.1 * idx} direction="up">
-          <article className="relative h-full rounded-2xl border border-white/10 bg-slate-900/60 p-5 backdrop-blur-sm shadow-md">
-            <div className="absolute -top-3 left-4 inline-flex items-center justify-center rounded-full bg-white text-blue-900 font-bold w-8 h-8 shadow-lg">
-              {step.badge}
-            </div>
-            <h3 className="text-white font-semibold text-lg mt-2 mb-2">{step.title}</h3>
-            <p className="text-slate-200/80 text-sm leading-relaxed">{step.desc}</p>
-          </article>
-        </ScrollReveal>
+      {PROCESS_STEPS.map((step) => (
+        <article
+          key={step.title}
+          className="relative h-full rounded-2xl border border-white/10 bg-slate-900/60 p-5 backdrop-blur-sm shadow-md"
+        >
+          <div className="absolute -top-3 left-4 inline-flex items-center justify-center rounded-full bg-white text-blue-900 font-bold w-8 h-8 shadow-lg">
+            {step.badge}
+          </div>
+          <h3 className="text-white font-semibold text-lg mt-2 mb-2">{step.title}</h3>
+          <p className="text-slate-200/80 text-sm leading-relaxed">{step.desc}</p>
+        </article>
       ))}
     </div>
   );
@@ -151,9 +144,7 @@ export default function HeroBelow() {
 
         <HeroFeatureGrid />
 
-        <ScrollReveal delay={0.2} direction="up">
-          <ConsultationCard />
-        </ScrollReveal>
+        <ConsultationCard />
 
         <ProcessList />
       </div>
