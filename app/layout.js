@@ -6,25 +6,23 @@ import NewTabAccessibility from "@/components/NewTabAccessibility.client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-import { Inter } from "next/font/google";
+
+import { inter } from "./fonts";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 
 const DEFAULT_LOCALE = LOCALE_CONTENT.tr;
 const DEFAULT_LANG = "tr";
 const DEFAULT_DIR = DEFAULT_LOCALE.direction;
 
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-});
 
+/* ================== VIEWPORT ================== */
 export const viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: "#6d28d9",
 };
 
+/* ================== ROOT LAYOUT ================== */
 export default function RootLayout({ children }) {
   return (
     <html
@@ -34,6 +32,7 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
     >
       <head />
+
       <body className="min-h-screen bg-white text-neutral-900 antialiased flex flex-col font-sans">
         <SkipLinks />
         <NewTabAccessibility />
