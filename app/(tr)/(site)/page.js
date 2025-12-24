@@ -537,7 +537,7 @@ export default function HomePage() {
       </section>
       <div className="w-full p-0 m-0">
         <WhyChooseUsDeferred />
-      </div>
+      </section>
 
       {/* 10) SSS */}
       <section id="sss" aria-labelledby="sss-title">
@@ -557,7 +557,7 @@ export default function HomePage() {
       </section>
       <div className="w-full bg-transparent p-0 m-0">
         <FaqDeferred />
-      </div>
+      </section>
     </div>
   );
 }
