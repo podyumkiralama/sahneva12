@@ -38,13 +38,13 @@ const SERVICE_LINKS = [
     href: "/kurumsal-organizasyon",
     label: "Kurumsal Organizasyon",
     icon: "🏢",
-    description: "Kurumsal etkinlik planlama ve uçtan uca organizasyon yönetimi",
+    description: "Kurumsal etkinlik organizasyonu ve uçtan uca yönetim",
   },
   {
     href: "/ses-isik-sistemleri",
-    label: "Ses & Işık Sistemleri",
+    label: "Ses Işık Sistemleri",
     icon: "🎭",
-    description: "Konser kalitesinde ses ve ışık ekipmanları",
+    description: "Konser kalitesinde ses ışık sistemleri",
   },
   {
     href: "/truss-kiralama",
@@ -62,7 +62,7 @@ const SERVICE_LINKS = [
     href: "/masa-sandalye-kiralama",
     label: "Masa Sandalye Kiralama",
     icon: "🪑",
-    description: "Toplantı ve davetler için masa sandalye",
+    description: "Toplantı ve davetler için masa sandalye kiralama",
   },
 ];
 

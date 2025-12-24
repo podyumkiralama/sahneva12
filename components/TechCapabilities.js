@@ -26,10 +26,10 @@ const DEFAULT_DICTIONARY = {
   sectionTitleHighlight: " 1 Numaralı",
   sectionTitleSuffix: " Etkinlik Teknoloji Partneri",
   sectionDescription:
-    "Premium LED ekran teknolojisi, güçlü ses sistemleri ve güvenilir altyapı çözümleriyle kurumsal etkinliklerin tüm ihtiyaçlarını tek çatı altında topluyoruz.",
+    "LED ekran kiralama teknolojisi, ses ışık sistemleri ve güvenilir altyapı çözümleriyle kurumsal organizasyon ihtiyaçlarını tek çatı altında topluyoruz.",
   card1Title: "Teknik Çözümler",
   card1Desc:
-    "projelerinize özel sahne, ışık, LED ekran, görüntü ve yayın çözümlerini tek çatı altında sunuyoruz.",
+    "projelerinize özel sahne kurulumu, LED ekran kiralama, görüntü ve yayın çözümlerini tek çatı altında sunuyoruz.",
   card2Title: "Büyük Kapasite ve Altyapı",
   card2Desc:
     "farklı ölçeklerdeki etkinlikler için Türkiye genelinde lojistik, kurulum ve operasyon desteği sağlıyoruz.",

@@ -22,12 +22,12 @@ const PROCESS_STEPS = [
 function HeroFeatureGrid() {
   return (
     <ul
-      className="grid grid-cols-1 md:grid-cols-3 gap-5 list-none p-0 m-0"
+      className="grid grid-cols-1 md:grid-cols-3 gap-5 auto-rows-fr items-stretch list-none p-0 m-0"
       aria-label="Öne çıkan hizmet avantajları"
     >
       {HERO_FEATURES_TR.map((item) => (
-        <li key={item.title} className="flex h-full">
-          <article className="w-full flex flex-col items-start bg-slate-900/60 backdrop-blur-sm rounded-xl p-6 border border-white/10 shadow-lg hover:bg-slate-800/60 transition-colors duration-300">
+        <li key={item.title} className="flex min-w-0">
+          <article className="w-full h-full flex flex-col items-start bg-slate-900/60 backdrop-blur-sm rounded-xl p-6 border border-white/10 shadow-lg hover:bg-slate-800/60 transition-colors duration-300">
             <div
               className={`text-3xl mb-4 p-3 rounded-lg bg-white/5 ${item.color}`}
               aria-hidden="true"
@@ -72,9 +72,9 @@ function ConsultationCard() {
             <p className="text-slate-200 text-base leading-relaxed max-w-2xl">
               Etkinliğiniz için{" "}
               <span className="text-white font-semibold">
-                en doğru sahne çözümlerini
+                en doğru sahne ve podyum kiralama planını
               </span>{" "}
-              ve bütçenize uygun LED ekran seçeneklerini ücretsiz planlayalım.
+              ve bütçenize uygun LED ekran kiralama seçeneklerini ücretsiz planlayalım.
               <span className="block mt-1 text-yellow-300 font-medium">
                 ⚡ 2 saat içinde detaylı teklif garantisi.
               </span>
@@ -135,10 +135,10 @@ export default function HeroBelow() {
             Süreç & Güvence
           </p>
           <h3 className="text-2xl md:text-3xl font-black text-white leading-tight">
-            Kurulumdan canlı yönetimine kadar tek ekip, tek zaman çizelgesi
+            Kurulum-sökümden canlı yönetimine kadar tek ekip, tek zaman çizelgesi
           </h3>
           <p className="text-slate-200/80 text-base md:text-lg leading-relaxed max-w-3xl">
-            Sahneva ekibi keşif, statik hesap, LED içerik hazırlığı ve sahne üstü operasyonu aynı çatı altında toparlar; bu da hem hız hem de hatasız teslimat sağlar.
+            Sahneva ekibi keşif, statik hesap, LED içerik hazırlığı, truss kiralama ve sahne üstü operasyonu aynı çatı altında toparlar; bu da hem hız hem de hatasız teslimat sağlar.
           </p>
         </div>
 
