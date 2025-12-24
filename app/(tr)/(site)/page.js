@@ -448,14 +448,11 @@ export default function HomePage() {
         <a className="reader-only" href="/projeler">
           Projeleri inceleyin
         </a>
-        <ProjectsGalleryDeferred rootMargin="0px 0px" />
       </section>
+      <ProjectsGalleryDeferred rootMargin="0px 0px" />
 
       {/* 5) TECH CAPABILITIES (below-the-fold) */}
-      <section
-        className="bg-slate-900 py-10"
-        aria-labelledby="teknik-kabiliyetler-title"
-      >
+      <section aria-labelledby="teknik-kabiliyetler-title">
         <h2 id="teknik-kabiliyetler-title" className="reader-only">
           Teknik Kabiliyetler
         </h2>
@@ -469,18 +466,20 @@ export default function HomePage() {
         <a className="reader-only" href="/ses-isik-sistemleri">
           Ses ve ışık sistemleri hakkında bilgi alın
         </a>
+      </section>
+      <div className="bg-slate-900 py-10">
         <div style={BELOW_THE_FOLD_VISIBILITY_STYLE}>
           <TechCapabilitiesDeferred
             techFeatures={SEO_TECH_FEATURES}
             infraFeatures={SEO_INFRA_FEATURES}
           />
         </div>
-      </section>
+      </div>
 
       {/* 6) KURUMSAL ORGANİZASYON */}
       <section
-        className="bg-slate-50 py-0 m-0 w-full"
         aria-labelledby="kurumsal-etkinlikler-title"
+        className="bg-slate-50 py-0 m-0 w-full"
       >
         <h2 id="kurumsal-etkinlikler-title" className="reader-only">
           Kurumsal Etkinlik Çözümleri
@@ -499,10 +498,7 @@ export default function HomePage() {
       </section>
 
       {/* 7) KURUMSAL INTRO (below-the-fold) */}
-      <section
-        className="bg-black py-0 m-0 w-full"
-        aria-labelledby="kurumsal-intro-title"
-      >
+      <section aria-labelledby="kurumsal-intro-title">
         <h2 id="kurumsal-intro-title" className="reader-only">
           Kurumsal Profil
         </h2>
@@ -516,13 +512,18 @@ export default function HomePage() {
         <a className="reader-only" href="/hakkimizda">
           Sahneva hakkında daha fazla bilgi
         </a>
+      </section>
+      <div className="bg-black py-0 m-0 w-full">
         <div style={BELOW_THE_FOLD_VISIBILITY_STYLE}>
           <CorporateIntroDeferred />
         </div>
-      </section>
+      </div>
 
       {/* 8) WHY CHOOSE US */}
-      <section className="w-full p-0 m-0" aria-labelledby="neden-sahneva-title">
+      <section
+        aria-labelledby="neden-sahneva-title"
+        className="w-full p-0 m-0"
+      >
         <h2 id="neden-sahneva-title" className="reader-only">
           Neden Sahneva
         </h2>
@@ -542,8 +543,8 @@ export default function HomePage() {
       {/* 10) SSS */}
       <section
         id="sss"
-        className="w-full bg-transparent p-0 m-0"
         aria-labelledby="sss-title"
+        className="w-full bg-transparent p-0 m-0"
       >
         <h2 id="sss-title" className="reader-only">
           Sık Sorulan Sorular
