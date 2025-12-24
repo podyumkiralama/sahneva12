@@ -155,7 +155,7 @@ export default function Footer({
       {/* Dekoratif arka plan efektleri */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         {/* Grid overlay */}
-        <div className="absolute inset-0 opacity-40">
+        <div className="absolute inset-0 opacity-60">
           <div
             className="grid-overlay"
             style={{
@@ -185,7 +185,7 @@ export default function Footer({
       ) : null}
 
       {/* Üst grid */}
-      <div className="relative z-10 container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 xl:gap-10 pt-16 pb-14 px-6">
+      <div className="relative z-10 container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 items-start gap-8 xl:gap-10 pt-16 pb-14 px-6">
         {/* 1. SÜTUN: Marka & Sosyal */}
         <section
           aria-labelledby="ft-brand"
@@ -193,7 +193,7 @@ export default function Footer({
         >
           <div
             className="
-              h-full rounded-3xl border border-white/10 bg-white/5/5 
+              rounded-3xl border border-white/10 bg-white/5/5 
               bg-gradient-to-br from-white/5 via-white/0 to-white/0 
               backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.8)]
               p-6 md:p-7 flex flex-col gap-6
@@ -266,7 +266,7 @@ export default function Footer({
         >
           <div
             className="
-              h-full rounded-3xl border border-white/10 bg-white/5/5 
+              rounded-3xl border border-white/10 bg-white/5/5 
               bg-gradient-to-br from-blue-600/10 via-slate-900/40 to-slate-900/60
               backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.85)]
               p-6 md:p-7
@@ -302,7 +302,7 @@ export default function Footer({
         >
           <div
             className="
-              h-full rounded-3xl border border-white/10 bg-white/5/5 
+              rounded-3xl border border-white/10 bg-white/5/5 
               bg-gradient-to-br from-purple-600/15 via-slate-900/40 to-slate-900/60
               backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.85)]
               p-6 md:p-7
@@ -338,7 +338,7 @@ export default function Footer({
         >
           <div
             className="
-              h-full rounded-3xl border border-white/10 bg-white/5/5 
+              rounded-3xl border border-white/10 bg-white/5/5 
               bg-gradient-to-br from-cyan-500/15 via-slate-900/40 to-slate-900/60
               backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.85)]
               p-6 md:p-7

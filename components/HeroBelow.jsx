@@ -22,12 +22,12 @@ const PROCESS_STEPS = [
 function HeroFeatureGrid() {
   return (
     <ul
-      className="grid grid-cols-1 md:grid-cols-3 gap-5 list-none p-0 m-0"
+      className="grid grid-cols-1 md:grid-cols-3 gap-5 auto-rows-fr items-stretch list-none p-0 m-0"
       aria-label="Öne çıkan hizmet avantajları"
     >
       {HERO_FEATURES_TR.map((item) => (
-        <li key={item.title} className="flex h-full">
-          <article className="w-full flex flex-col items-start bg-slate-900/60 backdrop-blur-sm rounded-xl p-6 border border-white/10 shadow-lg hover:bg-slate-800/60 transition-colors duration-300">
+        <li key={item.title} className="flex min-w-0">
+          <article className="w-full h-full flex flex-col items-start bg-slate-900/60 backdrop-blur-sm rounded-xl p-6 border border-white/10 shadow-lg hover:bg-slate-800/60 transition-colors duration-300">
             <div
               className={`text-3xl mb-4 p-3 rounded-lg bg-white/5 ${item.color}`}
               aria-hidden="true"
