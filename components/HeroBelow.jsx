@@ -22,12 +22,12 @@ const PROCESS_STEPS = [
 function HeroFeatureGrid() {
   return (
     <ul
-      className="grid grid-cols-1 md:grid-cols-3 gap-5 list-none p-0 m-0"
+      className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-fr items-stretch list-none p-0 m-0"
       aria-label="Öne çıkan hizmet avantajları"
     >
       {HERO_FEATURES_TR.map((item) => (
-        <li key={item.title} className="flex h-full">
-          <article className="w-full flex flex-col items-start bg-slate-900/60 backdrop-blur-sm rounded-xl p-6 border border-white/10 shadow-lg hover:bg-slate-800/60 transition-colors duration-300">
+        <li key={item.title} className="flex min-w-0">
+          <article className="w-full h-full flex flex-col items-start bg-slate-900/60 backdrop-blur-sm rounded-xl p-5 border border-white/10 shadow-lg hover:bg-slate-800/60 transition-colors duration-300">
             <div
               className={`text-3xl mb-4 p-3 rounded-lg bg-white/5 ${item.color}`}
               aria-hidden="true"
@@ -53,7 +53,7 @@ function ConsultationCard() {
       {/* Dekoratif glow */}
       <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-white/10 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="bg-slate-950/30 rounded-xl p-6 md:p-8 backdrop-blur-sm h-full">
+      <div className="bg-slate-950/30 rounded-xl p-5 md:p-7 backdrop-blur-sm h-full">
         <div className="flex flex-col md:flex-row items-center gap-6">
           <div className="flex-shrink-0">
             <div
@@ -72,9 +72,9 @@ function ConsultationCard() {
             <p className="text-slate-200 text-base leading-relaxed max-w-2xl">
               Etkinliğiniz için{" "}
               <span className="text-white font-semibold">
-                en doğru sahne çözümlerini
+                en doğru sahne ve podyum kiralama planını
               </span>{" "}
-              ve bütçenize uygun LED ekran seçeneklerini ücretsiz planlayalım.
+              ve bütçenize uygun LED ekran kiralama seçeneklerini ücretsiz planlayalım.
               <span className="block mt-1 text-yellow-300 font-medium">
                 ⚡ 2 saat içinde detaylı teklif garantisi.
               </span>
@@ -101,11 +101,11 @@ function ConsultationCard() {
 
 function ProcessList() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4" aria-label="Proje akış adımları">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-3" aria-label="Proje akış adımları">
       {PROCESS_STEPS.map((step) => (
         <article
           key={step.title}
-          className="relative h-full rounded-2xl border border-white/10 bg-slate-900/60 p-5 backdrop-blur-sm shadow-md"
+          className="relative h-full rounded-2xl border border-white/10 bg-slate-900/60 p-4 backdrop-blur-sm shadow-md"
         >
           <div className="absolute -top-3 left-4 inline-flex items-center justify-center rounded-full bg-white text-blue-900 font-bold w-8 h-8 shadow-lg">
             {step.badge}
@@ -121,30 +121,34 @@ function ProcessList() {
 export default function HeroBelow() {
   return (
     <section
-      className="home-section home-section--surface relative overflow-hidden bg-slate-950"
+      className="home-section home-section--surface relative overflow-hidden bg-slate-950 mt-6 md:mt-8 py-10 md:py-12"
       aria-labelledby="hero-supporting-title"
     >
       <h2 id="hero-supporting-title" className="sr-only">
         Sahne Kiralama Hizmet Özellikleri ve Danışmanlık
       </h2>
 
-      <div className="home-container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 space-y-12">
-        <div className="max-w-3xl space-y-3">
+      <div className="home-container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="max-w-3xl space-y-2">
           <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-blue-200/80 bg-white/5 border border-white/10 px-3 py-1 rounded-full">
             <span className="w-2 h-2 rounded-full bg-emerald-300 animate-pulse" aria-hidden="true" />
             Süreç & Güvence
           </p>
           <h3 className="text-2xl md:text-3xl font-black text-white leading-tight">
-            Kurulumdan canlı yönetimine kadar tek ekip, tek zaman çizelgesi
+            Kurulum-sökümden canlı yönetimine kadar tek ekip, tek zaman çizelgesi
           </h3>
           <p className="text-slate-200/80 text-base md:text-lg leading-relaxed max-w-3xl">
-            Sahneva ekibi keşif, statik hesap, LED içerik hazırlığı ve sahne üstü operasyonu aynı çatı altında toparlar; bu da hem hız hem de hatasız teslimat sağlar.
+            Sahneva ekibi keşif, statik hesap, LED içerik hazırlığı, truss kiralama ve sahne üstü operasyonu aynı çatı altında toparlar; bu da hem hız hem de hatasız teslimat sağlar.
           </p>
         </div>
 
-        <HeroFeatureGrid />
+        <div className="relative z-10">
+          <HeroFeatureGrid />
+        </div>
 
-        <ConsultationCard />
+        <div className="relative z-0 mt-4">
+          <ConsultationCard />
+        </div>
 
         <ProcessList />
       </div>
