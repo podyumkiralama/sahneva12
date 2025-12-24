@@ -51,19 +51,19 @@ export const metadata = {
   image: FEATURED_IMAGE,
 
   openGraph: {
-    title: "2026 LED Ekran Teknolojisi Trendleri ve Etkinlik Tasarımı",
+    title: "2026 LED Ekran Teknolojisi Trendleri ve Etkinlik Tasarımı | Sahneva Organizasyon",
     description:
       "COB LED paneller, 2.0 nesil sürücüler ve HDR içerik üretimi ile 2026’da etkinlik sahneleri nasıl dönüşüyor?",
     url: BLOG_URL,
     type: "article",
     locale: "tr_TR",
-    siteName: "Sahneva",
+    siteName: "Sahneva Organizasyon",
     images: [
       {
-        url: `${SITE_URL}${FEATURED_IMAGE}`,
+        url: `${SITE_URL}/img/og/sahneva-og.webp`,
         width: 1200,
         height: 630,
-        alt: "Geniş sahnede 2026 LED ekran teknolojilerini temsil eden kurumsal etkinlik",
+        alt: "Sahneva Organizasyon blog görseli",
       },
     ],
   },
@@ -72,7 +72,7 @@ export const metadata = {
     title: "2026 LED Ekran Teknolojisi Trendleri",
     description:
       "COB LED, ince piksel aralığı ve HDR içerik ile sahne tasarımında yeni dönem.",
-    images: [`${SITE_URL}${FEATURED_IMAGE}`],
+    images: [`${SITE_URL}/img/og/sahneva-og.webp`],
   },
   keywords: [
     "LED ekran trendleri 2026",

@@ -21,19 +21,19 @@ export const metadata = {
   },
   image: "/img/blog/kurumsal-etkinlik-hero.webp",
   openGraph: {
-    title: "Kurumsal Etkinlik Yönetimi: Teknik Kiralama Rehberi",
+    title: "Kurumsal Etkinlik Yönetimi: Teknik Kiralama Rehberi | Sahneva Organizasyon",
     description:
       "Lansman, bayi toplantısı ve şirket etkinlikleri için sahne, LED ekran, ses-ışık ve çadır kiralama odaklı profesyonel teknik çözüm rehberi.",
     url: BLOG_URL,
     type: "article",
     locale: "tr_TR",
-    siteName: "Sahneva",
+    siteName: "Sahneva Organizasyon",
     images: [
       {
-        url: `${SITE_URL}/img/blog/kurumsal-etkinlik-hero.webp`,
+        url: `${SITE_URL}/img/og/sahneva-og.webp`,
         width: 1200,
         height: 630,
-        alt: "Kurumsal etkinlik sahne ve LED ekran kurulumu",
+        alt: "Sahneva Organizasyon blog görseli",
       },
     ],
   },
@@ -41,7 +41,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Kurumsal Etkinlik Yönetimi Rehberi",
     description: "Etkinlikleriniz için teknik planlama ipuçları.",
-    images: [`${SITE_URL}/img/blog/kurumsal-etkinlik-hero.webp`],
+    images: [`${SITE_URL}/img/og/sahneva-og.webp`],
   },
   keywords: [
     "kurumsal etkinlik yönetimi",
