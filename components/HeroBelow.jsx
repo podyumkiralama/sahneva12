@@ -72,9 +72,9 @@ function ConsultationCard() {
             <p className="text-slate-200 text-base leading-relaxed max-w-2xl">
               Etkinliğiniz için{" "}
               <span className="text-white font-semibold">
-                en doğru sahne çözümlerini
+                en doğru sahne ve podyum kiralama planını
               </span>{" "}
-              ve bütçenize uygun LED ekran seçeneklerini ücretsiz planlayalım.
+              ve bütçenize uygun LED ekran kiralama seçeneklerini ücretsiz planlayalım.
               <span className="block mt-1 text-yellow-300 font-medium">
                 ⚡ 2 saat içinde detaylı teklif garantisi.
               </span>
@@ -135,10 +135,10 @@ export default function HeroBelow() {
             Süreç & Güvence
           </p>
           <h3 className="text-2xl md:text-3xl font-black text-white leading-tight">
-            Kurulumdan canlı yönetimine kadar tek ekip, tek zaman çizelgesi
+            Kurulum-sökümden canlı yönetimine kadar tek ekip, tek zaman çizelgesi
           </h3>
           <p className="text-slate-200/80 text-base md:text-lg leading-relaxed max-w-3xl">
-            Sahneva ekibi keşif, statik hesap, LED içerik hazırlığı ve sahne üstü operasyonu aynı çatı altında toparlar; bu da hem hız hem de hatasız teslimat sağlar.
+            Sahneva ekibi keşif, statik hesap, LED içerik hazırlığı, truss kiralama ve sahne üstü operasyonu aynı çatı altında toparlar; bu da hem hız hem de hatasız teslimat sağlar.
           </p>
         </div>
 
