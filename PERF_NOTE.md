@@ -62,6 +62,7 @@ Bu not, TR anasayfa için Page Objects test uyarılarını azaltmaya yönelik ya
 - Navbar logo görselinde `priority` kaldırıldı.
 - ServicesTabs kart görselleri eager yükleme yerine lazy davranışa bırakıldı.
 - ServicesTabs ve ProjectsGallery yüklemeleri sadece IntersectionObserver tetikleyince gerçekleşir (idle timeout kaldırıldı).
+ - Deferred bölümler için rootMargin `0px` yapılarak chunks yalnızca görünür olduğunda yüklenir.
 **Beklenen etki**
 - İlk yüklemede hero dışı görseller için preload isteği oluşmaz; below-the-fold görseller scroll yaklaşınca yüklenir.
 

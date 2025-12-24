@@ -170,7 +170,6 @@ export default function Navbar(props) {
                               fill
                               sizes="(max-width: 1024px) 100vw, 360px"
                               className="object-cover object-center"
-                              priority={false}
                             />
                             <div className="absolute inset-0 bg-black/20" aria-hidden="true" />
                             <div className="grid-overlay" aria-hidden="true" />
