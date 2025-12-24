@@ -46,7 +46,7 @@ const DEFAULT_SERVICES = [
     title: "Sahne Kiralama",
     icon: "🎪",
     description:
-      "Profesyonel modüler sahne sistemleri, truss yapılar ve güvenlik ekipmanları. Konser, festival, fuar ve özel etkinlikler için özel tasarım sahne çözümleri.",
+      "Profesyonel modüler sahne sistemleri, truss kiralama ve güvenlik ekipmanları. Konser, festival, fuar ve özel etkinlikler için özel tasarım sahne çözümleri.",
     image: "/img/hizmet-sahne.webp",
     features: [
       "Modüler sahne (1x1m, 1x2m, 2x2m)",
@@ -76,7 +76,7 @@ const DEFAULT_SERVICES = [
     title: "LED Ekran Kiralama",
     icon: "🖥️",
     description:
-      "Yüksek çözünürlüklü indoor/outdoor LED ekran çözümleri. P2, P3, P4, P5, P6 pixel pitch seçenekleri ile her türlü etkinlik için ideal.",
+      "Yüksek çözünürlüklü indoor/outdoor LED ekran kiralama çözümleri. P2, P3, P4, P5, P6 pixel pitch seçenekleri ile her türlü etkinlik için ideal.",
     image: "/img/galeri/led-ekran-kiralama-1.webp",
     features: [
       "P2–P6 pixel pitch",
@@ -88,10 +88,10 @@ const DEFAULT_SERVICES = [
   },
   {
     id: "ses-isik",
-    title: "Ses & Işık Sistemleri",
+    title: "Ses Işık Sistemleri",
     icon: "🎭",
     description:
-      "Profesyonel ses ve ışık sistemleri kiralama hizmeti. Konser, tiyatro, konferans ve özel etkinlikleriniz için komple ses ve ışık çözümleri.",
+      "Profesyonel ses ışık sistemleri kiralama hizmeti. Konser, tiyatro, konferans ve özel etkinlikleriniz için komple ses ve ışık çözümleri.",
     image: "/img/ses-isik/ses-sistemi.webp",
     features: [
       "Line-array ses sistemleri",
@@ -106,7 +106,7 @@ const DEFAULT_SERVICES = [
     title: "Çadır Kiralama",
     icon: "⛺",
     description:
-      "Açık hava etkinlikleri için profesyonel çadır kurulumları. Su geçirmez, rüzgar dayanıklı çadır sistemleri ve aksesuarları.",
+      "Açık hava etkinlikleri için profesyonel çadır kiralama ve kurulumları. Su geçirmez, rüzgar dayanıklı çadır sistemleri ve aksesuarları.",
     image: "/img/galeri/cadir-kiralama-1.webp",
     features: [
       "3x3m – 6x6m sistemler",
@@ -118,10 +118,10 @@ const DEFAULT_SERVICES = [
   },
   {
     id: "masa-sandalye",
-    title: "Masa & Sandalye Kiralama",
+    title: "Masa Sandalye Kiralama",
     icon: "🪑",
     description:
-      "Toplantı, davet, düğün ve özel etkinlikler için profesyonel masa ve sandalye kiralama hizmeti. Şık ve konforlu çözümler.",
+      "Toplantı, davet, düğün ve özel etkinlikler için profesyonel masa sandalye kiralama hizmeti. Şık ve konforlu çözümler.",
     image: "/img/hizmet-masa.webp",
     features: [
       "Toplantı masaları",
@@ -135,10 +135,10 @@ const DEFAULT_SERVICES = [
 
 const DEFAULT_DICTIONARY = {
   sectionPill: "Profesyonel Hizmet",
-  sectionTitlePrefix: "Profesyonel Ses-Işık Sistemleri ve",
+  sectionTitlePrefix: "Sahne kiralama, LED ekran kiralama ve",
   sectionTitleHighlight: "Hizmetlerimiz",
   sectionDesc:
-    "Türkiye geneli sahne, podyum, LED ekran kiralama ve ses-ışık sistemleri kurulumu sağlıyoruz. Farklı şehirlerdeki ekibimizle tüm teknik süreci tek elden planlıyoruz.",
+    "Türkiye geneli sahne kiralama, podyum kiralama, LED ekran kiralama, ses ışık sistemleri, truss kiralama, çadır kiralama ve masa sandalye kiralama çözümleri sunuyoruz. Farklı şehirlerdeki ekibimizle tüm teknik süreci tek elden planlıyoruz.",
 
   tablistLabel: "Hizmet sekmeleri",
   featuresHeading: "Hizmet Özellikleri",
