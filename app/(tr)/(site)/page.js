@@ -420,10 +420,47 @@ export default function HomePage() {
         <h2 id="hizmetler-title" className="sr-only">
           Hizmetler
         </h2>
+        <div className="sr-only" aria-hidden="false">
+          <p>
+            Türkiye geneli sahne kiralama, podyum kiralama, LED ekran kiralama, ses ışık
+            sistemleri, truss kiralama, çadır kiralama ve masa sandalye kiralama çözümleri.
+          </p>
+          <ul>
+            <li>
+              <a href="/sahne-kiralama">Sahne Kiralama</a>
+            </li>
+            <li>
+              <a href="/podyum-kiralama">Podyum Kiralama</a>
+            </li>
+            <li>
+              <a href="/led-ekran-kiralama">LED Ekran Kiralama</a>
+            </li>
+            <li>
+              <a href="/ses-isik-sistemleri">Ses Işık Sistemleri</a>
+            </li>
+            <li>
+              <a href="/truss-kiralama">Truss Kiralama</a>
+            </li>
+            <li>
+              <a href="/cadir-kiralama">Çadır Kiralama</a>
+            </li>
+            <li>
+              <a href="/masa-sandalye-kiralama">Masa Sandalye Kiralama</a>
+            </li>
+          </ul>
+        </div>
         <ServicesTabsDeferred idleTimeout={1800} rootMargin="260px" />
       </section>
 
       {/* 4) PROJELER */}
+      <div className="sr-only" aria-hidden="false">
+        <h2>Projelerimiz</h2>
+        <p>
+          500'den fazla kurumsal etkinlik, konser, fuar ve organizasyonda profesyonel çözüm
+          ortağı olduk.
+        </p>
+        <a href="/projeler">Projeleri inceleyin</a>
+      </div>
       <ProjectsGalleryDeferred idleTimeout={3200} rootMargin="360px" />
 
       {/* 5) TECH CAPABILITIES (below-the-fold) */}

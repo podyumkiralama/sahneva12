@@ -56,6 +56,14 @@ Bu not, TR anasayfa için Page Objects test uyarılarını azaltmaya yönelik ya
 - Footer Instagram linki doğru URL ve `aria-label` ile mevcut.
 - Organization schema `sameAs` içinde Instagram bulunuyor.
 
+## 8) Hero Dışı Preload Temizliği
+**Yapılan iyileştirme**
+- TR anasayfada hero görseli dışındaki `priority`/`fetchPriority` kullanımları kaldırıldı.
+- Navbar logo görselinde `priority` kaldırıldı.
+- ServicesTabs kart görselleri eager yükleme yerine lazy davranışa bırakıldı.
+**Beklenen etki**
+- İlk yüklemede hero dışı görseller için preload isteği oluşmaz; below-the-fold görseller scroll yaklaşınca yüklenir.
+
 ## Kalan Bilinen Limitler
 - `npm run build` sırasında Google Fonts TLS hatası (ortam kaynaklı) nedeniyle uyarı devam ediyor.
 - Lighthouse CI için CHROME_PATH gerekli (bu ortamda yok).

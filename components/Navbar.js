@@ -103,7 +103,6 @@ export default function Navbar(props) {
                 alt="Sahneva Logo"
                 width={160}
                 height={40}
-                priority
                 decoding="async"
                 sizes="(max-width: 768px) 120px, 160px"
                 className="h-8 lg:h-10 w-auto transition-transform duration-200 group-hover:scale-105"

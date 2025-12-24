@@ -472,8 +472,7 @@ function ServicesTabsComponent({
                       className="object-cover transition-transform duration-700 group-hover:scale-105 nc-ServicesTabs-image-1"
                       sizes="(max-width: 1024px) 100vw, 50vw"
                       quality={78}
-                      priority={activeService?.id === initialServiceId}
-                      loading={activeService?.id === initialServiceId ? "eager" : "lazy"}
+                      loading="lazy"
                       decoding="async"
                       onError={
                         activeService ? imageErrorHandlers[activeService.id] : undefined
