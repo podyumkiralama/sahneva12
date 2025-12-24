@@ -21,12 +21,20 @@ export const metadata = {
     },
   },
   openGraph: {
-    title: "Gizlilik Politikası | Sahneva",
+    title: "Gizlilik Politikası | Sahneva Organizasyon",
     description:
       "Sahneva Organizasyon’un KVKK ve GDPR uyumlu gizlilik politikası, çerez kullanımı ve veri işleme süreçleri.",
     url: `${ORIGIN}/gizlilik-politikasi`,
-    siteName: "Sahneva",
+    siteName: "Sahneva Organizasyon",
     type: "article",
+    images: [
+      {
+        url: `${ORIGIN}/img/og/sahneva-og.webp`,
+        width: 1200,
+        height: 630,
+        alt: "Sahneva Organizasyon etkinlik prodüksiyon görseli",
+      },
+    ],
   },
 };
 
@@ -39,6 +47,7 @@ export default function PrivacyPolicyPage() {
     description:
       "Sahneva Organizasyon’un KVKK ve GDPR uyumlu gizlilik politikası, çerez kullanımı ve veri işleme süreçleri.",
     inLanguage: "tr-TR",
+    image: `${ORIGIN}/img/og/sahneva-og.webp`,
     isPartOf: {
       "@type": "WebSite",
       name: "Sahneva",

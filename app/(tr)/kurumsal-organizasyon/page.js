@@ -46,19 +46,19 @@ export const metadata = {
     "Konferans, lansman, gala, miting ve roadshow organizasyonları. Sahne, ses, ışık, LED ekran ve profesyonel etkinlik yönetimi. Türkiye geneli hızlı hizmet.",
   alternates: { canonical: `${ORIGIN}/kurumsal-organizasyon` },
   openGraph: {
-    title: "Kurumsal Organizasyon | Profesyonel Etkinlik Yönetimi | Sahneva",
+    title: "Kurumsal Organizasyon | Sahneva Organizasyon",
     description:
       "Konferans, lansman, gala ve kurumsal etkinlik çözümleri. Türkiye geneli profesyonel organizasyon ve tamamlayıcı hizmetler.",
     url: `${ORIGIN}/kurumsal-organizasyon`,
     type: "website",
-    siteName: "Sahneva",
+    siteName: "Sahneva Organizasyon",
     locale: "tr_TR",
     images: [
       {
-        url: `${ORIGIN}/img/kurumsal/hero.webp`,
+        url: `${ORIGIN}/img/og/sahneva-og.webp`,
         width: 1200,
         height: 630,
-        alt: "Sahneva Kurumsal Organizasyon - Profesyonel Etkinlik Yönetimi",
+        alt: "Sahneva Organizasyon etkinlik prodüksiyon görseli",
       },
     ],
   },
@@ -67,7 +67,7 @@ export const metadata = {
     title: "Kurumsal Organizasyon | Profesyonel Etkinlik Yönetimi | Sahneva",
     description:
       "Konferans, lansman, gala, miting organizasyonları. Sahne, ses, ışık, LED ekran ve profesyonel yönetim.",
-    images: [`${ORIGIN}/img/kurumsal/hero.webp`],
+    images: [`${ORIGIN}/img/og/sahneva-og.webp`],
   },
   robots: {
     index: true,
