@@ -228,13 +228,13 @@ export default function CorporateEvents({
         <ScrollReveal direction="up" delay="0.05">
           <div className="text-center max-w-4xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
-              İstanbul'da <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">Kurumsal Etkinlik Yapan Firmalar</span> Arasında Çözüm Ortağınız
+              İstanbul'da <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">Kurumsal Organizasyon Yapan Firmalar</span> Arasında Çözüm Ortağınız
             </h2>
             <p
               id={introId}
               className="text-slate-400 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto"
             >
-              Yaratıcı süreçlerden teknik prodüksiyona kadar tüm aşamaları tek merkezden yönetiyor, markanızın prestijini global standartlarda sahneliyoruz.
+              Etkinlik organizasyonu ve teknik prodüksiyon süreçlerinde tüm aşamaları tek merkezden yönetiyor, markanızın prestijini global standartlarda sahneliyoruz.
             </p>
           </div>
         </ScrollReveal>
