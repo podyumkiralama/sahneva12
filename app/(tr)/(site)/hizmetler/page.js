@@ -10,15 +10,15 @@ export const metadata = {
   description: "Profesyonel sahne kiralama, LED ekran, ses-ışık sistemleri, podyum, çadır kiralama ve etkinlik prodüksiyon hizmetleri. Türkiye geneli hızlı kurulum.",
   alternates: { canonical: `${BASE_SITE_URL}/hizmetler` },
   openGraph: {
-    title: "Hizmetlerimiz | Sahneva - Profesyonel Etkinlik Çözümleri",
+    title: "Hizmetlerimiz | Sahneva Organizasyon - Profesyonel Etkinlik Çözümleri",
     description: "Sahne, LED ekran, ses-ışık, podyum, çadır kiralama ve komple etkinlik prodüksiyon hizmetleri. Türkiye genelinde profesyonel çözümler.",
     url: `${BASE_SITE_URL}/hizmetler`,
     images: [
       {
-        url: "/img/og-hizmetler.jpg",
+        url: `${BASE_SITE_URL}/img/og/sahneva-og.webp`,
         width: 1200,
         height: 630,
-        alt: "Sahneva Hizmetler - Profesyonel Etkinlik Ekipmanları"
+        alt: "Sahneva Organizasyon etkinlik prodüksiyon görseli"
       }
     ],
     type: "website",
@@ -37,6 +37,7 @@ function ServicesStructuredData() {
     '@type': 'Service',
     'name': 'Sahneva Hizmetler',
     'description': 'Profesyonel sahne kiralama, LED ekran, ses-ışık sistemleri, podyum, çadır kiralama ve etkinlik prodüksiyon hizmetleri',
+    'image': `${SITE_URL}/img/og/sahneva-og.webp`,
     'provider': { '@id': ORGANIZATION_ID },
     'areaServed': 'TR',
     'hasOfferCatalog': {

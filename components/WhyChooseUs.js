@@ -277,7 +277,7 @@ export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
             </div>
             <p className="mt-4 text-slate-300 text-sm md:text-base leading-relaxed">
               Sahneva olarak Türkiye genelinde sahne, podyum, LED ekran ve
-              ses-ışık sistemleri alanlarında komple teknik çözümler sunuyoruz.
+              ses ışık sistemleri alanlarında komple teknik çözümler sunuyoruz.
             </p>
             <ul className="mt-5 space-y-2 text-sm md:text-[15px] text-slate-200 leading-relaxed">
               <li className="flex items-start gap-2">
@@ -309,7 +309,7 @@ export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
                   •
                 </span>
                 <span>
-                  Modüler podyum ve sahne platformları, truss sistemleri
+                  Modüler podyum ve sahne platformları, truss kiralama çözümleri
                 </span>
               </li>
               <li className="flex items-start gap-2">
