@@ -2,6 +2,7 @@
 import "../styles/globals.css";
 
 import SkipLinks from "@/components/SkipLinks";
+import NewTabAccessibility from "@/components/NewTabAccessibility.client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -34,6 +35,7 @@ export default function RootLayout({ children }) {
 
       <body className="min-h-screen bg-white text-neutral-900 antialiased flex flex-col font-sans">
         <SkipLinks />
+        <NewTabAccessibility />
 
         <header
           id="_main_header"
