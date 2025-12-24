@@ -118,6 +118,30 @@ const GalleryCard = memo(function GalleryCard({
   dictionary,
 }) {
   const cover = gallery.images?.[0];
+  const coverRef = useRef(null);
+  const [canLoadCover, setCanLoadCover] = useState(false);
+
+  useEffect(() => {
+    if (!coverRef.current || canLoadCover) return;
+
+    if (typeof window === "undefined" || !("IntersectionObserver" in window)) {
+      setCanLoadCover(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setCanLoadCover(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "240px 0px", threshold: 0.1 }
+    );
+
+    observer.observe(coverRef.current);
+    return () => observer.disconnect();
+  }, [canLoadCover]);
 
   const handleOpen = () => open(title, gallery.images, 0);
 
@@ -132,22 +156,27 @@ const GalleryCard = memo(function GalleryCard({
         onClick={handleOpen}
         aria-label={`${title} galerisini aç`}
         className="relative block w-full aspect-[4/3] overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+        ref={coverRef}
       >
-        <Image
-          src={getSrc(cover)}
-          alt={fillTemplate(dictionary.lightboxAlt, {
-            title,
-            index: 1,
-          })}
-          fill
-          sizes={COVER_SIZES}
-          placeholder="blur"
-          blurDataURL={BLUR_DATA_URL}
-          className={`object-cover transition-transform duration-700 ${
-            prefersReducedMotion ? "" : "group-hover:scale-110"
-          }`}
-          onError={() => onError(cover)}
-        />
+        {canLoadCover ? (
+          <Image
+            src={getSrc(cover)}
+            alt={fillTemplate(dictionary.lightboxAlt, {
+              title,
+              index: 1,
+            })}
+            fill
+            sizes={COVER_SIZES}
+            placeholder="blur"
+            blurDataURL={BLUR_DATA_URL}
+            className={`object-cover transition-transform duration-700 ${
+              prefersReducedMotion ? "" : "group-hover:scale-110"
+            }`}
+            onError={() => onError(cover)}
+          />
+        ) : (
+          <div className="absolute inset-0 bg-slate-900/70" aria-hidden="true" />
+        )}
 
         {/* Alt karartma */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-transparent to-transparent opacity-90" />

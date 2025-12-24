@@ -193,7 +193,7 @@ export default function Footer({
       ) : null}
 
       {/* Üst grid */}
-      <div className="relative z-10 container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 items-start gap-8 xl:gap-10 pt-10 pb-10 md:pt-12 md:pb-12 px-6">
+      <div className="relative z-10 container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 items-start gap-6 xl:gap-8 pt-8 pb-8 md:pt-10 md:pb-10 px-6">
         {/* 1. SÜTUN: Marka & Sosyal */}
         <section
           aria-labelledby="ft-brand"
@@ -204,7 +204,7 @@ export default function Footer({
               rounded-3xl border border-white/10 bg-white/5/5 
               bg-gradient-to-br from-white/5 via-white/0 to-white/0 
               backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.8)]
-              p-4 md:p-5 flex flex-col gap-5
+              p-4 md:p-4 flex flex-col gap-4
             "
           >
             <h3 id="ft-brand" className="sr-only">
@@ -267,19 +267,19 @@ export default function Footer({
               rounded-3xl border border-white/10 bg-white/5/5 
               bg-gradient-to-br from-blue-600/10 via-slate-900/40 to-slate-900/60
               backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.85)]
-              p-4 md:p-5
+              p-4 md:p-4
             "
           >
             <h3
               id="ft-services"
               className="
-                text-white font-bold mb-5 text-lg
+                text-white font-bold mb-4 text-lg
                 bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent
               "
             >
               Hizmetlerimiz
             </h3>
-            <ul className="space-y-1 text-sm text-gray-300">
+            <ul className="space-y-0.5 text-sm text-gray-300">
               {SERVICES.map((link) => (
                 <FooterLink
                   key={link.href}
@@ -303,19 +303,19 @@ export default function Footer({
               rounded-3xl border border-white/10 bg-white/5/5 
               bg-gradient-to-br from-purple-600/15 via-slate-900/40 to-slate-900/60
               backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.85)]
-              p-4 md:p-5
+              p-4 md:p-4
             "
           >
             <h3
               id="ft-quick"
               className="
-                text-white font-bold mb-5 text-lg
+                text-white font-bold mb-4 text-lg
                 bg-gradient-to-r from-purple-400 to-pink-300 bg-clip-text text-transparent
               "
             >
               Hızlı Erişim
             </h3>
-            <ul className="space-y-1 text-sm text-gray-300">
+            <ul className="space-y-0.5 text-sm text-gray-300">
               {QUICK_LINKS.map((link) => (
                 <FooterLink
                   key={link.href}
@@ -339,20 +339,20 @@ export default function Footer({
               rounded-3xl border border-white/10 bg-white/5/5 
               bg-gradient-to-br from-cyan-500/15 via-slate-900/40 to-slate-900/60
               backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.85)]
-              p-4 md:p-5
+              p-4 md:p-4
             "
           >
             <h3
               id="ft-contact"
               className="
-                text-white font-bold mb-5 text-lg
+                text-white font-bold mb-4 text-lg
                 bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text text-transparent
               "
             >
               İletişim Bilgileri
             </h3>
 
-            <address className="not-italic space-y-4 text-sm text-gray-300">
+            <address className="not-italic space-y-3 text-sm text-gray-300">
               {/* Adres */}
               <div className="flex items-start gap-3">
                 <span
@@ -456,9 +456,9 @@ export default function Footer({
       </div>
 
       {/* Alt Telif Satırı */}
-      <div className="relative border-t border-white/10 text-center text-sm text-gray-300 py-6 bg-black/40 backdrop-blur-md">
+      <div className="relative border-t border-white/10 text-center text-sm text-gray-300 py-5 bg-black/40 backdrop-blur-md">
         <div className="container mx-auto px-6 relative z-10">
-          <p className="mb-3 text-gray-300 max-w-2xl mx-auto">
+          <p className="mb-2 text-gray-300 max-w-2xl mx-auto">
             Türkiye genelinde profesyonel sahne kiralama, podyum kiralama, LED ekran kiralama,
             ses ışık sistemleri, çadır kiralama ve masa sandalye kiralama hizmetleri.
           </p>
