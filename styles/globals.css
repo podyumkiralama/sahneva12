@@ -161,6 +161,22 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Utilities */
+@layer utilities {
+  .reader-only {
+    position: relative;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
     /* ✅ Keyboard focus görünürlüğü için */
   .focus-ring {
     outline: none;
