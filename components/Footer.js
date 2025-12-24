@@ -75,7 +75,15 @@ const FooterLink = ({
 );
 
 /* --- Yardımcı Bileşen: Sosyal Medya İkonu --- */
-const SocialLink = ({ href, label, title, icon, gradient, rel }) => {
+const SocialLink = ({
+  href,
+  label,
+  title,
+  icon,
+  gradient,
+  rel,
+  sizeClass = "h-11 w-11",
+}) => {
   const relValue = rel
     ? `noopener noreferrer ${rel}`
     : "noopener noreferrer";
@@ -89,7 +97,7 @@ const SocialLink = ({ href, label, title, icon, gradient, rel }) => {
         aria-label={`${label} – yeni sekmede açılır`}
         title={title || label}
         className={`
-          group relative inline-flex h-11 w-11 items-center justify-center rounded-2xl
+          group relative inline-flex ${sizeClass} items-center justify-center rounded-2xl
           bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10
           hover:border-white/40 transition-all duration-300 hover:scale-110
           ${FOCUS_RING_CLASS}
@@ -185,7 +193,7 @@ export default function Footer({
       ) : null}
 
       {/* Üst grid */}
-      <div className="relative z-10 container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 items-start gap-8 xl:gap-10 pt-16 pb-14 px-6">
+      <div className="relative z-10 container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 items-start gap-8 xl:gap-10 pt-10 pb-10 md:pt-12 md:pb-12 px-6">
         {/* 1. SÜTUN: Marka & Sosyal */}
         <section
           aria-labelledby="ft-brand"
@@ -196,7 +204,7 @@ export default function Footer({
               rounded-3xl border border-white/10 bg-white/5/5 
               bg-gradient-to-br from-white/5 via-white/0 to-white/0 
               backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.8)]
-              p-6 md:p-7 flex flex-col gap-6
+              p-4 md:p-5 flex flex-col gap-5
             "
           >
             <h3 id="ft-brand" className="sr-only">
@@ -229,7 +237,7 @@ export default function Footer({
             </div>
 
             <p
-              className="text-sm leading-7 text-gray-300"
+              className="text-sm leading-snug text-gray-300 max-w-prose"
               id={computedDescriptionId}
             >
               <span className="block">
@@ -246,16 +254,6 @@ export default function Footer({
               </span>
             </p>
 
-            <div className="mt-1">
-              <p className="text-xs font-medium text-slate-400 mb-2">
-                Bizi sosyal medyada takip edin
-              </p>
-              <ul className="flex gap-3" aria-label="Sosyal medya hesaplarımız">
-                {SOCIAL_LINKS.map((link) => (
-                  <SocialLink key={link.href} {...link} />
-                ))}
-              </ul>
-            </div>
           </div>
         </section>
 
@@ -269,7 +267,7 @@ export default function Footer({
               rounded-3xl border border-white/10 bg-white/5/5 
               bg-gradient-to-br from-blue-600/10 via-slate-900/40 to-slate-900/60
               backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.85)]
-              p-6 md:p-7
+              p-4 md:p-5
             "
           >
             <h3
@@ -281,7 +279,7 @@ export default function Footer({
             >
               Hizmetlerimiz
             </h3>
-            <ul className="space-y-1.5 text-sm text-gray-300">
+            <ul className="space-y-1 text-sm text-gray-300">
               {SERVICES.map((link) => (
                 <FooterLink
                   key={link.href}
@@ -305,7 +303,7 @@ export default function Footer({
               rounded-3xl border border-white/10 bg-white/5/5 
               bg-gradient-to-br from-purple-600/15 via-slate-900/40 to-slate-900/60
               backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.85)]
-              p-6 md:p-7
+              p-4 md:p-5
             "
           >
             <h3
@@ -317,7 +315,7 @@ export default function Footer({
             >
               Hızlı Erişim
             </h3>
-            <ul className="space-y-1.5 text-sm text-gray-300">
+            <ul className="space-y-1 text-sm text-gray-300">
               {QUICK_LINKS.map((link) => (
                 <FooterLink
                   key={link.href}
@@ -341,7 +339,7 @@ export default function Footer({
               rounded-3xl border border-white/10 bg-white/5/5 
               bg-gradient-to-br from-cyan-500/15 via-slate-900/40 to-slate-900/60
               backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.85)]
-              p-6 md:p-7
+              p-4 md:p-5
             "
           >
             <h3
@@ -354,9 +352,7 @@ export default function Footer({
               İletişim Bilgileri
             </h3>
 
-            <address
-              className="not-italic space-y-5 text-sm text-gray-300"
-            >
+            <address className="not-italic space-y-4 text-sm text-gray-300">
               {/* Adres */}
               <div className="flex items-start gap-3">
                 <span
@@ -442,6 +438,17 @@ export default function Footer({
                     {label}
                   </a>
                 ))}
+              </div>
+
+              <div className="border-t border-white/10 pt-3">
+                <p className="text-xs font-medium text-slate-400 mb-2">
+                  Sosyal medya hesaplarımız
+                </p>
+                <ul className="flex gap-2" aria-label="Sosyal medya hesaplarımız">
+                  {SOCIAL_LINKS.map((link) => (
+                    <SocialLink key={link.href} sizeClass="h-9 w-9" {...link} />
+                  ))}
+                </ul>
               </div>
             </address>
           </div>
