@@ -417,54 +417,145 @@ export default function HomePage() {
 
       {/* 3) HİZMETLER TABS */}
       <section aria-labelledby="hizmetler-title" className="bg-black">
-        <h2 id="hizmetler-title" className="sr-only">
+        <h2 id="hizmetler-title" className="reader-only">
           Hizmetler
         </h2>
-        <div className="sr-only" aria-hidden="false">
-          <p>
-            Türkiye geneli sahne kiralama, podyum kiralama, LED ekran kiralama, ses ışık
-            sistemleri, truss kiralama, çadır kiralama ve masa sandalye kiralama çözümleri.
-          </p>
-          <a href="/hizmetler">Tüm hizmetleri inceleyin</a>
-        </div>
+        <p className="reader-only">
+          Türkiye geneli sahne kiralama, podyum kiralama, LED ekran, ses-ışık sistemleri,
+          truss, çadır ve masa-sandalye kiralama çözümleri sunuyoruz.
+        </p>
+        <p className="reader-only">
+          Etkinliğinize uygun paketleri hizmetler sayfasında karşılaştırabilirsiniz.
+        </p>
+        <a className="reader-only" href="/hizmetler">
+          Tüm hizmetleri inceleyin
+        </a>
         <ServicesTabsDeferred rootMargin="0px 0px" />
       </section>
 
       {/* 4) PROJELER */}
-      <div className="sr-only" aria-hidden="false">
-        <h2>Projelerimiz</h2>
-        <p>
-          500'den fazla kurumsal etkinlik, konser, fuar ve organizasyonda profesyonel çözüm
+      <section aria-labelledby="projeler-title">
+        <h2 id="projeler-title" className="reader-only">
+          Projelerimiz
+        </h2>
+        <p className="reader-only">
+          500'den fazla kurumsal etkinlik, konser ve fuar projesinde sahne ve teknik çözüm
           ortağı olduk.
         </p>
-        <a href="/projeler">Projeleri inceleyin</a>
-      </div>
+        <p className="reader-only">
+          Seçili referans çalışmaları projeler sayfasında görebilirsiniz.
+        </p>
+        <a className="reader-only" href="/projeler">
+          Projeleri inceleyin
+        </a>
+      </section>
       <ProjectsGalleryDeferred rootMargin="0px 0px" />
 
       {/* 5) TECH CAPABILITIES (below-the-fold) */}
-      <div className="bg-slate-900 py-10" style={BELOW_THE_FOLD_VISIBILITY_STYLE}>
-        <TechCapabilitiesDeferred
-          techFeatures={SEO_TECH_FEATURES}
-          infraFeatures={SEO_INFRA_FEATURES}
-        />
+      <section aria-labelledby="teknik-kabiliyetler-title">
+        <h2 id="teknik-kabiliyetler-title" className="reader-only">
+          Teknik Kabiliyetler
+        </h2>
+        <p className="reader-only">
+          LED ekran, ses-ışık, sahne ve podyum kurulumlarında teknik planlama, kurulum ve
+          operasyonu uçtan uca yönetiyoruz.
+        </p>
+        <p className="reader-only">
+          Ekipman ve operasyon detaylarını teknik altyapı sayfalarımızda inceleyin.
+        </p>
+        <a className="reader-only" href="/ses-isik-sistemleri">
+          Ses ve ışık sistemleri hakkında bilgi alın
+        </a>
+      </section>
+      <div className="bg-slate-900 py-10">
+        <div style={BELOW_THE_FOLD_VISIBILITY_STYLE}>
+          <TechCapabilitiesDeferred
+            techFeatures={SEO_TECH_FEATURES}
+            infraFeatures={SEO_INFRA_FEATURES}
+          />
+        </div>
       </div>
 
       {/* 6) KURUMSAL ORGANİZASYON */}
-      <div className="bg-slate-50 py-0 m-0 w-full">
+      <section
+        aria-labelledby="kurumsal-etkinlikler-title"
+        className="bg-slate-50 py-0 m-0 w-full"
+      >
+        <h2 id="kurumsal-etkinlikler-title" className="reader-only">
+          Kurumsal Etkinlik Çözümleri
+        </h2>
+        <p className="reader-only">
+          Lansman, konferans ve şirket organizasyonlarında sahne tasarımı, teknik ekip ve
+          kurulum süreçlerini tek elden yönetiyoruz.
+        </p>
+        <p className="reader-only">
+          Kurumsal organizasyon hizmetlerimizi ayrıntılı olarak inceleyebilirsiniz.
+        </p>
+        <a className="reader-only" href="/kurumsal-organizasyon">
+          Kurumsal organizasyon çözümlerini keşfedin
+        </a>
         <CorporateEventsDeferred />
-      </div>
+      </section>
 
       {/* 7) KURUMSAL INTRO (below-the-fold) */}
-      <div className="bg-black py-0 m-0 w-full" style={BELOW_THE_FOLD_VISIBILITY_STYLE}>
-        <CorporateIntroDeferred />
+      <section aria-labelledby="kurumsal-intro-title">
+        <h2 id="kurumsal-intro-title" className="reader-only">
+          Kurumsal Profil
+        </h2>
+        <p className="reader-only">
+          Sahneva'nın deneyimi, ekip yapısı ve kurumsal etkinliklerdeki yaklaşımı hakkında
+          özet bir bakış sunuyoruz.
+        </p>
+        <p className="reader-only">
+          Hakkımızda sayfasında ekip ve süreçlerimizi detaylıca okuyabilirsiniz.
+        </p>
+        <a className="reader-only" href="/hakkimizda">
+          Sahneva hakkında daha fazla bilgi
+        </a>
+      </section>
+      <div className="bg-black py-0 m-0 w-full">
+        <div style={BELOW_THE_FOLD_VISIBILITY_STYLE}>
+          <CorporateIntroDeferred />
+        </div>
       </div>
 
       {/* 8) WHY CHOOSE US */}
-      <div className="w-full p-0 m-0">
+      <section
+        aria-labelledby="neden-sahneva-title"
+        className="w-full p-0 m-0"
+      >
+        <h2 id="neden-sahneva-title" className="reader-only">
+          Neden Sahneva
+        </h2>
+        <p className="reader-only">
+          Uzman teknik ekip, geniş envanter ve güvenli kurulum süreçlerimizle etkinliğinizi
+          sorunsuz şekilde hayata geçiriyoruz.
+        </p>
+        <p className="reader-only">
+          Yaklaşımımızı ve deneyimimizi Hakkımızda sayfasında bulabilirsiniz.
+        </p>
+        <a className="reader-only" href="/hakkimizda">
+          Neden Sahneva’yı tercih etmelisiniz?
+        </a>
         <WhyChooseUsDeferred />
-      </div>
+      </section>
 
       {/* 10) SSS */}
+      <section id="sss" aria-labelledby="sss-title">
+        <h2 id="sss-title" className="reader-only">
+          Sık Sorulan Sorular
+        </h2>
+        <p className="reader-only">
+          Kurulum süresi, fiyatlandırma, teknik ekip desteği ve keşif süreciyle ilgili
+          soruların yanıtlarını burada bulabilirsiniz.
+        </p>
+        <p className="reader-only">
+          Daha fazla soru için detaylı SSS sayfasını inceleyin.
+        </p>
+        <a className="reader-only" href="/sss">
+          Tüm SSS&apos;yi görüntüleyin
+        </a>
+      </section>
       <div className="w-full bg-transparent p-0 m-0">
         <FaqDeferred />
       </div>
