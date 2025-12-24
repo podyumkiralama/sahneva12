@@ -25,7 +25,7 @@ const DEFAULT_GALLERIES = {
       (_, i) => `/img/galeri/led-ekran-kiralama-${i + 1}.webp`
     ),
     description:
-      "Yüksek çözünürlüklü LED ekran kurulumları ve profesyonel etkinlik prodüksiyonları.",
+      "Yüksek çözünürlüklü LED ekran kurulumları ve profesyonel etkinlik prodüksiyonu.",
     stats: "50+ Kurumsal Etkinlik",
     icon: "🖥️",
   },
@@ -36,7 +36,7 @@ const DEFAULT_GALLERIES = {
       (_, i) => `/img/galeri/cadir-kiralama-${i + 1}.webp`
     ),
     description:
-      "Açık hava etkinlikleri için premium çadır kurulumları ve profesyonel çözümler.",
+      "Açık hava etkinlikleri için premium çadır kiralama ve profesyonel çözümler.",
     stats: "100+ Açık Hava Projesi",
     icon: "⛺",
   },
@@ -47,7 +47,7 @@ const DEFAULT_GALLERIES = {
       (_, i) => `/img/galeri/podyum-kiralama-${i + 1}.webp`
     ),
     description:
-      "Profesyonel podyum kurulumları ve modüler podyum sistemleri.",
+      "Profesyonel podyum kiralama, kurulum ve modüler podyum sistemleri.",
     stats: "200+ Profesyonel Kurulum",
     icon: "👑",
   },
@@ -60,7 +60,7 @@ const DEFAULT_GALLERIES = {
 const DEFAULT_DICTIONARY = {
   title: "Projelerimiz",
   subtitle:
-    "500'den fazla kurumsal etkinlik, konser, fuar ve organizasyonda profesyonel çözüm ortağı olduk.",
+    "500'den fazla kurumsal etkinlik, konser, fuar ve etkinlik organizasyonu projesinde profesyonel çözüm ortağı olduk.",
   hoverCta: "Projeyi incele",
   statsLabel: "Tamamlanan proje",
   dialogAria: "{{title}} projesi",
@@ -118,6 +118,30 @@ const GalleryCard = memo(function GalleryCard({
   dictionary,
 }) {
   const cover = gallery.images?.[0];
+  const coverRef = useRef(null);
+  const [canLoadCover, setCanLoadCover] = useState(false);
+
+  useEffect(() => {
+    if (!coverRef.current || canLoadCover) return;
+
+    if (typeof window === "undefined" || !("IntersectionObserver" in window)) {
+      setCanLoadCover(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setCanLoadCover(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "240px 0px", threshold: 0.1 }
+    );
+
+    observer.observe(coverRef.current);
+    return () => observer.disconnect();
+  }, [canLoadCover]);
 
   const handleOpen = () => open(title, gallery.images, 0);
 
@@ -132,22 +156,27 @@ const GalleryCard = memo(function GalleryCard({
         onClick={handleOpen}
         aria-label={`${title} galerisini aç`}
         className="relative block w-full aspect-[4/3] overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+        ref={coverRef}
       >
-        <Image
-          src={getSrc(cover)}
-          alt={fillTemplate(dictionary.lightboxAlt, {
-            title,
-            index: 1,
-          })}
-          fill
-          sizes={COVER_SIZES}
-          placeholder="blur"
-          blurDataURL={BLUR_DATA_URL}
-          className={`object-cover transition-transform duration-700 ${
-            prefersReducedMotion ? "" : "group-hover:scale-110"
-          }`}
-          onError={() => onError(cover)}
-        />
+        {canLoadCover ? (
+          <Image
+            src={getSrc(cover)}
+            alt={fillTemplate(dictionary.lightboxAlt, {
+              title,
+              index: 1,
+            })}
+            fill
+            sizes={COVER_SIZES}
+            placeholder="blur"
+            blurDataURL={BLUR_DATA_URL}
+            className={`object-cover transition-transform duration-700 ${
+              prefersReducedMotion ? "" : "group-hover:scale-110"
+            }`}
+            onError={() => onError(cover)}
+          />
+        ) : (
+          <div className="absolute inset-0 bg-slate-900/70" aria-hidden="true" />
+        )}
 
         {/* Alt karartma */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-transparent to-transparent opacity-90" />
