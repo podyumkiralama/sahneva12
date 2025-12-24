@@ -1,15 +1,39 @@
 // app/kvkk/page.jsx
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.sahneva.com").replace(/\/$/, "");
+
 export const metadata = {
-  title: "KVKK / Gizlilik | Sahneva",
+  title: "KVKK / Gizlilik",
   description:
     "Sahneva KVKK ve Gizlilik Politikası: kişisel verilerin işlenmesi, saklanması, aktarımı ve haklarınız hakkında bilgilendirme.",
-  alternates: { canonical: "https://sahneva.com/kvkk" },
+  alternates: { canonical: `${SITE_URL}/kvkk` },
+  openGraph: {
+    title: "KVKK / Gizlilik | Sahneva Organizasyon",
+    description:
+      "Sahneva Organizasyon’un KVKK ve Gizlilik Politikası hakkında bilgilendirme.",
+    url: `${SITE_URL}/kvkk`,
+    type: "article",
+    siteName: "Sahneva Organizasyon",
+    locale: "tr_TR",
+    images: [
+      {
+        url: `${SITE_URL}/img/og/sahneva-og.webp`,
+        width: 1200,
+        height: 630,
+        alt: "Sahneva Organizasyon etkinlik prodüksiyon görseli",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "KVKK / Gizlilik | Sahneva Organizasyon",
+    description:
+      "Sahneva Organizasyon’un KVKK ve Gizlilik Politikası hakkında bilgilendirme.",
+    images: [`${SITE_URL}/img/og/sahneva-og.webp`],
+  },
   robots: { index: true, follow: true },
 };
-
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.sahneva.com").replace(/\/$/, "");
 
 export default function KvkkPage() {
   const updatedAt = "11 Ekim 2025"; // ihtiyaç oldukça güncelle
