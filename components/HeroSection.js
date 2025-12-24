@@ -82,20 +82,14 @@ function CTAGroup() {
 function HeroBackgroundImage() {
   // Dekoratif arka plan: SR için alt boş + aria-hidden
   return (
-    <picture>
-      <source
-        srcSet="/img/hero-bg-mobile.webp"
-        media="(max-width: 768px)"
-      />
-      <img
-        src={heroImg.src}
-        alt=""
-        fetchPriority="high"
-        loading="eager"
-        className="absolute inset-0 h-full w-full object-cover object-center"
-        aria-hidden="true"
-      />
-    </picture>
+   <img
+      src={heroImg.src}
+      alt=""
+      fetchPriority="high"
+      loading="eager"
+      className="absolute inset-0 h-full w-full object-cover object-center"
+      aria-hidden="true"
+    />
   );
 }
 
