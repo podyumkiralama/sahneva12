@@ -119,10 +119,12 @@ export default function Navbar(props) {
               {/* Services: native <details> => no JS */}
               <details id="nav-services-details" className="relative group">
                 <summary
+                  id="nav-services-summary"
                   className={`list-none cursor-pointer select-none relative text-[15px] font-bold px-4 py-2.5 rounded-xl transition-all duration-200 border
                     text-neutral-800 hover:text-blue-700 hover:bg-neutral-50 border-transparent hover:border-neutral-200
                     ${FOCUS_RING_CLASS}`}
-                  aria-haspopup="menu"
+                  aria-expanded="false"
+                  aria-controls="nav-services-panel"
                 >
                   <span className="flex items-center gap-2">
                     Hizmetler
@@ -149,8 +151,8 @@ export default function Navbar(props) {
                   - main zaten pt-16/lg:pt-20 verdiği için navbar altında ekstra "spacer" yok
                 */}
                 <div
-                  role="menu"
-                  aria-label="Hizmetler menüsü"
+                  id="nav-services-panel"
+                  aria-label="Hizmetler alt menüsü"
                   className="hidden group-open:block fixed inset-x-0 top-16 lg:top-20 z-[70]"
                 >
                   <div className="container">
@@ -199,7 +201,6 @@ export default function Navbar(props) {
                               key={s.href}
                               href={s.href}
                               className={`group flex items-start gap-3 rounded-xl px-5 py-3.5 text-sm text-neutral-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 ${FOCUS_RING_CLASS}`}
-                              role="menuitem"
                             >
                               <span
                                 className="mt-0.5 text-lg opacity-80 group-hover:opacity-100"
