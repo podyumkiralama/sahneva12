@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import CaseGallery from "@/components/CaseGallery";
 
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.sahneva.com").replace(/\/$/, "");
+
 export const metadata = {
   title:
     "Devlet Protokolüne Uygun Kapalı Alan LED ve Sahne Kurulumu — Teknik Referans | Sahneva",
@@ -12,19 +14,26 @@ export const metadata = {
   openGraph: {
     type: "article",
     title:
-      "Devlet Protokolüne Uygun Kapalı Alan LED ve Sahne Kurulumu — Teknik Referans",
+      "Devlet Protokolüne Uygun Kapalı Alan LED ve Sahne Kurulumu — Sahneva Organizasyon",
     description:
       "24×6 m P2 LED, 24×8 m sahne/podyum, scaff ve truss ile büyük ölçekli kapalı alan kurulumu.",
-    images: ["/img/projeler/kapali-alan-led/01.webp"], // OG görseli (ilk kare)
+    images: [
+      {
+        url: `${SITE_URL}/img/og/sahneva-og.webp`,
+        width: 1200,
+        height: 630,
+        alt: "Sahneva Organizasyon etkinlik prodüksiyon görseli",
+      },
+    ],
     url: "https://www.sahneva.com/projeler/kapali-alan-led-sahne-kurulumu",
   },
   twitter: {
     card: "summary_large_image",
     title:
-      "Devlet Protokolüne Uygun Kapalı Alan LED ve Sahne Kurulumu — Teknik Referans",
+      "Devlet Protokolüne Uygun Kapalı Alan LED ve Sahne Kurulumu — Sahneva Organizasyon",
     description:
       "Kapalı alan sahne & LED uygulaması — 24×6 m P2 LED ve 24×8 m sahne/podyum.",
-    images: ["/img/projeler/kapali-alan-led/01.webp"],
+    images: [`${SITE_URL}/img/og/sahneva-og.webp`],
   },
 };
 
@@ -41,13 +50,33 @@ const IMAGES = [
   { src: "/img/projeler/kapali-alan-led/9.webp", alt: "Teknik kurulum sonrası sahne ve oturma düzeninin son kontrollerinin yapıldığı geniş açılı görünüm" },
 ];
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.sahneva.com").replace(/\/$/, "");
 const ORGANIZATION_ID = `${SITE_URL}/#org`;
 
 
 export default function CasePage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline:
+      "Devlet Protokolüne Uygun Kapalı Alan LED ve Sahne Kurulumu",
+    description:
+      "24×6 m P2 LED, 24×8 m sahne/podyum, scaff ve truss ile büyük ölçekli kapalı alan kurulumu.",
+    image: `${SITE_URL}/img/og/sahneva-og.webp`,
+    author: { "@id": ORGANIZATION_ID },
+    publisher: { "@id": ORGANIZATION_ID },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${SITE_URL}/projeler/kapali-alan-led-sahne-kurulumu`,
+    },
+    inLanguage: "tr-TR",
+  };
+
   return (
     <div className="overflow-x-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* HERO */}
       <section className="relative h-[340px] flex items-center justify-center text-white">
   {/* Arka plan görseli */}
@@ -264,7 +293,3 @@ export default function CasePage() {
     </div>
   );
 }
-
-
-
-

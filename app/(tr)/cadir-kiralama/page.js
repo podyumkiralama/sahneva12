@@ -45,19 +45,19 @@ export const metadata = {
     "Pagoda, şeffaf dome, endüstriyel çadır kiralama. Zemin kaplama, aydınlatma ve profesyonel kurulum. Türkiye geneli hızlı hizmet.",
   alternates: { canonical: `${ORIGIN}/cadir-kiralama` },
   openGraph: {
-    title: "Çadır Kiralama | Profesyonel Etkinlik Çözümleri | Sahneva",
+    title: "Çadır Kiralama | Sahneva Organizasyon",
     description:
       "Pagoda, şeffaf ve endüstriyel çadır çözümleri. Türkiye geneli profesyonel kurulum ve tamamlayıcı hizmetler.",
     url: `${ORIGIN}/cadir-kiralama`,
     type: "website",
-    siteName: "Sahneva",
+    siteName: "Sahneva Organizasyon",
     locale: "tr_TR",
     images: [
       {
-        url: `${ORIGIN}/img/cadir/hero.webp`,
+        url: `${ORIGIN}/img/og/sahneva-og.webp`,
         width: 1200,
         height: 630,
-        alt: "Sahneva Çadır Kiralama - Profesyonel Etkinlik Çözümleri",
+        alt: "Sahneva Organizasyon etkinlik prodüksiyon görseli",
       },
     ],
   },
@@ -66,7 +66,7 @@ export const metadata = {
     title: "Çadır Kiralama | Profesyonel Etkinlik Çözümleri | Sahneva",
     description:
       "Pagoda, şeffaf dome, endüstriyel çadır kiralama. Zemin kaplama, aydınlatma ve profesyonel kurulum.",
-    images: [`${ORIGIN}/img/cadir/hero.webp`],
+    images: [`${ORIGIN}/img/og/sahneva-og.webp`],
   },
   robots: {
     index: true,
