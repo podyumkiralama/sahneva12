@@ -1,16 +1,19 @@
 // app/fonts.js
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 
-export const inter = Inter({
-  subsets: ["latin", "latin-ext"],
-  weight: ["400", "600", "700", "800", "900"],
-  style: ["normal"],
+export const inter = localFont({
+  src: [
+    {
+      path: "../public/fonts/inter/InterVariable.woff2",
+      style: "normal",
+      weight: "100 900",
+    },
+  ],
   // Keep text paint unblocked; allow font to swap in after first render.
   display: "swap",
   // Preload to start the font fetch during initial navigation instead of waiting
   // for layout hydration, reducing perceived latency on slow networks.
   preload: true,
-  adjustFontFallback: true,
   variable: "--font-inter",
   fallback: [
     "system-ui",
