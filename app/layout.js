@@ -7,7 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 
-import { inter } from "./fonts";
+import { Inter } from "next/font/google";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 
 const DEFAULT_LOCALE = LOCALE_CONTENT.tr;
