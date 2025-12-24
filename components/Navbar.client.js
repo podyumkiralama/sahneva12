@@ -500,17 +500,15 @@ export default function Navbar({
               className={`flex items-center gap-3 group ${FOCUS_RING_CLASS}`}
               aria-label="Sahneva - Ana Sayfa"
             >
-     <Image
-  src="/img/logo.webp"
-  alt="Sahneva Logo"
-  width={160}
-  height={40}
-  priority={pathname === "/"}
-  fetchPriority={pathname === "/" ? "high" : "low"}
-  decoding="async"
-  sizes="(max-width: 768px) 120px, 160px"
-  className="h-8 lg:h-10 w-auto transition-transform duration-200 group-hover:scale-105"
-/>
+              <Image
+                src="/img/logo.webp"
+                alt="Sahneva Logo"
+                width={160}
+                height={40}
+                decoding="async"
+                sizes="(max-width: 768px) 120px, 160px"
+                className="h-8 lg:h-10 w-auto transition-transform duration-200 group-hover:scale-105"
+              />
 
             </Link>
 

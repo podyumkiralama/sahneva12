@@ -16,8 +16,14 @@ export default function ServicesDropdownBehavior({ detailsId }) {
     const detailsEl = document.getElementById(detailsId);
     if (!(detailsEl instanceof HTMLDetailsElement)) return;
 
+    const summary = detailsEl.querySelector("summary");
+    const menu = detailsEl.querySelector("#nav-services-panel");
+
     const close = () => {
       if (detailsEl.open) detailsEl.open = false;
+      if (summary instanceof HTMLElement) {
+        summary.setAttribute("aria-expanded", "false");
+      }
     };
 
     const onKeyDown = (e) => {
@@ -26,7 +32,6 @@ export default function ServicesDropdownBehavior({ detailsId }) {
       e.preventDefault();
       close();
       // Return focus to summary for accessibility
-      const summary = detailsEl.querySelector("summary");
       if (summary instanceof HTMLElement) requestAnimationFrame(() => summary.focus());
     };
 
@@ -35,6 +40,7 @@ export default function ServicesDropdownBehavior({ detailsId }) {
       const t = e.target;
       if (t instanceof Node && detailsEl.contains(t)) return;
       close();
+      if (summary instanceof HTMLElement) requestAnimationFrame(() => summary.focus());
     };
 
     const onClickCapture = (e) => {
@@ -48,14 +54,35 @@ export default function ServicesDropdownBehavior({ detailsId }) {
       }
     };
 
+    const onToggle = () => {
+      if (summary instanceof HTMLElement) {
+        summary.setAttribute("aria-expanded", detailsEl.open ? "true" : "false");
+      }
+      if (detailsEl.open && menu instanceof HTMLElement) {
+        const firstLink = menu.querySelector("a[href]");
+        if (firstLink instanceof HTMLElement) {
+          requestAnimationFrame(() => firstLink.focus());
+        }
+      }
+    };
+
+    if (summary instanceof HTMLElement) {
+      summary.setAttribute("aria-expanded", detailsEl.open ? "true" : "false");
+      if (!summary.hasAttribute("aria-controls") && menu?.id) {
+        summary.setAttribute("aria-controls", menu.id);
+      }
+    }
+
     document.addEventListener("keydown", onKeyDown);
     document.addEventListener("pointerdown", onPointerDownCapture, true);
     detailsEl.addEventListener("click", onClickCapture, true);
+    detailsEl.addEventListener("toggle", onToggle);
 
     return () => {
       document.removeEventListener("keydown", onKeyDown);
       document.removeEventListener("pointerdown", onPointerDownCapture, true);
       detailsEl.removeEventListener("click", onClickCapture, true);
+      detailsEl.removeEventListener("toggle", onToggle);
     };
   }, [detailsId]);
 

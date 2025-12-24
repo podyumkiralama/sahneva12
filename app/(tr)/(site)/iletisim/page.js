@@ -10,16 +10,16 @@ export const metadata = {
     "Sahne kiralama, LED ekran, ses-ışık sistemleri için hemen ulaşın. Türkiye geneli hızlı kurulum ve profesyonel danışmanlık.",
   alternates: { canonical: PAGE_URL },
   openGraph: {
-    title: "İletişim | Sahneva - Profesyonel Etkinlik Çözümleri",
+    title: "İletişim | Sahneva Organizasyon - Profesyonel Etkinlik Çözümleri",
     description:
       "Sahne, LED ekran, ses-ışık sistemleri için hemen teklif alın. Türkiye geneli hızlı kurulum ve profesyonel danışmanlık.",
     url: PAGE_URL,
     images: [
       {
-        url: "/img/og-iletisim.jpg",
+        url: `${BASE_SITE_URL}/img/og/sahneva-og.webp`,
         width: 1200,
         height: 630,
-        alt: "Sahneva İletişim - Profesyonel Etkinlik Çözümleri",
+        alt: "Sahneva Organizasyon etkinlik prodüksiyon görseli",
       },
     ],
     type: "website",
@@ -46,6 +46,7 @@ function ContactStructuredData() {
     description:
       "Profesyonel sahne kiralama, LED ekran, ses-ışık sistemleri iletişim bilgileri",
     url: PAGE_URL,
+    image: `${BASE_SITE_URL}/img/og/sahneva-og.webp`,
     mainEntity: {
       "@id": ORGANIZATION_ID,
     },
