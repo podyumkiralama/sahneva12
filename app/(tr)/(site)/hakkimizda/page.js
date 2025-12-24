@@ -11,16 +11,16 @@ export const metadata = {
     "10+ yıllık deneyimle Türkiye genelinde sahne kiralama, LED ekran, ses-ışık sistemleri ve profesyonel etkinlik prodüksiyonu. 700+ başarılı proje.",
   alternates: { canonical: "https://www.sahneva.com/hakkimizda" },
   openGraph: {
-    title: "Hakkımızda | Sahneva - Profesyonel Etkinlik Teknolojileri",
+    title: "Hakkımızda | Sahneva Organizasyon - Profesyonel Etkinlik Teknolojileri",
     description:
       "10+ yıllık deneyimle Türkiye genelinde profesyonel etkinlik çözümleri. 700+ başarılı proje, %98 müşteri memnuniyeti.",
     url: "https://www.sahneva.com/hakkimizda",
     images: [
       {
-        url: "https://www.sahneva.com/img/og-hakkimizda.jpg",
+        url: "https://www.sahneva.com/img/og/sahneva-og.webp",
         width: 1200,
         height: 630,
-        alt: "Sahneva Ekibi - Profesyonel Etkinlik Teknolojileri",
+        alt: "Sahneva Organizasyon etkinlik prodüksiyon görseli",
       },
     ],
     type: "website",
@@ -42,6 +42,7 @@ function AboutStructuredData() {
     name: "Hakkımızda | Sahneva - Profesyonel Etkinlik Teknolojileri",
     description:
       "Profesyonel sahne kiralama, LED ekran, ses-ışık sistemleri ve etkinlik prodüksiyon hizmetleri",
+    image: `${SITE_URL}/img/og/sahneva-og.webp`,
     mainEntity: { "@id": ORGANIZATION_ID },
     inLanguage: "tr-TR",
   };

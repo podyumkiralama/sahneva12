@@ -25,7 +25,7 @@ const DEFAULT_GALLERIES = {
       (_, i) => `/img/galeri/led-ekran-kiralama-${i + 1}.webp`
     ),
     description:
-      "Yüksek çözünürlüklü LED ekran kurulumları ve profesyonel etkinlik prodüksiyonları.",
+      "Yüksek çözünürlüklü LED ekran kurulumları ve profesyonel etkinlik prodüksiyonu.",
     stats: "50+ Kurumsal Etkinlik",
     icon: "🖥️",
   },
@@ -36,7 +36,7 @@ const DEFAULT_GALLERIES = {
       (_, i) => `/img/galeri/cadir-kiralama-${i + 1}.webp`
     ),
     description:
-      "Açık hava etkinlikleri için premium çadır kurulumları ve profesyonel çözümler.",
+      "Açık hava etkinlikleri için premium çadır kiralama ve profesyonel çözümler.",
     stats: "100+ Açık Hava Projesi",
     icon: "⛺",
   },
@@ -47,7 +47,7 @@ const DEFAULT_GALLERIES = {
       (_, i) => `/img/galeri/podyum-kiralama-${i + 1}.webp`
     ),
     description:
-      "Profesyonel podyum kurulumları ve modüler podyum sistemleri.",
+      "Profesyonel podyum kiralama, kurulum ve modüler podyum sistemleri.",
     stats: "200+ Profesyonel Kurulum",
     icon: "👑",
   },
@@ -60,7 +60,7 @@ const DEFAULT_GALLERIES = {
 const DEFAULT_DICTIONARY = {
   title: "Projelerimiz",
   subtitle:
-    "500'den fazla kurumsal etkinlik, konser, fuar ve organizasyonda profesyonel çözüm ortağı olduk.",
+    "500'den fazla kurumsal etkinlik, konser, fuar ve etkinlik organizasyonu projesinde profesyonel çözüm ortağı olduk.",
   hoverCta: "Projeyi incele",
   statsLabel: "Tamamlanan proje",
   dialogAria: "{{title}} projesi",

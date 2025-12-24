@@ -94,6 +94,28 @@ export const metadata = {
     template: `%s | Sahneva`,
   },
   description: content.meta.description,
+  openGraph: {
+    title: HOME_PAGE_TITLE,
+    description: content.meta.description,
+    url: buildCanonical("/"),
+    siteName: "Sahneva Organizasyon",
+    type: "website",
+    locale: "tr_TR",
+    images: [
+      {
+        url: `${BASE_SITE_URL}/img/og/sahneva-og.webp`,
+        width: 1200,
+        height: 630,
+        alt: "Sahneva Organizasyon etkinlik prodüksiyon görseli",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: HOME_PAGE_TITLE,
+    description: content.meta.description,
+    images: [`${BASE_SITE_URL}/img/og/sahneva-og.webp`],
+  },
   alternates: {
     canonical: buildCanonical("/"),
     languages: buildAlternateLanguages(),

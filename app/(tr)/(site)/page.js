@@ -398,7 +398,7 @@ export default function HomePage() {
       <ProjectsGalleryDeferred idleTimeout={3200} rootMargin="360px" />
 
       {/* 5) TECH CAPABILITIES (below-the-fold) */}
-      <div className="bg-slate-900 py-16" style={BELOW_THE_FOLD_VISIBILITY_STYLE}>
+      <div className="bg-slate-900 py-10" style={BELOW_THE_FOLD_VISIBILITY_STYLE}>
         <TechCapabilitiesDeferred
           techFeatures={SEO_TECH_FEATURES}
           infraFeatures={SEO_INFRA_FEATURES}
