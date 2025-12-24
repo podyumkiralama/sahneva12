@@ -33,6 +33,8 @@ const FAQ_ID = `${HOME_URL}#sss`;
 const HERO_IMAGE_ID = `${HOME_URL}#hero-image`;
 const OG_IMAGE_ID = `${HOME_URL}#og-image`;
 const VIDEO_ID = `${HOME_URL}#intro-video`;
+const PRICING_DISCLAIMER =
+  "Fiyatlar; şehir, gün, metraj, kurulum ve ekipmana göre değişebilir. Net teklif için iletişime geçin.";
 
 const ogUrl =
   getOgImageUrl?.({ path: "/img/og/sahneva-og.webp", absolute: true }) ??
@@ -86,16 +88,21 @@ const HOME_JSON_LD = {
             name: "Podyum Kiralama",
             url: `${BASE_SITE_URL}/podyum-kiralama`,
             image: `${BASE_SITE_URL}/img/hizmet-podyum.webp`,
-            description: "Modüler podyum sahne kiralama hizmeti",
+            description: `Modüler podyum sahne kiralama hizmeti. ${PRICING_DISCLAIMER}`,
             provider: { "@id": ORGANIZATION_ID },
             areaServed: { "@type": "Country", name: "Türkiye" },
           },
           priceSpecification: {
             "@type": "UnitPriceSpecification",
-            price: "250.00",
+            price: 250,
             priceCurrency: "TRY",
             unitText: "m²",
             unitCode: "MTK",
+            referenceQuantity: {
+              "@type": "QuantitativeValue",
+              value: 1,
+              unitCode: "MTK",
+            },
           },
           availability: "https://schema.org/InStock",
           areaServed: { "@type": "Country", name: "Türkiye" },
@@ -109,16 +116,20 @@ const HOME_JSON_LD = {
             name: "LED Ekran Kiralama",
             url: `${BASE_SITE_URL}/led-ekran-kiralama`,
             image: `${BASE_SITE_URL}/img/hizmet-led.webp`,
-            description: "İç/dış mekan LED ekran kiralama",
+            description: `İç/dış mekan LED ekran kiralama. ${PRICING_DISCLAIMER}`,
             provider: { "@id": ORGANIZATION_ID },
             areaServed: { "@type": "Country", name: "Türkiye" },
           },
           priceSpecification: {
             "@type": "UnitPriceSpecification",
-            price: "1700.00",
+            price: 1700,
             priceCurrency: "TRY",
-            unitText: "günlük",
-            unitCode: "DAY",
+            unitText: "DAY",
+            referenceQuantity: {
+              "@type": "QuantitativeValue",
+              value: 1,
+              unitText: "DAY",
+            },
           },
           availability: "https://schema.org/InStock",
           areaServed: { "@type": "Country", name: "Türkiye" },
@@ -133,14 +144,15 @@ const HOME_JSON_LD = {
             url: `${BASE_SITE_URL}/cadir-kiralama`,
             // Çadır için hizmet görselin varsa burayı güncelleyebilirsin:
             // image: `${BASE_SITE_URL}/img/hizmet-cadir.webp`,
+            description: `Etkinlik ve organizasyonlar için çadır kiralama. ${PRICING_DISCLAIMER}`,
             provider: { "@id": ORGANIZATION_ID },
             areaServed: { "@type": "Country", name: "Türkiye" },
           },
           priceSpecification: {
             "@type": "PriceSpecification",
             priceCurrency: "TRY",
-            minPrice: "6000.00",
-            maxPrice: "800000.00",
+            minPrice: 6000,
+            maxPrice: 800000,
           },
           availability: "https://schema.org/InStock",
           areaServed: { "@type": "Country", name: "Türkiye" },
@@ -148,17 +160,26 @@ const HOME_JSON_LD = {
         },
         {
           "@type": "Offer",
+          url: `${BASE_SITE_URL}/masa-sandalye-kiralama`,
           itemOffered: {
             "@type": "Service",
             name: "Sandalye Kiralama",
+            url: `${BASE_SITE_URL}/masa-sandalye-kiralama`,
+            description: `Etkinlikler için sandalye kiralama. ${PRICING_DISCLAIMER}`,
             provider: { "@id": ORGANIZATION_ID },
             areaServed: { "@type": "Country", name: "Türkiye" },
           },
           priceSpecification: {
             "@type": "UnitPriceSpecification",
-            price: "200.00",
+            price: 200,
             priceCurrency: "TRY",
             unitText: "adet",
+            unitCode: "C62",
+            referenceQuantity: {
+              "@type": "QuantitativeValue",
+              value: 1,
+              unitCode: "C62",
+            },
           },
           availability: "https://schema.org/InStock",
           areaServed: { "@type": "Country", name: "Türkiye" },
@@ -166,17 +187,20 @@ const HOME_JSON_LD = {
         },
         {
           "@type": "Offer",
+          url: `${BASE_SITE_URL}/masa-sandalye-kiralama`,
           itemOffered: {
             "@type": "Service",
             name: "Masa Kiralama",
+            url: `${BASE_SITE_URL}/masa-sandalye-kiralama`,
+            description: `Etkinlikler için masa kiralama. ${PRICING_DISCLAIMER}`,
             provider: { "@id": ORGANIZATION_ID },
             areaServed: { "@type": "Country", name: "Türkiye" },
           },
           priceSpecification: {
             "@type": "PriceSpecification",
             priceCurrency: "TRY",
-            minPrice: "1000.00",
-            maxPrice: "2000.00",
+            minPrice: 1000,
+            maxPrice: 2000,
           },
           availability: "https://schema.org/InStock",
           areaServed: { "@type": "Country", name: "Türkiye" },
@@ -190,14 +214,15 @@ const HOME_JSON_LD = {
             name: "Sahne Kiralama",
             url: `${BASE_SITE_URL}/sahne-kiralama`,
             image: `${BASE_SITE_URL}/img/hizmet-sahne.webp`,
+            description: `Konser ve etkinlikler için sahne kiralama. ${PRICING_DISCLAIMER}`,
             provider: { "@id": ORGANIZATION_ID },
             areaServed: { "@type": "Country", name: "Türkiye" },
           },
           priceSpecification: {
             "@type": "PriceSpecification",
             priceCurrency: "TRY",
-            minPrice: "10000.00",
-            maxPrice: "200000.00",
+            minPrice: 10000,
+            maxPrice: 200000,
           },
           availability: "https://schema.org/InStock",
           areaServed: { "@type": "Country", name: "Türkiye" },
@@ -211,14 +236,15 @@ const HOME_JSON_LD = {
             name: "Ses-Işık Sistemleri",
             url: `${BASE_SITE_URL}/ses-isik-sistemleri`,
             // image: `${BASE_SITE_URL}/img/hizmet-ses-isik.webp`, // varsa ekle
+            description: `Ses ve ışık sistemleri kiralama hizmeti. ${PRICING_DISCLAIMER}`,
             provider: { "@id": ORGANIZATION_ID },
             areaServed: { "@type": "Country", name: "Türkiye" },
           },
           priceSpecification: {
             "@type": "PriceSpecification",
             priceCurrency: "TRY",
-            minPrice: "10000.00",
-            maxPrice: "300000.00",
+            minPrice: 10000,
+            maxPrice: 300000,
           },
           availability: "https://schema.org/InStock",
           areaServed: { "@type": "Country", name: "Türkiye" },
@@ -226,15 +252,18 @@ const HOME_JSON_LD = {
         },
         {
           "@type": "Offer",
+          url: `${BASE_SITE_URL}/hizmetler`,
           itemOffered: {
             "@type": "Service",
             name: "İstanbul İçi Nakliye",
+            url: `${BASE_SITE_URL}/hizmetler`,
+            description: `İstanbul içi nakliye hizmeti. ${PRICING_DISCLAIMER}`,
             provider: { "@id": ORGANIZATION_ID },
             areaServed: { "@type": "Country", name: "Türkiye" },
           },
           priceSpecification: {
             "@type": "PriceSpecification",
-            price: "7000.00",
+            price: 7000,
             priceCurrency: "TRY",
           },
           availability: "https://schema.org/InStock",
@@ -398,7 +427,7 @@ export default function HomePage() {
       <ProjectsGalleryDeferred idleTimeout={3200} rootMargin="360px" />
 
       {/* 5) TECH CAPABILITIES (below-the-fold) */}
-      <div className="bg-slate-900 py-16" style={BELOW_THE_FOLD_VISIBILITY_STYLE}>
+      <div className="bg-slate-900 py-10" style={BELOW_THE_FOLD_VISIBILITY_STYLE}>
         <TechCapabilitiesDeferred
           techFeatures={SEO_TECH_FEATURES}
           infraFeatures={SEO_INFRA_FEATURES}

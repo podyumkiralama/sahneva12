@@ -12,12 +12,40 @@ export const metadata = {
   description: "Gerçekleştirdiğimiz seçili projelerden örnekler. Sahne, podyum, LED ekran, ses-ışık kurulumları.",
   alternates: { canonical: "https://www.sahneva.com/projeler" },
   openGraph: {
-    title: "Projeler | Sahneva",
+    title: "Projeler | Sahneva Organizasyon",
     description: "Gerçekleşen projelerimizin arşivi.",
     url: "https://www.sahneva.com/projeler",
     type: "website",
+    images: [
+      {
+        url: `${SITE_URL}/img/og/sahneva-og.webp`,
+        width: 1200,
+        height: 630,
+        alt: "Sahneva Organizasyon etkinlik prodüksiyon görseli",
+      },
+    ],
   },
 };
+
+function ProjectsStructuredData() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "Projeler | Sahneva Organizasyon",
+    description:
+      "Sahneva Organizasyon tarafından gerçekleştirilen sahne, podyum, LED ekran ve ses-ışık projeleri.",
+    url: `${SITE_URL}/projeler`,
+    image: `${SITE_URL}/img/og/sahneva-og.webp`,
+    inLanguage: "tr-TR",
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
 
 export default async function ProjectsIndexPage() {
   const baseUrl = SITE_URL;
@@ -30,6 +58,7 @@ export default async function ProjectsIndexPage() {
   return (
     <div id="main" className="min-h-screen bg-gradient-to-br from-slate-900 via-[#0b0f1a] to-purple-900/20 text-white">
       <BreadcrumbJsonLd items={breadcrumbItems} baseUrl={baseUrl} />
+      <ProjectsStructuredData />
       {/* Background Effects */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl"></div>

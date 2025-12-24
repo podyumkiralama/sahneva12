@@ -111,24 +111,24 @@ export const metadata = {
   keywords: "led ekran kiralama, p2.5 led ekran, p4 led ekran, dış mekan led ekran, led wall kiralama, video wall kiralama, konser led ekran",
   alternates: { canonical: `${ORIGIN}/led-ekran-kiralama` },
   openGraph: {
-    title: "LED Ekran Kiralama | Profesyonel Çözümler",
+    title: "LED Ekran Kiralama | Sahneva Organizasyon",
     description: "P2-P6 piksel aralığında iç ve dış mekan LED ekran kiralama. Yüksek parlaklık, IP65 koruma ve profesyonel kurulum.",
     url: `${ORIGIN}/led-ekran-kiralama`,
     type: "website",
-    siteName: "Sahneva",
+    siteName: "Sahneva Organizasyon",
     locale: "tr_TR",
     images: [{
-      url: `${ORIGIN}/img/hizmet-led-ekran.jpg`,
+      url: `${ORIGIN}/img/og/sahneva-og.webp`,
       width: 1200,
       height: 630,
-      alt: "Sahneva LED Ekran Kiralama - Profesyonel Görsel Çözümler"
+      alt: "Sahneva Organizasyon etkinlik prodüksiyon görseli"
     }],
   },
   twitter: {
     card: "summary_large_image",
     title: "LED Ekran Kiralama | Profesyonel Çözümler | Sahneva",
     description: "P2-P6 piksel aralığı, 4K çözünürlük, yüksek parlaklık LED ekran kiralama. Konser, fuar ve kurumsal etkinlikler.",
-    images: [`${ORIGIN}/img/hizmet-led-ekran.jpg`],
+    images: [`${ORIGIN}/img/og/sahneva-og.webp`],
   },
   robots: {
     index: true,

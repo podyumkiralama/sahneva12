@@ -123,17 +123,17 @@ export const metadata = {
   description: "Modüler podyum kiralama: 1×1 ve 2×1 paneller, kaymaz kaplama, halı ve skört opsiyonları. İstanbul geneli profesyonel kurulum.",
   alternates: { canonical: `${ORIGIN}/podyum-kiralama` },
   openGraph: {
-    title: "Podyum Kiralama | Profesyonel Sahne Çözümleri | Sahneva",
+    title: "Podyum Kiralama | Sahneva Organizasyon",
     description: "Modüler podyum sistemleri, kaymaz kaplama ve profesyonel kurulum.",
     url: `${ORIGIN}/podyum-kiralama`,
     type: "website",
-    siteName: "Sahneva",
+    siteName: "Sahneva Organizasyon",
     locale: "tr_TR",
     images: [{
-      url: `${ORIGIN}/img/podyum/hero.webp`,
+      url: `${ORIGIN}/img/og/sahneva-og.webp`,
       width: 1200,
       height: 630,
-      alt: "Sahneva Podyum Kiralama",
+      alt: "Sahneva Organizasyon etkinlik prodüksiyon görseli",
     }],
   },
 };
