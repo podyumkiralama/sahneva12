@@ -558,7 +558,7 @@ export default function HomePage() {
       </section>
       <div className="w-full bg-transparent p-0 m-0">
         <FaqDeferred />
-      </div>
+      </section>
     </div>
   );
 }
