@@ -4,29 +4,36 @@ import Script from "next/script";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 
 export const revalidate = 1800;
-const ORIGIN = "https://www.sahneva.com";
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? ORIGIN).replace(/\/$/, "");
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.sahneva.com").replace(/\/$/, "");
 const PHONE = "+905453048671";
 const MAIL = "info@sahneva.com";
 
 export const metadata = {
-  title: "Gizlilik Politikası | Sahneva - KVKK ve GDPR Uyumlu",
+  title: "Gizlilik Politikası | KVKK ve GDPR Uyumlu",
   description:
     "Sahneva olarak kişisel verilerinizi KVKK ve GDPR kapsamında güvenli şekilde işliyor, saklıyor ve koruyoruz. Gizlilik politikamızı bu sayfadan inceleyebilirsiniz.",
   alternates: {
-    canonical: `${ORIGIN}/gizlilik-politikasi`,
+    canonical: `${SITE_URL}/gizlilik-politikasi`,
     languages: {
-      "tr-TR": `${ORIGIN}/gizlilik-politikasi`,
-      "x-default": `${ORIGIN}/gizlilik-politikasi`,
+      "tr-TR": `${SITE_URL}/gizlilik-politikasi`,
+      "x-default": `${SITE_URL}/gizlilik-politikasi`,
     },
   },
   openGraph: {
-    title: "Gizlilik Politikası | Sahneva",
+    title: "Gizlilik Politikası | Sahneva Organizasyon",
     description:
       "Sahneva Organizasyon’un KVKK ve GDPR uyumlu gizlilik politikası, çerez kullanımı ve veri işleme süreçleri.",
-    url: `${ORIGIN}/gizlilik-politikasi`,
-    siteName: "Sahneva",
+    url: `${SITE_URL}/gizlilik-politikasi`,
+    siteName: "Sahneva Organizasyon",
     type: "article",
+    images: [
+      {
+        url: `${SITE_URL}/img/og/sahneva-og.webp`,
+        width: 1200,
+        height: 630,
+        alt: "Sahneva Organizasyon etkinlik prodüksiyon görseli",
+      },
+    ],
   },
 };
 
@@ -35,14 +42,15 @@ export default function PrivacyPolicyPage() {
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: "Gizlilik Politikası",
-    url: `${ORIGIN}/gizlilik-politikasi`,
+    url: `${SITE_URL}/gizlilik-politikasi`,
     description:
       "Sahneva Organizasyon’un KVKK ve GDPR uyumlu gizlilik politikası, çerez kullanımı ve veri işleme süreçleri.",
     inLanguage: "tr-TR",
+    image: `${SITE_URL}/img/og/sahneva-og.webp`,
     isPartOf: {
       "@type": "WebSite",
       name: "Sahneva",
-      url: ORIGIN,
+      url: SITE_URL,
     },
   };
   const baseUrl = SITE_URL;
