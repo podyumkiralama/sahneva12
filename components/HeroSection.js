@@ -52,7 +52,14 @@ function KeywordPills({ id }) {
   );
 }
 
-function CTAButton({ href, label, icon, gradient = "from-blue-600 to-purple-600", ariaLabel, ...rest }) {
+function CTAButton({
+  href,
+  label,
+  icon,
+  gradient = "from-blue-600 to-purple-600",
+  ariaLabel,
+  ...rest
+}) {
   return (
     <a
       href={href}
@@ -83,10 +90,7 @@ function HeroBackgroundImage() {
   // Dekoratif arka plan: SR için alt boş + aria-hidden
   return (
     <picture>
-      <source
-        srcSet="/img/hero-bg-mobile.webp"
-        media="(max-width: 768px)"
-      />
+      <source srcSet="/img/hero-bg-mobile.webp" media="(max-width: 768px)" />
       <img
         src={heroImg.src}
         alt=""
@@ -101,8 +105,8 @@ function HeroBackgroundImage() {
 
 export default function HeroSection() {
   return (
-    <section
-      className="relative min-h-[80vh] md:min-h-[70vh] pt-14 lg:pt-16 flex items-center justify-center overflow-hidden bg-black"
+    <header
+      className="relative min-h-[90vh] md:min-h-[70vh] pt-14 lg:pt-16 flex items-center justify-center overflow-hidden bg-black"
       aria-labelledby="hero-title"
       aria-describedby="hero-description hero-keywords"
     >
@@ -118,7 +122,10 @@ export default function HeroSection() {
         <div className="max-w-3xl mx-auto text-center">
           {/* Badge */}
           <p className="inline-flex items-center gap-3 bg-black/45 rounded-full px-4 py-2 border border-white/10 text-xs md:text-sm text-slate-100">
-            <span className="w-2 h-2 bg-green-400 rounded-full" aria-hidden="true" />
+            <span
+              className="w-2 h-2 bg-green-400 rounded-full"
+              aria-hidden="true"
+            />
             Sahneva Organizasyon • Türkiye Geneli Organizasyon Firması
           </p>
 
@@ -141,8 +148,9 @@ export default function HeroSection() {
             id="hero-description"
             className="text-slate-100 text-sm md:text-lg mt-2 md:mt-4 max-w-xl mx-auto"
           >
-            500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli kurulum desteğiyle
-            sahne kiralama, LED ekran kiralama ve etkinlik prodüksiyonu için yanınızdayız.
+            500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli kurulum
+            desteğiyle sahne kiralama, LED ekran kiralama ve etkinlik prodüksiyonu
+            için yanınızdayız.
           </p>
 
           {/* CTAs */}
@@ -161,6 +169,6 @@ export default function HeroSection() {
           </div>
         </div>
       </div>
-    </section>
+    </header>
   );
 }
