@@ -29,7 +29,7 @@ const SOCIAL_LINKS = [
 const SERVICES = [
   { href: "/podyum-kiralama", label: "Podyum Kiralama" },
   { href: "/led-ekran-kiralama", label: "LED Ekran Kiralama" },
-  { href: "/ses-isik-sistemleri", label: "Ses & Işık Sistemleri" },
+  { href: "/ses-isik-sistemleri", label: "Ses Işık Sistemleri" },
   { href: "/sahne-kiralama", label: "Sahne Kiralama" },
   { href: "/cadir-kiralama", label: "Çadır Kiralama" },
 ];
@@ -223,7 +223,7 @@ export default function Footer({
               <div>
                 <p className="text-sm font-semibold text-white">Sahneva</p>
                 <p className="text-xs text-slate-300">
-                  Profesyonel etkinlik prodüksiyon & ekipman kiralama.
+                  Profesyonel etkinlik prodüksiyon ve organizasyon firması hizmetleri.
                 </p>
               </div>
             </div>
@@ -235,13 +235,14 @@ export default function Footer({
               <span className="block">
                 Türkiye genelinde{" "}
                 <span className="text-blue-300 font-semibold">
-                  sahne, podyum, LED ekran
-                </span>{" "}
-                ve ses-ışık sistemleriyle tam kapasiteli kurulum.
+                  sahne kiralama, podyum kiralama, LED ekran kiralama
+                </span>
+                , ses ışık sistemleri ve truss kiralama ile tam kapasiteli kurulum.
               </span>
               <span className="block mt-1 text-slate-300/90">
                 Festival, fuar, konser, kurumsal etkinlik ve mezuniyet
-                organizasyonlarında yanınızdayız.
+                organizasyonlarında çadır kiralama ile masa sandalye kiralama
+                çözümlerinde yanınızdayız.
               </span>
             </p>
 
@@ -451,8 +452,8 @@ export default function Footer({
       <div className="relative border-t border-white/10 text-center text-sm text-gray-300 py-6 bg-black/40 backdrop-blur-md">
         <div className="container mx-auto px-6 relative z-10">
           <p className="mb-3 text-gray-300 max-w-2xl mx-auto">
-            Türkiye genelinde profesyonel sahne, podyum, LED ekran, ses-ışık
-            sistemleri ve kurulum hizmetleri.
+            Türkiye genelinde profesyonel sahne kiralama, podyum kiralama, LED ekran kiralama,
+            ses ışık sistemleri, çadır kiralama ve masa sandalye kiralama hizmetleri.
           </p>
 
           <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2">

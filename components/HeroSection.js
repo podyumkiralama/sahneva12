@@ -3,8 +3,8 @@ import heroImg from "@/public/img/hero-bg.webp";
 
 const HERO_KEYWORDS = [
   { text: "Sahne Kiralama", gradient: "text-blue-300" },
-  { text: "LED Ekran", gradient: "text-purple-300" },
-  { text: "Ses-Işık Sistemleri", gradient: "text-cyan-300" },
+  { text: "LED Ekran Kiralama", gradient: "text-purple-300" },
+  { text: "Ses Işık Sistemleri", gradient: "text-cyan-300" },
 ];
 
 const CTA_BUTTONS = [
@@ -113,7 +113,7 @@ export default function HeroSection() {
           {/* Badge */}
           <p className="inline-flex items-center gap-3 bg-black/45 rounded-full px-4 py-2 border border-white/10 text-xs md:text-sm text-slate-100">
             <span className="w-2 h-2 bg-green-400 rounded-full" aria-hidden="true" />
-            Sahneva Organizasyon • Türkiye Geneli Profesyonel Hizmet
+            Sahneva Organizasyon • Türkiye Geneli Organizasyon Firması
           </p>
 
           {/* Title */}
@@ -123,7 +123,7 @@ export default function HeroSection() {
           >
             Türkiye genelinde
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400 block">
-              Sahne &amp; LED Ekran Kiralama
+              Sahne Kiralama ve LED Ekran Kiralama
             </span>
           </h1>
 
@@ -135,8 +135,8 @@ export default function HeroSection() {
             id="hero-description"
             className="text-slate-100 text-sm md:text-lg mt-2 md:mt-4 max-w-xl mx-auto"
           >
-            500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli hızlı kurulum ile
-            etkinliğinizde yanınızdayız.
+            500+ başarılı proje, %98 müşteri memnuniyeti ve Türkiye geneli kurulum desteğiyle
+            sahne kiralama, LED ekran kiralama ve etkinlik prodüksiyonu için yanınızdayız.
           </p>
 
           {/* CTAs */}
