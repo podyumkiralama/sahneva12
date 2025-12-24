@@ -449,7 +449,7 @@ export default function HomePage() {
             </li>
           </ul>
         </div>
-        <ServicesTabsDeferred idleTimeout={1800} rootMargin="260px" />
+        <ServicesTabsDeferred rootMargin="260px" />
       </section>
 
       {/* 4) PROJELER */}
@@ -461,7 +461,7 @@ export default function HomePage() {
         </p>
         <a href="/projeler">Projeleri inceleyin</a>
       </div>
-      <ProjectsGalleryDeferred idleTimeout={3200} rootMargin="360px" />
+      <ProjectsGalleryDeferred rootMargin="360px" />
 
       {/* 5) TECH CAPABILITIES (below-the-fold) */}
       <div className="bg-slate-900 py-10" style={BELOW_THE_FOLD_VISIBILITY_STYLE}>
