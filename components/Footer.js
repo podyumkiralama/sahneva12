@@ -29,7 +29,7 @@ const SOCIAL_LINKS = [
 const SERVICES = [
   { href: "/podyum-kiralama", label: "Podyum Kiralama" },
   { href: "/led-ekran-kiralama", label: "LED Ekran Kiralama" },
-  { href: "/ses-isik-sistemleri", label: "Ses & Işık Sistemleri" },
+  { href: "/ses-isik-sistemleri", label: "Ses Işık Sistemleri" },
   { href: "/sahne-kiralama", label: "Sahne Kiralama" },
   { href: "/cadir-kiralama", label: "Çadır Kiralama" },
 ];
@@ -75,7 +75,15 @@ const FooterLink = ({
 );
 
 /* --- Yardımcı Bileşen: Sosyal Medya İkonu --- */
-const SocialLink = ({ href, label, title, icon, gradient, rel }) => {
+const SocialLink = ({
+  href,
+  label,
+  title,
+  icon,
+  gradient,
+  rel,
+  sizeClass = "h-11 w-11",
+}) => {
   const relValue = rel
     ? `noopener noreferrer ${rel}`
     : "noopener noreferrer";
@@ -89,7 +97,7 @@ const SocialLink = ({ href, label, title, icon, gradient, rel }) => {
         aria-label={`${label} – yeni sekmede açılır`}
         title={title || label}
         className={`
-          group relative inline-flex h-11 w-11 items-center justify-center rounded-2xl
+          group relative inline-flex ${sizeClass} items-center justify-center rounded-2xl
           bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10
           hover:border-white/40 transition-all duration-300 hover:scale-110
           ${FOCUS_RING_CLASS}
@@ -155,7 +163,7 @@ export default function Footer({
       {/* Dekoratif arka plan efektleri */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         {/* Grid overlay */}
-        <div className="absolute inset-0 opacity-40">
+        <div className="absolute inset-0 opacity-60">
           <div
             className="grid-overlay"
             style={{
@@ -185,7 +193,7 @@ export default function Footer({
       ) : null}
 
       {/* Üst grid */}
-      <div className="relative z-10 container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 xl:gap-10 pt-16 pb-14 px-6">
+      <div className="relative z-10 container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 items-start gap-6 xl:gap-8 pt-8 pb-8 md:pt-10 md:pb-10 px-6">
         {/* 1. SÜTUN: Marka & Sosyal */}
         <section
           aria-labelledby="ft-brand"
@@ -193,10 +201,10 @@ export default function Footer({
         >
           <div
             className="
-              h-full rounded-3xl border border-white/10 bg-white/5/5 
+              rounded-3xl border border-white/10 bg-white/5/5 
               bg-gradient-to-br from-white/5 via-white/0 to-white/0 
               backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.8)]
-              p-6 md:p-7 flex flex-col gap-6
+              p-4 md:p-4 flex flex-col gap-4
             "
           >
             <h3 id="ft-brand" className="sr-only">
@@ -223,38 +231,29 @@ export default function Footer({
               <div>
                 <p className="text-sm font-semibold text-white">Sahneva</p>
                 <p className="text-xs text-slate-300">
-                  Profesyonel etkinlik prodüksiyon & ekipman kiralama.
+                  Profesyonel etkinlik prodüksiyon ve organizasyon firması hizmetleri.
                 </p>
               </div>
             </div>
 
             <p
-              className="text-sm leading-7 text-gray-300"
+              className="text-sm leading-snug text-gray-300 max-w-prose"
               id={computedDescriptionId}
             >
               <span className="block">
                 Türkiye genelinde{" "}
                 <span className="text-blue-300 font-semibold">
-                  sahne, podyum, LED ekran
-                </span>{" "}
-                ve ses-ışık sistemleriyle tam kapasiteli kurulum.
+                  sahne kiralama, podyum kiralama, LED ekran kiralama
+                </span>
+                , ses ışık sistemleri ve truss kiralama ile tam kapasiteli kurulum.
               </span>
               <span className="block mt-1 text-slate-300/90">
                 Festival, fuar, konser, kurumsal etkinlik ve mezuniyet
-                organizasyonlarında yanınızdayız.
+                organizasyonlarında çadır kiralama ile masa sandalye kiralama
+                çözümlerinde yanınızdayız.
               </span>
             </p>
 
-            <div className="mt-1">
-              <p className="text-xs font-medium text-slate-400 mb-2">
-                Bizi sosyal medyada takip edin
-              </p>
-              <ul className="flex gap-3" aria-label="Sosyal medya hesaplarımız">
-                {SOCIAL_LINKS.map((link) => (
-                  <SocialLink key={link.href} {...link} />
-                ))}
-              </ul>
-            </div>
           </div>
         </section>
 
@@ -265,22 +264,22 @@ export default function Footer({
         >
           <div
             className="
-              h-full rounded-3xl border border-white/10 bg-white/5/5 
+              rounded-3xl border border-white/10 bg-white/5/5 
               bg-gradient-to-br from-blue-600/10 via-slate-900/40 to-slate-900/60
               backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.85)]
-              p-6 md:p-7
+              p-4 md:p-4
             "
           >
             <h3
               id="ft-services"
               className="
-                text-white font-bold mb-5 text-lg
+                text-white font-bold mb-4 text-lg
                 bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent
               "
             >
               Hizmetlerimiz
             </h3>
-            <ul className="space-y-1.5 text-sm text-gray-300">
+            <ul className="space-y-0.5 text-sm text-gray-300">
               {SERVICES.map((link) => (
                 <FooterLink
                   key={link.href}
@@ -301,22 +300,22 @@ export default function Footer({
         >
           <div
             className="
-              h-full rounded-3xl border border-white/10 bg-white/5/5 
+              rounded-3xl border border-white/10 bg-white/5/5 
               bg-gradient-to-br from-purple-600/15 via-slate-900/40 to-slate-900/60
               backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.85)]
-              p-6 md:p-7
+              p-4 md:p-4
             "
           >
             <h3
               id="ft-quick"
               className="
-                text-white font-bold mb-5 text-lg
+                text-white font-bold mb-4 text-lg
                 bg-gradient-to-r from-purple-400 to-pink-300 bg-clip-text text-transparent
               "
             >
               Hızlı Erişim
             </h3>
-            <ul className="space-y-1.5 text-sm text-gray-300">
+            <ul className="space-y-0.5 text-sm text-gray-300">
               {QUICK_LINKS.map((link) => (
                 <FooterLink
                   key={link.href}
@@ -337,25 +336,23 @@ export default function Footer({
         >
           <div
             className="
-              h-full rounded-3xl border border-white/10 bg-white/5/5 
+              rounded-3xl border border-white/10 bg-white/5/5 
               bg-gradient-to-br from-cyan-500/15 via-slate-900/40 to-slate-900/60
               backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.85)]
-              p-6 md:p-7
+              p-4 md:p-4
             "
           >
             <h3
               id="ft-contact"
               className="
-                text-white font-bold mb-5 text-lg
+                text-white font-bold mb-4 text-lg
                 bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text text-transparent
               "
             >
               İletişim Bilgileri
             </h3>
 
-            <address
-              className="not-italic space-y-5 text-sm text-gray-300"
-            >
+            <address className="not-italic space-y-3 text-sm text-gray-300">
               {/* Adres */}
               <div className="flex items-start gap-3">
                 <span
@@ -442,17 +439,28 @@ export default function Footer({
                   </a>
                 ))}
               </div>
+
+              <div className="border-t border-white/10 pt-3">
+                <p className="text-xs font-medium text-slate-400 mb-2">
+                  Sosyal medya hesaplarımız
+                </p>
+                <ul className="flex gap-2" aria-label="Sosyal medya hesaplarımız">
+                  {SOCIAL_LINKS.map((link) => (
+                    <SocialLink key={link.href} sizeClass="h-9 w-9" {...link} />
+                  ))}
+                </ul>
+              </div>
             </address>
           </div>
         </section>
       </div>
 
       {/* Alt Telif Satırı */}
-      <div className="relative border-t border-white/10 text-center text-sm text-gray-300 py-6 bg-black/40 backdrop-blur-md">
+      <div className="relative border-t border-white/10 text-center text-sm text-gray-300 py-5 bg-black/40 backdrop-blur-md">
         <div className="container mx-auto px-6 relative z-10">
-          <p className="mb-3 text-gray-300 max-w-2xl mx-auto">
-            Türkiye genelinde profesyonel sahne, podyum, LED ekran, ses-ışık
-            sistemleri ve kurulum hizmetleri.
+          <p className="mb-2 text-gray-300 max-w-2xl mx-auto">
+            Türkiye genelinde profesyonel sahne kiralama, podyum kiralama, LED ekran kiralama,
+            ses ışık sistemleri, çadır kiralama ve masa sandalye kiralama hizmetleri.
           </p>
 
           <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2">
