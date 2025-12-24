@@ -10,3 +10,6 @@
 | Sahne Kiralama | https://www.sahneva.com/sahne-kiralama | range | minPrice: 10000, maxPrice: 200000 | TRY | — | yes | — |
 | Ses-Işık Sistemleri | https://www.sahneva.com/ses-isik-sistemleri | range | minPrice: 10000, maxPrice: 300000 | TRY | — | yes | — |
 | İstanbul İçi Nakliye | https://www.sahneva.com/hizmetler | fixed | price: 7000 | TRY | — | yes | linked to services page |
+
+## Update Note
+- Normalized `buildServiceProductSchema` to emit numeric prices (Offer + AggregateOffer) and standardized unit handling with `referenceQuantity` (MTK/C62 and daily via `unitText: "DAY"`) to avoid schema validation warnings while preserving all existing price values.
