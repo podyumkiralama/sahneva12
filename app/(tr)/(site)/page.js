@@ -425,29 +425,7 @@ export default function HomePage() {
             Türkiye geneli sahne kiralama, podyum kiralama, LED ekran kiralama, ses ışık
             sistemleri, truss kiralama, çadır kiralama ve masa sandalye kiralama çözümleri.
           </p>
-          <ul>
-            <li>
-              <a href="/sahne-kiralama">Sahne Kiralama</a>
-            </li>
-            <li>
-              <a href="/podyum-kiralama">Podyum Kiralama</a>
-            </li>
-            <li>
-              <a href="/led-ekran-kiralama">LED Ekran Kiralama</a>
-            </li>
-            <li>
-              <a href="/ses-isik-sistemleri">Ses Işık Sistemleri</a>
-            </li>
-            <li>
-              <a href="/truss-kiralama">Truss Kiralama</a>
-            </li>
-            <li>
-              <a href="/cadir-kiralama">Çadır Kiralama</a>
-            </li>
-            <li>
-              <a href="/masa-sandalye-kiralama">Masa Sandalye Kiralama</a>
-            </li>
-          </ul>
+          <a href="/hizmetler">Tüm hizmetleri inceleyin</a>
         </div>
         <ServicesTabsDeferred rootMargin="0px 0px" />
       </section>

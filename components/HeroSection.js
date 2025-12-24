@@ -102,7 +102,7 @@ function HeroBackgroundImage() {
 export default function HeroSection() {
   return (
     <section
-      className="relative min-h-[70vh] pt-14 lg:pt-16 flex items-center justify-center overflow-hidden bg-black"
+      className="relative min-h-[90vh] md:min-h-[70vh] pt-14 lg:pt-16 flex items-center justify-center overflow-hidden bg-black"
       aria-labelledby="hero-title"
       aria-describedby="hero-description hero-keywords"
     >
