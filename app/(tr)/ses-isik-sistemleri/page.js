@@ -38,24 +38,24 @@ export const metadata = {
   description: "Konser, festival ve kurumsal etkinlikler için profesyonel ses & ışık sistemleri kiralama. Line array, dijital mikser, hareketli ışık, truss ve canlı operasyon. 81 ilde hizmet.",
   alternates: { canonical: `${ORIGIN}/ses-isik-sistemleri` },
   openGraph: {
-    title: "Ses ve Işık Sistemleri Kiralama | Profesyonel Çözümler | Sahneva",
+    title: "Ses ve Işık Sistemleri Kiralama | Sahneva Organizasyon",
     description: "Türkiye genelinde uçtan uca ses & ışık çözümleri: keşif, projelendirme, kurulum, canlı miksaj ve söküm.",
     url: `${ORIGIN}/ses-isik-sistemleri`,
     type: "website",
-    siteName: "Sahneva",
+    siteName: "Sahneva Organizasyon",
     locale: "tr_TR",
     images: [{ 
-      url: `${ORIGIN}/img/ses-isik/hero.webp`, 
+      url: `${ORIGIN}/img/og/sahneva-og.webp`, 
       width: 1200, 
       height: 630, 
-      alt: "Sahneva Profesyonel Ses & Işık Sistemleri Kurulumu" 
+      alt: "Sahneva Organizasyon etkinlik prodüksiyon görseli" 
     }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Ses ve Işık Sistemleri Kiralama | Sahneva",
     description: "Line array, dijital mikser, kablosuz mikrofon, hareketli başlık, truss ve canlı operasyonla Türkiye genelinde ses & ışık kiralama.",
-    images: [`${ORIGIN}/img/ses-isik/hero.webp`],
+    images: [`${ORIGIN}/img/og/sahneva-og.webp`],
   },
   robots: {
     index: true,

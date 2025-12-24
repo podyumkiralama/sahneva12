@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 
 export const inter = Inter({
   subsets: ["latin", "latin-ext"],
+  weight: ["400", "600", "700", "800", "900"],
+  style: ["normal"],
   // Keep text paint unblocked; allow font to swap in after first render.
   display: "swap",
   // Preload to start the font fetch during initial navigation instead of waiting
@@ -21,4 +23,3 @@ export const inter = Inter({
     "sans-serif",
   ],
 });
-

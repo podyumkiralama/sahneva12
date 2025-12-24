@@ -47,19 +47,19 @@ export const metadata = {
     "Napolyon ve konferans sandalyeleri, banket ve bistro masalar, örtü-kılıf; numaralandırma ve profesyonel yerleşim. İstanbul genelinde hızlı teslim.",
   alternates: { canonical: `${ORIGIN}/masa-sandalye-kiralama` },
   openGraph: {
-    title: "Masa Sandalye Kiralama | Profesyonel Çözümler",
+    title: "Masa Sandalye Kiralama | Sahneva Organizasyon",
     description:
       "Davet, konferans ve kokteyl düzenleri için masa sandalye kiralama. Örtü-kılıf, planlama ve profesyonel kurulum.",
     url: `${ORIGIN}/masa-sandalye-kiralama`,
     type: "website",
-    siteName: "Sahneva",
+    siteName: "Sahneva Organizasyon",
     locale: "tr_TR",
     images: [
       {
-        url: `${ORIGIN}/img/sandalye/3.webp`,
+        url: `${ORIGIN}/img/og/sahneva-og.webp`,
         width: 1200,
         height: 630,
-        alt: "Sahneva Masa Sandalye Kiralama - Profesyonel Davet ve Konferans Çözümleri",
+        alt: "Sahneva Organizasyon etkinlik prodüksiyon görseli",
       },
     ],
   },
@@ -68,7 +68,7 @@ export const metadata = {
     title: "Masa Sandalye Kiralama | Profesyonel Çözümler | Sahneva",
     description:
       "Napolyon ve konferans sandalyeleri, banket ve bistro masalar, örtü-kılıf; numaralandırma ve profesyonel yerleşim.",
-    images: [`${ORIGIN}/img/sandalye/3.webp`],
+    images: [`${ORIGIN}/img/og/sahneva-og.webp`],
   },
   robots: {
     index: true,
