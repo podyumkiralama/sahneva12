@@ -25,17 +25,18 @@ export const metadata = {
   description:
     "Kurumsal etkinlik yönetimi, sahne kiralama, LED ekran teknolojileri, ses-ışık sistemleri hakkında uzman rehberleri.",
   openGraph: {
-    title: "Sahneva Blog | Etkinlik Teknolojileri Rehberi",
+    title: "Sahneva Organizasyon Blog | Etkinlik Teknolojileri Rehberi",
     description:
       "Sahneva ekibinden kurumsal organizasyon ve teknik ekipmanlar üzerine güncel blog yazıları.",
     url: `${getBaseUrl()}/blog`,
     type: "website",
+    siteName: "Sahneva Organizasyon",
     images: [
       {
-        url: `${ORIGIN}/img/og-blog-default.jpg`,
+        url: `${ORIGIN}/img/og/sahneva-og.webp`,
         width: 1200,
         height: 630,
-        alt: "Sahneva Blog",
+        alt: "Sahneva Organizasyon blog görseli",
       },
     ],
   },

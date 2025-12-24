@@ -20,11 +20,11 @@ const LOCAL_BUSINESS_ID = `${SITE_URL}/#local`;
 const PAGE_PATH = "/truss-kiralama";
 const PAGE_URL = `${ORIGIN}${PAGE_PATH}`;
 
-const TITLE = "Truss Kiralama | Alüminyum Truss Sistemleri | Sahneva";
+const TITLE = "Truss Kiralama | Alüminyum Truss Sistemleri | Sahneva Organizasyon";
 const DESCRIPTION =
   "Kare, üçgen, circle ve kemer (gate) dahil her türlü truss kiralama ve kurulumu. LED ekran, ışık-ses rigging ve sahne portalı için nakliye + montaj + teknik ekip desteği.";
 
-const OG_IMAGE = `${ORIGIN}/img/og/truss-kiralama.webp`;
+const OG_IMAGE = `${ORIGIN}/img/og/sahneva-og.webp`;
 
 /* ================== İletişim ================== */
 /** !!! burayı ne yapalım: LED ekran sayfasındaki PHONE düzenine göre güncelledim. */
@@ -63,7 +63,14 @@ export const metadata = {
     siteName: "Sahneva Organizasyon",
     locale: "tr_TR",
     type: "website",
-    images: [{ url: OG_IMAGE }],
+    images: [
+      {
+        url: OG_IMAGE,
+        width: 1200,
+        height: 630,
+        alt: "Sahneva Organizasyon etkinlik prodüksiyon görseli",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",

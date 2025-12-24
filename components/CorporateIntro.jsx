@@ -40,7 +40,7 @@ export default function CorporateIntro() {
                 className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.9)]"
                 aria-hidden="true"
               />
-              Kurumsal Etkinlik Prodüksiyonu
+              Kurumsal Organizasyon ve Etkinlik Prodüksiyonu
             </div>
 
             <h2
@@ -56,7 +56,7 @@ export default function CorporateIntro() {
             <p className="mt-4 text-sm sm:text-base md:text-[15px] leading-relaxed text-slate-300 max-w-2xl">
               Lansman, bayi toplantısı, konferans ve fuarlarınızda;{" "}
               <span className="font-semibold text-slate-50">
-                sahne, LED ekran, ses-ışık ve truss yapıları
+                sahne, LED ekran kiralama, ses-ışık ve truss yapıları
               </span>{" "}
               dahil tüm teknik altyapıyı tek ekipten yönetiyoruz. Teknik
               riskleri sizden alıp, kusursuz görünen bir etkinlik akışı
@@ -183,7 +183,7 @@ export default function CorporateIntro() {
                 <div className="relative w-full aspect-[16/10] sm:aspect-[4/3] md:aspect-[16/9]">
                   <Image
                     src="/img/kurumsal/kurumsal-sahne-led-ekran.webp"
-                    alt="Kurumsal lansman sahne kurulumu, LED ekran ve profesyonel ışık sistemleri ile canlı etkinlik."
+                    alt="Kurumsal lansman sahne kurulumu, LED ekran kiralama ve profesyonel ışık sistemleri ile canlı etkinlik."
                     fill
                     sizes="(max-width: 1024px) 100vw, 480px"
                     className="object-cover transition-transform duration-[900ms] hover:scale-[1.04]"

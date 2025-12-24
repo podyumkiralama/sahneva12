@@ -38,13 +38,13 @@ const SERVICE_LINKS = [
     href: "/kurumsal-organizasyon",
     label: "Kurumsal Organizasyon",
     icon: "🏢",
-    description: "Kurumsal etkinlik planlama ve uçtan uca organizasyon yönetimi",
+    description: "Kurumsal etkinlik organizasyonu ve uçtan uca yönetim",
   },
   {
     href: "/ses-isik-sistemleri",
-    label: "Ses & Işık Sistemleri",
+    label: "Ses Işık Sistemleri",
     icon: "🎭",
-    description: "Konser kalitesinde ses ve ışık ekipmanları",
+    description: "Konser kalitesinde ses ışık sistemleri",
   },
   {
     href: "/truss-kiralama",
@@ -62,7 +62,7 @@ const SERVICE_LINKS = [
     href: "/masa-sandalye-kiralama",
     label: "Masa Sandalye Kiralama",
     icon: "🪑",
-    description: "Toplantı ve davetler için masa sandalye",
+    description: "Toplantı ve davetler için masa sandalye kiralama",
   },
 ];
 
@@ -103,7 +103,6 @@ export default function Navbar(props) {
                 alt="Sahneva Logo"
                 width={160}
                 height={40}
-                priority
                 decoding="async"
                 sizes="(max-width: 768px) 120px, 160px"
                 className="h-8 lg:h-10 w-auto transition-transform duration-200 group-hover:scale-105"
@@ -119,10 +118,12 @@ export default function Navbar(props) {
               {/* Services: native <details> => no JS */}
               <details id="nav-services-details" className="relative group">
                 <summary
+                  id="nav-services-summary"
                   className={`list-none cursor-pointer select-none relative text-[15px] font-bold px-4 py-2.5 rounded-xl transition-all duration-200 border
                     text-neutral-800 hover:text-blue-700 hover:bg-neutral-50 border-transparent hover:border-neutral-200
                     ${FOCUS_RING_CLASS}`}
-                  aria-haspopup="menu"
+                  aria-expanded="false"
+                  aria-controls="nav-services-panel"
                 >
                   <span className="flex items-center gap-2">
                     Hizmetler
@@ -149,8 +150,8 @@ export default function Navbar(props) {
                   - main zaten pt-16/lg:pt-20 verdiği için navbar altında ekstra "spacer" yok
                 */}
                 <div
-                  role="menu"
-                  aria-label="Hizmetler menüsü"
+                  id="nav-services-panel"
+                  aria-label="Hizmetler alt menüsü"
                   className="hidden group-open:block fixed inset-x-0 top-16 lg:top-20 z-[70]"
                 >
                   <div className="container">
@@ -169,7 +170,6 @@ export default function Navbar(props) {
                               fill
                               sizes="(max-width: 1024px) 100vw, 360px"
                               className="object-cover object-center"
-                              priority={false}
                             />
                             <div className="absolute inset-0 bg-black/20" aria-hidden="true" />
                             <div className="grid-overlay" aria-hidden="true" />
@@ -199,7 +199,6 @@ export default function Navbar(props) {
                               key={s.href}
                               href={s.href}
                               className={`group flex items-start gap-3 rounded-xl px-5 py-3.5 text-sm text-neutral-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 ${FOCUS_RING_CLASS}`}
-                              role="menuitem"
                             >
                               <span
                                 className="mt-0.5 text-lg opacity-80 group-hover:opacity-100"

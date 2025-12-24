@@ -47,19 +47,19 @@ export const metadata = {
     "Konser, konferans, lansman, miting ve festival etkinlikleri için anahtar teslim sahne kiralama. Truss, podyum, LED ekran, ses ve ışık sistemleri. 81 ilde profesyonel hizmet.",
   alternates: { canonical: `${ORIGIN}/sahne-kiralama` },
   openGraph: {
-    title: "Sahne Kiralama | Profesyonel Sahne Çözümleri",
+    title: "Sahne Kiralama | Sahneva Organizasyon",
     description:
       "Konser, konferans, lansman ve festival etkinlikleri için truss, podyum, LED ekran, ses ve ışık sistemleri ile anahtar teslim sahne çözümleri.",
     url: `${ORIGIN}/sahne-kiralama`,
     type: "website",
-    siteName: "Sahneva",
+    siteName: "Sahneva Organizasyon",
     locale: "tr_TR",
     images: [
       {
-        url: `${ORIGIN}/img/hizmet-sahne.webp`,
+        url: `${ORIGIN}/img/og/sahneva-og.webp`,
         width: 1200,
         height: 630,
-        alt: "Sahneva Profesyonel Sahne Kiralama - Konser sahnesi ve LED ekran kurulumu",
+        alt: "Sahneva Organizasyon etkinlik prodüksiyon görseli",
       },
     ],
   },
@@ -68,7 +68,7 @@ export const metadata = {
     title: "Sahne Kiralama | Profesyonel Sahne Çözümleri | Sahneva",
     description:
       "Konser, konferans, lansman ve festival etkinlikleri için profesyonel sahne çözümleri.",
-    images: [`${ORIGIN}/img/hizmet-sahne.webp`],
+    images: [`${ORIGIN}/img/og/sahneva-og.webp`],
   },
   robots: {
     index: true,
