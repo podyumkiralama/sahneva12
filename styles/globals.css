@@ -53,11 +53,15 @@
   }
 
   h1 {
-    @apply text-4xl md:text-5xl leading-tight font-extrabold;
+    @apply text-4xl md:text-5xl leading-tight font-extrabold tracking-tight;
   }
 
   h2 {
-    @apply text-3xl md:text-4xl leading-tight font-bold;
+    @apply text-3xl md:text-4xl leading-tight font-bold tracking-tight;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl leading-snug font-semibold tracking-tight;
   }
 
   img,
@@ -108,6 +112,22 @@
 
 /* Components */
 @layer components {
+  .prose :is(h1, h2, h3) {
+    @apply tracking-tight;
+  }
+
+  .prose h1 {
+    @apply text-4xl md:text-5xl leading-tight font-extrabold;
+  }
+
+  .prose h2 {
+    @apply text-3xl md:text-4xl leading-tight font-bold;
+  }
+
+  .prose h3 {
+    @apply text-2xl md:text-3xl leading-snug font-semibold;
+  }
+
   .rail-control {
     @apply inline-flex items-center justify-center gap-2 min-w-10 h-10 px-3 rounded-xl font-semibold transition-all duration-150;
     background-color: rgba(15, 23, 42, 0.6);
@@ -155,4 +175,3 @@
   .focus-ring:focus:not(:focus-visible) {
     box-shadow: none;
   }
-
