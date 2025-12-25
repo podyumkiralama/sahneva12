@@ -1,17 +1,11 @@
 // components/DeferredSections.client.jsx
-"use client";
-
-import dynamic from "next/dynamic";
-
-// Dinamik componentler
-const ServicesTabs = dynamic(() => import("./ServicesTabs"));
-const ProjectsGallery = dynamic(() => import("./ProjectsGallery"));
-const Faq = dynamic(() => import("./Faq"));
-
-const CorporateEvents = dynamic(() => import("./CorporateEvents"));
-const CorporateIntro = dynamic(() => import("./CorporateIntro"));
-const TechCapabilities = dynamic(() => import("./TechCapabilities"));
-const WhyChooseUs = dynamic(() => import("./WhyChooseUs"));
+import ServicesTabs from "./ServicesTabs";
+import ProjectsGallery from "./ProjectsGallery";
+import Faq from "./Faq";
+import CorporateEvents from "./CorporateEvents";
+import CorporateIntro from "./CorporateIntro";
+import TechCapabilities from "./TechCapabilities";
+import WhyChooseUs from "./WhyChooseUs";
 
 const visibilityStyle = (minHeightPx) => ({
   contentVisibility: "auto",
