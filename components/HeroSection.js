@@ -87,22 +87,29 @@ function CTAGroup() {
   );
 }
 
+import heroImg from "@/public/img/hero-bg.webp";
+
 function HeroBackgroundImage() {
   return (
-    <Image
-      src={heroImg} // static import
-      alt=""
-      fill
-      priority
-      fetchPriority="high"
-      placeholder="empty"
-      sizes="(max-width: 768px) 100vw, 1200px"
-      quality={40}
-      className="absolute inset-0 h-full w-full object-cover object-center"
-      aria-hidden="true"
-    />
+    <picture>
+      <source
+        srcSet="/img/hero-bg-mobile.webp"
+        media="(max-width: 768px)"
+        type="image/webp"
+      />
+      <img
+        src={heroImg.src}
+        alt=""
+        fetchPriority="high"
+        loading="eager"
+        decoding="async"
+        className="absolute inset-0 h-full w-full object-cover object-center"
+        aria-hidden="true"
+      />
+    </picture>
   );
 }
+
 
 export default function HeroSection() {
   return (
