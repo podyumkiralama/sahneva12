@@ -152,6 +152,7 @@ export default function Navbar(props) {
                 <div
                   id="nav-services-panel"
                   aria-label="Hizmetler alt menüsü"
+                  data-megamenu="hizmetler"
                   className="hidden group-open:block fixed inset-x-0 top-16 lg:top-20 z-[70]"
                 >
                   <div className="container">

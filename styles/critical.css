@@ -77,41 +77,6 @@ svg {
   }
 }
 
-/* ===== NAVBAR / DROPDOWN critical patch ===== */
-
-/* Navbar üstte sabit/sticky ise */
-header, nav {
-  position: relative;
-  z-index: 60;
-}
-
-/* Mega menu container: açılınca beyaz dev blok olmasını engelle */
-[data-megamenu],
-.megamenu,
-.nav-mega,
-.nav-dropdown {
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(1100px, calc(100vw - 2rem));
-  max-width: 1100px;
-  background: rgba(15, 23, 42, 0.96); /* slate-900 benzeri */
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.45);
-  overflow: hidden;
-}
-
-/* İç spacing */
-[data-megamenu] * ,
-.megamenu * ,
-.nav-mega * ,
-.nav-dropdown * {
-  box-sizing: border-box;
-}
-
 #_main_header nav {
   position: fixed;
   top: 0;
@@ -304,6 +269,22 @@ header, nav {
 #_main_content header[aria-labelledby="hero-title"] .mx-auto {
   margin-left: auto;
   margin-right: auto;
+}
+
+[data-megamenu] {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1100px, calc(100vw - 2rem));
+  max-width: 1100px;
+  background: rgba(15, 23, 42, 0.96);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  z-index: 70;
 }
 
 .focus-ring:focus-visible {
