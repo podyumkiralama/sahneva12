@@ -238,7 +238,7 @@ export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
         {/* BAŞLIK BLOĞU */}
         <ScrollReveal direction="up" delay="0.05">
           <header className="max-w-4xl mx-auto mb-16 text-center md:text-left">
-            <p className="text-xs md:text-[13px] font-semibold tracking-[0.22em] uppercase text-slate-300/80">
+            <p className="text-xs md:text-[13px] font-semibold tracking-[0.22em] uppercase text-slate-300/90">
               {dictionary.sectionPill}
             </p>
 

@@ -15,6 +15,9 @@ const FAQ_WHATSAPP_MESSAGE = encodeURIComponent(
   "Merhaba, SSS bölümünden ulaşıyorum. Etkinlik ve ekipman kiralama için bilgi almak istiyorum."
 );
 
+const FOCUS_RING_CLASS =
+  "focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B1120]";
+
 const DEFAULT_DICTIONARY = {
   sectionPill: "Merak Edilenler",
   sectionTitlePrefix: "Kiralama Süreci ve",
@@ -207,7 +210,7 @@ function SupportCard({ dictionary }) {
         {/* Telefon */}
         <a
           href={dictionary.contactPhoneHref}
-          className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-blue-500/30 transition-all group"
+          className={`flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-blue-500/30 transition-all group ${FOCUS_RING_CLASS}`}
         >
           <span className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
             📞
@@ -227,7 +230,7 @@ function SupportCard({ dictionary }) {
           href={dictionary.contactWhatsappHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-green-500/30 transition-all group"
+          className={`flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-green-500/30 transition-all group ${FOCUS_RING_CLASS}`}
           aria-label={`${dictionary.supportWhatsappLabel} – yeni sekmede açılır`}
         >
           <span className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center text-green-400 group-hover:bg-green-500 group-hover:text-white transition-colors">
@@ -246,7 +249,7 @@ function SupportCard({ dictionary }) {
         {/* Mail */}
         <a
           href={dictionary.contactMailHref}
-          className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-purple-500/30 transition-all group"
+          className={`flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-purple-500/30 transition-all group ${FOCUS_RING_CLASS}`}
         >
           <span className="w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-colors">
             ✉️

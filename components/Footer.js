@@ -480,7 +480,8 @@ export default function Footer({
             <Link
               href="/kvkk"
               className={`
-                hover:text-white transition-colors underline-offset-4 hover:underline 
+                underline decoration-white/40 underline-offset-4 hover:text-white hover:decoration-white
+                transition-colors 
                 ${FOCUS_RING_CLASS}
               `}
             >
@@ -495,7 +496,8 @@ export default function Footer({
             <a
               href="#_main_content"
               className={`
-                hover:text-white transition-colors underline-offset-4 hover:underline 
+                underline decoration-white/40 underline-offset-4 hover:text-white hover:decoration-white
+                transition-colors 
                 ${FOCUS_RING_CLASS}
               `}
             >
