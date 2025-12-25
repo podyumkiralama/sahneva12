@@ -68,7 +68,7 @@ const securityHeaders = (() => {
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
     script-src ${SCRIPT_SRC};
     script-src-elem ${SCRIPT_SRC_ELEM};
-    script-src-attr 'none';
+    script-src-attr 'sha256-MhtPZXr7+LpJUY5qtMutB+qWfQtMaPccfe7QXtCcEYc=';
     connect-src ${CONNECT_SRC};
     worker-src 'self' blob:;
     frame-src ${FRAME_SRC};
