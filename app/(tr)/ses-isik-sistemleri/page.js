@@ -856,7 +856,7 @@ function FAQ() {
           </p>
         </div>
 
-        <div className="space-y-6"  aria-label="Sık sorulan sorular listesi">
+        <div className="space-y-6">
           {FAQ_ITEMS.map((faq, index) => (
             <details 
               key={index} 

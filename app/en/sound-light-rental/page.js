@@ -845,7 +845,7 @@ function FAQ() {
           </p>
         </div>
 
-        <div className="space-y-6" aria-label="Frequently asked questions list">
+        <div className="space-y-6">
           {faqs.map((faq, index) => (
             <details
               key={index}
@@ -853,8 +853,6 @@ function FAQ() {
             >
               <summary
                 className="cursor-pointer list-none flex items-center justify-between text-xl font-bold text-gray-900"
-
-                aria-expanded="false"
                 tabIndex={0}
                 role="button"
               >

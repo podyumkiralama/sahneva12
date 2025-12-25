@@ -188,21 +188,25 @@ export default async function ProjectsIndexPage() {
 
                     {/* Tags */}
                     {p.tags?.length > 0 && (
-                      <div className="flex flex-wrap gap-2" aria-label="Proje etiketleri">
+                      <ul
+                        className="flex flex-wrap gap-2 list-none p-0 m-0"
+                        aria-label="Proje etiketleri"
+                      >
                         {p.tags.slice(0, 3).map((t) => (
-                          <span
-                            key={t}
-                            className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-200 border border-blue-500/30"
-                          >
-                            #{t}
-                          </span>
+                          <li key={t}>
+                            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-200 border border-blue-500/30">
+                              #{t}
+                            </span>
+                          </li>
                         ))}
                         {p.tags.length > 3 && (
-                          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white/60">
-                            +{p.tags.length - 3}
-                          </span>
+                          <li>
+                            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white/60">
+                              +{p.tags.length - 3}
+                            </span>
+                          </li>
                         )}
-                      </div>
+                      </ul>
                     )}
                   </div>
                 </Link>

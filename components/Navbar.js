@@ -122,7 +122,6 @@ export default function Navbar(props) {
                   className={`list-none cursor-pointer select-none relative text-[15px] font-bold px-4 py-2.5 rounded-xl transition-all duration-200 border
                     text-neutral-800 hover:text-blue-700 hover:bg-neutral-50 border-transparent hover:border-neutral-200
                     ${FOCUS_RING_CLASS}`}
-                  aria-expanded="false"
                   aria-controls="nav-services-panel"
                 >
                   <span className="flex items-center gap-2">
@@ -151,7 +150,8 @@ export default function Navbar(props) {
                 */}
                 <div
                   id="nav-services-panel"
-                  aria-label="Hizmetler alt menüsü"
+                  role="region"
+                  aria-labelledby="nav-services-summary"
                   className="hidden group-open:block fixed inset-x-0 top-16 lg:top-20 z-[70]"
                 >
                   <div className="container">

@@ -101,7 +101,11 @@ function ConsultationCard() {
 
 function ProcessList() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-3" aria-label="Proje akış adımları">
+    <div
+      className="grid grid-cols-1 md:grid-cols-3 gap-3"
+      role="region"
+      aria-label="Proje akış adımları"
+    >
       {PROCESS_STEPS.map((step) => (
         <article
           key={step.title}
