@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 /**
  * Tiny client island to improve UX for the desktop Services <details> dropdown.
@@ -10,14 +11,18 @@ import { useEffect } from "react";
  *
  * This keeps the main Navbar server-rendered while fixing the "doesn't close" complaint.
  */
-export default function ServicesDropdownBehavior({ detailsId }) {
+export default function ServicesDropdownBehavior({ detailsId, panelId }) {
+  const pathname = usePathname();
+
   useEffect(() => {
     if (!detailsId) return;
     const detailsEl = document.getElementById(detailsId);
     if (!(detailsEl instanceof HTMLDetailsElement)) return;
 
     const summary = detailsEl.querySelector("summary");
-    const menu = detailsEl.querySelector("#nav-services-panel");
+    const menu =
+      (panelId ? document.getElementById(panelId) : null) ??
+      detailsEl.querySelector("[data-dropdown-panel]");
 
     const close = () => {
       if (detailsEl.open) detailsEl.open = false;
@@ -52,6 +57,9 @@ export default function ServicesDropdownBehavior({ detailsId }) {
     };
 
     const onToggle = () => {
+      if (summary instanceof HTMLElement) {
+        summary.setAttribute("aria-expanded", String(detailsEl.open));
+      }
       if (detailsEl.open && menu instanceof HTMLElement) {
         const firstLink = menu.querySelector("a[href]");
         if (firstLink instanceof HTMLElement) {
@@ -62,6 +70,9 @@ export default function ServicesDropdownBehavior({ detailsId }) {
 
     if (summary instanceof HTMLElement && !summary.hasAttribute("aria-controls") && menu?.id) {
       summary.setAttribute("aria-controls", menu.id);
+    }
+    if (summary instanceof HTMLElement && !summary.hasAttribute("aria-expanded")) {
+      summary.setAttribute("aria-expanded", "false");
     }
 
     document.addEventListener("keydown", onKeyDown);
@@ -75,7 +86,14 @@ export default function ServicesDropdownBehavior({ detailsId }) {
       detailsEl.removeEventListener("click", onClickCapture, true);
       detailsEl.removeEventListener("toggle", onToggle);
     };
-  }, [detailsId]);
+  }, [detailsId, panelId]);
+
+  useEffect(() => {
+    if (!detailsId) return;
+    const detailsEl = document.getElementById(detailsId);
+    if (!(detailsEl instanceof HTMLDetailsElement)) return;
+    if (detailsEl.open) detailsEl.open = false;
+  }, [detailsId, pathname]);
 
   return null;
 }
