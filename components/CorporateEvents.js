@@ -70,6 +70,9 @@ const WHATSAPP_CORPORATE_MESSAGE = encodeURIComponent(
   "Merhaba, kurumsal etkinlik çözümleri için Sahneva'dan teklif almak istiyorum."
 );
 
+const FOCUS_RING_CLASS =
+  "focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B1120]";
+
 const DEFAULT_DICTIONARY = {
   sectionTitleSr: "Kurumsal etkinlik çözümleri ve hizmet detayları",
   highlightPill: "Neden Biz?",
@@ -295,7 +298,7 @@ export default function CorporateEvents({
                       <div className="pt-4 border-t border-white/10 mt-auto">
                         <Link
                           href={dictionary.cardCtaHref}
-                          className="inline-flex items-center gap-2 font-bold text-xs text-white hover:text-blue-400 transition-colors group/link"
+                          className={`inline-flex items-center gap-2 font-bold text-xs text-white hover:text-blue-400 transition-colors group/link ${FOCUS_RING_CLASS}`}
                           aria-label={cardAccessibleLabel}
                         >
                           <span>{cardCtaLabel}</span>
@@ -392,7 +395,7 @@ export default function CorporateEvents({
               
               <p
                 id={bannerDescId}
-                className="text-blue-100/80 text-sm md:text-lg mb-8 leading-relaxed"
+                className="text-blue-100/90 text-sm md:text-lg mb-8 leading-relaxed"
               >
                 {dictionary.bannerDescription}
               </p>
@@ -400,7 +403,7 @@ export default function CorporateEvents({
               <div className="flex flex-col sm:flex-row justify-center gap-3 mb-8">
                 <a
                   href={dictionary.phoneCtaHref}
-                  className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white text-blue-950 font-bold px-6 text-sm md:text-base transition-all hover:bg-blue-50 hover:scale-105 shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+                  className={`inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white text-blue-950 font-bold px-6 text-sm md:text-base transition-all hover:bg-blue-50 hover:scale-105 shadow-[0_0_20px_rgba(255,255,255,0.3)] ${FOCUS_RING_CLASS}`}
                   aria-describedby={phoneAriaDescribedBy}
                 >
                   <span className="text-lg">📞</span>
@@ -414,7 +417,7 @@ export default function CorporateEvents({
                   href={dictionary.whatsappCtaHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm text-white font-bold px-6 text-sm md:text-base transition-all hover:bg-white/20 hover:scale-105"
+                  className={`inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm text-white font-bold px-6 text-sm md:text-base transition-all hover:bg-white/20 hover:scale-105 ${FOCUS_RING_CLASS}`}
                   aria-describedby={whatsappAriaDescribedBy}
                   aria-label={whatsappAccessibleLabel}
                 >
@@ -428,7 +431,7 @@ export default function CorporateEvents({
               </div>
 
               {/* Alt Güven Rozetleri */}
-              <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs md:text-sm font-medium text-blue-200/60">
+              <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs md:text-sm font-medium text-blue-200/80">
                 {supportStats.map((label, idx) => (
                   <div key={idx} className="flex items-center gap-1.5">
                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px_#34d399]" />
