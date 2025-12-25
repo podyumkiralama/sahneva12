@@ -87,8 +87,6 @@ function CTAGroup() {
   );
 }
 
-import heroImg from "@/public/img/hero-bg.webp";
-
 function HeroBackgroundImage() {
   return (
     <picture>
