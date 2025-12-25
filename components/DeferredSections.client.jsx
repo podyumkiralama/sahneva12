@@ -97,7 +97,7 @@ export function ServicesTabsDeferred({
   };
 
   return (
-    <section ref={ref} className="w-full min-w-0" style={style}>
+    <div ref={ref} className="w-full min-w-0" style={style}>
       {visible ? (
         <ServicesTabs {...props} />
       ) : (
@@ -107,7 +107,7 @@ export function ServicesTabsDeferred({
           aria-hidden="true"
         />
       )}
-    </section>
+    </div>
   );
 }
 
@@ -127,7 +127,7 @@ export function ProjectsGalleryDeferred({
   const style = visibilityStyle(320);
 
   return (
-    <section ref={ref} className="w-full min-w-0" style={style}>
+    <div ref={ref} className="w-full min-w-0" style={style}>
       {visible ? (
         <ProjectsGallery {...props} />
       ) : (
@@ -137,7 +137,7 @@ export function ProjectsGalleryDeferred({
           aria-hidden="true"
         />
       )}
-    </section>
+    </div>
   );
 }
 
@@ -157,7 +157,7 @@ export function FaqDeferred({
   const style = visibilityStyle(780);
 
   return (
-    <section ref={ref} className="w-full min-w-0" style={style}>
+    <div ref={ref} className="w-full min-w-0" style={style}>
       {visible ? (
         <Faq {...props} />
       ) : (
@@ -167,7 +167,7 @@ export function FaqDeferred({
           aria-hidden="true"
         />
       )}
-    </section>
+    </div>
   );
 }
 
@@ -187,7 +187,7 @@ export function CorporateEventsDeferred({
   const style = visibilityStyle(320);
 
   return (
-    <section ref={ref} className="w-full min-w-0" style={style}>
+    <div ref={ref} className="w-full min-w-0" style={style}>
       {visible ? (
         <CorporateEvents {...props} />
       ) : (
@@ -197,7 +197,7 @@ export function CorporateEventsDeferred({
           aria-hidden="true"
         />
       )}
-    </section>
+    </div>
   );
 }
 
@@ -217,7 +217,7 @@ export function CorporateIntroDeferred({
   const style = visibilityStyle(240);
 
   return (
-    <section ref={ref} className="w-full min-w-0" style={style}>
+    <div ref={ref} className="w-full min-w-0" style={style}>
       {visible ? (
         <CorporateIntro {...props} />
       ) : (
@@ -227,7 +227,7 @@ export function CorporateIntroDeferred({
           aria-hidden="true"
         />
       )}
-    </section>
+    </div>
   );
 }
 
@@ -247,7 +247,7 @@ export function TechCapabilitiesDeferred({
   const style = visibilityStyle(360);
 
   return (
-    <section ref={ref} className="w-full min-w-0" style={style}>
+    <div ref={ref} className="w-full min-w-0" style={style}>
       {visible ? (
         <TechCapabilities {...props} />
       ) : (
@@ -257,7 +257,7 @@ export function TechCapabilitiesDeferred({
           aria-hidden="true"
         />
       )}
-    </section>
+    </div>
   );
 }
 
@@ -277,7 +277,7 @@ export function WhyChooseUsDeferred({
   const style = visibilityStyle(320);
 
   return (
-    <section ref={ref} className="w-full min-w-0" style={style}>
+    <div ref={ref} className="w-full min-w-0" style={style}>
       {visible ? (
         <WhyChooseUs {...props} />
       ) : (
@@ -287,6 +287,6 @@ export function WhyChooseUsDeferred({
           aria-hidden="true"
         />
       )}
-    </section>
+    </div>
   );
 }

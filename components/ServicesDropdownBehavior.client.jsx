@@ -21,9 +21,6 @@ export default function ServicesDropdownBehavior({ detailsId }) {
 
     const close = () => {
       if (detailsEl.open) detailsEl.open = false;
-      if (summary instanceof HTMLElement) {
-        summary.setAttribute("aria-expanded", "false");
-      }
     };
 
     const onKeyDown = (e) => {
@@ -55,9 +52,6 @@ export default function ServicesDropdownBehavior({ detailsId }) {
     };
 
     const onToggle = () => {
-      if (summary instanceof HTMLElement) {
-        summary.setAttribute("aria-expanded", detailsEl.open ? "true" : "false");
-      }
       if (detailsEl.open && menu instanceof HTMLElement) {
         const firstLink = menu.querySelector("a[href]");
         if (firstLink instanceof HTMLElement) {
@@ -66,11 +60,8 @@ export default function ServicesDropdownBehavior({ detailsId }) {
       }
     };
 
-    if (summary instanceof HTMLElement) {
-      summary.setAttribute("aria-expanded", detailsEl.open ? "true" : "false");
-      if (!summary.hasAttribute("aria-controls") && menu?.id) {
-        summary.setAttribute("aria-controls", menu.id);
-      }
+    if (summary instanceof HTMLElement && !summary.hasAttribute("aria-controls") && menu?.id) {
+      summary.setAttribute("aria-controls", menu.id);
     }
 
     document.addEventListener("keydown", onKeyDown);
