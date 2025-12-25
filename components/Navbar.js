@@ -1,5 +1,5 @@
 // components/Navbar.js (Server Component)
-// Goal: Keep the ...rt NavbarMobile from "@/components/NavbarMobile.client";
+import NavbarMobile from "@/components/NavbarMobile.client";
 import ServicesDropdownBehavior from "@/components/ServicesDropdownBehavior.client";
 import Image from "next/image";
 import Link from "next/link";
