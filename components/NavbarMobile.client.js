@@ -11,12 +11,13 @@ const NAVBAR_WHATSAPP_MESSAGE = encodeURIComponent(
   "Merhaba, Sahneva ile etkinlik ekipmanları için teklif ve destek almak istiyorum.",
 );
 
-export default function NavbarMobile({ serviceLinks }) {
+export default function NavbarMobile({ serviceLinks, researchLinks }) {
   const pathname = usePathname();
   const uid = useId();
 
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [researchOpen, setResearchOpen] = useState(false);
   const panelRef = useRef(null);
   const buttonRef = useRef(null);
 
@@ -34,6 +35,7 @@ export default function NavbarMobile({ serviceLinks }) {
   useEffect(() => {
     setOpen(false);
     setServicesOpen(false);
+    setResearchOpen(false);
   }, [pathname]);
 
   // Scroll lock when open
@@ -56,6 +58,7 @@ export default function NavbarMobile({ serviceLinks }) {
       if (e.key !== "Escape") return;
       setOpen(false);
       setServicesOpen(false);
+      setResearchOpen(false);
       requestAnimationFrame(() => buttonRef.current?.focus());
     };
     document.addEventListener("keydown", onKey);
@@ -110,7 +113,10 @@ export default function NavbarMobile({ serviceLinks }) {
         type="button"
         onClick={() => {
           setOpen((v) => !v);
-          if (!open) setServicesOpen(false);
+          if (!open) {
+            setServicesOpen(false);
+            setResearchOpen(false);
+          }
         }}
         className={
           "lg:hidden inline-flex items-center justify-center p-3 rounded-xl bg-white border border-neutral-200 hover:bg-neutral-50 transition-all duration-200 min-h-[44px] min-w-[44px] transform hover:scale-105 " +
@@ -251,18 +257,59 @@ export default function NavbarMobile({ serviceLinks }) {
               </div>
             </details>
 
-            <Link
-              href="/iletisim"
-              onClick={() => setOpen(false)}
-              className={`flex items-center gap-3 py-3.5 px-4 text-neutral-900 font-bold text-[15px] rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 transform hover:scale-[1.02] ${
-                FOCUS_RING_CLASS
-              }`}
+            {/* Research: native details for low-JS */}
+            <details
+              className="rounded-xl border border-neutral-200 bg-white"
+              open={researchOpen}
+              onToggle={(e) => setResearchOpen(e.currentTarget.open)}
             >
-              <span className="text-lg" aria-hidden="true">
-                📞
-              </span>
-              İletişim
-            </Link>
+              <summary
+                className={`list-none cursor-pointer w-full flex items-center justify-between gap-3 py-3.5 px-4 text-[15px] font-bold text-neutral-900 rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 min-h-[44px] ${FOCUS_RING_CLASS}`}
+              >
+                <span className="flex items-center gap-3">
+                  <span className="text-lg" aria-hidden="true">
+                    🔎
+                  </span>
+                  <span>Bizi Araştırın</span>
+                </span>
+                <span
+                  className={`text-neutral-700 transition-transform duration-200 ${
+                    researchOpen ? "rotate-180" : ""
+                  }`}
+                  aria-hidden="true"
+                >
+                  ▾
+                </span>
+              </summary>
+
+              <div className="p-2">
+                <div className="rounded-lg border border-neutral-200 bg-white p-2 space-y-1">
+                  {researchLinks.map(({ href, label, icon, description }) => (
+                    <Link
+                      key={href}
+                      href={href}
+                      onClick={() => setOpen(false)}
+                      className={`flex items-start gap-3 px-3 py-2 text-sm text-neutral-700 hover:bg-blue-50 hover:text-blue-700 rounded-md transition-all duration-200 w-full transform hover:scale-[1.01] ${FOCUS_RING_CLASS}`}
+                    >
+                      <span
+                        className="text-base opacity-70 mt-0.5 flex-shrink-0"
+                        aria-hidden="true"
+                      >
+                        {icon}
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block font-bold text-neutral-900">
+                          {label}
+                        </span>
+                        <span className="block text-xs text-neutral-600 mt-0.5 font-medium">
+                          {description}
+                        </span>
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </details>
 
             <div className="mt-4 rounded-2xl border border-green-700/20 bg-gradient-to-r from-emerald-700 to-green-600 p-4 shadow-xl">
               <div className="flex items-start gap-3">
@@ -306,6 +353,7 @@ export default function NavbarMobile({ serviceLinks }) {
         onClick={() => {
           setOpen(false);
           setServicesOpen(false);
+          setResearchOpen(false);
         }}
         aria-hidden={!open}
         data-open={open ? "true" : undefined}
