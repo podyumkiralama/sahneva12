@@ -348,6 +348,91 @@ export default function Navbar(props) {
                 </div>
               </details>
 
+              <details id="nav-research-details" className="relative group">
+                <summary
+                  id="nav-research-summary"
+                  className={`list-none cursor-pointer select-none relative text-[15px] font-bold px-4 py-2.5 rounded-xl transition-all duration-200 border
+                    text-neutral-800 hover:text-blue-700 hover:bg-neutral-50 border-transparent hover:border-neutral-200
+                    ${FOCUS_RING_CLASS}`}
+                  aria-controls="nav-research-panel"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <span className="flex items-center gap-2">
+                    Bizi Araştırın
+                    <svg
+                      className="w-4 h-4 transition-transform duration-200 group-open:rotate-180"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2.5}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </span>
+                </summary>
+
+                <div
+                  id="nav-research-panel"
+                  data-dropdown-panel
+                  role="region"
+                  aria-labelledby="nav-research-title"
+                  className="hidden group-open:block absolute right-0 top-full mt-2 z-[70] w-[min(420px,90vw)]"
+                >
+                  <div className="rounded-2xl border border-neutral-200 bg-white shadow-2xl p-4">
+                    <div className="px-2 pt-1">
+                      <div
+                        id="nav-research-title"
+                        className="text-base font-extrabold text-neutral-900"
+                      >
+                        Bizi Araştırın
+                      </div>
+                      <p className="mt-1 text-xs font-medium text-neutral-600">
+                        Süreç, iletişim ve bilgi sayfaları
+                      </p>
+                    </div>
+
+                    <ul className="mt-3 grid gap-2">
+                      {RESEARCH_LINKS.map((item) => (
+                        <li key={item.href}>
+                          <Link
+                            href={item.href}
+                            prefetch={false}
+                            className={`group flex items-start gap-3 rounded-xl px-4 py-3 text-sm text-neutral-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 ${FOCUS_RING_CLASS}`}
+                          >
+                            <span
+                              className="mt-0.5 text-lg opacity-80 group-hover:opacity-100"
+                              aria-hidden="true"
+                            >
+                              {item.icon}
+                            </span>
+                            <div className="min-w-0 flex-1">
+                              <div className="font-extrabold text-neutral-900 group-hover:text-blue-700">
+                                {item.label}
+                              </div>
+                              <div className="mt-0.5 text-xs font-medium text-neutral-600">
+                                {item.description}
+                              </div>
+                            </div>
+                            <span
+                              className="ml-2 text-neutral-400 group-hover:text-blue-600"
+                              aria-hidden="true"
+                            >
+                              ›
+                            </span>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </details>
+
               <a
                 href={whatsappHref}
                 target="_blank"
