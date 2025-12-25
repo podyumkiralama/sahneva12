@@ -1,4 +1,5 @@
 // components/HeroSection.js
+import Image from "next/image";
 import heroImg from "@/public/img/hero-bg.webp";
 
 const HERO_KEYWORDS = [
@@ -87,19 +88,19 @@ function CTAGroup() {
 }
 
 function HeroBackgroundImage() {
-  // Dekoratif arka plan: SR için alt boş + aria-hidden
   return (
-    <picture>
-      <source srcSet="/img/hero-bg-mobile.webp" media="(max-width: 768px)" />
-      <img
-        src={heroImg.src}
-        alt=""
-        fetchPriority="high"
-        loading="eager"
-        className="absolute inset-0 h-full w-full object-cover object-center"
-        aria-hidden="true"
-      />
-    </picture>
+    <Image
+      src={heroImg} // static import
+      alt=""
+      fill
+      priority
+      fetchPriority="high"
+      placeholder="empty"
+      sizes="(max-width: 768px) 100vw, 1200px"
+      quality={40}
+      className="absolute inset-0 h-full w-full object-cover object-center"
+      aria-hidden="true"
+    />
   );
 }
 
