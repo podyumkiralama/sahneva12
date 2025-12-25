@@ -2,11 +2,9 @@ import Image from "next/image";
 
 import heroImg from "@/public/img/hero-bg.webp";
 import CorporateEvents from "@/components/CorporateEvents";
-import {
-  ServicesTabsDeferred,
-  ProjectsGalleryDeferred,
-  FaqDeferred,
-} from "@/components/DeferredSections.client";
+import ServicesTabs from "@/components/ServicesTabs";
+import ProjectsGallery from "@/components/ProjectsGallery";
+import Faq from "@/components/Faq";
 
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 import { FAQ_ITEMS_AR } from "@/lib/faqData";
@@ -80,10 +78,6 @@ const WHY_SAHNEVA_FEATURES_AR = [
     stat: "81 مدينة",
   },
 ];
-
-const BELOW_THE_FOLD_VISIBILITY_STYLE = Object.freeze({
-  contentVisibility: "auto",
-});
 
 const SERVICES_AR = [
   {
@@ -740,7 +734,6 @@ export default function ArabicHomePage() {
         <section
           className="relative py-12 bg-gradient-to-b from-white to-neutral-50/80"
           aria-labelledby="services-title"
-          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div
             className="absolute inset-0 bg-[linear-gradient(#e5e7eb_1px,transparent_1px),linear-gradient(90deg,#e5e7eb_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:radial-gradient(ellipse_at_center,transparent_20%,white)]"
@@ -761,12 +754,9 @@ export default function ArabicHomePage() {
             </div>
 
             <div className="-mx-4 sm:-mx-6 lg:-mx-8 xl:-mx-12 px-4 sm:px-6 lg:px-8 xl:px-12">
-              <ServicesTabsDeferred
+              <ServicesTabs
                 servicesData={SERVICES_AR}
                 dictionary={SERVICES_DICTIONARY_AR}
-                idleTimeout={2800}
-                rootMargin="320px"
-                loadingSrLabel="جارٍ تحميل تبويبات الخدمات"
                 containerProps={{ dir: "rtl" }}
               />
             </div>
@@ -776,7 +766,6 @@ export default function ArabicHomePage() {
         <section
           className="py-12 bg-gradient-to-br from-neutral-900 to-blue-900/95"
           aria-labelledby="projects-title"
-          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container">
             
@@ -789,12 +778,9 @@ export default function ArabicHomePage() {
                 </p>
               </div>
             
-            <ProjectsGalleryDeferred
+            <ProjectsGallery
               galleries={PROJECT_GALLERIES_AR}
               dictionary={PROJECTS_DICTIONARY_AR}
-              idleTimeout={3200}
-              rootMargin="250px"
-              loadingSrLabel="جارٍ تحميل معارض المشاريع"
               containerProps={{ dir: "rtl" }}
             />
           </div>
@@ -803,7 +789,6 @@ export default function ArabicHomePage() {
         <section
           className="py-12 bg-white"
           aria-labelledby="corporate-title"
-          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container">
             
@@ -827,7 +812,6 @@ export default function ArabicHomePage() {
         <section
           className="py-12 bg-gradient-to-br from-blue-50/80 to-purple-50/60"
           aria-labelledby="why-heading"
-          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container">
             
@@ -872,7 +856,6 @@ export default function ArabicHomePage() {
         <section
           className="py-12 bg-white"
           aria-labelledby="seo-title"
-          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container">
             
@@ -963,7 +946,6 @@ export default function ArabicHomePage() {
         <section
           className="py-12 bg-gradient-to-br from-neutral-900 to-blue-900/95"
           aria-labelledby="faq-title"
-          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container">
             
@@ -976,12 +958,9 @@ export default function ArabicHomePage() {
                 </p>
               </div>
             
-            <FaqDeferred
+            <Faq
               items={FAQ_ITEMS_AR}
               dictionary={FAQ_DICTIONARY_AR}
-              idleTimeout={3600}
-              rootMargin="400px"
-              loadingSrLabel="جارٍ تحميل الأسئلة الشائعة"
               containerProps={{ dir: "rtl" }}
             />
           </div>
