@@ -250,19 +250,67 @@ export default function NavbarMobile({ serviceLinks }) {
                 </div>
               </div>
             </details>
+                    const RESEARCH_LINKS = [
+  {
+    href: "/iletisim",
+    label: "İletişim",
+    icon: "📞",
+    description: "Hızlı teklif ve iletişim kanalları",
+  },
+  {
+    href: "/nasil-calisiyoruz",
+    label: "Nasıl Çalışıyoruz",
+    icon: "🧭",
+    description: "Süreç, kurulum ve operasyon akışı",
+  },
+  {
+    href: "/bolgesel-kiralama",
+    label: "Bölgesel Kiralama",
+    icon: "🗺️",
+    description: "Türkiye geneli kurulum ve lojistik",
+  },
+  {
+    href: "/sss",
+    label: "SSS",
+    icon: "❓",
+    description: "Sık sorulan sorular ve yanıtlar",
+  },
+];
+{/* Bizi Araştırın */}
+<details className="rounded-xl border border-neutral-200 bg-white">
+  <summary
+    className={`list-none cursor-pointer w-full flex items-center justify-between gap-3 py-3.5 px-4 text-[15px] font-bold text-neutral-900 rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 min-h-[44px] ${FOCUS_RING_CLASS}`}
+  >
+    <span className="flex items-center gap-3">
+      <span className="text-lg" aria-hidden="true">🔍</span>
+      <span>Bizi Araştırın</span>
+    </span>
+    <span aria-hidden="true">▾</span>
+  </summary>
 
-            <Link
-              href="/iletisim"
-              onClick={() => setOpen(false)}
-              className={`flex items-center gap-3 py-3.5 px-4 text-neutral-900 font-bold text-[15px] rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 border border-transparent hover:border-blue-200 transform hover:scale-[1.02] ${
-                FOCUS_RING_CLASS
-              }`}
-            >
-              <span className="text-lg" aria-hidden="true">
-                📞
-              </span>
-              İletişim
-            </Link>
+  <div className="p-2">
+    <div className="rounded-lg border border-neutral-200 bg-white p-2 space-y-1">
+      {RESEARCH_LINKS.map(({ href, label, icon, description }) => (
+        <Link
+          key={href}
+          href={href}
+          onClick={() => setOpen(false)}
+          className={`flex items-start gap-3 px-3 py-2 text-sm text-neutral-700 hover:bg-blue-50 hover:text-blue-700 rounded-md transition-all duration-200 w-full ${FOCUS_RING_CLASS}`}
+        >
+          <span className="text-base opacity-70 mt-0.5" aria-hidden="true">
+            {icon}
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block font-bold text-neutral-900">{label}</span>
+            <span className="block text-xs text-neutral-600 mt-0.5 font-medium">
+              {description}
+            </span>
+          </span>
+        </Link>
+      ))}
+    </div>
+  </div>
+</details>        
 
             <div className="mt-4 rounded-2xl border border-green-700/20 bg-gradient-to-r from-emerald-700 to-green-600 p-4 shadow-xl">
               <div className="flex items-start gap-3">
