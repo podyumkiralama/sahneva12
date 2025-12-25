@@ -3,15 +3,13 @@
 import HeroSection from "@/components/HeroSection";
 import HeroBelow from "@/components/HeroBelow";
 
-import {
-  ServicesTabsDeferred,
-  ProjectsGalleryDeferred,
-  CorporateEventsDeferred,
-  CorporateIntroDeferred,
-  TechCapabilitiesDeferred,
-  WhyChooseUsDeferred,
-  FaqDeferred,
-} from "@/components/DeferredSections.client";
+import ServicesTabs from "@/components/ServicesTabs";
+import ProjectsGallery from "@/components/ProjectsGallery";
+import CorporateEvents from "@/components/CorporateEvents";
+import CorporateIntro from "@/components/CorporateIntro";
+import TechCapabilities from "@/components/TechCapabilities";
+import WhyChooseUs from "@/components/WhyChooseUs";
+import Faq from "@/components/Faq";
 
 import { HOME_PAGE_TITLE, getOgImageUrl } from "@/lib/seo/seoConfig";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
@@ -20,11 +18,6 @@ import { BASE_SITE_URL, ORGANIZATION_ID, WEBSITE_ID } from "@/lib/seo/schemaIds"
 /* -------------------
    Below-the-fold: content-visibility (perf)
 ------------------- */
-const BELOW_THE_FOLD_VISIBILITY_STYLE = {
-  contentVisibility: "auto",
-  containIntrinsicSize: "1px 1200px",
-};
-
 const HOME_URL = `${BASE_SITE_URL}/`;
 const WEBPAGE_ID = `${HOME_URL}#webpage`;
 const SERVICE_ID = `${HOME_URL}#primary-service`;
@@ -430,7 +423,7 @@ export default function HomePage() {
         <a className="reader-only" href="/hizmetler">
           Tüm hizmetleri inceleyin
         </a>
-        <ServicesTabsDeferred rootMargin="0px 0px" />
+        <ServicesTabs />
       </section>
 
       {/* 4) PROJELER */}
@@ -449,7 +442,7 @@ export default function HomePage() {
           Projeleri inceleyin
         </a>
       </section>
-      <ProjectsGalleryDeferred rootMargin="0px 0px" />
+      <ProjectsGallery />
 
       {/* 5) TECH CAPABILITIES (below-the-fold) */}
       <section aria-labelledby="teknik-kabiliyetler-title">
@@ -468,8 +461,8 @@ export default function HomePage() {
         </a>
       </section>
       <div className="bg-slate-900 py-10">
-        <div style={BELOW_THE_FOLD_VISIBILITY_STYLE}>
-          <TechCapabilitiesDeferred
+        <div>
+          <TechCapabilities
             techFeatures={SEO_TECH_FEATURES}
             infraFeatures={SEO_INFRA_FEATURES}
           />
@@ -494,7 +487,7 @@ export default function HomePage() {
         <a className="reader-only" href="/kurumsal-organizasyon">
           Kurumsal organizasyon çözümlerini keşfedin
         </a>
-        <CorporateEventsDeferred />
+        <CorporateEvents />
       </section>
 
       {/* 7) KURUMSAL INTRO (below-the-fold) */}
@@ -514,8 +507,8 @@ export default function HomePage() {
         </a>
       </section>
       <div className="bg-black py-0 m-0 w-full">
-        <div style={BELOW_THE_FOLD_VISIBILITY_STYLE}>
-          <CorporateIntroDeferred />
+        <div>
+          <CorporateIntro />
         </div>
       </div>
 
@@ -537,7 +530,7 @@ export default function HomePage() {
         <a className="reader-only" href="/hakkimizda">
           Neden Sahneva’yı tercih etmelisiniz?
         </a>
-        <WhyChooseUsDeferred />
+        <WhyChooseUs />
       </section>
 
       {/* 10) SSS */}
@@ -559,7 +552,7 @@ export default function HomePage() {
         <a className="reader-only" href="/sss">
           Tüm SSS&apos;yi görüntüleyin
         </a>
-        <FaqDeferred />
+        <Faq />
       </section>
     </div>
   );
