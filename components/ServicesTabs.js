@@ -350,8 +350,8 @@ function ServicesTabsComponent({
                           focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950
                           ${
                             isActive
-                              ? "text-white bg-sky-500 shadow-lg shadow-sky-500/40 border border-sky-300"
-                              : "text-slate-100 bg-slate-900/80 border border-slate-700 hover:border-sky-400/70 hover:text-white"
+                              ? "text-white bg-sky-700 shadow-lg shadow-sky-700/40 border border-sky-400"
+                              : "text-slate-100 bg-slate-900/90 border border-slate-700 hover:border-sky-400/70 hover:text-white"
                           }
                         `}
                       >
