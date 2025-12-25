@@ -115,7 +115,7 @@ export default function Navbar(props) {
         {...props}
         className="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur border-b border-neutral-200/80 shadow-lg"
       >
-        {/* Tiny client islands: closes <details> on outside click / Esc / link click */}
+        {/* Tiny client island: closes the <details> on outside click / Esc / link click */}
         <ServicesDropdownBehavior detailsId="nav-services-details" />
         <ServicesDropdownBehavior
           detailsId="nav-research-details"
@@ -146,7 +146,7 @@ export default function Navbar(props) {
               <DesktopNavLink href="/hakkimizda">Hakkımızda</DesktopNavLink>
               <DesktopNavLink href="/blog">Blog</DesktopNavLink>
 
-              {/* Services: native <details> => minimal JS */}
+              {/* Services: native <details> => low JS */}
               <details
                 id="nav-services-details"
                 className="relative group"
@@ -159,6 +159,7 @@ export default function Navbar(props) {
                     ${FOCUS_RING_CLASS}`}
                   aria-controls="nav-services-panel"
                   aria-haspopup="true"
+                  aria-expanded="false"
                 >
                   <span className="flex items-center gap-2">
                     Hizmetler
@@ -179,7 +180,6 @@ export default function Navbar(props) {
                   </span>
                 </summary>
 
-                {/* Desktop mega menu */}
                 <div
                   id="nav-services-panel"
                   data-dropdown-panel
@@ -190,7 +190,6 @@ export default function Navbar(props) {
                   <div className="container">
                     <div className="rounded-3xl border border-neutral-200 bg-white shadow-2xl overflow-hidden">
                       <div className="grid gap-6 p-6 lg:grid-cols-[360px_1fr] items-stretch">
-                        {/* Left visual card */}
                         <Link
                           href="/hizmetler"
                           className={`group relative overflow-hidden rounded-2xl border border-neutral-200 ${FOCUS_RING_CLASS}`}
@@ -227,7 +226,6 @@ export default function Navbar(props) {
                           </div>
                         </Link>
 
-                        {/* Link list */}
                         <div className="grid gap-4 md:grid-cols-2">
                           {SERVICE_LINKS.map((s) => (
                             <Link
@@ -264,7 +262,7 @@ export default function Navbar(props) {
                 </div>
               </details>
 
-              {/* Bizi Araştırın (single; after Hizmetler) */}
+              {/* ✅ Only ONE "Bizi Araştırın" (after Services, as you wanted) */}
               <details
                 id="nav-research-details"
                 className="relative group"
@@ -277,6 +275,7 @@ export default function Navbar(props) {
                     ${FOCUS_RING_CLASS}`}
                   aria-controls="nav-research-panel"
                   aria-haspopup="true"
+                  aria-expanded="false"
                 >
                   <span className="flex items-center gap-2">
                     Bizi Araştırın
@@ -371,10 +370,15 @@ export default function Navbar(props) {
             </div>
 
             {/* Mobile (small JS island) */}
-            <NavbarMobile serviceLinks={SERVICE_LINKS} />
+            <NavbarMobile serviceLinks={SERVICE_LINKS} researchLinks={RESEARCH_LINKS} />
           </div>
         </div>
       </nav>
+
+      {/*
+        NOT: Layout zaten <main className="pt-16 lg:pt-20"> verdiği için burada ekstra spacer kullanmıyoruz.
+        Aksi halde sayfa ile navbar arasında çift boşluk oluşur.
+      */}
     </>
   );
 }
