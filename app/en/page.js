@@ -2,11 +2,9 @@ import Image from "next/image";
 
 import heroImg from "@/public/img/hero-bg.webp";
 import CorporateEvents from "@/components/CorporateEvents";
-import {
-  ServicesTabsDeferred,
-  ProjectsGalleryDeferred,
-  FaqDeferred,
-} from "@/components/DeferredSections.client";
+import ServicesTabs from "@/components/ServicesTabs";
+import ProjectsGallery from "@/components/ProjectsGallery";
+import Faq from "@/components/Faq";
 
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 import { FAQ_ITEMS_EN } from "@/lib/faqData";
@@ -80,10 +78,6 @@ const WHY_SAHNEVA_FEATURES = [
     stat: "81 Cities",
   },
 ];
-
-const BELOW_THE_FOLD_VISIBILITY_STYLE = Object.freeze({
-  contentVisibility: "auto",
-});
 
 const SERVICES_EN = [
   {
@@ -724,7 +718,6 @@ export default function EnglishHomePage() {
         <section
           className="relative py-12 bg-gradient-to-b from-white to-neutral-50/80"
           aria-labelledby="services-title"
-          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div
             className="absolute inset-0 bg-[linear-gradient(#e5e7eb_1px,transparent_1px),linear-gradient(90deg,#e5e7eb_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:radial-gradient(ellipse_at_center,transparent_20%,white)]"
@@ -745,12 +738,9 @@ export default function EnglishHomePage() {
             </div>
 
             <div className="-mx-4 sm:-mx-6 lg:-mx-8 xl:-mx-12 px-4 sm:px-6 lg:px-8 xl:px-12">
-              <ServicesTabsDeferred
+              <ServicesTabs
                 servicesData={SERVICES_EN}
                 dictionary={SERVICES_DICTIONARY_EN}
-                idleTimeout={2800}
-                rootMargin="320px"
-                loadingSrLabel="Loading service tabs"
               />
             </div>
           </div>
@@ -759,7 +749,6 @@ export default function EnglishHomePage() {
         <section
           className="py-12 bg-gradient-to-br from-neutral-900 to-blue-900/95"
           aria-labelledby="projects-title"
-          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container">
             
@@ -772,12 +761,9 @@ export default function EnglishHomePage() {
                 </p>
               </div>
             
-            <ProjectsGalleryDeferred
+            <ProjectsGallery
               galleries={PROJECT_GALLERIES_EN}
               dictionary={PROJECTS_DICTIONARY_EN}
-              idleTimeout={3200}
-              rootMargin="250px"
-              loadingSrLabel="Loading project galleries"
             />
           </div>
         </section>
@@ -785,7 +771,6 @@ export default function EnglishHomePage() {
         <section
           className="py-12 bg-white"
           aria-labelledby="corporate-title"
-          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container">
             
@@ -809,7 +794,6 @@ export default function EnglishHomePage() {
         <section
           className="py-12 bg-gradient-to-br from-blue-50/80 to-purple-50/60"
           aria-labelledby="why-heading"
-          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container">
             
@@ -854,7 +838,6 @@ export default function EnglishHomePage() {
         <section
           className="py-12 bg-white"
           aria-labelledby="seo-title"
-          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container">
             
@@ -945,7 +928,6 @@ export default function EnglishHomePage() {
         <section
           className="py-12 bg-gradient-to-br from-neutral-900 to-blue-900/95"
           aria-labelledby="faq-title"
-          style={BELOW_THE_FOLD_VISIBILITY_STYLE}
         >
           <div className="container">
             
@@ -958,12 +940,9 @@ export default function EnglishHomePage() {
                 </p>
               </div>
             
-            <FaqDeferred
+            <Faq
               items={FAQ_ITEMS_EN}
               dictionary={FAQ_DICTIONARY_EN}
-              idleTimeout={3600}
-              rootMargin="400px"
-              loadingSrLabel="Loading frequently asked questions"
             />
           </div>
         </section>
