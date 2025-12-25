@@ -56,7 +56,19 @@ export default function ServicesDropdownBehavior({ detailsId, panelId }) {
       }
     };
 
+    const closeOtherDropdowns = () => {
+      const dropdowns = document.querySelectorAll('details[data-nav-dropdown="true"]');
+      dropdowns.forEach((dropdown) => {
+        if (dropdown !== detailsEl && dropdown instanceof HTMLDetailsElement) {
+          dropdown.open = false;
+        }
+      });
+    };
+
     const onToggle = () => {
+      if (detailsEl.open) {
+        closeOtherDropdowns();
+      }
       if (summary instanceof HTMLElement) {
         summary.setAttribute("aria-expanded", String(detailsEl.open));
       }
@@ -75,14 +87,28 @@ export default function ServicesDropdownBehavior({ detailsId, panelId }) {
       summary.setAttribute("aria-expanded", "false");
     }
 
+    const onPointerOver = (e) => {
+      if (!detailsEl.open) return;
+      const target = e.target;
+      if (!(target instanceof Element)) return;
+      const hoveredSummary = target.closest("summary");
+      if (!hoveredSummary) return;
+      const hoveredDetails = hoveredSummary.closest('details[data-nav-dropdown="true"]');
+      if (hoveredDetails && hoveredDetails !== detailsEl) {
+        close();
+      }
+    };
+
     document.addEventListener("keydown", onKeyDown);
     document.addEventListener("pointerdown", onPointerDownCapture, true);
+    document.addEventListener("pointerover", onPointerOver, true);
     detailsEl.addEventListener("click", onClickCapture, true);
     detailsEl.addEventListener("toggle", onToggle);
 
     return () => {
       document.removeEventListener("keydown", onKeyDown);
       document.removeEventListener("pointerdown", onPointerDownCapture, true);
+      document.removeEventListener("pointerover", onPointerOver, true);
       detailsEl.removeEventListener("click", onClickCapture, true);
       detailsEl.removeEventListener("toggle", onToggle);
     };

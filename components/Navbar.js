@@ -232,7 +232,11 @@ export default function Navbar(props) {
               </details>
 
               {/* Services: native <details> => no JS */}
-              <details id="nav-services-details" className="relative group">
+              <details
+                id="nav-services-details"
+                className="relative group"
+                data-nav-dropdown="true"
+              >
                 <summary
                   id="nav-services-summary"
                   className={`list-none cursor-pointer select-none relative text-[15px] font-bold px-4 py-2.5 rounded-xl transition-all duration-200 border
@@ -348,7 +352,11 @@ export default function Navbar(props) {
                 </div>
               </details>
 
-              <details id="nav-research-details" className="relative group">
+              <details
+                id="nav-research-details"
+                className="relative group"
+                data-nav-dropdown="true"
+              >
                 <summary
                   id="nav-research-summary"
                   className={`list-none cursor-pointer select-none relative text-[15px] font-bold px-4 py-2.5 rounded-xl transition-all duration-200 border
