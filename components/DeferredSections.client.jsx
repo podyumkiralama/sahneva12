@@ -5,14 +5,14 @@ import dynamic from "next/dynamic";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 // Dinamik componentler
-const ServicesTabs = dynamic(() => import("./ServicesTabs"), { ssr: false });
-const ProjectsGallery = dynamic(() => import("./ProjectsGallery"), { ssr: false });
-const Faq = dynamic(() => import("./Faq"), { ssr: false });
+const ServicesTabs = dynamic(() => import("./ServicesTabs"));
+const ProjectsGallery = dynamic(() => import("./ProjectsGallery"));
+const Faq = dynamic(() => import("./Faq"));
 
-const CorporateEvents = dynamic(() => import("./CorporateEvents"), { ssr: false });
-const CorporateIntro = dynamic(() => import("./CorporateIntro"), { ssr: false });
-const TechCapabilities = dynamic(() => import("./TechCapabilities"), { ssr: false });
-const WhyChooseUs = dynamic(() => import("./WhyChooseUs"), { ssr: false });
+const CorporateEvents = dynamic(() => import("./CorporateEvents"));
+const CorporateIntro = dynamic(() => import("./CorporateIntro"));
+const TechCapabilities = dynamic(() => import("./TechCapabilities"));
+const WhyChooseUs = dynamic(() => import("./WhyChooseUs"));
 
 const visibilityStyle = (minHeightPx) => ({
   contentVisibility: "auto",
