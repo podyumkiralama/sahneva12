@@ -8,11 +8,8 @@ import TechCapabilities from "./TechCapabilities";
 import WhyChooseUs from "./WhyChooseUs";
 
 const visibilityStyle = (minHeightPx) => ({
-  contentVisibility: "auto",
-  containIntrinsicSize: `1px ${minHeightPx}px`,
+  minHeight: `${minHeightPx}px`,
 });
-
-const servicesContainSize = "1px 900px";
 
 /* ───────────────── ServicesTabs (temiz wrapper) ───────────────── */
 
@@ -22,13 +19,8 @@ export function ServicesTabsDeferred({
   idleTimeout,
   ...props
 }) {
-  const style = {
-    contentVisibility: "auto",
-    containIntrinsicSize: servicesContainSize,
-  };
-
   return (
-    <div className="w-full min-w-0" style={style}>
+    <div className="w-full min-w-0">
       <ServicesTabs {...props} />
     </div>
   );
