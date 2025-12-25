@@ -103,6 +103,9 @@ const COVER_SIZES =
 const LIGHTBOX_SIZES =
   "(max-width: 768px) 100vw, (max-width: 1200px) 90vw, min(1024px, 80vw)";
 
+const LIGHTBOX_FOCUS_RING =
+  "focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-black";
+
 // ===============================================================
 // GALLERY CARD
 // ===============================================================
@@ -509,11 +512,11 @@ export default function ProjectsGallery({
 
             <button
               ref={closeBtn}
-              className="
+              className={`
                 absolute top-6 right-6 p-3 rounded-full bg-white/10 text-white/80
                 hover:text-white hover:bg-white/20
-                focus:outline-none focus:ring-2 focus:ring-white/40
-              "
+                ${LIGHTBOX_FOCUS_RING}
+              `}
               onClick={close}
               aria-label={normalizedDictionary.closeLabel}
             >
@@ -539,7 +542,8 @@ export default function ProjectsGallery({
                   className="
                     hidden md:flex absolute left-6 top-1/2 -translate-y-1/2
                     bg-black/40 hover:bg-black/60 border border-white/10
-                    rounded-full w-14 h-14 items-center justify-center text-white/70 hover:text-white
+                    rounded-full w-14 h-14 items-center justify-center text-white/90 hover:text-white
+                    focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-black
                   "
                   aria-label={normalizedDictionary.prevLabel}
                 >
@@ -551,7 +555,8 @@ export default function ProjectsGallery({
                   className="
                     hidden md:flex absolute right-6 top-1/2 -translate-y-1/2
                     bg-black/40 hover:bg-black/60 border border-white/10
-                    rounded-full w-14 h-14 items-center justify-center text-white/70 hover:text-white
+                    rounded-full w-14 h-14 items-center justify-center text-white/90 hover:text-white
+                    focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-black
                   "
                   aria-label={normalizedDictionary.nextLabel}
                 >
@@ -580,7 +585,7 @@ export default function ProjectsGallery({
                 <div className="absolute inset-x-0 -bottom-2 flex items-center justify-between px-6 md:hidden text-white/80 text-sm">
                   <button
                     onClick={prev}
-                    className="inline-flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-full"
+                    className={`inline-flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-full ${LIGHTBOX_FOCUS_RING}`}
                     aria-label={normalizedDictionary.mobilePrevLabel}
                   >
                     <span aria-hidden="true">‹</span>
@@ -598,7 +603,7 @@ export default function ProjectsGallery({
 
                   <button
                     onClick={next}
-                    className="inline-flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-full"
+                    className={`inline-flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-full ${LIGHTBOX_FOCUS_RING}`}
                     aria-label={normalizedDictionary.mobileNextLabel}
                   >
                     <span className="sr-only">
