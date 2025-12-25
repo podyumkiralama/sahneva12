@@ -19,6 +19,17 @@ export default function ServicesDropdownBehavior({ detailsId, panelId }) {
     const detailsEl = document.getElementById(detailsId);
     if (!(detailsEl instanceof HTMLDetailsElement)) return;
 
+    const allDetails = document.querySelectorAll(`#${CSS.escape(detailsId)}`);
+    if (allDetails.length > 1) {
+      allDetails.forEach((node, index) => {
+        if (index > 0 && node instanceof HTMLDetailsElement) {
+          node.open = false;
+          node.hidden = true;
+          node.setAttribute("aria-hidden", "true");
+        }
+      });
+    }
+
     const summary = detailsEl.querySelector("summary");
     const menu =
       (panelId ? document.getElementById(panelId) : null) ??
