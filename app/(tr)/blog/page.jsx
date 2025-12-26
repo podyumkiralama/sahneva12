@@ -287,7 +287,7 @@ export default async function BlogPage() {
         <div className="container mx-auto px-4 relative z-10 text-center">
           <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tight">
             Sahneva{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+            <span className="gradient-text gradient-text--safe-xl">
               Blog
             </span>
           </h1>

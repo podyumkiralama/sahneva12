@@ -249,7 +249,7 @@ function Hero() {
           className="text-4xl md:text-6xl lg:text-7xl font-black leading-tight mb-4 drop-shadow-2xl"
         >
           Profesyonel{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">
+          <span className="gradient-text gradient-text--safe-xl">
             Çadır Kiralama
           </span>
         </h1>
@@ -331,7 +331,7 @@ function Services() {
             className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900"
           >
             Profesyonel{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+            <span className="gradient-text gradient-text--safe-xl">
               Hizmetlerimiz
             </span>
           </h2>
@@ -468,7 +468,7 @@ function Gallery() {
             className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900"
           >
             Proje{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">
+            <span className="gradient-text gradient-text--safe-xl">
               Galerimiz
             </span>
           </h2>
@@ -589,7 +589,7 @@ function Technical() {
             className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900"
           >
             Teknik{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+            <span className="gradient-text gradient-text--safe-xl">
               Altyapımız
             </span>
           </h2>
@@ -706,7 +706,7 @@ function UseCases() {
             className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6"
           >
             Kullanım{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+            <span className="gradient-text gradient-text--safe-xl">
               Alanları
             </span>
           </h2>
@@ -778,7 +778,7 @@ function Articles() {
             className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6"
           >
             Bilgi &{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+            <span className="gradient-text gradient-text--safe-xl">
               Profesyonel Rehber
             </span>
           </h2>
@@ -1144,7 +1144,7 @@ function FAQ() {
             className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6"
           >
             Sık Sorulan{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+            <span className="gradient-text gradient-text--safe-xl">
               Sorular
             </span>
           </h2>
@@ -1241,7 +1241,7 @@ function RelatedServices() {
             className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6"
           >
             Tamamlayıcı{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+            <span className="gradient-text gradient-text--safe-xl">
               Hizmetlerimiz
             </span>
           </h2>

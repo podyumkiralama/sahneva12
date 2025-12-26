@@ -186,7 +186,7 @@ function Hero() {
         </div>
 
         <h1 id="hero-title" className="text-4xl md:text-6xl lg:text-7xl font-black leading-tight mb-4 drop-shadow-2xl">
-          Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">Sound & Lighting</span>
+          Professional <span className="gradient-text gradient-text--safe-xl">Sound & Lighting</span>
         </h1>
 
         <p className="text-xl md:text-2xl text-white/95 max-w-3xl 2xl:max-w-4xl mx-auto leading-relaxed font-light mb-4">
@@ -250,7 +250,7 @@ function Services() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="services-title" className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
-            Our professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">services</span>
+            Our professional <span className="gradient-text gradient-text--safe-xl">services</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Complete sound and lighting rental including discovery, design, installation, live operation and dismantle
@@ -348,7 +348,7 @@ function Gallery() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="gallery-title" className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
-            Project <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">gallery</span>
+            Project <span className="gradient-text gradient-text--safe-xl">gallery</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Highlights from recent sound and lighting installations delivered by our crew
@@ -423,7 +423,7 @@ function Technical() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="technical-title" className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
-            Our technical <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">infrastructure</span>
+            Our technical <span className="gradient-text gradient-text--safe-xl">infrastructure</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Cutting-edge equipment inventory operated by experienced engineers and riggers
@@ -529,7 +529,7 @@ function UseCases() {
       <div className="container max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="use-cases-title" className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
-            Where we <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">excel</span>
+            Where we <span className="gradient-text gradient-text--safe-xl">excel</span>
           </h2>
           <p className="text-xl text-white/85 max-w-3xl mx-auto leading-relaxed">
             Customised sound and lighting solutions tailored to each event format and venue layout
@@ -583,7 +583,7 @@ function Articles() {
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <h2 id="knowledge-title" className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
-            Knowledge & <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">professional guidance</span>
+            Knowledge & <span className="gradient-text gradient-text--safe-xl">professional guidance</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Expert insights on planning, designing and operating sound and lighting systems
@@ -838,7 +838,7 @@ function FAQ() {
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="text-center mb-16">
           <h2 id="faq-title" className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
-            Frequently asked <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">questions</span>
+            Frequently asked <span className="gradient-text gradient-text--safe-xl">questions</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
             Answers to the most common questions about sound and lighting rentals
@@ -930,7 +930,7 @@ function RelatedServices() {
             className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6"
           >
             Complementary
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+            <span className="gradient-text gradient-text--safe-xl">
               services
             </span>
           </h2>

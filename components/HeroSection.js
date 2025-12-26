@@ -141,7 +141,7 @@ export default function HeroSection() {
             className="mt-4 text-white text-3xl md:text-5xl lg:text-6xl font-black leading-tight"
           >
             Türkiye genelinde
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400 block">
+            <span className="gradient-text gradient-text--safe-xl block">
               Sahne Kiralama ve LED Ekran Kiralama
             </span>
           </h1>

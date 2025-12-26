@@ -47,7 +47,7 @@ export default function CorporateIntro() {
             className="text-2xl sm:text-3xl lg:text-[2.3rem] font-black leading-tight tracking-tight text-white"
           >
             Markanız için{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-400 to-emerald-300">
+            <span className="gradient-text gradient-text--safe-xl">
               uçtan uca sahne ve teknik yönetim
             </span>
           </h2>

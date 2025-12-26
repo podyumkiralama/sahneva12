@@ -218,7 +218,7 @@ export default function CorporateEvents({
         <div className="text-center max-w-4xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
             İstanbul&apos;da{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">
+            <span className="gradient-text gradient-text--safe-xl">
               Kurumsal Organizasyon Yapan Firmalar
             </span>{" "}
             Arasında Çözüm Ortağınız
@@ -322,7 +322,7 @@ export default function CorporateEvents({
 
             <h3 id={advantagesHeadingId} className="text-2xl md:text-3xl font-bold text-white">
               {dictionary.highlightTitlePrefix}{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+              <span className="gradient-text gradient-text--safe-xl">
                 {dictionary.highlightTitleAccent}
               </span>
             </h3>
@@ -380,7 +380,7 @@ export default function CorporateEvents({
           <div className="relative z-10 max-w-3xl mx-auto">
             <h3 id={bannerTitleId} className="text-2xl md:text-4xl font-bold mb-4 leading-tight">
               {dictionary.bannerTitlePrefix}{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-indigo-200">
+              <span className="gradient-text gradient-text--safe-xl">
                 {dictionary.bannerTitleHighlight}
               </span>{" "}
               {dictionary.bannerTitleSuffix}

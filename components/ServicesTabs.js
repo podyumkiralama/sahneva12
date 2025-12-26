@@ -298,7 +298,7 @@ function ServicesTabsComponent({
               className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight tracking-tight"
             >
               {dictionary.sectionTitlePrefix}{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-sky-500">
+              <span className="gradient-text gradient-text--safe-xl">
                 {dictionary.sectionTitleHighlight}
               </span>
             </h2>

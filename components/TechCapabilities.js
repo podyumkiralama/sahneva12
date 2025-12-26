@@ -75,7 +75,7 @@ export default function TechCapabilities({ dictionary: dictionaryOverride }) {
           >
             {dictionary.sectionTitlePrefix}
             {" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">
+            <span className="gradient-text gradient-text--safe-xl">
               {dictionary.sectionTitleHighlight}
             </span>
             {" "}

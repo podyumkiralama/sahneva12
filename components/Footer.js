@@ -268,7 +268,7 @@ export default function Footer({
               id="ft-services"
               className="
                 text-white font-bold mb-4 text-lg
-                bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent
+                gradient-text gradient-text--safe-xl
               "
             >
               Hizmetlerimiz
@@ -301,7 +301,7 @@ export default function Footer({
               id="ft-quick"
               className="
                 text-white font-bold mb-4 text-lg
-                bg-gradient-to-r from-purple-400 to-pink-300 bg-clip-text text-transparent
+                gradient-text gradient-text--safe-xl
               "
             >
               Hızlı Erişim
@@ -334,7 +334,7 @@ export default function Footer({
               id="ft-contact"
               className="
                 text-white font-bold mb-4 text-lg
-                bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text text-transparent
+                gradient-text gradient-text--safe-xl
               "
             >
               İletişim Bilgileri

@@ -218,7 +218,7 @@ export default function BlogPostCorporate() {
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black leading-[1.15] mb-6 tracking-tight">
             Kurumsal Etkinlik Yönetimi <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-blue-400">
+            <span className="gradient-text gradient-text--safe-xl">
               Teknik Kiralama Rehberi
             </span>
           </h1>

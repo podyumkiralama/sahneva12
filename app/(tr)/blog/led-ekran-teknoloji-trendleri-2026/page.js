@@ -296,7 +296,7 @@ export default function LedTrends2026Page() {
 
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black leading-[1.15] mb-6 tracking-tight">
             2026’da LED Ekran{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-cyan-300 to-indigo-300">
+            <span className="gradient-text gradient-text--safe-xl">
               Sahne Tasarımını Nasıl Değiştiriyor?
             </span>
           </h1>

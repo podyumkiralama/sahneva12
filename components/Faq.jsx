@@ -340,7 +340,7 @@ export default function Faq({
               className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight"
             >
               {dictionary.sectionTitlePrefix}{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-purple-400">
+              <span className="gradient-text gradient-text--safe-xl">
                 {dictionary.sectionTitleHighlight}
               </span>
             </h2>

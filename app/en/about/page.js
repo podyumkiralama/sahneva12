@@ -172,7 +172,7 @@ export default function AboutPage() {
           </div>
 
           <h1 id="hero-title" className="text-4xl md:text-6xl lg:text-7xl font-black leading-tight mb-4 drop-shadow-2xl">
-            About <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">Sahneva</span>
+            About <span className="gradient-text gradient-text--safe-xl">Sahneva</span>
           </h1>
 
           <p className="text-xl md:text-2xl text-white/95 max-w-3xl 2xl:max-w-4xl mx-auto leading-relaxed font-light mb-4">
@@ -233,7 +233,7 @@ export default function AboutPage() {
             <div className="text-center mb-16">
               <h2 id="who-we-are-title" className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
                 Who
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600"> We Are</span>
+                <span className="gradient-text gradient-text--safe-xl"> We Are</span>
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
                 Your trusted event technology partner since 2012
@@ -301,7 +301,7 @@ export default function AboutPage() {
             <div className="text-center mb-16">
               <h2 id="values-title" className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
                 Our Values &
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600"> Principles</span>
+                <span className="gradient-text gradient-text--safe-xl"> Principles</span>
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
                 The pillars of our quality-driven, trustworthy and customer-centric mindset
@@ -314,7 +314,7 @@ export default function AboutPage() {
                   key={index}
                   className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl border border-gray-100 hover:border-blue-200 transition-all duration-500 hover:scale-105"
                 >
-                  <div className="text-4xl mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">
+                  <div className="text-4xl mb-4 gradient-text gradient-text--safe-xl">
                     {value.icon}
                   </div>
                   <h3 className="text-xl font-black text-gray-900 mb-4 group-hover:text-blue-600 transition-colors">
@@ -333,7 +333,7 @@ export default function AboutPage() {
             <div className="text-center mb-16">
               <h2 id="timeline-title" className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
                 Our Journey &
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600"> Success Story</span>
+                <span className="gradient-text gradient-text--safe-xl"> Success Story</span>
               </h2>
               <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto" aria-hidden="true" />
             </div>
@@ -388,7 +388,7 @@ export default function AboutPage() {
             <div className="text-center mb-16">
               <h2 id="clients-title" className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
                 Trusted
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400"> Partners</span>
+                <span className="gradient-text gradient-text--safe-xl"> Partners</span>
               </h2>
               <p className="text-xl text-white/80 max-w-3xl mx-auto">
                 For over a decade we have supported corporate brands, public institutions and creative agencies with turnkey production.
