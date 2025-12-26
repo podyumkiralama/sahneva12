@@ -6,14 +6,12 @@ import NewTabAccessibility from "@/components/NewTabAccessibility.client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-
 import { inter } from "./fonts";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 
 const DEFAULT_LOCALE = LOCALE_CONTENT.tr;
 const DEFAULT_LANG = "tr";
 const DEFAULT_DIR = DEFAULT_LOCALE.direction;
-
 
 /* ================== VIEWPORT ================== */
 export const viewport = {
@@ -31,9 +29,7 @@ export default function RootLayout({ children }) {
       className={`${inter.variable} font-sans`}
       suppressHydrationWarning
     >
-      <head />
-
-      <body className="min-h-screen bg-white text-neutral-900 antialiased flex flex-col font-sans">
+      <body className="min-h-screen bg-black text-slate-100 antialiased flex flex-col font-sans">
         <SkipLinks />
         <NewTabAccessibility />
 
