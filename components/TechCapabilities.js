@@ -2,7 +2,6 @@
 "use client";
 
 import { useMemo } from "react";
-import { ScrollReveal } from "@/components/ScrollReveal";
 
 const SEO_TECH_FEATURES = [
   "LED ekran, projeksiyon, mapping ve sahne ışıklandırmada son nesil ekipman kullanımı",
@@ -35,11 +34,24 @@ const DEFAULT_DICTIONARY = {
     "farklı ölçeklerdeki etkinlikler için Türkiye genelinde lojistik, kurulum ve operasyon desteği sağlıyoruz.",
 };
 
-export default function TechCapabilities({ dictionary: dictionaryOverride }) {
+export default function TechCapabilities({
+  dictionary: dictionaryOverride,
+  techFeatures = SEO_TECH_FEATURES,
+  infraFeatures = SEO_INFRA_FEATURES,
+}) {
   const dictionary = useMemo(
     () => ({ ...DEFAULT_DICTIONARY, ...dictionaryOverride }),
     [dictionaryOverride]
   );
+
+  const resolvedTechFeatures =
+    Array.isArray(techFeatures) && techFeatures.length
+      ? techFeatures
+      : SEO_TECH_FEATURES;
+  const resolvedInfraFeatures =
+    Array.isArray(infraFeatures) && infraFeatures.length
+      ? infraFeatures
+      : SEO_INFRA_FEATURES;
 
   return (
     <section
@@ -55,43 +67,40 @@ export default function TechCapabilities({ dictionary: dictionaryOverride }) {
       {/* İçerik */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* ——— BAŞLIK ALANI ——— */}
-        <ScrollReveal direction="up" delay="0.05">
-          <div className="text-center max-w-4xl mx-auto mb-16">
-            {/* Hap Etiket */}
-            <div className="flex justify-center mb-4">
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-bold uppercase tracking-wider shadow-sm">
-                <span
-                  className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse"
-                  aria-hidden="true"
-                />
-                {dictionary.sectionPill}
-              </span>
-            </div>
-
-            {/* Ana Başlık */}
-            <h2
-              id="tech-capabilities-title"
-              className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight"
-            >
-              {dictionary.sectionTitlePrefix}{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-blue-400">
-                {dictionary.sectionTitleHighlight}
-              </span>{" "}
-              {dictionary.sectionTitleSuffix}
-            </h2>
-
-            {/* Açıklama */}
-            <p className="mt-4 text-slate-300 text-base md:text-lg leading-relaxed">
-              {dictionary.sectionDescription}
-            </p>
+        <div className="text-center max-w-4xl mx-auto mb-16">
+          {/* Hap Etiket */}
+          <div className="flex justify-center mb-4">
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-bold uppercase tracking-wider shadow-sm">
+              <span
+                className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse"
+                aria-hidden="true"
+              />
+              {dictionary.sectionPill}
+            </span>
           </div>
-        </ScrollReveal>
+
+          {/* Ana Başlık */}
+          <h2
+            id="tech-capabilities-title"
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight"
+          >
+            {dictionary.sectionTitlePrefix}{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-blue-400">
+              {dictionary.sectionTitleHighlight}
+            </span>{" "}
+            {dictionary.sectionTitleSuffix}
+          </h2>
+
+          {/* Açıklama */}
+          <p className="mt-4 text-slate-300 text-base md:text-lg leading-relaxed">
+            {dictionary.sectionDescription}
+          </p>
+        </div>
 
         {/* ——— KARTLAR ——— */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* SOL KART */}
-          <ScrollReveal direction="left" delay="0.1">
-            <article className="h-full bg-white/5 rounded-3xl p-8 md:p-10 shadow-2xl border border-white/10 hover:shadow-blue-900/30 transition-all duration-300">
+          <article className="h-full bg-white/5 rounded-3xl p-8 md:p-10 shadow-2xl border border-white/10 hover:shadow-blue-900/30 transition-all duration-300">
               <div className="flex items-center gap-5 mb-8">
                 <div
                   className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center text-3xl text-white shadow-lg transform rotate-3"
@@ -113,7 +122,7 @@ export default function TechCapabilities({ dictionary: dictionaryOverride }) {
                 <div className="w-full h-px bg-white/10" />
 
                 <ul className="space-y-4">
-                  {SEO_TECH_FEATURES.map((item, index) => (
+                  {resolvedTechFeatures.map((item, index) => (
                     <li key={index} className="flex items-start gap-3.5">
                       <div
                         className="w-2.5 h-2.5 mt-2 bg-blue-400 rounded-full flex-shrink-0 ring-4 ring-white/5 shadow-md"
@@ -126,12 +135,10 @@ export default function TechCapabilities({ dictionary: dictionaryOverride }) {
                   ))}
                 </ul>
               </div>
-            </article>
-          </ScrollReveal>
+          </article>
 
           {/* SAĞ KART */}
-          <ScrollReveal direction="right" delay="0.2">
-            <article className="h-full bg-white/5 rounded-3xl p-8 md:p-10 shadow-2xl border border-white/10 hover:shadow-purple-900/30 transition-all duration-300">
+          <article className="h-full bg-white/5 rounded-3xl p-8 md:p-10 shadow-2xl border border-white/10 hover:shadow-purple-900/30 transition-all duration-300">
               <div className="flex items-center gap-5 mb-8">
                 <div
                   className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center text-3xl text-white shadow-lg transform -rotate-3"
@@ -152,7 +159,7 @@ export default function TechCapabilities({ dictionary: dictionaryOverride }) {
                 <div className="w-full h-px bg-white/10" />
 
                 <ul className="space-y-4">
-                  {SEO_INFRA_FEATURES.map((item, index) => (
+                  {resolvedInfraFeatures.map((item, index) => (
                     <li key={index} className="flex items-start gap-3.5">
                       <div
                         className="w-2.5 h-2.5 mt-2 bg-purple-400 rounded-full flex-shrink-0 ring-4 ring-white/5 shadow-md"
@@ -165,8 +172,7 @@ export default function TechCapabilities({ dictionary: dictionaryOverride }) {
                   ))}
                 </ul>
               </div>
-            </article>
-          </ScrollReveal>
+          </article>
         </div>
       </div>
     </section>

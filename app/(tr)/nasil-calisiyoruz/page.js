@@ -77,16 +77,18 @@ function JsonLd({ stepsData, faqs }) {
       {
         "@type": "HowTo",
         "@id": howtoId,
-        name: "Sahneva ile Etkinlik Süreci Nasıl İlerler?",
+        name: "Sahneva Etkinlik ve Kiralama Süreci",
         description:
-          "İlk iletişimden kurulum ve söküme kadar Sahneva’nın uçtan uca etkinlik kurulum süreci.",
+          "Sahneva ile etkinlik planlama, kiralama, kurulum ve operasyon süreci nasıl işler? Adım adım teknik prodüksiyon rehberi.",
         inLanguage: "tr-TR",
+        totalTime: "P3D",
         step: stepsData.map((s) => ({
           "@type": "HowToStep",
           position: s.stepNo,
           name: s.title,
           text: s.plainText,
           url: `${PAGE_URL}#adim-${s.stepNo}`,
+          image: `${SITE}${s.imageSrc}`,
         })),
       },
       {
@@ -117,16 +119,16 @@ export default function HowItWorksPage() {
     {
       stepNo: 1,
       label: "İlk temas",
-      title: "İhtiyaç formu / ilk iletişim",
+      title: "İhtiyaç Formu ve İlk İletişim",
       plainText:
-        "Etkinlik türü, tarih, lokasyon ve ihtiyaçlar paylaşılır. Danışman geri dönüş yapar ve süreç başlar.",
+        "İhtiyaçlarınızı (LED ekran, truss, sahne, ses-ışık) iletişim formu veya WhatsApp üzerinden bize iletin.",
       imageSrc: `${IMG_DIR}/01-ilk-iletisim.webp`,
       imageAlt: "Sahneva ile ilk iletişim ve ihtiyaçların belirlenmesi",
     },
     {
       stepNo: 2,
       label: "Uzman görüşmesi",
-      title: "Proje ihtiyaçları netleşir",
+      title: "Uzman Görüşmesi ve Netleştirme",
       plainText:
         "Bütçe, alan ölçüleri ve teknik gereksinimler netleştirilir; uygun çözüm taslağı hazırlanır.",
       imageSrc: `${IMG_DIR}/02-uzman-gorusmesi.webp`,
@@ -135,16 +137,16 @@ export default function HowItWorksPage() {
     {
       stepNo: 3,
       label: "48 saat sonra",
-      title: "Teklif / öneri paketi",
+      title: "Teklif ve Öneri Paketi",
       plainText:
-        "Size özel teklif ve opsiyonlar sunulur, alternatif paketler ve revizyonlar yapılır.",
+        "48 saat içinde detaylı teklif sunulur. Opsiyonlara çadır ve masa-sandalye eklenebilir.",
       imageSrc: `${IMG_DIR}/03-teklif.webp`,
       imageAlt: "Teklif ve opsiyonların hazırlanması",
     },
     {
       stepNo: 4,
       label: "Onay",
-      title: "Rezervasyon ve planlama",
+      title: "Onay ve Rezervasyon",
       plainText:
         "Onay sonrası ekipman ve ekip planlaması rezervasyona alınır; kurulum takvimi netleşir.",
       imageSrc: `${IMG_DIR}/04-onay-rezervasyon.webp`,
@@ -153,9 +155,9 @@ export default function HowItWorksPage() {
     {
       stepNo: 5,
       label: "1 ay kala",
-      title: "Keşif / teknik koordinasyon",
+      title: "Keşif ve Teknik Koordinasyon",
       plainText:
-        "Saha erişimi, enerji ve zemin koşulları kontrol edilir; gerekiyorsa keşif yapılır.",
+        "Etkinlikten 1 ay önce saha erişimi, enerji ve zemin koşulları kontrol edilir; gerekiyorsa teknik keşif yapılır.",
       imageSrc: `${IMG_DIR}/05-teknik-kesif.webp`,
       imageAlt: "Teknik keşif ve saha koordinasyonu",
     },
@@ -164,7 +166,7 @@ export default function HowItWorksPage() {
       label: "24/48 saat önce",
       title: "Kurulum ve testler",
       plainText:
-        "Etkinlikten 1-2 gün önce kurulum yapılır ve tüm sistemler test edilir.",
+        "Etkinlikten 24-48 saat önce kurulum yapılır. Ses-ışık ve LED ekran testleri ile güvenlik kontrolleri tamamlanır.",
       imageSrc: `${IMG_DIR}/06-kurulum.webp`,
       imageAlt: "Sahada kurulum ve test süreci",
     },
@@ -173,14 +175,14 @@ export default function HowItWorksPage() {
       label: "Büyük gün",
       title: "Etkinlik günü yönetimi",
       plainText:
-        "Operasyon ekibi sahada süreci yönetir; yayın, görüntü ve ses akışı takip edilir.",
+        "Operasyon ekibi sahada süreci yönetir; yayın, görüntü ve ses akışı kesintisiz takip edilir.",
       imageSrc: `${IMG_DIR}/07-etkinlik-gunu.webp`,
       imageAlt: "Etkinlik günü operasyon ve teknik yönetim",
     },
     {
       stepNo: 8,
       label: "24/48 saat sonra",
-      title: "Söküm ve temiz teslim",
+      title: "Söküm ve Teslim",
       plainText:
         "Etkinlik sonrası söküm yapılır, ekipman toplanır ve alan düzenli şekilde teslim edilir.",
       imageSrc: `${IMG_DIR}/08-sokum.webp`,
