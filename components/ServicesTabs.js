@@ -343,11 +343,11 @@ function ServicesTabsComponent({
                         group relative flex items-center justify-center gap-2 px-4 py-3
                         font-bold text-xs md:text-sm rounded-xl
                         transition-all duration-200
-                        focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950
+                        focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950
                         ${
                           isActive
-                            ? "text-white bg-sky-500 shadow-lg shadow-sky-500/40 border border-sky-300"
-                            : "text-slate-100 bg-slate-900/80 border border-slate-700 hover:border-sky-400/70 hover:text-white"
+                            ? "text-white bg-indigo-600 shadow-lg shadow-indigo-500/40 border border-indigo-300/80"
+                            : "text-slate-100 bg-slate-950/80 border border-slate-700 hover:bg-slate-900 hover:border-indigo-300/60 hover:text-white"
                         }
                       `}
                     >
