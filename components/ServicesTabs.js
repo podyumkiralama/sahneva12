@@ -264,7 +264,6 @@ function ServicesTabsComponent({
 
   const headingId = ariaLabelledBy ?? regionLabelId;
   const descriptionId = !ariaLabelledBy ? `${headingId}-description` : undefined;
-  const regionHasName = Boolean(headingId || ariaLabel);
   const computedDescribedBy = ariaDescribedBy ?? descriptionId;
 
   return (
@@ -273,7 +272,6 @@ function ServicesTabsComponent({
       aria-labelledby={headingId}
       aria-describedby={computedDescribedBy}
       aria-label={ariaLabel}
-      role={regionHasName ? "region" : undefined}
     >
       {/* Arka Plan – Faq.jsx ile aynı ton/grid/glow */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -368,41 +366,47 @@ function ServicesTabsComponent({
           </div>
 
           {/* PANEL */}
-          <div
-            className="relative overflow-hidden bg-[#020617] border border-slate-800 shadow-2xl transition-all duration-500 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-600/40"
-            role="tabpanel"
-            id={`panel-${activeService?.id}`}
-            aria-labelledby={`tab-${activeService?.id}`}
-            aria-live="polite"
-            aria-atomic="true"
-            tabIndex={0}
-          >
-              {/* Hafif arka plan dokusu */}
-              <div
-                className="pointer-events-none absolute inset-0 z-0"
-                aria-hidden="true"
-              >
-                <div
-                  className="grid-overlay"
-                  style={{
-                    "--grid-overlay-top": "#0ea5e933",
-                    "--grid-overlay-bottom": "#22d3ee22",
-                    "--grid-overlay-opacity": "0.5",
-                    "--grid-overlay-blur": "24px",
-                  }}
-                />
-              </div>
+          {services.map((service) => {
+            const isActive = activeTab === service.id;
 
-              {activeService && (
+            return (
+              <div
+                key={service.id}
+                className={`relative overflow-hidden bg-[#020617] border border-slate-800 shadow-2xl transition-all duration-500 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-600/40 ${
+                  isActive ? "block" : "hidden"
+                }`}
+                role="tabpanel"
+                id={`panel-${service.id}`}
+                aria-labelledby={`tab-${service.id}`}
+                aria-live={isActive ? "polite" : undefined}
+                aria-atomic={isActive ? "true" : undefined}
+                tabIndex={isActive ? 0 : -1}
+              >
+                {/* Hafif arka plan dokusu */}
+                <div
+                  className="pointer-events-none absolute inset-0 z-0"
+                  aria-hidden="true"
+                >
+                  <div
+                    className="grid-overlay"
+                    style={{
+                      "--grid-overlay-top": "#0ea5e933",
+                      "--grid-overlay-bottom": "#22d3ee22",
+                      "--grid-overlay-opacity": "0.5",
+                      "--grid-overlay-blur": "24px",
+                    }}
+                  />
+                </div>
+
                 <div className="relative z-10 grid lg:grid-cols-[1.08fr_0.92fr] gap-0 min-h-[460px]">
                   {/* SOL: METİN */}
                   <div className="p-7 md:p-9 flex flex-col justify-center order-2 lg:order-1">
                     <div className="mb-6">
                       <h3 className="text-2xl md:text-3xl lg:text-4xl font-black text-white leading-tight mb-3 drop-shadow-xl">
-                        {activeService.title}
+                        {service.title}
                       </h3>
                       <p className="text-slate-200 text-sm md:text-base leading-relaxed border-l-2 border-cyan-500/70 pl-4">
-                        {activeService.description}
+                        {service.description}
                       </p>
                     </div>
 
@@ -415,7 +419,7 @@ function ServicesTabsComponent({
                         {dictionary.featuresHeading}
                       </h4>
                       <ul className="grid sm:grid-cols-2 gap-3">
-                        {activeService.features.map((feature, idx) => (
+                        {service.features.map((feature, idx) => (
                           <li
                             key={idx}
                             className="group flex items-center gap-2.5 p-2.5 rounded-lg bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/15 transition-colors"
@@ -431,16 +435,16 @@ function ServicesTabsComponent({
 
                     <div className="mt-auto pt-2">
                       <Link
-                        href={activeService.href}
+                        href={service.href}
                         className="group inline-flex items-center gap-3 bg-cyan-400 text-slate-950 font-bold text-base px-6 py-3 rounded-lg shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:shadow-[0_0_30px_rgba(34,211,238,0.7)] hover:translate-y-[-2px] transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-cyan-500/60 focus:ring-offset-2 focus:ring-offset-slate-950"
                         title={formatTitleTemplate(
                           dictionary.ctaTitle,
-                          activeService.title,
+                          service.title,
                           DEFAULT_DICTIONARY.ctaTitle
                         )}
                         aria-label={formatTitleTemplate(
                           dictionary.ctaTitle,
-                          activeService.title,
+                          service.title,
                           DEFAULT_DICTIONARY.ctaTitle
                         )}
                       >
@@ -458,10 +462,10 @@ function ServicesTabsComponent({
                   {/* SAĞ: GÖRSEL */}
                   <div className="relative order-1 lg:order-2 h-[260px] lg:h-auto min-h-full overflow-hidden group">
                     <Image
-                      src={activeService ? getImageSrc(activeService) : ""}
+                      src={getImageSrc(service)}
                       alt={formatTitleTemplate(
                         imageAltTemplate,
-                        activeService.title,
+                        service.title,
                         DEFAULT_DICTIONARY.imageAlt
                       )}
                       fill
@@ -470,9 +474,7 @@ function ServicesTabsComponent({
                       quality={78}
                       loading="lazy"
                       decoding="async"
-                      onError={
-                        activeService ? imageErrorHandlers[activeService.id] : undefined
-                      }
+                      onError={imageErrorHandlers[service.id]}
                     />
 
                     <div
@@ -492,13 +494,14 @@ function ServicesTabsComponent({
 
                     <div className="absolute bottom-4 left-4 z-20 lg:hidden">
                       <h4 className="text-xl font-black text-white drop-shadow-lg">
-                        {activeService.title}
+                        {service.title}
                       </h4>
                     </div>
                   </div>
                 </div>
-              )}
-          </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
