@@ -1,474 +1,231 @@
 // components/WhyChooseUs.js
 "use client";
 
-import { useMemo } from "react";
-
 // —————————————————————————————————————————
-// İKONLAR (modern)
+// SVG İKONLAR
 // —————————————————————————————————————————
 
-const ICON_CLASS = "w-7 h-7";
+const IconWrap = ({ children }) => (
+  <div
+    className="inline-flex items-center justify-center w-12 h-12 rounded-2xl
+               bg-slate-950/80 ring-1 ring-white/10
+               shadow-[0_0_30px_rgba(15,23,42,0.9)]"
+    aria-hidden="true"
+  >
+    {children}
+  </div>
+);
 
-const CheckStarIcon = ({ className }) => (
+const CheckStarIcon = () => (
   <svg
-    className={className}
+    className="w-6 h-6 text-amber-300"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth={2}
-    aria-hidden="true"
+    strokeWidth={2.2}
   >
     <path
-      d="M12 3.5l2.472 4.79 5.292.79-3.832 3.736.905 5.281L12 15.98l-4.837 2.117.905-5.281-3.832-3.736 5.292-.79L12 3.5z"
+      d="M12 3.5l2.47 4.8 5.3.8-3.83 3.73.9 5.3L12 15.98l-4.84 2.12.9-5.3L4.64 9.1l5.3-.8L12 3.5z"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
-    <path
-      d="M9 12l2 2.2L15 10"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
+    <path d="M9 12l2 2.2L15 10" strokeLinecap="round" />
   </svg>
 );
 
-const BoltClockIcon = ({ className }) => (
+const BoltIcon = () => (
   <svg
-    className={className}
+    className="w-6 h-6 text-cyan-300"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth={2}
-    aria-hidden="true"
+    strokeWidth={2.2}
   >
-    <circle cx="15" cy="9" r="4.25" />
-    <path
-      d="M15 7.5v2.25l1.5 1.25M11 4L6 12h4l-1 6 5-8h-4l1-6z"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
+    <path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z" />
   </svg>
 );
 
-const DisplayIcon = ({ className }) => (
+const DisplayIcon = () => (
   <svg
-    className={className}
+    className="w-6 h-6 text-fuchsia-300"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth={2}
-    aria-hidden="true"
+    strokeWidth={2.2}
   >
-    <rect x="3.75" y="5" width="16.5" height="11" rx="2" />
-    <path d="M10 19h4" strokeLinecap="round" />
-    <path
-      d="M6.5 8.5h2M10 8.5h2M13.5 8.5h2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
+    <rect x="3" y="5" width="18" height="12" rx="2" />
+    <path d="M8 21h8" />
   </svg>
 );
 
-const UsersIcon = ({ className }) => (
+const UsersIcon = () => (
   <svg
-    className={className}
+    className="w-6 h-6 text-emerald-300"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth={2}
-    aria-hidden="true"
+    strokeWidth={2.2}
   >
-    <circle cx="9" cy="9" r="3" />
-    <circle cx="17" cy="9.5" r="2.5" />
-    <path
-      d="M4.5 19.25a4.75 4.75 0 0 1 9.5 0"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M14.5 17.75c.45-.96 1.4-1.75 2.75-1.75 1.65 0 3.25 1.1 3.25 3"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
+    <circle cx="9" cy="8.5" r="3" />
+    <circle cx="17" cy="9" r="2.5" />
+    <path d="M4.5 19a4.5 4.5 0 0 1 9 0" />
+    <path d="M14.5 17.5c.6-1.2 1.7-2 3-2 1.8 0 3.5 1.3 3.5 3.5" />
   </svg>
 );
 
-const CurrencyIcon = ({ className }) => (
+const PriceIcon = () => (
   <svg
-    className={className}
+    className="w-6 h-6 text-amber-300"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth={2}
-    aria-hidden="true"
+    strokeWidth={2.2}
   >
     <circle cx="12" cy="12" r="7.5" />
-    <path
-      d="M10 8.25h3.25a2.25 2.25 0 1 1 0 4.5H11m0 0H9.75m1.25 0v3"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
+    <path d="M10 8h3a2 2 0 1 1 0 4h-3v4" />
   </svg>
 );
 
-const GlobeMapIcon = ({ className }) => (
+const GlobeIcon = () => (
   <svg
-    className={className}
+    className="w-6 h-6 text-indigo-300"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth={2}
-    aria-hidden="true"
+    strokeWidth={2.2}
   >
     <circle cx="12" cy="12" r="7.5" />
-    <path
-      d="M8.5 4.75C9.5 7 9.9 9.4 9.9 12c0 2.6-.4 5-1.4 7.25M15.5 4.75C14.5 7 14.1 9.4 14.1 12c0 2.6.4 5 1.4 7.25"
-      strokeLinecap="round"
-    />
-    <path d="M5 9h14M5 15h14" strokeLinecap="round" />
+    <path d="M5 12h14M12 4.5c2.5 3 2.5 11 0 15" />
   </svg>
 );
 
 // —————————————————————————————————————————
-// VERİLER
+// VERİ
 // —————————————————————————————————————————
 
-const DEFAULT_FEATURES = [
+const FEATURES = [
   {
-    icon: <CheckStarIcon className={ICON_CLASS} />,
+    icon: <CheckStarIcon />,
     title: "Yüksek Müşteri Memnuniyeti",
-    desc: "%98'in üzerinde müşteri memnuniyeti. Referanslar ve yorumlar bizim için en güçlü gösterge.",
-    stat: "%98 Memnuniyet",
-    gradient: "from-amber-400 to-orange-400",
-    accentText: "text-amber-200",
-    pillClass: "bg-amber-500/10 border-amber-400/40 text-amber-100",
+    stat: "%98",
+    desc:
+      "%98’in üzerinde müşteri memnuniyeti ve güçlü referans ağı ile güvenilir hizmet sunuyoruz.",
+    glow: "from-amber-400/30",
   },
   {
-    icon: <BoltClockIcon className={ICON_CLASS} />,
-    title: "Hızlı Kurulum ve Teslimat",
-    desc: "Sahne, LED ekran ve ses-ışık kurulumlarında aynı gün içinde profesyonel montaj.",
+    icon: <BoltIcon />,
+    title: "Hızlı Kurulum",
     stat: "2–6 Saat",
-    gradient: "from-cyan-400 to-sky-400",
-    accentText: "text-cyan-200",
-    pillClass: "bg-cyan-500/10 border-cyan-400/40 text-cyan-100",
+    desc:
+      "Sahne, LED ekran ve ses-ışık sistemlerini aynı gün içinde eksiksiz kuruyoruz.",
+    glow: "from-cyan-400/30",
   },
   {
-    icon: <DisplayIcon className={ICON_CLASS} />,
+    icon: <DisplayIcon />,
     title: "Premium LED Teknolojisi",
-    desc: "P2–P6 indoor/outdoor LED ekranlarla yüksek parlaklık ve netlikte görüntüleme.",
     stat: "P2–P6",
-    gradient: "from-violet-400 to-fuchsia-400",
-    accentText: "text-fuchsia-200",
-    pillClass: "bg-fuchsia-500/10 border-fuchsia-400/40 text-fuchsia-100",
+    desc:
+      "Indoor ve outdoor LED ekranlarda yüksek parlaklık ve netlik sağlıyoruz.",
+    glow: "from-fuchsia-400/30",
   },
   {
-    icon: <UsersIcon className={ICON_CLASS} />,
-    title: "Uzman Teknik Ekip",
-    desc: "10+ yıl deneyimli, sahne, ses, ışık ve LED alanında uzman teknik kadro.",
-    stat: "15+ Uzman",
-    gradient: "from-emerald-400 to-green-400",
-    accentText: "text-emerald-200",
-    pillClass: "bg-emerald-500/10 border-emerald-400/40 text-emerald-100",
+    icon: <UsersIcon />,
+    title: "Uzman Teknik Kadro",
+    stat: "15+ Kişi",
+    desc:
+      "10+ yıl deneyimli sahne, ses, ışık ve LED uzmanlarından oluşan ekip.",
+    glow: "from-emerald-400/30",
   },
   {
-    icon: <CurrencyIcon className={ICON_CLASS} />,
-    title: "Rekabetçi Fiyat Garantisi",
-    desc: "Kaliteden ödün vermeden bütçenize uygun, şeffaf ve öngörülebilir fiyatlandırma.",
-    stat: "%30 Tasarruf",
-    gradient: "from-amber-400 to-orange-500",
-    accentText: "text-amber-200",
-    pillClass: "bg-amber-500/10 border-amber-400/40 text-amber-100",
+    icon: <PriceIcon />,
+    title: "Şeffaf Fiyatlandırma",
+    stat: "%30 Avantaj",
+    desc:
+      "Kaliteden ödün vermeden bütçenize uygun ve net fiyatlandırma.",
+    glow: "from-amber-400/30",
   },
   {
-    icon: <GlobeMapIcon className={ICON_CLASS} />,
+    icon: <GlobeIcon />,
     title: "Türkiye Geneli Hizmet",
-    desc: "İstanbul merkezli ekibimizle 81 ilde etkinlik prodüksiyon desteği sağlıyoruz.",
     stat: "81 İl",
-    gradient: "from-indigo-400 to-sky-400",
-    accentText: "text-sky-200",
-    pillClass: "bg-indigo-500/10 border-indigo-400/40 text-indigo-100",
+    desc:
+      "İstanbul merkezli operasyonumuzla Türkiye’nin her noktasındayız.",
+    glow: "from-indigo-400/30",
   },
 ];
-
-const DEFAULT_DICTIONARY = {
-  sectionPill: "Avantajlarımız",
-  sectionTitlePrefix: "Neden",
-  sectionTitleHighlight: "Sahneva",
-  sectionTitleSuffix: "'yı Tercih Etmelisiniz?",
-  sectionDesc:
-    "10+ yıllık deneyim, modern ekipmanlar ve uzman ekibimizle etkinliğinizin her detayı için yanınızdayız.",
-};
 
 // —————————————————————————————————————————
 // ANA BİLEŞEN
 // —————————————————————————————————————————
 
-export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
-  const dictionary = useMemo(
-    () => ({ ...DEFAULT_DICTIONARY, ...dictionaryOverride }),
-    [dictionaryOverride]
-  );
-
+export default function WhyChooseUs() {
   return (
     <section
-      aria-labelledby="why-choose-title"
-      className="relative overflow-hidden bg-[#0B1120]"
+      aria-labelledby="why-choose-us-title"
+      className="relative bg-[#0B1120] overflow-hidden py-20"
     >
-      {/* ARKA PLAN: grid + glow */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div
-          className="
-            absolute inset-0
-            grid-overlay
-          "
-        />
-        <div
-          className="
-            absolute top-0 left-0
-            w-[420px] h-[420px] 
-            bg-blue-600/10 
-            blur-[120px] 
-            rounded-full 
-            mix-blend-screen
-          "
-        />
+      {/* ARKA PLAN */}
+      <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden="true">
+        <div className="absolute inset-0 grid-overlay" />
+        <div className="absolute top-0 left-0 w-[420px] h-[420px] bg-blue-600/10 blur-[120px] rounded-full" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        {/* BAŞLIK BLOĞU */}
-        <header className="max-w-4xl mx-auto mb-16 text-center md:text-left">
-          <p className="text-xs md:text-[13px] font-semibold tracking-[0.22em] uppercase text-slate-300/90">
-            {dictionary.sectionPill}
+      {/* İÇERİK */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* BAŞLIK */}
+        <header className="max-w-3xl mb-16">
+          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-slate-400">
+            Avantajlarımız
           </p>
-
           <h2
-            id="why-choose-title"
-            className="mt-3 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-slate-50"
+            id="why-choose-us-title"
+            className="mt-4 text-3xl md:text-4xl lg:text-5xl font-black text-white leading-tight"
           >
-            <span className="block">
-              {dictionary.sectionTitlePrefix}{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-300">
-                {dictionary.sectionTitleHighlight}
-              </span>
-              {dictionary.sectionTitleSuffix}
-            </span>
+            Neden{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-300 to-yellow-300">
+              Sahneva
+            </span>{" "}
+            Organizasyon?
           </h2>
-
-          <div className="mt-4 h-px w-24 md:w-32 mx-auto md:mx-0 bg-gradient-to-r from-orange-400/70 via-amber-300/40 to-transparent" />
-
-          <p className="mt-5 text-slate-300 text-base md:text-lg leading-relaxed">
-            {dictionary.sectionDesc}
+          <p className="mt-6 text-slate-300 text-base md:text-lg leading-relaxed">
+            Profesyonel ekipman, deneyimli kadro ve kusursuz operasyon yönetimiyle
+            etkinliğinizi riske atmadan hayata geçiriyoruz.
           </p>
         </header>
 
-        {/* ✅ EKLENEN 2 BÜYÜK KART BLOĞU */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-          {/* Sol kart */}
-          <article className="rounded-3xl bg-white/5 border border-white/10 p-6 md:p-8 shadow-[0_18px_45px_rgba(15,23,42,0.8)]">
-            <div className="flex items-start gap-3">
-              <div className="text-3xl" aria-hidden="true">
-                🚀
-              </div>
-              <h3 className="text-xl md:text-2xl font-bold text-white leading-snug">
-                Uçtan Uca Teknik Hizmet ve Profesyonel Çözümler
-              </h3>
-            </div>
-            <p className="mt-4 text-slate-300 text-sm md:text-base leading-relaxed">
-              Sahneva olarak Türkiye genelinde sahne, podyum, LED ekran ve
-              ses ışık sistemleri alanlarında komple teknik çözümler sunuyoruz.
-            </p>
-            <ul className="mt-5 space-y-2 text-sm md:text-[15px] text-slate-200 leading-relaxed">
-              <li className="flex items-start gap-2">
-                <span
-                  className="mt-[3px] text-sky-400"
-                  aria-hidden="true"
-                >
-                  •
-                </span>
-                <span>IP65 dış mekân LED paneller, 4500+ nit parlaklık</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span
-                  className="mt-[3px] text-sky-400"
-                  aria-hidden="true"
-                >
-                  •
-                </span>
-                <span>
-                  Profesyonel line-array ses sistemleri, dijital miksaj
-                  altyapısı
-                </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span
-                  className="mt-[3px] text-sky-400"
-                  aria-hidden="true"
-                >
-                  •
-                </span>
-                <span>
-                  Modüler podyum ve sahne platformları, truss kiralama çözümleri
-                </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span
-                  className="mt-[3px] text-sky-400"
-                  aria-hidden="true"
-                >
-                  •
-                </span>
-                <span>
-                  DMX kontrollü ışık sistemleri ve ambiyans aydınlatma
-                </span>
-              </li>
-            </ul>
-          </article>
-
-          {/* Sağ kart */}
-          <article className="rounded-3xl bg-white/5 border border-white/10 p-6 md:p-8 shadow-[0_18px_45px_rgba(15,23,42,0.8)]">
-            <div className="flex items-start gap-3">
-              <div className="text-3xl" aria-hidden="true">
-                🎤
-              </div>
-              <h3 className="text-xl md:text-2xl font-bold text-white leading-snug">
-                Büyük Ölçekli Etkinlikler İçin Güçlü Altyapı
-              </h3>
-            </div>
-            <p className="mt-4 text-slate-300 text-sm md:text-base leading-relaxed">
-              Konser, miting, festival, fuar ve açık hava etkinlikleri için
-              yüksek kapasiteli ekipman altyapımızla hizmet veriyoruz.
-            </p>
-            <ul className="mt-5 space-y-2 text-sm md:text-[15px] text-slate-200 leading-relaxed">
-              <li className="flex items-start gap-2">
-                <span
-                  className="mt-[3px] text-fuchsia-400"
-                  aria-hidden="true"
-                >
-                  •
-                </span>
-                <span>
-                  100 m²+ LED ekran kurulumu (P3.9 outdoor, P2.6 indoor)
-                </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span
-                  className="mt-[3px] text-fuchsia-400"
-                  aria-hidden="true"
-                >
-                  •
-                </span>
-                <span>Line-array ses sistemleri (JBL, RCF, dB vb.)</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span
-                  className="mt-[3px] text-fuchsia-400"
-                  aria-hidden="true"
-                >
-                  •
-                </span>
-                <span>Truss kule sistemleri ve roof sahne çözümleri</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span
-                  className="mt-[3px] text-fuchsia-400"
-                  aria-hidden="true"
-                >
-                  •
-                </span>
-                <span>Jeneratör, UPS ve yedekli enerji altyapısı</span>
-              </li>
-            </ul>
-          </article>
-        </div>
-
-        {/* 6'LI KART GRID (ESKİ BLOK DURUYOR) */}
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {DEFAULT_FEATURES.map((feature) => (
-            <li key={feature.title}>
-              <div
-                className="
-                  group relative overflow-hidden
-                  rounded-2xl p-6
-                  bg-slate-900/70
-                  border border-white/10
-                  shadow-[0_18px_45px_rgba(0,0,0,0.6)]
-                  transition-all duration-500
-                  hover:-translate-y-[4px]
-                  hover:shadow-[0_26px_70px_rgba(56,189,248,0.45)]
-                "
+        {/* KARTLAR */}
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {FEATURES.map((f) => (
+            <li key={f.title}>
+              <article
+                className="relative h-full rounded-2xl border border-white/10
+                           bg-slate-900/70 p-6
+                           shadow-[0_18px_45px_rgba(0,0,0,0.65)]
+                           transition-transform duration-300
+                           hover:-translate-y-1"
               >
                 <div
-                  className="pointer-events-none absolute inset-0"
+                  className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${f.glow}
+                              opacity-0 hover:opacity-100 transition-opacity`}
                   aria-hidden="true"
-                >
-                  <div
-                    className="
-                      absolute left-1/2 -translate-x-1/2
-                      bottom-[-34px]
-                      w-56 h-56
-                      rounded-full
-                      blur-[55px]
-                      opacity-80
-                      bg-purple-500/45
-                      transition-[background-color,opacity] duration-500
-                      group-hover:bg-sky-500/55
-                      group-hover:opacity-100
-                    "
-                  />
-                </div>
-
-                <div
-                  className={`
-                    pointer-events-none
-                    absolute inset-0 
-                    bg-gradient-to-br ${feature.gradient}
-                    opacity-[0.03]
-                    group-hover:opacity-[0.08]
-                    transition-opacity duration-500
-                  `}
                 />
 
                 <div className="relative z-10 space-y-4">
-                  <div className="mb-3">
-                    <div
-                      className={`
-                        inline-flex items-center justify-center
-                        rounded-2xl p-3
-                        bg-slate-950/80
-                        ring-1 ring-white/10
-                        shadow-[0_0_30px_rgba(15,23,42,0.9)]
-                        bg-gradient-to-br ${feature.gradient}
-                      `}
-                    >
-                      {feature.icon}
-                    </div>
-                  </div>
+                  <IconWrap>{f.icon}</IconWrap>
 
-                  <span
-                    className={`
-                      inline-flex items-center text-[11px] font-semibold
-                      px-3 py-1 rounded-full
-                      ${feature.pillClass}
-                    `}
-                  >
-                    {feature.stat}
+                  <span className="inline-block text-xs font-bold uppercase tracking-wider text-slate-400">
+                    {f.stat}
                   </span>
 
-                  <h3
-                    className={`
-                      text-lg font-semibold mt-1
-                      text-slate-50
-                      group-hover:${feature.accentText}
-                      transition-colors duration-300
-                    `}
-                  >
-                    {feature.title}
+                  <h3 className="text-lg font-semibold text-white">
+                    {f.title}
                   </h3>
 
-                  <p className="text-slate-300 text-sm leading-relaxed">
-                    {feature.desc}
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    {f.desc}
                   </p>
                 </div>
-              </div>
+              </article>
             </li>
           ))}
         </ul>
