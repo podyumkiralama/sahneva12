@@ -577,7 +577,7 @@ export default function EnglishHomePage() {
       <StructuredData />
 
       <section
-        className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950 pt-16 lg:pt-20"
+        className="relative min-h-[80vh] 2xl:min-h-[85vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0b0f1a] via-blue-950 to-purple-950 pt-16 lg:pt-20"
         aria-labelledby="hero-title"
       >
         <div className="absolute inset-0" aria-hidden="true">
@@ -594,7 +594,7 @@ export default function EnglishHomePage() {
         />
 
         <div className="relative z-10 container py-12 md:py-16">
-          <div className="max-w-6xl mx-auto text-center mb-10">
+          <div className="max-w-6xl 2xl:max-w-7xl mx-auto text-center mb-10">
             
               <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20 mb-6">
                 <span
@@ -621,7 +621,7 @@ export default function EnglishHomePage() {
             
 
             
-              <p className="text-white/80 text-base md:text-lg mb-8 max-w-3xl mx-auto">
+              <p className="text-white/80 text-base md:text-lg mb-8 max-w-3xl 2xl:max-w-4xl mx-auto">
                 {home.hero.subtitle}
               </p>
             

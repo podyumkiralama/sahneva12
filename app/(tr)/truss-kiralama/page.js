@@ -217,7 +217,7 @@ const FAQ_ITEMS = [
 function Hero() {
   return (
     <header className="pt-16 pb-12 bg-gradient-to-br from-slate-50 via-white to-blue-50">
-      <div className="container mx-auto px-4 max-w-6xl">
+      <div className="container mx-auto px-4 max-w-6xl 2xl:max-w-7xl">
         <nav aria-label="Sayfa yolu" className="mb-6">
           <ol className="flex flex-wrap items-center gap-2 text-sm text-gray-600">
             <li>
@@ -241,7 +241,7 @@ function Hero() {
           </span>
         </h1>
 
-        <p className="mt-6 text-lg md:text-xl text-gray-700 leading-relaxed max-w-3xl">
+        <p className="mt-6 text-lg md:text-xl text-gray-700 leading-relaxed max-w-3xl 2xl:max-w-4xl">
           Kare, üçgen, circle ve kemer (gate) dahil <strong>her türlü truss</strong> sistemini
           etkinliğinize göre planlıyor; nakliye, kurulum-söküm ve sahada teknik ekip desteği sağlıyoruz.
         </p>

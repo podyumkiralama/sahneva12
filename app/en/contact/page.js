@@ -72,7 +72,7 @@ export default function ContactPage() {
 
       {/* HERO */}
       <section
-        className="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 pt-16 lg:pt-20"
+        className="relative min-h-[60vh] 2xl:min-h-[75vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 pt-16 lg:pt-20"
         aria-labelledby="hero-title"
       >
         {/* Gradient accents */}
@@ -94,7 +94,7 @@ export default function ContactPage() {
 
         <div className="relative z-10 container text-center text-white">
           
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-4xl 2xl:max-w-5xl mx-auto">
               <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20 mb-6">
                 <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                 <span className="text-white/90 text-sm font-medium">
@@ -112,7 +112,7 @@ export default function ContactPage() {
                 </span>
               </h1>
 
-              <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed max-w-3xl mx-auto">
+              <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed max-w-3xl 2xl:max-w-4xl mx-auto">
                 Tell us about your event so we can deliver the
                 {" "}
                 <strong className="text-blue-300">best technical solution</strong>.
@@ -646,4 +646,3 @@ function InfoRow({ label, icon, children }) {
     </div>
   );
 }
-

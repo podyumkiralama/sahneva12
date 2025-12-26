@@ -125,7 +125,7 @@ function ProcessList() {
 export default function HeroBelow() {
   return (
     <section
-      className="home-section home-section--surface relative overflow-hidden bg-slate-950 mt-6 md:mt-8 py-10 md:py-12"
+      className="home-section home-section--surface relative overflow-hidden bg-slate-950 mt-6 md:mt-8 py-10 md:py-12 2xl:py-16"
       aria-labelledby="hero-supporting-title"
     >
       <h2 id="hero-supporting-title" className="sr-only">

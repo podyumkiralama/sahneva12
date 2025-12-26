@@ -151,7 +151,7 @@ export default function HakkimizdaPage() {
       <AboutStructuredData />
 
       {/* HERO - LED Ekran Sayfası ile Birebir Aynı (İstatistikler Hero İçinde) */}
-      <section className="relative flex items-center justify-center overflow-hidden bg-slate-900 pt-20 min-h-[80vh]" aria-labelledby="hero-title">
+      <section className="relative flex items-center justify-center overflow-hidden bg-slate-900 pt-20 min-h-[80vh] 2xl:min-h-[85vh]" aria-labelledby="hero-title">
         <div className="absolute inset-0">
           <Image 
             src="/img/hakkimizda-hero-corporate.webp"
@@ -182,10 +182,10 @@ export default function HakkimizdaPage() {
             Hakkımızda <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">Sahneva</span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-white/95 max-w-3xl mx-auto leading-relaxed font-light mb-4">
+          <p className="text-xl md:text-2xl text-white/95 max-w-3xl 2xl:max-w-4xl mx-auto leading-relaxed font-light mb-4">
             Etkinlik Teknolojilerinde • 10+ Yıl Deneyim • 700+ Proje
           </p>
-          <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed font-normal mb-8">
+          <p className="text-lg md:text-xl text-white/80 max-w-2xl 2xl:max-w-3xl mx-auto leading-relaxed font-normal mb-8">
             Türkiye'nin <span className="font-semibold text-white">1 numaralı etkinlik teknoloji partneri</span> olarak
             her projede teknik mükemmellik ve yaratıcı vizyonu buluşturuyoruz
           </p>

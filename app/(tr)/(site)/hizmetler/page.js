@@ -338,7 +338,7 @@ export default function ServicesPage() {
 
       {/* ✅ HERO SECTION - Premium Design */}
       <section 
-        className="relative min-h-[70vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 pt-16 lg:pt-20"
+        className="relative min-h-[70vh] 2xl:min-h-[75vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 pt-16 lg:pt-20"
         aria-labelledby="hero-title"
       >
         <div className="absolute inset-0">
@@ -366,7 +366,7 @@ export default function ServicesPage() {
         </div>
         
         <div className="relative z-10 container text-center text-white">
-          <div className="max-w-5xl mx-auto">
+          <div className="max-w-5xl 2xl:max-w-6xl mx-auto">
             <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20 mb-6">
               <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
               <span className="text-white/90 text-sm font-medium">Türkiye Geneli Profesyonel Hizmet</span>
@@ -382,7 +382,7 @@ export default function ServicesPage() {
               </span>
             </h1>
             
-            <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed max-w-3xl 2xl:max-w-4xl mx-auto">
               Sahne, LED ekran, ses-ışık sistemlerinden komple etkinlik prodüksiyonuna kadar<br />
               <strong className="text-blue-300">tek çatı altında premium çözümler</strong>
             </p>
