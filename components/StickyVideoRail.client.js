@@ -19,24 +19,17 @@ export default function StickyVideoRailClient() {
 
     // Tarayıcı boşta kalınca yükle (tercih edilen)
     if ("requestIdleCallback" in window) {
-      const idleId = window.requestIdleCallback(scheduleRender, {
-        timeout: 2000,
-      });
+      const idleId = window.requestIdleCallback(scheduleRender, { timeout: 2000 });
       return () => {
-        if ("cancelIdleCallback" in window) {
-          window.cancelIdleCallback(idleId);
-        }
+        if ("cancelIdleCallback" in window) window.cancelIdleCallback(idleId);
       };
     }
 
-    // Eski tarayıcılar için fallback: hafif gecikme
+    // Fallback
     const timerId = window.setTimeout(scheduleRender, 2000);
     return () => window.clearTimeout(timerId);
   }, [shouldRender]);
 
-  // Henüz yükleme → hiç gösterme
   if (!shouldRender) return null;
-
-  // Artık sticky video rail’i yükle
   return <StickyVideoRailLazy />;
 }
