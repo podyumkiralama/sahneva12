@@ -32,6 +32,11 @@ function loadGAScript(gaId) {
 
   // Aynı script'i ikinci defa eklemeyelim
   if (document.getElementById("ga-script")) return;
+  const existingLoader = document.querySelector(
+    `script[src="https://www.googletagmanager.com/gtag/js?id=${gaId}"]`
+  );
+  if (existingLoader || window.__gaInitialized) return;
+  window.__gaInitialized = true;
 
   const script = document.createElement("script");
   script.id = "ga-script";
