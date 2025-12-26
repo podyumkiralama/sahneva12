@@ -12,7 +12,6 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
-import { ScrollReveal } from "@/components/ScrollReveal";
 
 // ===============================================================
 // GALERİ VERİLERİ — Sabit 3 kategori (A seçildi)
@@ -278,6 +277,7 @@ export default function ProjectsGallery({
   const portal = useRef(null);
   const closeBtn = useRef(null);
   const dialogRef = useRef(null);
+  const touchStartRef = useRef({ x: 0, y: 0 });
 
   const handleError = useCallback(
     (key) => setErrors((p) => ({ ...p, [key]: true })),
@@ -342,6 +342,54 @@ export default function ProjectsGallery({
         index: (s.index + 1) % s.items.length,
       })),
     []
+  );
+
+  const handleImageClick = useCallback(
+    (event) => {
+      if (openState.items.length <= 1) return;
+      if (!window.matchMedia("(min-width: 768px)").matches) return;
+
+      const target = event.currentTarget;
+      const rect = target.getBoundingClientRect();
+      const clickX = event.clientX - rect.left;
+      const clickRatio = clickX / rect.width;
+
+      if (clickRatio <= 0.35) {
+        prev();
+        return;
+      }
+
+      if (clickRatio >= 0.65) {
+        next();
+      }
+    },
+    [next, prev, openState.items.length]
+  );
+
+  const handleTouchStart = useCallback((event) => {
+    const touch = event.touches?.[0];
+    if (!touch) return;
+    touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+  }, []);
+
+  const handleTouchEnd = useCallback(
+    (event) => {
+      if (openState.items.length <= 1) return;
+      const touch = event.changedTouches?.[0];
+      if (!touch) return;
+
+      const deltaX = touch.clientX - touchStartRef.current.x;
+      const deltaY = touch.clientY - touchStartRef.current.y;
+
+      if (Math.abs(deltaX) < 50 || Math.abs(deltaX) < Math.abs(deltaY)) return;
+
+      if (deltaX > 0) {
+        prev();
+      } else {
+        next();
+      }
+    },
+    [next, prev, openState.items.length]
   );
 
   // Klavye kısayolları + focus trap (Escape, ok tuşları, Tab döngüsü)
@@ -441,44 +489,37 @@ export default function ProjectsGallery({
       </div>
 
       {/* Başlık */}
-      <ScrollReveal>
-        <div className="container px-4 mx-auto relative z-10 text-center max-w-3xl mb-16">
-          <h2
-            id={computedHeadingId}
-            className="text-4xl md:text-5xl font-bold text-white leading-tight"
-          >
-            Başarılı{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-              Projelerimiz
-            </span>
-          </h2>
-          <p
-            id={computedDescriptionId}
-            className="text-slate-400 text-lg mt-4"
-          >
-            500'den fazla kurumsal etkinlik, konser, fuar ve organizasyonda
-            profesyonel çözüm ortağı olduk.
-          </p>
-        </div>
-      </ScrollReveal>
+      <div className="container px-4 mx-auto relative z-10 text-center max-w-3xl mb-16">
+        <h2
+          id={computedHeadingId}
+          className="text-4xl md:text-5xl font-bold text-white leading-tight"
+        >
+          Başarılı{" "}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+            Projelerimiz
+          </span>
+        </h2>
+        <p id={computedDescriptionId} className="text-slate-400 text-lg mt-4">
+          500'den fazla kurumsal etkinlik, konser, fuar ve organizasyonda
+          profesyonel çözüm ortağı olduk.
+        </p>
+      </div>
 
       {/* Grid */}
       <div className="container px-4 mx-auto relative z-10">
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {entries.map(([title, gallery], i) => (
             <li key={title} className="list-none">
-              <ScrollReveal direction="up" delay={i * 0.1}>
-                <GalleryCard
-                  title={title}
-                  gallery={gallery}
-                  i={i}
-                  open={open}
-                  prefersReducedMotion={reduced}
-                  getSrc={getSrc}
-                  onError={handleError}
-                  dictionary={normalizedDictionary}
-                />
-              </ScrollReveal>
+              <GalleryCard
+                title={title}
+                gallery={gallery}
+                i={i}
+                open={open}
+                prefersReducedMotion={reduced}
+                getSrc={getSrc}
+                onError={handleError}
+                dictionary={normalizedDictionary}
+              />
             </li>
           ))}
         </ul>
@@ -566,7 +607,12 @@ export default function ProjectsGallery({
               </>
             )}
 
-            <div className="relative w-full max-w-6xl h-[80vh] p-6 flex items-center justify-center">
+            <div
+              className="relative w-full max-w-6xl h-[80vh] p-6 flex items-center justify-center"
+              onClick={handleImageClick}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+            >
               <Image
                 key={openState.items[openState.index]}
                 src={getSrc(openState.items[openState.index])}
