@@ -14,15 +14,13 @@ const VIDEOS = [
   },
   {
     id: "4ygMbL4FDRc",
-    title:
-      "Sahneva Organizasyon – LED Ekran podyum çadır & Sahne Kurulum",
+    title: "Sahneva Organizasyon – LED Ekran podyum çadır & Sahne Kurulum",
     description: "LED ekran kurulum ve sahne ışıklandırma süreci.",
     thumbnail: "https://img.youtube.com/vi/4ygMbL4FDRc/hqdefault.jpg",
   },
   {
     id: "JNzGlNzNRuk",
-    title:
-      "Sahneva Organizasyon – LED Ekran Çadır podyum & Sahne Kurulum",
+    title: "Sahneva Organizasyon – LED Ekran Çadır podyum & Sahne Kurulum",
     description: "Podyum Sahne dom çadır kiralama kurulum süreci.",
     thumbnail: "https://img.youtube.com/vi/JNzGlNzNRuk/hqdefault.jpg",
   },
@@ -30,8 +28,7 @@ const VIDEOS = [
     id: "_9Q7v0ZL304",
     title:
       "Sahneva Organizasyon – LED Ekran Çadır Masa sandalye podyum kiralama ",
-    description:
-      "Podyum Sahne masa sandalye çadır kiralama kurulum süreci.",
+    description: "Podyum Sahne masa sandalye çadır kiralama kurulum süreci.",
     thumbnail: "https://img.youtube.com/vi/_9Q7v0ZL304/hqdefault.jpg",
   },
   {
@@ -85,6 +82,8 @@ const VIDEOS = [
 ];
 
 const INITIAL_POSITION = { x: -24, y: -24 };
+const AUTO_OPEN_SCROLL_Y = 200; // daha “erken” ama yine de user-driven
+const IDLE_FALLBACK_MS = 8000;  // hiç scroll yoksa 8sn sonra
 
 function StickyVideoRailInner({
   ariaLabel,
@@ -108,13 +107,19 @@ function StickyVideoRailInner({
   const headingId = useId();
   const descriptionId = useId();
 
-  const computedHeadingId = ariaLabelledby ?? `sticky-video-rail-heading-${headingId}`;
+  const computedHeadingId =
+    ariaLabelledby ?? `sticky-video-rail-heading-${headingId}`;
   const computedDescriptionId =
     ariaDescribedby ?? `sticky-video-rail-description-${descriptionId}`;
-  const computedRole = role ?? (ariaLabel || ariaLabelledby ? "region" : undefined);
+  const computedRole =
+    role ?? (ariaLabel || ariaLabelledby ? "region" : undefined);
+
   const accessibleTitle = "Sahneva Video Galerisi";
   const accessibleDescription =
     "Sahneva'nın öne çıkan videolarını oynatmak ve listedeki diğer kliplere geçiş yapmak için sürüklenebilir, açılır bir oynatıcı.";
+
+  const currentVideo = VIDEOS[activeIndex];
+  const playlistForExpanded = VIDEOS.filter((_, i) => i !== activeIndex);
 
   // İlk mount + mobile tespiti
   useEffect(() => {
@@ -124,35 +129,66 @@ function StickyVideoRailInner({
     }
   }, []);
 
-  // Scroll ile otomatik gösterme
+  // ESC ile kapatma (aynı sayfada tekrar auto-open olmasın)
+  useEffect(() => {
+    if (!isMounted) return;
+
+    const onKeyDown = (e) => {
+      if (e.key !== "Escape") return;
+      // ESC: açık olsun/olmasın "bu sayfada bir daha otomatik açma"
+      setHasAutoShown(true);
+      setIsOpen(false);
+      setIsExpanded(false);
+      setIsMinimized(false);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isMounted]);
+
+  // Scroll ile otomatik gösterme (ultra düşük maliyet: passive + RAF throttling)
   useEffect(() => {
     if (!isMounted || hasAutoShown) return;
 
     let ticking = false;
 
+    const autoOpen = () => {
+      if (hasAutoShown) return;
+      setHasAutoShown(true);
+
+      if (isMobile) {
+        setIsOpen(true);
+        setIsMinimized(true);
+      } else {
+        setIsOpen(true);
+        setIsMinimized(false);
+      }
+    };
+
     const onScroll = () => {
       if (ticking) return;
       ticking = true;
+
       requestAnimationFrame(() => {
-        if (window.scrollY > 300 && !hasAutoShown) {
-          setHasAutoShown(true);
-          if (isMobile) {
-            setIsOpen(true);
-            setIsMinimized(true);
-          } else {
-            setIsOpen(true);
-            setIsMinimized(false);
-          }
-        }
+        if (window.scrollY > AUTO_OPEN_SCROLL_Y && !hasAutoShown) autoOpen();
         ticking = false;
       });
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+
+    // Idle fallback: kullanıcı hiç scroll yapmazsa, biraz sonra aç (çok hafif)
+    let idleTimer = window.setTimeout(() => {
+      if (!hasAutoShown) autoOpen();
+    }, IDLE_FALLBACK_MS);
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.clearTimeout(idleTimer);
+    };
   }, [isMounted, hasAutoShown, isMobile]);
 
-  // Drag hareketi
+  // Drag hareketi (dependency fix: position eklendi)
   useEffect(() => {
     if (!dragging || !dragRef.current) return;
 
@@ -191,15 +227,13 @@ function StickyVideoRailInner({
     window.addEventListener("touchend", handleUp);
 
     return () => {
-      if (dragRafRef.current) {
-        cancelAnimationFrame(dragRafRef.current);
-      }
+      if (dragRafRef.current) cancelAnimationFrame(dragRafRef.current);
       window.removeEventListener("mousemove", handleMove);
       window.removeEventListener("mouseup", handleUp);
       window.removeEventListener("touchmove", handleMove);
       window.removeEventListener("touchend", handleUp);
     };
-  }, [dragging]);
+  }, [dragging, position]);
 
   const startDrag = (e) => {
     if (isExpanded) return;
@@ -213,9 +247,6 @@ function StickyVideoRailInner({
     };
     setDragging(true);
   };
-
-  const currentVideo = VIDEOS[activeIndex];
-  const playlistForExpanded = VIDEOS.filter((_, i) => i !== activeIndex);
 
   if (!isMounted) return null;
 
@@ -239,7 +270,9 @@ function StickyVideoRailInner({
     setIsExpanded(false);
   };
 
+  // Kapat: bu sayfada bir daha otomatik açma
   const handleClose = () => {
+    setHasAutoShown(true);
     setIsOpen(false);
     setIsExpanded(false);
     setIsMinimized(false);
@@ -269,6 +302,7 @@ function StickyVideoRailInner({
           <h2 id={computedHeadingId}>{accessibleTitle}</h2>
           <p id={computedDescriptionId}>{accessibleDescription}</p>
         </div>
+
         {/* ÜST BAR */}
         <div className="w-full max-w-6xl flex justify-between items-center mb-4 bg-black/80 rounded-xl px-4 py-3 border border-white/20">
           <div className="flex items-center gap-2">
@@ -307,7 +341,7 @@ function StickyVideoRailInner({
           </div>
         </div>
 
-        {/* İÇERİK ALANI */}
+        {/* İÇERİK */}
         <div className="relative w-full max-w-6xl flex-1 flex flex-col md:flex-row gap-4 md:gap-6">
           {/* Ana video */}
           <div className="flex-1 bg-black rounded-2xl overflow-hidden shadow-2xl border border-white/10">
@@ -451,9 +485,7 @@ function StickyVideoRailInner({
         <span className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-xs group-hover:scale-110 transition-transform">
           ▶
         </span>
-        <span className="hidden sm:inline font-medium">
-          Videoları Görüntüle
-        </span>
+        <span className="hidden sm:inline font-medium">Videoları Görüntüle</span>
         <span className="sm:hidden font-medium">Aç</span>
       </button>
     );
@@ -467,9 +499,7 @@ function StickyVideoRailInner({
     <div
       ref={dragRef}
       className="fixed z-[60] bottom-0 right-0"
-      style={{
-        transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
-      }}
+      style={{ transform: `translate3d(${position.x}px, ${position.y}px, 0)` }}
       role={computedRole}
       aria-labelledby={ariaLabel ? undefined : computedHeadingId}
       aria-label={ariaLabel}
@@ -479,6 +509,7 @@ function StickyVideoRailInner({
         <h2 id={computedHeadingId}>{accessibleTitle}</h2>
         <p id={computedDescriptionId}>{accessibleDescription}</p>
       </div>
+
       <div className="mb-4 w-[280px] sm:w-[340px] bg-slate-900/95 border border-white/20 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-lg">
         {/* Başlık + drag alanı */}
         <div
@@ -511,9 +542,7 @@ function StickyVideoRailInner({
               className="rail-control group"
               data-variant="muted"
             >
-              <span className="group-hover:scale-110 transition-transform">
-                🗕
-              </span>
+              <span className="group-hover:scale-110 transition-transform">🗕</span>
             </button>
             <button
               type="button"
@@ -522,9 +551,7 @@ function StickyVideoRailInner({
               className="rail-control group"
               data-variant="danger"
             >
-              <span className="group-hover:scale-110 transition-transform">
-                ✕
-              </span>
+              <span className="group-hover:scale-110 transition-transform">✕</span>
             </button>
           </div>
         </div>
@@ -558,6 +585,7 @@ function StickyVideoRailInner({
               </p>
             </button>
           )}
+
           {hasStarted && (
             <iframe
               title={currentVideo.title}
@@ -570,7 +598,7 @@ function StickyVideoRailInner({
           )}
         </div>
 
-        {/* Açılır mini liste (RADIO GROUP) */}
+        {/* Açılır mini liste */}
         <details className="group border-t border-white/10">
           <summary className="flex items-center justify-between px-4 py-3 text-sm text-slate-200 cursor-pointer select-none hover:bg-white/5 transition-colors">
             <div className="flex items-center gap-2">
@@ -585,49 +613,62 @@ function StickyVideoRailInner({
             </span>
           </summary>
 
-         <div
-  className="max-h-48 overflow-y-auto custom-scroll pb-2 bg-slate-800/50 px-1"
-  role="radiogroup"
-  aria-label="Video seçimi"
->
-  {VIDEOS.map((video, idx) => {
-    const isActive = idx === activeIndex;
-    return (
-      <label
-        key={video.id}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            handleChangeVideo(idx);
-          }
-        }}
-        className={`w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors border-r-2 cursor-pointer ${
-          isActive
-            ? "bg-blue-500/20 border-blue-500"
-            : "hover:bg-slate-700/50 border-transparent"
-        } focus-ring`}
-      >
-        <input
-          type="radio"
-          name="sticky-video-mini"
-          className="sr-only"
-          checked={isActive}
-          onChange={() => handleChangeVideo(idx)}
-        />
-        <div className="relative w-12 h-8 rounded-md overflow-hidden bg-black flex-shrink-0">
-          {/* ... thumbnail ... */}
-        </div>
-        <div className="flex-1 min-w-0">
-          <p className="text-xs text-slate-100 font-medium line-clamp-2 text-left">
-            {video.title}
-          </p>
-        </div>
-      </label>
-    );
-  })}
-</div>
+          <div
+            className="max-h-48 overflow-y-auto custom-scroll pb-2 bg-slate-800/50 px-1"
+            role="radiogroup"
+            aria-label="Video seçimi"
+          >
+            {VIDEOS.map((video, idx) => {
+              const isActive = idx === activeIndex;
+
+              return (
+                <label
+                  key={video.id}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      handleChangeVideo(idx);
+                    }
+                  }}
+                  className={`w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors border-r-2 cursor-pointer ${
+                    isActive
+                      ? "bg-blue-500/20 border-blue-500"
+                      : "hover:bg-slate-700/50 border-transparent"
+                  } focus-ring`}
+                >
+                  <input
+                    type="radio"
+                    name="sticky-video-mini"
+                    className="sr-only"
+                    checked={isActive}
+                    onChange={() => handleChangeVideo(idx)}
+                  />
+                  <div className="relative w-12 h-8 rounded-md overflow-hidden bg-black flex-shrink-0">
+                    <img
+                      src={video.thumbnail}
+                      alt={video.title}
+                      width="160"
+                      height="90"
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                      fetchPriority="low"
+                    />
+                    <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                      <span className="text-white text-[10px]">▶</span>
+                    </div>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs text-slate-100 font-medium line-clamp-2 text-left">
+                      {video.title}
+                    </p>
+                  </div>
+                </label>
+              );
+            })}
+          </div>
         </details>
       </div>
     </div>
@@ -636,8 +677,8 @@ function StickyVideoRailInner({
 
 /**
  * Dışa açılan bileşen:
- * - IntersectionObserver + idleTimeout ile geç hydrate olur
- * - CLS etkilemez, sticky player zaten fixed konumda
+ * - DeferredHydration ile geç hydrate olur
+ * - CLS etkilemez (fixed)
  */
 export default function StickyVideoRail({
   ariaLabel,
