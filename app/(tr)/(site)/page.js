@@ -18,6 +18,11 @@ import { BASE_SITE_URL, ORGANIZATION_ID, WEBSITE_ID } from "@/lib/seo/schemaIds"
 /* -------------------
    Below-the-fold: content-visibility (perf)
 ------------------- */
+const BELOW_THE_FOLD_VISIBILITY_STYLE = {
+  contentVisibility: "auto",
+  containIntrinsicSize: "1px 1200px",
+};
+
 const HOME_URL = `${BASE_SITE_URL}/`;
 const WEBPAGE_ID = `${HOME_URL}#webpage`;
 const SERVICE_ID = `${HOME_URL}#primary-service`;
@@ -36,7 +41,6 @@ const ogUrl =
 const HOME_JSON_LD = {
   "@context": "https://schema.org",
   "@graph": [
-    /* ---------------- WebPage ---------------- */
     {
       "@type": "WebPage",
       "@id": WEBPAGE_ID,
@@ -50,7 +54,6 @@ const HOME_JSON_LD = {
       primaryImageOfPage: { "@id": HERO_IMAGE_ID },
     },
 
-    /* ---------------- Images ---------------- */
     {
       "@type": "ImageObject",
       "@id": HERO_IMAGE_ID,
@@ -66,7 +69,6 @@ const HOME_JSON_LD = {
       height: 630,
     },
 
-    /* ---------------- OfferCatalog ---------------- */
     {
       "@type": "OfferCatalog",
       "@id": CATALOG_ID,
@@ -135,8 +137,6 @@ const HOME_JSON_LD = {
             "@type": "Service",
             name: "Çadır Kiralama",
             url: `${BASE_SITE_URL}/cadir-kiralama`,
-            // Çadır için hizmet görselin varsa burayı güncelleyebilirsin:
-            // image: `${BASE_SITE_URL}/img/hizmet-cadir.webp`,
             description: `Etkinlik ve organizasyonlar için çadır kiralama. ${PRICING_DISCLAIMER}`,
             provider: { "@id": ORGANIZATION_ID },
             areaServed: { "@type": "Country", name: "Türkiye" },
@@ -228,7 +228,6 @@ const HOME_JSON_LD = {
             "@type": "Service",
             name: "Ses-Işık Sistemleri",
             url: `${BASE_SITE_URL}/ses-isik-sistemleri`,
-            // image: `${BASE_SITE_URL}/img/hizmet-ses-isik.webp`, // varsa ekle
             description: `Ses ve ışık sistemleri kiralama hizmeti. ${PRICING_DISCLAIMER}`,
             provider: { "@id": ORGANIZATION_ID },
             areaServed: { "@type": "Country", name: "Türkiye" },
@@ -266,7 +265,6 @@ const HOME_JSON_LD = {
       ],
     },
 
-    /* ---------------- Primary Service ---------------- */
     {
       "@type": "Service",
       "@id": SERVICE_ID,
@@ -280,7 +278,6 @@ const HOME_JSON_LD = {
       serviceType: "Event Production",
     },
 
-    /* ---------------- VideoObject ---------------- */
     {
       "@type": "VideoObject",
       "@id": VIDEO_ID,
@@ -299,7 +296,6 @@ const HOME_JSON_LD = {
       about: { "@id": SERVICE_ID },
     },
 
-    /* ---------------- FAQPage ---------------- */
     {
       "@type": "FAQPage",
       "@id": FAQ_ID,
@@ -351,23 +347,12 @@ const HOME_JSON_LD = {
 };
 
 const homeJsonLdSafe = JSON.stringify(HOME_JSON_LD).replace(/</g, "\\u003c");
-
 const BREADCRUMB_ITEMS = [{ name: "Ana Sayfa", url: `${HOME_URL}` }];
 
-// SEO lists used in TechCapabilities
 const SEO_TECH_FEATURES = [
-  {
-    title: "LED Ekran Kurulum & Teknik Operasyon",
-    desc: "Indoor/Outdoor LED panel kurulumları, canlı yayın/stream ve içerik yönetimi.",
-  },
-  {
-    title: "Ses & Işık Sistemleri",
-    desc: "Profesyonel ses sistemleri, ışık tasarımı ve teknik ekip desteği.",
-  },
-  {
-    title: "Sahne, Podyum & Truss",
-    desc: "Modüler sahne/podyum, truss sistemleri ve güvenli kurulum çözümleri.",
-  },
+  { title: "LED Ekran Kurulum & Teknik Operasyon", desc: "Indoor/Outdoor LED panel kurulumları, canlı yayın/stream ve içerik yönetimi." },
+  { title: "Ses & Işık Sistemleri", desc: "Profesyonel ses sistemleri, ışık tasarımı ve teknik ekip desteği." },
+  { title: "Sahne, Podyum & Truss", desc: "Modüler sahne/podyum, truss sistemleri ve güvenli kurulum çözümleri." },
 ];
 
 const SEO_INFRA_FEATURES = [
@@ -376,18 +361,12 @@ const SEO_INFRA_FEATURES = [
   { title: "Söküm & Teslim", desc: "Etkinlik sonrası güvenli söküm ve raporlama." },
 ];
 
-/* --------------------
-   JSON-LD (Schema.org) - Home rich snippets
-   Not: Organization/WebSite/LocalBusiness layout.jsx'te zaten var.
--------------------- */
 function StructuredData() {
   return (
     <script
       type="application/ld+json"
       suppressHydrationWarning
-      dangerouslySetInnerHTML={{
-        __html: homeJsonLdSafe,
-      }}
+      dangerouslySetInnerHTML={{ __html: homeJsonLdSafe }}
     />
   );
 }
@@ -395,165 +374,58 @@ function StructuredData() {
 export default function HomePage() {
   return (
     <div className="overflow-x-hidden bg-black">
-      {/* Home Rich Snippets */}
       <StructuredData />
       <BreadcrumbJsonLd items={BREADCRUMB_ITEMS} />
 
-      {/* 1) HERO (statik kalsın: LCP için en iyisi) */}
       <HeroSection />
-
-      {/* 2) HERO ALTI */}
       <HeroBelow />
 
-      {/* anchor */}
       <div id="teklif-al" className="sr-only" />
 
-      {/* 3) HİZMETLER TABS */}
+      {/* Hizmetler */}
       <section aria-labelledby="hizmetler-title" className="bg-black">
-        <h2 id="hizmetler-title" className="reader-only">
-          Hizmetler
-        </h2>
-        <p className="reader-only">
-          Türkiye geneli sahne kiralama, podyum kiralama, LED ekran, ses-ışık sistemleri,
-          truss, çadır ve masa-sandalye kiralama çözümleri sunuyoruz.
+        <h2 id="hizmetler-title" className="sr-only">Hizmetler</h2>
+        <p className="sr-only">
+          Türkiye geneli sahne kiralama, podyum kiralama, LED ekran kiralama, ses-ışık sistemleri,
+          truss kiralama, çadır kiralama ve masa-sandalye kiralama çözümleri.
         </p>
-        <p className="reader-only">
-          Etkinliğinize uygun paketleri hizmetler sayfasında karşılaştırabilirsiniz.
-        </p>
-        <a className="reader-only" href="/hizmetler">
-          Tüm hizmetleri inceleyin
-        </a>
+        <a className="sr-only" href="/hizmetler">Tüm hizmetleri inceleyin</a>
         <ServicesTabs />
       </section>
 
-      {/* 4) PROJELER */}
-      <section aria-labelledby="projeler-title">
-        <h2 id="projeler-title" className="reader-only">
-          Projelerimiz
-        </h2>
-        <p className="reader-only">
-          500'den fazla kurumsal etkinlik, konser ve fuar projesinde sahne ve teknik çözüm
-          ortağı olduk.
+      {/* Projeler */}
+      <section aria-labelledby="projeler-title" className="bg-black">
+        <h2 id="projeler-title" className="sr-only">Projelerimiz</h2>
+        <p className="sr-only">
+          500'den fazla kurumsal etkinlik, konser, fuar ve organizasyonda profesyonel çözüm ortağı olduk.
         </p>
-        <p className="reader-only">
-          Seçili referans çalışmaları projeler sayfasında görebilirsiniz.
-        </p>
-        <a className="reader-only" href="/projeler">
-          Projeleri inceleyin
-        </a>
+        <a className="sr-only" href="/projeler">Projeleri inceleyin</a>
+        <ProjectsGallery />
       </section>
-      <ProjectsGallery />
 
-      {/* 5) TECH CAPABILITIES (below-the-fold) */}
-      <section aria-labelledby="teknik-kabiliyetler-title">
-        <h2 id="teknik-kabiliyetler-title" className="reader-only">
-          Teknik Kabiliyetler
-        </h2>
-        <p className="reader-only">
-          LED ekran, ses-ışık, sahne ve podyum kurulumlarında teknik planlama, kurulum ve
-          operasyonu uçtan uca yönetiyoruz.
-        </p>
-        <p className="reader-only">
-          Ekipman ve operasyon detaylarını teknik altyapı sayfalarımızda inceleyin.
-        </p>
-        <a className="reader-only" href="/ses-isik-sistemleri">
-          Ses ve ışık sistemleri hakkında bilgi alın
-        </a>
-      </section>
-      <div className="bg-slate-900 py-10">
-        <div>
-          <TechCapabilities
-            techFeatures={SEO_TECH_FEATURES}
-            infraFeatures={SEO_INFRA_FEATURES}
-          />
-        </div>
+      {/* Teknik */}
+      <div className="bg-slate-900 py-10" style={BELOW_THE_FOLD_VISIBILITY_STYLE}>
+        <TechCapabilities techFeatures={SEO_TECH_FEATURES} infraFeatures={SEO_INFRA_FEATURES} />
       </div>
 
-      {/* 6) KURUMSAL ORGANİZASYON */}
-      <section
-        aria-labelledby="kurumsal-etkinlikler-title"
-        className="bg-slate-50 py-0 m-0 w-full"
-      >
-        <h2 id="kurumsal-etkinlikler-title" className="reader-only">
-          Kurumsal Etkinlik Çözümleri
-        </h2>
-        <p className="reader-only">
-          Lansman, konferans ve şirket organizasyonlarında sahne tasarımı, teknik ekip ve
-          kurulum süreçlerini tek elden yönetiyoruz.
-        </p>
-        <p className="reader-only">
-          Kurumsal organizasyon hizmetlerimizi ayrıntılı olarak inceleyebilirsiniz.
-        </p>
-        <a className="reader-only" href="/kurumsal-organizasyon">
-          Kurumsal organizasyon çözümlerini keşfedin
-        </a>
+      {/* Kurumsal */}
+      <div className="bg-slate-50 py-0 m-0 w-full">
         <CorporateEvents />
-      </section>
-
-      {/* 7) KURUMSAL INTRO (below-the-fold) */}
-      <section aria-labelledby="kurumsal-intro-title">
-        <h2 id="kurumsal-intro-title" className="reader-only">
-          Kurumsal Profil
-        </h2>
-        <p className="reader-only">
-          Sahneva'nın deneyimi, ekip yapısı ve kurumsal etkinliklerdeki yaklaşımı hakkında
-          özet bir bakış sunuyoruz.
-        </p>
-        <p className="reader-only">
-          Hakkımızda sayfasında ekip ve süreçlerimizi detaylıca okuyabilirsiniz.
-        </p>
-        <a className="reader-only" href="/hakkimizda">
-          Sahneva hakkında daha fazla bilgi
-        </a>
-      </section>
-      <div className="bg-black py-0 m-0 w-full">
-        <div>
-          <CorporateIntro />
-        </div>
       </div>
 
-      {/* 8) WHY CHOOSE US */}
-      <section
-        aria-labelledby="neden-sahneva-title"
-        className="w-full p-0 m-0"
-      >
-        <h2 id="neden-sahneva-title" className="reader-only">
-          Neden Sahneva
-        </h2>
-        <p className="reader-only">
-          Uzman teknik ekip, geniş envanter ve güvenli kurulum süreçlerimizle etkinliğinizi
-          sorunsuz şekilde hayata geçiriyoruz.
-        </p>
-        <p className="reader-only">
-          Yaklaşımımızı ve deneyimimizi Hakkımızda sayfasında bulabilirsiniz.
-        </p>
-        <a className="reader-only" href="/hakkimizda">
-          Neden Sahneva’yı tercih etmelisiniz?
-        </a>
-        <WhyChooseUs />
-      </section>
+      <div className="bg-black py-0 m-0 w-full" style={BELOW_THE_FOLD_VISIBILITY_STYLE}>
+        <CorporateIntro />
+      </div>
 
-      {/* 10) SSS */}
-      <section
-        id="sss"
-        aria-labelledby="sss-title"
-        className="w-full bg-transparent p-0 m-0"
-      >
-        <h2 id="sss-title" className="reader-only">
-          Sık Sorulan Sorular
-        </h2>
-        <p className="reader-only">
-          Kurulum süresi, fiyatlandırma, teknik ekip desteği ve keşif süreciyle ilgili
-          soruların yanıtlarını burada bulabilirsiniz.
-        </p>
-        <p className="reader-only">
-          Daha fazla soru için detaylı SSS sayfasını inceleyin.
-        </p>
-        <a className="reader-only" href="/sss">
-          Tüm SSS&apos;yi görüntüleyin
-        </a>
+      {/* Why Choose Us */}
+      <div className="w-full p-0 m-0">
+        <WhyChooseUs />
+      </div>
+
+      {/* FAQ */}
+      <div className="w-full bg-transparent p-0 m-0">
         <Faq />
-      </section>
+      </div>
     </div>
   );
 }
