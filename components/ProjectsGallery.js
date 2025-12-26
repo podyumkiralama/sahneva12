@@ -277,6 +277,7 @@ export default function ProjectsGallery({
   const portal = useRef(null);
   const closeBtn = useRef(null);
   const dialogRef = useRef(null);
+  const touchStartRef = useRef({ x: 0, y: 0 });
 
   const handleError = useCallback(
     (key) => setErrors((p) => ({ ...p, [key]: true })),
@@ -341,6 +342,54 @@ export default function ProjectsGallery({
         index: (s.index + 1) % s.items.length,
       })),
     []
+  );
+
+  const handleImageClick = useCallback(
+    (event) => {
+      if (openState.items.length <= 1) return;
+      if (!window.matchMedia("(min-width: 768px)").matches) return;
+
+      const target = event.currentTarget;
+      const rect = target.getBoundingClientRect();
+      const clickX = event.clientX - rect.left;
+      const clickRatio = clickX / rect.width;
+
+      if (clickRatio <= 0.35) {
+        prev();
+        return;
+      }
+
+      if (clickRatio >= 0.65) {
+        next();
+      }
+    },
+    [next, prev, openState.items.length]
+  );
+
+  const handleTouchStart = useCallback((event) => {
+    const touch = event.touches?.[0];
+    if (!touch) return;
+    touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+  }, []);
+
+  const handleTouchEnd = useCallback(
+    (event) => {
+      if (openState.items.length <= 1) return;
+      const touch = event.changedTouches?.[0];
+      if (!touch) return;
+
+      const deltaX = touch.clientX - touchStartRef.current.x;
+      const deltaY = touch.clientY - touchStartRef.current.y;
+
+      if (Math.abs(deltaX) < 50 || Math.abs(deltaX) < Math.abs(deltaY)) return;
+
+      if (deltaX > 0) {
+        prev();
+      } else {
+        next();
+      }
+    },
+    [next, prev, openState.items.length]
   );
 
   // Klavye kısayolları + focus trap (Escape, ok tuşları, Tab döngüsü)
@@ -558,7 +607,12 @@ export default function ProjectsGallery({
               </>
             )}
 
-            <div className="relative w-full max-w-6xl h-[80vh] p-6 flex items-center justify-center">
+            <div
+              className="relative w-full max-w-6xl h-[80vh] p-6 flex items-center justify-center"
+              onClick={handleImageClick}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+            >
               <Image
                 key={openState.items[openState.index]}
                 src={getSrc(openState.items[openState.index])}
