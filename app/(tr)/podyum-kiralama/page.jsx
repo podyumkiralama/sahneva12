@@ -225,10 +225,10 @@ function HeroSection() {
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-black leading-tight mb-4 drop-shadow-2xl">
           Profesyonel <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">Podyum Kiralama</span>
         </h1>
-        <p className="text-xl md:text-2xl text-white/95 max-w-3xl mx-auto leading-relaxed font-light mb-4">
+        <p className="text-xl md:text-2xl text-white/95 max-w-3xl 2xl:max-w-4xl mx-auto leading-relaxed font-light mb-4">
           Düğün • Konser • Lansman • Festival • Kurumsal Etkinlikler
         </p>
-        <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed font-normal mb-6">
+        <p className="text-lg md:text-xl text-white/80 max-w-2xl 2xl:max-w-3xl mx-auto leading-relaxed font-normal mb-6">
           Modüler podyum sistemleri, kaymaz kaplama ve <span className="font-semibold text-white">profesyonel kurulum</span> ile anahtar teslim çözümler
         </p>
 

@@ -267,7 +267,7 @@ const PACKAGES = [
 function Hero() {
   return (
     <section
-      className="relative flex items-center justify-center overflow-hidden bg-slate-900 pt-20 min-h-[80vh]"
+      className="relative flex items-center justify-center overflow-hidden bg-slate-900 pt-20 min-h-[80vh] 2xl:min-h-[85vh]"
       aria-labelledby="hero-title"
     >
       <div className="absolute inset-0">
@@ -315,10 +315,10 @@ function Hero() {
           </span>
         </h1>
 
-        <p className="text-xl md:text-2xl text-white/95 max-w-3xl mx-auto leading-relaxed font-light mb-4">
+        <p className="text-xl md:text-2xl text-white/95 max-w-3xl 2xl:max-w-4xl mx-auto leading-relaxed font-light mb-4">
           Konser • Konferans • Lansman • Miting • Festival
         </p>
-        <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed font-normal mb-6">
+        <p className="text-lg md:text-xl text-white/80 max-w-2xl 2xl:max-w-3xl mx-auto leading-relaxed font-normal mb-6">
           Truss sistemleri, modüler podyum, LED ekranlar ile
           <span className="font-semibold text-white">
             {" "}
