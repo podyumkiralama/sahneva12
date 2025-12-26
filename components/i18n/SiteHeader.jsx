@@ -108,7 +108,10 @@ export default function SiteHeader({ locale, strings }) {
           ? ariaStrings.mobileMenuOpenStatus
           : ariaStrings.mobileMenuClosedStatus}
       </div>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <nav
+        className="container mx-auto px-4 sm:px-6 lg:px-8"
+        aria-label={ariaStrings.nav}
+      >
         <div className="flex items-center justify-between h-16 lg:h-20">
           <Link href={homeHref} className={`flex items-center gap-3 ${focusRingClass}`}>
             <span className="text-2xl font-black text-indigo-600">Sahneva</span>
@@ -117,11 +120,7 @@ export default function SiteHeader({ locale, strings }) {
             </span>
           </Link>
 
-          <nav
-            id="primary-navigation"
-            className="hidden lg:flex items-center gap-6"
-            aria-label={ariaStrings.nav}
-          >
+          <div className="hidden lg:flex items-center gap-6">
             {strings.links.map((item) => (
               <Link
                 key={item.href}
@@ -141,7 +140,7 @@ export default function SiteHeader({ locale, strings }) {
               <span aria-hidden="true">💬</span>
               {strings.whatsappLabel}
             </a>
-          </nav>
+          </div>
 
           <button
             type="button"
@@ -169,7 +168,7 @@ export default function SiteHeader({ locale, strings }) {
             </span>
           </button>
         </div>
-      </div>
+      </nav>
 
       <div
         id={mobileMenuId}

@@ -164,9 +164,9 @@ export default function NavbarMobile({ serviceLinks, researchLinks }) {
             : "max-h-0 opacity-0 pointer-events-none invisible"
         }`}
       >
-        <h2 id={headingId} className="sr-only">
+        <p id={headingId} className="sr-only">
           Ana gezinme menüsü
-        </h2>
+        </p>
         <p id={descId} className="sr-only">
           Menü bağlantıları arasında gezinmek için tab tuşunu kullanabilirsiniz.
         </p>
@@ -317,7 +317,7 @@ export default function NavbarMobile({ serviceLinks, researchLinks }) {
                   💬
                 </span>
                 <div className="space-y-1 text-white">
-                  <h3 className="text-lg font-extrabold">WhatsApp Destek</h3>
+                  <p className="text-lg font-extrabold">WhatsApp Destek</p>
                   <p className="text-sm font-medium text-emerald-50">
                     WhatsApp üzerinden anında teklif alın ve sorularınızı iletin.
                   </p>
