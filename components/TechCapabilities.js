@@ -1,5 +1,4 @@
 // components/TechCapabilities.js
-"use client";
 
 import { useMemo } from "react";
 
@@ -22,8 +21,9 @@ const SEO_INFRA_FEATURES = [
 const DEFAULT_DICTIONARY = {
   sectionPill: "Teknik Kapasite & Altyapı",
   sectionTitlePrefix: "Türkiye'nin",
-  sectionTitleHighlight: " 1 Numaralı",
-  sectionTitleSuffix: " Etkinlik Teknoloji Partneri",
+  // ❗ boşluk yok
+  sectionTitleHighlight: "1 Numaralı",
+  sectionTitleSuffix: "Etkinlik Teknoloji Partneri",
   sectionDescription:
     "LED ekran kiralama teknolojisi, ses ışık sistemleri ve güvenilir altyapı çözümleriyle kurumsal organizasyon ihtiyaçlarını tek çatı altında topluyoruz.",
   card1Title: "Teknik Çözümler",
@@ -55,16 +55,15 @@ export default function TechCapabilities({
 
   return (
     <section
-      className="relative bg-[#0B1120] overflow-hidden"
+      className="relative bg-[#0B1120] py-16 md:py-20 overflow-hidden"
       aria-labelledby="tech-capabilities-title"
     >
-      {/* Arka Plan Efekti */}
+      {/* Arka Plan Efekti - Grid + Glow */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute inset-0 grid-overlay" />
-        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-600/10 blur-[120px] rounded-full mix-blend-screen" />
+        <div className="absolute inset-0 grid-overlay opacity-20" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-500/5 blur-[120px] rounded-full" />
       </div>
 
-      {/* İçerik */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* ——— BAŞLIK ALANI ——— */}
         <div className="text-center max-w-4xl mx-auto mb-16">
@@ -111,10 +110,7 @@ export default function TechCapabilities({
                 <h3 className="text-2xl md:text-3xl font-bold text-white leading-tight">
                   {dictionary.card1Title}
                 </h3>
-              </div>
-
-              <div className="space-y-6">
-                <p className="text-slate-400 text-lg leading-relaxed">
+                <p className="text-slate-400 text-sm leading-relaxed">
                   <strong className="text-blue-400 font-bold">Sahneva</strong>{" "}
                   olarak {dictionary.card1Desc}
                 </p>
@@ -144,15 +140,30 @@ export default function TechCapabilities({
                   className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center text-3xl text-white shadow-lg transform -rotate-3"
                   aria-hidden="true"
                 >
-                  🎤
-                </div>
-                <h3 className="text-2xl md:text-3xl font-bold text-white leading-tight">
+                  <div
+                    className="mt-2 w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0 group-hover/li:scale-150 transition-transform duration-200 shadow-[0_0_8px_rgba(59,130,246,0.5)]"
+                    aria-hidden="true"
+                  />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+
+          {/* SAĞ KART: ALTYAPI VE KAPASİTE */}
+          <article className="group relative h-full bg-slate-900/40 backdrop-blur-md rounded-[2.5rem] p-8 md:p-10 border border-white/5 hover:border-purple-500/30 transition-all duration-500 shadow-2xl shadow-black/40">
+            <div className="flex items-start gap-6 mb-8">
+              <div
+                className="w-14 h-14 shrink-0 bg-purple-600 rounded-2xl flex items-center justify-center text-2xl shadow-lg shadow-purple-600/20 group-hover:scale-110 transition-transform duration-300"
+                aria-hidden="true"
+              >
+                🏗️
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-white mb-2">
                   {dictionary.card2Title}
                 </h3>
-              </div>
-
-              <div className="space-y-6">
-                <p className="text-slate-400 text-lg leading-relaxed">
+                <p className="text-slate-400 text-sm leading-relaxed">
                   {dictionary.card2Desc}
                 </p>
 
