@@ -140,8 +140,6 @@ export default function Footer({
     ariaLabelledby ?? headingIdProp ?? `site-footer-heading-${instanceId}`;
   const computedDescriptionId =
     ariaDescribedby ?? descriptionIdProp ?? `site-footer-desc-${instanceId}`;
-  const hasAccessibleName = Boolean(ariaLabel || computedHeadingId);
-  const computedRole = roleOverride ?? (hasAccessibleName ? "contentinfo" : undefined);
   const ariaLabelledbyValue = ariaLabel ? undefined : computedHeadingId;
   const footerDescription = footerStrings.description;
 
@@ -157,7 +155,7 @@ export default function Footer({
       aria-labelledby={ariaLabelledbyValue}
       aria-label={ariaLabel}
       aria-describedby={computedDescriptionId}
-      role={computedRole}
+      role={roleOverride}
       tabIndex={-1}
     >
       {/* Dekoratif arka plan efektleri */}

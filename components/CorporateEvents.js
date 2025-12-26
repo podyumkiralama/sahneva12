@@ -191,12 +191,10 @@ export default function CorporateEvents({
   const whatsappAriaDescribedBy = whatsappDescription ? whatsappHintId : undefined;
 
   const computedDescribedBy = ariaDescribedby ?? introId;
-  const computedRole = role ?? (ariaLabel ? "region" : undefined);
-
   return (
     <section
       className="relative py-16 md:py-24 bg-[#0B1120] overflow-hidden"
-      role={computedRole}
+      role={role}
       aria-label={ariaLabel}
       aria-labelledby={ariaLabel ? undefined : computedHeadingId}
       aria-describedby={computedDescribedBy}
@@ -330,7 +328,11 @@ export default function CorporateEvents({
             </h3>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" aria-label={dictionary.advantagesAriaLabel}>
+          <div
+            className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+            role="list"
+            aria-label={dictionary.advantagesAriaLabel}
+          >
             {advantages.map((item, i) => {
               const safeColorClass = item.colorClass || "";
               const safeBorderClass = safeColorClass
@@ -342,6 +344,7 @@ export default function CorporateEvents({
                 <div
                   key={`${item.label}-${i}`}
                   className={`group relative p-5 rounded-xl border transition-all duration-300 bg-white/5 hover:bg-white/10 ${safeBorderClass} border-white/5 hover:border-opacity-50`}
+                  role="listitem"
                 >
                   <div className="relative z-10">
                     <div
