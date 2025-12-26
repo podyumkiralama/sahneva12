@@ -12,7 +12,6 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
-import { ScrollReveal } from "@/components/ScrollReveal";
 
 // ===============================================================
 // GALERİ VERİLERİ — Sabit 3 kategori (A seçildi)
@@ -441,44 +440,37 @@ export default function ProjectsGallery({
       </div>
 
       {/* Başlık */}
-      <ScrollReveal>
-        <div className="container px-4 mx-auto relative z-10 text-center max-w-3xl mb-16">
-          <h2
-            id={computedHeadingId}
-            className="text-4xl md:text-5xl font-bold text-white leading-tight"
-          >
-            Başarılı{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-              Projelerimiz
-            </span>
-          </h2>
-          <p
-            id={computedDescriptionId}
-            className="text-slate-400 text-lg mt-4"
-          >
-            500'den fazla kurumsal etkinlik, konser, fuar ve organizasyonda
-            profesyonel çözüm ortağı olduk.
-          </p>
-        </div>
-      </ScrollReveal>
+      <div className="container px-4 mx-auto relative z-10 text-center max-w-3xl mb-16">
+        <h2
+          id={computedHeadingId}
+          className="text-4xl md:text-5xl font-bold text-white leading-tight"
+        >
+          Başarılı{" "}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+            Projelerimiz
+          </span>
+        </h2>
+        <p id={computedDescriptionId} className="text-slate-400 text-lg mt-4">
+          500'den fazla kurumsal etkinlik, konser, fuar ve organizasyonda
+          profesyonel çözüm ortağı olduk.
+        </p>
+      </div>
 
       {/* Grid */}
       <div className="container px-4 mx-auto relative z-10">
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {entries.map(([title, gallery], i) => (
             <li key={title} className="list-none">
-              <ScrollReveal direction="up" delay={i * 0.1}>
-                <GalleryCard
-                  title={title}
-                  gallery={gallery}
-                  i={i}
-                  open={open}
-                  prefersReducedMotion={reduced}
-                  getSrc={getSrc}
-                  onError={handleError}
-                  dictionary={normalizedDictionary}
-                />
-              </ScrollReveal>
+              <GalleryCard
+                title={title}
+                gallery={gallery}
+                i={i}
+                open={open}
+                prefersReducedMotion={reduced}
+                getSrc={getSrc}
+                onError={handleError}
+                dictionary={normalizedDictionary}
+              />
             </li>
           ))}
         </ul>

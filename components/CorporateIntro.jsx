@@ -1,7 +1,6 @@
 // components/CorporateIntro.jsx
 "use client";
 import Image from "next/image";
-import { ScrollReveal } from "@/components/ScrollReveal";
 
 const CheckIcon = () => (
   <svg
@@ -33,43 +32,40 @@ export default function CorporateIntro() {
       {/* İÇERİK WRAPPER */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* ÜST BAŞLIK BLOĞU */}
-        <ScrollReveal direction="up" delay="0.05">
-          <div className="max-w-3xl mb-10 md:mb-12">
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-slate-900/80 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-300 border border-slate-700/80 shadow-[0_0_18px_rgba(8,47,73,0.8)]">
-              <span
-                className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.9)]"
-                aria-hidden="true"
-              />
-              Kurumsal Organizasyon ve Etkinlik Prodüksiyonu
-            </div>
-
-            <h2
-              id="corporate-intro-heading"
-              className="text-2xl sm:text-3xl lg:text-[2.3rem] font-black leading-tight tracking-tight text-white"
-            >
-              Markanız için{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-400 to-emerald-300">
-                uçtan uca sahne ve teknik yönetim
-              </span>
-            </h2>
-
-            <p className="mt-4 text-sm sm:text-base md:text-[15px] leading-relaxed text-slate-300 max-w-2xl">
-              Lansman, bayi toplantısı, konferans ve fuarlarınızda;{" "}
-              <span className="font-semibold text-slate-50">
-                sahne, LED ekran kiralama, ses-ışık ve truss yapıları
-              </span>{" "}
-              dahil tüm teknik altyapıyı tek ekipten yönetiyoruz. Teknik
-              riskleri sizden alıp, kusursuz görünen bir etkinlik akışı
-              tasarlıyoruz.
-            </p>
+        <div className="max-w-3xl mb-10 md:mb-12">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-slate-900/80 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-300 border border-slate-700/80 shadow-[0_0_18px_rgba(8,47,73,0.8)]">
+            <span
+              className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.9)]"
+              aria-hidden="true"
+            />
+            Kurumsal Organizasyon ve Etkinlik Prodüksiyonu
           </div>
-        </ScrollReveal>
+
+          <h2
+            id="corporate-intro-heading"
+            className="text-2xl sm:text-3xl lg:text-[2.3rem] font-black leading-tight tracking-tight text-white"
+          >
+            Markanız için{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-400 to-emerald-300">
+              uçtan uca sahne ve teknik yönetim
+            </span>
+          </h2>
+
+          <p className="mt-4 text-sm sm:text-base md:text-[15px] leading-relaxed text-slate-300 max-w-2xl">
+            Lansman, bayi toplantısı, konferans ve fuarlarınızda;{" "}
+            <span className="font-semibold text-slate-50">
+              sahne, LED ekran kiralama, ses-ışık ve truss yapıları
+            </span>{" "}
+            dahil tüm teknik altyapıyı tek ekipten yönetiyoruz. Teknik
+            riskleri sizden alıp, kusursuz görünen bir etkinlik akışı
+            tasarlıyoruz.
+          </p>
+        </div>
 
         {/* ANA GRID – 2 KOLON */}
         <div className="grid gap-10 lg:gap-12 lg:grid-cols-2 items-start">
           {/* SOL KOLON */}
-          <ScrollReveal direction="up" delay="0.1">
-            <div className="flex flex-col gap-7 rounded-2xl border border-slate-800/80 bg-slate-950/70 p-5 sm:p-6 md:p-7 shadow-[0_18px_55px_rgba(15,23,42,0.9)]">
+          <div className="flex flex-col gap-7 rounded-2xl border border-slate-800/80 bg-slate-950/70 p-5 sm:p-6 md:p-7 shadow-[0_18px_55px_rgba(15,23,42,0.9)]">
               {/* A'DAN Z'YE SÜREÇ */}
               <div>
                 <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-cyan-300 mb-4 flex items-center gap-2">
@@ -172,12 +168,10 @@ export default function CorporateIntro() {
                   </div>
                 ))}
               </div>
-            </div>
-          </ScrollReveal>
+          </div>
 
           {/* SAĞ KOLON */}
-          <ScrollReveal direction="left" delay="0.16">
-            <div className="flex flex-col gap-4 h-full">
+          <div className="flex flex-col gap-4 h-full">
               {/* ANA GÖRSEL */}
               <div className="relative overflow-hidden rounded-2xl border border-slate-800/80 bg-slate-950/80 shadow-[0_22px_60px_rgba(15,23,42,1)]">
                 <div className="relative w-full aspect-[16/10] sm:aspect-[4/3] md:aspect-[16/9]">
@@ -266,8 +260,7 @@ export default function CorporateIntro() {
                   </p>
                 </div>
               </div>
-            </div>
-          </ScrollReveal>
+          </div>
         </div>
       </div>
     </section>
