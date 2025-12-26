@@ -58,6 +58,11 @@ const globalJsonLd = {
       logo: `${BASE_SITE_URL}/img/logo.png`,
       telephone: "+905453048671",
       priceRange: "₺₺₺",
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: 41.0961692,
+        longitude: 28.9792127,
+      },
       address: {
         "@type": "PostalAddress",
         streetAddress: "Anadolu Caddesi No:61A, Hamidiye Mahallesi",
@@ -66,6 +71,7 @@ const globalJsonLd = {
         postalCode: "34400",
         addressCountry: "TR",
       },
+      openingHours: "Mo-Su 00:00-23:59",
       areaServed: "TR",
       parentOrganization: { "@id": ORGANIZATION_ID },
       sameAs: [
