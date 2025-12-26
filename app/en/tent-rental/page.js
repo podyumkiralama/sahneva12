@@ -191,7 +191,7 @@ function Hero() {
         </div>
 
         <h1 id="hero-title" className="text-4xl md:text-6xl lg:text-7xl font-black leading-tight mb-4 drop-shadow-2xl">
-          Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">Tent Rental</span>
+          Professional <span className="gradient-text gradient-text--safe-xl">Tent Rental</span>
         </h1>
 
         <p className="text-xl md:text-2xl text-white/95 max-w-3xl 2xl:max-w-4xl mx-auto leading-relaxed font-light mb-4">
@@ -255,7 +255,7 @@ function Services() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="services-title" className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
-            Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Services</span>
+            Professional <span className="gradient-text gradient-text--safe-xl">Services</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Tent rental lifecycle covering site survey, structural design, installation, on-site support and dismantle
@@ -369,7 +369,7 @@ function Gallery() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="gallery-title" className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
-            Project <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">Gallery</span>
+            Project <span className="gradient-text gradient-text--safe-xl">Gallery</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Highlights from recent tent structures we delivered across Türkiye
@@ -444,7 +444,7 @@ function Technical() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="altyapi-baslik" className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
-            Technical <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Infrastructure</span>
+            Technical <span className="gradient-text gradient-text--safe-xl">Infrastructure</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Delivered with premium-grade equipment, safety engineering and experienced supervisors
@@ -539,7 +539,7 @@ function UseCases() {
       <div className="container max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="use-cases-title" className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
-            Where our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">tents shine</span>
+            Where our <span className="gradient-text gradient-text--safe-xl">tents shine</span>
           </h2>
           <p className="text-xl text-white/85 max-w-3xl mx-auto leading-relaxed">
             Primary event scenarios and bespoke solutions we deliver with tent infrastructure
@@ -593,7 +593,7 @@ function Articles() {
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <h2 id="knowledge-title" className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
-            Knowledge & <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">professional guidance</span>
+            Knowledge & <span className="gradient-text gradient-text--safe-xl">professional guidance</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Expert insights on planning, designing and operating event tents and temporary structures
@@ -836,7 +836,7 @@ function FAQ() {
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="text-center mb-16">
           <h2 id="faq-title" className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
-            Frequently Asked <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Questions</span>
+            Frequently Asked <span className="gradient-text gradient-text--safe-xl">Questions</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
             Answers to the most common questions about tent rentals and logistics
@@ -929,7 +929,7 @@ function RelatedServices() {
             className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6"
           >
             Complementary{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+            <span className="gradient-text gradient-text--safe-xl">
               services
             </span>
           </h2>

@@ -94,7 +94,7 @@ export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
           <h2 id="why-choose-title" className="mt-3 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-slate-50">
             <span className="block">
               {dictionary.sectionTitlePrefix}{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-300">{dictionary.sectionTitleHighlight}</span>
+              <span className="gradient-text gradient-text--safe-xl">{dictionary.sectionTitleHighlight}</span>
               {dictionary.sectionTitleSuffix}
             </span>
           </h2>

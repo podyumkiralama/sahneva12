@@ -377,7 +377,7 @@ export default function ServicesPage() {
               className="text-4xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight"
             >
               <span className="block">PROFESYONEL</span>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-purple-700 to-cyan-600">
+              <span className="gradient-text gradient-text--safe-xl">
                 Hizmetlerimiz
               </span>
             </h1>
@@ -425,7 +425,7 @@ export default function ServicesPage() {
           <div className="container max-w-6xl mx-auto px-4">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-black text-neutral-900 mb-6">
-                Tüm <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Hizmetlerimiz</span>
+                Tüm <span className="gradient-text gradient-text--safe-xl">Hizmetlerimiz</span>
               </h2>
               <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
                 Etkinliğiniz için ihtiyaç duyduğunuz tüm ekipman ve hizmetleri tek noktadan temin edin
@@ -441,7 +441,7 @@ export default function ServicesPage() {
                   className="group bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl border border-neutral-100 hover:border-blue-200 transition-all duration-500 hover:scale-105"
                   aria-label={`${service.title} sayfasına git`}
                 >
-                  <div className={`text-4xl mb-4 bg-gradient-to-r ${service.color} text-transparent bg-clip-text`}>
+                  <div className="text-4xl mb-4 gradient-text gradient-text--safe-xl">
                     {service.icon}
                   </div>
                   <h3 className="text-xl font-black text-neutral-900 mb-3 group-hover:text-blue-600 transition-colors">
@@ -465,7 +465,7 @@ export default function ServicesPage() {
           <div className="container max-w-6xl mx-auto px-4">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-black text-neutral-900 mb-6">
-                Neden <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Sahneva?</span>
+                Neden <span className="gradient-text gradient-text--safe-xl">Sahneva?</span>
               </h2>
               <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
                 10+ yıllık deneyimimiz ve uzman ekibimizle fark yaratıyoruz
@@ -479,7 +479,7 @@ export default function ServicesPage() {
                   key={index}
                   className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl border border-neutral-100 hover:border-blue-200 transition-all duration-500 hover:scale-105 text-center"
                 >
-                  <div className="text-4xl mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">
+                  <div className="text-4xl mb-4 gradient-text gradient-text--safe-xl">
                     {feature.icon}
                   </div>
                   <h3 className="text-xl font-black text-neutral-900 mb-4 group-hover:text-blue-600 transition-colors">
@@ -499,7 +499,7 @@ export default function ServicesPage() {
           <div className="container max-w-6xl mx-auto px-4">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-black text-neutral-900 mb-6">
-                Komple <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Etkinlik Çözümleri</span>
+                Komple <span className="gradient-text gradient-text--safe-xl">Etkinlik Çözümleri</span>
               </h2>
               <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
                 Sahne kurulumundan organizasyon yönetimine kadar tüm süreci profesyonelce yönetiyoruz
@@ -516,7 +516,7 @@ export default function ServicesPage() {
           <div className="container max-w-6xl mx-auto px-4">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-black text-white mb-6">
-                Ek <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Hizmetlerimiz</span>
+                Ek <span className="gradient-text gradient-text--safe-xl">Hizmetlerimiz</span>
               </h2>
               <p className="text-xl text-white/80 max-w-3xl mx-auto">
                 Etkinliğinizin kusursuz geçmesi için ihtiyaç duyabileceğiniz tüm destek hizmetleri

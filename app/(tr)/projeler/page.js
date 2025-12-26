@@ -75,7 +75,7 @@ export default async function ProjectsIndexPage() {
           </div>
           
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-            <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
+            <span className="gradient-text gradient-text--safe-xl">
               Projelerimiz
             </span>
           </h1>

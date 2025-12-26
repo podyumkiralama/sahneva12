@@ -186,7 +186,7 @@ function Hero() {
         </div>
 
         <h1 id="hero-title" className="text-4xl md:text-6xl lg:text-7xl font-black leading-tight mb-4 drop-shadow-2xl">
-          Premium <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">LED Screen Rental</span>
+          Premium <span className="gradient-text gradient-text--safe-xl">LED Screen Rental</span>
         </h1>
 
         <p className="text-xl md:text-2xl text-white/95 max-w-3xl 2xl:max-w-4xl mx-auto leading-relaxed font-light mb-4">
@@ -251,7 +251,7 @@ function Services() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="services-title" className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
-            Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">services</span>
+            Professional <span className="gradient-text gradient-text--safe-xl">services</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             LED screen rental with technical consultancy, installation, operation and 24/7 support
@@ -351,7 +351,7 @@ function Gallery() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="galeri-baslik" className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
-            Project <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">gallery</span>
+            Project <span className="gradient-text gradient-text--safe-xl">gallery</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Highlights from LED screen installations we delivered across Turkey
@@ -426,7 +426,7 @@ function Technical() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="technical-title" className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
-            Technical <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">infrastructure</span>
+            Technical <span className="gradient-text gradient-text--safe-xl">infrastructure</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             We deploy the latest LED technology and certified infrastructure for every production
@@ -521,7 +521,7 @@ function UseCases() {
       <div className="container max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="use-cases-title" className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
-            Where our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">LED walls shine</span>
+            Where our <span className="gradient-text gradient-text--safe-xl">LED walls shine</span>
           </h2>
           <p className="text-xl text-white/85 max-w-3xl mx-auto leading-relaxed">
             Key event types that benefit from our LED screen packages and specialist workflows
@@ -577,7 +577,7 @@ function Articles() {
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <h2 id="guides-title" className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
-            Knowledge & <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">professional guidance</span>
+            Knowledge & <span className="gradient-text gradient-text--safe-xl">professional guidance</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Expert insight and technical tips for choosing LED walls for any production
@@ -844,7 +844,7 @@ function FAQ() {
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="text-center mb-16">
           <h2 id="faq-title" className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
-            Frequently asked <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">questions</span>
+            Frequently asked <span className="gradient-text gradient-text--safe-xl">questions</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
             Answers to the most common LED screen rental questions
@@ -940,7 +940,7 @@ function RelatedServices() {
             className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6"
           >
             Complementary{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+            <span className="gradient-text gradient-text--safe-xl">
               services
             </span>
           </h2>

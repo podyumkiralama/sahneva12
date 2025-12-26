@@ -611,10 +611,7 @@ export default function EnglishHomePage() {
                 className="text-white text-3xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight tracking-tight"
               >
                 <span className="block">Turnkey event technology</span>
-                <span
-                  className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-purple-700 to-cyan-600 bg-[length:300%_100%] animate-[gradient_8s_ease_infinite] motion-reduce:animate-none"
-                  aria-hidden="true"
-                >
+                <span className="gradient-text gradient-text--safe-xl" aria-hidden="true">
                   anywhere in Türkiye
                 </span>
               </h1>
@@ -661,7 +658,7 @@ export default function EnglishHomePage() {
                   <li key={item.title} className="m-0 p-0">
                     
                       <div className="group bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20 hover:border-white/40 transition-all duration-500 hover:scale-105 hover:bg-white/15">
-                        <div className={`text-2xl mb-2 bg-gradient-to-r ${item.color} text-transparent bg-clip-text`} aria-hidden="true">
+                        <div className="text-2xl mb-2 gradient-text gradient-text--safe-xl" aria-hidden="true">
                           {item.icon}
                         </div>
                         <div className="text-white font-bold text-base mb-1">{item.title}</div>
@@ -728,7 +725,7 @@ export default function EnglishHomePage() {
               
                 <div className="text-center mb-12">
                   <h2 id="services-title" className="text-3xl md:text-4xl font-black text-neutral-900 mb-4">
-                    Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">event services</span>
+                    Professional <span className="gradient-text gradient-text--safe-xl">event services</span>
                   </h2>
                   <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
                     Turnkey stage, LED wall, sound, lighting and tent solutions available across Türkiye
@@ -754,7 +751,7 @@ export default function EnglishHomePage() {
             
               <div className="text-center mb-12">
                 <h2 id="projects-title" className="text-3xl md:text-4xl font-black text-white mb-4">
-                  Recent <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">projects</span>
+                  Recent <span className="gradient-text gradient-text--safe-xl">projects</span>
                 </h2>
                 <p className="text-lg text-white/80 max-w-3xl mx-auto">
                   Corporate launches, open-air concerts, government events and branded experiences delivered turnkey by Sahneva
@@ -776,7 +773,7 @@ export default function EnglishHomePage() {
             
               <div className="text-center mb-12">
                 <h2 id="corporate-title" className="text-3xl md:text-4xl font-black text-neutral-900 mb-4">
-                  Corporate <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">event solutions</span>
+                  Corporate <span className="gradient-text gradient-text--safe-xl">event solutions</span>
                 </h2>
                 <p className="text-lg text-neutral-600 max-w-3xl mx-auto">
                   From executive summits to dealer conventions, we coordinate stage design, media production and technical crews end-to-end
@@ -799,7 +796,7 @@ export default function EnglishHomePage() {
             
               <div className="text-center mb-12">
                 <h2 id="why-heading" className="text-3xl md:text-4xl font-black text-neutral-900 mb-6">
-                  Why choose <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Sahneva</span>
+                  Why choose <span className="gradient-text gradient-text--safe-xl">Sahneva</span>
                 </h2>
                 <p className="text-lg text-neutral-600 max-w-3xl mx-auto">
                   Over a decade of experience, premium equipment and detail-obsessed technical teams at your service
@@ -819,7 +816,7 @@ export default function EnglishHomePage() {
                         <div className="absolute top-3 right-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full">
                           {stat}
                         </div>
-                        <div className="text-3xl mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text" aria-hidden="true">
+                        <div className="text-3xl mb-4 gradient-text gradient-text--safe-xl" aria-hidden="true">
                           {icon}
                         </div>
                         <p id={`why-card-${i}-title`} className="font-black text-lg mb-3 text-neutral-900 group-hover:text-blue-600 transition-colors">
@@ -842,7 +839,7 @@ export default function EnglishHomePage() {
           <div className="container">
             
               <h2 id="seo-title" className="text-3xl md:text-4xl font-black text-center mb-12 text-neutral-900">
-                Türkiye's <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">leading</span> event technology partner
+                Türkiye's <span className="gradient-text gradient-text--safe-xl">leading</span> event technology partner
               </h2>
             
 
@@ -933,7 +930,7 @@ export default function EnglishHomePage() {
             
               <div className="text-center mb-12">
                 <h2 id="faq-title" className="text-3xl md:text-4xl font-black text-white mb-4">
-                  Frequently <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">asked questions</span>
+                  Frequently <span className="gradient-text gradient-text--safe-xl">asked questions</span>
                 </h2>
                 <p className="text-lg text-white/80 max-w-3xl mx-auto">
                   Answers about pricing, logistics, installation times and crew support for stage, LED and AV services

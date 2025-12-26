@@ -236,7 +236,7 @@ function Hero() {
 
         <h1 className="mt-4 text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 leading-tight">
           Truss Kiralama{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+          <span className="gradient-text gradient-text--safe-xl">
             ve Kurulum
           </span>
         </h1>
@@ -300,7 +300,7 @@ function Content() {
         <header className="text-center mb-16">
           <h2 id="icerik-baslik" className="text-4xl md:text-5xl font-black text-gray-900 mb-6">
             Truss Kiralama{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+            <span className="gradient-text gradient-text--safe-xl">
               Nedir?
             </span>
           </h2>
@@ -374,7 +374,7 @@ function Gallery() {
             className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900"
           >
             Truss Kurulum{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+            <span className="gradient-text gradient-text--safe-xl">
               Galerimiz
             </span>
           </h2>
@@ -436,7 +436,7 @@ function Technical() {
         <div className="text-center mb-16">
           <h2 id="teknik-baslik" className="text-4xl md:text-5xl font-black text-gray-900 mb-6">
             Teknik{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+            <span className="gradient-text gradient-text--safe-xl">
               Planlama
             </span>{" "}
             & Güvenlik
@@ -503,7 +503,7 @@ function FAQ() {
         <div className="text-center mb-16">
           <h2 id="sss-baslik" className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
             Sık Sorulan{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+            <span className="gradient-text gradient-text--safe-xl">
               Sorular
             </span>
           </h2>
@@ -577,7 +577,7 @@ function Offer() {
         <div className="text-center mb-12">
           <h2 id="teklif-baslik" className="text-4xl md:text-5xl font-black text-gray-900 mb-6">
             Truss Kiralama{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+            <span className="gradient-text gradient-text--safe-xl">
               Teklifi Alın
             </span>
           </h2>

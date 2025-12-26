@@ -495,7 +495,7 @@ export default function ProjectsGallery({
           className="text-4xl md:text-5xl font-bold text-white leading-tight"
         >
           Başarılı{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+          <span className="gradient-text gradient-text--safe-xl">
             Projelerimiz
           </span>
         </h2>

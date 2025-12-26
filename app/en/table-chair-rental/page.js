@@ -248,7 +248,7 @@ function Hero() {
         </div>
 
         <h1 id="hero-title" className="text-4xl md:text-6xl lg:text-7xl font-black leading-tight mb-4 drop-shadow-2xl">
-          Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">Table & Chair Rental</span>
+          Professional <span className="gradient-text gradient-text--safe-xl">Table & Chair Rental</span>
         </h1>
 
         <p className="text-xl md:text-2xl text-white/95 max-w-3xl 2xl:max-w-4xl mx-auto leading-relaxed font-light mb-4">
@@ -310,7 +310,7 @@ function Services() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="services-heading" className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
-            Our Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Services</span>
+            Our Professional <span className="gradient-text gradient-text--safe-xl">Services</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Comprehensive table and chair rental: large inventory, styling and expert installation
@@ -384,7 +384,7 @@ function Packages() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="packages-heading" className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
-            Turnkey <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Packages</span>
+            Turnkey <span className="gradient-text gradient-text--safe-xl">Packages</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Ready-made seating solutions tailored to your guest count
@@ -503,7 +503,7 @@ function Gallery() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="gallery-heading" className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
-            Project <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">Gallery</span>
+            Project <span className="gradient-text gradient-text--safe-xl">Gallery</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Highlights from recent table and chair installations we delivered
@@ -593,7 +593,7 @@ function Technical() {
       <div className="container mx-auto px-4 text-white">
         <div className="text-center mb-16">
           <h2 id="technical-heading" className="text-4xl md:text-5xl lg:text-6xl font-black mb-6">
-            Technical <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">Infrastructure</span>
+            Technical <span className="gradient-text gradient-text--safe-xl">Infrastructure</span>
           </h2>
           <p className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
             Certified crews, detailed planning and premium equipment ensure a seamless seating experience
@@ -686,7 +686,7 @@ function UseCases() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="usecases-heading" className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
-            Where <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">We Add Value</span>
+            Where <span className="gradient-text gradient-text--safe-xl">We Add Value</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Trusted seating and furniture solutions for every event format and audience profile
@@ -731,7 +731,7 @@ function Articles() {
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <h2 id="knowledge-heading" className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
-            Expert <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Guidance</span>
+            Expert <span className="gradient-text gradient-text--safe-xl">Guidance</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Technical insights for selecting the right seating, table formats and décor for your event
@@ -991,7 +991,7 @@ function FAQ() {
       <div className="container mx-auto px-4 max-w-5xl">
         <div className="text-center mb-12">
           <h2 id="faq-heading" className="text-4xl md:text-5xl font-black text-gray-900 mb-6">
-            Frequently Asked <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Questions</span>
+            Frequently Asked <span className="gradient-text gradient-text--safe-xl">Questions</span>
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Key details about our table and chair rental process, logistics and technical capabilities
@@ -1069,7 +1069,7 @@ function RelatedServices() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="related-heading" className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900">
-            Complementary <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Services</span>
+            Complementary <span className="gradient-text gradient-text--safe-xl">Services</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Complete your seating setup with our comprehensive event production capabilities

@@ -385,7 +385,7 @@ export default function EnglishServicesPage() {
               className="text-4xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight"
             >
               <span className="block">PROFESSIONAL</span>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-purple-700 to-cyan-600">
+              <span className="gradient-text gradient-text--safe-xl">
                 Services
               </span>
             </h1>
@@ -435,7 +435,7 @@ export default function EnglishServicesPage() {
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-black text-neutral-900 mb-6">
                 All
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+                <span className="gradient-text gradient-text--safe-xl">
                   &nbsp;Services
                 </span>
               </h2>
@@ -454,7 +454,7 @@ export default function EnglishServicesPage() {
                   aria-label={`Go to ${service.title} details`}
                 >
                   <div
-                    className={`text-4xl mb-4 bg-gradient-to-r ${service.color} text-transparent bg-clip-text`}
+                    className="text-4xl mb-4 gradient-text gradient-text--safe-xl"
                     aria-hidden="true"
                   >
                     {service.icon}
@@ -479,7 +479,7 @@ export default function EnglishServicesPage() {
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-black text-neutral-900 mb-6">
                 Why
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+                <span className="gradient-text gradient-text--safe-xl">
                   &nbsp;Sahneva?
                 </span>
               </h2>
@@ -495,7 +495,7 @@ export default function EnglishServicesPage() {
                   key={feature.title}
                   className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl border border-neutral-100 hover:border-blue-200 transition-all duration-500 hover:scale-105 text-center"
                 >
-                  <div className="text-4xl mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">
+                  <div className="text-4xl mb-4 gradient-text gradient-text--safe-xl">
                     {feature.icon}
                   </div>
                   <h3 className="text-xl font-black text-neutral-900 mb-4 group-hover:text-blue-600 transition-colors">
@@ -514,7 +514,7 @@ export default function EnglishServicesPage() {
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-black text-neutral-900 mb-6">
                 Turnkey
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+                <span className="gradient-text gradient-text--safe-xl">
                   &nbsp;Event Solutions
                 </span>
               </h2>
@@ -534,7 +534,7 @@ export default function EnglishServicesPage() {
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-black text-white mb-6">
                 Additional
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+                <span className="gradient-text gradient-text--safe-xl">
                   &nbsp;Services
                 </span>
               </h2>

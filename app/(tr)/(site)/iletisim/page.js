@@ -102,7 +102,7 @@ export default function ContactPage() {
                 className="text-4xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight"
               >
                 <span className="block">BİZE</span>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-purple-700 to-cyan-600">
+                <span className="gradient-text gradient-text--safe-xl">
                   Ulaşın
                 </span>
               </h1>
@@ -138,7 +138,7 @@ export default function ContactPage() {
               <div className="text-center mb-16">
                 <h2 className="text-4xl md:text-5xl font-black text-neutral-900 mb-6">
                   Hızlı{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+                  <span className="gradient-text gradient-text--safe-xl">
                     İletişim
                   </span>
                 </h2>
@@ -206,7 +206,7 @@ export default function ContactPage() {
                   <div className="text-center lg:text-left">
                     <h2 className="text-4xl md:text-5xl font-black text-neutral-900 mb-6">
                       Konumumuz ve{" "}
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+                      <span className="gradient-text gradient-text--safe-xl">
                         İletişim
                       </span>
                     </h2>
@@ -308,7 +308,7 @@ export default function ContactPage() {
                   <div className="text-center mb-8">
                     <h2 className="text-3xl font-black text-neutral-900 mb-4">
                       Hızlı{" "}
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+                      <span className="gradient-text gradient-text--safe-xl">
                         Teklif Alın
                       </span>
                     </h2>
@@ -512,7 +512,7 @@ export default function ContactPage() {
               <div className="bg-white/10 backdrop-blur-md rounded-2xl p-12 border border-white/20">
                 <h2 className="text-4xl md:text-5xl font-black mb-6">
                   Acil{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+                  <span className="gradient-text gradient-text--safe-xl">
                     Teknik Destek
                   </span>
                 </h2>
@@ -607,7 +607,7 @@ function ContactCard({ icon, title, info, description, href, color, buttonText }
       aria-labelledby={headingId}
       aria-describedby={descriptionId}
     >
-      <div className={`text-5xl mb-4 bg-gradient-to-r ${color} text-transparent bg-clip-text`} aria-hidden="true">
+      <div className="text-5xl mb-4 gradient-text gradient-text--safe-xl" aria-hidden="true">
         {icon}
       </div>
       <h3

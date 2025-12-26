@@ -620,10 +620,7 @@ export default function ArabicHomePage() {
                 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight mb-6"
               >
                 <span className="block">حلول تقنية متكاملة للفعاليات</span>
-                <span
-                  className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-purple-700 to-cyan-600 bg-[length:300%_100%] animate-[gradient_8s_ease_infinite] motion-reduce:animate-none"
-                  aria-hidden="true"
-                >
+                <span className="gradient-text gradient-text--safe-xl" aria-hidden="true">
                   في جميع أنحاء تركيا
                 </span>
               </h1>
@@ -676,7 +673,7 @@ export default function ArabicHomePage() {
                   <li key={item.title} className="m-0 p-0">
                     
                       <div className="group bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20 hover:border-white/40 transition-all duration-500 hover:scale-105 hover:bg-white/15">
-                        <div className={`text-2xl mb-2 bg-gradient-to-r ${item.color} text-transparent bg-clip-text`} aria-hidden="true">
+                        <div className="text-2xl mb-2 gradient-text gradient-text--safe-xl" aria-hidden="true">
                           {item.icon}
                         </div>
                         <div className="text-white font-bold text-base mb-1">{item.title}</div>
@@ -744,7 +741,7 @@ export default function ArabicHomePage() {
               
                 <div className="text-center mb-12">
                   <h2 id="services-title" className="text-3xl md:text-4xl font-black text-neutral-900 mb-4">
-                    خدمات فعاليات <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">احترافية</span>
+                    خدمات فعاليات <span className="gradient-text gradient-text--safe-xl">احترافية</span>
                   </h2>
                   <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
                     حلول متكاملة للمنصات، شاشات LED، الصوت، الإضاءة والخيام في جميع أنحاء تركيا
@@ -771,7 +768,7 @@ export default function ArabicHomePage() {
             
               <div className="text-center mb-12">
                 <h2 id="projects-title" className="text-3xl md:text-4xl font-black text-white mb-4">
-                  أحدث <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">المشاريع</span>
+                  أحدث <span className="gradient-text gradient-text--safe-xl">المشاريع</span>
                 </h2>
                 <p className="text-lg text-white/80 max-w-3xl mx-auto">
                   إطلاقات مؤسسية، حفلات في الهواء الطلق، فعاليات حكومية وتجارب علامات تجارية نفذتها سحنيفا بشكل متكامل
@@ -794,7 +791,7 @@ export default function ArabicHomePage() {
             
               <div className="text-center mb-12">
                 <h2 id="corporate-title" className="text-3xl md:text-4xl font-black text-neutral-900 mb-4">
-                  حلول <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">الفعاليات المؤسسية</span>
+                  حلول <span className="gradient-text gradient-text--safe-xl">الفعاليات المؤسسية</span>
                 </h2>
                 <p className="text-lg text-neutral-600 max-w-3xl mx-auto">
                   من القمم التنفيذية إلى لقاءات الوكلاء، ندير تصميم المنصات والإنتاج المرئي والدعم التقني من الألف إلى الياء
@@ -817,7 +814,7 @@ export default function ArabicHomePage() {
             
               <div className="text-center mb-12">
                 <h2 id="why-heading" className="text-3xl md:text-4xl font-black text-neutral-900 mb-6">
-                  لماذا تختار <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">سحنيفا</span>
+                  لماذا تختار <span className="gradient-text gradient-text--safe-xl">سحنيفا</span>
                 </h2>
                 <p className="text-lg text-neutral-600 max-w-3xl mx-auto">
                   أكثر من عقد من الخبرة، معدات متميزة وفرق تقنية دقيقة التفاصيل في خدمتك
@@ -837,7 +834,7 @@ export default function ArabicHomePage() {
                         <div className="absolute top-3 right-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full">
                           {stat}
                         </div>
-                        <div className="text-3xl mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text" aria-hidden="true">
+                        <div className="text-3xl mb-4 gradient-text gradient-text--safe-xl" aria-hidden="true">
                           {icon}
                         </div>
                         <p id={`why-card-${i}-title`} className="font-black text-lg mb-3 text-neutral-900 group-hover:text-blue-600 transition-colors">
@@ -860,7 +857,7 @@ export default function ArabicHomePage() {
           <div className="container">
             
               <h2 id="seo-title" className="text-3xl md:text-4xl font-black text-center mb-12 text-neutral-900">
-                شريككم <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">الرائد</span> لتقنيات الفعاليات في تركيا
+                شريككم <span className="gradient-text gradient-text--safe-xl">الرائد</span> لتقنيات الفعاليات في تركيا
               </h2>
             
 
@@ -951,7 +948,7 @@ export default function ArabicHomePage() {
             
               <div className="text-center mb-12">
                 <h2 id="faq-title" className="text-3xl md:text-4xl font-black text-white mb-4">
-                  الأسئلة <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">الشائعة</span>
+                  الأسئلة <span className="gradient-text gradient-text--safe-xl">الشائعة</span>
                 </h2>
                 <p className="text-lg text-white/80 max-w-3xl mx-auto">
                   إجابات حول الأسعار، اللوجستيات، أوقات التركيب ودعم الطاقم لخدمات المنصات، شاشات LED وأنظمة AV

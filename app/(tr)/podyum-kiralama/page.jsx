@@ -223,7 +223,7 @@ function HeroSection() {
         </div>
 
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-black leading-tight mb-4 drop-shadow-2xl">
-          Profesyonel <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">Podyum Kiralama</span>
+          Profesyonel <span className="gradient-text gradient-text--safe-xl">Podyum Kiralama</span>
         </h1>
         <p className="text-xl md:text-2xl text-white/95 max-w-3xl 2xl:max-w-4xl mx-auto leading-relaxed font-light mb-4">
           Düğün • Konser • Lansman • Festival • Kurumsal Etkinlikler
@@ -275,7 +275,7 @@ function ServicesSection() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
-            Profesyonel <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Hizmetlerimiz</span>
+            Profesyonel <span className="gradient-text gradient-text--safe-xl">Hizmetlerimiz</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Podyum kiralama hizmetlerimiz: keşif, projelendirme, kurulum, teknik destek ve söküm
@@ -315,7 +315,7 @@ function CalculatorSection() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
-            Hızlı <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Fiyat Hesaplama</span>
+            Hızlı <span className="gradient-text gradient-text--safe-xl">Fiyat Hesaplama</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Podyum ölçülerinizi girerek anında fiyat teklifi alın
@@ -346,7 +346,7 @@ function PackagesSection() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
-            Podyum <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Paketlerimiz</span>
+            Podyum <span className="gradient-text gradient-text--safe-xl">Paketlerimiz</span>
           </h2>
           {/* DÜZELTME: Orijinal tanıtım yazısı geri geldi */}
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -421,7 +421,7 @@ function GallerySection() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
-            Proje <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">Galerimiz</span>
+            Proje <span className="gradient-text gradient-text--safe-xl">Galerimiz</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Gerçekleştirdiğimiz başarılı podyum kurulumlarından örnekler
@@ -451,7 +451,7 @@ function TechnicalSection() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900">
-            Teknik <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Altyapımız</span>
+            Teknik <span className="gradient-text gradient-text--safe-xl">Altyapımız</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             En son teknoloji ekipmanlar ve profesyonel teknik altyapı ile hizmetinizdeyiz
@@ -521,7 +521,7 @@ function UseCasesSection() {
       <div className="container max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
-            Kullanım <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Alanları</span>
+            Kullanım <span className="gradient-text gradient-text--safe-xl">Alanları</span>
           </h2>
           <p className="text-xl text-white/85 max-w-3xl mx-auto leading-relaxed">
             Podyum çözümlerimizin tercih edildiği başlıca etkinlik türleri
@@ -563,7 +563,7 @@ function ArticlesSection() {
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
-            Podyum <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Rehberi</span>
+            Podyum <span className="gradient-text gradient-text--safe-xl">Rehberi</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Podyum kiralama hakkında uzman görüşleri ve teknik bilgiler
@@ -676,7 +676,7 @@ function FAQSection() {
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
-            Sık Sorulan <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Sorular</span>
+            Sık Sorulan <span className="gradient-text gradient-text--safe-xl">Sorular</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
             Podyum kiralama hakkında merak edilen sorular ve cevapları
@@ -721,7 +721,7 @@ function RelatedServicesSection() {
       <div className="container max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
-            Tamamlayıcı <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Hizmetlerimiz</span>
+            Tamamlayıcı <span className="gradient-text gradient-text--safe-xl">Hizmetlerimiz</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Podyum kurulumunuzu tamamlayacak diğer profesyonel etkinlik çözümlerimiz

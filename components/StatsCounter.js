@@ -81,7 +81,7 @@ function StatsCounter() {
             role="listitem"
             >
             <div
-              className={`text-4xl font-black bg-gradient-to-r ${stat.color} text-transparent bg-clip-text mb-2`}
+              className="text-4xl font-black gradient-text gradient-text--safe-xl mb-2"
               aria-live="polite"
               aria-atomic="true"
             >
