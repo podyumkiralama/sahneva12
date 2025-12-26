@@ -4,7 +4,6 @@
 import { useRef, useState, useCallback, useMemo, memo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ScrollReveal } from "@/components/ScrollReveal";
 
 // —————————————————————————————————————————
 // İKONLAR
@@ -285,102 +284,99 @@ function ServicesTabsComponent({
       <div className="relative z-10 px-4 mx-auto w-full max-w-7xl">
         {/* ——— BAŞLIK ——— */}
         {!ariaLabelledBy && (
-          <ScrollReveal direction="up" delay="0.05">
-            <div className="text-center max-w-4xl mx-auto mb-10 md:mb-12">
-              <div className="flex justify-center mb-3">
-                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/80 border border-slate-700 text-cyan-400 text-xs font-bold uppercase tracking-wider shadow-md">
-                  <span
-                    className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"
-                    aria-hidden="true"
-                  />
-                  {dictionary.sectionPill}
-                </span>
-              </div>
-
-              <h2
-                id={headingId}
-                className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight tracking-tight"
-              >
-                {dictionary.sectionTitlePrefix}{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-sky-500">
-                  {dictionary.sectionTitleHighlight}
-                </span>
-              </h2>
-
-              <p
-                id={descriptionId}
-                className="text-slate-300 text-base md:text-lg leading-relaxed max-w-3xl mx-auto"
-              >
-                {dictionary.sectionDesc}
-              </p>
+          <div className="text-center max-w-4xl mx-auto mb-10 md:mb-12">
+            <div className="flex justify-center mb-3">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/80 border border-slate-700 text-cyan-400 text-xs font-bold uppercase tracking-wider shadow-md">
+                <span
+                  className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"
+                  aria-hidden="true"
+                />
+                {dictionary.sectionPill}
+              </span>
             </div>
-          </ScrollReveal>
+
+            <h2
+              id={headingId}
+              className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight tracking-tight"
+            >
+              {dictionary.sectionTitlePrefix}{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-sky-500">
+                {dictionary.sectionTitleHighlight}
+              </span>
+            </h2>
+
+            <p
+              id={descriptionId}
+              className="text-slate-300 text-base md:text-lg leading-relaxed max-w-3xl mx-auto"
+            >
+              {dictionary.sectionDesc}
+            </p>
+          </div>
         )}
 
         {/* ——— İÇERİK ——— */}
         <div className="w-full">
           {/* SEKMELER */}
-          <ScrollReveal direction="down" delay="0.1">
-            <div className="mb-8">
-              <div
-                ref={listRef}
-                className="focus:outline-none"
-                role="tablist"
-                aria-label={dictionary.tablistLabel}
-                aria-orientation="horizontal"
-                onKeyDown={onKeyDownTabs}
-              >
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-                  {services.map((service) => {
-                    const isActive = activeTab === service.id;
-                    return (
-                      <button
-                        key={service.id}
-                        type="button"
-                        role="tab"
-                        aria-selected={isActive ? "true" : "false"}
-                        aria-controls={`panel-${service.id}`}
-                        id={`tab-${service.id}`}
-                        tabIndex={isActive ? 0 : -1}
-                        onClick={() => setActiveTab(service.id)}
-                        className={`
-                          group relative flex items-center justify-center gap-2 px-4 py-3
-                          font-bold text-xs md:text-sm rounded-xl
-                          transition-all duration-200
-                          focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950
-                          ${
-                            isActive
-                              ? "text-white bg-sky-500 shadow-lg shadow-sky-500/40 border border-sky-300"
-                              : "text-slate-100 bg-slate-900/80 border border-slate-700 hover:border-sky-400/70 hover:text-white"
-                          }
-                        `}
+          <div className="mb-8">
+            <div
+              ref={listRef}
+              className="focus:outline-none"
+              role="tablist"
+              aria-label={dictionary.tablistLabel}
+              aria-orientation="horizontal"
+              onKeyDown={onKeyDownTabs}
+            >
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                {services.map((service) => {
+                  const isActive = activeTab === service.id;
+                  return (
+                    <button
+                      key={service.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={isActive ? "true" : "false"}
+                      aria-controls={`panel-${service.id}`}
+                      id={`tab-${service.id}`}
+                      tabIndex={isActive ? 0 : -1}
+                      onClick={() => setActiveTab(service.id)}
+                      className={`
+                        group relative flex items-center justify-center gap-2 px-4 py-3
+                        font-bold text-xs md:text-sm rounded-xl
+                        transition-all duration-200
+                        focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950
+                        ${
+                          isActive
+                            ? "text-white bg-indigo-600 shadow-lg shadow-indigo-500/40 border border-indigo-300/80"
+                            : "text-slate-100 bg-slate-950/80 border border-slate-700 hover:bg-slate-900 hover:border-indigo-300/60 hover:text-white"
+                        }
+                      `}
+                    >
+                      <span
+                        className="text-xl md:text-2xl drop-shadow-sm"
+                        aria-hidden="true"
                       >
-                        <span
-                          className="text-xl md:text-2xl drop-shadow-sm"
-                          aria-hidden="true"
-                        >
-                          {service.icon}
-                        </span>
-                        <span className="text-center leading-tight">
-                          {service.title}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
+                        {service.icon}
+                      </span>
+                      <span className="text-center leading-tight">
+                        {service.title}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
-          </ScrollReveal>
+          </div>
 
           {/* PANEL */}
-          <ScrollReveal direction="up" delay="0.2">
-            <div
-              className="relative overflow-hidden bg-[#020617] border border-slate-800 shadow-2xl transition-all duration-500 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-600/40"
-              role="tabpanel"
-              id={`panel-${activeService?.id}`}
-              aria-labelledby={`tab-${activeService?.id}`}
-              tabIndex={0}
-            >
+          <div
+            className="relative overflow-hidden bg-[#020617] border border-slate-800 shadow-2xl transition-all duration-500 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-600/40"
+            role="tabpanel"
+            id={`panel-${activeService?.id}`}
+            aria-labelledby={`tab-${activeService?.id}`}
+            aria-live="polite"
+            aria-atomic="true"
+            tabIndex={0}
+          >
               {/* Hafif arka plan dokusu */}
               <div
                 className="pointer-events-none absolute inset-0 z-0"
@@ -502,8 +498,7 @@ function ServicesTabsComponent({
                   </div>
                 </div>
               )}
-            </div>
-          </ScrollReveal>
+          </div>
         </div>
       </div>
     </section>
