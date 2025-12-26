@@ -2,7 +2,6 @@
 "use client";
 
 import { useMemo } from "react";
-import { ScrollReveal, ScrollRevealGroup } from "@/components/ScrollReveal";
 
 // —————————————————————————————————————————
 // İKONLAR (modern)
@@ -236,32 +235,30 @@ export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         {/* BAŞLIK BLOĞU */}
-        <ScrollReveal direction="up" delay="0.05">
-          <header className="max-w-4xl mx-auto mb-16 text-center md:text-left">
-            <p className="text-xs md:text-[13px] font-semibold tracking-[0.22em] uppercase text-slate-300/90">
-              {dictionary.sectionPill}
-            </p>
+        <header className="max-w-4xl mx-auto mb-16 text-center md:text-left">
+          <p className="text-xs md:text-[13px] font-semibold tracking-[0.22em] uppercase text-slate-300/90">
+            {dictionary.sectionPill}
+          </p>
 
-            <h2
-              id="why-choose-title"
-              className="mt-3 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-slate-50"
-            >
-              <span className="block">
-                {dictionary.sectionTitlePrefix}{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-300">
-                  {dictionary.sectionTitleHighlight}
-                </span>
-                {dictionary.sectionTitleSuffix}
+          <h2
+            id="why-choose-title"
+            className="mt-3 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-slate-50"
+          >
+            <span className="block">
+              {dictionary.sectionTitlePrefix}{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-300">
+                {dictionary.sectionTitleHighlight}
               </span>
-            </h2>
+              {dictionary.sectionTitleSuffix}
+            </span>
+          </h2>
 
-            <div className="mt-4 h-px w-24 md:w-32 mx-auto md:mx-0 bg-gradient-to-r from-orange-400/70 via-amber-300/40 to-transparent" />
+          <div className="mt-4 h-px w-24 md:w-32 mx-auto md:mx-0 bg-gradient-to-r from-orange-400/70 via-amber-300/40 to-transparent" />
 
-            <p className="mt-5 text-slate-300 text-base md:text-lg leading-relaxed">
-              {dictionary.sectionDesc}
-            </p>
-          </header>
-        </ScrollReveal>
+          <p className="mt-5 text-slate-300 text-base md:text-lg leading-relaxed">
+            {dictionary.sectionDesc}
+          </p>
+        </header>
 
         {/* ✅ EKLENEN 2 BÜYÜK KART BLOĞU */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
@@ -384,106 +381,97 @@ export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
         </div>
 
         {/* 6'LI KART GRID (ESKİ BLOK DURUYOR) */}
-        <ScrollRevealGroup>
-          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {DEFAULT_FEATURES.map((feature) => (
-              <ScrollReveal
-                key={feature.title}
-                delay="0.05"
-                direction="up"
-                asChild
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {DEFAULT_FEATURES.map((feature) => (
+            <li key={feature.title}>
+              <div
+                className="
+                  group relative overflow-hidden
+                  rounded-2xl p-6
+                  bg-slate-900/70
+                  border border-white/10
+                  shadow-[0_18px_45px_rgba(0,0,0,0.6)]
+                  transition-all duration-500
+                  hover:-translate-y-[4px]
+                  hover:shadow-[0_26px_70px_rgba(56,189,248,0.45)]
+                "
               >
-                <li>
+                <div
+                  className="pointer-events-none absolute inset-0"
+                  aria-hidden="true"
+                >
                   <div
                     className="
-                      group relative overflow-hidden
-                      rounded-2xl p-6
-                      bg-slate-900/70
-                      border border-white/10
-                      shadow-[0_18px_45px_rgba(0,0,0,0.6)]
-                      transition-all duration-500
-                      hover:-translate-y-[4px]
-                      hover:shadow-[0_26px_70px_rgba(56,189,248,0.45)]
+                      absolute left-1/2 -translate-x-1/2
+                      bottom-[-34px]
+                      w-56 h-56
+                      rounded-full
+                      blur-[55px]
+                      opacity-80
+                      bg-purple-500/45
+                      transition-[background-color,opacity] duration-500
+                      group-hover:bg-sky-500/55
+                      group-hover:opacity-100
                     "
-                  >
-                    <div
-                      className="pointer-events-none absolute inset-0"
-                      aria-hidden="true"
-                    >
-                      <div
-                        className="
-                          absolute left-1/2 -translate-x-1/2
-                          bottom-[-34px]
-                          w-56 h-56
-                          rounded-full
-                          blur-[55px]
-                          opacity-80
-                          bg-purple-500/45
-                          transition-[background-color,opacity] duration-500
-                          group-hover:bg-sky-500/55
-                          group-hover:opacity-100
-                        "
-                      />
-                    </div>
+                  />
+                </div>
 
+                <div
+                  className={`
+                    pointer-events-none
+                    absolute inset-0 
+                    bg-gradient-to-br ${feature.gradient}
+                    opacity-[0.03]
+                    group-hover:opacity-[0.08]
+                    transition-opacity duration-500
+                  `}
+                />
+
+                <div className="relative z-10 space-y-4">
+                  <div className="mb-3">
                     <div
                       className={`
-                        pointer-events-none
-                        absolute inset-0 
+                        inline-flex items-center justify-center
+                        rounded-2xl p-3
+                        bg-slate-950/80
+                        ring-1 ring-white/10
+                        shadow-[0_0_30px_rgba(15,23,42,0.9)]
                         bg-gradient-to-br ${feature.gradient}
-                        opacity-[0.03]
-                        group-hover:opacity-[0.08]
-                        transition-opacity duration-500
                       `}
-                    />
-
-                    <div className="relative z-10 space-y-4">
-                      <div className="mb-3">
-                        <div
-                          className={`
-                            inline-flex items-center justify-center
-                            rounded-2xl p-3
-                            bg-slate-950/80
-                            ring-1 ring-white/10
-                            shadow-[0_0_30px_rgba(15,23,42,0.9)]
-                            bg-gradient-to-br ${feature.gradient}
-                          `}
-                        >
-                          {feature.icon}
-                        </div>
-                      </div>
-
-                      <span
-                        className={`
-                          inline-flex items-center text-[11px] font-semibold
-                          px-3 py-1 rounded-full
-                          ${feature.pillClass}
-                        `}
-                      >
-                        {feature.stat}
-                      </span>
-
-                      <h3
-                        className={`
-                          text-lg font-semibold mt-1
-                          text-slate-50
-                          group-hover:${feature.accentText}
-                          transition-colors duration-300
-                        `}
-                      >
-                        {feature.title}
-                      </h3>
-
-                      <p className="text-slate-300 text-sm leading-relaxed">
-                        {feature.desc}
-                      </p>
+                    >
+                      {feature.icon}
                     </div>
                   </div>
-                </li>
-              </ScrollReveal>
-            ))}
-          </ul>
-        </ScrollRevealGroup>
+
+                  <span
+                    className={`
+                      inline-flex items-center text-[11px] font-semibold
+                      px-3 py-1 rounded-full
+                      ${feature.pillClass}
+                    `}
+                  >
+                    {feature.stat}
+                  </span>
+
+                  <h3
+                    className={`
+                      text-lg font-semibold mt-1
+                      text-slate-50
+                      group-hover:${feature.accentText}
+                      transition-colors duration-300
+                    `}
+                  >
+                    {feature.title}
+                  </h3>
+
+                  <p className="text-slate-300 text-sm leading-relaxed">
+                    {feature.desc}
+                  </p>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
