@@ -8,7 +8,6 @@ import React, {
   useMemo,
   useCallback,
 } from "react";
-import { ScrollReveal } from "@/components/ScrollReveal";
 import { FAQ_ITEMS } from "../lib/faqData";
 
 const FAQ_WHATSAPP_MESSAGE = encodeURIComponent(
@@ -326,36 +325,34 @@ export default function Faq({
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* BAŞLIK ALANI */}
         {!ariaLabelledBy && (
-          <ScrollReveal direction="up" delay="0.05">
-            <div className="text-center max-w-4xl mx-auto mb-16">
-              <div className="flex justify-center mb-4">
-                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-bold uppercase tracking-wider shadow-sm">
-                  <span
-                    className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"
-                    aria-hidden="true"
-                  />
-                  {dictionary.sectionPill}
-                </span>
-              </div>
-
-              <h2
-                id={headingId}
-                className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight"
-              >
-                {dictionary.sectionTitlePrefix}{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-                  {dictionary.sectionTitleHighlight}
-                </span>
-              </h2>
-
-              <p
-                id={descriptionId}
-                className="text-slate-400 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto"
-              >
-                {dictionary.sectionDesc}
-              </p>
+          <div className="text-center max-w-4xl mx-auto mb-16">
+            <div className="flex justify-center mb-4">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-bold uppercase tracking-wider shadow-sm">
+                <span
+                  className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"
+                  aria-hidden="true"
+                />
+                {dictionary.sectionPill}
+              </span>
             </div>
-          </ScrollReveal>
+
+            <h2
+              id={headingId}
+              className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight"
+            >
+              {dictionary.sectionTitlePrefix}{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+                {dictionary.sectionTitleHighlight}
+              </span>
+            </h2>
+
+            <p
+              id={descriptionId}
+              className="text-slate-400 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto"
+            >
+              {dictionary.sectionDesc}
+            </p>
+          </div>
         )}
 
         {/* İÇERİK: FLEX LAYOUT */}
@@ -364,25 +361,18 @@ export default function Faq({
             {/* SOL: SORULAR */}
             <div className="flex-1 space-y-4 min-w-0">
               {items.map((item, index) => (
-                <ScrollReveal
+                <FaqRow
                   key={item.slug}
-                  direction="up"
-                  delay={0.08 + index * 0.04}
-                >
-                  <FaqRow
-                    {...item}
-                    isOpen={openIndex === index}
-                    onToggle={() => handleToggle(index)}
-                  />
-                </ScrollReveal>
+                  {...item}
+                  isOpen={openIndex === index}
+                  onToggle={() => handleToggle(index)}
+                />
               ))}
             </div>
 
             {/* SAĞ: DESTEK KARTI */}
             <div className="w-full lg:max-w-sm xl:max-w-md mt-6 lg:mt-0">
-              <ScrollReveal direction="left" delay="0.2">
-                <SupportCard dictionary={dictionary} />
-              </ScrollReveal>
+              <SupportCard dictionary={dictionary} />
             </div>
           </div>
         </div>

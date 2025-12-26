@@ -3,7 +3,6 @@
 
 import { useId } from "react";
 import Link from "next/link";
-import { ScrollReveal } from "@/components/ScrollReveal";
 
 // —————————————————————————————————————————
 // YAPILANDIRMA & VERİLER
@@ -228,38 +227,41 @@ export default function CorporateEvents({
         )}
 
         {/* ——— YENİ EKLENEN BAŞLIK ALANI (SEO & GİRİŞ) ——— */}
-        <ScrollReveal direction="up" delay="0.05">
-          <div className="text-center max-w-4xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
-              İstanbul'da <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">Kurumsal Organizasyon Yapan Firmalar</span> Arasında Çözüm Ortağınız
-            </h2>
-            <p
-              id={introId}
-              className="text-slate-400 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto"
-            >
-              Etkinlik organizasyonu ve teknik prodüksiyon süreçlerinde tüm aşamaları tek merkezden yönetiyor, markanızın prestijini global standartlarda sahneliyoruz.
-            </p>
-          </div>
-        </ScrollReveal>
+        <div className="text-center max-w-4xl mx-auto mb-16">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
+            İstanbul'da{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">
+              Kurumsal Organizasyon Yapan Firmalar
+            </span>{" "}
+            Arasında Çözüm Ortağınız
+          </h2>
+          <p
+            id={introId}
+            className="text-slate-400 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto"
+          >
+            Etkinlik organizasyonu ve teknik prodüksiyon süreçlerinde tüm aşamaları
+            tek merkezden yönetiyor, markanızın prestijini global standartlarda
+            sahneliyoruz.
+          </p>
+        </div>
         {/* ——— BAŞLIK ALANI SONU ——— */}
 
         {/* 1. KISIM: HİZMET KARTLARI (GLASS DARK) */}
-        <ScrollReveal direction="up" delay="0.1">
-          <div className="grid gap-6 lg:gap-8 md:grid-cols-3 mb-16 lg:mb-24">
-            {cards.map((card, i) => {
-              const cardCtaLabel =
-                dictionary.cardCtaLabels?.[card.slug] ?? dictionary.cardCtaLabel;
-              const cardCtaAria = resolveTitleTemplate(cardCtaAriaTemplate, card.title);
-              const cardAccessibleLabel = cardCtaAria
-                ? `${cardCtaLabel} — ${cardCtaAria}`
-                : cardCtaLabel;
+        <div className="grid gap-6 lg:gap-8 md:grid-cols-3 mb-16 lg:mb-24">
+          {cards.map((card, i) => {
+            const cardCtaLabel =
+              dictionary.cardCtaLabels?.[card.slug] ?? dictionary.cardCtaLabel;
+            const cardCtaAria = resolveTitleTemplate(cardCtaAriaTemplate, card.title);
+            const cardAccessibleLabel = cardCtaAria
+              ? `${cardCtaLabel} — ${cardCtaAria}`
+              : cardCtaLabel;
 
-              return (
-                <div key={card.slug} className="group flex flex-col h-full">
-                  <article
-                    className="relative flex-1 flex flex-col bg-white/5 border border-white/10 rounded-3xl shadow-2xl backdrop-blur-sm transition-all duration-500 overflow-hidden group-hover:-translate-y-2 group-hover:border-white/20"
-                    aria-labelledby={`corp-card-${i}-title`}
-                  >
+            return (
+              <div key={card.slug} className="group flex flex-col h-full">
+                <article
+                  className="relative flex-1 flex flex-col bg-white/5 border border-white/10 rounded-3xl shadow-2xl backdrop-blur-sm transition-all duration-500 overflow-hidden group-hover:-translate-y-2 group-hover:border-white/20"
+                  aria-labelledby={`corp-card-${i}-title`}
+                >
                     {/* Görsel Alanı */}
                     <div className="relative aspect-[4/3] w-full overflow-hidden">
                       <OptimizedImage
@@ -311,73 +313,69 @@ export default function CorporateEvents({
                         </Link>
                       </div>
                     </div>
-                  </article>
+                </article>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* 2. KISIM: AVANTAJLAR (NEON GRID - COMPACT) */}
+        <section className="mb-16" aria-labelledby={advantagesHeadingId}>
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <span className="text-blue-400 font-bold tracking-wider uppercase text-xs mb-1 block">
+              {dictionary.highlightPill}
+            </span>
+            <h3
+              id={advantagesHeadingId}
+              className="text-2xl md:text-3xl font-bold text-white"
+            >
+              {dictionary.highlightTitlePrefix}{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+                {dictionary.highlightTitleAccent}
+              </span>
+            </h3>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {advantages.map((item, i) => {
+              // HATA DÜZELTME: colorClass boş gelirse varsayılan boş string ata
+              const safeColorClass = item.colorClass || "";
+              const safeBorderClass = safeColorClass
+                .split(" ")
+                .filter((c) => c.startsWith("border"))
+                .join(" ");
+
+              return (
+                <div
+                  key={i}
+                  className={`group relative p-5 rounded-xl border transition-all duration-300 bg-white/5 hover:bg-white/10 ${safeBorderClass} border-white/5 hover:border-opacity-50`}
+                >
+                  <div className="relative z-10">
+                    <div
+                      className={`w-10 h-10 rounded-lg flex items-center justify-center text-xl mb-3 transition-all duration-300 border ${safeColorClass}`}
+                    >
+                      {item.icon === "yw" ? "👷" : item.icon}
+                    </div>
+                    <h4 className="text-base font-bold text-white mb-1">
+                      {item.label}
+                    </h4>
+                    <p className="text-xs text-slate-400 group-hover:text-slate-300 transition-colors">
+                      {item.desc}
+                    </p>
+                  </div>
                 </div>
               );
             })}
           </div>
-        </ScrollReveal>
-
-        {/* 2. KISIM: AVANTAJLAR (NEON GRID - COMPACT) */}
-        <ScrollReveal direction="up" delay="0.2">
-          <section className="mb-16" aria-labelledby={advantagesHeadingId}>
-            <div className="text-center max-w-2xl mx-auto mb-10">
-              <span className="text-blue-400 font-bold tracking-wider uppercase text-xs mb-1 block">
-                {dictionary.highlightPill}
-              </span>
-              <h3
-                id={advantagesHeadingId}
-                className="text-2xl md:text-3xl font-bold text-white"
-              >
-                {dictionary.highlightTitlePrefix}{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-                  {dictionary.highlightTitleAccent}
-                </span>
-              </h3>
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {advantages.map((item, i) => {
-                // HATA DÜZELTME: colorClass boş gelirse varsayılan boş string ata
-                const safeColorClass = item.colorClass || "";
-                const safeBorderClass = safeColorClass
-                  .split(" ")
-                  .filter(c => c.startsWith('border'))
-                  .join(" ");
-
-                return (
-                  <div
-                    key={i}
-                    className={`group relative p-5 rounded-xl border transition-all duration-300 bg-white/5 hover:bg-white/10 ${safeBorderClass} border-white/5 hover:border-opacity-50`}
-                  >
-                    <div className="relative z-10">
-                      <div 
-                        className={`w-10 h-10 rounded-lg flex items-center justify-center text-xl mb-3 transition-all duration-300 border ${safeColorClass}`}
-                      >
-                         {item.icon === "yw" ? "👷" : item.icon}
-                      </div>
-                      <h4 className="text-base font-bold text-white mb-1">
-                        {item.label}
-                      </h4>
-                      <p className="text-xs text-slate-400 group-hover:text-slate-300 transition-colors">
-                        {item.desc}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </section>
-        </ScrollReveal>
+        </section>
 
         {/* 3. KISIM: CTA BANNER (COMPACT & FIT) */}
-        <ScrollReveal direction="up" delay="0.3">
-          <div
-            className="relative rounded-[2rem] bg-gradient-to-br from-blue-900 via-indigo-900 to-[#0B1120] p-6 md:p-10 text-center text-white overflow-hidden shadow-2xl border border-white/10"
-            role="region"
-            aria-labelledby={bannerTitleId}
-            aria-describedby={bannerDescId}
-          >
+        <div
+          className="relative rounded-[2rem] bg-gradient-to-br from-blue-900 via-indigo-900 to-[#0B1120] p-6 md:p-10 text-center text-white overflow-hidden shadow-2xl border border-white/10"
+          role="region"
+          aria-labelledby={bannerTitleId}
+          aria-describedby={bannerDescId}
+        >
             {/* Arka Plan Efektleri */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
                <div className="absolute top-[-50%] left-[-20%] w-[80%] h-[80%] bg-blue-500/20 rounded-full blur-[120px]" />
@@ -440,8 +438,7 @@ export default function CorporateEvents({
                 ))}
               </div>
             </div>
-          </div>
-        </ScrollReveal>
+        </div>
       </div>
     </section>
   );
