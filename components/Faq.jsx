@@ -299,10 +299,6 @@ export default function Faq({
     (!ariaLabelledBy && headingId ? `${headingId}-description` : undefined);
   const describedBy = ariaDescribedBy ?? descriptionId;
 
-  // Accessible name var mı? (label veya heading)
-  const hasAccessibleName = Boolean(ariaLabel || headingId);
-  const role = roleOverride ?? (hasAccessibleName ? "region" : undefined);
-
   return (
     <section
       className="relative py-16 md:py-24 bg-[#0B1120]"
@@ -314,7 +310,7 @@ export default function Faq({
         : {})}
       // Ek açıklama varsa describedBy ekle
       {...(describedBy ? { "aria-describedby": describedBy } : {})}
-      role={role}
+      role={roleOverride}
     >
       {/* Arka Plan Efektleri */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">

@@ -157,9 +157,6 @@ export default function Navbar(props) {
                   className={`list-none cursor-pointer select-none relative text-[15px] font-bold px-4 py-2.5 rounded-xl transition-all duration-200 border
                     text-neutral-800 hover:text-blue-700 hover:bg-neutral-50 border-transparent hover:border-neutral-200
                     ${FOCUS_RING_CLASS}`}
-                  aria-controls="nav-services-panel"
-                  aria-haspopup="true"
-                  aria-expanded="false"
                 >
                   <span className="flex items-center gap-2">
                     Hizmetler
@@ -273,9 +270,6 @@ export default function Navbar(props) {
                   className={`list-none cursor-pointer select-none relative text-[15px] font-bold px-4 py-2.5 rounded-xl transition-all duration-200 border
                     text-neutral-800 hover:text-blue-700 hover:bg-neutral-50 border-transparent hover:border-neutral-200
                     ${FOCUS_RING_CLASS}`}
-                  aria-controls="nav-research-panel"
-                  aria-haspopup="true"
-                  aria-expanded="false"
                 >
                   <span className="flex items-center gap-2">
                     Bizi Araştırın
