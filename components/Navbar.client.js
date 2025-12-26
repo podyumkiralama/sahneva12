@@ -483,9 +483,9 @@ export default function Navbar({
         className="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur border-b border-neutral-200/80 shadow-lg"
       >
         {shouldRenderHeading && (
-          <h2 id={computedHeadingId} className="sr-only">
+          <p id={computedHeadingId} className="sr-only">
             {headerStrings.navLabel}
-          </h2>
+          </p>
         )}
         {shouldRenderDescription && (
           <p id={computedDescriptionId} className="sr-only">
@@ -934,7 +934,7 @@ export default function Navbar({
               <div className="flex items-start gap-3">
                 <span aria-hidden="true" className="text-2xl">💬</span>
                 <div className="space-y-1 text-white">
-                  <h3 className="text-lg font-extrabold">WhatsApp Destek</h3>
+                  <p className="text-lg font-extrabold">WhatsApp Destek</p>
                   <p className="text-sm font-medium text-emerald-50">
                     WhatsApp üzerinden anında teklif alın ve sorularınızı iletin.
                   </p>
