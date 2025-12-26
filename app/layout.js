@@ -49,6 +49,7 @@ export default function RootLayout({ children }) {
         >
           <div className="overflow-x-hidden">{children}</div>
         </main>
+<AnalyticsConsentWrapper />
 
         <Footer
           id="_main_footer"
