@@ -268,7 +268,7 @@ function ServicesTabsComponent({
 
   return (
     <section
-      className="relative w-full overflow-hidden py-16 md:py-20 bg-[#0B1120]"
+      className="relative w-full overflow-hidden py-16 md:py-20 2xl:py-24 bg-[#0B1120]"
       aria-labelledby={headingId}
       aria-describedby={computedDescribedBy}
       aria-label={ariaLabel}
