@@ -1,21 +1,20 @@
 // components/Faq.jsx
 "use client";
 
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useMemo,
-  useCallback,
-} from "react";
+import React, { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { FAQ_ITEMS } from "../lib/faqData";
 
 const FAQ_WHATSAPP_MESSAGE = encodeURIComponent(
   "Merhaba, SSS bölümünden ulaşıyorum. Etkinlik ve ekipman kiralama için bilgi almak istiyorum."
 );
 
+/**
+ * Daha belirgin, tutarlı odak halkası:
+ * - offset koyu zeminde net görünür
+ * - outline kapatılır, ring görünür
+ */
 const FOCUS_RING_CLASS =
-  "focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B1120]";
+  "focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B1120]";
 
 const DEFAULT_DICTIONARY = {
   sectionPill: "Merak Edilenler",
@@ -57,9 +56,9 @@ function mergeDictionary(base, override = {}) {
   return result;
 }
 
-// --------------------------------------------------
-// TEKİL SORU (ACCORDION)
-// --------------------------------------------------
+/* --------------------------------------------------
+   TEKİL SORU (ACCORDION)
+-------------------------------------------------- */
 const FaqRow = React.memo(function FaqRow({
   question,
   answer,
@@ -74,19 +73,14 @@ const FaqRow = React.memo(function FaqRow({
 
   const scheduleHeightWrite = useCallback(
     (nextHeight) => {
-      if (rafIdRef.current) {
-        cancelAnimationFrame(rafIdRef.current);
-      }
+      if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
 
       rafIdRef.current = requestAnimationFrame(() => {
         const host = contentRef.current;
         if (!host) return;
 
         const heightValue = isOpen ? `${Math.ceil(nextHeight)}px` : "0px";
-
-        if (host.style.height !== heightValue) {
-          host.style.height = heightValue;
-        }
+        if (host.style.height !== heightValue) host.style.height = heightValue;
       });
     },
     [isOpen]
@@ -106,36 +100,48 @@ const FaqRow = React.memo(function FaqRow({
 
     observer.observe(innerEl);
 
-    return () => {
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
   }, [scheduleHeightWrite]);
 
   useEffect(() => {
     scheduleHeightWrite(measuredHeightRef.current);
 
     return () => {
-      if (rafIdRef.current) {
-        cancelAnimationFrame(rafIdRef.current);
-      }
+      if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
     };
   }, [isOpen, scheduleHeightWrite]);
 
   return (
     <div
-      className={`group border rounded-2xl transition-all duration-300 overflow-hidden ${
+      className={`group relative overflow-hidden rounded-2xl border transition-all duration-300 ${
         isOpen
-          ? "bg-white/10 border-blue-500/50 shadow-lg shadow-blue-900/20"
-          : "bg-white/5 border-white/5 hover:border-white/10"
+          ? "bg-white/10 border-sky-400/50 shadow-lg shadow-sky-900/20"
+          : "bg-white/5 border-white/5 hover:border-white/12"
       }`}
     >
+      {/* Kısmi glow efekti (accordion başına) */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="absolute -top-20 -left-24 w-[240px] h-[240px] rounded-full bg-sky-500/10 blur-[80px] mix-blend-screen" />
+          <div className="absolute -bottom-24 -right-20 w-[260px] h-[260px] rounded-full bg-indigo-500/10 blur-[90px] mix-blend-screen" />
+        </div>
+
+        {isOpen && (
+          <div className="absolute inset-0">
+            <div className="absolute -top-24 -left-28 w-[300px] h-[300px] rounded-full bg-sky-500/14 blur-[95px] mix-blend-screen" />
+            <div className="absolute -bottom-28 -right-24 w-[320px] h-[320px] rounded-full bg-purple-500/10 blur-[105px] mix-blend-screen" />
+            <div className="absolute inset-0 bg-gradient-to-b from-white/[0.03] via-transparent to-transparent" />
+          </div>
+        )}
+      </div>
+
       <button
         type="button"
         onClick={onToggle}
         aria-expanded={isOpen}
         aria-controls={`${slug}-content`}
         id={`${slug}-header`}
-        className="flex items-center justify-between w-full p-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 inset-ring"
+        className={`relative z-10 flex w-full items-center justify-between p-5 text-left ${FOCUS_RING_CLASS}`}
       >
         <span
           className={`text-sm md:text-base font-bold transition-colors duration-300 ${
@@ -146,11 +152,12 @@ const FaqRow = React.memo(function FaqRow({
         </span>
 
         <span
-          className={`flex-shrink-0 ml-4 flex items-center justify-center w-8 h-8 rounded-full border transition-all duration-300 ${
+          className={`ml-4 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border transition-all duration-300 ${
             isOpen
-              ? "bg-blue-600 border-blue-500 text-white rotate-180"
-              : "bg-white/5 border-white/10 text-slate-400 group-hover:bg-white/10"
+              ? "bg-sky-600 border-sky-500 text-white rotate-180"
+              : "bg-white/5 border-white/10 text-slate-300 group-hover:bg-white/10"
           }`}
+          aria-hidden="true"
         >
           <svg
             className="w-4 h-4"
@@ -173,11 +180,15 @@ const FaqRow = React.memo(function FaqRow({
         role="region"
         aria-labelledby={`${slug}-header`}
         ref={contentRef}
-        style={{ height: "0px" }}
-        className="transition-all duration-300 ease-in-out overflow-hidden"
+        style={{
+          height: "0px",
+          willChange: "height",
+          contain: "layout paint",
+        }}
+        className="relative z-10 overflow-hidden transition-[height] duration-300 ease-in-out motion-reduce:transition-none"
       >
         <div ref={contentInnerRef} className="px-5 pb-5">
-          <div className="pt-4 border-t border-white/10 text-slate-400 text-sm md:text-base leading-relaxed">
+          <div className="pt-4 border-t border-white/10 text-slate-200 text-sm md:text-base leading-relaxed">
             {answer}
           </div>
         </div>
@@ -186,13 +197,13 @@ const FaqRow = React.memo(function FaqRow({
   );
 });
 
-// --------------------------------------------------
-// DESTEK KARTI
-// --------------------------------------------------
+/* --------------------------------------------------
+   DESTEK KARTI
+-------------------------------------------------- */
 function SupportCard({ dictionary }) {
   return (
     <div className="w-full bg-[#0F1623] border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6">
-      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-2xl shadow-lg">
+      <div className="w-12 h-12 bg-gradient-to-br from-sky-500 to-purple-600 rounded-xl flex items-center justify-center text-2xl shadow-lg">
         💬
       </div>
 
@@ -200,31 +211,29 @@ function SupportCard({ dictionary }) {
         <h3 className="text-xl font-bold text-white mb-2">
           {dictionary.supportTitle}
         </h3>
-        <p className="text-slate-400 text-sm leading-relaxed">
+        <p className="text-slate-300 text-sm leading-relaxed">
           {dictionary.supportDesc}
         </p>
       </div>
 
       <div className="space-y-3">
-        {/* Telefon */}
         <a
           href={dictionary.contactPhoneHref}
-          className={`flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-blue-500/30 transition-all group ${FOCUS_RING_CLASS}`}
+          className={`flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-sky-500/30 transition-all group ${FOCUS_RING_CLASS}`}
         >
-          <span className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+          <span className="w-10 h-10 rounded-full bg-sky-500/10 flex items-center justify-center text-sky-400 group-hover:bg-sky-500 group-hover:text-white transition-colors">
             📞
           </span>
           <div className="min-w-0">
             <span className="block text-xs text-slate-400 font-medium">
               {dictionary.supportPhoneLabel}
             </span>
-            <span className="block text-sm font-bold text-white group-hover:text-blue-400 transition-colors break-words">
+            <span className="block text-sm font-bold text-white group-hover:text-sky-300 transition-colors break-words">
               {dictionary.contactPhone}
             </span>
           </div>
         </a>
 
-        {/* WhatsApp */}
         <a
           href={dictionary.contactWhatsappHref}
           target="_blank"
@@ -239,13 +248,12 @@ function SupportCard({ dictionary }) {
             <span className="block text-xs text-slate-400 font-medium">
               {dictionary.supportWhatsappLabel}
             </span>
-            <span className="block text-sm font-bold text-white group-hover:text-green-400 transition-colors">
+            <span className="block text-sm font-bold text-white group-hover:text-green-300 transition-colors">
               Hızlı Mesaj Gönder
             </span>
           </div>
         </a>
 
-        {/* Mail */}
         <a
           href={dictionary.contactMailHref}
           className={`flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-purple-500/30 transition-all group ${FOCUS_RING_CLASS}`}
@@ -257,7 +265,7 @@ function SupportCard({ dictionary }) {
             <span className="block text-xs text-slate-400 font-medium">
               {dictionary.supportMailLabel}
             </span>
-            <span className="block text-sm font-bold text-white group-hover:text-purple-400 transition-colors break-words">
+            <span className="block text-sm font-bold text-white group-hover:text-purple-300 transition-colors break-words">
               {dictionary.contactMail}
             </span>
           </div>
@@ -267,9 +275,9 @@ function SupportCard({ dictionary }) {
   );
 }
 
-// --------------------------------------------------
-// ANA BİLEŞEN
-// --------------------------------------------------
+/* --------------------------------------------------
+   ANA BİLEŞEN
+-------------------------------------------------- */
 export default function Faq({
   items = FAQ_ITEMS,
   dictionary: dictionaryOverride,
@@ -285,14 +293,12 @@ export default function Faq({
     [dictionaryOverride]
   );
 
-  // İlk açılışta hiçbir soru açık olmasın → yükseklik jump yok
   const [openIndex, setOpenIndex] = useState(-1);
 
   const handleToggle = useCallback((index) => {
     setOpenIndex((prev) => (prev === index ? -1 : index));
   }, []);
 
-  // Başlık & açıklama id'leri
   const headingId = ariaLabelledBy ?? regionLabelId;
   const descriptionId =
     ariaDescriptionId ??
@@ -302,30 +308,27 @@ export default function Faq({
   return (
     <section
       className="relative py-16 md:py-24 bg-[#0B1120]"
-      // Accessible name: önce ariaLabel, yoksa headingId
       {...(ariaLabel
         ? { "aria-label": ariaLabel }
         : headingId
         ? { "aria-labelledby": headingId }
         : {})}
-      // Ek açıklama varsa describedBy ekle
       {...(describedBy ? { "aria-describedby": describedBy } : {})}
       role={roleOverride}
     >
-      {/* Arka Plan Efektleri */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute inset-0 grid-overlay" />
         <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-blue-600/10 blur-[120px] rounded-full mix-blend-screen" />
+        <div className="absolute bottom-0 right-0 w-[420px] h-[420px] bg-purple-600/10 blur-[140px] rounded-full mix-blend-screen" />
       </div>
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* BAŞLIK ALANI */}
         {!ariaLabelledBy && (
           <div className="text-center max-w-4xl mx-auto mb-16">
             <div className="flex justify-center mb-4">
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-bold uppercase tracking-wider shadow-sm">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-200 text-xs font-bold uppercase tracking-wider shadow-sm">
                 <span
-                  className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"
+                  className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"
                   aria-hidden="true"
                 />
                 {dictionary.sectionPill}
@@ -337,25 +340,26 @@ export default function Faq({
               className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight"
             >
               {dictionary.sectionTitlePrefix}{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-purple-400">
                 {dictionary.sectionTitleHighlight}
               </span>
             </h2>
 
             <p
               id={descriptionId}
-              className="text-slate-400 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto"
+              className="text-slate-300 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto"
             >
               {dictionary.sectionDesc}
             </p>
           </div>
         )}
 
-        {/* İÇERİK: FLEX LAYOUT */}
         <div className="max-w-6xl mx-auto w-full">
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
-            {/* SOL: SORULAR */}
-            <div className="flex-1 space-y-4 min-w-0">
+            <div
+              className="flex-1 space-y-4 min-w-0"
+              aria-label={dictionary.regionTitleSr}
+            >
               {items.map((item, index) => (
                 <FaqRow
                   key={item.slug}
@@ -366,7 +370,6 @@ export default function Faq({
               ))}
             </div>
 
-            {/* SAĞ: DESTEK KARTI */}
             <div className="w-full lg:max-w-sm xl:max-w-md mt-6 lg:mt-0">
               <SupportCard dictionary={dictionary} />
             </div>
