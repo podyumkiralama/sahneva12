@@ -1,4 +1,6 @@
 // app/(tr)/(site)/layout.jsx
+import Script from "next/script";
+
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 import {
   HOME_PAGE_TITLE,
@@ -15,17 +17,29 @@ import {
 const content = LOCALE_CONTENT.tr;
 
 const EDITOR_ORGANIZATION_ID = `${BASE_SITE_URL}/#editor`;
+const LOGO_ID = `${BASE_SITE_URL}/#logo`;
+const OG_IMAGE_URL = `${BASE_SITE_URL}/img/og/sahneva-og.webp`;
+const LOGO_URL = `${BASE_SITE_URL}/img/logo.png`;
 
 /* ================== JSON-LD: GLOBAL GRAPH ================== */
 const globalJsonLd = {
   "@context": "https://schema.org",
   "@graph": [
+    /* ---- Logo ImageObject ---- */
+    {
+      "@type": "ImageObject",
+      "@id": LOGO_ID,
+      url: LOGO_URL,
+      contentUrl: LOGO_URL,
+    },
+
+    /* ---- Organization ---- */
     {
       "@type": "Organization",
       "@id": ORGANIZATION_ID,
       name: "Sahneva Organizasyon",
       url: BASE_SITE_URL,
-      logo: `${BASE_SITE_URL}/img/logo.png`,
+      logo: { "@id": LOGO_ID },
       description:
         "Türkiye genelinde sahne, podyum, LED ekran, ses-ışık ve çadır kiralama hizmetleri sunan profesyonel etkinlik prodüksiyon markası.",
       sameAs: [
@@ -41,6 +55,7 @@ const globalJsonLd = {
       },
     },
 
+    /* ---- Editor Organization ---- */
     {
       "@type": "Organization",
       "@id": EDITOR_ORGANIZATION_ID,
@@ -49,13 +64,14 @@ const globalJsonLd = {
       parentOrganization: { "@id": ORGANIZATION_ID },
     },
 
+    /* ---- LocalBusiness ---- */
     {
       "@type": "LocalBusiness",
       "@id": LOCAL_BUSINESS_ID,
       name: "Sahneva Organizasyon",
       url: BASE_SITE_URL,
-      image: `${BASE_SITE_URL}/img/og/sahneva-og.webp`,
-      logo: `${BASE_SITE_URL}/img/logo.png`,
+      image: OG_IMAGE_URL,
+      logo: { "@id": LOGO_ID },
       telephone: "+905453048671",
       priceRange: "₺₺₺",
       geo: {
@@ -80,6 +96,7 @@ const globalJsonLd = {
       ],
     },
 
+    /* ---- WebSite ---- */
     {
       "@type": "WebSite",
       "@id": WEBSITE_ID,
@@ -110,7 +127,7 @@ export const metadata = {
     locale: "tr_TR",
     images: [
       {
-        url: `${BASE_SITE_URL}/img/og/sahneva-og.webp`,
+        url: OG_IMAGE_URL,
         width: 1200,
         height: 630,
         alt: "Sahneva Organizasyon etkinlik prodüksiyon görseli",
@@ -121,7 +138,7 @@ export const metadata = {
     card: "summary_large_image",
     title: HOME_PAGE_TITLE,
     description: content.meta.description,
-    images: [`${BASE_SITE_URL}/img/og/sahneva-og.webp`],
+    images: [OG_IMAGE_URL],
   },
   alternates: {
     canonical: buildCanonical("/"),
@@ -132,9 +149,10 @@ export const metadata = {
 export default function TurkishLayout({ children }) {
   return (
     <>
-      <script
+      <Script
         id="global-ld-json"
         type="application/ld+json"
+        strategy="beforeInteractive"
         dangerouslySetInnerHTML={{ __html: globalJsonLdSafe }}
       />
       {children}
