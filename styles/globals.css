@@ -188,6 +188,18 @@
     white-space: nowrap;
     border: 0;
   }
+
+  @media (min-width: 1536px) {
+    .max-w-7xl {
+      max-width: var(--container-max-2xl);
+    }
+  }
+
+  @media (min-width: 1920px) {
+    .max-w-7xl {
+      max-width: var(--container-max-3xl);
+    }
+  }
 }
 
 /* ✅ Keyboard focus görünürlüğü için */
