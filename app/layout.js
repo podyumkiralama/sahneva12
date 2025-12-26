@@ -30,6 +30,7 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
     >
       <body className="min-h-screen bg-black text-slate-100 antialiased flex flex-col font-sans">
+        <AnalyticsConsentWrapper />
         <SkipLinks />
         <NewTabAccessibility />
 
@@ -49,8 +50,6 @@ export default function RootLayout({ children }) {
         >
           <div className="overflow-x-hidden">{children}</div>
         </main>
-<AnalyticsConsentWrapper />
-
         <Footer
           id="_main_footer"
           ariaLabel="Sahneva site altbilgi"
