@@ -24,6 +24,7 @@ const BIG_CARDS = [
       "DMX kontrollü ışık sistemleri ve ambiyans aydınlatma",
     ],
     accent: "text-sky-400",
+    glow: "from-sky-500/40 to-cyan-400/20",
   },
   {
     icon: "🎤",
@@ -37,6 +38,7 @@ const BIG_CARDS = [
       "Jeneratör, UPS ve yedekli enerji altyapısı",
     ],
     accent: "text-fuchsia-400",
+    glow: "from-fuchsia-500/40 to-purple-400/20",
   },
 ];
 
@@ -46,32 +48,42 @@ const FEATURES = [
     desc:
       "%98'in üzerinde müşteri memnuniyeti. Referanslar ve yorumlar en güçlü göstergemiz.",
     stat: "%98 Memnuniyet",
+    glow: "from-amber-400/40 to-orange-400/20",
   },
   {
     title: "Hızlı Kurulum ve Teslimat",
     desc:
       "Sahne, LED ekran ve ses-ışık kurulumlarında aynı gün içinde profesyonel montaj.",
     stat: "2–6 Saat",
+    glow: "from-cyan-400/40 to-sky-400/20",
   },
   {
     title: "Premium LED Teknolojisi",
-    desc: "P2–P6 indoor/outdoor LED ekranlarla yüksek parlaklık ve netlik.",
+    desc:
+      "P2–P6 indoor/outdoor LED ekranlarla yüksek parlaklık ve netlik.",
     stat: "P2–P6",
+    glow: "from-purple-400/40 to-fuchsia-400/20",
   },
   {
     title: "Uzman Teknik Ekip",
-    desc: "10+ yıl deneyimli sahne, ses, ışık ve LED uzmanları.",
+    desc:
+      "10+ yıl deneyimli sahne, ses, ışık ve LED uzmanları.",
     stat: "15+ Uzman",
+    glow: "from-emerald-400/40 to-green-400/20",
   },
   {
     title: "Rekabetçi Fiyat Garantisi",
-    desc: "Şeffaf, öngörülebilir ve bütçe dostu fiyatlandırma.",
+    desc:
+      "Şeffaf, öngörülebilir ve bütçe dostu fiyatlandırma.",
     stat: "%30 Tasarruf",
+    glow: "from-orange-400/40 to-amber-400/20",
   },
   {
     title: "Türkiye Geneli Hizmet",
-    desc: "İstanbul merkezli ekibimizle 81 ilde kurulum ve destek.",
+    desc:
+      "İstanbul merkezli ekibimizle 81 ilde kurulum ve destek.",
     stat: "81 İl",
+    glow: "from-indigo-400/40 to-sky-400/20",
   },
 ];
 
@@ -95,7 +107,15 @@ export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
       aria-labelledby="why-choose-title"
       className="relative bg-[#0B1120] overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      {/* ARKA PLAN GLOW */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div className="absolute inset-0 grid-overlay opacity-30" />
+        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-blue-600/20 blur-[140px] rounded-full" />
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-purple-600/20 blur-[140px] rounded-full" />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        {/* HEADER */}
         <header className="max-w-4xl mb-16">
           <p className="text-xs uppercase tracking-[0.22em] text-slate-200">
             {dictionary.sectionPill}
@@ -117,50 +137,54 @@ export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
           </p>
         </header>
 
-        {/* BIG CARDS SECTION (semantic + SR label) */}
+        {/* BIG CARDS */}
         <section
           aria-label="Sahneva Altyapı Avantajları"
           className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-14"
         >
           {BIG_CARDS.map((card) => {
             const headingId = `why-big-${slugify(card.title)}`;
-
             return (
               <article
                 key={card.title}
                 aria-labelledby={headingId}
-                className="rounded-3xl bg-white/5 border border-white/10 p-6 md:p-8"
+                className="relative rounded-3xl bg-white/5 border border-white/10 p-6 md:p-8 overflow-hidden"
               >
-                <div className="flex items-start gap-3">
-                  <span className="text-3xl" aria-hidden="true">
-                    {card.icon}
-                  </span>
+                <div
+                  className={`absolute -inset-1 bg-gradient-to-br ${card.glow} blur-[60px] opacity-60`}
+                  aria-hidden="true"
+                />
+                <div className="relative z-10">
+                  <div className="flex items-start gap-3">
+                    <span className="text-3xl" aria-hidden="true">
+                      {card.icon}
+                    </span>
+                    <h3
+                      id={headingId}
+                      className="text-xl md:text-2xl font-bold text-white"
+                    >
+                      {card.title}
+                    </h3>
+                  </div>
 
-                  <h3
-                    id={headingId}
-                    className="text-xl md:text-2xl font-bold text-white"
-                  >
-                    {card.title}
-                  </h3>
+                  <p className="mt-4 text-slate-200 text-sm md:text-base leading-relaxed">
+                    {card.desc}
+                  </p>
+
+                  <ul className="mt-5 space-y-2 text-slate-100 text-sm leading-relaxed">
+                    {card.bullets.map((item, i) => (
+                      <li key={i} className="flex gap-2">
+                        <span
+                          className={`mt-[3px] ${card.accent}`}
+                          aria-hidden="true"
+                        >
+                          •
+                        </span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-
-                <p className="mt-4 text-slate-200 text-sm md:text-base leading-relaxed">
-                  {card.desc}
-                </p>
-
-                <ul className="mt-5 space-y-2 text-slate-100 text-sm leading-relaxed">
-                  {card.bullets.map((item, i) => (
-                    <li key={i} className="flex gap-2">
-                      <span
-                        className={`mt-[3px] ${card.accent}`}
-                        aria-hidden="true"
-                      >
-                        •
-                      </span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
               </article>
             );
           })}
@@ -174,19 +198,28 @@ export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
               <li key={f.title}>
                 <article
                   aria-labelledby={id}
-                  className="rounded-2xl bg-slate-900/70 border border-white/10 p-6"
+                  className="relative rounded-2xl bg-slate-900/70 border border-white/10 p-6 overflow-hidden"
                 >
-                  <span className="inline-block text-xs px-3 py-1 rounded-full bg-white/10 text-slate-200">
-                    {f.stat}
-                  </span>
+                  <div
+                    className={`absolute -inset-1 bg-gradient-to-br ${f.glow} blur-[50px] opacity-40`}
+                    aria-hidden="true"
+                  />
+                  <div className="relative z-10">
+                    <span className="inline-block text-xs px-3 py-1 rounded-full bg-white/10 text-slate-200">
+                      {f.stat}
+                    </span>
 
-                  <h4 id={id} className="mt-3 text-lg font-semibold text-white">
-                    {f.title}
-                  </h4>
+                    <h4
+                      id={id}
+                      className="mt-3 text-lg font-semibold text-white"
+                    >
+                      {f.title}
+                    </h4>
 
-                  <p className="mt-2 text-slate-200 text-sm leading-relaxed">
-                    {f.desc}
-                  </p>
+                    <p className="mt-2 text-slate-200 text-sm leading-relaxed">
+                      {f.desc}
+                    </p>
+                  </div>
                 </article>
               </li>
             );
