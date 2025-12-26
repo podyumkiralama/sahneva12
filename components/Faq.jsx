@@ -307,7 +307,7 @@ export default function Faq({
 
   return (
     <section
-      className="relative py-16 md:py-24 bg-[#0B1120]"
+      className="relative py-16 md:py-24 2xl:py-28 bg-[#0B1120]"
       {...(ariaLabel
         ? { "aria-label": ariaLabel }
         : headingId

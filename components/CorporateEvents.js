@@ -193,7 +193,7 @@ export default function CorporateEvents({
   const computedDescribedBy = ariaDescribedby ?? introId;
   return (
     <section
-      className="relative py-16 md:py-24 bg-[#0B1120] overflow-hidden"
+      className="relative py-16 md:py-24 2xl:py-28 bg-[#0B1120] overflow-hidden"
       role={role}
       aria-label={ariaLabel}
       aria-labelledby={ariaLabel ? undefined : computedHeadingId}
