@@ -1,5 +1,4 @@
 // components/TechCapabilities.js
-"use client";
 
 import { useMemo } from "react";
 
@@ -22,8 +21,9 @@ const SEO_INFRA_FEATURES = [
 const DEFAULT_DICTIONARY = {
   sectionPill: "Teknik Kapasite & Altyapı",
   sectionTitlePrefix: "Türkiye'nin",
-  sectionTitleHighlight: " 1 Numaralı",
-  sectionTitleSuffix: " Etkinlik Teknoloji Partneri",
+  // ❗ boşluk yok
+  sectionTitleHighlight: "1 Numaralı",
+  sectionTitleSuffix: "Etkinlik Teknoloji Partneri",
   sectionDescription:
     "LED ekran kiralama teknolojisi, ses ışık sistemleri ve güvenilir altyapı çözümleriyle kurumsal organizasyon ihtiyaçlarını tek çatı altında topluyoruz.",
   card1Title: "Teknik Çözümler",
@@ -55,16 +55,15 @@ export default function TechCapabilities({
 
   return (
     <section
-      className="relative bg-[#0B1120] overflow-hidden"
+      className="relative bg-[#0B1120] py-16 md:py-20 overflow-hidden"
       aria-labelledby="tech-capabilities-title"
     >
-      {/* Arka Plan Efekti */}
+      {/* Arka Plan Efekti - Grid + Glow */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute inset-0 grid-overlay" />
-        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-600/10 blur-[120px] rounded-full mix-blend-screen" />
+        <div className="absolute inset-0 grid-overlay opacity-20" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-500/5 blur-[120px] rounded-full" />
       </div>
 
-      {/* İçerik */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* ——— BAŞLIK ALANI ——— */}
         <div className="text-center max-w-4xl mx-auto mb-16">
