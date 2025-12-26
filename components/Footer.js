@@ -412,43 +412,42 @@ export default function Footer({
                   info@sahneva.com
                 </a>
               </div>
-
-              {/* İşletme Linkleri (Harita vb) */}
-              <div className="pt-2 flex flex-col gap-2">
-                {BUSINESS_LINKS.map(({ href, label, icon }) => (
-                  <a
-                    key={href}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`
-                      group inline-flex items-center gap-2 text-xs text-gray-300
-                      hover:text-white transition-all duration-300 ${FOCUS_RING_CLASS}
-                    `}
-                    aria-label={`${label} – yeni sekmede açılır`}
-                  >
-                    <span
-                      className="group-hover:scale-110 transition-transform duration-300"
-                      aria-hidden="true"
-                    >
-                      {icon}
-                    </span>
-                    {label}
-                  </a>
-                ))}
-              </div>
-
-              <div className="border-t border-white/10 pt-3">
-                <p className="text-xs font-medium text-slate-400 mb-2">
-                  Sosyal medya hesaplarımız
-                </p>
-                <ul className="flex gap-2" aria-label="Sosyal medya hesaplarımız">
-                  {SOCIAL_LINKS.map((link) => (
-                    <SocialLink key={link.href} sizeClass="h-9 w-9" {...link} />
-                  ))}
-                </ul>
-              </div>
             </address>
+
+            <nav className="pt-2 flex flex-col gap-2" aria-label="İşletme bağlantıları">
+              {BUSINESS_LINKS.map(({ href, label, icon }) => (
+                <a
+                  key={href}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`
+                    group inline-flex items-center gap-2 text-xs text-gray-300
+                    hover:text-white transition-all duration-300 ${FOCUS_RING_CLASS}
+                  `}
+                  aria-label={`${label} – yeni sekmede açılır`}
+                >
+                  <span
+                    className="group-hover:scale-110 transition-transform duration-300"
+                    aria-hidden="true"
+                  >
+                    {icon}
+                  </span>
+                  {label}
+                </a>
+              ))}
+            </nav>
+
+            <nav className="border-t border-white/10 pt-3" aria-label="Sosyal medya">
+              <p className="text-xs font-medium text-slate-400 mb-2">
+                Sosyal medya hesaplarımız
+              </p>
+              <ul className="flex gap-2">
+                {SOCIAL_LINKS.map((link) => (
+                  <SocialLink key={link.href} sizeClass="h-9 w-9" {...link} />
+                ))}
+              </ul>
+            </nav>
           </div>
         </section>
       </div>
@@ -461,20 +460,18 @@ export default function Footer({
             ses ışık sistemleri, çadır kiralama ve masa sandalye kiralama hizmetleri.
           </p>
 
-          <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2">
-            <span>
-              © <span>{currentYear}</span>{" "}
-              <span className="text-white font-medium">
-                Sahneva
-              </span>{" "}
-              — Tüm hakları saklıdır.
-            </span>
-            <span
-              className="hidden sm:inline text-white/30"
-              aria-hidden="true"
-            >
-              •
-            </span>
+          <p className="mb-3">
+            © <span>{currentYear}</span>{" "}
+            <span className="text-white font-medium">
+              Sahneva
+            </span>{" "}
+            — Tüm hakları saklıdır.
+          </p>
+
+          <nav
+            aria-label="Altbilgi bağlantıları"
+            className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2"
+          >
             <Link
               href="/kvkk"
               className={`
@@ -499,7 +496,7 @@ export default function Footer({
             >
               Başa dön
             </a>
-          </div>
+          </nav>
         </div>
       </div>
     </footer>
