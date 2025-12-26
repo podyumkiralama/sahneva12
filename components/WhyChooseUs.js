@@ -88,7 +88,7 @@ export default function WhyChooseUs({ dictionary: dictionaryOverride }) {
         <div className="absolute top-0 left-0 w-[420px] h-[420px] bg-blue-600/10 blur-[120px] rounded-full mix-blend-screen" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 2xl:py-24">
         <header className="max-w-4xl mx-auto mb-16 text-center md:text-left">
           <p className="text-xs md:text-[13px] font-semibold tracking-[0.22em] uppercase text-slate-300/90">{dictionary.sectionPill}</p>
           <h2 id="why-choose-title" className="mt-3 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-slate-50">

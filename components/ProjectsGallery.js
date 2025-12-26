@@ -469,7 +469,7 @@ export default function ProjectsGallery({
 
   return (
     <section
-      className="relative py-20 bg-[#0B1120] overflow-hidden"
+      className="relative py-20 2xl:py-24 bg-[#0B1120] overflow-hidden"
       aria-labelledby={ariaLabel ? undefined : computedHeadingId}
       aria-label={ariaLabel}
       aria-describedby={computedDescriptionId}

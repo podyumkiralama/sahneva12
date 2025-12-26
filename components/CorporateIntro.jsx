@@ -20,7 +20,7 @@ export default function CorporateIntro() {
   return (
     <section
       aria-labelledby="corporate-intro-heading"
-      className="relative bg-[#0B1120] py-16 md:py-20 lg:py-24 overflow-hidden"
+      className="relative bg-[#0B1120] py-16 md:py-20 lg:py-24 2xl:py-28 overflow-hidden"
     >
       {/* Arka Plan Efektleri – Faq.jsx ile aynı tema */}
       <div className="absolute inset-0 pointer-events-none z-0" aria-hidden="true">

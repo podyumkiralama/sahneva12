@@ -45,7 +45,7 @@ export default function TechCapabilities({ dictionary: dictionaryOverride }) {
 
   return (
     <section
-      className="relative bg-[#0B1120] py-16 md:py-20 overflow-hidden"
+      className="relative bg-[#0B1120] py-16 md:py-20 2xl:py-24 overflow-hidden"
       aria-labelledby="tech-capabilities-title"
     >
       {/* Arka Plan Efekti - Grid + Glow */}
