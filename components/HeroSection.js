@@ -6,6 +6,7 @@ const HERO_KEYWORDS = [
   { text: "Sahne Kiralama", gradient: "text-blue-300" },
   { text: "LED Ekran Kiralama", gradient: "text-purple-300" },
   { text: "Ses Işık Sistemleri", gradient: "text-cyan-300" },
+  { text: "Podyum Kurulumu", gradient: "text-green-300" },
 ];
 
 const CTA_BUTTONS = [
@@ -97,7 +98,7 @@ function HeroBackgroundImage() {
       />
       <img
         src={heroImg.src}
-        alt=""
+        alt="ses ışık led ekranlı Sahne"
         fetchPriority="high"
         loading="eager"
         decoding="async"
