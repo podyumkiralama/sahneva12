@@ -4,8 +4,8 @@ import "../styles/globals.css";
 import SkipLinks from "@/components/SkipLinks";
 import NewTabAccessibility from "@/components/NewTabAccessibility.client";
 import Navbar from "@/components/Navbar";
+import AnalyticsConsentWrapper from "@/components/AnalyticsConsentWrapper.client";
 import Footer from "@/components/Footer";
-
 import { inter } from "./fonts";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 
