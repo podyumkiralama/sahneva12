@@ -1,12 +1,12 @@
 // app/layout.jsx
 import "../styles/globals.css";
-
+import { inter } from "./fonts";
 import SkipLinks from "@/components/SkipLinks";
 import NewTabAccessibility from "@/components/NewTabAccessibility.client";
 import Navbar from "@/components/Navbar";
 import AnalyticsConsentWrapper from "@/components/AnalyticsConsentWrapper.client";
 import Footer from "@/components/Footer";
-import { inter } from "./fonts";
+import StickyVideoRailClient from "@/components/StickyVideoRail.client";
 import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 
 const DEFAULT_LOCALE = LOCALE_CONTENT.tr;
@@ -55,6 +55,7 @@ export default function RootLayout({ children }) {
           ariaLabel="Sahneva site altbilgi"
           descriptionId="_main_footer_desc"
         />
+        <StickyVideoRailClient />
       </body>
     </html>
   );
