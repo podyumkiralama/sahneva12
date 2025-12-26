@@ -65,9 +65,9 @@ function ConsultationCard() {
           </div>
 
           <div className="flex-1 text-center md:text-left space-y-2">
-            <h2 className="text-white text-xl md:text-2xl font-bold tracking-tight">
+            <h3 className="text-white text-xl md:text-2xl font-bold tracking-tight">
               Ücretsiz Profesyonel Danışmanlık
-            </h2>
+            </h3>
 
             <p className="text-slate-200 text-base leading-relaxed max-w-2xl">
               Etkinliğiniz için{" "}
