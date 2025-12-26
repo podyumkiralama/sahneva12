@@ -1,18 +1,51 @@
-/** @type {import('next').NextConfig} */
-
-const ONE_DAY_IN_SECONDS = 60 * 60 * 24;
-const ONE_MONTH_IN_SECONDS = ONE_DAY_IN_SECONDS * 30;
-const ONE_YEAR_IN_SECONDS = ONE_DAY_IN_SECONDS * 365;
-
-const isProd = process.env.NODE_ENV === "production";
+// üstteki değişkenlerin yanına ekle:
+const isDev = process.env.NODE_ENV !== "production";
 const isPreview =
   process.env.VERCEL_ENV === "preview" ||
   process.env.NEXT_PUBLIC_VERCEL_ENV === "preview";
 
-const siteUrl = process.env.SITE_URL ?? "https://www.sahneva.com";
+const RELAX_CSP = isDev || isPreview; // ✅ geçici test modu
 
 /* -------------------- Security Headers (CSP) -------------------- */
 const securityHeaders = (() => {
+  // ✅ Test sırasında CSP'yi gevşet
+  if (RELAX_CSP) {
+    const relaxedCsp = `
+      default-src * data: blob: 'unsafe-inline' 'unsafe-eval';
+      img-src * data: blob:;
+      media-src * data: blob:;
+      font-src * data:;
+      style-src * 'unsafe-inline';
+      script-src * 'unsafe-inline' 'unsafe-eval';
+      connect-src *;
+      frame-src *;
+      worker-src * blob:;
+      base-uri 'self';
+      object-src 'none';
+    `
+      .replace(/\s{2,}/g, " ")
+      .trim();
+
+    return [
+      { key: "Content-Security-Policy", value: relaxedCsp },
+      { key: "X-Content-Type-Options", value: "nosniff" },
+      { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+      { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+      {
+        key: "Permissions-Policy",
+        value:
+          "camera=(), microphone=(), geolocation=(), browsing-topics=(), payment=(), fullscreen=()",
+      },
+      {
+        key: "Strict-Transport-Security",
+        value: "max-age=63072000; includeSubDomains; preload",
+      },
+      { key: "Origin-Agent-Cluster", value: "?1" },
+      // ✅ preview/dev’de iframe testleri için DENY ekleme
+    ];
+  }
+
+  // --- senin mevcut SIKI CSP BLOĞUN buradan itibaren aynen kalsın ---
   const SCRIPT_SRC = [
     "'self'",
     "https://www.googletagmanager.com",
@@ -96,94 +129,3 @@ const securityHeaders = (() => {
 
   return isPreview ? base : [...base, { key: "X-Frame-Options", value: "DENY" }];
 })();
-
-const longTermCacheHeaders = [
-  {
-    key: "Cache-Control",
-    value: `public, max-age=${ONE_YEAR_IN_SECONDS}, immutable`,
-  },
-];
-
-const nextConfig = {
-  reactStrictMode: true,
-  poweredByHeader: false,
-  compress: true,
-  generateEtags: true,
-  productionBrowserSourceMaps: false,
-  trailingSlash: false,
-
-  compiler: {
-    removeConsole: isProd ? { exclude: ["error", "warn"] } : false,
-  },
-
-  images: {
-    // ✅ GÜNCELLEME: 1440px (Laptop) eklendi. LCP için önemli.
-    deviceSizes: [320, 420, 640, 750, 828, 1080, 1200, 1440, 1920],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    formats: ["image/avif", "image/webp"],
-    minimumCacheTTL: ONE_MONTH_IN_SECONDS,
-    remotePatterns: [],
-    dangerouslyAllowSVG: false,
-  },
-
-  experimental: {
-    scrollRestoration: true,
-    optimizePackageImports: ["lucide-react", "@headlessui/react"],
-  },
-
-  modularizeImports: {
-    "lucide-react": {
-      transform: "lucide-react/icons/{{member}}",
-    },
-  },
-
-  env: {
-    SITE_URL: siteUrl,
-    NEXT_PUBLIC_APP_ENV: process.env.NODE_ENV ?? "development",
-  },
-
-  output: isProd ? "standalone" : undefined,
-  staticPageGenerationTimeout: 300,
-
-  async redirects() {
-    return [
-      {
-        source: "/search",
-        has: [{ type: "query", key: "q", value: "(?<term>.*)" }],
-        destination: "/?q=:term",
-        permanent: true,
-      },
-      { source: "/search", destination: "/", permanent: true },
-      {
-        source: "/sahne-kurulumu",
-        destination: "/sahne-kiralama",
-        permanent: true,
-      },
-      { source: "/faq", destination: "/en/faq", permanent: true },
-      { source: "/faq/", destination: "/en/faq", permanent: true },
-    ];
-  },
-
-  async headers() {
-    return [
-      { source: "/(.*)", headers: securityHeaders },
-      {
-        source: "/_next/static/(.*)",
-        headers: [
-          ...longTermCacheHeaders,
-          { key: "X-Robots-Tag", value: "noindex, nofollow" },
-        ],
-      },
-      {
-        source: "/(.*)\\.(ico|png|jpg|jpeg|webp|avif|svg|gif|woff2|css|js)",
-        headers: longTermCacheHeaders,
-      },
-      {
-        source: "/_next/(.*)",
-        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
-      },
-    ];
-  },
-};
-
-export default nextConfig;
