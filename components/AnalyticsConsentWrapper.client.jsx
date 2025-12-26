@@ -4,7 +4,8 @@
 import { useEffect } from "react";
 
 const CONSENT_KEY = "user_analytics_consent";
-const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+const GA_ID =
+  process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || process.env.NEXT_PUBLIC_GA_ID;
 
 // Consent Mode başlangıç durumu (default: denied)
 function initConsentMode() {
@@ -72,7 +73,12 @@ export default function AnalyticsConsentWrapper() {
           ? window.localStorage.getItem(CONSENT_KEY)
           : null;
 
-      if (stored === "granted") {
+      const isGranted = stored === "granted" || stored === null;
+
+      if (isGranted) {
+        if (stored === null) {
+          window.localStorage.setItem(CONSENT_KEY, "granted");
+        }
         window.gtag("consent", "update", {
           ad_storage: "granted",
           analytics_storage: "granted",
