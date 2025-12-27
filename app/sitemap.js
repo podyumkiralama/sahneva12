@@ -49,9 +49,17 @@ const STATIC_PAGES = [
   "/cadir-kiralama",
   "/masa-sandalye-kiralama",
   "/sahne-kiralama",
+  "/truss-kiralama",
+  "/kurumsal-organizasyon",
+  "/bolgesel-kiralama",
+  "/nasil-calisiyoruz",
   "/hakkimizda",
   "/iletisim",
   "/sss",
+  "/kvkk",
+  "/gizlilik-politikasi",
+  "/projeler",
+  "/blog",
   "/en",
   "/en/about",
   "/en/services",
@@ -63,15 +71,31 @@ const STATIC_PAGES = [
   "/en/table-chair-rental",
   "/en/tent-rental",
   "/en/faq",
+  "/ar",
+  "/ar/services",
+  "/ar/projects",
+  "/ar/contact",
 ].map((p) => ({
   path: p,
   lastMod: NOW_ISO,
-  change:
-    ["hakkimizda", "iletisim"].includes(p.replace("/", ""))
-      ? "yearly"
-      : ["/sss", "/en/faq"].includes(p)
-      ? "monthly"
-      : "weekly",
+  change: (() => {
+    if (
+      [
+        "/hakkimizda",
+        "/iletisim",
+        "/kvkk",
+        "/gizlilik-politikasi",
+        "/nasil-calisiyoruz",
+        "/en/about",
+        "/en/contact",
+        "/ar/contact",
+      ].includes(p)
+    ) {
+      return "yearly";
+    }
+    if (["/sss", "/en/faq"].includes(p)) return "monthly";
+    return "weekly";
+  })(),
   pr: p === "/" ? 1.0 : 0.9,
 }));
 
