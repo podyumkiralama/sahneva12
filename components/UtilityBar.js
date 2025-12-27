@@ -9,18 +9,7 @@ import {
   useState,
 } from "react";
 import Link from "next/link";
-
-const ROUTES = [
-  { href: "/", label: "Anasayfa", icon: "🏠" },
-  { href: "/hakkimizda", label: "Hakkımızda", icon: "👥" },
-  { href: "/iletisim", label: "İletişim", icon: "📞" },
-  { href: "/podyum-kiralama", label: "Podyum", icon: "👑" },
-  { href: "/led-ekran-kiralama", label: "LED Ekran", icon: "🖥️" },
-  { href: "/ses-isik-sistemleri", label: "Ses & Işık", icon: "🎭" },
-  { href: "/cadir-kiralama", label: "Çadır", icon: "⛺" },
-  { href: "/masa-sandalye-kiralama", label: "Masa Sandalye", icon: "🪑" },
-  { href: "/sahne-kiralama", label: "Sahne", icon: "🎪" },
-];
+import useSearchIndex from "@/lib/useSearchIndex";
 
 const UTILITY_WHATSAPP_MESSAGE = encodeURIComponent(
   "Merhaba, erişilebilirlik panelinden yazıyorum. Hızlı teklif ve destek almak istiyorum."
@@ -60,6 +49,7 @@ function UtilityBar() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [panelPosition, setPanelPosition] = useState("left");
+  const { routes: searchRoutes } = useSearchIndex();
 
   // Ayar durumları
   const [seizureSafe, setSeizureSafe] = useState(false);
@@ -578,10 +568,16 @@ setLS(LS_KEYS.PANEL_POSITION, "left");
   );
 
   const searchResults = useMemo(() => {
-    if (!searchQuery.trim()) return ROUTES;
+    if (!searchQuery.trim()) return searchRoutes;
     const q = searchQuery.toLowerCase();
-    return ROUTES.filter((r) => r.label.toLowerCase().includes(q));
-  }, [searchQuery]);
+    return searchRoutes.filter((route) => {
+      const labelMatch = route.label.toLowerCase().includes(q);
+      const keywordMatch = route.keywords?.some((keyword) =>
+        keyword.toLowerCase().includes(q),
+      );
+      return labelMatch || keywordMatch;
+    });
+  }, [searchQuery, searchRoutes]);
 
   // Panel kapalıyken: sadece FAB
   if (!isActive) {
