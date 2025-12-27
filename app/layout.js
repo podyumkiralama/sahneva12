@@ -20,6 +20,10 @@ export const viewport = {
   themeColor: "#6d28d9",
 };
 
+export const metadata = {
+  manifest: "/manifest.json",
+};
+
 /* ================== ROOT LAYOUT ================== */
 export default function RootLayout({ children }) {
   return (
