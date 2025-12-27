@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 import Link from "next/link";
-import { SEARCH_ROUTES } from "@/lib/searchRoutes";
+import useSearchIndex from "@/lib/useSearchIndex";
 
 const UTILITY_WHATSAPP_MESSAGE = encodeURIComponent(
   "Merhaba, erişilebilirlik panelinden yazıyorum. Hızlı teklif ve destek almak istiyorum."
@@ -49,6 +49,7 @@ function UtilityBar() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [panelPosition, setPanelPosition] = useState("left");
+  const { routes: searchRoutes } = useSearchIndex();
 
   // Ayar durumları
   const [seizureSafe, setSeizureSafe] = useState(false);
@@ -567,16 +568,16 @@ setLS(LS_KEYS.PANEL_POSITION, "left");
   );
 
   const searchResults = useMemo(() => {
-    if (!searchQuery.trim()) return SEARCH_ROUTES;
+    if (!searchQuery.trim()) return searchRoutes;
     const q = searchQuery.toLowerCase();
-    return SEARCH_ROUTES.filter((route) => {
+    return searchRoutes.filter((route) => {
       const labelMatch = route.label.toLowerCase().includes(q);
       const keywordMatch = route.keywords?.some((keyword) =>
         keyword.toLowerCase().includes(q),
       );
       return labelMatch || keywordMatch;
     });
-  }, [searchQuery]);
+  }, [searchQuery, searchRoutes]);
 
   // Panel kapalıyken: sadece FAB
   if (!isActive) {

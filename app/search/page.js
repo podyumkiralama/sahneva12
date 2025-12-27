@@ -1,16 +1,16 @@
 import Link from "next/link";
-import { SEARCH_ROUTES } from "@/lib/searchRoutes";
+import { getSearchIndex } from "@/lib/searchIndex";
 
 export const metadata = {
   title: "Site İçi Arama | Sahneva",
   description: "Sahneva sayfaları arasında anahtar kelime ile arama yapın.",
 };
 
-const filterRoutes = (query) => {
+const filterRoutes = (routes, query) => {
   const q = query.trim().toLowerCase();
-  if (!q) return SEARCH_ROUTES;
+  if (!q) return routes;
 
-  return SEARCH_ROUTES.filter((route) => {
+  return routes.filter((route) => {
     const labelMatch = route.label.toLowerCase().includes(q);
     const keywordMatch = route.keywords?.some((keyword) =>
       keyword.toLowerCase().includes(q),
@@ -21,7 +21,8 @@ const filterRoutes = (query) => {
 
 export default function SearchPage({ searchParams }) {
   const query = typeof searchParams?.q === "string" ? searchParams.q : "";
-  const results = filterRoutes(query);
+  const routes = getSearchIndex();
+  const results = filterRoutes(routes, query);
 
   return (
     <section className="container py-12 lg:py-16">

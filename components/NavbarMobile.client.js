@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
-import { SEARCH_ROUTES } from "@/lib/searchRoutes";
+import useSearchIndex from "@/lib/useSearchIndex";
 
 const FOCUS_RING_CLASS =
   "focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white";
@@ -33,17 +33,21 @@ export default function NavbarMobile({ serviceLinks, researchLinks }) {
     [],
   );
 
+  const { routes } = useSearchIndex();
+
   const searchResults = useMemo(() => {
     const trimmed = searchQuery.trim().toLowerCase();
-    if (!trimmed) return SEARCH_ROUTES.slice(0, 6);
-    return SEARCH_ROUTES.filter((route) => {
-      const labelMatch = route.label.toLowerCase().includes(trimmed);
-      const keywordMatch = route.keywords?.some((keyword) =>
-        keyword.toLowerCase().includes(trimmed),
-      );
-      return labelMatch || keywordMatch;
-    }).slice(0, 6);
-  }, [searchQuery]);
+    if (!trimmed) return routes.slice(0, 6);
+    return routes
+      .filter((route) => {
+        const labelMatch = route.label.toLowerCase().includes(trimmed);
+        const keywordMatch = route.keywords?.some((keyword) =>
+          keyword.toLowerCase().includes(trimmed),
+        );
+        return labelMatch || keywordMatch;
+      })
+      .slice(0, 6);
+  }, [routes, searchQuery]);
 
   // Close menu on route change
   useEffect(() => {

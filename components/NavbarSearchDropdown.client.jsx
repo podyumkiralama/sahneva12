@@ -3,18 +3,18 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { SEARCH_ROUTES } from "@/lib/searchRoutes";
+import useSearchIndex from "@/lib/useSearchIndex";
 
 const FOCUS_RING_CLASS =
   "focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white";
 
 const MAX_RESULTS = 6;
 
-const filterRoutes = (query) => {
+const filterRoutes = (routes, query) => {
   const q = query.trim().toLowerCase();
-  if (!q) return SEARCH_ROUTES.slice(0, MAX_RESULTS);
+  if (!q) return routes.slice(0, MAX_RESULTS);
 
-  return SEARCH_ROUTES.filter((route) => {
+  return routes.filter((route) => {
     const labelMatch = route.label.toLowerCase().includes(q);
     const keywordMatch = route.keywords?.some((keyword) =>
       keyword.toLowerCase().includes(q),
@@ -29,8 +29,9 @@ export default function NavbarSearchDropdown() {
   const inputRef = useRef(null);
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const { routes } = useSearchIndex();
 
-  const results = useMemo(() => filterRoutes(query), [query]);
+  const results = useMemo(() => filterRoutes(routes, query), [routes, query]);
   const trimmedQuery = query.trim();
 
   useEffect(() => {
