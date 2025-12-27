@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { SEARCH_ROUTES } from "@/lib/searchRoutes";
 
 const FOCUS_RING_CLASS =
   "focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white";
@@ -18,6 +19,7 @@ export default function NavbarMobile({ serviceLinks, researchLinks }) {
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [researchOpen, setResearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const panelRef = useRef(null);
   const buttonRef = useRef(null);
 
@@ -31,11 +33,24 @@ export default function NavbarMobile({ serviceLinks, researchLinks }) {
     [],
   );
 
+  const searchResults = useMemo(() => {
+    const trimmed = searchQuery.trim().toLowerCase();
+    if (!trimmed) return SEARCH_ROUTES.slice(0, 6);
+    return SEARCH_ROUTES.filter((route) => {
+      const labelMatch = route.label.toLowerCase().includes(trimmed);
+      const keywordMatch = route.keywords?.some((keyword) =>
+        keyword.toLowerCase().includes(trimmed),
+      );
+      return labelMatch || keywordMatch;
+    }).slice(0, 6);
+  }, [searchQuery]);
+
   // Close menu on route change
   useEffect(() => {
     setOpen(false);
     setServicesOpen(false);
     setResearchOpen(false);
+    setSearchQuery("");
   }, [pathname]);
 
   // Scroll lock when open
@@ -173,6 +188,66 @@ export default function NavbarMobile({ serviceLinks, researchLinks }) {
 
         <nav aria-labelledby={headingId} aria-describedby={descId}>
           <div className="px-5 py-6 space-y-3 max-h-[80vh] overflow-y-auto">
+            <div className="rounded-2xl border border-neutral-200 bg-white p-4">
+              <div className="flex items-center gap-2 text-sm font-bold text-neutral-900">
+                <span className="text-lg" aria-hidden="true">
+                  🔍
+                </span>
+                Sayfa Ara
+              </div>
+              <label htmlFor={`mobile-search-${uid}`} className="sr-only">
+                Site içinde arama yapın
+              </label>
+              <input
+                id={`mobile-search-${uid}`}
+                type="text"
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder="Örn: sahne, LED ekran..."
+                className="mt-3 w-full rounded-xl border border-neutral-200 bg-white py-2.5 px-3 text-sm text-neutral-800 focus-ring"
+              />
+
+              <ul className="mt-3 space-y-2">
+                {searchResults.length === 0 ? (
+                  <li className="text-xs text-neutral-500">
+                    Eşleşen bir sayfa bulunamadı.
+                  </li>
+                ) : (
+                  searchResults.map((route) => (
+                    <li key={route.href}>
+                      <Link
+                        href={route.href}
+                        onClick={() => setOpen(false)}
+                        className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-neutral-700 hover:bg-blue-50 hover:text-blue-700 transition-colors ${FOCUS_RING_CLASS}`}
+                      >
+                        <span className="text-base" aria-hidden="true">
+                          {route.icon}
+                        </span>
+                        <span className="font-semibold text-neutral-900">
+                          {route.label}
+                        </span>
+                      </Link>
+                    </li>
+                  ))
+                )}
+              </ul>
+
+              <div className="mt-3">
+                <Link
+                  href={
+                    searchQuery.trim()
+                      ? `/search?q=${encodeURIComponent(searchQuery.trim())}`
+                      : "/search"
+                  }
+                  onClick={() => setOpen(false)}
+                  className={`inline-flex items-center gap-2 text-sm font-semibold text-blue-700 hover:text-blue-800 ${FOCUS_RING_CLASS}`}
+                >
+                  Tüm sonuçları gör
+                  <span aria-hidden="true">→</span>
+                </Link>
+              </div>
+            </div>
+
             <Link
               href="/hakkimizda"
               onClick={() => setOpen(false)}
