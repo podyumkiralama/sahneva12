@@ -156,7 +156,6 @@ const GalleryCard = memo(function GalleryCard({
       <button
         type="button"
         onClick={handleOpen}
-        aria-label={`${dictionary.hoverCta} – ${title}`}
         className="relative block w-full aspect-[4/3] overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
         ref={coverRef}
       >

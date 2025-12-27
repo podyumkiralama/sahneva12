@@ -142,6 +142,10 @@ export default function Navbar(props) {
               />
             </Link>
 
+            <div className="hidden lg:block mx-auto">
+              <NavbarSearch />
+            </div>
+
             {/* Desktop */}
             <div className="hidden lg:flex items-center gap-4">
               <DesktopNavLink href="/hakkimizda">Hakkımızda</DesktopNavLink>
@@ -370,6 +374,10 @@ export default function Navbar(props) {
               <SearchDialog />
               <NavbarMobile serviceLinks={SERVICE_LINKS} researchLinks={RESEARCH_LINKS} />
             </div>
+          </div>
+
+          <div className="lg:hidden px-4 pb-3">
+            <NavbarSearch className="w-full" />
           </div>
         </div>
       </nav>
