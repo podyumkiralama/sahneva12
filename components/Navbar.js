@@ -5,6 +5,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import NavbarMobile from "@/components/NavbarMobile.client";
+import NavbarSearchDropdown from "@/components/NavbarSearchDropdown.client";
 import ServicesDropdownBehavior from "@/components/ServicesDropdownBehavior.client";
 
 const FOCUS_RING_CLASS =
@@ -345,6 +346,8 @@ export default function Navbar(props) {
                   </div>
                 </div>
               </details>
+
+              <NavbarSearchDropdown />
 
               <a
                 href={whatsappHref}
