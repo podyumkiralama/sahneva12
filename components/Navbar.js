@@ -5,7 +5,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import NavbarMobile from "@/components/NavbarMobile.client";
-import NavbarSearch from "@/components/NavbarSearch.client";
 import ServicesDropdownBehavior from "@/components/ServicesDropdownBehavior.client";
 
 const FOCUS_RING_CLASS =
@@ -141,10 +140,6 @@ export default function Navbar(props) {
                 style={{ width: "auto" }}
               />
             </Link>
-
-            <div className="hidden lg:block mx-auto">
-              <NavbarSearch />
-            </div>
 
             {/* Desktop */}
             <div className="hidden lg:flex items-center gap-4">
@@ -370,10 +365,6 @@ export default function Navbar(props) {
 
             {/* Mobile (small JS island) */}
             <NavbarMobile serviceLinks={SERVICE_LINKS} researchLinks={RESEARCH_LINKS} />
-          </div>
-
-          <div className="lg:hidden px-4 pb-3">
-            <NavbarSearch className="w-full" />
           </div>
         </div>
       </nav>
