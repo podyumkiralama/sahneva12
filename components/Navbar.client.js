@@ -127,6 +127,25 @@ export default function Navbar({
       pathname === href || (href !== "/" && pathname?.startsWith(href)),
     [pathname]
   );
+<Link
+  href="/yardim"
+  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/80 hover:bg-white/10 hover:text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/50"
+  aria-label="Yardım ve arama"
+>
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className="h-5 w-5">
+    <path
+      d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z"
+      stroke="currentColor"
+      strokeWidth="2"
+    />
+    <path
+      d="M16.5 16.5 21 21"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+  </svg>
+</Link>
 
   const whatsappBtnClass = useMemo(
     () =>
