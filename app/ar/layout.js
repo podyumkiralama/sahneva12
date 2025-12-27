@@ -6,6 +6,7 @@ import {
   buildAlternateLanguages,
   buildCanonical,
 } from "@/lib/seo/seoConfig";
+import DocumentDirection from "@/components/i18n/DocumentDirection.client";
 
 const content = LOCALE_CONTENT.ar;
 
@@ -25,10 +26,13 @@ export const metadata = {
 export default function ArabicLayout({ children }) {
   return (
     <div className="flex min-h-screen flex-col bg-white text-neutral-900">
-      <SiteHeader
-        locale="ar"
-        strings={{ ...content.header, direction: content.direction }}
-      />
+      <DocumentDirection lang="ar" dir={content.direction} />
+      <div id="_main_header">
+        <SiteHeader
+          locale="ar"
+          strings={{ ...content.header, direction: content.direction }}
+        />
+      </div>
       <main
         id="_main_content"
         className="flex-1 pb-16 pt-0 focus-ring scroll-mt-4"
@@ -39,7 +43,9 @@ export default function ArabicLayout({ children }) {
         {children}
       </main>
 
-      <SiteFooter strings={content.footer} />
+      <div id="_main_footer">
+        <SiteFooter strings={content.footer} />
+      </div>
       <SpeedInsights />
     </div>
   );
