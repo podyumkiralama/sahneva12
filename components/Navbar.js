@@ -5,7 +5,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import NavbarMobile from "@/components/NavbarMobile.client";
-import NavbarSearch from "@/components/NavbarSearch.client";
+import SearchDialog from "@/components/SearchDialog.client";
 import ServicesDropdownBehavior from "@/components/ServicesDropdownBehavior.client";
 
 const FOCUS_RING_CLASS =
@@ -150,6 +150,7 @@ export default function Navbar(props) {
             <div className="hidden lg:flex items-center gap-4">
               <DesktopNavLink href="/hakkimizda">Hakkımızda</DesktopNavLink>
               <DesktopNavLink href="/blog">Blog</DesktopNavLink>
+              <SearchDialog />
 
               {/* Services: native <details> => low JS */}
               <details
@@ -369,7 +370,10 @@ export default function Navbar(props) {
             </div>
 
             {/* Mobile (small JS island) */}
-            <NavbarMobile serviceLinks={SERVICE_LINKS} researchLinks={RESEARCH_LINKS} />
+            <div className="flex items-center gap-3 lg:hidden">
+              <SearchDialog />
+              <NavbarMobile serviceLinks={SERVICE_LINKS} researchLinks={RESEARCH_LINKS} />
+            </div>
           </div>
 
           <div className="lg:hidden px-4 pb-3">
