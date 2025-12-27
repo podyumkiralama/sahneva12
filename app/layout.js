@@ -3,15 +3,10 @@ import "../styles/globals.css";
 import { inter } from "./fonts";
 import SkipLinks from "@/components/SkipLinks";
 import NewTabAccessibility from "@/components/NewTabAccessibility.client";
-import Navbar from "@/components/Navbar";
 import AnalyticsConsentWrapper from "@/components/AnalyticsConsentWrapper.client";
-import Footer from "@/components/Footer";
-import StickyVideoRailClient from "@/components/StickyVideoRail.client";
-import { LOCALE_CONTENT } from "@/lib/i18n/localeContent";
 
-const DEFAULT_LOCALE = LOCALE_CONTENT.tr;
 const DEFAULT_LANG = "tr";
-const DEFAULT_DIR = DEFAULT_LOCALE.direction;
+const DEFAULT_DIR = "ltr";
 
 /* ================== VIEWPORT ================== */
 export const viewport = {
@@ -33,33 +28,11 @@ export default function RootLayout({ children }) {
       className={`${inter.variable} font-sans`}
       suppressHydrationWarning
     >
-      <body className="min-h-screen bg-black text-slate-100 antialiased flex flex-col font-sans">
+      <body className="min-h-screen antialiased flex flex-col font-sans">
         <AnalyticsConsentWrapper />
         <SkipLinks />
         <NewTabAccessibility />
-
-        <header
-          id="_main_header"
-          aria-label="Sahneva site başlığı ve ana gezinme"
-          className="w-full relative z-50"
-        >
-          <Navbar />
-        </header>
-
-        <main
-          id="_main_content"
-          aria-label="Sahneva ana içerik"
-          tabIndex={-1}
-          className="flex-1 pt-16 lg:pt-20 focus:outline-none scroll-mt-24"
-        >
-          <div className="overflow-x-hidden">{children}</div>
-        </main>
-        <Footer
-          id="_main_footer"
-          ariaLabel="Sahneva site altbilgi"
-          descriptionId="_main_footer_desc"
-        />
-        <StickyVideoRailClient />
+        {children}
       </body>
     </html>
   );
