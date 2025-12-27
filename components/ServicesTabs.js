@@ -442,11 +442,7 @@ function ServicesTabsComponent({
                           service.title,
                           DEFAULT_DICTIONARY.ctaTitle
                         )}
-                        aria-label={formatTitleTemplate(
-                          dictionary.ctaTitle,
-                          service.title,
-                          DEFAULT_DICTIONARY.ctaTitle
-                        )}
+                        aria-label={`${dictionary.ctaLabel} – ${service.title}`}
                       >
                         <span>{dictionary.ctaLabel}</span>
                         <div

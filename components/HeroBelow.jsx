@@ -85,7 +85,6 @@ function ConsultationCard() {
             <a
               href="#teklif-al"
               className="group relative w-full md:w-auto inline-flex items-center justify-center gap-2 bg-white text-blue-900 hover:bg-blue-50 font-bold px-8 py-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-white/20 hover:-translate-y-1 focus-ring min-h-[44px]"
-              aria-label="Teklif formuna git"
             >
               <span>Hemen Teklif Al</span>
               <span className="group-hover:translate-x-1 transition-transform">

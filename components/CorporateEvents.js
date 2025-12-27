@@ -183,10 +183,6 @@ export default function CorporateEvents({
     .filter(Boolean)
     .join(" — ");
 
-  const whatsappAccessibleLabel = [dictionary.whatsappCtaLabel, dictionary.whatsappCtaAria, "yeni sekmede açılır"]
-    .filter(Boolean)
-    .join(" — ");
-
   const phoneAriaDescribedBy = phoneDescription ? phoneHintId : undefined;
   const whatsappAriaDescribedBy = whatsappDescription ? whatsappHintId : undefined;
 
@@ -407,7 +403,6 @@ export default function CorporateEvents({
                 rel="noopener noreferrer"
                 className={`inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm text-white font-bold px-6 text-sm md:text-base transition-all hover:bg-white/20 hover:scale-105 ${FOCUS_RING_CLASS}`}
                 aria-describedby={whatsappAriaDescribedBy}
-                aria-label={whatsappAccessibleLabel}
               >
                 <span className="text-lg" aria-hidden="true">💬</span>
                 <span>{dictionary.whatsappCtaLabel}</span>
