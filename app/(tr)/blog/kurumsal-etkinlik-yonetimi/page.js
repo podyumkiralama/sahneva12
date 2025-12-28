@@ -67,6 +67,9 @@ export const metadata = {
   title: "Kurumsal Etkinlik Yönetimi: Teknik Planlama ve Backstage İpuçları | Sahneva",
   description:
     "Kurumsal etkinlik yönetiminde sahne tasarımı, ses-ışık altyapısı ve backstage koordinasyonu için pratik ipuçları. Konferans ve lansmanlarda kusursuz deneyim için kontrol listesi.",
+  image: HERO,
+  category: "Kurumsal Organizasyon",
+  readTime: "15 dk okuma",
   date: PUBLISH_DATE,
   alternates: { canonical: BLOG_URL },
   openGraph: {
