@@ -3,7 +3,6 @@ import Link from "next/link";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 
 /* ================== GÖRSELLER (public/img/galeri) ================== */
-// 4 görsel: hero + 3 içerik görseli
 import heroImg from "@/public/img/galeri/podyum-kiralama-1.webp";
 import kurumsalImg from "@/public/img/galeri/podyum-kiralama-2.webp";
 import dugunImg from "@/public/img/galeri/podyum-kiralama-3.webp";
@@ -33,6 +32,10 @@ const TENT_SERVICE_URL = `${SITE_URL}${TENT_SERVICE_PATH}`;
 const LED_SERVICE_PATH = "/led-ekran-kiralama";
 const LED_SERVICE_URL = `${SITE_URL}${LED_SERVICE_PATH}`;
 
+// ✅ Kullanıcı istedi: ses ışık iç link
+const SOUND_LIGHT_PATH = "/ses-isik-sistemleri";
+const SOUND_LIGHT_URL = `${SITE_URL}${SOUND_LIGHT_PATH}`;
+
 // ✅ Öne çıkan görsel (featured) public path
 const FEATURED_IMAGE = "/img/galeri/podyum-kiralama-1.webp";
 
@@ -44,8 +47,9 @@ const AUTHOR_NAME = "Sahneva İçerik Ekibi";
 
 // Lead magnet (WhatsApp)
 const WHATSAPP_NUMBER = "905453048671";
+const PHONE_E164 = "+905453048671";
 const LEADMAGNET_MSG = encodeURIComponent(
-  "Merhaba, etkinliğime göre podyum/sahne ölçüsü için teknik checklist istiyorum. Etkinlik tipi ve alan ölçüsünü paylaşabilirim."
+  "Merhaba, etkinliğime göre podyum/sahne ölçüsü için ücretsiz danışmanlık almak istiyorum. Etkinlik tipi ve alan ölçüsünü paylaşabilirim."
 );
 const LEADMAGNET_WA = `https://wa.me/${WHATSAPP_NUMBER}?text=${LEADMAGNET_MSG}`;
 
@@ -86,12 +90,16 @@ export const metadata = {
   keywords: [
     "etkinliğe göre podyum",
     "podyum kiralama",
-    "sahne yüksekliği",
+    "modüler podyum sistemleri",
+    "sahne kurulum hizmeti",
+    "kiralık podyum fiyatları",
+    "ışıklı podyum kiralama",
     "kurumsal toplantı sahnesi 80 cm",
     "düğün sahnesi 40 80 cm",
     "konser sahnesi 150 cm sabitleme",
     "miting sahnesi merdiven sayısı",
     "zemin podyumu 10 cm halı",
+    "ses ışık sistemleri",
   ],
   authors: [{ name: AUTHOR_NAME }],
   publisher: "Sahneva",
@@ -103,37 +111,37 @@ export const metadata = {
   },
 };
 
-/* ================== FAQ VERİLERİ ================== */
+/* ================== FAQ VERİLERİ (SEO / RICH SNIPPETS) ================== */
 const FAQ_ITEMS = [
+  {
+    question: "Podyumlar kaç kilogram yük taşır?",
+    answer:
+      "Standart modüler podyum sistemleri panel yapısına göre değişmekle birlikte, metrekare başına ortalama 500 kg ile 750 kg arası yük taşıma kapasitesine sahiptir. Proje tipine göre daha yüksek taşıma kapasitesi gereken kurulumlar ayrıca planlanır.",
+  },
+  {
+    question: "Kurulum ne kadar sürer?",
+    answer:
+      "Etkinlik alanının büyüklüğüne göre değişir. Ortalama 50 m² bir podyum kurulumu, uzman ekibimiz tarafından genellikle 1–2 saat içinde tamamlanır. Zeminin durumu ve erişim koşulları süreyi etkileyebilir.",
+  },
+  {
+    question: "Dış mekan etkinlikleri için uygun mu?",
+    answer:
+      "Evet. Sistemlerimiz dış mekan koşullarına uygun şekilde planlanır; kaymaz yüzey seçenekleri ve zemin dengeleme çözümleriyle güvenli kullanım hedeflenir. Açık alanda çoğu zaman 10 cm zemin podyumu üzerine halı uygulaması standart bir altyapıdır.",
+  },
   {
     question: "Etkinliğe göre sahne yüksekliği nasıl seçilir?",
     answer:
-      "Sahne yüksekliği; etkinlik tipi, oturma düzeni, beklenen kalabalık ve alan topografyasına göre seçilir. Kurumsalda max 80 cm, düğünde 40–80 cm, konser/mitingde 100–150 cm aralığı pratik standarttır.",
-  },
-  {
-    question: "Kurumsal toplantılarda sahne neden 80 cm’yi geçmemeli?",
-    answer:
-      "Otel ve kurumsal toplantılarda oturma düzeni nedeniyle 80 cm görüş için yeterlidir. Daha yüksek sahneler gereksiz risk ve orantısız görünüm oluşturabilir.",
-  },
-  {
-    question: "Düğün sahnesinde neden önü komple merdiven olmalı?",
-    answer:
-      "Düğünlerde sahne aktif kullanılır; misafirler sahneye çıkar iner. Önü komple merdiven, yığılmayı azaltır ve iniş-çıkışı kolaylaştırır; düşme riskini düşürür.",
-  },
-  {
-    question: "Konser ve mitinglerde 150 cm sahne güvenli mi?",
-    answer:
-      "150 cm sahne yapılabilir; ancak sallanmayı önlemek için bağlantı aparatları ve sabitleme (çapraz bağlantılar, kilitli ayaklar vb.) zorunludur. Sabitleme olmadan 150 cm risklidir.",
+      "Kurumsal toplantı ve konuşmalarda max 80 cm; düğünlerde 40–80 cm (önü komple merdiven); konser ve mitinglerde 100–150 cm aralığı pratik standarttır. 150 cm sahnelerde sabitleme bağlantı aparatları zorunludur.",
   },
   {
     question: "Konser ve miting sahnesinde kaç merdiven olmalı?",
     answer:
-      "Güvenlik ve kontrol için konser ve mitinglerde sahneye çıkış en fazla 2 merdivenle sınırlandırılmalıdır. Böylece sahne girişleri kontrol altında tutulur.",
+      "Güvenlik ve kontrol için konser ve mitinglerde sahneye çıkış en fazla 2 merdivenle sınırlandırılmalıdır. Böylece kontrolsüz çıkışlar engellenir ve sahne güvenliği korunur.",
   },
   {
-    question: "Açık alanda/çadırda zemin podyumu şart mı?",
+    question: "Işıklı podyum kiralama yapıyor musunuz?",
     answer:
-      "Zemin eğimli, bozuk, toprak/çim ise 10 cm zemin podyumu üzerine halı serilmesi çoğu zaman standarda dönüşür. Masa-sandalye stabilitesi ve konfor için ciddi avantaj sağlar.",
+      "Etkinliğin konseptine göre ışıklı podyum kiralama seçenekleri planlanabilir. Uygulanabilirlik; zemin, elektrik altyapısı ve tasarım tercihine göre netleştirilir.",
   },
 ];
 
@@ -165,6 +173,7 @@ function ArticleSchema() {
           CORPORATE_SERVICE_URL,
           TENT_SERVICE_URL,
           LED_SERVICE_URL,
+          SOUND_LIGHT_URL,
         ],
       },
       {
@@ -225,13 +234,15 @@ const TableOfContents = () => (
     <ul className="space-y-2 text-sm">
       {[
         { id: "stats", label: "Hızlı Seçim Özeti" },
+        { id: "tablo", label: "Teknik Özellikler Tablosu" },
         { id: "kurumsal", label: "1. Kurumsal Toplantı / Otel İçi" },
-        { id: "dugun", label: "2. Düğün" },
-        { id: "konser", label: "3. Konser" },
+        { id: "dugun", label: "2. Düğün / Nişan" },
+        { id: "konser", label: "3. Konser / Festival" },
         { id: "miting", label: "4. Miting" },
         { id: "altyapi", label: "5. Açık Alan Altyapısı (Zemin 10 cm + Halı)" },
         { id: "checklist", label: "Teknik Kontrol Listesi" },
-        { id: "faq", label: "Sık Sorulan Sorular" },
+        { id: "cta", label: "Ücretsiz Danışmanlık / Teklif Al" },
+        { id: "faq", label: "Sıkça Sorulan Sorular (SSS)" },
       ].map((item) => (
         <li key={item.id}>
           <a
@@ -276,6 +287,71 @@ const InfoBox = ({ icon, title, children, variant = "info" }) => {
   );
 };
 
+const SpecTable = () => {
+  const rows = [
+    {
+      type: "Düğün / Nişan",
+      height: "40–80 cm",
+      surface: "Beyaz halı / Pleksi (opsiyon)",
+      note: "Önü komple merdiven olmalı (akış + güvenlik)",
+    },
+    {
+      type: "Kurumsal Sunum (Otel)",
+      height: "≤ 80 cm",
+      surface: "Protokol halısı / Halı kaplama",
+      note: "Önü komple merdiven olabilir (erişilebilirlik)",
+    },
+    {
+      type: "Konser / Festival",
+      height: "100–150 cm",
+      surface: "Kaymaz yüzey / Siyah kaplama",
+      note: "150 cm’de sabitleme zorunlu + max 2 merdiven",
+    },
+    {
+      type: "Miting",
+      height: "100–150 cm",
+      surface: "Kaymaz yüzey / Siyah kaplama",
+      note: "Kontrollü çıkış: max 2 merdiven + sabitleme",
+    },
+  ];
+
+  return (
+    <div className="not-prose overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+      <div className="px-5 py-4 bg-gray-50 border-b border-gray-200">
+        <p className="m-0 font-black text-gray-900">Teknik Özellikler Tablosu</p>
+        <p className="m-0 mt-1 text-sm text-gray-600">
+          Etkinlik türüne göre önerilen podyum yüksekliği ve yüzey tercihi (hızlı karar için).
+        </p>
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="w-full text-left text-sm">
+          <thead className="bg-white">
+            <tr className="border-b border-gray-200">
+              <th className="px-5 py-3 font-bold text-gray-900">Etkinlik Türü</th>
+              <th className="px-5 py-3 font-bold text-gray-900">Önerilen Yükseklik</th>
+              <th className="px-5 py-3 font-bold text-gray-900">Yüzey Tercihi</th>
+              <th className="px-5 py-3 font-bold text-gray-900">Not</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr key={r.type} className="border-b border-gray-100 last:border-0">
+                <td className="px-5 py-4 font-semibold text-gray-900 whitespace-nowrap">
+                  {r.type}
+                </td>
+                <td className="px-5 py-4 text-gray-700 whitespace-nowrap">{r.height}</td>
+                <td className="px-5 py-4 text-gray-700 whitespace-nowrap">{r.surface}</td>
+                <td className="px-5 py-4 text-gray-700">{r.note}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
 /* ================== ANA SAYFA ================== */
 export default function EtkinligeGorePodyumTercihiPage() {
   const breadcrumbItems = [
@@ -295,7 +371,7 @@ export default function EtkinligeGorePodyumTercihiPage() {
         <div className="absolute inset-0 z-0">
           <Image
             src={heroImg}
-            alt="Etkinliğe göre podyum ve sahne seçimini temsil eden organizasyon kurulumu"
+            alt="Sahneva - Etkinliğe göre podyum ve sahne kurulumu örneği"
             fill
             className="object-cover opacity-65"
             priority
@@ -307,7 +383,7 @@ export default function EtkinligeGorePodyumTercihiPage() {
         <div className="container mx-auto px-4 relative z-20 text-center max-w-4xl">
           <div className="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-200 text-sm font-semibold mb-8 backdrop-blur-md">
             <span className="w-2 h-2 rounded-full bg-blue-300 animate-pulse" />
-            Podyum & Sahne Seçim Rehberi
+            Modüler Podyum Sistemleri & Sahne Kurulum Hizmeti
           </div>
 
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black leading-[1.15] mb-6 tracking-tight">
@@ -317,9 +393,9 @@ export default function EtkinligeGorePodyumTercihiPage() {
           </h1>
 
           <p className="text-lg md:text-xl text-gray-200 leading-relaxed max-w-2xl mx-auto font-light antialiased">
-            Kurumsal toplantı, düğün, konser ve miting için doğru ölçü ve güvenlik standardı:
-            kurumsalda max 80 cm (önü komple merdiven olabilir), düğünde 40–80 cm (önü komple merdiven olmalı),
-            konser/mitingde 100–150 cm (150 cm sabitleme + max 2 merdiven). Açık alanda zemin için 10 cm + halı.
+            Kurumsal toplantı, düğün, konser ve miting için doğru podyum yüksekliğini seçin.
+            “Kiralık podyum fiyatları” araştırırken asıl farkı; doğru yükseklik, doğru yüzey ve güvenlik
+            detayları belirler.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-gray-200 mt-8 pt-8 border-t border-white/10">
@@ -336,14 +412,14 @@ export default function EtkinligeGorePodyumTercihiPage() {
 
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             <a
-              href={`https://wa.me/${WHATSAPP_NUMBER}`}
+              href={LEADMAGNET_WA}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Podyum ve sahne seçimi için WhatsApp üzerinden yazın — yeni sekmede açılır"
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-semibold px-7 py-3.5 shadow-lg shadow-emerald-900/40 transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-500"
             >
               <span aria-hidden="true">💬</span>
-              <span>WhatsApp’tan Yazın</span>
+              <span>Ücretsiz Danışmanlık</span>
             </a>
 
             <Link
@@ -351,7 +427,7 @@ export default function EtkinligeGorePodyumTercihiPage() {
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold px-7 py-3.5 border border-white/20 backdrop-blur-md transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-400"
             >
               <span aria-hidden="true">🧱</span>
-              <span>Podyum Kiralama</span>
+              <span>Teklif Al</span>
             </Link>
           </div>
         </div>
@@ -367,7 +443,7 @@ export default function EtkinligeGorePodyumTercihiPage() {
                   Hızlı Seçim Özeti
                 </h2>
                 <p className="text-gray-600 mt-2 text-sm md:text-base max-w-2xl">
-                  Etkinlik tipine göre podyum/sahne seçimini en hızlı şekilde burada netleştirin.
+                  Etkinlik tipine göre podyum/sahne seçimini saniyeler içinde netleştirin.
                 </p>
               </div>
 
@@ -383,14 +459,13 @@ export default function EtkinligeGorePodyumTercihiPage() {
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               <StatCard value="≤ 80 cm" label="Kurumsal toplantı / otel içi sahne üst sınırı" />
               <StatCard value="40–80 cm" label="Düğün sahnesi (önü komple merdiven olmalı)" />
-              <StatCard value="100–150 cm" label="Konser & miting (150 cm’de sabitleme zorunlu)" />
-              <StatCard value="2 adet" label="Konser & mitingde max merdiven (kontrol & güvenlik)" />
+              <StatCard value="100–150 cm" label="Konser & miting (150 cm’de sabitleme)" />
+              <StatCard value="2 adet" label="Konser & mitingde max merdiven (kontrol)" />
             </div>
 
             <div className="mt-8">
               <InfoBox icon="⚠️" title="Uyarı" variant="warn">
-                150 cm sahneler <strong>bağlantı aparatlarıyla sabitlenmeden</strong> bırakılmamalı.
-                Sallanma, düşme ve kontrolsüz erişim riski doğrudan artar.
+                150 cm sahneler <strong>bağlantı aparatlarıyla sabitlenmeden</strong> bırakılmamalı. Sallanma ve güvenlik riski artar.
               </InfoBox>
             </div>
           </div>
@@ -413,26 +488,38 @@ export default function EtkinligeGorePodyumTercihiPage() {
                   </p>
                   <p className="text-sm text-gray-600 mt-3 mb-0">
                     Bu rehber, <Link href={PODIUM_SERVICE_PATH}>podyum kiralama</Link> kararlarını “etkinlik tipi” üzerinden
-                    netleştirmeniz için hazırlanmıştır.
+                    netleştirmeniz için hazırlandı. Ayrıca ihtiyaç halinde{" "}
+                    <Link href={STAGE_SERVICE_PATH}>sahne kurulum hizmeti</Link>{" "}
+                    ve görsel güç için{" "}
+                    <Link href={LED_SERVICE_PATH}>LED ekran kiralama</Link>{" "}
+                    seçeneklerini birlikte planlayabilirsiniz.
                   </p>
                 </div>
+
+                {/* TABLO */}
+                <h2 id="tablo">Teknik Özellikler Tablosu</h2>
+                <p>
+                  Aşağıdaki tablo, etkinlik türüne göre <strong>önerilen podyum yüksekliği</strong> ve <strong>yüzey tercihini</strong>
+                  hızlıca görmeniz için hazırlanmıştır. Konseptte ışık vurgusu varsa <strong>ışıklı podyum kiralama</strong> opsiyonları da ayrıca planlanabilir.
+                </p>
+                <SpecTable />
 
                 {/* 1 - Kurumsal */}
                 <h2 id="kurumsal">1. Kurumsal Toplantı / Otel İçi</h2>
                 <p>
-                  Otel salonlarında yapılan kurumsal toplantılar (bayi buluşması, lansman, seminer) için sahne;
-                  yüksek görünmek için değil, <strong>rahat kullanılmak ve düzeni korumak</strong> için kurulur.
+                  Otel salonlarında yapılan kurumsal toplantılar (bayi buluşması, lansman, seminer) için sahne; yüksek görünmek için değil,
+                  <strong>rahat kullanım ve düzen</strong> için kurulur.
                 </p>
                 <ul>
                   <li><strong>Maksimum yükseklik:</strong> 80 cm</li>
                   <li><strong>Merdiven:</strong> Önü komple merdiven olabilir</li>
-                  <li><strong>Neden:</strong> Oturma düzeninde görüş için yeterli + iniş-çıkış güvenli</li>
+                  <li><strong>Yüzey:</strong> Protokol halısı / halı kaplama</li>
                 </ul>
 
                 <figure className="my-10 not-prose">
                   <Image
                     src={kurumsalImg}
-                    alt="Otel içi kurumsal toplantı sahnesi ve podyum düzenini temsil eden görsel"
+                    alt="Sahneva - Otel içi kurumsal toplantı sahnesi ve podyum kurulumu"
                     width={kurumsalImg.width}
                     height={kurumsalImg.height}
                     sizes="(max-width: 768px) 100vw, 800px"
@@ -440,30 +527,26 @@ export default function EtkinligeGorePodyumTercihiPage() {
                     loading="lazy"
                   />
                   <figcaption className="mt-3 text-sm text-gray-600 text-center font-medium">
-                    Kurumsal etkinlikte hedef: mesajın net aktarımı ve sahneye güvenli erişim.
+                    Kurumsal etkinliklerde hedef: net anlatım + rahat erişim.
                   </figcaption>
                 </figure>
 
-                <InfoBox icon="💡" title="Pro Tip">
-                  Kurumsal etkinlikte “yükseklik artırmak” yerine; sahne erişimini rahatlatmak (komple merdiven) çoğu zaman daha doğru tercihtir.
-                </InfoBox>
-
                 {/* 2 - Düğün */}
-                <h2 id="dugun">2. Düğün</h2>
+                <h2 id="dugun">2. Düğün / Nişan</h2>
                 <p>
-                  Düğün sahnesi aktif kullanılır: misafir çıkar, iner, oynar, fotoğraf çeker. Bu yüzden düğünde sahne
-                  seçimi “ölçü + akış” üzerinden yapılmalıdır.
+                  Düğün sahnesi aktif kullanılır: misafir çıkar, iner, oynar, fotoğraf çeker. Bu yüzden düğünde sahne seçimi
+                  “ölçü + akış” üzerinden yapılmalıdır.
                 </p>
                 <ul>
                   <li><strong>Yükseklik:</strong> 40–80 cm</li>
                   <li><strong>Kural:</strong> Önü komple merdiven olmalı</li>
-                  <li><strong>Fayda:</strong> Yığılma azalır, iniş-çıkış kolaylaşır, risk düşer</li>
+                  <li><strong>Yüzey:</strong> Beyaz halı / pleksi (opsiyon)</li>
                 </ul>
 
                 <figure className="my-10 not-prose">
                   <Image
                     src={dugunImg}
-                    alt="Düğün sahnesi ve misafir trafiğine uygun podyum kullanımını temsil eden görsel"
+                    alt="Sahneva - Düğün organizasyonu için beyaz halı kaplı podyum"
                     width={dugunImg.width}
                     height={dugunImg.height}
                     sizes="(max-width: 768px) 100vw, 800px"
@@ -471,30 +554,26 @@ export default function EtkinligeGorePodyumTercihiPage() {
                     loading="lazy"
                   />
                   <figcaption className="mt-3 text-sm text-gray-600 text-center font-medium">
-                    Düğünde sahne, “izlenen” değil “kullanılan” alandır.
+                    Düğünde sahne: erişilebilir olmalı (komple merdiven).
                   </figcaption>
                 </figure>
 
-                <InfoBox icon="💃" title="Düğün İçin Net Kural">
-                  Tek merdiven düğünlerde yığılma yapar. Önü komple merdiven, sahneyi gerçek anlamda erişilebilir kılar.
-                </InfoBox>
-
                 {/* 3 - Konser */}
-                <h2 id="konser">3. Konser</h2>
+                <h2 id="konser">3. Konser / Festival</h2>
                 <p>
-                  Konser sahnelerinde yükseklik; topografya, görüş hattı ve beklenen kalabalığa göre belirlenir.
-                  Konserde ölçü kadar önemli olan konu, yüksekliğin getirdiği <strong>sabitleme ihtiyacıdır</strong>.
+                  Konser sahnelerinde yükseklik; topografya, görüş hattı ve kalabalığa göre belirlenir.
+                  Burada önemli olan, 150 cm gibi yüksekliklerde <strong>sabitleme</strong> ve <strong>kontrollü giriş</strong>tir.
                 </p>
                 <ul>
                   <li><strong>Yükseklik:</strong> 100–150 cm</li>
                   <li><strong>150 cm ise:</strong> bağlantı aparatlarıyla sabitleme zorunlu</li>
-                  <li><strong>Merdiven:</strong> En fazla 2 adet (kontrol için)</li>
+                  <li><strong>Merdiven:</strong> En fazla 2 adet</li>
                 </ul>
 
                 <figure className="my-10 not-prose">
                   <Image
                     src={konserImg}
-                    alt="Konser sahnesi, LED ekran ve podyum kurulumunu temsil eden görsel"
+                    alt="Sahneva - Dış mekan konser podyumu kurulumu ve LED ekran entegrasyonu"
                     width={konserImg.width}
                     height={konserImg.height}
                     sizes="(max-width: 768px) 100vw, 800px"
@@ -502,19 +581,15 @@ export default function EtkinligeGorePodyumTercihiPage() {
                     loading="lazy"
                   />
                   <figcaption className="mt-3 text-sm text-gray-600 text-center font-medium">
-                    Konserde sahne yüksekliği kadar sabitleme ve giriş kontrolü de kritiktir.
+                    Kalabalık etkinliklerde sabitleme + kontrol kritik.
                   </figcaption>
                 </figure>
-
-                <InfoBox icon="⚠️" title="Burayı ne yapalım?" variant="warn">
-                  150 cm sahne sabitlenmeden bırakılmamalı. <strong>Çapraz bağlantılar + kilitli ayaklar + bağlantı aparatları</strong> ile sallanma riski azaltılmalı.
-                </InfoBox>
 
                 {/* 4 - Miting */}
                 <h2 id="miting">4. Miting</h2>
                 <p>
-                  Miting sahnelerinde amaç: kalabalıkta görünürlük ve güvenli akış. Bu tip etkinliklerde sahneye çıkışın kontrolü
-                  güvenlik açısından kritik olduğu için “merdiven planı” doğrudan önem kazanır.
+                  Miting sahnelerinde amaç: kalabalıkta görünürlük ve güvenli akış. Bu tip etkinliklerde merdiven sayısı ve
+                  sahneye erişimin kontrolü güvenlik açısından kritik olur.
                 </p>
                 <ul>
                   <li><strong>Yükseklik:</strong> 100–150 cm (alana ve kalabalığa göre)</li>
@@ -522,25 +597,25 @@ export default function EtkinligeGorePodyumTercihiPage() {
                   <li><strong>Merdiven:</strong> En fazla 2 adet (kontrollü giriş)</li>
                 </ul>
 
-                <InfoBox icon="🛡️" title="Güvenlik Notu">
-                  Merdiven sayısı arttıkça sahneye kontrolsüz çıkış riski artar. Mitinglerde 2 merdiven kuralı,
-                  güvenliğin sahada uygulanabilir kalmasını sağlar.
-                </InfoBox>
-
                 {/* 5 - Altyapı */}
                 <h2 id="altyapi">5. Açık Alan Altyapısı (Zemin 10 cm + Halı)</h2>
                 <p>
-                  Etkinlik açık alanda veya çadır içinde ise, sahneden önce zemin planlanır. Zemin bozuk/toprak/çim olduğunda
-                  en pratik standart:
+                  Açık alanda/çadırda zemin bozuk/toprak/çim ise, sahneden önce zemin planlanır.
+                  En pratik standart: <strong>10 cm zemin podyumu</strong> + <strong>halı</strong>.
                 </p>
                 <ul>
-                  <li><strong>Zemin podyumu:</strong> 10 cm</li>
-                  <li><strong>Kaplama:</strong> Halı</li>
-                  <li><strong>Sonuç:</strong> Masa–sandalye stabilitesi + konfor + daha hızlı kurulum</li>
+                  <li><strong>Sonuç:</strong> masa–sandalye stabilitesi + konfor + daha hızlı kurulum</li>
+                  <li>
+                    Çadır projelerinde detaylar için{" "}
+                    <Link href={TENT_SERVICE_PATH}>çadır kiralama</Link> sayfamıza göz atabilirsiniz.
+                  </li>
                 </ul>
 
-                <InfoBox icon="🎯" title="Operasyon Notu">
-                  Zemin podyumu çoğu zaman “ekstra” değil, açık alanda etkinliğin sorunsuz ilerlemesi için temel adımdır.
+                {/* İç link - ses ışık */}
+                <InfoBox icon="🔊" title="İç Link (Tavsiye)">
+                  Podyum kurulumunun yanı sıra, etkinliğinizin ambiyansını güçlendirecek{" "}
+                  <Link href={SOUND_LIGHT_PATH}>Ses ve Işık Sistemleri</Link>{" "}
+                  sayfamıza da göz atabilirsiniz.
                 </InfoBox>
 
                 {/* CHECKLIST */}
@@ -554,37 +629,57 @@ export default function EtkinligeGorePodyumTercihiPage() {
                     <li>Planlanan sahne yüksekliği (≤80 / 40–80 / 100–150)</li>
                     <li>150 cm sahnede sabitleme planı (bağlantı aparatları)</li>
                     <li>Merdiven planı (konser/miting max 2)</li>
-                    <li>Alan topografyası (eğim/zemin bozukluğu) ve zemin podyumu ihtiyacı</li>
                     <li>Açık alan/çadır ise zemin (10 cm + halı) ihtiyacı</li>
+                    <li>Yüzey tercihi (halı, pleksi, cam vb.)</li>
                   </ul>
+                </div>
 
-                  <div className="pt-4 border-t border-gray-200 flex flex-col sm:flex-row gap-3">
+                {/* CTA */}
+                <h2 id="cta">💡 Etkinlik Planınıza Özel Çözüm Mü Arıyorsunuz?</h2>
+                <div className="not-prose bg-gradient-to-br from-gray-900 to-blue-900 rounded-3xl p-8 md:p-10 text-white shadow-2xl relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                  <p className="m-0 text-lg font-semibold relative z-10">
+                    Podyum yüksekliği, yüzey kaplaması (halı, pleksi, cam) ve merdiven seçenekleri hakkında
+                    <strong> ücretsiz danışmanlık</strong> almak için hemen teklif isteyin.
+                  </p>
+
+                  <p className="mt-3 mb-0 text-sm text-blue-100 relative z-10">
+                    Not: “Kiralık podyum fiyatları” etkinliğe göre değişir; doğru ölçü + doğru kurulum kalemi
+                    toplam maliyeti doğrudan etkiler.
+                  </p>
+
+                  <div className="mt-6 flex flex-col sm:flex-row gap-3 relative z-10">
+                    <Link
+                      href={PODIUM_SERVICE_PATH}
+                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-white text-blue-900 hover:bg-blue-50 font-bold py-3.5 px-6 transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-400"
+                    >
+                      <span aria-hidden="true">🧾</span> Teklif Al
+                    </Link>
+
                     <a
                       href={LEADMAGNET_WA}
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label="Podyum ve sahne teknik checklist iste — yeni sekmede açılır"
-                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-semibold px-5 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-500"
+                      aria-label="WhatsApp ile ücretsiz danışmanlık alın — yeni sekmede açılır"
+                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3.5 px-6 transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-500"
                     >
-                      <span aria-hidden="true">📄</span>
-                      Checklist’i WhatsApp’tan iste
+                      <span aria-hidden="true">💬</span> WhatsApp
                     </a>
 
-                    <Link
-                      href={PODIUM_SERVICE_PATH}
-                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-gray-900 hover:bg-black text-white font-semibold px-5 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-900"
+                    <a
+                      href={`tel:${PHONE_E164}`}
+                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold py-3.5 px-6 border border-white/20 transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white/30"
                     >
-                      <span aria-hidden="true">🧱</span>
-                      Podyum Kiralama Teklifi Al
-                    </Link>
+                      <span aria-hidden="true">📞</span> {PHONE_E164}
+                    </a>
                   </div>
                 </div>
 
                 {/* FAQ */}
-                <h2 id="faq">Sık Sorulan Sorular</h2>
+                <h2 id="faq">Podyum Kiralama Hakkında Sıkça Sorulan Sorular</h2>
                 <section aria-labelledby="faq-heading" className="not-prose space-y-3 mt-6">
                   <h3 id="faq-heading" className="sr-only">
-                    Etkinliğe göre podyum ve sahne tercihi hakkında sıkça sorulan sorular
+                    Podyum kiralama hakkında sıkça sorulan sorular
                   </h3>
                   {FAQ_ITEMS.map((item, index) => (
                     <details
@@ -607,60 +702,6 @@ export default function EtkinligeGorePodyumTercihiPage() {
                     </details>
                   ))}
                 </section>
-
-                {/* FINAL CTA */}
-                <div className="not-prose mt-16 bg-gradient-to-br from-gray-900 to-blue-900 rounded-3xl p-8 md:p-12 text-center text-white shadow-2xl relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-
-                  <h3 className="text-2xl md:text-3xl font-black mb-4 relative z-10">
-                    Etkinliğinize Uygun Podyum & Sahne Planını Netleştirelim
-                  </h3>
-                  <p className="text-blue-100 mb-6 max-w-xl mx-auto relative z-10 text-lg">
-                    Doğru yükseklik, doğru merdiven ve doğru sabitleme ile güvenli ve profesyonel kurulum yapalım.
-                  </p>
-
-                  <p className="text-blue-100 max-w-xl mx-auto relative z-10 text-sm mb-6">
-                    <Link
-                      href={PODIUM_SERVICE_PATH}
-                      className="text-white underline underline-offset-4 decoration-white/40 hover:decoration-white"
-                    >
-                      Podyum kiralama
-                    </Link>{" "}
-                    yanında, büyük sahneler için{" "}
-                    <Link
-                      href={STAGE_SERVICE_PATH}
-                      className="text-white underline underline-offset-4 decoration-white/40 hover:decoration-white"
-                    >
-                      sahne kiralama
-                    </Link>{" "}
-                    ve açık alan projelerinde{" "}
-                    <Link
-                      href={TENT_SERVICE_PATH}
-                      className="text-white underline underline-offset-4 decoration-white/40 hover:decoration-white"
-                    >
-                      çadır kiralama
-                    </Link>{" "}
-                    çözümlerimizi de inceleyebilirsiniz.
-                  </p>
-
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
-                    <a
-                      href={LEADMAGNET_WA}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="WhatsApp üzerinden hızlıca yazın — yeni sekmede açılır"
-                      className="inline-flex items-center justify-center gap-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-4 px-8 rounded-xl transition-transform hover:-translate-y-1 shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-500"
-                    >
-                      <span aria-hidden="true">💬</span> WhatsApp’tan Yazın
-                    </a>
-                    <a
-                      href="tel:+905453048671"
-                      className="inline-flex items-center justify-center gap-2 bg-white text-blue-900 hover:bg-blue-50 font-bold py-4 px-8 rounded-xl transition-transform hover:-translate-y-1 shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-400"
-                    >
-                      <span aria-hidden="true">📞</span> Hemen Arayın
-                    </a>
-                  </div>
-                </div>
               </article>
             </div>
 
@@ -679,6 +720,7 @@ export default function EtkinligeGorePodyumTercihiPage() {
                       { href: STAGE_SERVICE_PATH, icon: "🎭", label: "Sahne Kiralama" },
                       { href: CORPORATE_SERVICE_PATH, icon: "🏢", label: "Kurumsal Organizasyon" },
                       { href: TENT_SERVICE_PATH, icon: "⛺", label: "Çadır Kiralama" },
+                      { href: SOUND_LIGHT_PATH, icon: "🔊", label: "Ses & Işık Sistemleri" },
                       { href: LED_SERVICE_PATH, icon: "🖥️", label: "LED Ekran Kiralama" },
                     ].map((link) => (
                       <li key={link.href}>
@@ -709,7 +751,7 @@ export default function EtkinligeGorePodyumTercihiPage() {
                     rel="noopener noreferrer"
                     className="mt-4 inline-flex items-center justify-center w-full rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-semibold px-4 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-500"
                   >
-                    📄 Checklist iste
+                    💬 Ücretsiz danışmanlık al
                   </a>
                 </div>
               </div>
