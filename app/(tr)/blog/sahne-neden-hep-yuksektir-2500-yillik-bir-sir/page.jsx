@@ -85,6 +85,7 @@ export const metadata = {
     "podyum",
     "sahne kiralama",
     "podyum kiralama",
+    "podyum kurulumu",
   ],
 };
 
