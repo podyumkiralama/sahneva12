@@ -8,7 +8,11 @@ on:
       - "app/**/layout.*"
       - "app/**/template.*"
       - "app/**/not-found.*"
+      - "components/**"
+      - "styles/**"
+      - "lib/**"
       - "public/*.txt"
+      - "next.config.mjs"
   workflow_dispatch: {}
 
 jobs:
@@ -31,7 +35,7 @@ jobs:
           if [ -z "$URLS_JSON" ]; then
             URLS_JSON="[]"
           fi
-          echo "urls_json=$URLS_JSON" >> $GITHUB_OUTPUT
+          echo "urls_json=$URLS_JSON" >> "$GITHUB_OUTPUT"
 
       - name: Submit to IndexNow
         if: steps.prep.outputs.urls_json != '[]'
@@ -42,7 +46,10 @@ jobs:
         run: |
           set -euo pipefail
 
-          # Build payload in ONE place (host guaranteed)
+          # Normalize SITE_URL
+          SITE_URL="$(echo "${SITE_URL}" | sed 's:/*$::')"
+
+          # Build payload in Node (host dahil)
           payload="$(node - <<'NODE'
           const site = (process.env.SITE_URL || "").trim().replace(/\/$/, "");
           const key  = (process.env.INDEXNOW_KEY || "").trim();
@@ -55,10 +62,6 @@ jobs:
           if (!key) {
             console.error("[IndexNow CI] INDEXNOW_KEY missing");
             process.exit(1);
-          }
-          if (!Array.isArray(urlList) || urlList.length === 0) {
-            console.error("[IndexNow CI] URL list empty; skipping");
-            process.exit(0);
           }
 
           const host = new URL(site).host;
@@ -75,22 +78,16 @@ NODE
           )"
 
           echo "[IndexNow CI] Payload ready (trimmed):"
-          PAYLOAD="$payload" node - <<'NODE'
-          const p = JSON.parse(process.env.PAYLOAD);
-          const trimmed = {
-            host: p.host,
-            key: "***",
-            keyLocation: "***",
-            urlList: p.urlList.map(() => "***"),
-          };
-          console.log(JSON.stringify(trimmed));
-NODE
+          echo "$payload" | sed -E 's/"key":"[^"]+"/"key":"***"/; s#"keyLocation":"[^"]+"#"keyLocation":"***"#' | head -c 600
+          echo
 
+          # Endpoints: 1 tanesi yeter, ama Bing de ekleyebiliriz (sen eklemişsin)
           for endpoint in "https://api.indexnow.org/indexnow" "https://www.bing.com/indexnow"; do
             code="$(curl -sS -o /tmp/indexnow_body.txt -w "%{http_code}" \
               -X POST "$endpoint" \
               -H "Content-Type: application/json" \
               -d "$payload")"
+
             echo "[IndexNow CI] POST $endpoint → $code"
             cat /tmp/indexnow_body.txt || true
             echo
