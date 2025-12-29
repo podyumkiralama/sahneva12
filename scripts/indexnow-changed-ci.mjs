@@ -9,11 +9,15 @@ function uniq(arr) {
   return [...new Set(arr)];
 }
 
+const DEFAULT_ENDPOINTS = [
+  "https://api.indexnow.org/indexnow",
+  "https://www.bing.com/indexnow",
+];
+
 // Sahneva App Router dosya yollarını URL'e map eder (route groups dahil güvenli)
 function mapFileToUrls(file, siteUrl) {
   const urls = [];
 
-  // Sadece uygulama/ içerik değişikliklerini hedefle (istersen genişlet)
   const interesting =
     file.startsWith("app/") ||
     file.startsWith("components/") ||
@@ -29,7 +33,7 @@ function mapFileToUrls(file, siteUrl) {
     const m = file.match(/^app\/\([^/]+\)\/blog\/([^/]+)\/page\.(js|jsx|ts|tsx)$/);
     if (m) {
       urls.push(`${siteUrl}/blog/${m[1]}`);
-      urls.push(`${siteUrl}/blog`); // blog index de çoğu zaman etkilenir
+      urls.push(`${siteUrl}/blog`);
       return urls;
     }
   }
@@ -43,7 +47,7 @@ function mapFileToUrls(file, siteUrl) {
     }
   }
 
-  // TR ana site: app/(tr)/(site)/page.* veya app/(tr)/page.*
+  // TR ana site
   {
     const m1 = file.match(/^app\/\([^/]+\)\/\([^/]+\)\/page\.(js|jsx|ts|tsx)$/);
     const m2 = file.match(/^app\/\([^/]+\)\/page\.(js|jsx|ts|tsx)$/);
@@ -53,17 +57,15 @@ function mapFileToUrls(file, siteUrl) {
     }
   }
 
-  // TR statik sayfalar: app/(tr)/(site)/<route>/page.*
-  // route group’ları temizle, sadece gerçek segmentleri al
+  // TR statik sayfalar
   {
     const m = file.match(/^app\/\([^/]+\)\/\([^/]+\)\/(.+)\/page\.(js|jsx|ts|tsx)$/);
     if (m) {
       const routePath = m[1]
         .split("/")
-        .filter((seg) => seg && !seg.startsWith("(") && !seg.endsWith(")") && !seg.startsWith("@")) // route group/parallel route temizliği
+        .filter((seg) => seg && !seg.startsWith("(") && !seg.endsWith(")") && !seg.startsWith("@"))
         .join("/");
 
-      // Dinamik segmentleri (örn [slug]) burada istemiyoruz (IndexNow yanlış olur)
       if (routePath && !routePath.includes("[") && !routePath.includes("]")) {
         urls.push(`${siteUrl}/${routePath}`);
       }
@@ -71,7 +73,7 @@ function mapFileToUrls(file, siteUrl) {
     }
   }
 
-  // EN sayfalar: app/(en)/...
+  // EN sayfalar
   {
     const m = file.match(/^app\/\(en\)\/(.+)\/page\.(js|jsx|ts|tsx)$/);
     if (m) {
@@ -86,7 +88,7 @@ function mapFileToUrls(file, siteUrl) {
     }
   }
 
-  // AR sayfalar: app/(ar)/...
+  // AR sayfalar
   {
     const m = file.match(/^app\/\(ar\)\/(.+)\/page\.(js|jsx|ts|tsx)$/);
     if (m) {
@@ -101,8 +103,7 @@ function mapFileToUrls(file, siteUrl) {
     }
   }
 
-  // Global değişiklikler (components/styles/lib) → güvenli minimal ping:
-  // Anasayfa + Hizmetler + Blog (istersen azalt/çoğalt)
+  // Global değişiklikler → minimal ping
   if (file.startsWith("components/") || file.startsWith("styles/") || file.startsWith("lib/")) {
     urls.push(`${siteUrl}/`);
     urls.push(`${siteUrl}/hizmetler`);
@@ -113,13 +114,10 @@ function mapFileToUrls(file, siteUrl) {
 }
 
 function buildChangedFiles() {
-  // push event için: HEAD~1..HEAD
-  // (merge commitlerde de çalışır)
   let out = "";
   try {
     out = sh("git diff --name-only HEAD~1..HEAD");
   } catch {
-    // ilk commit vb.
     out = sh("git ls-files");
   }
   return out
@@ -128,35 +126,71 @@ function buildChangedFiles() {
     .filter(Boolean);
 }
 
+async function postJson(endpoint, payload) {
+  const res = await fetch(endpoint, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  const text = await res.text();
+  return { status: res.status, ok: res.ok, body: text };
+}
+
 async function main() {
-  const siteUrlRaw = process.env.SITE_URL;
-  if (!siteUrlRaw) {
-    console.error("[IndexNow CI] SITE_URL missing");
+  const siteUrlRaw = process.env.SITE_URL || "https://www.sahneva.com";
+  const key = process.env.INDEXNOW_KEY || process.env.INDEXNOW_TOKEN; // geriye uyum
+  const keyLocationEnv = process.env.INDEXNOW_KEY_LOCATION;
+
+  if (!key) {
+    console.error("[IndexNow CI] INDEXNOW_KEY missing (Secrets'a ekle).");
     process.exit(1);
   }
+
   const siteUrl = siteUrlRaw.replace(/\/$/, "");
+  const host = new URL(siteUrl).host;
+  const keyLocation = keyLocationEnv || `${siteUrl}/${key}.txt`;
 
   const changedFiles = buildChangedFiles();
-  const urls = uniq(
-    changedFiles.flatMap((f) => mapFileToUrls(f, siteUrl))
-  ).filter(Boolean);
+  const urls = uniq(changedFiles.flatMap((f) => mapFileToUrls(f, siteUrl))).filter(Boolean);
 
-  // Eğer hiç URL çıkmadıysa gönderme
   if (urls.length === 0) {
     console.log("[IndexNow CI] No mapped URLs from changed files. Skipping.");
-    console.log("OUTPUT_URLS_JSON=[]");
     return;
   }
 
-  // Çok büyümesin diye limit (istersen 200 yap)
   const limited = urls.slice(0, 100);
 
   console.log("[IndexNow CI] Submitting URLs:");
   for (const u of limited) console.log(" -", u);
 
-  // GitHub Actions output (stdout üzerinden yakalayacağız)
-  const json = JSON.stringify(limited);
-  console.log(`OUTPUT_URLS_JSON=${json}`);
+  const payload = {
+    host,
+    key,
+    keyLocation,
+    urlList: limited,
+  };
+
+  // log (trim)
+  console.log("Payload (trimmed):");
+  console.log(JSON.stringify({ host, key: "***", keyLocation: "***", urlList: limited.map(() => "***") }));
+
+  const endpoints = (process.env.INDEXNOW_ENDPOINTS || "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+  const targets = endpoints.length ? endpoints : DEFAULT_ENDPOINTS;
+
+  for (const ep of targets) {
+    try {
+      const r = await postJson(ep, payload);
+      console.log(`\n[IndexNow CI] POST ${ep} → ${r.status}`);
+      if (!r.ok) console.log(`[IndexNow CI] Response: ${r.body}`);
+    } catch (e) {
+      console.log(`\n[IndexNow CI] POST ${ep} → ERROR`);
+      console.log(String(e?.message || e));
+    }
+  }
 }
 
 main().catch((e) => {
