@@ -160,7 +160,7 @@ function ServicesTabsFallback() {
       items: [
         "3x3m, 6x4m, 8x4m, 10x6m ölçülerinde sahne sistemleri",
         "Alüminyum truss sistemleri ve güvenlik ekipmanları",
-        "Modüler podyum sistemleri (1x1m, 2x1m)",
+        "Modüler sigma podyum sistemleri (1x1m, 2x1m)",
         "Sahne dekorasyonu ve brandalama hizmetleri"
       ]
     },
