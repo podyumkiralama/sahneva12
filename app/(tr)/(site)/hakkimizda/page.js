@@ -88,7 +88,7 @@ export default function HakkimizdaPage() {
       year: "2020",
       title: "Kurumsal Dönüşüm",
       description:
-        "Türkiye geneli lojistik ağımızı tamamladık. Büyük ölçekli kurumsal etkinliklerde güvenilir çözüm ortağı olarak konumlandık.",
+        "Türkiye geneli lojistik ağımızı tamamladık. Büyük ölçekli etkinliklerde güvenilir çözüm ortağı olarak konumlandık.",
       icon: "🏢",
     },
     {
