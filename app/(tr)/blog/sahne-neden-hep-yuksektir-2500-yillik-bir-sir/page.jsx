@@ -32,7 +32,7 @@ const IMAGES = {
 
   // iç görseller (mevcut galeriden)
   modernKonser: { src: "/img/blog/gelismis-sahne-sistemleri.webp", alt: "Sahneva - Gelişmiş Konser sahnesi" },
-  modernSahne: { src: "/img/galeri/led-ekran-kiralama-3.webp", alt: "Sahneva - Modern sahne kurulumu" },
+  modernSahne: { src: "/img/galeri/led-ekran-kiralama-3.webp", alt: "Sahneva - Modern sahne kurulumu kiralama" },
 };
 
 /* ================== META ================== */
