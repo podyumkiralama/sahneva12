@@ -13,46 +13,8 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Prepare URLs from changed files
-        id: prep
+      - name: Submit to IndexNow (changed-only)
         env:
           SITE_URL: ${{ secrets.SITE_URL }}
-        run: |
-          node scripts/indexnow-changed-ci.mjs | tee /tmp/indexnow_urls.log
-          URLS_JSON="$(grep -o 'OUTPUT_URLS_JSON=.*' /tmp/indexnow_urls.log | sed 's/^OUTPUT_URLS_JSON=//')"
-          if [ -z "$URLS_JSON" ]; then
-            URLS_JSON="[]"
-          fi
-          echo "urls_json=$URLS_JSON" >> $GITHUB_OUTPUT
-
-      - name: Submit to IndexNow
-        if: steps.prep.outputs.urls_json != '[]'
-        env:
           INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
-          SITE_URL: ${{ secrets.SITE_URL }}
-          URLS_JSON: ${{ steps.prep.outputs.urls_json }}
-        run: |
-          set -euo pipefail
-          SITE_URL="${SITE_URL%/}"
-          HOST="$(echo "$SITE_URL" | sed -E 's#^https?://##')"
-
-          payload="$(node -e 'console.log(JSON.stringify({
-            host: process.env.HOST,
-            key: process.env.INDEXNOW_KEY,
-            keyLocation: `${process.env.SITE_URL}/${process.env.INDEXNOW_KEY}.txt`,
-            urlList: JSON.parse(process.env.URLS_JSON),
-          }))' HOST="$HOST")"
-
-          echo "Payload (trimmed):"
-          echo "$payload" | head -c 500; echo
-
-          curl -sS -X POST "https://api.indexnow.org/indexnow" \
-            -H "Content-Type: application/json" \
-            -d "$payload" \
-            -D /tmp/indexnow_headers.txt \
-            -o /tmp/indexnow_body.txt
-
-          echo "=== Response headers ==="
-          cat /tmp/indexnow_headers.txt
-          echo "=== Response body ==="
-          cat /tmp/indexnow_body.txt
+        run: node scripts/indexnow-changed-ci.mjs
