@@ -1,0 +1,247 @@
+@import "tailwindcss";
+
+/* Plugins (v4) */
+@plugin "@tailwindcss/typography";
+@plugin "@tailwindcss/forms";
+
+/* Theme tokens (v4) */
+@theme {
+  /* Font */
+  --font-sans: var(--font-inter),
+    var(
+      --font-inter-fallback,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      "Helvetica Neue",
+      Arial,
+      sans-serif
+    );
+
+  /* Brand tokens */
+  --color-brand-primary: #6d28d9;
+  --color-brand-secondary: #4f46e5;
+
+  /* Container tokens */
+  --container-padding: 1rem;
+  --container-padding-sm: 1.5rem;
+  --container-padding-lg: 2rem;
+  --container-padding-xl: 2.5rem;
+  --container-padding-2xl: 3.5rem;
+  --container-max: 1440px;
+  --container-max-2xl: 1536px;
+  --container-max-3xl: 1680px;
+}
+
+:root {
+  --font-inter-fallback: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Base */
+@layer base {
+  html {
+    @apply scroll-smooth overflow-x-hidden h-full;
+    scrollbar-gutter: stable;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply text-neutral-900 antialiased min-h-screen font-sans;
+    text-rendering: optimizeLegibility;
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl leading-tight font-extrabold tracking-tight;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl leading-tight font-bold tracking-tight;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl leading-snug font-semibold tracking-tight;
+  }
+
+  img,
+  video,
+  canvas,
+  svg {
+    @apply max-w-full h-auto block;
+  }
+
+  /* Guaranteed container behavior */
+  .container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--container-padding);
+    padding-right: var(--container-padding);
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: var(--container-padding-sm);
+      padding-right: var(--container-padding-sm);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: var(--container-padding-lg);
+      padding-right: var(--container-padding-lg);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .container {
+      padding-left: var(--container-padding-xl);
+      padding-right: var(--container-padding-xl);
+    }
+  }
+
+  @media (min-width: 1536px) {
+    .container {
+      max-width: var(--container-max-2xl);
+      padding-left: var(--container-padding-2xl);
+      padding-right: var(--container-padding-2xl);
+    }
+  }
+
+  @media (min-width: 1920px) {
+    .container {
+      max-width: var(--container-max-3xl);
+    }
+  }
+}
+
+/* Components */
+@layer components {
+  .prose :is(h1, h2, h3) {
+    @apply tracking-tight;
+  }
+
+  .prose h1 {
+    @apply text-4xl md:text-5xl leading-tight font-extrabold;
+  }
+
+  .prose h2 {
+    @apply text-3xl md:text-4xl leading-tight font-bold;
+  }
+
+  .prose h3 {
+    @apply text-2xl md:text-3xl leading-snug font-semibold;
+  }
+
+  .rail-control {
+    @apply inline-flex items-center justify-center gap-2 min-w-10 h-10 px-3 rounded-xl font-semibold transition-all duration-150;
+    background-color: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    color: rgb(226, 232, 240);
+  }
+
+  .grid-overlay {
+    @apply absolute inset-0 pointer-events-none opacity-70;
+    background-image: radial-gradient(
+        circle at top,
+        rgba(56, 189, 248, 0.18),
+        transparent 55%
+      ),
+      radial-gradient(
+        circle at bottom,
+        rgba(59, 130, 246, 0.28),
+        transparent 55%
+      );
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Utilities */
+@layer utilities {
+  .gradient-text {
+    background-image: linear-gradient(
+      90deg,
+      rgba(96, 165, 250, 0.9) 0%,
+      rgba(167, 139, 250, 0.86) 52%,
+      rgba(56, 189, 248, 0.85) 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    text-shadow:
+      0 1px 6px rgba(15, 23, 42, 0.25),
+      0 0 12px rgba(59, 130, 246, 0.18);
+  }
+
+  @media (min-width: 1280px) {
+    .gradient-text--safe-xl {
+      background-image: none;
+      color: #93c5fd;
+      -webkit-text-fill-color: currentColor;
+      text-shadow: none;
+    }
+  }
+
+  .reader-only {
+    position: relative;
+    width: 1px;
+    height: 1px;
+    max-width: 1px;
+    max-height: 1px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    font-size: 1px;
+    line-height: 1px;
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (min-width: 1536px) {
+    .max-w-7xl {
+      max-width: var(--container-max-2xl);
+    }
+  }
+
+  @media (min-width: 1920px) {
+    .max-w-7xl {
+      max-width: var(--container-max-3xl);
+    }
+  }
+}
+
+/* ✅ Keyboard focus görünürlüğü için */
+.focus-ring {
+  outline: none;
+}
+
+.focus-ring:focus-visible {
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.55),
+    0 0 0 6px rgba(109, 40, 217, 0.55);
+}
+
+.focus-ring:focus:not(:focus-visible) {
+  box-shadow: none;
+}
+.grid-overlay {
+  background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+}

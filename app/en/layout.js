@@ -1,0 +1,52 @@
+import SiteHeader from "../../components/i18n/SiteHeader";
+import SiteFooter from "../../components/i18n/SiteFooter";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { LOCALE_CONTENT } from "../../lib/i18n/localeContent";
+import {
+  buildAlternateLanguages,
+  buildCanonical,
+} from "@/lib/seo/seoConfig";
+import DocumentDirection from "@/components/i18n/DocumentDirection.client";
+
+const content = LOCALE_CONTENT.en;
+
+export const metadata = {
+  title: {
+    default: "Sahneva | Stage, LED Wall, Sound & Lighting Rentals in Türkiye",
+    template: "%s | Sahneva",
+  },
+  description:
+    "Nationwide stage, LED wall, sound and lighting rentals with turnkey technical crews across Türkiye.",
+  alternates: {
+    canonical: buildCanonical("/en"),
+    languages: buildAlternateLanguages(),
+  },
+};
+
+export default function EnglishLayout({ children }) {
+  return (
+    <div className="flex min-h-screen flex-col bg-white text-neutral-900">
+      <DocumentDirection lang="en" dir={content.direction} />
+      <div id="_main_header">
+        <SiteHeader
+          locale="en"
+          strings={{ ...content.header, direction: content.direction }}
+        />
+      </div>
+      <main
+        id="_main_content"
+        className="flex-1 pb-16 pt-0 focus-ring scroll-mt-4"
+        role="main"
+        aria-label="Main content"
+        tabIndex={-1}
+      >
+        {children}
+      </main>
+
+      <div id="_main_footer">
+        <SiteFooter strings={content.footer} />
+      </div>
+      <SpeedInsights />
+    </div>
+  );
+}
