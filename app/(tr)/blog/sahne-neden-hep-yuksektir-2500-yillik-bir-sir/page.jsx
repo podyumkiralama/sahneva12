@@ -45,6 +45,7 @@ export const metadata = {
     title: "Sahne Neden Hep Yüksektir? 2500 Yıllık Bir Sır",
     description:
       "Tarihten bugüne sahne: antik tiyatrolar, Roma forumları, Orta Çağ meydanları, opera sahneleri ve modern truss sistemleri.",
+    image: FEATURED_IMAGE,
     url: BLOG_URL,
     type: "article",
     locale: "tr_TR",
