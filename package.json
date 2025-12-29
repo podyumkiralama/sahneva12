@@ -17,7 +17,7 @@
     "security:check": "npx @next/security-headers-check"
   },
   "dependencies": {
-    "@next/third-parties": "^16.0.8",
+    "@next/third-parties": "16.1.1",
     "@vercel/analytics": "^1.2.0",
     "@vercel/speed-insights": "1.2.0",
     "@tailwindcss/forms": "0.5.10",
@@ -25,7 +25,7 @@
     "clsx": "^2.1.1",
     "critters": "^0.0.23",
     "framer-motion": "^12.23.26",
-    "next": "^16.0.7",
+    "next": "16.1.1",
     "postcss": "8.4.38",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
@@ -35,7 +35,7 @@
     "@eslint/js": "9.38.0",
     "@next/bundle-analyzer": "^15.5.7",
     "eslint": "9.38.0",
-    "eslint-config-next": "^16.0.7",
+    "eslint-config-next": "16.1.1",
     "eslint-plugin-react": "7.37.5",
     "globals": "16.4.0"
   },
