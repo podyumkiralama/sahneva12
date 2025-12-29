@@ -40,24 +40,40 @@ export const metadata = {
   title: "Sahne Neden Hep Yüksektir? 2500 Yıllık Bir Sır | Sahneva Blog",
   description:
     "Antik çağın konuşma platformlarından modern konser sahnelerine… Sahnenin yükseltilmiş bir alan olarak nasıl doğduğunu, yüzyıllar boyunca nasıl evrildiğini ve bugünün sahne teknolojilerine nasıl dönüştüğünü anlatan tarih yazısı.",
+
   alternates: { canonical: BLOG_URL },
+
+  // ✅ BLOG KARTI SADECE BUNU OKUYOR
+  image: FEATURED_IMAGE,
+
   openGraph: {
     title: "Sahne Neden Hep Yüksektir? 2500 Yıllık Bir Sır",
     description:
       "Tarihten bugüne sahne: antik tiyatrolar, Roma forumları, Orta Çağ meydanları, opera sahneleri ve modern truss sistemleri.",
-    image: FEATURED_IMAGE,
     url: BLOG_URL,
     type: "article",
     locale: "tr_TR",
     siteName: "Sahneva Organizasyon",
-    images: [{ url: `${SITE_URL}${FEATURED_IMAGE}`, width: 1200, height: 630, alt: "Sahneva blog" }],
+
+    // ✅ DOĞRU OG KULLANIMI
+    images: [
+      {
+        url: `${SITE_URL}${FEATURED_IMAGE}`,
+        width: 1200,
+        height: 630,
+        alt: "Sahneva blog",
+      },
+    ],
   },
+
   twitter: {
     card: "summary_large_image",
     title: "Sahne Neden Hep Yüksektir? 2500 Yıllık Bir Sır",
-    description: "Antik çağdan bugüne sahnenin evrimi: sözden gösteriye, ahşaptan truss’a…",
+    description:
+      "Antik çağdan bugüne sahnenin evrimi: sözden gösteriye, ahşaptan truss’a…",
     images: [`${SITE_URL}${FEATURED_IMAGE}`],
   },
+
   keywords: [
     "sahnenin tarihi",
     "sahne tarihçesi",
