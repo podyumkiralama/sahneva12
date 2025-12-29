@@ -208,13 +208,6 @@ function ServicesTabsComponent({
   const [imageErrors, setImageErrors] = useState({});
   const listRef = useRef(null);
 
-  const activeService = useMemo(
-    () => services.find((s) => s.id === activeTab) ?? services[0],
-    [activeTab, services]
-  );
-
-  const initialServiceId = useMemo(() => services[0]?.id, [services]);
-
   const handleImageError = useCallback((serviceId) => {
     setImageErrors((prev) => ({ ...prev, [serviceId]: true }));
   }, []);
