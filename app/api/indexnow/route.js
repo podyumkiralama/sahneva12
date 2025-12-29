@@ -14,7 +14,6 @@ function getSiteOrigin(req) {
 }
 
 export async function POST(req) {
-  // ✅ Basit auth
   const token = req.headers.get("x-indexnow-token");
   if (!process.env.INDEXNOW_TOKEN || token !== process.env.INDEXNOW_TOKEN) {
     return new Response(JSON.stringify({ ok: false, error: "Unauthorized" }), {
@@ -25,10 +24,10 @@ export async function POST(req) {
 
   const indexNowKey = process.env.INDEXNOW_KEY;
   if (!indexNowKey) {
-    return new Response(
-      JSON.stringify({ ok: false, error: "INDEXNOW_KEY is not configured." }),
-      { status: 500, headers: { "content-type": "application/json; charset=utf-8" } }
-    );
+    return new Response(JSON.stringify({ ok: false, error: "INDEXNOW_KEY missing." }), {
+      status: 500,
+      headers: { "content-type": "application/json; charset=utf-8" },
+    });
   }
 
   const body = await req.json().catch(() => ({}));
