@@ -14,7 +14,6 @@ const DEFAULT_ENDPOINTS = [
   "https://www.bing.com/indexnow",
 ];
 
-// Sahneva App Router dosya yollarını URL'e map eder (route groups dahil güvenli)
 function mapFileToUrls(file, siteUrl) {
   const urls = [];
 
@@ -28,9 +27,11 @@ function mapFileToUrls(file, siteUrl) {
 
   if (!interesting) return urls;
 
-  // Blog: app/(tr)/blog/<slug>/page.*
+  // Blog post: app/(tr)/blog/<slug>/page.(js|jsx|ts|tsx)
   {
-    const m = file.match(/^app\/\([^/]+\)\/blog\/([^/]+)\/page\.(js|jsx|ts|tsx)$/);
+    const m = file.match(
+      /^app\/\([^/]+\)\/blog\/([^/]+)\/page\.(js|jsx|ts|tsx)$/
+    );
     if (m) {
       urls.push(`${siteUrl}/blog/${m[1]}`);
       urls.push(`${siteUrl}/blog`);
@@ -47,7 +48,7 @@ function mapFileToUrls(file, siteUrl) {
     }
   }
 
-  // TR ana site
+  // TR home: app/(tr)/(site)/page.* OR app/(tr)/page.*
   {
     const m1 = file.match(/^app\/\([^/]+\)\/\([^/]+\)\/page\.(js|jsx|ts|tsx)$/);
     const m2 = file.match(/^app\/\([^/]+\)\/page\.(js|jsx|ts|tsx)$/);
@@ -57,30 +58,49 @@ function mapFileToUrls(file, siteUrl) {
     }
   }
 
-  // TR statik sayfalar
+  // TR static pages: app/(tr)/(site)/<route>/page.*
   {
-    const m = file.match(/^app\/\([^/]+\)\/\([^/]+\)\/(.+)\/page\.(js|jsx|ts|tsx)$/);
+    const m = file.match(
+      /^app\/\([^/]+\)\/\([^/]+\)\/(.+)\/page\.(js|jsx|ts|tsx)$/
+    );
     if (m) {
       const routePath = m[1]
         .split("/")
-        .filter((seg) => seg && !seg.startsWith("(") && !seg.endsWith(")") && !seg.startsWith("@"))
+        .filter(
+          (seg) =>
+            seg &&
+            !seg.startsWith("(") &&
+            !seg.endsWith(")") &&
+            !seg.startsWith("@")
+        )
         .join("/");
 
-      if (routePath && !routePath.includes("[") && !routePath.includes("]")) {
+      if (
+        routePath &&
+        !routePath.includes("[") &&
+        !routePath.includes("]")
+      ) {
         urls.push(`${siteUrl}/${routePath}`);
       }
       return urls;
     }
   }
 
-  // EN sayfalar
+  // EN: app/(en)/<route>/page.*
   {
     const m = file.match(/^app\/\(en\)\/(.+)\/page\.(js|jsx|ts|tsx)$/);
     if (m) {
       const routePath = m[1]
         .split("/")
-        .filter((seg) => seg && !seg.startsWith("(") && !seg.endsWith(")") && !seg.startsWith("@"))
+        .filter(
+          (seg) =>
+            seg &&
+            !seg.startsWith("(") &&
+            !seg.endsWith(")") &&
+            !seg.startsWith("@")
+        )
         .join("/");
+
       if (!routePath.includes("[") && !routePath.includes("]")) {
         urls.push(`${siteUrl}/en/${routePath}`);
       }
@@ -88,14 +108,21 @@ function mapFileToUrls(file, siteUrl) {
     }
   }
 
-  // AR sayfalar
+  // AR: app/(ar)/<route>/page.*
   {
     const m = file.match(/^app\/\(ar\)\/(.+)\/page\.(js|jsx|ts|tsx)$/);
     if (m) {
       const routePath = m[1]
         .split("/")
-        .filter((seg) => seg && !seg.startsWith("(") && !seg.endsWith(")") && !seg.startsWith("@"))
+        .filter(
+          (seg) =>
+            seg &&
+            !seg.startsWith("(") &&
+            !seg.endsWith(")") &&
+            !seg.startsWith("@")
+        )
         .join("/");
+
       if (!routePath.includes("[") && !routePath.includes("]")) {
         urls.push(`${siteUrl}/ar/${routePath}`);
       }
@@ -103,8 +130,12 @@ function mapFileToUrls(file, siteUrl) {
     }
   }
 
-  // Global değişiklikler → minimal ping
-  if (file.startsWith("components/") || file.startsWith("styles/") || file.startsWith("lib/")) {
+  // Global changes → minimal safe ping
+  if (
+    file.startsWith("components/") ||
+    file.startsWith("styles/") ||
+    file.startsWith("lib/")
+  ) {
     urls.push(`${siteUrl}/`);
     urls.push(`${siteUrl}/hizmetler`);
     urls.push(`${siteUrl}/blog`);
@@ -129,7 +160,7 @@ function buildChangedFiles() {
 async function postJson(endpoint, payload) {
   const res = await fetch(endpoint, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json; charset=utf-8" },
     body: JSON.stringify(payload),
   });
   const text = await res.text();
@@ -137,21 +168,27 @@ async function postJson(endpoint, payload) {
 }
 
 async function main() {
-  const siteUrlRaw = process.env.SITE_URL || "https://www.sahneva.com";
-  const key = process.env.INDEXNOW_KEY || process.env.INDEXNOW_TOKEN; // geriye uyum
-  const keyLocationEnv = process.env.INDEXNOW_KEY_LOCATION;
+  const siteUrlRaw = process.env.SITE_URL;
+  const key = process.env.INDEXNOW_KEY; // sadece bunu kullan
 
+  if (!siteUrlRaw) {
+    console.error("[IndexNow CI] SITE_URL missing.");
+    process.exit(1);
+  }
   if (!key) {
-    console.error("[IndexNow CI] INDEXNOW_KEY missing (Secrets'a ekle).");
+    console.error("[IndexNow CI] INDEXNOW_KEY missing.");
     process.exit(1);
   }
 
   const siteUrl = siteUrlRaw.replace(/\/$/, "");
   const host = new URL(siteUrl).host;
-  const keyLocation = keyLocationEnv || `${siteUrl}/${key}.txt`;
+  const keyLocation = `${siteUrl}/${key}.txt`;
 
   const changedFiles = buildChangedFiles();
-  const urls = uniq(changedFiles.flatMap((f) => mapFileToUrls(f, siteUrl))).filter(Boolean);
+
+  const urls = uniq(changedFiles.flatMap((f) => mapFileToUrls(f, siteUrl))).filter(
+    Boolean
+  );
 
   if (urls.length === 0) {
     console.log("[IndexNow CI] No mapped URLs from changed files. Skipping.");
@@ -170,9 +207,16 @@ async function main() {
     urlList: limited,
   };
 
-  // log (trim)
-  console.log("Payload (trimmed):");
-  console.log(JSON.stringify({ host, key: "***", keyLocation: "***", urlList: limited.map(() => "***") }));
+  // Trim log (key gizli)
+  console.log(
+    "Payload (trimmed):",
+    JSON.stringify({
+      host,
+      key: "***",
+      keyLocation: "***",
+      urlList: limited.map(() => "***"),
+    })
+  );
 
   const endpoints = (process.env.INDEXNOW_ENDPOINTS || "")
     .split(",")
@@ -182,14 +226,9 @@ async function main() {
   const targets = endpoints.length ? endpoints : DEFAULT_ENDPOINTS;
 
   for (const ep of targets) {
-    try {
-      const r = await postJson(ep, payload);
-      console.log(`\n[IndexNow CI] POST ${ep} → ${r.status}`);
-      if (!r.ok) console.log(`[IndexNow CI] Response: ${r.body}`);
-    } catch (e) {
-      console.log(`\n[IndexNow CI] POST ${ep} → ERROR`);
-      console.log(String(e?.message || e));
-    }
+    const r = await postJson(ep, payload);
+    console.log(`\n[IndexNow CI] POST ${ep} → ${r.status}`);
+    if (!r.ok) console.log(`[IndexNow CI] Response: ${r.body}`);
   }
 }
 
