@@ -260,7 +260,7 @@ export default function HakkimizdaPage() {
                 </p>
 
                 <p className="text-lg text-gray-700 leading-relaxed">
-                  Misyonumuz; <strong>güvenilir, yenilikçi ve müşteri odaklı</strong> çözümler sunarak etkinliklerinizin
+                  Misyonumuz; <strong>güvenilir, yenilikçi ve müşteri odaklı</strong> çözümler sunarak kurumsal etkinliklerinizin
                   teknik altyapısını sorunsuz şekilde yönetmek, markanızın değerine değer katmaktır.
                 </p>
 
