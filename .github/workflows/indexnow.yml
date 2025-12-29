@@ -41,25 +41,39 @@ jobs:
           URLS_JSON: ${{ steps.prep.outputs.urls_json }}
         run: |
           set -euo pipefail
+
           SITE_URL="${SITE_URL%/}"
 
-          HOST="$(node -e 'console.log(new URL(process.env.SITE_URL).host)' SITE_URL="$SITE_URL")"
+          # host: sadece domain (https:// yok)
+          HOST="$(node -e "console.log(new URL(process.env.SITE_URL).host)" )"
 
-          payload="$(node -e 'console.log(JSON.stringify({
-            host: process.env.HOST,
-            key: process.env.INDEXNOW_KEY,
-            keyLocation: `${process.env.SITE_URL}/${process.env.INDEXNOW_KEY}.txt`,
-            urlList: JSON.parse(process.env.URLS_JSON),
-          }))' HOST="$HOST")"
+          # JSON payload: host + key + keyLocation + urlList
+          payload="$(node - <<'NODE'
+          const site = process.env.SITE_URL;
+          const key = process.env.INDEXNOW_KEY;
+          const urlList = JSON.parse(process.env.URLS_JSON || "[]");
+          const host = new URL(site).host;
+
+          const payload = {
+            host,
+            key,
+            keyLocation: `${site}/${key}.txt`,
+            urlList,
+          };
+
+          process.stdout.write(JSON.stringify(payload));
+NODE
+          )"
 
           echo "[IndexNow CI] Payload ready (trimmed):"
-          echo "$payload" | head -c 400; echo
+          echo "$payload" | head -c 500; echo
 
           for endpoint in "https://api.indexnow.org/indexnow" "https://www.bing.com/indexnow"; do
             code="$(curl -sS -o /tmp/indexnow_body.txt -w "%{http_code}" \
               -X POST "$endpoint" \
               -H "Content-Type: application/json" \
               -d "$payload")"
+
             echo "[IndexNow CI] POST $endpoint → $code"
             cat /tmp/indexnow_body.txt || true
             echo
