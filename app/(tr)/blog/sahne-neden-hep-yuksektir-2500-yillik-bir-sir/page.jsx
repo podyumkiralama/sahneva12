@@ -318,7 +318,7 @@ export default function Page() {
 
           <article className="prose prose-lg max-w-none prose-headings:font-black prose-headings:scroll-mt-32 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline">
             <InfoBox icon="🧭" title="Bu Yazının Rotası">
-              Bu yazı bir “teknik rehber” değil; sahnenin kültürel ve tarihsel yolculuğu. Antik çağda sözün yükselmesiyle
+              Bu yazı bir “teknik eğitim rehber” değil; sahnenin kültürel ve tarihsel yolculuğu. Antik çağda sözün yükselmesiyle
               başlayan bu hikâye, bugün truss sistemleri ve LED ekranlarla devam ediyor.
             </InfoBox>
 
