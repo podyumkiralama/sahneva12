@@ -3,16 +3,11 @@ import Link from "next/link";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 
 /* ================== CONFIG ================== */
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.sahneva.com").replace(
-  /\/$/,
-  ""
-);
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.sahneva.com").replace(/\/$/, "");
 
-// URL
 const BLOG_PATH = "/blog/sahne-neden-hep-yuksektir-2500-yillik-bir-sir";
 const BLOG_URL = `${SITE_URL}${BLOG_PATH}`;
 
-// Services
 const PODIUM_SERVICE_PATH = "/podyum-kiralama";
 const STAGE_SERVICE_PATH = "/sahne-kiralama";
 const CORPORATE_SERVICE_PATH = "/kurumsal-organizasyon";
@@ -33,32 +28,21 @@ const WA_MSG = encodeURIComponent(
 );
 const WA_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${WA_MSG}`;
 
-// Optional video
-const SHOW_TIMELAPSE = true; // dosya yoksa false yap
-const TIMELAPSE_SRC = "/videos/stage-timelapse.mp4";
-
 /* ================== IMAGES ================== */
 const SECTION_IMAGES = {
   hero: {
     src: "/img/galeri/led-ekran-kiralama-3.webp",
     alt: "Sahneva - Modern sahne ve LED ekran kurulumu",
   },
-  // Slider images (you add)
-  sliderAntik: {
-    src: "/img/blog/antik-tiyatro.webp",
-    alt: "Antik tiyatro sahnesi örneği",
-  },
-  sliderModern: {
-    src: "/img/blog/modern-truss.webp",
-    alt: "Modern truss konser sahnesi kurulumu",
-  },
-  // Case study (you add)
-  case: {
-    src: "/img/blog/case-study-1.webp",
-    alt: "Sahneva - örnek kurulum projesi",
+
+  // ✅ Tek görsel (blend geçiş) — bunu public'e ekle:
+  // public/img/blog/antik-modern-gecis.webp
+  blend: {
+    src: "/img/blog/antik-modern-gecis.webp",
+    alt: "Antik tiyatro sahnesinden modern konser sahnesine geçiş",
   },
 
-  // In-article: your existing gallery
+  // In-article
   konser: {
     src: "/img/galeri/led-ekran-kiralama-1.webp",
     alt: "Sahneva - Dış mekan konser sahnesi ve LED ekran kurulumu",
@@ -78,6 +62,12 @@ const SECTION_IMAGES = {
   altyapi: {
     src: "/img/galeri/cadir-kiralama-1.webp",
     alt: "Sahneva - Çadır içi 10 cm zemin podyumu ve halı kaplama uygulaması",
+  },
+
+  // Case study (istersen değiştir)
+  case: {
+    src: "/img/blog/case-study-1.webp",
+    alt: "Sahneva - örnek kurulum projesi",
   },
 };
 
@@ -269,114 +259,6 @@ const Pill = ({ children }) => (
   </span>
 );
 
-/* ================== BEFORE/AFTER SLIDER (No state, pure CSS+range) ================== */
-function BeforeAfterSlider({
-  beforeSrc,
-  beforeAlt,
-  afterSrc,
-  afterAlt,
-  labelBefore = "Antik",
-  labelAfter = "Modern",
-}) {
-  // Uses a CSS variable controlled by input range via inline style updates
-  // (Works without React state; we update CSS var directly on input event.)
-  return (
-    <div className="not-prose my-10">
-      <div className="rounded-2xl border border-gray-200 overflow-hidden shadow-sm bg-white">
-        <div className="px-5 py-4 bg-gray-50 border-b border-gray-200">
-          <p className="m-0 font-black text-gray-900">Antik vs Modern — Kaydırarak Karşılaştır</p>
-          <p className="m-0 mt-1 text-sm text-gray-600">
-            Solda antik sahne anlayışı, sağda modern truss ve sahne mühendisliği.
-          </p>
-        </div>
-
-        <div
-          className="relative w-full aspect-[16/9] bg-black"
-          style={{ ["--pos"]: "55%" }}
-          data-slider-root
-        >
-          {/* AFTER (modern) full */}
-          <Image
-            src={afterSrc}
-            alt={afterAlt}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 900px"
-          />
-
-          {/* BEFORE (antik) clipped */}
-          <div
-            className="absolute inset-0"
-            style={{
-              clipPath: "inset(0 calc(100% - var(--pos)) 0 0)",
-            }}
-          >
-            <Image
-              src={beforeSrc}
-              alt={beforeAlt}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 900px"
-            />
-          </div>
-
-          {/* Divider */}
-          <div
-            className="absolute top-0 bottom-0 w-[2px] bg-white/80"
-            style={{ left: "var(--pos)" }}
-            aria-hidden="true"
-          />
-
-          {/* Labels */}
-          <div className="absolute top-4 left-4 flex gap-2">
-            <span className="bg-black/55 text-white text-xs font-black px-3 py-1.5 rounded-full backdrop-blur">
-              {labelBefore}
-            </span>
-          </div>
-          <div className="absolute top-4 right-4 flex gap-2">
-            <span className="bg-black/55 text-white text-xs font-black px-3 py-1.5 rounded-full backdrop-blur">
-              {labelAfter}
-            </span>
-          </div>
-
-          {/* Handle */}
-          <div
-            className="absolute top-1/2 -translate-y-1/2"
-            style={{ left: "var(--pos)" }}
-            aria-hidden="true"
-          >
-            <div className="-translate-x-1/2 w-10 h-10 rounded-full bg-white/90 shadow flex items-center justify-center">
-              <span className="text-gray-900 text-sm font-black">↔</span>
-            </div>
-          </div>
-
-          {/* Range */}
-          <input
-            aria-label="Antik ve modern sahne karşılaştırma kaydırıcısı"
-            type="range"
-            min="0"
-            max="100"
-            defaultValue="55"
-            className="absolute inset-x-4 bottom-4 w-[calc(100%-2rem)]"
-            onInput={(e) => {
-              const root = e.currentTarget.closest("[data-slider-root]");
-              if (!root) return;
-              root.style.setProperty("--pos", `${e.currentTarget.value}%`);
-            }}
-          />
-        </div>
-
-        <div className="px-5 py-4 border-t border-gray-200 bg-white">
-          <p className="m-0 text-sm text-gray-700">
-            Bu fark, sadece “görsellik” değil; <strong>güvenlik</strong>, <strong>rüzgar dayanımı</strong> ve{" "}
-            <strong>kontrollü erişim</strong> farkıdır.
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 /* ================== PAGE ================== */
 export default function Page() {
   const breadcrumbItems = [
@@ -471,22 +353,25 @@ export default function Page() {
           <Breadcrumbs />
 
           <article className="prose prose-lg max-w-none prose-headings:font-black prose-headings:scroll-mt-32 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline">
-            {/* Hook */}
+            {/* Özet */}
             <InfoBox icon="🧠" title="Özet (1 Dakikada)" variant="info">
               Sahne yüksekliği; sadece “görünürlük” değil, aynı zamanda <strong>güvenlik</strong>,{" "}
               <strong>erişim kontrolü</strong> ve <strong>taşıma kapasitesi</strong> demektir. Antik çağdan bugüne
               değişmeyen şey: Kalabalık büyüdükçe, sahne planının “mühendislik işi” hâline gelmesi.
             </InfoBox>
 
-            {/* Slider */}
-            <BeforeAfterSlider
-              beforeSrc={SECTION_IMAGES.sliderAntik.src}
-              beforeAlt={SECTION_IMAGES.sliderAntik.alt}
-              afterSrc={SECTION_IMAGES.sliderModern.src}
-              afterAlt={SECTION_IMAGES.sliderModern.alt}
-              labelBefore="Antik"
-              labelAfter="Modern"
+            {/* ✅ Tek görsel (blend) */}
+            <WatermarkedFigure
+              src={SECTION_IMAGES.blend.src}
+              alt={SECTION_IMAGES.blend.alt}
+              caption="Antik tiyatrolardan modern sahne mühendisliğine uzanan yolculuk."
             />
+
+            <InfoBox icon="💡" title="Biliyor muydunuz?" variant="tech">
+              Antik dünyada sahne çoğunlukla “görünürlük” için yükselirdi. Bugünse aynı yükselti; görüş açısının
+              yanında <strong>rüzgar dayanımı</strong>, <strong>merdiven kontrolü</strong> ve{" "}
+              <strong>sabitleme</strong> gibi güvenlik hesaplarını da zorunlu kılar.
+            </InfoBox>
 
             <h2 id="antik">1) Antik Dönem: Sözün Yükseldiği Yer</h2>
             <p>
@@ -494,22 +379,18 @@ export default function Page() {
               görünürlüğü artırır hem de konuşana otorite kazandırır.
             </p>
 
-            <InfoBox icon="💡" title="Biliyor muydunuz?" variant="tech">
-              Modern etkinliklerde de aynı ilke geçerli: Sahne; konuşmacı/performans ile kalabalık arasındaki “iletişim
-              köprüsüdür”. Bu yüzden sahne planı, “kurulum” değil “tasarım” işidir.
-            </InfoBox>
-
             <h2 id="tiyatro">2) Antik Tiyatrolar: Seyir İçin Tasarım</h2>
             <p>
               Antik tiyatrolar; oturma düzeni, görüş açısı ve akustik mantığıyla sahnenin “izleyiciyle ilişkisini”
-              kurdu. Bugün konserlerde sahne yüksekliği ve görüş hattı hesapları hâlâ aynı mantığa dayanır.
+              kurdu. Bugün konserlerde sahne yüksekliği ve görüş hattı planı hâlâ aynı mantığa dayanır.
             </p>
 
             <h2 id="kapali">3) Sahne Kapalı Mekâna Girince: Kontrol Başladı</h2>
             <p>
-              Orta Çağ ve Rönesans ile sahne kapalı alanlara taşındı. Bu, yükseklik ve giriş-çıkış düzenini daha
-              önemli hâle getirdi. Günümüzde <Link href={CORPORATE_SERVICE_PATH}>otel içi kurumsal etkinlik</Link>{" "}
-              sahnelerinde bu yüzden genelde <strong>maksimum 80 cm</strong> tercih edilir.
+              Orta Çağ ve Rönesans ile sahne kapalı alanlara taşındı. Bu geçiş, yükseklik ve giriş-çıkış düzenini daha
+              önemli hâle getirdi. Günümüzde{" "}
+              <Link href={CORPORATE_SERVICE_PATH}>otel içi kurumsal etkinlik</Link> sahnelerinde bu yüzden genelde{" "}
+              <strong>maksimum 80 cm</strong> tercih edilir.
             </p>
 
             <WatermarkedFigure
@@ -602,7 +483,7 @@ export default function Page() {
             <h2 id="zemin">6) Zemin ve Altyapı: 10 cm + Halı (Çadır / Açık Alan)</h2>
             <p>
               Açık alan veya çadır uygulamalarında zemin podyumu (10 cm) üzerine halı serilmesi; hem masa-sandalye
-              düzenini stabilize eder hem de konfor sağlar. Bu, çoğu etkinlikte “küçük dokunuşla büyük fark” yaratır.
+              düzenini stabilize eder hem de konfor sağlar.
             </p>
 
             <WatermarkedFigure
@@ -615,33 +496,6 @@ export default function Page() {
               İlgili hizmet: <Link href={TENT_SERVICE_PATH}>çadır kiralama</Link> (zemin + kurulum planı birlikte).
             </p>
 
-            {/* VIDEO */}
-            <h2 id="video">7) Modern Çağ: Kurulum Artık Saatlerle Ölçülüyor</h2>
-            <p>
-              Antik dönemde günler/haftalar sürebilen sahne hazırlığı, bugün modüler sistemlerle saatler içinde
-              tamamlanabiliyor. Eğer elinde timelapse varsa buraya eklemek, “uzmanlık + hız” algısını çok güçlendirir.
-            </p>
-
-            {SHOW_TIMELAPSE ? (
-              <div className="not-prose my-8 rounded-2xl border border-gray-200 overflow-hidden shadow-sm bg-black">
-                <video
-                  controls
-                  playsInline
-                  preload="metadata"
-                  className="w-full h-auto"
-                  aria-label="Sahne kurulum timelapse videosu"
-                >
-                  <source src={TIMELAPSE_SRC} type="video/mp4" />
-                </video>
-                <div className="px-5 py-4 bg-white">
-                  <p className="m-0 text-sm text-gray-700">
-                    Not: Video, “modern sahnenin hızını” en iyi kanıtlayan içerik türüdür.
-                  </p>
-                </div>
-              </div>
-            ) : null}
-
-            {/* CASE STUDY */}
             <h2 id="case">Tarihi Mirastan İlham Aldık: Projemiz</h2>
             <p>
               Tarih bize şunu söylüyor: sahne; kalabalıkla kurulan ilişkinin merkezidir. Biz de her projede aynı soruyu
@@ -671,7 +525,6 @@ export default function Page() {
               caption="Bu görseli, en güçlü referans kurulum fotoğrafınla değiştir: /public/img/blog/case-study-1.webp"
             />
 
-            {/* CTA */}
             <h2 id="cta">💡 Etkinlik Planınıza Özel Sahne Çözümü</h2>
             <div className="not-prose bg-gradient-to-br from-gray-900 to-blue-900 rounded-3xl p-8 md:p-10 text-white shadow-2xl relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
@@ -703,17 +556,35 @@ export default function Page() {
                 >
                   💬 WhatsApp
                 </a>
+
+                <a
+                  href={`tel:${PHONE_E164}`}
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold py-3.5 px-6 border border-white/20 transition-transform hover:-translate-y-0.5"
+                >
+                  📞 {PHONE_E164}
+                </a>
               </div>
 
               <p className="mt-4 mb-0 text-sm text-blue-100 relative z-10">
-                İlgili hizmetler: <Link className="underline text-white" href={LED_SERVICE_PATH}>LED ekran</Link>{" "}
-                • <Link className="underline text-white" href={SOUND_LIGHT_PATH}>Ses & Işık</Link>{" "}
-                • <Link className="underline text-white" href={TENT_SERVICE_PATH}>Çadır</Link>{" "}
-                • <Link className="underline text-white" href={CORPORATE_SERVICE_PATH}>Kurumsal</Link>
+                İlgili hizmetler:{" "}
+                <Link className="underline text-white" href={LED_SERVICE_PATH}>
+                  LED ekran
+                </Link>{" "}
+                •{" "}
+                <Link className="underline text-white" href={SOUND_LIGHT_PATH}>
+                  Ses & Işık
+                </Link>{" "}
+                •{" "}
+                <Link className="underline text-white" href={TENT_SERVICE_PATH}>
+                  Çadır
+                </Link>{" "}
+                •{" "}
+                <Link className="underline text-white" href={CORPORATE_SERVICE_PATH}>
+                  Kurumsal
+                </Link>
               </p>
             </div>
 
-            {/* FAQ */}
             <h2 id="faq">Sıkça Sorulan Sorular</h2>
             <section className="not-prose space-y-3 mt-6">
               {FAQ_ITEMS.map((item, idx) => (
@@ -734,7 +605,6 @@ export default function Page() {
               ))}
             </section>
 
-            {/* Engagement question */}
             <h2 id="yorum">Sizce Sahnenin En Önemli Özelliği Nedir?</h2>
             <p>
               Yorumlarda merak ediyorum: Sizin için sahnede en önemli şey <strong>görsellik</strong> mi,{" "}
