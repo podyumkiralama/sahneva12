@@ -31,7 +31,7 @@ const IMAGES = {
   blend: { src: "/img/blog/antik-modern-gecis.webp", alt: "Antik tiyatro sahnesinden modern konser sahnesine geçiş" },
 
   // iç görseller (mevcut galeriden)
-  modernKonser: { src: "/img/galeri/led-ekran-kiralama-1.webp", alt: "Sahneva - Konser sahnesi kurulumu" },
+  modernKonser: { src: "/img/galeri/gelismis-sahne-sistemleri.webp", alt: "Sahneva - Gelişmiş Konser sahnesi" },
   modernSahne: { src: "/img/galeri/led-ekran-kiralama-3.webp", alt: "Sahneva - Modern sahne kurulumu" },
 };
 
