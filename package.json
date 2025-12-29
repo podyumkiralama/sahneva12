@@ -7,7 +7,7 @@
     "dev": "next dev --turbo",
     "dev:webpack": "NEXT_DISABLE_TURBOPACK=1 next dev",
 
-    "prebuild": "npm dedupe && node scripts/indexnow-keyfile.mjs",
+    "prebuild": "npm dedupe",
 
     "build": "next build --turbopack",
     "postbuild": "node scripts/indexnow-changed.mjs",
