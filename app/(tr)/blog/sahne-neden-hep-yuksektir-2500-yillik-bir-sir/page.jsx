@@ -258,7 +258,7 @@ export default function Page() {
         <div className="container mx-auto px-4 relative z-20 text-center max-w-4xl">
           <div className="inline-flex flex-wrap items-center justify-center gap-2 mb-7">
             <Pill>Antik → Modern</Pill>
-            <Pill>Sahnenin Tarihi</Pill>
+            <Pill>Sahne Podyum Tarihi</Pill>
             <Pill>Söz • Tiyatro • Opera • Konser</Pill>
           </div>
 
