@@ -1,5 +1,4 @@
 // components/HeroSection.js
-import Image from "next/image";
 import heroImg from "@/public/img/hero-bg.webp";
 
 const HERO_KEYWORDS = [
