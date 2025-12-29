@@ -3,18 +3,64 @@ name: IndexNow (changed-only)
 on:
   push:
     branches: ["main"]
+    paths:
+      - "app/**/page.*"
+      - "app/**/layout.*"
+      - "app/**/template.*"
+      - "app/**/not-found.*"
+      - "public/*.txt"  # key dosyası değişirse
+  workflow_dispatch: {}  # manuel tetiklemek istersen
 
 jobs:
   indexnow:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout (fetch last 2 commits)
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
 
-      - name: Submit to IndexNow (changed-only)
+      - name: Prepare URLs from changed files
+        id: prep
         env:
           SITE_URL: ${{ secrets.SITE_URL }}
+        run: |
+          node scripts/indexnow-changed-ci.mjs | tee /tmp/indexnow_urls.log
+          URLS_JSON="$(grep -o 'OUTPUT_URLS_JSON=.*' /tmp/indexnow_urls.log | sed 's/^OUTPUT_URLS_JSON=//')"
+          if [ -z "$URLS_JSON" ]; then
+            URLS_JSON="[]"
+          fi
+          echo "urls_json=$URLS_JSON" >> $GITHUB_OUTPUT
+
+      - name: Submit to IndexNow
+        if: steps.prep.outputs.urls_json != '[]'
+        env:
           INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
-        run: node scripts/indexnow-changed-ci.mjs
+          SITE_URL: ${{ secrets.SITE_URL }}
+          URLS_JSON: ${{ steps.prep.outputs.urls_json }}
+        run: |
+          set -euo pipefail
+          SITE_URL="${SITE_URL%/}"
+
+          HOST="$(node -e 'console.log(new URL(process.env.SITE_URL).host)' SITE_URL="$SITE_URL")"
+
+          payload="$(node -e 'console.log(JSON.stringify({
+            host: process.env.HOST,
+            key: process.env.INDEXNOW_KEY,
+            keyLocation: `${process.env.SITE_URL}/${process.env.INDEXNOW_KEY}.txt`,
+            urlList: JSON.parse(process.env.URLS_JSON),
+          }))' HOST="$HOST")"
+
+          echo "[IndexNow CI] Payload ready (trimmed):"
+          echo "$payload" | head -c 400; echo
+
+          for endpoint in "https://api.indexnow.org/indexnow" "https://www.bing.com/indexnow"; do
+            code="$(curl -sS -o /tmp/indexnow_body.txt -w "%{http_code}" \
+              -X POST "$endpoint" \
+              -H "Content-Type: application/json" \
+              -d "$payload")"
+            echo "[IndexNow CI] POST $endpoint → $code"
+            cat /tmp/indexnow_body.txt || true
+            echo
+          done
