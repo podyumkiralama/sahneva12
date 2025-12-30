@@ -16,7 +16,6 @@
     "security:check": "npx @next/security-headers-check"
   },
   "dependencies": {
-    "@microsoft/clarity": "^1.0.2",
     "@next/third-parties": "^16.0.8",
     "@tailwindcss/forms": "0.5.10",
     "@tailwindcss/postcss": "4.1.18",
