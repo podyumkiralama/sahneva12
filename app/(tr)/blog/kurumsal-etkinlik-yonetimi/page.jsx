@@ -40,7 +40,7 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Kurumsal Etkinlik Yönetimi Rehberi",
-    description: "Etkinlikleriniz için teknik planlama ipuçları.",
+    description: "Kurumsal Etkinlikleriniz için teknik planlama ipuçları.",
     images: [`${SITE_URL}/img/og/sahneva-og.webp`],
   },
   keywords: [
