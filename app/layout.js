@@ -28,11 +28,17 @@ export default function RootLayout({ children }) {
       className={`${inter.variable} font-sans`}
       suppressHydrationWarning
     >
-      <body className="min-h-screen antialiased flex flex-col font-sans">
+       <body className="min-h-screen antialiased flex flex-col font-sans">
         <AnalyticsConsentWrapper />
         <SkipLinks />
         <NewTabAccessibility />
         {children}
+        <Script id="clarity-id" strategy="beforeInteractive">
+  {`window.__CLARITY_ID__="${process.env.NEXT_PUBLIC_CLARITY_ID || ""}"`}
+</Script>
+
+<Script src="/clarity.js" strategy="afterInteractive" />
+
       </body>
     </html>
   );
