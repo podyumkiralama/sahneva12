@@ -4,6 +4,7 @@ import { inter } from "./fonts";
 import SkipLinks from "@/components/SkipLinks";
 import NewTabAccessibility from "@/components/NewTabAccessibility.client";
 import AnalyticsConsentWrapper from "@/components/AnalyticsConsentWrapper.client";
+import Script from "next/script";
 
 const DEFAULT_LANG = "tr";
 const DEFAULT_DIR = "ltr";
