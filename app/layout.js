@@ -4,6 +4,7 @@ import { inter } from "./fonts";
 import SkipLinks from "@/components/SkipLinks";
 import NewTabAccessibility from "@/components/NewTabAccessibility.client";
 import AnalyticsConsentWrapper from "@/components/AnalyticsConsentWrapper.client";
+import ClarityProvider from "@/components/ClarityProvider";
 
 const DEFAULT_LANG = "tr";
 const DEFAULT_DIR = "ltr";
@@ -30,6 +31,7 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-screen antialiased flex flex-col font-sans">
         <AnalyticsConsentWrapper />
+        <ClarityProvider />
         <SkipLinks />
         <NewTabAccessibility />
         {children}
