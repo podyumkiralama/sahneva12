@@ -409,7 +409,7 @@ export default function HakkimizdaPage() {
                 </span>
               </h2>
               <p className="text-xl text-white/80 max-w-3xl mx-auto">
-                10+ yıldır kurumsal firmalar, kamu kuruluşları ve organizasyon ajanslarına profesyonel hizmet sunuyoruz
+                10+ yıldır kurumsal firmalar, kamu kuruluşları ve organizasyon ajanslarına profesyonel hizmet  verdik hala sunuyoruz
               </p>
             </div>
 
