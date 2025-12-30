@@ -21,9 +21,9 @@ const MODIFIED_DATE = "2025-12-30T09:00:00+03:00";
 
 /* ================== META ================== */
 export const metadata = {
-  title: "Neden Podyum Sahne Tercih Edilir? Etkinliklerde Sağladığı Avantajlar",
+  title: "Neden Podyum Sahne Tercih Edilir?",
   description:
-    "Podyum sahne nedir, neden tercih edilir? Görünürlükten güvenliğe, kurulum kolaylığından profesyonel algıya kadar podyum sahnelerin etkinliklerde sunduğu avantajlar.",
+    "Podyum sahne nedir, neden tercih edilir? Görünürlükten güvenliğe, kurulum kolaylığın, podyum sahnelerin etkinliklerde sunduğu avantajlar.",
   alternates: { canonical: BLOG_URL },
   openGraph: {
     title: "Neden Podyum Sahne Tercih Edilir? | Sahneva Organizasyon",
