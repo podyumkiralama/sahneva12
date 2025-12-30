@@ -19,6 +19,7 @@ const securityHeaders = (() => {
     "https://www.google-analytics.com",
     "https://va.vercel-scripts.com",
     "https://vercel.live",
+    "https://www.clarity.ms",
   ].join(" ");
 
   const SCRIPT_SRC_ELEM = [
@@ -28,6 +29,7 @@ const securityHeaders = (() => {
     "https://www.google-analytics.com",
     "https://va.vercel-scripts.com",
     "https://vercel.live",
+    "https://www.clarity.ms",
   ].join(" ");
 
   const CONNECT_SRC = [
@@ -36,6 +38,7 @@ const securityHeaders = (() => {
     "https://www.google-analytics.com",
     "https://region1.google-analytics.com",
     "https://stats.g.doubleclick.net",
+    "https://www.clarity.ms",
     siteUrl,
   ].join(" ");
 
