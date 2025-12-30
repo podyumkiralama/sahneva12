@@ -21,6 +21,7 @@ const securityHeaders = (() => {
     "https://vercel.live",
     "https://www.clarity.ms",
     "https://scripts.clarity.ms",
+    "https://k.clarity.ms/collect",
   ].join(" ");
 
   const SCRIPT_SRC_ELEM = [
@@ -32,6 +33,7 @@ const securityHeaders = (() => {
     "https://vercel.live",
     "https://www.clarity.ms",
     "https://scripts.clarity.ms",
+    "https://k.clarity.ms/collect",
   ].join(" ");
 
   const CONNECT_SRC = [
@@ -42,6 +44,7 @@ const securityHeaders = (() => {
     "https://stats.g.doubleclick.net",
     "https://www.clarity.ms",
     "https://scripts.clarity.ms",
+    "https://k.clarity.ms/collect",
     siteUrl,
   ].join(" ");
 
