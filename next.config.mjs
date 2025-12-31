@@ -24,6 +24,7 @@ const securityHeaders = (() => {
     "https://k.clarity.ms/collect",
     "static.cloudflareinsights.com",
     "z.clarity.ms",
+    "https://l.clarity.ms",
   ].join(" ");
 
   const SCRIPT_SRC_ELEM = [
@@ -38,6 +39,7 @@ const securityHeaders = (() => {
     "https://k.clarity.ms/collect",
     "static.cloudflareinsights.com",
     "z.clarity.ms",
+    "https://l.clarity.ms",
   ].join(" ");
 
   const CONNECT_SRC = [
@@ -51,6 +53,7 @@ const securityHeaders = (() => {
     "https://k.clarity.ms/collect",
     "static.cloudflareinsights.com",
     "z.clarity.ms",
+    "https://l.clarity.ms",
     siteUrl,
   ].join(" ");
 
