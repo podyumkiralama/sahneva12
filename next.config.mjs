@@ -53,7 +53,7 @@ const securityHeaders = (() => {
     "https://k.clarity.ms/collect",
     "static.cloudflareinsights.com",
     "z.clarity.ms",
-    "https://l.clarity.ms",
+    "https://*.clarity.ms",
     siteUrl,
   ].join(" ");
 
