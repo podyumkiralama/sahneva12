@@ -9,7 +9,15 @@ const isPreview =
   process.env.VERCEL_ENV === "preview" ||
   process.env.NEXT_PUBLIC_VERCEL_ENV === "preview";
 
-const siteUrl = process.env.SITE_URL ?? "https://www.sahneva.com";
+// ✅ Tek kaynak: NEXT_PUBLIC_SITE_URL
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.sahneva.com";
+const siteOrigin = (() => {
+  try {
+    return new URL(siteUrl).origin;
+  } catch {
+    return "https://www.sahneva.com";
+  }
+})();
 
 /* -------------------- Security Headers (CSP) -------------------- */
 const securityHeaders = (() => {
@@ -54,7 +62,8 @@ const securityHeaders = (() => {
     "static.cloudflareinsights.com",
     "z.clarity.ms",
     "https://*.clarity.ms",
-    siteUrl,
+    // ✅ URL değil origin (standart)
+    siteOrigin,
   ].join(" ");
 
   const FRAME_SRC = [
@@ -135,7 +144,6 @@ const nextConfig = {
   },
 
   images: {
-    // ✅ GÜNCELLEME: 1440px (Laptop) eklendi. LCP için önemli.
     deviceSizes: [320, 420, 640, 750, 828, 1080, 1200, 1440, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     formats: ["image/avif", "image/webp"],
@@ -155,8 +163,8 @@ const nextConfig = {
     },
   },
 
+  // ✅ SITE_URL gömmüyoruz; tek kaynak Vercel env: NEXT_PUBLIC_SITE_URL
   env: {
-    SITE_URL: siteUrl,
     NEXT_PUBLIC_APP_ENV: process.env.NODE_ENV ?? "development",
   },
 
@@ -190,7 +198,7 @@ const nextConfig = {
 
   async headers() {
     return [
-      { source: "/(.*)", headers: securityHeaders },
+      // ✅ Static assets: uzun cache
       {
         source: "/_next/static/(.*)",
         headers: [
@@ -202,6 +210,15 @@ const nextConfig = {
         source: "/(.*)\\.(ico|png|jpg|jpeg|webp|avif|svg|gif|woff2|css|js)",
         headers: longTermCacheHeaders,
       },
+
+      // ✅ Sadece HTML / sayfalara security headers (CSP vs)
+      {
+        source:
+          "/((?!_next/|.*\\.(?:ico|png|jpg|jpeg|webp|avif|svg|gif|woff2|css|js)$).*)",
+        headers: securityHeaders,
+      },
+
+      // (opsiyonel) _next noindex
       {
         source: "/_next/(.*)",
         headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
