@@ -582,8 +582,8 @@ function Technical() {
 function StatsBand() {
   const stats = [
     { value: "300+", label: "Başarılı Proje", icon: "🎬" },
-    { value: "50+", label: "Kurumsal Müşteri", icon: "🏢" },
     { value: "81", label: "İlde Hizmet", icon: "🗺️" },
+    { value: "Hızlı", label: "Kendi Araçlarımızla Kurulum", icon: "🚚" },
     { value: "5+", label: "Yıl Deneyim", icon: "⭐" },
   ];
   
@@ -1055,7 +1055,7 @@ function CTA() {
               </a>
             </div>
             <div className="mt-8 text-blue-200 text-lg">
-              📍 81 ilde hizmet • ⏰ 7/24 teknik destek • ⭐ 5+ yıl deneyim
+              📍 81 ilde hizmet • 🚚 Kendi araçlarımızla hızlı kurulum • ⏰ 7/24 teknik destek
             </div>
           </div>
         </div>

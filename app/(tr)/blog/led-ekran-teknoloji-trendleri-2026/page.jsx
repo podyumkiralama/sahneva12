@@ -588,6 +588,12 @@ export default function LedTrends2026Page() {
                         <td className="p-4">⭐⭐⭐⭐⭐</td>
                       </tr>
                       <tr className="hover:bg-gray-50 transition-colors">
+                        <th scope="row" className="p-4 font-bold text-gray-900">Yenileme Hızı</th>
+                        <td className="p-4">3840Hz</td>
+                        <td className="p-4">1920Hz</td>
+                        <td className="p-4">3840Hz</td>
+                      </tr>
+                      <tr className="hover:bg-gray-50 transition-colors">
                         <th scope="row" className="p-4 font-bold text-gray-900">Kurumsal kullanım</th>
                         <td className="p-4">Premium</td>
                         <td className="p-4">F/P</td>

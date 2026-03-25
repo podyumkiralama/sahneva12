@@ -9,26 +9,26 @@ const VIDEOS = [
     id: "173gBurWSRQ",
     title:
       "Sahneva Organizasyon – LED Ekran podyum sahne kurulumu  & Sahne Kurulum Öncesi",
-    description: "Backstage, sahne kurulumu ve hazırlık görüntüleri.",
+    description: "Sıfırdan sahneye: süreci baştan yönetip zamanında teslim ediyoruz.",
     thumbnail: "https://img.youtube.com/vi/173gBurWSRQ/hqdefault.jpg",
   },
   {
     id: "4ygMbL4FDRc",
     title: "Sahneva Organizasyon – LED Ekran podyum çadır & Sahne Kurulum",
-    description: "LED ekran kurulum ve sahne ışıklandırma süreci.",
+    description: "Kısa sürede büyük etki: LED ekran ve sahne aydınlatmasını hızla devreye alıyoruz.",
     thumbnail: "https://img.youtube.com/vi/4ygMbL4FDRc/hqdefault.jpg",
   },
   {
     id: "JNzGlNzNRuk",
     title: "Sahneva Organizasyon – LED Ekran Çadır podyum & Sahne Kurulum",
-    description: "Podyum Sahne dom çadır kiralama kurulum süreci.",
+    description: "Her zeminde çözüm: podyum, dom çadır ve sahneyi eksiksiz kuruyoruz.",
     thumbnail: "https://img.youtube.com/vi/JNzGlNzNRuk/hqdefault.jpg",
   },
   {
     id: "_9Q7v0ZL304",
     title:
       "Sahneva Organizasyon – LED Ekran Çadır Masa sandalye podyum kiralama ",
-    description: "Podyum Sahne masa sandalye çadır kiralama kurulum süreci.",
+    description: "Misafir konforunu sağlayan tam donanım: masa, sandalye, podyum ve çadır bir arada.",
     thumbnail: "https://img.youtube.com/vi/_9Q7v0ZL304/hqdefault.jpg",
   },
   {
@@ -36,7 +36,7 @@ const VIDEOS = [
     title:
       "Üniversite Mezuniyet Töreni Organizasyonu | Sahne, LED Ekran ve Ses–Işık Prodüksiyon",
     description:
-      "Üniversite mezuniyet törenleri için profesyonel sahne, LED ekran, ses–ışık sistemleri ve tüm teknik prodüksiyon altyapısını sağlayarak kurumlara eksiksiz bir mezuniyet deneyimi sunuyoruz",
+      "Hata kaldırmayan o anda yanınızdayız: mezuniyet törenlerinde eksiksiz sahne, LED ekran ve ses–ışık prodüksiyonu.",
     thumbnail: "https://img.youtube.com/vi/ah4ORjaQSMA/hqdefault.jpg",
   },
   {
@@ -44,7 +44,7 @@ const VIDEOS = [
     title:
       "Helal Fuarı Organizasyonu | Sahneva Profesyonel Sahne, LED Ekran ve Teknik Prodüksiyon",
     description:
-      "Helal Fuarı kapsamında gerçekleştirilen etkinlik ve organizasyon alanlarının sahne, LED ekran, ses–ışık ve teknik prodüksiyon kurulumlarını Sahneva olarak profesyonel ekiplerimizle gerçekleştirdik.",
+      "Kalabalık fuar alanlarında teknik aksaklık yaşatmadan: sahne, LED ekran ve ses–ışık sistemlerini kusursuz kurduk.",
     thumbnail: "https://img.youtube.com/vi/c72ILTyJH4A/hqdefault.jpg",
   },
   {
@@ -52,7 +52,7 @@ const VIDEOS = [
     title:
       "Ankara Gençlik Festivali Organizasyonu | Sahneva Sahne – LED Ekran – Teknik Prodüksiyon",
     description:
-      "Ankara Gençlik Festivali için sahne, LED ekran, ses–ışık sistemleri ve tüm teknik prodüksiyon altyapısını Sahneva olarak profesyonel ekiplerimizle sağladık.",
+      "Binlerce kişilik festivalde güvenilir performans: Ankara Gençlik Festivali'nde sahne, LED ekran ve teknik prodüksiyon.",
     thumbnail: "https://img.youtube.com/vi/egd21AA1dZ0/hqdefault.jpg",
   },
   {
@@ -60,7 +60,7 @@ const VIDEOS = [
     title:
       "Çadır Kurulumu Organizasyonu | Sahneva Profesyonel Etkinlik Çadırı & Teknik Altyapı",
     description:
-      "Etkinlik, fuar, festival, kurumsal organizasyon, düğün, açılış ve özel proje alanlarında profesyonel çadır kurulumu hizmeti sunuyoruz.",
+      "Her hava koşulunda güvenli alan: etkinlik, fuar, düğün ve kurumsal projeler için profesyonel çadır kuruyoruz.",
     thumbnail: "https://img.youtube.com/vi/tyb1lG9KtiA/hqdefault.jpg",
   },
   {
@@ -68,7 +68,7 @@ const VIDEOS = [
     title:
       "Sahne Işık Şov | Sahneva Profesyonel Işık Tasarımı & Etkinlik Prodüksiyonu",
     description:
-      "Konserler, festivaller, kurumsal etkinlikler, açılış törenleri ve gösteriler için profesyonel sahne ışık şovları hazırlıyoruz.",
+      "İzleyiciyi büyüleyin, konuşulun: konser ve etkinlikleriniz için görsel etkisi yüksek ışık şovları tasarlıyoruz.",
     thumbnail: "https://img.youtube.com/vi/1R5Av0x5ouA/hqdefault.jpg",
   },
   {
@@ -76,7 +76,7 @@ const VIDEOS = [
     title:
       "Şirket Etkinliği & Lansman Organizasyonu | Profesyonel Sahne Kurulumu",
     description:
-      "Kurumsal etkinlikler, lansmanlar, toplantılar, ödül törenleri ve marka etkinlikleri için profesyonel sahne, LED ekran, ses–ışık ve teknik prodüksiyon hizmeti sunuyoruz.",
+      "Markanıza özel, akılda kalan etkinlik: lansman, ödül töreni ve kurumsal organizasyonlarda uçtan uca prodüksiyon.",
     thumbnail: "https://img.youtube.com/vi/HNDZ-wYVKLw/hqdefault.jpg",
   },
 ];
